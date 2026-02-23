@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /blog/wp-admin/
+Allow: /blog/wp-admin/admin-ajax.php
+
+Sitemap: https://www.learncpp.com/sitemap.xml

@@ -1,0 +1,1527 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8>
+
+
+
+
+
+<base href=""><meta name=viewport content="width=device-width,user-scalable=yes,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><link rel=profile href="https://gmpg.org/xfn/11"><title>21.y — Projekt Rozdział 21 – Naucz się C++</title><meta name=robots content="max-image-preview:large"><link rel=dns-prefetch href="https://fd.cleantalk.org/"><link rel=stylesheet id=wgs2-css href="../../blog/wp-content/plugins/wp-google-search/wgs2.css@ver=4084444bfee884f6024e8b1b3cfa6cdd.css" media=all><link rel=stylesheet id=dashicons-css href="../../blog/wp-includes/css/dashicons.min.css@ver=4084444bfee884f6024e8b1b3cfa6cdd.css" media=all><link rel=stylesheet id=font-awesome-css href="../../blog/wp-content/plugins/menu-icons/vendor/codeinwp/icon-picker/css/types/font-awesome.min.css@ver=4.7.0.css" media=all><link rel=stylesheet id=menu-icons-extra-css href="../../blog/wp-content/plugins/menu-icons/css/extra.min.css@ver=0.12.9.css" media=all><link rel=stylesheet id=wp-block-library-css href="../../blog/wp-includes/css/dist/block-library/style.min.css@ver=4084444bfee884f6024e8b1b3cfa6cdd.css" media=all><link rel=stylesheet id=cleantalk-public-css-css href="../../blog/wp-content/plugins/cleantalk-spam-protect/css/cleantalk-public.min.css@ver=6.68_1763367835.css" media=all><link rel=stylesheet id=cleantalk-email-decoder-css-css href="../../blog/wp-content/plugins/cleantalk-spam-protect/css/cleantalk-email-decoder.min.css@ver=6.68_1763367835.css" media=all><link rel=stylesheet id=monacoCSS-css href="../../blog/wp-content/plugins/learncpp-prism/fonts/monaco.css@ver=0.135.css" media=all><link rel=stylesheet id=prismThemeCSS-css href="../../blog/wp-content/plugins/learncpp-prism/prism-theme.css@ver=0.135.css" media=all><link rel=stylesheet id=vscf_style-css href="../../blog/wp-content/plugins/very-simple-contact-form/css/vscf-style.min.css@ver=4084444bfee884f6024e8b1b3cfa6cdd.css" media=all><link rel=stylesheet id=wpdiscuz-frontend-css-css href="../../blog/wp-content/plugins/wpdiscuz/themes/default/style.css@ver=7.3.17.css" media=all><style id=wpdiscuz-frontend-css-inline-css>#wpdcom .wpd-blog-administrator .wpd-comment-label{color:#fff;background-color:#ff451f;border:none}#wpdcom .wpd-blog-administrator .wpd-comment-author,#wpdcom .wpd-blog-administrator .wpd-comment-author a{color:#ff451f}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-administrator .wpd-avatar img{border-color:#ff451f}#wpdcom.wpd-layout-2 .wpd-comment.wpd-reply .wpd-comment-wrap.wpd-blog-administrator{border-left:3px solid #ff451f}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-administrator .wpd-avatar img{border-bottom-color:#ff451f}#wpdcom.wpd-layout-3 .wpd-blog-administrator .wpd-comment-subheader{border-top:1px dashed #ff451f}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-administrator .wpd-comment-right{border-left:1px solid #ff451f}#wpdcom .wpd-blog-author .wpd-comment-label{color:#fff;background-color:#327324;border:none}#wpdcom .wpd-blog-author .wpd-comment-author,#wpdcom .wpd-blog-author .wpd-comment-author a{color:#327324}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-author .wpd-avatar img{border-color:#327324}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-author .wpd-avatar img{border-bottom-color:#327324}#wpdcom.wpd-layout-3 .wpd-blog-author .wpd-comment-subheader{border-top:1px dashed #327324}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-author .wpd-comment-right{border-left:1px solid #327324}#wpdcom .wpd-blog-contributor .wpd-comment-label{color:#fff;background-color:#a240cd;border:none}#wpdcom .wpd-blog-contributor .wpd-comment-author,#wpdcom .wpd-blog-contributor .wpd-comment-author a{color:#a240cd}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-contributor .wpd-avatar img{border-color:#a240cd}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-contributor .wpd-avatar img{border-bottom-color:#a240cd}#wpdcom.wpd-layout-3 .wpd-blog-contributor .wpd-comment-subheader{border-top:1px dashed #a240cd}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-contributor .wpd-comment-right{border-left:1px solid #a240cd}#wpdcom .wpd-blog-editor .wpd-comment-label{color:#fff;background-color:#d36000;border:none}#wpdcom .wpd-blog-editor .wpd-comment-author,#wpdcom .wpd-blog-editor .wpd-comment-author a{color:#d36000}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-editor .wpd-avatar img{border-color:#d36000}#wpdcom.wpd-layout-2 .wpd-comment.wpd-reply .wpd-comment-wrap.wpd-blog-editor{border-left:3px solid #d36000}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-editor .wpd-avatar img{border-bottom-color:#d36000}#wpdcom.wpd-layout-3 .wpd-blog-editor .wpd-comment-subheader{border-top:1px dashed #d36000}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-editor .wpd-comment-right{border-left:1px solid #d36000}#wpdcom .wpd-blog-localization_author .wpd-comment-label{color:#fff;background-color:#31839e;border:none}#wpdcom .wpd-blog-localization_author .wpd-comment-author,#wpdcom .wpd-blog-localization_author .wpd-comment-author a{color:#31839e}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-localization_author .wpd-avatar img{border-color:#31839e}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-localization_author .wpd-avatar img{border-bottom-color:#31839e}#wpdcom.wpd-layout-3 .wpd-blog-localization_author .wpd-comment-subheader{border-top:1px dashed #31839e}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-localization_author .wpd-comment-right{border-left:1px solid #31839e}#wpdcom .wpd-blog-subscriber .wpd-comment-label{color:#fff;background-color:#31839e;border:none}#wpdcom .wpd-blog-subscriber .wpd-comment-author,#wpdcom .wpd-blog-subscriber .wpd-comment-author a{color:#31839e}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-subscriber .wpd-avatar img{border-bottom-color:#31839e}#wpdcom.wpd-layout-3 .wpd-blog-subscriber .wpd-comment-subheader{border-top:1px dashed #31839e}#wpdcom .wpd-blog-subadministrator .wpd-comment-label{color:#fff;background-color:#31839e;border:none}#wpdcom .wpd-blog-subadministrator .wpd-comment-author,#wpdcom .wpd-blog-subadministrator .wpd-comment-author a{color:#31839e}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-subadministrator .wpd-avatar img{border-color:#31839e}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-subadministrator .wpd-avatar img{border-bottom-color:#31839e}#wpdcom.wpd-layout-3 .wpd-blog-subadministrator .wpd-comment-subheader{border-top:1px dashed #31839e}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-subadministrator .wpd-comment-right{border-left:1px solid #31839e}#wpdcom .wpd-blog-css_js_designer .wpd-comment-label{color:#fff;background-color:#00b38f;border:none}#wpdcom .wpd-blog-css_js_designer .wpd-comment-author,#wpdcom .wpd-blog-css_js_designer .wpd-comment-author a{color:#00b38f}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-css_js_designer .wpd-avatar img{border-color:#00b38f}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-css_js_designer .wpd-avatar img{border-bottom-color:#00b38f}#wpdcom.wpd-layout-3 .wpd-blog-css_js_designer .wpd-comment-subheader{border-top:1px dashed #00b38f}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-css_js_designer .wpd-comment-right{border-left:1px solid #00b38f}#wpdcom .wpd-blog-post_author .wpd-comment-label{color:#fff;background-color:#07b290;border:none}#wpdcom .wpd-blog-post_author .wpd-comment-author,#wpdcom .wpd-blog-post_author .wpd-comment-author a{color:#07b290}#wpdcom .wpd-blog-post_author .wpd-avatar img{border-color:#07b290}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-post_author .wpd-avatar img{border-color:#07b290}#wpdcom.wpd-layout-2 .wpd-comment.wpd-reply .wpd-comment-wrap.wpd-blog-post_author{border-left:3px solid #07b290}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-post_author .wpd-avatar img{border-bottom-color:#07b290}#wpdcom.wpd-layout-3 .wpd-blog-post_author .wpd-comment-subheader{border-top:1px dashed #07b290}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-post_author .wpd-comment-right{border-left:1px solid #07b290}#wpdcom .wpd-blog-guest .wpd-comment-label{color:#fff;background-color:#898989;border:none}#wpdcom .wpd-blog-guest .wpd-comment-author,#wpdcom .wpd-blog-guest .wpd-comment-author a{color:#898989}#wpdcom.wpd-layout-3 .wpd-blog-guest .wpd-comment-subheader{border-top:1px dashed #898989}#comments,#respond,.comments-area,#wpdcom{}#wpdcom .ql-editor>*{color:#777}#wpdcom .ql-editor::before{}#wpdcom .ql-toolbar{border:1px solid #ddd;border-top:none}#wpdcom .ql-container{border:1px solid #ddd;border-bottom:none}#wpdcom .wpd-form-row .wpdiscuz-item input[type=text],#wpdcom .wpd-form-row .wpdiscuz-item input[type=email],#wpdcom .wpd-form-row .wpdiscuz-item input[type=url],#wpdcom .wpd-form-row .wpdiscuz-item input[type=color],#wpdcom .wpd-form-row .wpdiscuz-item input[type=date],#wpdcom .wpd-form-row .wpdiscuz-item input[type=datetime],#wpdcom .wpd-form-row .wpdiscuz-item input[type=datetime-local],#wpdcom .wpd-form-row .wpdiscuz-item input[type=month],#wpdcom .wpd-form-row .wpdiscuz-item input[type=number],#wpdcom .wpd-form-row .wpdiscuz-item input[type=time],#wpdcom textarea,#wpdcom select{border:1px solid #ddd;color:#777}#wpdcom .wpd-form-row .wpdiscuz-item textarea{border:1px solid #ddd}#wpdcom input::placeholder,#wpdcom textarea::placeholder,#wpdcom input::-moz-placeholder,#wpdcom textarea::-webkit-input-placeholder{}#wpdcom .wpd-comment-text{color:#777}#wpdcom .wpd-thread-head .wpd-thread-info{border-bottom:2px solid #00b38f}#wpdcom .wpd-thread-head .wpd-thread-info.wpd-reviews-tab svg{fill:#00b38f}#wpdcom .wpd-thread-head .wpdiscuz-user-settings{border-bottom:2px solid #00b38f}#wpdcom .wpd-thread-head .wpdiscuz-user-settings:hover{color:#00b38f}#wpdcom .wpd-comment .wpd-follow-link:hover{color:#00b38f}#wpdcom .wpd-comment-status .wpd-sticky{color:#00b38f}#wpdcom .wpd-thread-filter .wpdf-active{color:#00b38f;border-bottom-color:#00b38f}#wpdcom .wpd-comment-info-bar{border:1px dashed #33c3a6;background:#e6f8f4}#wpdcom .wpd-comment-info-bar .wpd-current-view i{color:#00b38f}#wpdcom .wpd-filter-view-all:hover{background:#00b38f}#wpdcom .wpdiscuz-item .wpdiscuz-rating>label{color:#ddd}#wpdcom .wpdiscuz-item .wpdiscuz-rating:not(:checked)>label:hover,.wpdiscuz-rating:not(:checked)>label:hover~label{}#wpdcom .wpdiscuz-item .wpdiscuz-rating>input~label:hover,#wpdcom .wpdiscuz-item .wpdiscuz-rating>input:not(:checked)~label:hover~label,#wpdcom .wpdiscuz-item .wpdiscuz-rating>input:not(:checked)~label:hover~label{color:#ffed85}#wpdcom .wpdiscuz-item .wpdiscuz-rating>input:checked~label:hover,#wpdcom .wpdiscuz-item .wpdiscuz-rating>input:checked~label:hover,#wpdcom .wpdiscuz-item .wpdiscuz-rating>label:hover~input:checked~label,#wpdcom .wpdiscuz-item .wpdiscuz-rating>input:checked+label:hover~label,#wpdcom .wpdiscuz-item .wpdiscuz-rating>input:checked~label:hover~label,.wpd-custom-field .wcf-active-star,#wpdcom .wpdiscuz-item .wpdiscuz-rating>input:checked~label{color:gold}#wpd-post-rating .wpd-rating-wrap .wpd-rating-stars svg .wpd-star{fill:#ddd}#wpd-post-rating .wpd-rating-wrap .wpd-rating-stars svg .wpd-active{fill:gold}#wpd-post-rating .wpd-rating-wrap .wpd-rate-starts svg .wpd-star{fill:#ddd}#wpd-post-rating .wpd-rating-wrap .wpd-rate-starts:hover svg .wpd-star{fill:#ffed85}#wpd-post-rating.wpd-not-rated .wpd-rating-wrap .wpd-rate-starts svg:hover~svg .wpd-star{fill:#ddd}.wpdiscuz-post-rating-wrap .wpd-rating .wpd-rating-wrap .wpd-rating-stars svg .wpd-star{fill:#ddd}.wpdiscuz-post-rating-wrap .wpd-rating .wpd-rating-wrap .wpd-rating-stars svg .wpd-active{fill:gold}#wpdcom .wpd-comment .wpd-follow-active{color:#ff7a00}#wpdcom .page-numbers{color:#555;border:#555 1px solid}#wpdcom span.current{background:#555}#wpdcom.wpd-layout-1 .wpd-new-loaded-comment>.wpd-comment-wrap>.wpd-comment-right{background:#fffad6}#wpdcom.wpd-layout-2 .wpd-new-loaded-comment.wpd-comment>.wpd-comment-wrap>.wpd-comment-right{background:#fffad6}#wpdcom.wpd-layout-2 .wpd-new-loaded-comment.wpd-comment.wpd-reply>.wpd-comment-wrap>.wpd-comment-right{background:0 0}#wpdcom.wpd-layout-2 .wpd-new-loaded-comment.wpd-comment.wpd-reply>.wpd-comment-wrap{background:#fffad6}#wpdcom.wpd-layout-3 .wpd-new-loaded-comment.wpd-comment>.wpd-comment-wrap>.wpd-comment-right{background:#fffad6}#wpdcom .wpd-follow:hover i,#wpdcom .wpd-unfollow:hover i,#wpdcom .wpd-comment .wpd-follow-active:hover i{color:#00b38f}#wpdcom .wpdiscuz-readmore{cursor:pointer;color:#00b38f}.wpd-custom-field .wcf-pasiv-star,#wpcomm .wpdiscuz-item .wpdiscuz-rating>label{color:#ddd}.wpd-wrapper .wpd-list-item.wpd-active{border-top:3px solid #00b38f}#wpdcom.wpd-layout-2 .wpd-comment.wpd-reply.wpd-unapproved-comment .wpd-comment-wrap{border-left:3px solid #fffad6}#wpdcom.wpd-layout-3 .wpd-comment.wpd-reply.wpd-unapproved-comment .wpd-comment-right{border-left:1px solid #fffad6}#wpdcom .wpd-prim-button{background-color:#07b290;color:#fff}#wpdcom .wpd_label__check i.wpdicon-on{color:#07b290;border:1px solid #83d9c8}#wpd-bubble-wrapper #wpd-bubble-all-comments-count{color:#1db99a}#wpd-bubble-wrapper>div{background-color:#1db99a}#wpd-bubble-wrapper>#wpd-bubble #wpd-bubble-add-message{background-color:#1db99a}#wpd-bubble-wrapper>#wpd-bubble #wpd-bubble-add-message::before{border-left-color:#1db99a;border-right-color:#1db99a}#wpd-bubble-wrapper.wpd-right-corner>#wpd-bubble #wpd-bubble-add-message::before{border-left-color:#1db99a;border-right-color:#1db99a}.wpd-inline-icon-wrapper path.wpd-inline-icon-first{fill:#1db99a}.wpd-inline-icon-count{background-color:#1db99a}.wpd-inline-icon-count::before{border-right-color:#1db99a}.wpd-inline-form-wrapper::before{border-bottom-color:#1db99a}.wpd-inline-form-question{background-color:#1db99a}.wpd-inline-form{background-color:#1db99a}.wpd-last-inline-comments-wrapper{border-color:#1db99a}.wpd-last-inline-comments-wrapper::before{border-bottom-color:#1db99a}.wpd-last-inline-comments-wrapper .wpd-view-all-inline-comments{background:#1db99a}.wpd-last-inline-comments-wrapper .wpd-view-all-inline-comments:hover,.wpd-last-inline-comments-wrapper .wpd-view-all-inline-comments:active,.wpd-last-inline-comments-wrapper .wpd-view-all-inline-comments:focus{background-color:#1db99a}#wpdcom .ql-snow .ql-tooltip[data-mode=link]::before{content:"Wpisz link:"}#wpdcom .ql-snow .ql-tooltip.ql-editing a.ql-action::after{content:"Zapisz"}.comments-area{width:auto}</style><link rel=stylesheet id=wpdiscuz-fa-css href="../../blog/wp-content/plugins/wpdiscuz/assets/third-party/font-awesome-5.13.0/css/fa.min.css@ver=7.3.17.css" media=all><link rel=stylesheet id=wpdiscuz-combo-css-css href="../../blog/wp-content/plugins/wpdiscuz/assets/css/wpdiscuz-combo-no_quill.min.css@ver=4084444bfee884f6024e8b1b3cfa6cdd.css" media=all><link rel=stylesheet id=parent-style-css href="../../blog/wp-content/themes/septera/style.css@ver=4084444bfee884f6024e8b1b3cfa6cdd.css" media=all><link rel=stylesheet id=septera-themefonts-css href="../../blog/wp-content/themes/septera/resources/fonts/fontfaces.css@ver=1.5.1.css" media=all><link rel=stylesheet id=septera-googlefonts-css href="../../blog/wp-content/uploads/omgf/septera-googlefonts/septera-googlefonts.css@ver=1700504504.css" media=all><link rel=stylesheet id=septera-main-css href="../../blog/wp-content/themes/septera-child/style.css@ver=1.5.1.css" media=all><style id=septera-main-inline-css>body:not(.septera-landing-page) #container,#site-header-main-inside,#colophon-inside,#footer-inside,#breadcrumbs-container-inside{margin:0 auto;max-width:1920px}#site-header-main{left:0;right:0}#primary{width:200px}#secondary{width:200px}#container.one-column .main{width:100%}#container.two-columns-right #secondary{float:right}#container.two-columns-right .main,.two-columns-right #breadcrumbs{width:calc( 100% - 200px );float:left}#container.two-columns-left #primary{float:left}#container.two-columns-left .main,.two-columns-left #breadcrumbs{width:calc( 100% - 200px );float:right}#container.three-columns-right #primary,#container.three-columns-left #primary,#container.three-columns-sided #primary{float:left}#container.three-columns-right #secondary,#container.three-columns-left #secondary,#container.three-columns-sided #secondary{float:left}#container.three-columns-right #primary,#container.three-columns-left #secondary{margin-left:0%;margin-right:0%}#container.three-columns-right .main,.three-columns-right #breadcrumbs{width:calc( 100% - 400px );float:left}#container.three-columns-left .main,.three-columns-left #breadcrumbs{width:calc( 100% - 400px );float:right}#container.three-columns-sided #secondary{float:right}#container.three-columns-sided .main,.three-columns-sided #breadcrumbs{width:calc( 100% - 400px );float:right}.three-columns-sided #breadcrumbs{margin:0 calc( 0% + 200px )0 -1920px}html{font-family:Open Sans;font-size:14px;font-weight:400;line-height:1.6}#site-title{font-family:Open Sans;font-size:120%;font-weight:700}#access ul li a{font-family:Open Sans;font-size:90%;font-weight:700}.widget-title{font-family:Open Sans;font-size:100%;font-weight:700}.widget-container{font-family:Open Sans;font-size:100%;font-weight:400}.entry-title,#reply-title{font-family:Open Sans;font-size:200%;font-weight:400}.entry-title.singular-title{font-size:200%}.content-masonry .entry-title{font-size:124%}h1{font-size:2.3em}h2{font-size:2em}h3{font-size:1.7em}h4{font-size:1.4em}h5{font-size:1.1em}h6{font-size:.8em}h1,h2,h3,h4,h5,h6{font-family:Open Sans;font-weight:700}body{color:#2d3140;background-color:#d6d6d6}@media(min-width:1152px){.septera-over-menu #site-title a,.septera-over-menu #access>div>ul>li,.septera-over-menu #access>div>ul>li>a,.septera-over-menu #sheader.socials a::before{color:#fff}.septera-landing-page.septera-over-menu #site-title a,.septera-landing-page.septera-over-menu #access>div>ul>li,.septera-landing-page.septera-over-menu #access>div>ul>li>a,.septera-landing-page.septera-over-menu #sheader.socials a::before{color:#fff}}.lp-staticslider .staticslider-caption-title,.seriousslider.seriousslider-theme .seriousslider-caption-title,.lp-staticslider .staticslider-caption-text,.seriousslider.seriousslider-theme .seriousslider-caption-text,.lp-staticslider .staticslider-caption-text a{color:#fff}#site-header-main,#access ul ul,.menu-search-animated .searchform input[type=search],#access::after,.septera-over-menu .header-fixed#site-header-main,.septera-over-menu .header-fixed#site-header-main #access:after{background-color:#fff}.septera-over-menu .header-fixed#site-header-main #site-title a{color:#365da0}#access>div>ul>li,#access>div>ul>li>a,.septera-over-menu .header-fixed#site-header-main #access>div>ul>li:not([class*=current]),.septera-over-menu .header-fixed#site-header-main #access>div>ul>li:not([class*=current])>a,.septera-over-menu .header-fixed#site-header-main #sheader.socials a::before,#sheader.socials a::before,#mobile-menu{color:#365da0}#access ul.sub-menu li a,#access ul.children li a{color:#888}#access ul.sub-menu li a,#access ul.children li a{background-color:#fff}#access>div>ul>li a:hover,#access>div>ul>li:hover,.septera-over-menu .header-fixed#site-header-main #access>div>ul>li>a:hover,.septera-over-menu .header-fixed#site-header-main #access>div>ul>li:hover,.septera-over-menu .header-fixed#site-header-main #sheader.socials a:hover::before,#sheader.socials a:hover::before{color:#365da0}#access>div>ul>li.current_page_item>a,#access>div>ul>li.current-menu-item>a,#access>div>ul>li.current_page_ancestor>a,#access>div>ul>li.current-menu-ancestor>a,#access .sub-menu,#access .children,.septera-over-menu .header-fixed#site-header-main #access>div>ul>li>a{color:#96bbe0}#access ul.children>li.current_page_item>a,#access ul.sub-menu>li.current-menu-item>a,#access ul.children>li.current_page_ancestor>a,#access ul.sub-menu>li.current-menu-ancestor>a{color:#96bbe0}.searchform .searchsubmit{color:#2d3140}.searchform:hover input[type=search],.searchform input[type=search]:focus{border-color:#365da0}body:not(.septera-landing-page) .main,#lp-posts,#lp-page,.searchform{background-color:#fff}.pagination span,.pagination a{background-color:#f3f3f3}#breadcrumbs-container{border-bottom-color:#eee;background-color:#fff}#primary{background-color:#d6d6d6}#secondary{background-color:#d6d6d6}#colophon,#footer{background-color:#d6d6d6;color:#2d3140}.entry-title a:active,.entry-title a:hover{color:#365da0}span.entry-format{color:#365da0}.format-aside{border-top-color:#fff}article.hentry .post-thumbnail-container{background-color:rgba(45,49,64,.15)}article.hentry .post-thumbnail-container a::after{background-color:#365da0}.entry-content blockquote::before,.entry-content blockquote::after{color:rgba(45,49,64,.2)}.entry-content h1,.entry-content h2,.entry-content h3,.entry-content h4,.lp-text-content h1,.lp-text-content h2,.lp-text-content h3,.lp-text-content h4,.entry-title{color:#2d3140}a{color:#365da0}a:hover,.entry-meta span a:hover,.comments-link a:hover{color:#96bbe0}.entry-meta span.comments-link{top:.62em}.continue-reading-link{color:#365da0;background-color:#f5f5f5}.continue-reading-link:hover{color:#96bbe0}.socials a:before{color:#365da0}.socials a:hover:before{color:#96bbe0}.septera-normalizedtags #content .tagcloud a{color:#fff;background-color:#365da0}.septera-normalizedtags #content .tagcloud a:hover{background-color:#96bbe0}#toTop{background-color:rgba(189,189,189,.8);color:#365da0}#toTop:hover{background-color:#365da0;color:#d6d6d6}.entry-meta .icon-metas:before{color:#000}.septera-caption-one .main .wp-caption .wp-caption-text{border-bottom-color:#eee}.septera-caption-two .main .wp-caption .wp-caption-text{background-color:#f5f5f5}.septera-image-one .entry-content img[class*=align],.septera-image-one .entry-summary img[class*=align],.septera-image-two .entry-content img[class*=align],.septera-image-two .entry-summary img[class*=align]{border-color:#eee}.septera-image-five .entry-content img[class*=align],.septera-image-five .entry-summary img[class*=align]{border-color:#365da0}span.edit-link a.post-edit-link,span.edit-link a.post-edit-link:hover,span.edit-link .icon-edit:before{color:#727685}.searchform{border-color:#ebebeb}.entry-meta span,.entry-meta a,.entry-utility span,.entry-utility a,.entry-meta time,#breadcrumbs-nav,.footermenu ul li span.sep{color:#000}.entry-meta span.entry-sticky{background-color:#000;color:#fff}#footer-separator{background:#c7c7c7}#commentform{max-width:1e3px}code,#nav-below .nav-previous a:before,#nav-below .nav-next a:before{background-color:#eee}pre,.page-link>span,.comment-author,.commentlist .comment-body,.commentlist .pingback{border-color:#eee}.page-header.pad-container,#author-info{background-color:#f5f5f5}.comment-meta a{color:#000}.commentlist .reply a{color:#000}select,input[type],textarea{color:#2d3140;border-color:#f0f0f0}input[type]:hover,textarea:hover,select:hover,input[type]:focus,textarea:focus,select:focus{background:#f0f0f0}button,input[type=button],input[type=submit],input[type=reset]{background-color:#365da0;color:#fff}button:hover,input[type=button]:hover,input[type=submit]:hover,input[type=reset]:hover{background-color:#96bbe0}hr{background-color:#f0f0f0}.wp-block-image.alignwide{margin-left:calc( ( 0% + 2.5em ) * -1 );margin-right:calc( ( 0% + 2.5em ) * -1 )}.wp-block-image.alignwide img{width:calc( 100% + 5em );max-width:calc( 100% + 5em )}.has-accent-1-color,.has-accent-1-color:hover{color:#365da0}.has-accent-2-color,.has-accent-2-color:hover{color:#96bbe0}.has-headings-color,.has-headings-color:hover{color:#2d3140}.has-sitetext-color,.has-sitetext-color:hover{color:#2d3140}.has-sitebg-color,.has-sitebg-color:hover{color:#fff}.has-accent-1-background-color{background-color:#365da0}.has-accent-2-background-color{background-color:#96bbe0}.has-headings-background-color{background-color:#2d3140}.has-sitetext-background-color{background-color:#2d3140}.has-sitebg-background-color{background-color:#fff}.has-small-font-size{font-size:8px}.has-regular-font-size{font-size:14px}.has-large-font-size{font-size:22px}.has-larger-font-size{font-size:35px}.has-huge-font-size{font-size:35px}.woocommerce-page #respond input#submit.alt,.woocommerce a.button.alt,.woocommerce-page button.button.alt,.woocommerce input.button.alt,.woocommerce #respond input#submit,.woocommerce a.button,.woocommerce button.button,.woocommerce input.button{background-color:#365da0;color:#fff;line-height:1.6}.woocommerce #respond input#submit:hover,.woocommerce a.button:hover,.woocommerce button.button:hover,.woocommerce input.button:hover{background-color:#587fc2;color:#fff}.woocommerce-page #respond input#submit.alt,.woocommerce a.button.alt,.woocommerce-page button.button.alt,.woocommerce input.button.alt{background-color:#96bbe0;color:#fff;line-height:1.6}.woocommerce-page #respond input#submit.alt:hover,.woocommerce a.button.alt:hover,.woocommerce-page button.button.alt:hover,.woocommerce input.button.alt:hover{background-color:#b8ddff;color:#fff}.woocommerce div.product .woocommerce-tabs ul.tabs li.active{border-bottom-color:#fff}.woocommerce #respond input#submit.alt.disabled,.woocommerce #respond input#submit.alt.disabled:hover,.woocommerce #respond input#submit.alt:disabled,.woocommerce #respond input#submit.alt:disabled:hover,.woocommerce #respond input#submit.alt[disabled]:disabled,.woocommerce #respond input#submit.alt[disabled]:disabled:hover,.woocommerce a.button.alt.disabled,.woocommerce a.button.alt.disabled:hover,.woocommerce a.button.alt:disabled,.woocommerce a.button.alt:disabled:hover,.woocommerce a.button.alt[disabled]:disabled,.woocommerce a.button.alt[disabled]:disabled:hover,.woocommerce button.button.alt.disabled,.woocommerce button.button.alt.disabled:hover,.woocommerce button.button.alt:disabled,.woocommerce button.button.alt:disabled:hover,.woocommerce button.button.alt[disabled]:disabled,.woocommerce button.button.alt[disabled]:disabled:hover,.woocommerce input.button.alt.disabled,.woocommerce input.button.alt.disabled:hover,.woocommerce input.button.alt:disabled,.woocommerce input.button.alt:disabled:hover,.woocommerce input.button.alt[disabled]:disabled,.woocommerce input.button.alt[disabled]:disabled:hover{background-color:#96bbe0}.woocommerce ul.products li.product .price,.woocommerce div.product p.price,.woocommerce div.product span.price{color:#00000e}#add_payment_method #payment,.woocommerce-cart #payment,.woocommerce-checkout #payment{background:#f5f5f5}.woocommerce .main .page-title{}nav#mobile-menu{background-color:#fff}#mobile-menu .mobile-arrow{color:#2d3140}.main .entry-content,.main .entry-summary{text-align:inherit}.main p,.main ul,.main ol,.main dd,.main pre,.main hr{margin-bottom:1em}.main p{text-indent:0}.main a.post-featured-image{background-position:50%}#header-widget-area{width:33%;right:10px}.septera-stripped-table .main thead th,.septera-bordered-table .main thead th,.septera-stripped-table .main td,.septera-stripped-table .main th,.septera-bordered-table .main th,.septera-bordered-table .main td{border-color:#e9e9e9}.septera-clean-table .main th,.septera-stripped-table .main tr:nth-child(even) td,.septera-stripped-table .main tr:nth-child(even) th{background-color:#f6f6f6}article.hentry .article-inner,#content-masonry article.hentry .article-inner{padding:0%}#site-header-main{height:50px}#access .menu-search-animated .searchform{top:52px}.menu-search-animated,#sheader,.identity,#nav-toggle{height:50px;line-height:50px}#access div>ul>li>a{line-height:50px}#branding{height:50px}#header-widget-area{top:60px}.septera-responsive-headerimage #masthead #header-image-main-inside{max-height:10px}.septera-cropped-headerimage #masthead div.header-image{height:10px}#site-description{display:block}#masthead #site-header-main{position:fixed}.septera-fixed-menu #header-image-main{margin-top:50px}.lp-staticslider .staticslider-caption-text a{border-color:#fff}.lp-staticslider .staticslider-caption,.seriousslider.seriousslider-theme .seriousslider-caption,.septera-landing-page .lp-blocks-inside,.septera-landing-page .lp-boxes-inside,.septera-landing-page .lp-text-inside,.septera-landing-page .lp-posts-inside,.septera-landing-page .lp-page-inside,.septera-landing-page .lp-section-header,.septera-landing-page .content-widget{max-width:1920px}.septera-landing-page .content-widget{margin:0 auto}.seriousslider-theme .seriousslider-caption-buttons a:nth-child(2n+1),a.staticslider-button:nth-child(2n+1){color:#2d3140;border-color:#fff;background-color:#fff}.seriousslider-theme .seriousslider-caption-buttons a:nth-child(2n+1):hover,a.staticslider-button:nth-child(2n+1):hover{color:#fff}.seriousslider-theme .seriousslider-caption-buttons a:nth-child(2n),a.staticslider-button:nth-child(2n){border-color:#fff;color:#fff}.seriousslider-theme .seriousslider-caption-buttons a:nth-child(2n):hover,.staticslider-button:nth-child(2n):hover{color:#2d3140;background-color:#fff}.lp-staticslider::before,.lp-dynamic-slider .item>a::before,#header-image-main::before{background-color:#24a7cf}.lp-staticslider::before,.lp-dynamic-slider .item>a::before,#header-image-main::before{z-index:2}.lp-staticslider-image,.header-image,.seriousslider .item-image{-webkit-filter:grayscale(75%)brightness(110%);filter:grayscale(75%)brightness(110%)}@-webkit-keyframes animation-slider-overlay{to{opacity:.75}}@keyframes animation-slider-overlay{to{opacity:.75}}.lp-dynamic-slider .item>a::before{opacity:.75}.lp-blocks{background-color:#fff}.lp-boxes{background-color:#fff}.lp-text{background-color:#f8f8f8}.staticslider-caption-container,.lp-dynamic-slider{background-color:#fff}.lp-block>i::before{color:#365da0}.lp-block:hover i::before{color:#96bbe0}.lp-block i::after{background-color:#365da0}.lp-blocks .lp-block:hover .lp-block-title{color:#365da0}.lp-blocks .lp-block:hover i::after{background-color:#96bbe0}.lp-block-text,.lp-boxes-static .lp-box-text,.lp-section-desc{color:#050918}.lp-boxes .lp-box .lp-box-image{height:300px}.lp-boxes.lp-boxes-animated .lp-box:hover .lp-box-text{max-height:200px}.lp-boxes .lp-box .lp-box-image{height:400px}.lp-boxes.lp-boxes-animated .lp-box:hover .lp-box-text{max-height:300px}.lp-boxes-animated .lp-box-readmore:hover{color:#365da0;opacity:.7}.lp-boxes-static .lp-box-overlay{background-color:rgba(54,93,160,.9)}#cryout_ajax_more_trigger{background-color:#365da0;color:#fff}.lpbox-rnd1{background-color:#c8c8c8}.lpbox-rnd2{background-color:#c3c3c3}.lpbox-rnd3{background-color:#bebebe}.lpbox-rnd4{background-color:#b9b9b9}.lpbox-rnd5{background-color:#b4b4b4}.lpbox-rnd6{background-color:#afafaf}.lpbox-rnd7{background-color:#aaa}.lpbox-rnd8{background-color:#a5a5a5}</style><link rel=https://api.w.org/ href=https://www.learncpp.com/wp-json/><link rel=alternate type=application/json href=https://www.learncpp.com/wp-json/wp/v2/posts/14227><link rel=canonical href="index.html"><link rel=alternate type=application/json+oembed href="https://www.learncpp.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fchapter-21-project%2F"><link rel=alternate type=text/xml+oembed href="https://www.learncpp.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fchapter-21-project%2F&amp;format=xml"><link rel=stylesheet id=18062-css href="../../blog/wp-content/uploads/custom-css-js/18062.css@v=430.css" media=all><link rel=icon href="../../blog/wp-content/uploads/learncpp.png" sizes=32x32><link rel=icon href="../../blog/wp-content/uploads/learncpp.png" sizes=192x192><link rel=apple-touch-icon href="../../blog/wp-content/uploads/learncpp.png"><meta name=msapplication-TileImage content="https://www.learncpp.com/blog/wp-content/uploads/learncpp.png"><style>div.printOnly{margin-left:3em}</style><style media=screen>.printOnly{display:none}</style>
+<style id="offline-fix">#site-wrapper{display:block !important;visibility:visible !important;}#container,#content,#main,.main,article.hentry{visibility:visible !important;opacity:1 !important;}.ai-list-data,.lessontables,.lessontables-visible{display:block !important;visibility:visible !important;opacity:1 !important;}.animated-article{opacity:1 !important;transform:none !important;animation:none !important;}.code-block,.cf_monitor,.adsbygoogle,[id^="ezoic-pub-ad-placeholder-"],[class*="ezoic-adpicker-ad"]{display:none !important;width:0 !important;height:0 !important;margin:0 !important;padding:0 !important;overflow:hidden !important;}body{overflow:auto !important;}</style></head><body class="post-template-default single single-post postid-14227 single-format-standard wp-custom-logo wp-embed-responsive septera-image-none septera-caption-one septera-totop-normal septera-bordered-table septera-fixed-menu septera-responsive-headerimage septera-responsive-featured septera-magazine-two septera-magazine-layout septera-comment-placeholder septera-normalizedtags septera-article-animation-slide" itemscope itemtype=http://schema.org/WebPage><div id=site-wrapper><header id=masthead class=cryout itemscope itemtype=http://schema.org/WPHeader role=banner><div id=site-header-main><div id=site-header-main-inside><nav id=mobile-menu><span id=nav-cancel><i class=icon-cancel></i></span><div><ul id=mobile-nav><li id=menu-item-9876 class="menu-item menu-item-type- menu-item-object- menu-item-has-children menu-item-9876"><a><span>Nawiguj</span></a><ul class=sub-menu><li id=menu-item-1009876 class="menu-item menu-item-type- menu-item-object- menu-item-1009876"><a href="../introduction-to-smart-pointers-move-semantics/index.html"><span><i class="cpp_menu _mi _before fa fa-chevron-circle-right"></i>22.1 — Wprowadzenie do inteligentnych wskaźników i semantyki ruchów</span></a><li class="menu-item menu-item-type- menu-item-object- menu-item-1009876"><a href="https://www.learncpp.com/"><span><i class="cpp_menu _mi _before fa fa-home"></i>Spis treści</span></a><li class="menu-item menu-item-type- menu-item-object- menu-item-1009876"><a href="../chapter-21-summary-and-quiz/index.html"><span><i class="cpp_menu _mi _before fa fa-chevron-circle-left"></i>21.x — Rozdział 21 podsumowanie i quiz</span></a></ul><li id=menu-item-6312 class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6312"><a href=https://www.learncpp.com/learn-cpp-site-index/><span><i class="_mi _before fa fa-crosshairs" aria-hidden=true></i><span>Indeks witryny</span></span></a><li id=menu-item-12722 class="menu-item menu-item-type-post_type menu-item-object-page menu-item-12722"><a href=https://www.learncpp.com/latest-changes/><span><i class="_mi _before fa fa-list" aria-hidden=true></i><span>Najnowsze zmiany</span></span></a><li id=menu-item-6313 class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-6313"><a href=https://www.learncpp.com/about/><span>O </span></a><ul class=sub-menu><li id=menu-item-12083 class="menu-item menu-item-type-post_type menu-item-object-post menu-item-12083"><a href=https://www.learncpp.com/leave-feedback-report-issue/><span><i class="_mi _before fa fa-comment" aria-hidden=true></i><span>Wystaw opinię</span></span></a><li id=menu-item-11706 class="menu-item menu-item-type-post_type menu-item-object-post menu-item-11706"><a href=https://www.learncpp.com/leave-feedback-report-issue/><span><i class="_mi _before fa fa-bug" aria-hidden=true></i><span>Zgłoś problem</span></span></a><li id=menu-item-11707 class="menu-item menu-item-type-post_type menu-item-object-page menu-item-11707"><a href=https://www.learncpp.com/about/><span><i class="_mi _before dashicons dashicons-welcome-write-blog" aria-hidden=true></i><span>Kontakt / wsparcie</span></span></a><li id=menu-item-11705 class="menu-item menu-item-type-custom menu-item-object-custom menu-item-11705"><a href="../introduction-to-these-tutorials.html#FAQ"><span><i class="_mi _before fa fa-question-circle" aria-hidden=true></i><span>Często zadawane pytania dotyczące witryny</span></span></a><li id=menu-item-17734 class="menu-item menu-item-type-custom menu-item-object-custom menu-item-17734"><a href=https://g.ezoic.net/privacy/learncpp.com><span><i class="_mi _before fa fa-bed" aria-hidden=true></i><span>Polityka prywatności</span></span></a><li id=menu-item-16006 class="menu-item menu-item-type-post_type menu-item-object-page menu-item-16006"><a href=https://www.learncpp.com/about/><span><i class="_mi _before fa fa-smile-o" aria-hidden=true></i><span>Przekaż darowiznę</span></span></a></ul><li id=menu-item-12082 class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12082"><a title="LearnCPP nie ma natywnego trybu ciemnego, ale ten link przeniesie Cię do wtyczki przeglądarki, która pozwoli Ci przyciemnić dowolną stronę internetową." target=_blank rel=noopener href=https://darkreader.org/><span><i class="_mi _before fa fa-moon-o" aria-hidden=true></i><span> </span></span></a><li class="menu-main-search menu-search-animated"><a role=link "https://www.learncpp.com/cpp-tutorial/chapter-21-project/href"><i class=icon-search></i><span class=screen-reader-text>Szukaj</span></a><form apbct-form-sign=native_search role=search class=searchform action=https://www.learncpp.com/><label><span class=screen-reader-text>Szukaj:</span>
+<input type=search class=s placeholder=Search name=s></label>
+<button class=searchsubmit><span class=screen-reader-text>Szukaj</span><i class=icon-search></i></button>
+<input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=36679></form></ul></div></nav><div id=branding><div class=identity><a href=https://www.learncpp.com/ id=logo class=custom-logo-link title="Naucz się C++" rel=home><img src="../../blog/wp-content/uploads/learncpp.png" class=custom-logo alt="Naucz się C++"></a></div><div id=site-text><div itemprop=headline id=site-title><span><a href=https://www.learncpp.com/ title="Zdobądź umiejętności dzięki naszym darmowym samouczkom" rel=home>Naucz się C++</a></span></div><span id=site-description itemprop=description>Zdobądź umiejętności dzięki naszym darmowym samouczkom</span></div></div><a id=nav-toggle><i class=icon-menu></i></a><nav id=access role=navigation aria-label="Menu główne" itemscope itemtype=http://schema.org/SiteNavigationElement><div class="skip-link screen-reader-text"><a href="index.html#main" title="Przejdź do treść">Przejdź do treść</a></div><div><ul id=prime_nav><li class="menu-item menu-item-type- menu-item-object- menu-item-has-children menu-item-9876"><a><span>Nawiguj</span></a><ul class=sub-menu><li class="menu-item menu-item-type- menu-item-object- menu-item-1009876"><a href="../introduction-to-smart-pointers-move-semantics/index.html"><span><i class="cpp_menu _mi _before fa fa-chevron-circle-right"></i>22.1 — Wprowadzenie do inteligentnych wskaźników i semantyki ruchów</span></a><li class="menu-item menu-item-type- menu-item-object- menu-item-1009876"><a href="https://www.learncpp.com/"><span><i class="cpp_menu _mi _before fa fa-home"></i>Spis treści</span></a><li class="menu-item menu-item-type- menu-item-object- menu-item-1009876"><a href="../chapter-21-summary-and-quiz/index.html"><span><i class="cpp_menu _mi _before fa fa-chevron-circle-left"></i>21.x — Rozdział 21 podsumowanie i quiz</span></a></ul><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6312"><a href=https://www.learncpp.com/learn-cpp-site-index/><span><i class="_mi _before fa fa-crosshairs" aria-hidden=true></i><span>Indeks witryny</span></span></a><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-12722"><a href=https://www.learncpp.com/latest-changes/><span><i class="_mi _before fa fa-list" aria-hidden=true></i><span>Najnowsze zmiany</span></span></a><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-6313"><a href=https://www.learncpp.com/about/><span>O </span></a><ul class=sub-menu><li class="menu-item menu-item-type-post_type menu-item-object-post menu-item-12083"><a href=https://www.learncpp.com/leave-feedback-report-issue/><span><i class="_mi _before fa fa-comment" aria-hidden=true></i><span>Wystaw opinię</span></span></a><li class="menu-item menu-item-type-post_type menu-item-object-post menu-item-11706"><a href=https://www.learncpp.com/leave-feedback-report-issue/><span><i class="_mi _before fa fa-bug" aria-hidden=true></i><span>Zgłoś problem</span></span></a><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-11707"><a href=https://www.learncpp.com/about/><span><i class="_mi _before dashicons dashicons-welcome-write-blog" aria-hidden=true></i><span>Kontakt / wsparcie</span></span></a><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-11705"><a href="../introduction-to-these-tutorials.html#FAQ"><span><i class="_mi _before fa fa-question-circle" aria-hidden=true></i><span>Często zadawane pytania dotyczące witryny</span></span></a><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-17734"><a href=https://g.ezoic.net/privacy/learncpp.com><span><i class="_mi _before fa fa-bed" aria-hidden=true></i><span>Polityka prywatności</span></span></a><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-16006"><a href=https://www.learncpp.com/about/><span><i class="_mi _before fa fa-smile-o" aria-hidden=true></i><span>Przekaż darowiznę</span></span></a></ul><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12082"><a title="LearnCPP nie ma natywnego trybu ciemnego, ale ten link przeniesie Cię do wtyczki przeglądarki, która pozwoli Ci przyciemnić dowolną stronę internetową." target=_blank rel=noopener href=https://darkreader.org/><span><i class="_mi _before fa fa-moon-o" aria-hidden=true></i><span> </span></span></a><li class="menu-main-search menu-search-animated"><a role=link "https://www.learncpp.com/cpp-tutorial/chapter-21-project/href"><i class=icon-search></i><span class=screen-reader-text>Szukaj</span></a><form apbct-form-sign=native_search role=search class=searchform action=https://www.learncpp.com/><label><span class=screen-reader-text>Szukaj:</span>
+<input type=search class=s placeholder=Search name=s></label>
+<button class=searchsubmit><span class=screen-reader-text>Szukaj</span><i class=icon-search></i></button>
+<input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=42318></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="21.y — Projekt rozdziału 21" src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-14227 class="post-14227 post type-post status-publish format-standard hentry category-cpp-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>21.y — Projekt rozdziału 21</h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Autor></i><a class="url fn n" rel=author href=https://www.learncpp.com/author/Alex/ title="Wyświetl wszystkie posty Alexa" itemprop=url><em itemprop=name>Alex</em></a></span>
+<span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2023-03-30T13:02:10-07:00 itemprop=datePublished>30 marca 2023, 13:02 czasu PDT</time>
+<time class=updated datetime=2024-09-13T10:30:17-07:00 itemprop=dateModified>13 września 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>Ukłon dla czytelnika Avtem za pomysł i współpracę przy tym projekcie.<p class=cpp-section>Projekt czas<p>Zaimplementujmy klasyczną grę <a href=https://en.wikipedia.org/wiki/15_puzzle>15 Puzzle</a>!<p>W 15 Puzzle zaczynasz od losowej siatki płytek 4×4. 15 płytek ma numery od 1 do 15. Brakuje jednej płytki.<p>Na przykład:<pre>     15   1   4
+  2   5   9  12
+  7   8  11  14
+ 10  13   6   3
+</pre><p>W tej łamigłówce brakująca płytka znajduje się w lewym górnym rogu.<p>W każdej turze gry wybierasz jedną z płytek sąsiadującą z brakującą płytką i wsuwasz ją w miejsce zajmowane przez brakującą płytkę.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Celem gry jest przesuwanie płytek, aż ułożą się w kolejności numerycznej, z brakującą płytką kafelek w prawym dolnym rogu:<pre>  1   2   3   4
+  5   6   7   8
+  9  10  11  12
+ 13  14  15   
+</pre><p>Możesz rozegrać kilka rund <a href=https://15puzzle.netlify.app/>na tej stronie</a>. Pomoże Ci to zrozumieć, jak działa ta gra i jak należy ją wdrożyć.<p>W naszej wersji gry w każdej turze użytkownik będzie wprowadzał pojedynczą literę polecenia. Istnieje 5 prawidłowych poleceń:<ul><li>w - przesuń płytkę w górę<li>a - przesuń płytkę w lewo<li>s - przesuń płytkę w dół<li>d - przesuń płytkę w prawo<li>q - wyjdź z gry</ul><p>Ponieważ to będzie dłuższy program, będziemy go rozwijać etapami.<p>Jeszcze jedno rzecz: na każdym kroku przedstawimy dwie rzeczy:  <em>cel</em> i <em>zadania</em>. Cel określa wynik, który ma zostać osiągnięty na danym etapie, wraz z wszelkimi dodatkowymi istotnymi informacjami. Zadania zawierają szczegółowe informacje i wskazówki dotyczące realizacji celu.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Zadania będą początkowo ukryte, aby zachęcić Cię do sprawdzenia, czy możesz ukończyć każdy krok, korzystając wyłącznie z celu i przykładowych wyników lub przykładowego programu. Jeśli nie masz pewności, jak zacząć lub czujesz, że utknąłeś, możesz odkryć zadania. Powinny pomóc Ci w dalszym rozwoju.<p class="cpp-quiz-question cpp-topline" style=clear:both>&gt; Krok #1<p>Ponieważ będzie to większy program, zacznijmy od ćwiczenia projektowego.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nota autora<p>Jeśli nie masz dużego doświadczenia w projektowaniu programów od początku, może to być nieco trudne. Tego można się spodziewać. Mniej ważne jest, abyś zrobił to dobrze, a ważniejsze, abyś brał udział i uczył się.<p>W kolejnych krokach omówimy wszystkie te elementy bardziej szczegółowo, więc jeśli czujesz się całkowicie zagubiony, możesz pominąć ten krok.</div><p>Cel: Udokumentuj kluczowe wymagania tego programu i zaplanuj, jak Twój program będzie zorganizowany na wysokim poziomie. Zrobimy to w trzech częściach.<p>A) Jakie najważniejsze elementy musi wykonać Twój program? Oto kilka wskazówek na początek:<p>Elementy planszy:<ul><li>Wyświetl planszę <li>…</ul><p>Rzeczy użytkownika:<ul><li>Uzyskaj polecenia od użytkownika<li>…</ul><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_0 style=display:none><p>Elementy planszy:<ul><li>Wyświetl planszę <li>Wyświetl pojedynczy kafelek<li>Losuj stan początkowy<li>Przesuń płytki<li>Określ, czy warunek wygranej został osiągnięty</ul><p>Rzeczy użytkownika:<ul><li>Uzyskaj polecenia od użytkownika<li>Obsłuż nieprawidłowe dane wejściowe<li>Pozwól użytkownikowi wyjść przed wygraną</ul></div><p>B) Co podstawowe klas lub przestrzeni nazw będziesz używać do implementowania elementów opisanych w kroku 1? Co też zrobi twoja funkcja main()?<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>Możesz utworzyć diagram lub użyć dwóch takich tabel:<div class=cpp-table-wrapper><table class=cpp-table><tbody><tr><th>Klasa podstawowa/przestrzeń nazw/main<th>Implementuje elementy najwyższego poziomu<th>Członkowie<tr><td>Plansza klasy<td>Wyświetl planszę <br>…<td>…<tr><td>funkcję main<td>Główna pętla logiczna gry<br>…<td>…</table></div><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_1 style=display:none><div class=cpp-table-wrapper><table class=cpp-table><tbody><tr><th>Klasa podstawowa/Przestrzeń nazw/główna<th>Implementuje elementy najwyższego poziomu<th>Członkowie (typ)<tr><td>Plansza klasy<td>Wyświetl planszę <br>Losuj stan początkowy<br>Przesuń płytki<br>Określ, czy warunek wygranej został osiągnięty<td>2d tablica płytek<tr><td>Płytka klasy<td>Wyświetl pojedynczy kafelek<td>int numer wyświetlacza<tr><td>Dane wejściowe użytkownika przestrzeni nazw<td>Uzyskaj polecenia od użytkownika<br>Obsłuż nieprawidłowe dane wejściowe<td>nic<tr><td>funkcja główna()<td>Główna pętla logiczna gry<br>Pozwól użytkownikowi wyjść przed wygraną<td>nic</table></div><p>Oto uzasadnienie powyższych wyborów.<ul><li><code>class Board</code>: Nasza gra to siatka płytek 4×4. Głównym celem tej klasy jest przechowywanie i zarządzanie dwuwymiarową tablicą płytek. Klasa ta odpowiada również za losowanie, przesuwanie płytek, eksponowanie planszy i sprawdzanie, czy nasza plansza jest ułożona.<li><code>class Tile</code>: Ta klasa reprezentuje pojedynczą płytkę na planszy. Użycie tutaj klasy pozwala nam przeciążyć operator wyjścia, aby wyprowadzić kafelek w żądanym formacie. Pozwala nam również mieć dobrze nazwane funkcje członkowskie, które zwiększą czytelność kodu związanego z pojedynczym kafelkiem.<li><code>namespace UserInput</code>: Ta przestrzeń nazw zawiera funkcje umożliwiające uzyskanie danych wejściowych od użytkownika, sprawdzenie, czy dane wprowadzone przez użytkownika są prawidłowe oraz obsługę nieprawidłowych danych wejściowych. Ponieważ nie ma to żadnego stanu, nie potrzebujemy tutaj klasy.<li><code>function main()</code>: Tutaj zostanie napisana główna pętla gry. Zajmie się to konfiguracją planszy do gry, koordynacją pobierania danych wejściowych użytkownika i przetwarzaniem poleceń oraz obsługą warunków wyjścia (kiedy użytkownik wygra lub wprowadzi polecenie zakończenia).</ul><p>Wykorzystamy także dwie klasy pomocnicze. Potrzeba takich zajęć może nie być oczywista na pierwszy rzut oka, więc nie martw się, jeśli nie wpadłeś na nic podobnego. Często potrzeba (lub korzyści) klas pomocniczych nie jest oczywista, gdy posuwasz się dalej w realizację swojego programu.</div><p>C) (dodatkowe punkty) Czy przychodzą Ci do głowy jakieś klasy pomocnicze lub możliwości, dzięki którym wdrożenie powyższego będzie łatwiejsze lub bardziej spójne?<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_2'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_2 style=display:none><div class=cpp-table-wrapper><table class=cpp-table><tbody><tr><th>Klasa pomocnicza/przestrzeń nazw<th>Na co to pomaga?<th>Członkowie (typ)<tr><td>Punkt klasowy<td>Indeksowanie płytek planszy do gry<td>int współrzędne osi X i Y<tr><td>Kierunek klasy<td>Spraw, aby praca z poleceniami kierunkowymi była łatwiejsza i bardziej intuicyjna<td>kierunek wyliczeniowy</table></div><ul><li><code>class Point</code>: Dostęp do konkretnego kafelka w naszej dwuwymiarowej tablicy kafelków będzie wymagał 2 indeksów. Możemy o nich myśleć jak o parach indeksów {oś x, oś y}. Ta klasa Point implementuje taką parę indeksów, aby ułatwić przekazywanie lub zwracanie pary indeksów.<li><code>class Direction</code>: użytkownik będzie wprowadzał na klawiaturze polecenia jednoliterowe (znakowe), aby przesuwać kafelki w kierunkach kardynalnych (np. <code>'w'</code>=w górę, <code>'a'</code>=po lewej). Konwersja tych poleceń char na obiekt Direction (reprezentujący kierunek kardynalny) sprawi, że nasz kod będzie bardziej intuicyjny i zapobiegnie zaśmiecaniu go literałami znaków (<code>Direction::left</code> ma większe znaczenie niż <code>'a'</code>).</ul></div><p>Jeśli miałeś trudności z tym ćwiczeniem, nie ma problemu. Celem było głównie skłonienie Cię do zastanowienia się nad tym, co zamierzasz zrobić, zanim zaczniesz to robić.<p>Teraz czas na wdrożenie!<p class="cpp-quiz-question cpp-topline" style=clear:both>&gt; Krok #2<p>Cel: Być w stanie wyświetlić poszczególne kafelki na ekranie.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>Nasza plansza do gry to siatka płytek 4×4, które można przesuwać. Dlatego przydatne będzie posiadanie <code>Tile</code> klasa reprezentująca jedną z ponumerowanych płytek na siatce 4×4 lub brakującą płytkę. Każda płytka powinna umożliwiać:<ul><li>Otrzymasz numer lub zostaniesz ustawiony jako brakujący kafelek<li>Ustal, czy jest to brakująca płytka.<li>Rysuj do konsoli z zachowaniem odpowiednich odstępów (aby kafelki ułożyły się w jednej linii po wyświetleniu planszy). Zobacz przykładowe dane wyjściowe poniżej, aby zapoznać się z przykładem wskazującym, jak powinny być rozmieszczone płytki.</ul><p><a class=tasks_link_show href=javascript:void(0) onclick="cppTasksToggle(document.getElementById('cpp_tasks_id_0'),this,'Show Tasks','Hide Tasks')">Pokaż zadania</a><div class=wptasks id=cpp_tasks_id_0 style=display:none><p>Nasz <code>Tile</code> klasa powinna mieć tę funkcjonalność:<ul><li>Domyślny konstruktor.<li>Konstruktor pozwalający nam utworzyć Tile z wyświetlaną wartością. Ponieważ nie używamy <code>0</code> jako wartości wyświetlanej, możemy użyć wartości <code>0</code> w celu zidentyfikowania brakującego kafelka.<li>A <code>getNum()</code> funkcja dostępu, która zwraca wartość przechowywaną w kafelku.<li>An <code>isEmpty()</code> funkcja składowa, która zwraca wartość logiczną wskazującą, czy bieżący kafelek jest brakującym kafelkiem.<li>Przeciążony <code>operator&lt;&lt;</code> która wyświetli wartość przechowywaną przez kafelek.</ul></div><p>Następujący kod powinien się skompilować i wygenerować wynik widoczny poniżej:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
+{
+    Tile tile1{ 10 };
+    Tile tile2{ 8 };
+    Tile tile3{ 0 }; // the missing tile
+    Tile tile4{ 1 };
+
+    std::cout &lt;&lt; &#34;0123456789ABCDEF\n&#34;; // to make it easy to see how many spaces are in the next line
+    std::cout &lt;&lt; tile1 &lt;&lt; tile2 &lt;&lt; tile3 &lt;&lt; tile4 &lt;&lt; &#39;\n&#39;;
+    
+    std::cout &lt;&lt; std::boolalpha &lt;&lt; tile1.isEmpty() &lt;&lt; &#39; &#39; &lt;&lt; tile3.isEmpty() &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; &#34;Tile 2 has number: &#34; &lt;&lt; tile2.getNum() &lt;&lt; &#34;\nTile 4 has number: &#34; &lt;&lt; tile4.getNum() &lt;&lt; &#39;\n&#39;;
+    
+    return 0;
+}</code></pre><p>Oczekiwany wynik (zwróć uwagę na białe spacje):<pre>0123456789ABCDEF
+ 10   8       1 
+false true
+Tile 2 has number: 8
+Tile 4 has number: 1
+</pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_3'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_3 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+
+class Tile
+{
+public:
+    Tile() = default;
+    explicit Tile(int number)
+        :m_num(number)
+    {
+    }
+
+    bool isEmpty() const
+    {
+        return m_num == 0;
+    }
+
+    int getNum() const { return m_num; }
+
+private:
+    int m_num { 0 };
+};
+
+std::ostream&amp; operator&lt;&lt;(std::ostream&amp; stream, Tile tile)
+{
+    if (tile.getNum() &gt; 9) // if two digit number
+        stream &lt;&lt; &#34; &#34; &lt;&lt; tile.getNum() &lt;&lt; &#34; &#34;;
+    else if (tile.getNum() &gt; 0) // if one digit number
+        stream &lt;&lt; &#34;  &#34; &lt;&lt; tile.getNum() &lt;&lt; &#34; &#34;;
+    else if (tile.getNum() == 0) // if empty spot
+        stream &lt;&lt; &#34;    &#34;;
+    return stream;
+}
+
+int main()
+{
+    Tile tile1{ 10 };
+    Tile tile2{ 8 };
+    Tile tile3{ 0 }; // the missing tile
+    Tile tile4{ 1 };
+
+    std::cout &lt;&lt; &#34;0123456789ABCDEF\n&#34;; // to make it easy to see how many spaces are in the next line
+    std::cout &lt;&lt; tile1 &lt;&lt; tile2 &lt;&lt; tile3 &lt;&lt; tile4 &lt;&lt; &#39;\n&#39;;
+
+    std::cout &lt;&lt; std::boolalpha &lt;&lt; tile1.isEmpty() &lt;&lt; &#39; &#39; &lt;&lt; tile3.isEmpty() &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; &#34;Tile 2 has number: &#34; &lt;&lt; tile2.getNum() &lt;&lt; &#34;\nTile 4 has number: &#34; &lt;&lt; tile4.getNum() &lt;&lt; &#39;\n&#39;;
+
+    return 0;
+}</code></pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>&gt; Krok #3<p>Cel: Utwórz ułożoną planszę (siatka płytek 4×4) i wyświetl ją na ekranie.<p>Zdefiniuj  <code>Board</code> klasę, która będzie reprezentować siatkę płytek 4×4. Nowo utworzony <code>Board</code> obiekt powinien być w stanie rozwiązanym. Aby wyświetlić tablicę, najpierw wydrukuj <code>g_consoleLines</code> (zdefiniowane we fragmencie kodu poniżej) puste linie, a następnie wydrukuj samą tablicę. Dzięki temu wszelkie wcześniejsze dane wyjściowe zostaną usunięte z pola widzenia i na konsoli będzie widoczna tylko bieżąca płytka.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p>Po co inicjować płytkę w stanie rozwiązanym? Kiedy kupujesz fizyczną wersję tych łamigłówek, zazwyczaj zaczynają się one od ułożonego stanu — musisz je ręcznie wymieszać (przesuwając kafelki), zanim spróbujesz je ułożyć. Będziemy naśladować ten proces w naszym programie (w następnym kroku zajmiemy się mieszaniem). Klasa <p><a class=tasks_link_show href=javascript:void(0) onclick="cppTasksToggle(document.getElementById('cpp_tasks_id_1'),this,'Show Tasks','Hide Tasks')">Pokaż zadania</a><div class=wptasks id=cpp_tasks_id_1 style=display:none><p>Klasa <code>Board</code> powinna posiadać następującą funkcjonalność:<ul><li>A <code>constexpr</code> stała symboliczna, ustawiana na wielkość siatki (można założyć, że siatka jest kwadratowa).<li>Dwuwymiarowa tablica  <code>Tile</code> obiektów, w których będą znajdować się nasze 16 liczb. Powinny one zaczynać się od rozwiązanego stanu.<li>Domyślny konstruktor.<li>Przeciążony <code>operator&lt;&lt;</code> który wypisze N pustych linii (gdzie N = wartość <code>g_consoleLines</code>), a następnie przeciągnie planszę do konsoli.</ul></div><p>Powinien uruchomić się następujący program:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Increase amount of new lines if your board isn&#39;t
+// at the very bottom of the console
+constexpr int g_consoleLines{ 25 };
+
+// Your code goes here
+
+int main()
+{
+    Board board{};
+    std::cout &lt;&lt; board;
+
+    return 0;
+}</code></pre><p>i wypisze następujący komunikat:<pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  1   2   3   4
+  5   6   7   8
+  9  10  11  12
+ 13  14  15
+</pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_4'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_4 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+
+// Increase amount of new lines if your board isn&#39;t
+// at the very bottom of the console
+constexpr int g_consoleLines{ 25 };
+
+class Tile
+{
+public:
+    Tile() = default;
+    explicit Tile(int number)
+        :m_num(number)
+    {
+    }
+    
+    bool isEmpty() const
+    {
+        return m_num == 0;
+    }
+
+    int getNum() const { return m_num; }
+
+private:
+    int m_num { 0 };
+};
+
+std::ostream&amp; operator&lt;&lt;(std::ostream&amp; stream, Tile tile)
+{
+    if (tile.getNum() &gt; 9) // if two digit number
+        stream &lt;&lt; &#34; &#34; &lt;&lt; tile.getNum() &lt;&lt; &#34; &#34;;
+    else if (tile.getNum() &gt; 0) // if one digit number
+        stream &lt;&lt; &#34;  &#34; &lt;&lt; tile.getNum() &lt;&lt; &#34; &#34;;
+    else if (tile.getNum() == 0) // if empty spot
+        stream &lt;&lt; &#34;    &#34;;
+    return stream;
+}
+
+class Board
+{
+public:
+
+    Board() = default;
+
+    friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; stream, const Board&amp; board)
+    {
+        // Before drawing always print some empty lines
+        // so that only one board appears at a time
+        // and it&#39;s always shown at the bottom of the window
+        // because console window scrolls automatically when there is no
+        // enough space. 
+        for (int i = 0; i &lt; g_consoleLines; ++i)
+            std::cout &lt;&lt; &#39;\n&#39;;
+
+        for (int y = 0; y &lt; s_size; ++y)
+        {
+            for (int x = 0; x &lt; s_size; ++x)
+                stream &lt;&lt; board.m_tiles[y][x];
+            stream &lt;&lt; &#39;\n&#39;;
+        }
+
+        return stream;
+    }
+
+private:
+    static constexpr int s_size { 4 };
+    Tile m_tiles[s_size][s_size]{
+        Tile{ 1 }, Tile { 2 }, Tile { 3 } , Tile { 4 },
+        Tile { 5 } , Tile { 6 }, Tile { 7 }, Tile { 8 },
+        Tile { 9 }, Tile { 10 }, Tile { 11 }, Tile { 12 },
+        Tile { 13 }, Tile { 14 }, Tile { 15 }, Tile { 0 } };
+};
+
+int main()
+{
+    Board board{};
+    std::cout &lt;&lt; board;
+
+    return 0;
+}</code></pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>&gt; Krok 4<p>Cel: W tym kroku umożliwimy użytkownikowi wielokrotne wprowadzanie gry polecenia, obsłuż nieprawidłowe dane wejściowe i zaimplementuj polecenie zakończenia gry.<p>Oto 5 poleceń, które będzie obsługiwała nasza gra (z których każde zostanie wprowadzone jako pojedynczy znak):<ul><li>„w” - przesuń płytkę w górę<li>„a” - przesuń płytkę w lewo<li>'s' - przesuń płytkę w dół<li>„d” - przesuń płytkę prawo<li>„q” - wyjście z gry</ul><p>Gdy użytkownik uruchomi grę, powinna nastąpić następująca sytuacja: <div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><ul><li>(Rozwiązana) plansza powinna zostać wydrukowana na konsoli.<li>Program powinien wielokrotnie otrzymywać od użytkownika prawidłowe polecenia gry. Jeśli użytkownik wprowadzi nieprawidłowe polecenie lub dodatkowe dane, zignoruj je.</ul><p>Dla każdego prawidłowego polecenia gry:<ul><li>Wydrukuj <code>"Valid command: "</code> oraz znak wprowadzony przez użytkownika.<li>Jeśli poleceniem jest polecenie zakończenia, wydrukuj również <code>"\n\nBye!\n\n"</code> a następnie zamknij aplikację.</ul><p>Ponieważ nasze procedury wprowadzania danych przez użytkownika nie muszą utrzymywać żadnych stanu, zaimplementuj je w przestrzeni nazw o nazwie <code>UserInput</code>.<p><a class=tasks_link_show href=javascript:void(0) onclick="cppTasksToggle(document.getElementById('cpp_tasks_id_2'),this,'Show Tasks','Hide Tasks')">Pokaż zadania</a><div class=wptasks id=cpp_tasks_id_2 style=display:none><p>Zaimplementuj  <code>UserInput</code> przestrzeń nazw:<ul><li>Utwórz funkcję o nazwie <code>getCommandFromUser()</code>. Przeczytaj pojedynczy znak użytkownika. Jeśli postać nie jest prawidłowym poleceniem gry, usuń wszelkie dodatkowe, zewnętrzne dane wejściowe i wczytaj inny znak od użytkownika. Powtarzaj, aż zostanie wprowadzone prawidłowe polecenie gry. Zwróć prawidłowe polecenie wywołującemu.<li>Utwórz tyle funkcji pomocniczych, ile potrzebujesz.</ul><p>In main():<ul><li>Zaimplementuj nieskończoną pętlę. Wewnątrz pętli pobierz prawidłowe polecenie gry, a następnie obsłuż je zgodnie z powyższymi wymaganiami.</ul></div><p>Wyjście programu powinno być zgodne z następującymi:<pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  1   2   3   4
+  5   6   7   8
+  9  10  11  12
+ 13  14  15
+w
+Valid command: w
+a
+Valid command: a
+s
+Valid command: s
+d
+Valid command: d
+f
+g
+h
+Valid command: q
+
+
+Bye!
+
+
+</pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_5'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_5 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+#include &lt;limits&gt;
+
+// Increase amount of new lines if your board isn&#39;t
+// at the very bottom of the console
+constexpr int g_consoleLines{ 25 };
+
+namespace UserInput
+{
+    bool isValidCommand(char ch)
+    {
+        return ch == &#39;w&#39;
+            || ch == &#39;a&#39;
+            || ch == &#39;s&#39;
+            || ch == &#39;d&#39;
+            || ch == &#39;q&#39;;
+    }
+
+    void ignoreLine()
+    {
+        std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), &#39;\n&#39;);
+    }
+
+    char getCharacter()
+    {
+        char operation{};
+        std::cin &gt;&gt; operation;
+        ignoreLine(); // remove any extraneous input
+        return operation;
+    }
+
+    char getCommandFromUser()
+    {
+        char ch{};
+        while (!isValidCommand(ch))
+            ch = getCharacter();
+
+        return ch;
+    }
+};
+
+class Tile
+{
+public:
+    Tile() = default;
+    explicit Tile(int number)
+        :m_num(number)
+    {
+    }
+    
+    bool isEmpty() const
+    {
+        return m_num == 0;
+    }
+
+    int getNum() const { return m_num; }
+
+private:
+    int m_num { 0 };
+};
+
+std::ostream&amp; operator&lt;&lt;(std::ostream&amp; stream, Tile tile)
+{
+    if (tile.getNum() &gt; 9) // if two digit number
+        stream &lt;&lt; &#34; &#34; &lt;&lt; tile.getNum() &lt;&lt; &#34; &#34;;
+    else if (tile.getNum() &gt; 0) // if one digit number
+        stream &lt;&lt; &#34;  &#34; &lt;&lt; tile.getNum() &lt;&lt; &#34; &#34;;
+    else if (tile.getNum() == 0) // if empty spot
+        stream &lt;&lt; &#34;    &#34;;
+    return stream;
+}
+
+class Board
+{
+public:
+
+    Board() = default;
+
+    friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; stream, const Board&amp; board)
+    {
+        // Before drawing always print some empty lines
+        // so that only one board appears at a time
+        // and it&#39;s always shown at the bottom of the window
+        // because console window scrolls automatically when there is no
+        // enough space. 
+        for (int i = 0; i &lt; g_consoleLines; ++i)
+            std::cout &lt;&lt; &#39;\n&#39;;
+
+        for (int y = 0; y &lt; s_size; ++y)
+        {
+            for (int x = 0; x &lt; s_size; ++x)
+                stream &lt;&lt; board.m_tiles[y][x];
+            stream &lt;&lt; &#39;\n&#39;;
+        }
+
+        return stream;
+    }
+
+private:
+    static constexpr int s_size { 4 };
+    Tile m_tiles[s_size][s_size]{
+        Tile{ 1 }, Tile { 2 }, Tile { 3 } , Tile { 4 },
+        Tile { 5 } , Tile { 6 }, Tile { 7 }, Tile { 8 },
+        Tile { 9 }, Tile { 10 }, Tile { 11 }, Tile { 12 },
+        Tile { 13 }, Tile { 14 }, Tile { 15 }, Tile { 0 } };
+};
+
+int main()
+{
+    Board board{};
+    std::cout &lt;&lt; board;
+
+    while (true)
+    {
+        char ch{ UserInput::getCommandFromUser() };
+
+        // If we reach the line below, &#34;ch&#34; will ALWAYS be a correct command!
+        std::cout &lt;&lt; &#34;Valid command: &#34; &lt;&lt; ch &lt;&lt; &#39;\n&#39;;
+        
+        // Handle non-direction commands
+        if (ch == &#39;q&#39;)
+        {
+            std::cout &lt;&lt; &#34;\n\nBye!\n\n&#34;;
+            return 0;
+        }
+    }
+
+    return 0;
+}</code></pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>&gt; Krok #5<p>Cel: Zaimplementuj klasę pomocniczą, która ułatwi nam obsługę poleceń kierunkowych.<p>Po wykonaniu poprzedniego kroku możemy akceptować polecenia od użytkownika (w postaci znaków „w”, „a”, „s”, „d” i „q”). Znaki te są w zasadzie magicznymi liczbami w naszym kodzie. Chociaż obsługa tych poleceń w naszej <code>UserInput</code> przestrzeni nazw i funkcji <code>main()</code> jest w porządku, nie chcemy propagować ich w całym programie. Na przykład klasa <code>Board</code> nie powinna wiedzieć, co oznacza „s”.<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><p>Zaimplementuj klasę pomocniczą o nazwie <code>Direction</code>, która pozwoli nam tworzyć obiekty reprezentujące kierunki kardynalne (w górę, w lewo, w dół lub w prawo). <code>operator-</code> powinna zwracać kierunek przeciwny i <code>operator&lt;&lt;</code> powinna wypisać kierunek do konsoli. Będziemy także potrzebować funkcji członkowskiej, która zwróci obiekt Direction zawierający losowy kierunek. Na koniec dodaj funkcję do przestrzeni nazw <code>UserInput</code> , która konwertuje kierunkowe polecenie gry („w”, „a”, „s” lub „d”) na obiekt Direction.<p>Im częściej możemy używać <code>Direction</code> zamiast kierunkowych poleceń gry, tym łatwiej będzie odczytać i zrozumieć nasz kod.<p><a class=tasks_link_show href=javascript:void(0) onclick="cppTasksToggle(document.getElementById('cpp_tasks_id_3'),this,'Show Tasks','Hide Tasks')">Pokaż zadania</a><div class=wptasks id=cpp_tasks_id_3 style=display:none><p>Zaimplementuj klasa <code>Direction</code>, która zawiera:<ul><li>Publiczne zagnieżdżone wyliczenie o nazwie <code>Type</code> z modułami wyliczającymi <code>up</code>, <code>down</code>, <code>left</code>, <code>right</code>, I <code>maxDirections</code>.<li>Prywatny element przechowujący rzeczywisty kierunek.<li>Konstruktor z jednym argumentem, który pozwala nam zainicjować <code>Direction</code> z  <code>Type</code> inicjator.<li>Przeciążony <code>operator-</code>, który przyjmuje kierunek i zwraca przeciwny kierunek.<li>Przeciążony <code>operator&lt;&lt;</code>, który wysyła nazwę kierunku do konsoli.<li>Funkcja statyczna, która zwraca kierunek z losową <code>Type</code>. Możesz użyć funkcji  <code>Random::get()</code> z nagłówka  <a href="../global-random-numbers-random-h/index.html">„Random.h”</a> , aby wygenerować liczbę losową.</ul><p>Ponadto w przestrzeni nazw <code>UserInput</code> dodaj następujące polecenie:<ul><li>Funkcja, która przekonwertuje kierunkowe polecenie gry (znak) na Kierunek obiekt.</ul></div><p>Na koniec zmodyfikuj program, który napisałeś w poprzednim kroku, tak aby dane wyjściowe były zgodne z następującymi:<pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  1   2   3   4
+  5   6   7   8
+  9  10  11  12
+ 13  14  15
+Generating random direction... up
+Generating random direction... down
+Generating random direction... up
+Generating random direction... left
+
+Enter a command: w
+You entered direction: up
+a
+You entered direction: left
+s
+You entered direction: down
+d
+You entered direction: right
+q
+
+
+Bye!
+
+
+</pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_6'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_6 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cassert&gt;
+#include &lt;iostream&gt;
+#include &lt;limits&gt;
+#include &#34;Random.h&#34;
+
+// Increase amount of new lines if your board isn&#39;t
+// at the very bottom of the console
+constexpr int g_consoleLines{ 25 };
+
+class Direction
+{
+public:
+    enum Type
+    {
+        up,
+        down,
+        left,
+        right,
+        maxDirections,
+    };
+
+    Direction(Type type)
+        :m_type(type)
+    {
+    }
+
+    Type getType() const
+    {
+        return m_type;
+    }
+
+    Direction operator-() const
+    {
+        switch (m_type)
+        {
+        case up:    return Direction{ down };
+        case down:  return Direction{ up };
+        case left:  return Direction{ right };
+        case right: return Direction{ left };
+        default:    break;
+        }
+
+        assert(0 &amp;&amp; &#34;Unsupported direction was passed!&#34;);
+        return Direction{ up };
+    }
+ 
+    static Direction getRandomDirection()
+    {
+        Type random{ static_cast&lt;Type&gt;(Random::get(0, Type::maxDirections - 1)) };
+        return Direction{ random };
+    }
+
+private:
+    Type m_type{};
+};
+
+std::ostream&amp; operator&lt;&lt;(std::ostream&amp; stream, Direction dir)
+{
+    switch (dir.getType())
+    {
+    case Direction::up:     return (stream &lt;&lt; &#34;up&#34;);
+    case Direction::down:   return (stream &lt;&lt; &#34;down&#34;);
+    case Direction::left:   return (stream &lt;&lt; &#34;left&#34;);
+    case Direction::right:  return (stream &lt;&lt; &#34;right&#34;);
+    default:                break;
+    }
+
+    assert(0 &amp;&amp; &#34;Unsupported direction was passed!&#34;);
+    return (stream &lt;&lt; &#34;unknown direction&#34;);
+}
+
+namespace UserInput
+{
+    bool isValidCommand(char ch)
+    {
+        return ch == &#39;w&#39;
+            || ch == &#39;a&#39;
+            || ch == &#39;s&#39;
+            || ch == &#39;d&#39;
+            || ch == &#39;q&#39;;
+    }
+
+    void ignoreLine()
+    {
+        std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), &#39;\n&#39;);
+    }
+
+    char getCharacter()
+    {
+        char operation{};
+        std::cin &gt;&gt; operation;
+        ignoreLine(); // remove any extraneous input
+        return operation;
+    }
+
+    char getCommandFromUser()
+    {
+        char ch{};
+        while (!isValidCommand(ch))
+            ch = getCharacter();
+
+        return ch;
+    }
+
+    Direction charToDirection(char ch)
+    {
+        switch (ch)
+        {
+        case &#39;w&#39;: return Direction{ Direction::up };
+        case &#39;s&#39;: return Direction{ Direction::down };
+        case &#39;a&#39;: return Direction{ Direction::left };
+        case &#39;d&#39;: return Direction{ Direction::right };
+        }
+
+        assert(0 &amp;&amp; &#34;Unsupported direction was passed!&#34;);
+        return Direction{ Direction::up };
+    }
+};
+
+class Tile
+{
+public:
+    Tile() = default;
+    explicit Tile(int number)
+        :m_num(number)
+    {
+    }
+    
+    bool isEmpty() const
+    {
+        return m_num == 0;
+    }
+
+    int getNum() const { return m_num; }
+
+private:
+    int m_num { 0 };
+};
+
+std::ostream&amp; operator&lt;&lt;(std::ostream&amp; stream, Tile tile)
+{
+    if (tile.getNum() &gt; 9) // if two digit number
+        stream &lt;&lt; &#34; &#34; &lt;&lt; tile.getNum() &lt;&lt; &#34; &#34;;
+    else if (tile.getNum() &gt; 0) // if one digit number
+        stream &lt;&lt; &#34;  &#34; &lt;&lt; tile.getNum() &lt;&lt; &#34; &#34;;
+    else if (tile.getNum() == 0) // if empty spot
+        stream &lt;&lt; &#34;    &#34;;
+    return stream;
+}
+
+class Board
+{
+public:
+
+    Board() = default;
+
+    static void printEmptyLines(int count)
+    {
+        for (int i = 0; i &lt; count; ++i)
+            std::cout &lt;&lt; &#39;\n&#39;;
+    }
+
+    friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; stream, const Board&amp; board)
+    {
+        // Before drawing always print some empty lines
+        // so that only one board appears at a time
+        // and it&#39;s always shown at the bottom of the window
+        // because console window scrolls automatically when there is no
+        // enough space. 
+        for (int i = 0; i &lt; g_consoleLines; ++i)
+            std::cout &lt;&lt; &#39;\n&#39;;
+
+        for (int y = 0; y &lt; s_size; ++y)
+        {
+            for (int x = 0; x &lt; s_size; ++x)
+                stream &lt;&lt; board.m_tiles[y][x];
+            stream &lt;&lt; &#39;\n&#39;;
+        }
+
+        return stream;
+    }
+
+private:
+    static constexpr int s_size { 4 };
+    Tile m_tiles[s_size][s_size]{
+        Tile{ 1 }, Tile { 2 }, Tile { 3 } , Tile { 4 },
+        Tile { 5 } , Tile { 6 }, Tile { 7 }, Tile { 8 },
+        Tile { 9 }, Tile { 10 }, Tile { 11 }, Tile { 12 },
+        Tile { 13 }, Tile { 14 }, Tile { 15 }, Tile { 0 } };
+};
+
+int main()
+{
+    Board board{};
+    std::cout &lt;&lt; board;
+
+    std::cout &lt;&lt; &#34;Generating random direction... &#34; &lt;&lt; Direction::getRandomDirection() &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; &#34;Generating random direction... &#34; &lt;&lt; Direction::getRandomDirection() &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; &#34;Generating random direction... &#34; &lt;&lt; Direction::getRandomDirection() &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; &#34;Generating random direction... &#34; &lt;&lt; Direction::getRandomDirection() &lt;&lt; &#34;\n\n&#34;;
+
+    std::cout &lt;&lt; &#34;Enter a command: &#34;;
+    while (true)
+    {
+        char ch{ UserInput::getCommandFromUser() };
+
+        // Handle non-direction commands
+        if (ch == &#39;q&#39;)
+        {
+            std::cout &lt;&lt; &#34;\n\nBye!\n\n&#34;;
+            return 0;
+        }
+
+        // Handle direction commands
+        Direction dir{ UserInput::charToDirection(ch) };
+
+        std::cout &lt;&lt; &#34;You entered direction: &#34; &lt;&lt; dir &lt;&lt; &#39;\n&#39;;
+    }
+
+    return 0;
+}</code></pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>&gt; Krok 6<p>Cel: Zaimplementuj klasę pomocniczą, która ułatwi nam indeksowanie płytek na naszej planszy.<p>Nasza plansza to siatka 4×4  <code>Tile</code>, którą przechowujemy w dwuwymiarowej tablicy członek <code>m_tiles</code> klasy <code>Board</code> . Do danego kafelka dostaniemy się korzystając z jego współrzędnych {x, y}. Na przykład lewy górny kafelek ma współrzędne {0, 0}. Płytka po prawej stronie ma współrzędne {1, 0} (x staje się 1, y pozostaje 0). Kafelek niżej ma współrzędne {1, 1}.<p>Ponieważ będziemy dużo pracować ze współrzędnymi, utwórz klasę pomocniczą o nazwie <code>Point</code> , która przechowuje parę współrzędnych {x, y}. Powinniśmy być w stanie porównać dwa obiekty Point pod kątem równości i nierówności. Zaimplementuj także funkcję składową o nazwie <code>getAdjacentPoint</code> , która przyjmuje obiekt Direction jako parametr i zwraca Point w tym kierunku. Na przykład <code>Point{1, 1}.getAdjacentPoint(Direction::right)</code> == <code>Point{2, 1}</code>.<p><a class=tasks_link_show href=javascript:void(0) onclick="cppTasksToggle(document.getElementById('cpp_tasks_id_4'),this,'Show Tasks','Hide Tasks')">Pokaż zadania</a><div class=wptasks id=cpp_tasks_id_4 style=display:none><p>Zaimplementuj strukturę o nazwie <code>Point</code>. Powinno to zawierać:<ul><li>Dwa publiczne elementy danych do przechowywania współrzędnych osi x i y.<li>Przeciążony <code>operator==</code> i <code>operator!=</code> do porównywania dwóch zestawów współrzędnych.<li>Funkcja elementu stałego <code>Point getAdjacentPoint(Direction)</code> , która zwraca Punkt w kierunku parametru Kierunek. Nie musimy tutaj przeprowadzać żadnego sprawdzania poprawności.</ul><p>Używamy tutaj struktury zamiast klasy, ponieważ Point to prosty pakiet danych, który niewiele by zyskał na enkapsulacji.</div><p>Zapisz  <code>main()</code> funkcję z poprzedniego kroku, ponieważ będziesz jej potrzebować ponownie w następnym kroku.<p>Następujący kod powinien zostać uruchomiony i wydrukowany <code>true</code> dla każdego przypadek testowy:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Your code goes here
+
+// Note: save your main() from the prior step, as you&#39;ll need it again in the next step
+int main()
+{
+    std::cout &lt;&lt; std::boolalpha;
+    std::cout &lt;&lt; (Point{ 1, 1 }.getAdjacentPoint(Direction::up)    == Point{ 1, 0 }) &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; (Point{ 1, 1 }.getAdjacentPoint(Direction::down)  == Point{ 1, 2 }) &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; (Point{ 1, 1 }.getAdjacentPoint(Direction::left)  == Point{ 0, 1 }) &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; (Point{ 1, 1 }.getAdjacentPoint(Direction::right) == Point{ 2, 1 }) &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; (Point{ 1, 1 } != Point{ 2, 1 }) &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; (Point{ 1, 1 } != Point{ 1, 2 }) &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; !(Point{ 1, 1 } != Point{ 1, 1 }) &lt;&lt; &#39;\n&#39;;
+
+    return 0;
+}</code></pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_7'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_7 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;array&gt;
+#include &lt;cassert&gt;
+#include &lt;iostream&gt;
+#include &lt;limits&gt;
+#include &#34;Random.h&#34;
+
+// Increase amount of new lines if your board isn&#39;t
+// at the very bottom of the console
+constexpr int g_consoleLines{ 25 };
+
+class Direction
+{
+public:
+    enum Type
+    {
+        up,
+        down,
+        left,
+        right,
+        maxDirections,
+    };
+
+    Direction(Type type)
+        :m_type(type)
+    {
+    }
+
+    Type getType() const
+    {
+        return m_type;
+    }
+
+    Direction operator-() const
+    {
+        switch (m_type)
+        {
+        case up:    return Direction{ down };
+        case down:  return Direction{ up };
+        case left:  return Direction{ right };
+        case right: return Direction{ left };
+        default:    break;
+        }
+
+        assert(0 &amp;&amp; &#34;Unsupported direction was passed!&#34;);
+        return Direction{ up };
+    }
+
+    static Direction getRandomDirection()
+    {
+        Type random{ static_cast&lt;Type&gt;(Random::get(0, Type::maxDirections - 1)) };
+        return Direction{ random };
+    }
+
+private:
+    Type m_type{};
+};
+
+
+std::ostream&amp; operator&lt;&lt;(std::ostream&amp; stream, Direction dir)
+{
+    switch (dir.getType())
+    {
+    case Direction::up:     return (stream &lt;&lt; &#34;up&#34;);
+    case Direction::down:   return (stream &lt;&lt; &#34;down&#34;);
+    case Direction::left:   return (stream &lt;&lt; &#34;left&#34;);
+    case Direction::right:  return (stream &lt;&lt; &#34;right&#34;);
+    default:                break;
+    }
+
+    assert(0 &amp;&amp; &#34;Unsupported direction was passed!&#34;);
+    return (stream &lt;&lt; &#34;unknown direction&#34;);
+}
+
+struct Point
+{
+    int x{};
+    int y{};
+
+    friend bool operator==(Point p1, Point p2)
+    {
+        return p1.x == p2.x &amp;&amp; p1.y == p2.y;
+    }
+
+    friend bool operator!=(Point p1, Point p2)
+    {
+        return !(p1 == p2);
+    }
+
+    Point getAdjacentPoint(Direction dir) const
+    {
+        switch (dir.getType())
+        {
+        case Direction::up:     return Point{ x,     y - 1 };
+        case Direction::down:   return Point{ x,     y + 1 };
+        case Direction::left:   return Point{ x - 1, y };
+        case Direction::right:  return Point{ x + 1, y };
+        default:                break;
+        }
+
+        assert(0 &amp;&amp; &#34;Unsupported direction was passed!&#34;);
+        return *this;
+    }
+};
+
+namespace UserInput
+{
+    bool isValidCommand(char ch)
+    {
+        return ch == &#39;w&#39;
+            || ch == &#39;a&#39;
+            || ch == &#39;s&#39;
+            || ch == &#39;d&#39;
+            || ch == &#39;q&#39;;
+    }
+
+    void ignoreLine()
+    {
+        std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), &#39;\n&#39;);
+    }
+
+    char getCharacter()
+    {
+        char operation{};
+        std::cin &gt;&gt; operation;
+        ignoreLine(); // remove any extraneous input
+        return operation;
+    }
+
+    char getCommandFromUser()
+    {
+        char ch{};
+        while (!isValidCommand(ch))
+            ch = getCharacter();
+
+        return ch;
+    }
+
+    Direction charToDirection(char ch)
+    {
+        switch (ch)
+        {
+        case &#39;w&#39;: return Direction{ Direction::up };
+        case &#39;s&#39;: return Direction{ Direction::down };
+        case &#39;a&#39;: return Direction{ Direction::left };
+        case &#39;d&#39;: return Direction{ Direction::right };
+        }
+
+        assert(0 &amp;&amp; &#34;Unsupported direction was passed!&#34;);
+        return Direction{ Direction::up };
+    }
+};
+
+class Tile
+{
+public:
+    Tile() = default;
+    explicit Tile(int number)
+        :m_num(number)
+    {
+    }
+    
+    bool isEmpty() const
+    {
+        return m_num == 0;
+    }
+
+    int getNum() const { return m_num; }
+
+private:
+    int m_num { 0 };
+};
+
+std::ostream&amp; operator&lt;&lt;(std::ostream&amp; stream, Tile tile)
+{
+    if (tile.getNum() &gt; 9) // if two digit number
+        stream &lt;&lt; &#34; &#34; &lt;&lt; tile.getNum() &lt;&lt; &#34; &#34;;
+    else if (tile.getNum() &gt; 0) // if one digit number
+        stream &lt;&lt; &#34;  &#34; &lt;&lt; tile.getNum() &lt;&lt; &#34; &#34;;
+    else if (tile.getNum() == 0) // if empty spot
+        stream &lt;&lt; &#34;    &#34;;
+    return stream;
+}
+
+class Board
+{
+public:
+
+    Board() = default;
+
+    static void printEmptyLines(int count)
+    {
+        for (int i = 0; i &lt; count; ++i)
+            std::cout &lt;&lt; &#39;\n&#39;;
+    }
+
+    friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; stream, const Board&amp; board)
+    {
+        // Before drawing always print some empty lines
+        // so that only one board appears at a time
+        // and it&#39;s always shown at the bottom of the window
+        // because console window scrolls automatically when there is no
+        // enough space. 
+        for (int i = 0; i &lt; g_consoleLines; ++i)
+            std::cout &lt;&lt; &#39;\n&#39;;
+
+        for (int y = 0; y &lt; s_size; ++y)
+        {
+            for (int x = 0; x &lt; s_size; ++x)
+                stream &lt;&lt; board.m_tiles[y][x];
+            stream &lt;&lt; &#39;\n&#39;;
+        }
+
+        return stream;
+    }
+
+private:
+    static constexpr int s_size { 4 };
+    Tile m_tiles[s_size][s_size]{
+        Tile{ 1 }, Tile { 2 }, Tile { 3 } , Tile { 4 },
+        Tile { 5 } , Tile { 6 }, Tile { 7 }, Tile { 8 },
+        Tile { 9 }, Tile { 10 }, Tile { 11 }, Tile { 12 },
+        Tile { 13 }, Tile { 14 }, Tile { 15 }, Tile { 0 } };
+};
+
+int main()
+{
+    std::cout &lt;&lt; std::boolalpha;
+    std::cout &lt;&lt; (Point{ 1, 1 }.getAdjacentPoint(Direction::up)    == Point{ 1, 0 }) &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; (Point{ 1, 1 }.getAdjacentPoint(Direction::down)  == Point{ 1, 2 }) &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; (Point{ 1, 1 }.getAdjacentPoint(Direction::left)  == Point{ 0, 1 }) &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; (Point{ 1, 1 }.getAdjacentPoint(Direction::right) == Point{ 2, 1 }) &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; (Point{ 1, 1 } != Point{ 2, 1 }) &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; (Point{ 1, 1 } != Point{ 1, 2 }) &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; !(Point{ 1, 1 } != Point{ 1, 1 }) &lt;&lt; &#39;\n&#39;;
+
+    return 0;
+}</code></pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>&gt; Krok 7<p>Cel: Dodaj możliwość przesuwania płytek po planszy przez graczy.<p>Najpierw powinniśmy przyjrzeć się bliżej, jak faktycznie działa przesuwanie płytek:<p>Biorąc pod uwagę stan układanki wyglądający tak:<pre>     15   1   4
+  2   5   9  12
+  7   8  11  14
+ 10  13   6   3
+</pre><p>Kiedy użytkownik wprowadzi „w” na klawiaturze, jedyną płytką, która może się podnieść, jest kafelek <code>2</code>.<p>Po przesunięciu płytki plansza wygląda następująco:<pre>  2  15   1   4
+      5   9  12
+  7   8  11  14
+ 10  13   6   3
+</pre><p>A więc zasadniczo stało się tak, że zamieniliśmy pustą płytkę na płytkę <code>2</code>.<p>Uogólnijmy tę procedurę. Kiedy użytkownik wprowadzi polecenie kierunkowe, musimy:<ul><li>Zlokalizować pustą płytkę.<li>Z pustej płytki znaleźć sąsiadującą płytkę, która jest w kierunku przeciwnym do kierunku wprowadzonego przez użytkownika.<li>Jeśli sąsiednia płytka jest prawidłowa (nie jest poza siatką), zamień pustą płytkę z sąsiednią płytką.<li>Jeśli sąsiednia płytka jest nieprawidłowa, wykonaj nic.</ul><p>Zaimplementuj to, dodając funkcję składową <code>moveTile(Direction)</code> do klasy <code>Board</code>. Dodaj to do swojej pętli gry z kroku 5. Jeśli użytkownikowi pomyślnie przesuniesz płytkę, gra powinna przerysować zaktualizowaną planszę.<p><a class=tasks_link_show href=javascript:void(0) onclick="cppTasksToggle(document.getElementById('cpp_tasks_id_5'),this,'Show Tasks','Hide Tasks')">Pokaż zadania</a><div class=wptasks id=cpp_tasks_id_5 style=display:none><p>Zaimplementuj następujące funkcje członkowskie w naszej <code>Board</code> klasę:<ul><li>Funkcji, która zwraca wartość bool wskazującą, czy dany Punkt jest ważny (w obrębie naszej tablicy).<li>Funkcja, która znajduje i zwraca pozycję pustej płytki jako a <code>Point</code>. Moglibyśmy po prostu śledzić, gdzie znajduje się pusta płytka, ale wprowadza to niezmiennik klasy, a znalezienie pustej płytki, kiedy tylko jej potrzebujemy, nie jest aż tak drogie.<li>Funkcja, która zamieni dwie płytki ze względu na ich indeksy punktowe.<li>A <code>moveTile(Direction dir)</code> Funkcja, która spróbuje przesunąć płytkę w danym kierunku i zwróci <code>true</code> jeśli się powiedzie. Funkcja ta powinna implementować procedurę opisaną powyżej.</ul><p>Zmodyfikuj <code>main()</code> z kroku 5 tak, aby <code>moveTile()</code> było wywoływane w przypadku wprowadzenia polecenia kierunkowego. Jeśli ruch się udał, przerysuj planszę.</div><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_8'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_8 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;array&gt;
+#include &lt;cassert&gt;
+#include &lt;iostream&gt;
+#include &lt;limits&gt;
+#include &#34;Random.h&#34;
+
+// Increase amount of new lines if your board isn&#39;t
+// at the very bottom of the console
+constexpr int g_consoleLines{ 25 };
+
+class Direction
+{
+public:
+    enum Type
+    {
+        up,
+        down,
+        left,
+        right,
+        maxDirections,
+    };
+
+    Direction(Type type)
+        :m_type(type)
+    {
+    }
+
+    Type getType() const
+    {
+        return m_type;
+    }
+
+    Direction operator-() const
+    {
+        switch (m_type)
+        {
+        case up:    return Direction{ down };
+        case down:  return Direction{ up };
+        case left:  return Direction{ right };
+        case right: return Direction{ left };
+        default:    break;
+        }
+
+        assert(0 &amp;&amp; &#34;Unsupported direction was passed!&#34;);
+        return Direction{ up };
+    }
+
+    static Direction getRandomDirection()
+    {
+        Type random{ static_cast&lt;Type&gt;(Random::get(0, Type::maxDirections - 1)) };
+        return Direction{ random };
+    }
+
+private:
+    Type m_type{};
+};
+
+
+std::ostream&amp; operator&lt;&lt;(std::ostream&amp; stream, Direction dir)
+{
+    switch (dir.getType())
+    {
+    case Direction::up:     return (stream &lt;&lt; &#34;up&#34;);
+    case Direction::down:   return (stream &lt;&lt; &#34;down&#34;);
+    case Direction::left:   return (stream &lt;&lt; &#34;left&#34;);
+    case Direction::right:  return (stream &lt;&lt; &#34;right&#34;);
+    default:                break;
+    }
+
+    assert(0 &amp;&amp; &#34;Unsupported direction was passed!&#34;);
+    return (stream &lt;&lt; &#34;unknown direction&#34;);
+}
+
+struct Point
+{
+    int x{};
+    int y{};
+
+    friend bool operator==(Point p1, Point p2)
+    {
+        return p1.x == p2.x &amp;&amp; p1.y == p2.y;
+    }
+
+    friend bool operator!=(Point p1, Point p2)
+    {
+        return !(p1 == p2);
+    }
+
+    Point getAdjacentPoint(Direction dir) const
+    {
+        switch (dir.getType())
+        {
+        case Direction::up:     return Point{ x,     y - 1 };
+        case Direction::down:   return Point{ x,     y + 1 };
+        case Direction::left:   return Point{ x - 1, y };
+        case Direction::right:  return Point{ x + 1, y };
+        default:                break;
+        }
+
+        assert(0 &amp;&amp; &#34;Unsupported direction was passed!&#34;);
+        return *this;
+    }
+};
+
+namespace UserInput
+{
+    bool isValidCommand(char ch)
+    {
+        return ch == &#39;w&#39;
+            || ch == &#39;a&#39;
+            || ch == &#39;s&#39;
+            || ch == &#39;d&#39;
+            || ch == &#39;q&#39;;
+    }
+
+    void ignoreLine()
+    {
+        std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), &#39;\n&#39;);
+    }
+
+    char getCharacter()
+    {
+        char operation{};
+        std::cin &gt;&gt; operation;
+        ignoreLine(); // remove any extraneous input
+        return operation;
+    }
+
+    char getCommandFromUser()
+    {
+        char ch{};
+        while (!isValidCommand(ch))
+            ch = getCharacter();
+
+        return ch;
+    }
+
+    Direction charToDirection(char ch)
+    {
+        switch (ch)
+        {
+        case &#39;w&#39;: return Direction{ Direction::up };
+        case &#39;s&#39;: return Direction{ Direction::down };
+        case &#39;a&#39;: return Direction{ Direction::left };
+        case &#39;d&#39;: return Direction{ Direction::right };
+        }
+
+        assert(0 &amp;&amp; &#34;Unsupported direction was passed!&#34;);
+        return Direction{ Direction::up };
+    }
+};
+
+class Tile
+{
+public:
+    Tile() = default;
+    explicit Tile(int number)
+        :m_num(number)
+    {
+    }
+
+    bool isEmpty() const
+    {
+        return m_num == 0;
+    }
+
+    int getNum() const { return m_num; }
+
+private:
+    int m_num { 0 };
+};
+
+std::ostream&amp; operator&lt;&lt;(std::ostream&amp; stream, Tile tile)
+{
+    if (tile.getNum() &gt; 9) // if two digit number
+        stream &lt;&lt; &#34; &#34; &lt;&lt; tile.getNum() &lt;&lt; &#34; &#34;;
+    else if (tile.getNum() &gt; 0) // if one digit number
+        stream &lt;&lt; &#34;  &#34; &lt;&lt; tile.getNum() &lt;&lt; &#34; &#34;;
+    else if (tile.getNum() == 0) // if empty spot
+        stream &lt;&lt; &#34;    &#34;;
+    return stream;
+}
+
+class Board
+{
+public:
+
+    Board() = default;
+
+    static void printEmptyLines(int count)
+    {
+        for (int i = 0; i &lt; count; ++i)
+            std::cout &lt;&lt; &#39;\n&#39;;
+    }
+
+    friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; stream, const Board&amp; board)
+    {
+        // Before drawing always print some empty lines
+        // so that only one board appears at a time
+        // and it&#39;s always shown at the bottom of the window
+        // because console window scrolls automatically when there is no
+        // enough space. 
+        for (int i = 0; i &lt; g_consoleLines; ++i)
+            std::cout &lt;&lt; &#39;\n&#39;;
+
+        for (int y = 0; y &lt; s_size; ++y)
+        {
+            for (int x = 0; x &lt; s_size; ++x)
+                stream &lt;&lt; board.m_tiles[y][x];
+            stream &lt;&lt; &#39;\n&#39;;
+        }
+
+        return stream;
+    }
+
+    Point getEmptyTilePos() const
+    {
+        for (int y = 0; y &lt; s_size; ++y)
+            for (int x = 0; x &lt; s_size; ++x)
+                if (m_tiles[y][x].isEmpty())
+                    return { x,y };
+
+        assert(0 &amp;&amp; &#34;There is no empty tile in the board!!!&#34;);
+        return { -1,-1 };
+    }
+
+    static bool isValidTilePos(Point pt)
+    {
+        return (pt.x &gt;= 0 &amp;&amp; pt.x &lt; s_size)
+            &amp;&amp; (pt.y &gt;= 0 &amp;&amp; pt.y &lt; s_size);
+    }
+
+    void swapTiles(Point pt1, Point pt2)
+    {
+        std::swap(m_tiles[pt1.y][pt1.x], m_tiles[pt2.y][pt2.x]);
+    }
+
+    // returns true if user moved successfully
+    bool moveTile(Direction dir)
+    {
+        Point emptyTile{ getEmptyTilePos() };
+        Point adj{ emptyTile.getAdjacentPoint(-dir) };
+
+        if (!isValidTilePos(adj))
+            return false;
+
+        swapTiles(adj, emptyTile);
+        return true;
+    }
+
+private:
+    static const int s_size { 4 };
+    Tile m_tiles[s_size][s_size]{
+        Tile{ 1 }, Tile { 2 }, Tile { 3 } , Tile { 4 },
+        Tile { 5 } , Tile { 6 }, Tile { 7 }, Tile { 8 },
+        Tile { 9 }, Tile { 10 }, Tile { 11 }, Tile { 12 },
+        Tile { 13 }, Tile { 14 }, Tile { 15 }, Tile { 0 } };
+};
+
+int main()
+{
+    Board board{};
+    std::cout &lt;&lt; board;
+
+    std::cout &lt;&lt; &#34;Enter a command: &#34;;
+    while (true)
+    {
+        char ch{ UserInput::getCommandFromUser() };
+
+        // Handle non-direction commands
+        if (ch == &#39;q&#39;)
+        {
+            std::cout &lt;&lt; &#34;\n\nBye!\n\n&#34;;
+            return 0;
+        }
+
+        // Handle direction commands
+        Direction dir{ UserInput::charToDirection(ch) };
+
+        bool userMoved { board.moveTile(dir) };
+        if (userMoved)
+            std::cout &lt;&lt; board;
+    }
+
+    return 0;
+}</code></pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>&gt; Krok #8<p>Cel: W tym kroku zakończymy naszą grę. Losuj początkowy stan planszy. Wykryj także, kiedy użytkownik wygra, abyśmy mogli wydrukować wiadomość o wygranej i zakończyć grę.<p>Musimy uważać,  <em>jak</em> losowo dobieramy losowość naszej łamigłówki, ponieważ nie każdą łamigłówkę da się ułożyć. Na przykład nie ma sposobu na rozwiązanie tej zagadki:<pre>  1   2   3   4 
+  5   6   7   8
+  9  10  11  12
+ 13  15  14
+</pre><p>Jeśli po prostu na ślepo losujemy liczby w łamigłówce, jest szansa, że ​​wygenerujemy taką nierozwiązywalną łamigłówkę. W przypadku fizycznej wersji łamigłówki losowaliśmy łamigłówkę, przesuwając kafelki w przypadkowych kierunkach, aż do ich wystarczającego wymieszania. Rozwiązaniem takiej losowej łamigłówki jest przesunięcie każdej płytki w przeciwnym kierunku, w jakim została przesunięta, aby w pierwszej kolejności ją losować. Zatem losowanie łamigłówek w ten sposób zawsze generuje łamigłówkę dającą się rozwiązać.<p>Możemy pozwolić naszemu programowi losować planszę w ten sam sposób.<p>Gdy użytkownik rozwiąże łamigłówkę, program powinien wydrukować <code>"\n\nYou won!\n\n"</code> a następnie normalnie zakończyć.<p><a class=tasks_link_show href=javascript:void(0) onclick="cppTasksToggle(document.getElementById('cpp_tasks_id_6'),this,'Show Tasks','Hide Tasks')">Pokaż zadania</a><div class=wptasks id=cpp_tasks_id_6 style=display:none><ul><li>Dodaj <code>randomize()</code> funkcję składową do klasy <code>Board</code> klasie, która losuje płytki na planszy. Wybierz losowy kierunek i jeśli sąsiadujący punkt jest prawidłowy, przesuń płytkę w tym kierunku. Wykonanie tej czynności 1000 razy powinno wystarczyć do pomieszania planszy.<li>Zaimplementuj operator== w klasie <code>Board</code> , która porówna, czy płytki na dwóch podanych planszach są identyczne.<li>Dodaj <code>playerWon()</code> funkcję składową do klasy <code>Board</code> , która zwróci wartość true, jeśli bieżąca plansza zostanie ułożona. Możesz użyć <code>operator==</code> zaimplementowanego, aby porównać aktualną planszę do gry z rozwiązaną planszą. Pamiętaj, że <code>Board</code> obiekty zaczynają się w stanie rozwiązanym, więc jeśli potrzebujesz rozwiązanej planszy, po prostu zainicjalizuj  <code>Board</code> obiekt!<li>Zaktualizuj swoją funkcję main(), aby zintegrować randomize() i playerWon().</ul></div><p>Oto pełne rozwiązanie naszej 15-łamigłówki:<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_9'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_9 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;array&gt;
+#include &lt;cassert&gt;
+#include &lt;iostream&gt;
+#include &lt;limits&gt;
+#include &#34;Random.h&#34;
+
+// Increase amount of new lines if your board isn&#39;t
+// at the very bottom of the console
+constexpr int g_consoleLines{ 25 };
+
+class Direction
+{
+public:
+    enum Type
+    {
+        up,
+        down,
+        left,
+        right,
+        maxDirections,
+    };
+
+    Direction(Type type)
+        :m_type(type)
+    {
+    }
+    Type getType() const
+    {
+        return m_type;
+    }
+
+    Direction operator-() const
+    {
+        switch (m_type)
+        {
+        case up:    return Direction{ down };
+        case down:  return Direction{ up };
+        case left:  return Direction{ right };
+        case right: return Direction{ left };
+        default:    break;
+        }
+
+        assert(0 &amp;&amp; &#34;Unsupported direction was passed!&#34;);
+        return Direction{ up };
+    }
+
+    static Direction getRandomDirection()
+    {
+        Type random{ static_cast&lt;Type&gt;(Random::get(0, Type::maxDirections - 1)) };
+        return Direction{ random };
+    }
+
+private:
+    Type m_type{};
+};
+
+std::ostream&amp; operator&lt;&lt;(std::ostream&amp; stream, Direction dir)
+{
+    switch (dir.getType())
+    {
+    case Direction::up:     return (stream &lt;&lt; &#34;up&#34;);
+    case Direction::down:   return (stream &lt;&lt; &#34;down&#34;);
+    case Direction::left:   return (stream &lt;&lt; &#34;left&#34;);
+    case Direction::right:  return (stream &lt;&lt; &#34;right&#34;);
+    default:                break;
+    }
+
+    assert(0 &amp;&amp; &#34;Unsupported direction was passed!&#34;);
+    return (stream &lt;&lt; &#34;unknown direction&#34;);
+}
+
+struct Point
+{
+    int x{};
+    int y{};
+
+    friend bool operator==(Point p1, Point p2)
+    {
+        return p1.x == p2.x &amp;&amp; p1.y == p2.y;
+    }
+
+    friend bool operator!=(Point p1, Point p2)
+    {
+        return !(p1 == p2);
+    }
+
+    Point getAdjacentPoint(Direction dir) const
+    {
+        switch (dir.getType())
+        {
+        case Direction::up:     return Point{ x,     y - 1 };
+        case Direction::down:   return Point{ x,     y + 1 };
+        case Direction::left:   return Point{ x - 1, y };
+        case Direction::right:  return Point{ x + 1, y };
+        default:                break;
+        }
+
+        assert(0 &amp;&amp; &#34;Unsupported direction was passed!&#34;);
+        return *this;
+    }
+};
+
+namespace UserInput
+{
+    bool isValidCommand(char ch)
+    {
+        return ch == &#39;w&#39;
+            || ch == &#39;a&#39;
+            || ch == &#39;s&#39;
+            || ch == &#39;d&#39;
+            || ch == &#39;q&#39;;
+    }
+
+    void ignoreLine()
+    {
+        std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), &#39;\n&#39;);
+    }
+
+    char getCharacter()
+    {
+        char operation{};
+        std::cin &gt;&gt; operation;
+        ignoreLine(); // remove any extraneous input
+        return operation;
+    }
+
+    char getCommandFromUser()
+    {
+        char ch{};
+        while (!isValidCommand(ch))
+            ch = getCharacter();
+
+        return ch;
+    }
+
+    Direction charToDirection(char ch)
+    {
+        switch (ch)
+        {
+        case &#39;w&#39;: return Direction{ Direction::up };
+        case &#39;s&#39;: return Direction{ Direction::down };
+        case &#39;a&#39;: return Direction{ Direction::left };
+        case &#39;d&#39;: return Direction{ Direction::right };
+        }
+
+        assert(0 &amp;&amp; &#34;Unsupported direction was passed!&#34;);
+        return Direction{ Direction::up };
+    }
+};
+
+class Tile
+{
+public:
+    Tile() = default;
+    explicit Tile(int number)
+        :m_num(number)
+    {
+    }
+
+    bool isEmpty() const
+    {
+        return m_num == 0;
+    }
+
+    int getNum() const { return m_num; }
+
+private:
+    int m_num { 0 };
+};
+
+std::ostream&amp; operator&lt;&lt;(std::ostream&amp; stream, Tile tile)
+{
+    if (tile.getNum() &gt; 9) // if two digit number
+        stream &lt;&lt; &#34; &#34; &lt;&lt; tile.getNum() &lt;&lt; &#34; &#34;;
+    else if (tile.getNum() &gt; 0) // if one digit number
+        stream &lt;&lt; &#34;  &#34; &lt;&lt; tile.getNum() &lt;&lt; &#34; &#34;;
+    else if (tile.getNum() == 0) // if empty spot
+        stream &lt;&lt; &#34;    &#34;;
+    return stream;
+}
+
+class Board
+{
+public:
+
+    Board() = default;
+
+    static void printEmptyLines(int count)
+    {
+        for (int i = 0; i &lt; count; ++i)
+            std::cout &lt;&lt; &#39;\n&#39;;
+    }
+
+    friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; stream, const Board&amp; board)
+    {
+        // Before drawing always print some empty lines
+        // so that only one board appears at a time
+        // and it&#39;s always shown at the bottom of the window
+        // because console window scrolls automatically when there is no
+        // enough space. 
+        for (int i = 0; i &lt; g_consoleLines; ++i)
+            std::cout &lt;&lt; &#39;\n&#39;;
+
+        for (int y = 0; y &lt; s_size; ++y)
+        {
+            for (int x = 0; x &lt; s_size; ++x)
+                stream &lt;&lt; board.m_tiles[y][x];
+            stream &lt;&lt; &#39;\n&#39;;
+        }
+
+        return stream;
+    }
+
+    Point getEmptyTilePos() const
+    {
+        for (int y = 0; y &lt; s_size; ++y)
+            for (int x = 0; x &lt; s_size; ++x)
+                if (m_tiles[y][x].isEmpty())
+                    return { x,y };
+
+        assert(0 &amp;&amp; &#34;There is no empty tile in the board!!!&#34;);
+        return { -1,-1 };
+    }
+
+    static bool isValidTilePos(Point pt)
+    {
+        return (pt.x &gt;= 0 &amp;&amp; pt.x &lt; s_size)
+            &amp;&amp; (pt.y &gt;= 0 &amp;&amp; pt.y &lt; s_size);
+    }
+
+    void swapTiles(Point pt1, Point pt2)
+    {
+        std::swap(m_tiles[pt1.y][pt1.x], m_tiles[pt2.y][pt2.x]);
+    }
+
+    // Compare two boards to see if they are equal
+    friend bool operator==(const Board&amp; f1, const Board&amp; f2)
+    {
+        for (int y = 0; y &lt; s_size; ++y)
+            for (int x = 0; x &lt; s_size; ++x)
+                if (f1.m_tiles[y][x].getNum() != f2.m_tiles[y][x].getNum())
+                    return false;
+
+        return true;
+    }
+
+    // returns true if user moved successfully
+    bool moveTile(Direction dir)
+    {
+        Point emptyTile{ getEmptyTilePos() };
+        Point adj{ emptyTile.getAdjacentPoint(-dir) };
+
+        if (!isValidTilePos(adj))
+            return false;
+
+        swapTiles(adj, emptyTile);
+        return true;
+    }
+
+    bool playerWon() const
+    {
+        static Board s_solved{};  // generate a solved board
+        return s_solved == *this; // player wins if current board == solved board
+    }
+
+    void randomize()
+    {
+        // Move empty tile randomly 1000 times
+        // (just like you would do in real life)
+        for (int i = 0; i &lt; 1000; )
+        {
+            // If we are able to successfully move a tile, count this
+            if (moveTile(Direction::getRandomDirection()))
+                ++i;
+        }
+    }
+
+private:
+    static const int s_size { 4 };
+    Tile m_tiles[s_size][s_size]{
+        Tile{ 1 }, Tile { 2 }, Tile { 3 } , Tile { 4 },
+        Tile { 5 } , Tile { 6 }, Tile { 7 }, Tile { 8 },
+        Tile { 9 }, Tile { 10 }, Tile { 11 }, Tile { 12 },
+        Tile { 13 }, Tile { 14 }, Tile { 15 }, Tile { 0 } };
+};
+
+int main()
+{
+    Board board{};
+    board.randomize();
+    std::cout &lt;&lt; board;
+
+    while (!board.playerWon())
+    {
+        char ch{ UserInput::getCommandFromUser() };
+
+        // Handle non-direction commands
+        if (ch == &#39;q&#39;)
+        {
+            std::cout &lt;&lt; &#34;\n\nBye!\n\n&#34;;
+            return 0;
+        }
+
+        // Handle direction commands
+        Direction dir{ UserInput::charToDirection(ch) };
+
+        bool userMoved{ board.moveTile(dir) };
+        if (userMoved)
+            std::cout &lt;&lt; board;
+    }
+
+    std::cout &lt;&lt; &#34;\n\nYou won!\n\n&#34;;
+    return 0;
+}</code></pre></div><div class=prevnext><div class=prevnext-inline><a class=nav-link href="../introduction-to-smart-pointers-move-semantics/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>22.1</span>Wprowadzenie do inteligentnych wskaźników i ruchu semantyka</div></div></div></a><a class=nav-link href="https://www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../chapter-21-summary-and-quiz/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>21.x</span>Rozdział 21 podsumowanie i quiz</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="https://www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=https://www.learncpp.com/chapter-21-project/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzednia Post</em><a href="../constant-expressions/index.html" rel=prev><span>5.5 — Wyrażenia stałe</span></a></div><div class=nav-next><em>Następny post</em><a href="../non-type-template-parameters/index.html" rel=next><span>11.9 — Nietypowe parametry szablonu</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>
+<textarea id=wc-textarea-0_0 placeholder="Zostaw komentarz..." aria-label="Zostaw komentarz..." required name=wc_comment class="wc_comment wpd-field"></textarea></div><div class=wpd-editor-buttons-right></div></div></div></div><div class=wpd-form-foot><div class=wpdiscuz-textarea-foot><div class=wpdiscuz-button-actions></div></div><div class=wpd-form-row><div class=wpd-form-col-left><div class="wpdiscuz-item wc_name-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-user"></i></div><input id=wc_name-0_0 required aria-required=true class="wc_name wpd-field" name=wc_name placeholder=Imię* maxlength=50 pattern=.{3,50}>
+<label for=wc_name-0_0 class=wpdlb>Imię*</label></div><div class="wpdiscuz-item wc_email-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-at"></i></div><input id=wc_email-0_0 required aria-required=true class="wc_email wpd-field" type=email name=wc_email placeholder=E-mail*>
+<label for=wc_email-0_0 class=wpdlb>E-mail*</label><div class=wpd-field-desc><i class="far fa-question-circle"></i><span>Twój adres e-mail nie zostanie wyświetlony</span></div></div><div class=cpp_correction_div style=padding-bottom:4px><div class=wpd-field-icon style=display:inline-block;width:20px><i style=opacity:.6 class="fas fa-regular fa-bug"></i></div>Znalazłeś błąd? Zostaw komentarz powyżej!<div class=wpd-field-desc><i class="far fa-question-circle"></i><span>Komentarze związane z poprawkami zostaną usunięte po przetworzeniu, aby pomóc zmniejszyć bałagan. Dziękujemy za pomoc w ulepszaniu witryny dla wszystkich!</span></div></div><div class=cpp_avatar_div style=padding-bottom:4px><div class=wpd-field-icon style=display:inline-block;width:20px><i style=opacity:.6 class="fas fa-user"></i></div>Awatary z <a target=_blank rel="noopener noreferrer" href=https://gravatar.com/>https://gravatar.com/</a> są połączone z podanym adresem e-mail.</div></div><div class=wpd-form-col-right><div class=wc-field-submit><span style=margin-top:6px>Powiadamiaj mnie o odpowiedziach:  </span>
+<label class=wpd_label wpd-tooltip="Powiadamiaj mnie o nowych odpowiedziach na ten komentarz"><input id=wc_notification_new_comment-0_0 class="wc_notification_new_comment-0_0 wpd_label__checkbox" value=comment type=checkbox name=wpdiscuz_notification_type checked>
+<span class=wpd_label__text><span class=wpd_label__check><i class="fas fa-bell wpdicon wpdicon-on"></i><i class="fas fa-bell-slash wpdicon wpdicon-off"></i></span></span></label><input id=wpd-field-submit-0_0 class="wc_comm_submit wpd_not_clicked wpd-prim-button" type=submit name=submit value="Dodaj komentarz"></div></div><div class=clearfix></div></div></div><input type=hidden class=wpdiscuz_unique_id value=0_0 name=wpdiscuz_unique_id></form></div><div id=wpdiscuz_hidden_secondary_form style=display:none><div class="wpd-form wpd-form-wrapper wpd-secondary-form-wrapper" id=wpd-secondary-form-wrapper-wpdiscuzuniqueid style=display:none><div class=wpd-secondary-forms-social-content></div><div class=clearfix></div><form class="wpd_comm_form wpd-secondary-form-wrapper" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-wpdiscuzuniqueid class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-wpdiscuzuniqueid>Etykieta</label>
+<textarea id=wc-textarea-wpdiscuzuniqueid placeholder="Zostaw komentarz..." aria-label="Zostaw komentarz..." required name=wc_comment class="wc_comment wpd-field"></textarea></div><div class=wpd-editor-buttons-right></div></div></div></div><div class=wpd-form-foot><div class=wpdiscuz-textarea-foot><div class=wpdiscuz-button-actions></div></div><div class=wpd-form-row><div class=wpd-form-col-left><div class="wpdiscuz-item wc_name-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-user"></i></div><input id=wc_name-wpdiscuzuniqueid required aria-required=true class="wc_name wpd-field" name=wc_name placeholder=Imię* maxlength=50 pattern=.{3,50}>
+<label for=wc_name-wpdiscuzuniqueid class=wpdlb>Imię*</label></div><div class="wpdiscuz-item wc_email-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-at"></i></div><input id=wc_email-wpdiscuzuniqueid required aria-required=true class="wc_email wpd-field" type=email name=wc_email placeholder=E-mail*>
+<label for=wc_email-wpdiscuzuniqueid class=wpdlb>E-mail*</label><div class=wpd-field-desc><i class="far fa-question-circle"></i><span>Twój adres e-mail nie zostanie wyświetlony</span></div></div><div class=cpp_correction_div style=padding-bottom:4px><div class=wpd-field-icon style=display:inline-block;width:20px><i style=opacity:.6 class="fas fa-regular fa-bug"></i></div>Znalazłeś błąd? Zostaw komentarz powyżej!<div class=wpd-field-desc><i class="far fa-question-circle"></i><span>Komentarze związane z poprawkami zostaną usunięte po przetworzeniu, aby pomóc zmniejszyć bałagan. Dziękujemy za pomoc w ulepszaniu witryny dla wszystkich!</span></div></div><div class=cpp_avatar_div style=padding-bottom:4px><div class=wpd-field-icon style=display:inline-block;width:20px><i style=opacity:.6 class="fas fa-user"></i></div>Awatary z <a target=_blank rel="noopener noreferrer" href=https://gravatar.com/>https://gravatar.com/</a> są połączone z podanym adresem e-mail.</div></div><div class=wpd-form-col-right><div class=wc-field-submit><label class=wpd_label wpd-tooltip="Powiadamiaj mnie o nowych odpowiedziach na ten komentarz"><input id=wc_notification_new_comment-wpdiscuzuniqueid class="wc_notification_new_comment-wpdiscuzuniqueid wpd_label__checkbox" value=comment type=checkbox name=wpdiscuz_notification_type checked>
+<span class=wpd_label__text><span class=wpd_label__check><i class="fas fa-bell wpdicon wpdicon-on"></i><i class="fas fa-bell-slash wpdicon wpdicon-off"></i></span></span></label><input id=wpd-field-submit-wpdiscuzuniqueid class="wc_comm_submit wpd_not_clicked wpd-prim-button" type=submit name=submit value="Dodaj komentarz"></div></div><div class=clearfix></div></div></div><input type=hidden class=wpdiscuz_unique_id value=wpdiscuzuniqueid name=wpdiscuz_unique_id></form></div></div></div><div id=wpd-threads class=wpd-thread-wrapper><div class=wpd-thread-head><div class=wpd-thread-info data-comments-count=153><span class=wpdtc title=153>153</span> Komentarze</div><div class=wpd-space></div><div class=wpd-thread-filter><div class="wpd-filter wpdf-sorting"><span class="wpdiscuz-sort-button wpdiscuz-date-sort-desc wpdiscuz-sort-button-active" data-sorting=newest>Najnowsze</span>
+<i class="fas fa-sort-down"></i><div class=wpdiscuz-sort-buttons><span class="wpdiscuz-sort-button wpdiscuz-date-sort-asc" data-sorting=oldest>Najstarsze</span>
+<span class="wpdiscuz-sort-button wpdiscuz-vote-sort-up" data-sorting=by_vote>Najczęściej głosowane</span></div></div></div></div><div class=wpd-comment-info-bar><div class=wpd-current-view><i class="fas fa-quote-left"></i>Wbudowane opinie</div><div class=wpd-filter-view-all>Wyświetl wszystkie komentarze</div></div><div class=wpd-thread-list><div class=wpdiscuz-comment-pagination style=display:none><div class=wpd-load-more-submit-wrap><button name=submit data-lastparentid=0 class="wpd-load-more-submit wpd-loaded wpd-prim-button">
+Wczytaj więcej komentarzy</button></div><input id=wpdiscuzHasMoreComments type=hidden value=0></div></div></div></div></div><div id=wpdiscuz-loading-bar class=wpdiscuz-loading-bar-unauth></div><div id=wpdiscuz-comment-message class=wpdiscuz-comment-message-unauth></div></main><aside id=primary class="widget-area sidey" role=complementary itemscope itemtype=http://schema.org/WPSideBar><section id=custom_html-2 class="widget_text widget-container widget_custom_html"><div class="textwidget custom-html-widget"><div class=cf_monitor style=float:right><div id=ezoic-pub-ad-placeholder-103></div><ins class=adsbygoogle style=display:inline-block;width:160px;height:600px data-ad-client=ca-pub-0588844875925051 data-ad-slot=6408671241></ins></div></div></section></aside><aside id=secondary class="widget-area sidey" role=complementary itemscope itemtype=http://schema.org/WPSideBar><section id=custom_html-3 class="widget_text widget-container widget_custom_html"><div class="textwidget custom-html-widget"><div class=cf_monitor style=float:left><div id=ezoic-pub-ad-placeholder-102></div><ins class=adsbygoogle style=display:inline-block;width:160px;height:600px data-ad-client=ca-pub-0588844875925051 data-ad-slot=1425558446></ins></div></div></section></aside></div><aside id=colophon role=complementary itemscope itemtype=http://schema.org/WPSideBar><div id=colophon-inside class=footer-one><section id=text-10 class="widget-container widget_text"><div class=footer-widget-inside><div class=textwidget><p><em>©2024 Naucz się C++</em> <a href=https://g.ezoic.net/privacy/learncpp.com>Polityka prywatności</a></div></div></section></div></aside></div><footer id=footer class=cryout role=contentinfo itemscope itemtype=http://schema.org/WPFooter><div id=footer-inside></div></footer></div><a href=javascript:void(0); id=wpdUserContentInfoAnchor style=display:none rel=#wpdusercontentinfo data-wpd-lity>wpDiscuz</a><div id=wpdUserContentInfo style=overflow:auto;background:#fdfdf6;padding:20px;width:600px;max-width:100%;border-radius:6px class=lity-hide></div><div id=wpd-editor-source-code-wrapper-bg></div><div id=wpd-editor-source-code-wrapper><textarea id=wpd-editor-source-code></textarea><button id=wpd-insert-source-code>Wstaw</button><input type=hidden id=wpd-editor-uid></div><div class=wpdiscuz-fem-email style=display:none></div><div class=wpdiscuz-fem-email-form style=display:none><span class=wpdiscuz-fem-author>Zamierzasz wysłać e-mail na adres <em></em></span><i class="fas fa-times"></i><div class=wpdiscuz_clear></div><input placeholder="Temat e-maila" class=wpdiscuz-fem-subj><textarea class=wpdiscuz-fem-msg placeholder="Wpisz tutaj wiadomość"></textarea><br><div class=wpdiscuz-fem-button-align><button type=button class=wpdiscuz-fem-send>Wyślij</button></div><input type=hidden id=wpdiscuz_fem_email_comment_id></div><div class=wpdiscuz-fem-moving style=display:none></div><div class=wpdiscuz-fem-move-form style=display:none><span class=wpdiscuz-fem-author>Przenieś Komentarz<br><em></em></span><i class="fas fa-times"></i><div class=wpdiscuz_clear></div><div class=wpdiscuz-fem-posts-search><input class=wpdiscuz-fem-post placeholder="Wprowadź tytuł posta..."><div class=wpdiscuz-fem-posts></div></div><div class=wpdiscuz-fem-button-align><button type=button class=wpdiscuz-fem-move>Przenieś</button></div><input type=hidden id=wpdiscuz_fem_move_comment_id></div></body></html>

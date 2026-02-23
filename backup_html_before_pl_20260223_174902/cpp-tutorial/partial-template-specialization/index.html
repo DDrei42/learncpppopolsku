@@ -1,0 +1,389 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8>
+
+
+
+
+
+<base href=""><meta name=viewport content="width=device-width,user-scalable=yes,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><link rel=profile href="https://gmpg.org/xfn/11"><title>26.5 — Partial template specialization – Learn C++</title><meta name=robots content="max-image-preview:large"><link rel=dns-prefetch href="https://fd.cleantalk.org/"><link rel=stylesheet id=wgs2-css href="../../blog/wp-content/plugins/wp-google-search/wgs2.css@ver=4084444bfee884f6024e8b1b3cfa6cdd.css" media=all><link rel=stylesheet id=dashicons-css href="../../blog/wp-includes/css/dashicons.min.css@ver=4084444bfee884f6024e8b1b3cfa6cdd.css" media=all><link rel=stylesheet id=font-awesome-css href="../../blog/wp-content/plugins/menu-icons/vendor/codeinwp/icon-picker/css/types/font-awesome.min.css@ver=4.7.0.css" media=all><link rel=stylesheet id=menu-icons-extra-css href="../../blog/wp-content/plugins/menu-icons/css/extra.min.css@ver=0.12.9.css" media=all><link rel=stylesheet id=wp-block-library-css href="../../blog/wp-includes/css/dist/block-library/style.min.css@ver=4084444bfee884f6024e8b1b3cfa6cdd.css" media=all><link rel=stylesheet id=cleantalk-public-css-css href="../../blog/wp-content/plugins/cleantalk-spam-protect/css/cleantalk-public.min.css@ver=6.68_1763367835.css" media=all><link rel=stylesheet id=cleantalk-email-decoder-css-css href="../../blog/wp-content/plugins/cleantalk-spam-protect/css/cleantalk-email-decoder.min.css@ver=6.68_1763367835.css" media=all><link rel=stylesheet id=monacoCSS-css href="../../blog/wp-content/plugins/learncpp-prism/fonts/monaco.css@ver=0.135.css" media=all><link rel=stylesheet id=prismThemeCSS-css href="../../blog/wp-content/plugins/learncpp-prism/prism-theme.css@ver=0.135.css" media=all><link rel=stylesheet id=vscf_style-css href="../../blog/wp-content/plugins/very-simple-contact-form/css/vscf-style.min.css@ver=4084444bfee884f6024e8b1b3cfa6cdd.css" media=all><link rel=stylesheet id=wpdiscuz-frontend-css-css href="../../blog/wp-content/plugins/wpdiscuz/themes/default/style.css@ver=7.3.17.css" media=all><style id=wpdiscuz-frontend-css-inline-css>#wpdcom .wpd-blog-administrator .wpd-comment-label{color:#fff;background-color:#ff451f;border:none}#wpdcom .wpd-blog-administrator .wpd-comment-author,#wpdcom .wpd-blog-administrator .wpd-comment-author a{color:#ff451f}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-administrator .wpd-avatar img{border-color:#ff451f}#wpdcom.wpd-layout-2 .wpd-comment.wpd-reply .wpd-comment-wrap.wpd-blog-administrator{border-left:3px solid #ff451f}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-administrator .wpd-avatar img{border-bottom-color:#ff451f}#wpdcom.wpd-layout-3 .wpd-blog-administrator .wpd-comment-subheader{border-top:1px dashed #ff451f}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-administrator .wpd-comment-right{border-left:1px solid #ff451f}#wpdcom .wpd-blog-author .wpd-comment-label{color:#fff;background-color:#327324;border:none}#wpdcom .wpd-blog-author .wpd-comment-author,#wpdcom .wpd-blog-author .wpd-comment-author a{color:#327324}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-author .wpd-avatar img{border-color:#327324}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-author .wpd-avatar img{border-bottom-color:#327324}#wpdcom.wpd-layout-3 .wpd-blog-author .wpd-comment-subheader{border-top:1px dashed #327324}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-author .wpd-comment-right{border-left:1px solid #327324}#wpdcom .wpd-blog-contributor .wpd-comment-label{color:#fff;background-color:#a240cd;border:none}#wpdcom .wpd-blog-contributor .wpd-comment-author,#wpdcom .wpd-blog-contributor .wpd-comment-author a{color:#a240cd}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-contributor .wpd-avatar img{border-color:#a240cd}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-contributor .wpd-avatar img{border-bottom-color:#a240cd}#wpdcom.wpd-layout-3 .wpd-blog-contributor .wpd-comment-subheader{border-top:1px dashed #a240cd}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-contributor .wpd-comment-right{border-left:1px solid #a240cd}#wpdcom .wpd-blog-editor .wpd-comment-label{color:#fff;background-color:#d36000;border:none}#wpdcom .wpd-blog-editor .wpd-comment-author,#wpdcom .wpd-blog-editor .wpd-comment-author a{color:#d36000}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-editor .wpd-avatar img{border-color:#d36000}#wpdcom.wpd-layout-2 .wpd-comment.wpd-reply .wpd-comment-wrap.wpd-blog-editor{border-left:3px solid #d36000}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-editor .wpd-avatar img{border-bottom-color:#d36000}#wpdcom.wpd-layout-3 .wpd-blog-editor .wpd-comment-subheader{border-top:1px dashed #d36000}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-editor .wpd-comment-right{border-left:1px solid #d36000}#wpdcom .wpd-blog-localization_author .wpd-comment-label{color:#fff;background-color:#31839e;border:none}#wpdcom .wpd-blog-localization_author .wpd-comment-author,#wpdcom .wpd-blog-localization_author .wpd-comment-author a{color:#31839e}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-localization_author .wpd-avatar img{border-color:#31839e}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-localization_author .wpd-avatar img{border-bottom-color:#31839e}#wpdcom.wpd-layout-3 .wpd-blog-localization_author .wpd-comment-subheader{border-top:1px dashed #31839e}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-localization_author .wpd-comment-right{border-left:1px solid #31839e}#wpdcom .wpd-blog-subscriber .wpd-comment-label{color:#fff;background-color:#31839e;border:none}#wpdcom .wpd-blog-subscriber .wpd-comment-author,#wpdcom .wpd-blog-subscriber .wpd-comment-author a{color:#31839e}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-subscriber .wpd-avatar img{border-bottom-color:#31839e}#wpdcom.wpd-layout-3 .wpd-blog-subscriber .wpd-comment-subheader{border-top:1px dashed #31839e}#wpdcom .wpd-blog-subadministrator .wpd-comment-label{color:#fff;background-color:#31839e;border:none}#wpdcom .wpd-blog-subadministrator .wpd-comment-author,#wpdcom .wpd-blog-subadministrator .wpd-comment-author a{color:#31839e}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-subadministrator .wpd-avatar img{border-color:#31839e}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-subadministrator .wpd-avatar img{border-bottom-color:#31839e}#wpdcom.wpd-layout-3 .wpd-blog-subadministrator .wpd-comment-subheader{border-top:1px dashed #31839e}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-subadministrator .wpd-comment-right{border-left:1px solid #31839e}#wpdcom .wpd-blog-css_js_designer .wpd-comment-label{color:#fff;background-color:#00b38f;border:none}#wpdcom .wpd-blog-css_js_designer .wpd-comment-author,#wpdcom .wpd-blog-css_js_designer .wpd-comment-author a{color:#00b38f}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-css_js_designer .wpd-avatar img{border-color:#00b38f}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-css_js_designer .wpd-avatar img{border-bottom-color:#00b38f}#wpdcom.wpd-layout-3 .wpd-blog-css_js_designer .wpd-comment-subheader{border-top:1px dashed #00b38f}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-css_js_designer .wpd-comment-right{border-left:1px solid #00b38f}#wpdcom .wpd-blog-post_author .wpd-comment-label{color:#fff;background-color:#07b290;border:none}#wpdcom .wpd-blog-post_author .wpd-comment-author,#wpdcom .wpd-blog-post_author .wpd-comment-author a{color:#07b290}#wpdcom .wpd-blog-post_author .wpd-avatar img{border-color:#07b290}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-post_author .wpd-avatar img{border-color:#07b290}#wpdcom.wpd-layout-2 .wpd-comment.wpd-reply .wpd-comment-wrap.wpd-blog-post_author{border-left:3px solid #07b290}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-post_author .wpd-avatar img{border-bottom-color:#07b290}#wpdcom.wpd-layout-3 .wpd-blog-post_author .wpd-comment-subheader{border-top:1px dashed #07b290}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-post_author .wpd-comment-right{border-left:1px solid #07b290}#wpdcom .wpd-blog-guest .wpd-comment-label{color:#fff;background-color:#898989;border:none}#wpdcom .wpd-blog-guest .wpd-comment-author,#wpdcom .wpd-blog-guest .wpd-comment-author a{color:#898989}#wpdcom.wpd-layout-3 .wpd-blog-guest .wpd-comment-subheader{border-top:1px dashed #898989}#comments,#respond,.comments-area,#wpdcom{}#wpdcom .ql-editor>*{color:#777}#wpdcom .ql-editor::before{}#wpdcom .ql-toolbar{border:1px solid #ddd;border-top:none}#wpdcom .ql-container{border:1px solid #ddd;border-bottom:none}#wpdcom .wpd-form-row .wpdiscuz-item input[type=text],#wpdcom .wpd-form-row .wpdiscuz-item input[type=email],#wpdcom .wpd-form-row .wpdiscuz-item input[type=url],#wpdcom .wpd-form-row .wpdiscuz-item input[type=color],#wpdcom .wpd-form-row .wpdiscuz-item input[type=date],#wpdcom .wpd-form-row .wpdiscuz-item input[type=datetime],#wpdcom .wpd-form-row .wpdiscuz-item input[type=datetime-local],#wpdcom .wpd-form-row .wpdiscuz-item input[type=month],#wpdcom .wpd-form-row .wpdiscuz-item input[type=number],#wpdcom .wpd-form-row .wpdiscuz-item input[type=time],#wpdcom textarea,#wpdcom select{border:1px solid #ddd;color:#777}#wpdcom .wpd-form-row .wpdiscuz-item textarea{border:1px solid #ddd}#wpdcom input::placeholder,#wpdcom textarea::placeholder,#wpdcom input::-moz-placeholder,#wpdcom textarea::-webkit-input-placeholder{}#wpdcom .wpd-comment-text{color:#777}#wpdcom .wpd-thread-head .wpd-thread-info{border-bottom:2px solid #00b38f}#wpdcom .wpd-thread-head .wpd-thread-info.wpd-reviews-tab svg{fill:#00b38f}#wpdcom .wpd-thread-head .wpdiscuz-user-settings{border-bottom:2px solid #00b38f}#wpdcom .wpd-thread-head .wpdiscuz-user-settings:hover{color:#00b38f}#wpdcom .wpd-comment .wpd-follow-link:hover{color:#00b38f}#wpdcom .wpd-comment-status .wpd-sticky{color:#00b38f}#wpdcom .wpd-thread-filter .wpdf-active{color:#00b38f;border-bottom-color:#00b38f}#wpdcom .wpd-comment-info-bar{border:1px dashed #33c3a6;background:#e6f8f4}#wpdcom .wpd-comment-info-bar .wpd-current-view i{color:#00b38f}#wpdcom .wpd-filter-view-all:hover{background:#00b38f}#wpdcom .wpdiscuz-item .wpdiscuz-rating>label{color:#ddd}#wpdcom .wpdiscuz-item .wpdiscuz-rating:not(:checked)>label:hover,.wpdiscuz-rating:not(:checked)>label:hover~label{}#wpdcom .wpdiscuz-item .wpdiscuz-rating>input~label:hover,#wpdcom .wpdiscuz-item .wpdiscuz-rating>input:not(:checked)~label:hover~label,#wpdcom .wpdiscuz-item .wpdiscuz-rating>input:not(:checked)~label:hover~label{color:#ffed85}#wpdcom .wpdiscuz-item .wpdiscuz-rating>input:checked~label:hover,#wpdcom .wpdiscuz-item .wpdiscuz-rating>input:checked~label:hover,#wpdcom .wpdiscuz-item .wpdiscuz-rating>label:hover~input:checked~label,#wpdcom .wpdiscuz-item .wpdiscuz-rating>input:checked+label:hover~label,#wpdcom .wpdiscuz-item .wpdiscuz-rating>input:checked~label:hover~label,.wpd-custom-field .wcf-active-star,#wpdcom .wpdiscuz-item .wpdiscuz-rating>input:checked~label{color:gold}#wpd-post-rating .wpd-rating-wrap .wpd-rating-stars svg .wpd-star{fill:#ddd}#wpd-post-rating .wpd-rating-wrap .wpd-rating-stars svg .wpd-active{fill:gold}#wpd-post-rating .wpd-rating-wrap .wpd-rate-starts svg .wpd-star{fill:#ddd}#wpd-post-rating .wpd-rating-wrap .wpd-rate-starts:hover svg .wpd-star{fill:#ffed85}#wpd-post-rating.wpd-not-rated .wpd-rating-wrap .wpd-rate-starts svg:hover~svg .wpd-star{fill:#ddd}.wpdiscuz-post-rating-wrap .wpd-rating .wpd-rating-wrap .wpd-rating-stars svg .wpd-star{fill:#ddd}.wpdiscuz-post-rating-wrap .wpd-rating .wpd-rating-wrap .wpd-rating-stars svg .wpd-active{fill:gold}#wpdcom .wpd-comment .wpd-follow-active{color:#ff7a00}#wpdcom .page-numbers{color:#555;border:#555 1px solid}#wpdcom span.current{background:#555}#wpdcom.wpd-layout-1 .wpd-new-loaded-comment>.wpd-comment-wrap>.wpd-comment-right{background:#fffad6}#wpdcom.wpd-layout-2 .wpd-new-loaded-comment.wpd-comment>.wpd-comment-wrap>.wpd-comment-right{background:#fffad6}#wpdcom.wpd-layout-2 .wpd-new-loaded-comment.wpd-comment.wpd-reply>.wpd-comment-wrap>.wpd-comment-right{background:0 0}#wpdcom.wpd-layout-2 .wpd-new-loaded-comment.wpd-comment.wpd-reply>.wpd-comment-wrap{background:#fffad6}#wpdcom.wpd-layout-3 .wpd-new-loaded-comment.wpd-comment>.wpd-comment-wrap>.wpd-comment-right{background:#fffad6}#wpdcom .wpd-follow:hover i,#wpdcom .wpd-unfollow:hover i,#wpdcom .wpd-comment .wpd-follow-active:hover i{color:#00b38f}#wpdcom .wpdiscuz-readmore{cursor:pointer;color:#00b38f}.wpd-custom-field .wcf-pasiv-star,#wpcomm .wpdiscuz-item .wpdiscuz-rating>label{color:#ddd}.wpd-wrapper .wpd-list-item.wpd-active{border-top:3px solid #00b38f}#wpdcom.wpd-layout-2 .wpd-comment.wpd-reply.wpd-unapproved-comment .wpd-comment-wrap{border-left:3px solid #fffad6}#wpdcom.wpd-layout-3 .wpd-comment.wpd-reply.wpd-unapproved-comment .wpd-comment-right{border-left:1px solid #fffad6}#wpdcom .wpd-prim-button{background-color:#07b290;color:#fff}#wpdcom .wpd_label__check i.wpdicon-on{color:#07b290;border:1px solid #83d9c8}#wpd-bubble-wrapper #wpd-bubble-all-comments-count{color:#1db99a}#wpd-bubble-wrapper>div{background-color:#1db99a}#wpd-bubble-wrapper>#wpd-bubble #wpd-bubble-add-message{background-color:#1db99a}#wpd-bubble-wrapper>#wpd-bubble #wpd-bubble-add-message::before{border-left-color:#1db99a;border-right-color:#1db99a}#wpd-bubble-wrapper.wpd-right-corner>#wpd-bubble #wpd-bubble-add-message::before{border-left-color:#1db99a;border-right-color:#1db99a}.wpd-inline-icon-wrapper path.wpd-inline-icon-first{fill:#1db99a}.wpd-inline-icon-count{background-color:#1db99a}.wpd-inline-icon-count::before{border-right-color:#1db99a}.wpd-inline-form-wrapper::before{border-bottom-color:#1db99a}.wpd-inline-form-question{background-color:#1db99a}.wpd-inline-form{background-color:#1db99a}.wpd-last-inline-comments-wrapper{border-color:#1db99a}.wpd-last-inline-comments-wrapper::before{border-bottom-color:#1db99a}.wpd-last-inline-comments-wrapper .wpd-view-all-inline-comments{background:#1db99a}.wpd-last-inline-comments-wrapper .wpd-view-all-inline-comments:hover,.wpd-last-inline-comments-wrapper .wpd-view-all-inline-comments:active,.wpd-last-inline-comments-wrapper .wpd-view-all-inline-comments:focus{background-color:#1db99a}#wpdcom .ql-snow .ql-tooltip[data-mode=link]::before{content:"Enter link:"}#wpdcom .ql-snow .ql-tooltip.ql-editing a.ql-action::after{content:"Save"}.comments-area{width:auto}</style><link rel=stylesheet id=wpdiscuz-fa-css href="../../blog/wp-content/plugins/wpdiscuz/assets/third-party/font-awesome-5.13.0/css/fa.min.css@ver=7.3.17.css" media=all><link rel=stylesheet id=wpdiscuz-combo-css-css href="../../blog/wp-content/plugins/wpdiscuz/assets/css/wpdiscuz-combo-no_quill.min.css@ver=4084444bfee884f6024e8b1b3cfa6cdd.css" media=all><link rel=stylesheet id=parent-style-css href="../../blog/wp-content/themes/septera/style.css@ver=4084444bfee884f6024e8b1b3cfa6cdd.css" media=all><link rel=stylesheet id=septera-themefonts-css href="../../blog/wp-content/themes/septera/resources/fonts/fontfaces.css@ver=1.5.1.css" media=all><link rel=stylesheet id=septera-googlefonts-css href="../../blog/wp-content/uploads/omgf/septera-googlefonts/septera-googlefonts.css@ver=1700504504.css" media=all><link rel=stylesheet id=septera-main-css href="../../blog/wp-content/themes/septera-child/style.css@ver=1.5.1.css" media=all><style id=septera-main-inline-css>body:not(.septera-landing-page) #container,#site-header-main-inside,#colophon-inside,#footer-inside,#breadcrumbs-container-inside{margin:0 auto;max-width:1920px}#site-header-main{left:0;right:0}#primary{width:200px}#secondary{width:200px}#container.one-column .main{width:100%}#container.two-columns-right #secondary{float:right}#container.two-columns-right .main,.two-columns-right #breadcrumbs{width:calc( 100% - 200px );float:left}#container.two-columns-left #primary{float:left}#container.two-columns-left .main,.two-columns-left #breadcrumbs{width:calc( 100% - 200px );float:right}#container.three-columns-right #primary,#container.three-columns-left #primary,#container.three-columns-sided #primary{float:left}#container.three-columns-right #secondary,#container.three-columns-left #secondary,#container.three-columns-sided #secondary{float:left}#container.three-columns-right #primary,#container.three-columns-left #secondary{margin-left:0%;margin-right:0%}#container.three-columns-right .main,.three-columns-right #breadcrumbs{width:calc( 100% - 400px );float:left}#container.three-columns-left .main,.three-columns-left #breadcrumbs{width:calc( 100% - 400px );float:right}#container.three-columns-sided #secondary{float:right}#container.three-columns-sided .main,.three-columns-sided #breadcrumbs{width:calc( 100% - 400px );float:right}.three-columns-sided #breadcrumbs{margin:0 calc( 0% + 200px )0 -1920px}html{font-family:Open Sans;font-size:14px;font-weight:400;line-height:1.6}#site-title{font-family:Open Sans;font-size:120%;font-weight:700}#access ul li a{font-family:Open Sans;font-size:90%;font-weight:700}.widget-title{font-family:Open Sans;font-size:100%;font-weight:700}.widget-container{font-family:Open Sans;font-size:100%;font-weight:400}.entry-title,#reply-title{font-family:Open Sans;font-size:200%;font-weight:400}.entry-title.singular-title{font-size:200%}.content-masonry .entry-title{font-size:124%}h1{font-size:2.3em}h2{font-size:2em}h3{font-size:1.7em}h4{font-size:1.4em}h5{font-size:1.1em}h6{font-size:.8em}h1,h2,h3,h4,h5,h6{font-family:Open Sans;font-weight:700}body{color:#2d3140;background-color:#d6d6d6}@media(min-width:1152px){.septera-over-menu #site-title a,.septera-over-menu #access>div>ul>li,.septera-over-menu #access>div>ul>li>a,.septera-over-menu #sheader.socials a::before{color:#fff}.septera-landing-page.septera-over-menu #site-title a,.septera-landing-page.septera-over-menu #access>div>ul>li,.septera-landing-page.septera-over-menu #access>div>ul>li>a,.septera-landing-page.septera-over-menu #sheader.socials a::before{color:#fff}}.lp-staticslider .staticslider-caption-title,.seriousslider.seriousslider-theme .seriousslider-caption-title,.lp-staticslider .staticslider-caption-text,.seriousslider.seriousslider-theme .seriousslider-caption-text,.lp-staticslider .staticslider-caption-text a{color:#fff}#site-header-main,#access ul ul,.menu-search-animated .searchform input[type=search],#access::after,.septera-over-menu .header-fixed#site-header-main,.septera-over-menu .header-fixed#site-header-main #access:after{background-color:#fff}.septera-over-menu .header-fixed#site-header-main #site-title a{color:#365da0}#access>div>ul>li,#access>div>ul>li>a,.septera-over-menu .header-fixed#site-header-main #access>div>ul>li:not([class*=current]),.septera-over-menu .header-fixed#site-header-main #access>div>ul>li:not([class*=current])>a,.septera-over-menu .header-fixed#site-header-main #sheader.socials a::before,#sheader.socials a::before,#mobile-menu{color:#365da0}#access ul.sub-menu li a,#access ul.children li a{color:#888}#access ul.sub-menu li a,#access ul.children li a{background-color:#fff}#access>div>ul>li a:hover,#access>div>ul>li:hover,.septera-over-menu .header-fixed#site-header-main #access>div>ul>li>a:hover,.septera-over-menu .header-fixed#site-header-main #access>div>ul>li:hover,.septera-over-menu .header-fixed#site-header-main #sheader.socials a:hover::before,#sheader.socials a:hover::before{color:#365da0}#access>div>ul>li.current_page_item>a,#access>div>ul>li.current-menu-item>a,#access>div>ul>li.current_page_ancestor>a,#access>div>ul>li.current-menu-ancestor>a,#access .sub-menu,#access .children,.septera-over-menu .header-fixed#site-header-main #access>div>ul>li>a{color:#96bbe0}#access ul.children>li.current_page_item>a,#access ul.sub-menu>li.current-menu-item>a,#access ul.children>li.current_page_ancestor>a,#access ul.sub-menu>li.current-menu-ancestor>a{color:#96bbe0}.searchform .searchsubmit{color:#2d3140}.searchform:hover input[type=search],.searchform input[type=search]:focus{border-color:#365da0}body:not(.septera-landing-page) .main,#lp-posts,#lp-page,.searchform{background-color:#fff}.pagination span,.pagination a{background-color:#f3f3f3}#breadcrumbs-container{border-bottom-color:#eee;background-color:#fff}#primary{background-color:#d6d6d6}#secondary{background-color:#d6d6d6}#colophon,#footer{background-color:#d6d6d6;color:#2d3140}.entry-title a:active,.entry-title a:hover{color:#365da0}span.entry-format{color:#365da0}.format-aside{border-top-color:#fff}article.hentry .post-thumbnail-container{background-color:rgba(45,49,64,.15)}article.hentry .post-thumbnail-container a::after{background-color:#365da0}.entry-content blockquote::before,.entry-content blockquote::after{color:rgba(45,49,64,.2)}.entry-content h1,.entry-content h2,.entry-content h3,.entry-content h4,.lp-text-content h1,.lp-text-content h2,.lp-text-content h3,.lp-text-content h4,.entry-title{color:#2d3140}a{color:#365da0}a:hover,.entry-meta span a:hover,.comments-link a:hover{color:#96bbe0}.entry-meta span.comments-link{top:.62em}.continue-reading-link{color:#365da0;background-color:#f5f5f5}.continue-reading-link:hover{color:#96bbe0}.socials a:before{color:#365da0}.socials a:hover:before{color:#96bbe0}.septera-normalizedtags #content .tagcloud a{color:#fff;background-color:#365da0}.septera-normalizedtags #content .tagcloud a:hover{background-color:#96bbe0}#toTop{background-color:rgba(189,189,189,.8);color:#365da0}#toTop:hover{background-color:#365da0;color:#d6d6d6}.entry-meta .icon-metas:before{color:#000}.septera-caption-one .main .wp-caption .wp-caption-text{border-bottom-color:#eee}.septera-caption-two .main .wp-caption .wp-caption-text{background-color:#f5f5f5}.septera-image-one .entry-content img[class*=align],.septera-image-one .entry-summary img[class*=align],.septera-image-two .entry-content img[class*=align],.septera-image-two .entry-summary img[class*=align]{border-color:#eee}.septera-image-five .entry-content img[class*=align],.septera-image-five .entry-summary img[class*=align]{border-color:#365da0}span.edit-link a.post-edit-link,span.edit-link a.post-edit-link:hover,span.edit-link .icon-edit:before{color:#727685}.searchform{border-color:#ebebeb}.entry-meta span,.entry-meta a,.entry-utility span,.entry-utility a,.entry-meta time,#breadcrumbs-nav,.footermenu ul li span.sep{color:#000}.entry-meta span.entry-sticky{background-color:#000;color:#fff}#footer-separator{background:#c7c7c7}#commentform{max-width:1e3px}code,#nav-below .nav-previous a:before,#nav-below .nav-next a:before{background-color:#eee}pre,.page-link>span,.comment-author,.commentlist .comment-body,.commentlist .pingback{border-color:#eee}.page-header.pad-container,#author-info{background-color:#f5f5f5}.comment-meta a{color:#000}.commentlist .reply a{color:#000}select,input[type],textarea{color:#2d3140;border-color:#f0f0f0}input[type]:hover,textarea:hover,select:hover,input[type]:focus,textarea:focus,select:focus{background:#f0f0f0}button,input[type=button],input[type=submit],input[type=reset]{background-color:#365da0;color:#fff}button:hover,input[type=button]:hover,input[type=submit]:hover,input[type=reset]:hover{background-color:#96bbe0}hr{background-color:#f0f0f0}.wp-block-image.alignwide{margin-left:calc( ( 0% + 2.5em ) * -1 );margin-right:calc( ( 0% + 2.5em ) * -1 )}.wp-block-image.alignwide img{width:calc( 100% + 5em );max-width:calc( 100% + 5em )}.has-accent-1-color,.has-accent-1-color:hover{color:#365da0}.has-accent-2-color,.has-accent-2-color:hover{color:#96bbe0}.has-headings-color,.has-headings-color:hover{color:#2d3140}.has-sitetext-color,.has-sitetext-color:hover{color:#2d3140}.has-sitebg-color,.has-sitebg-color:hover{color:#fff}.has-accent-1-background-color{background-color:#365da0}.has-accent-2-background-color{background-color:#96bbe0}.has-headings-background-color{background-color:#2d3140}.has-sitetext-background-color{background-color:#2d3140}.has-sitebg-background-color{background-color:#fff}.has-small-font-size{font-size:8px}.has-regular-font-size{font-size:14px}.has-large-font-size{font-size:22px}.has-larger-font-size{font-size:35px}.has-huge-font-size{font-size:35px}.woocommerce-page #respond input#submit.alt,.woocommerce a.button.alt,.woocommerce-page button.button.alt,.woocommerce input.button.alt,.woocommerce #respond input#submit,.woocommerce a.button,.woocommerce button.button,.woocommerce input.button{background-color:#365da0;color:#fff;line-height:1.6}.woocommerce #respond input#submit:hover,.woocommerce a.button:hover,.woocommerce button.button:hover,.woocommerce input.button:hover{background-color:#587fc2;color:#fff}.woocommerce-page #respond input#submit.alt,.woocommerce a.button.alt,.woocommerce-page button.button.alt,.woocommerce input.button.alt{background-color:#96bbe0;color:#fff;line-height:1.6}.woocommerce-page #respond input#submit.alt:hover,.woocommerce a.button.alt:hover,.woocommerce-page button.button.alt:hover,.woocommerce input.button.alt:hover{background-color:#b8ddff;color:#fff}.woocommerce div.product .woocommerce-tabs ul.tabs li.active{border-bottom-color:#fff}.woocommerce #respond input#submit.alt.disabled,.woocommerce #respond input#submit.alt.disabled:hover,.woocommerce #respond input#submit.alt:disabled,.woocommerce #respond input#submit.alt:disabled:hover,.woocommerce #respond input#submit.alt[disabled]:disabled,.woocommerce #respond input#submit.alt[disabled]:disabled:hover,.woocommerce a.button.alt.disabled,.woocommerce a.button.alt.disabled:hover,.woocommerce a.button.alt:disabled,.woocommerce a.button.alt:disabled:hover,.woocommerce a.button.alt[disabled]:disabled,.woocommerce a.button.alt[disabled]:disabled:hover,.woocommerce button.button.alt.disabled,.woocommerce button.button.alt.disabled:hover,.woocommerce button.button.alt:disabled,.woocommerce button.button.alt:disabled:hover,.woocommerce button.button.alt[disabled]:disabled,.woocommerce button.button.alt[disabled]:disabled:hover,.woocommerce input.button.alt.disabled,.woocommerce input.button.alt.disabled:hover,.woocommerce input.button.alt:disabled,.woocommerce input.button.alt:disabled:hover,.woocommerce input.button.alt[disabled]:disabled,.woocommerce input.button.alt[disabled]:disabled:hover{background-color:#96bbe0}.woocommerce ul.products li.product .price,.woocommerce div.product p.price,.woocommerce div.product span.price{color:#00000e}#add_payment_method #payment,.woocommerce-cart #payment,.woocommerce-checkout #payment{background:#f5f5f5}.woocommerce .main .page-title{}nav#mobile-menu{background-color:#fff}#mobile-menu .mobile-arrow{color:#2d3140}.main .entry-content,.main .entry-summary{text-align:inherit}.main p,.main ul,.main ol,.main dd,.main pre,.main hr{margin-bottom:1em}.main p{text-indent:0}.main a.post-featured-image{background-position:50%}#header-widget-area{width:33%;right:10px}.septera-stripped-table .main thead th,.septera-bordered-table .main thead th,.septera-stripped-table .main td,.septera-stripped-table .main th,.septera-bordered-table .main th,.septera-bordered-table .main td{border-color:#e9e9e9}.septera-clean-table .main th,.septera-stripped-table .main tr:nth-child(even) td,.septera-stripped-table .main tr:nth-child(even) th{background-color:#f6f6f6}article.hentry .article-inner,#content-masonry article.hentry .article-inner{padding:0%}#site-header-main{height:50px}#access .menu-search-animated .searchform{top:52px}.menu-search-animated,#sheader,.identity,#nav-toggle{height:50px;line-height:50px}#access div>ul>li>a{line-height:50px}#branding{height:50px}#header-widget-area{top:60px}.septera-responsive-headerimage #masthead #header-image-main-inside{max-height:10px}.septera-cropped-headerimage #masthead div.header-image{height:10px}#site-description{display:block}#masthead #site-header-main{position:fixed}.septera-fixed-menu #header-image-main{margin-top:50px}.lp-staticslider .staticslider-caption-text a{border-color:#fff}.lp-staticslider .staticslider-caption,.seriousslider.seriousslider-theme .seriousslider-caption,.septera-landing-page .lp-blocks-inside,.septera-landing-page .lp-boxes-inside,.septera-landing-page .lp-text-inside,.septera-landing-page .lp-posts-inside,.septera-landing-page .lp-page-inside,.septera-landing-page .lp-section-header,.septera-landing-page .content-widget{max-width:1920px}.septera-landing-page .content-widget{margin:0 auto}.seriousslider-theme .seriousslider-caption-buttons a:nth-child(2n+1),a.staticslider-button:nth-child(2n+1){color:#2d3140;border-color:#fff;background-color:#fff}.seriousslider-theme .seriousslider-caption-buttons a:nth-child(2n+1):hover,a.staticslider-button:nth-child(2n+1):hover{color:#fff}.seriousslider-theme .seriousslider-caption-buttons a:nth-child(2n),a.staticslider-button:nth-child(2n){border-color:#fff;color:#fff}.seriousslider-theme .seriousslider-caption-buttons a:nth-child(2n):hover,.staticslider-button:nth-child(2n):hover{color:#2d3140;background-color:#fff}.lp-staticslider::before,.lp-dynamic-slider .item>a::before,#header-image-main::before{background-color:#24a7cf}.lp-staticslider::before,.lp-dynamic-slider .item>a::before,#header-image-main::before{z-index:2}.lp-staticslider-image,.header-image,.seriousslider .item-image{-webkit-filter:grayscale(75%)brightness(110%);filter:grayscale(75%)brightness(110%)}@-webkit-keyframes animation-slider-overlay{to{opacity:.75}}@keyframes animation-slider-overlay{to{opacity:.75}}.lp-dynamic-slider .item>a::before{opacity:.75}.lp-blocks{background-color:#fff}.lp-boxes{background-color:#fff}.lp-text{background-color:#f8f8f8}.staticslider-caption-container,.lp-dynamic-slider{background-color:#fff}.lp-block>i::before{color:#365da0}.lp-block:hover i::before{color:#96bbe0}.lp-block i::after{background-color:#365da0}.lp-blocks .lp-block:hover .lp-block-title{color:#365da0}.lp-blocks .lp-block:hover i::after{background-color:#96bbe0}.lp-block-text,.lp-boxes-static .lp-box-text,.lp-section-desc{color:#050918}.lp-boxes .lp-box .lp-box-image{height:300px}.lp-boxes.lp-boxes-animated .lp-box:hover .lp-box-text{max-height:200px}.lp-boxes .lp-box .lp-box-image{height:400px}.lp-boxes.lp-boxes-animated .lp-box:hover .lp-box-text{max-height:300px}.lp-boxes-animated .lp-box-readmore:hover{color:#365da0;opacity:.7}.lp-boxes-static .lp-box-overlay{background-color:rgba(54,93,160,.9)}#cryout_ajax_more_trigger{background-color:#365da0;color:#fff}.lpbox-rnd1{background-color:#c8c8c8}.lpbox-rnd2{background-color:#c3c3c3}.lpbox-rnd3{background-color:#bebebe}.lpbox-rnd4{background-color:#b9b9b9}.lpbox-rnd5{background-color:#b4b4b4}.lpbox-rnd6{background-color:#afafaf}.lpbox-rnd7{background-color:#aaa}.lpbox-rnd8{background-color:#a5a5a5}</style><link rel=https://api.w.org/ href=https://www.learncpp.com/wp-json/><link rel=alternate type=application/json href=https://www.learncpp.com/wp-json/wp/v2/posts/208><link rel=canonical href="index.html"><link rel=alternate type=application/json+oembed href="https://www.learncpp.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fpartial-template-specialization%2F"><link rel=alternate type=text/xml+oembed href="https://www.learncpp.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fpartial-template-specialization%2F&amp;format=xml"><link rel=stylesheet id=18062-css href="../../blog/wp-content/uploads/custom-css-js/18062.css@v=430.css" media=all><link rel=icon href="../../blog/wp-content/uploads/learncpp.png" sizes=32x32><link rel=icon href="../../blog/wp-content/uploads/learncpp.png" sizes=192x192><link rel=apple-touch-icon href="../../blog/wp-content/uploads/learncpp.png"><meta name=msapplication-TileImage content="https://www.learncpp.com/blog/wp-content/uploads/learncpp.png"><style>div.printOnly{margin-left:3em}</style><style media=screen>.printOnly{display:none}</style>
+<style id="offline-fix">#site-wrapper{display:block !important;visibility:visible !important;}#container,#content,#main,.main,article.hentry{visibility:visible !important;opacity:1 !important;}.ai-list-data,.lessontables,.lessontables-visible{display:block !important;visibility:visible !important;opacity:1 !important;}.animated-article{opacity:1 !important;transform:none !important;animation:none !important;}.code-block,.cf_monitor,.adsbygoogle,[id^="ezoic-pub-ad-placeholder-"],[class*="ezoic-adpicker-ad"]{display:none !important;width:0 !important;height:0 !important;margin:0 !important;padding:0 !important;overflow:hidden !important;}body{overflow:auto !important;}</style></head><body class="post-template-default single single-post postid-208 single-format-standard wp-custom-logo wp-embed-responsive septera-image-none septera-caption-one septera-totop-normal septera-bordered-table septera-fixed-menu septera-responsive-headerimage septera-responsive-featured septera-magazine-two septera-magazine-layout septera-comment-placeholder septera-normalizedtags septera-article-animation-slide" itemscope itemtype=http://schema.org/WebPage><div id=site-wrapper><header id=masthead class=cryout itemscope itemtype=http://schema.org/WPHeader role=banner><div id=site-header-main><div id=site-header-main-inside><nav id=mobile-menu><span id=nav-cancel><i class=icon-cancel></i></span><div><ul id=mobile-nav><li id=menu-item-9876 class="menu-item menu-item-type- menu-item-object- menu-item-has-children menu-item-9876"><a><span>Navigate</span></a><ul class=sub-menu><li id=menu-item-1009876 class="menu-item menu-item-type- menu-item-object- menu-item-1009876"><a href="../partial-template-specialization-for-pointers/index.html"><span><i class="cpp_menu _mi _before fa fa-chevron-circle-right"></i>26.6 — Partial template specialization for pointers</span></a><li class="menu-item menu-item-type- menu-item-object- menu-item-1009876"><a href="https://www.learncpp.com/"><span><i class="cpp_menu _mi _before fa fa-home"></i>Table of contents</span></a><li class="menu-item menu-item-type- menu-item-object- menu-item-1009876"><a href="../class-template-specialization/index.html"><span><i class="cpp_menu _mi _before fa fa-chevron-circle-left"></i>26.4 — Class template specialization</span></a></ul><li id=menu-item-6312 class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6312"><a href=https://www.learncpp.com/learn-cpp-site-index/><span><i class="_mi _before fa fa-crosshairs" aria-hidden=true></i><span>Site Index</span></span></a><li id=menu-item-12722 class="menu-item menu-item-type-post_type menu-item-object-page menu-item-12722"><a href=https://www.learncpp.com/latest-changes/><span><i class="_mi _before fa fa-list" aria-hidden=true></i><span>Latest Changes</span></span></a><li id=menu-item-6313 class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-6313"><a href=https://www.learncpp.com/about/><span>About</span></a><ul class=sub-menu><li id=menu-item-12083 class="menu-item menu-item-type-post_type menu-item-object-post menu-item-12083"><a href=https://www.learncpp.com/leave-feedback-report-issue/><span><i class="_mi _before fa fa-comment" aria-hidden=true></i><span>Leave feedback</span></span></a><li id=menu-item-11706 class="menu-item menu-item-type-post_type menu-item-object-post menu-item-11706"><a href=https://www.learncpp.com/leave-feedback-report-issue/><span><i class="_mi _before fa fa-bug" aria-hidden=true></i><span>Report an issue</span></span></a><li id=menu-item-11707 class="menu-item menu-item-type-post_type menu-item-object-page menu-item-11707"><a href=https://www.learncpp.com/about/><span><i class="_mi _before dashicons dashicons-welcome-write-blog" aria-hidden=true></i><span>Contact / Support</span></span></a><li id=menu-item-11705 class="menu-item menu-item-type-custom menu-item-object-custom menu-item-11705"><a href="../introduction-to-these-tutorials.html#FAQ"><span><i class="_mi _before fa fa-question-circle" aria-hidden=true></i><span>Site FAQ</span></span></a><li id=menu-item-17734 class="menu-item menu-item-type-custom menu-item-object-custom menu-item-17734"><a href=https://g.ezoic.net/privacy/learncpp.com><span><i class="_mi _before fa fa-bed" aria-hidden=true></i><span>Privacy Policy</span></span></a><li id=menu-item-16006 class="menu-item menu-item-type-post_type menu-item-object-page menu-item-16006"><a href=https://www.learncpp.com/about/><span><i class="_mi _before fa fa-smile-o" aria-hidden=true></i><span>Donate</span></span></a></ul><li id=menu-item-12082 class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12082"><a title="LearnCPP doesn’t have a native dark mode, but this link will take you to a browser plugin that will let you make any web page dark." target=_blank rel=noopener href=https://darkreader.org/><span><i class="_mi _before fa fa-moon-o" aria-hidden=true></i><span> </span></span></a><li class="menu-main-search menu-search-animated"><a role=link "https://www.learncpp.com/cpp-tutorial/partial-template-specialization/href"><i class=icon-search></i><span class=screen-reader-text>Search</span></a><form apbct-form-sign=native_search role=search class=searchform action=https://www.learncpp.com/><label><span class=screen-reader-text>Search for:</span>
+<input type=search class=s placeholder=Search name=s></label>
+<button class=searchsubmit><span class=screen-reader-text>Search</span><i class=icon-search></i></button>
+<input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=39106></form></ul></div></nav><div id=branding><div class=identity><a href=https://www.learncpp.com/ id=logo class=custom-logo-link title="Learn C++" rel=home><img src="../../blog/wp-content/uploads/learncpp.png" class=custom-logo alt="Learn C++"></a></div><div id=site-text><div itemprop=headline id=site-title><span><a href=https://www.learncpp.com/ title="Skill up with our free tutorials" rel=home>Learn C++</a></span></div><span id=site-description itemprop=description>Skill up with our free tutorials</span></div></div><a id=nav-toggle><i class=icon-menu></i></a><nav id=access role=navigation aria-label="Primary Menu" itemscope itemtype=http://schema.org/SiteNavigationElement><div class="skip-link screen-reader-text"><a href="index.html#main" title="Skip to content">Skip to content</a></div><div><ul id=prime_nav><li class="menu-item menu-item-type- menu-item-object- menu-item-has-children menu-item-9876"><a><span>Navigate</span></a><ul class=sub-menu><li class="menu-item menu-item-type- menu-item-object- menu-item-1009876"><a href="../partial-template-specialization-for-pointers/index.html"><span><i class="cpp_menu _mi _before fa fa-chevron-circle-right"></i>26.6 — Partial template specialization for pointers</span></a><li class="menu-item menu-item-type- menu-item-object- menu-item-1009876"><a href="https://www.learncpp.com/"><span><i class="cpp_menu _mi _before fa fa-home"></i>Table of contents</span></a><li class="menu-item menu-item-type- menu-item-object- menu-item-1009876"><a href="../class-template-specialization/index.html"><span><i class="cpp_menu _mi _before fa fa-chevron-circle-left"></i>26.4 — Class template specialization</span></a></ul><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6312"><a href=https://www.learncpp.com/learn-cpp-site-index/><span><i class="_mi _before fa fa-crosshairs" aria-hidden=true></i><span>Site Index</span></span></a><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-12722"><a href=https://www.learncpp.com/latest-changes/><span><i class="_mi _before fa fa-list" aria-hidden=true></i><span>Latest Changes</span></span></a><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-6313"><a href=https://www.learncpp.com/about/><span>About</span></a><ul class=sub-menu><li class="menu-item menu-item-type-post_type menu-item-object-post menu-item-12083"><a href=https://www.learncpp.com/leave-feedback-report-issue/><span><i class="_mi _before fa fa-comment" aria-hidden=true></i><span>Leave feedback</span></span></a><li class="menu-item menu-item-type-post_type menu-item-object-post menu-item-11706"><a href=https://www.learncpp.com/leave-feedback-report-issue/><span><i class="_mi _before fa fa-bug" aria-hidden=true></i><span>Report an issue</span></span></a><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-11707"><a href=https://www.learncpp.com/about/><span><i class="_mi _before dashicons dashicons-welcome-write-blog" aria-hidden=true></i><span>Contact / Support</span></span></a><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-11705"><a href="../introduction-to-these-tutorials.html#FAQ"><span><i class="_mi _before fa fa-question-circle" aria-hidden=true></i><span>Site FAQ</span></span></a><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-17734"><a href=https://g.ezoic.net/privacy/learncpp.com><span><i class="_mi _before fa fa-bed" aria-hidden=true></i><span>Privacy Policy</span></span></a><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-16006"><a href=https://www.learncpp.com/about/><span><i class="_mi _before fa fa-smile-o" aria-hidden=true></i><span>Donate</span></span></a></ul><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12082"><a title="LearnCPP doesn’t have a native dark mode, but this link will take you to a browser plugin that will let you make any web page dark." target=_blank rel=noopener href=https://darkreader.org/><span><i class="_mi _before fa fa-moon-o" aria-hidden=true></i><span> </span></span></a><li class="menu-main-search menu-search-animated"><a role=link "https://www.learncpp.com/cpp-tutorial/partial-template-specialization/href"><i class=icon-search></i><span class=screen-reader-text>Search</span></a><form apbct-form-sign=native_search role=search class=searchform action=https://www.learncpp.com/><label><span class=screen-reader-text>Search for:</span>
+<input type=search class=s placeholder=Search name=s></label>
+<button class=searchsubmit><span class=screen-reader-text>Search</span><i class=icon-search></i></button>
+<input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=22056></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="26.5 — Partial template specialization" src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-208 class="post-208 post type-post status-publish format-standard hentry category-cpp-tutorial tag-c tag-pointers tag-programming tag-specialization tag-templates tag-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>26.5 — Partial template specialization</h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Author></i><a class="url fn n" rel=author href=https://www.learncpp.com/author/Alex/ title="View all posts by Alex" itemprop=url><em itemprop=name>Alex</em></a></span>
+<span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2008-08-17T18:59:03-07:00 itemprop=datePublished>August 17, 2008, 6:59 pm PDT</time>
+<time class=updated datetime=2024-03-16T15:53:05-07:00 itemprop=dateModified>March 16, 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>This lesson and the next are optional reading for those desiring a deeper knowledge of C++ templates. Partial template specialization is not used all that often (but can be useful in specific cases).<p>In lesson <a href="../template-non-type-parameters/index.html">26.2 -- Template non-type parameters</a>, you learned how expression parameters could be used to parameterize template classes.<p>Let’s take another look at the Static Array class we used in one of our previous examples:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">template &lt;typename T, int size&gt; // size is the expression parameter
+class StaticArray
+{
+private:
+    // The expression parameter controls the size of the array
+    T m_array[size]{};
+ 
+public:
+    T* getArray() { return m_array; }
+	
+    const T&amp; operator[](int index) const { return m_array[index]; }
+    T&amp; operator[](int index) { return m_array[index]; }
+};</code></pre><p>This class takes two template parameters: one type parameter and one expression parameter.<p>Now, let’s say we wanted to write a function to print out the whole array. Although we could implement this as a member function, we’re going to do it as a non-member function instead because it will make the successive examples easier to follow.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Using templates, we might write something like this:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">template &lt;typename T, int size&gt;
+void print(const StaticArray&lt;T, size&gt;&amp; array)
+{
+    for (int count{ 0 }; count &lt; size; ++count)
+        std::cout &lt;&lt; array[count] &lt;&lt; &#39; &#39;;
+}</code></pre><p>This would allow us to do the following:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+
+template &lt;typename T, int size&gt; // size is a template non-type parameter
+class StaticArray
+{
+private:
+	T m_array[size]{};
+
+public:
+	T* getArray() { return m_array; }
+
+	const T&amp; operator[](int index) const { return m_array[index]; }
+	T&amp; operator[](int index) { return m_array[index]; }
+};
+
+template &lt;typename T, int size&gt;
+void print(const StaticArray&lt;T, size&gt;&amp; array)
+{
+	for (int count{ 0 }; count &lt; size; ++count)
+		std::cout &lt;&lt; array[count] &lt;&lt; &#39; &#39;;
+}
+
+int main()
+{
+	// declare an int array
+	StaticArray&lt;int, 4&gt; int4{};
+	int4[0] = 0;
+	int4[1] = 1;
+	int4[2] = 2;
+	int4[3] = 3;
+
+	// Print the array
+	print(int4);
+
+	return 0;
+}</code></pre><p>and get the following result:<pre>0 1 2 3
+</pre><p>Although this works, it has a design flaw. Consider the following:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;algorithm&gt;
+#include &lt;iostream&gt;
+#include &lt;string_view&gt;
+
+int main()
+{
+    // Declare a char array
+    StaticArray&lt;char, 14&gt; char14{};
+
+    // Copy some data into it
+    constexpr std::string_view hello{ &#34;Hello, world!&#34; };
+    std::copy_n(hello.begin(), hello.size(), char14.getArray());
+
+    // Print the array
+    print(char14);
+
+    return 0;
+}</code></pre><p>(We covered std::strcpy in lesson <a href="../66-c-style-strings/index.html">17.10 -- C-style strings</a> if you need a refresher)<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>This program will compile, execute, and produce the following value (or one similar):<pre>H e l l o ,   w o r l d !
+</pre><p>For non-char types, it makes sense to put a space between each array element, so they don’t run together. However, with a char type, it makes more sense to print everything run together as a C-style string, which our print() function doesn’t do.<p>So how can we fix this?<p class="cpp-section cpp-topline" style=clear:both>Template specialization to the rescue?<p>One might first think of using template specialization. The problem with full template specialization is that all template parameters must be explicitly defined.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>Consider:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;algorithm&gt;
+#include &lt;iostream&gt;
+#include &lt;string_view&gt;
+
+template &lt;typename T, int size&gt; // size is the expression parameter
+class StaticArray
+{
+private:
+	// The expression parameter controls the size of the array
+	T m_array[size]{};
+
+public:
+	T* getArray() { return m_array; }
+
+	const T&amp; operator[](int index) const { return m_array[index]; }
+	T&amp; operator[](int index) { return m_array[index]; }
+};
+
+template &lt;typename T, int size&gt;
+void print(const StaticArray&lt;T, size&gt;&amp; array)
+{
+	for (int count{ 0 }; count &lt; size; ++count)
+		std::cout &lt;&lt; array[count] &lt;&lt; &#39; &#39;;
+}
+
+// Override print() for fully specialized StaticArray&lt;char, 14&gt;
+template &lt;&gt;
+void print(const StaticArray&lt;char, 14&gt;&amp; array)
+{
+	for (int count{ 0 }; count &lt; 14; ++count)
+		std::cout &lt;&lt; array[count];
+}
+
+int main()
+{
+    // Declare a char array
+    StaticArray&lt;char, 14&gt; char14{};
+
+    // Copy some data into it
+    constexpr std::string_view hello{ &#34;Hello, world!&#34; };
+    std::copy_n(hello.begin(), hello.size(), char14.getArray());
+
+    // Print the array
+    print(char14);
+
+    return 0;
+}</code></pre><p>As you can see, we’ve now provided an overloaded print function for fully specialized <code>StaticArray&lt;char, 14></code>. Indeed, this prints:<pre>Hello, world!
+</pre><p>Although this solves the issue of making sure print() can be called with a <code>StaticArray&lt;char, 14></code>, it brings up another problem: using full template specialization means we have to explicitly define the length of the array this function will accept! Consider the following example:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
+{
+    // Declare a char array
+    StaticArray&lt;char, 12&gt; char12{};
+
+    // Copy some data into it
+    constexpr std::string_view hello{ &#34;Hello, mom!&#34; };
+    std::copy_n(hello.begin(), hello.size(), char12.getArray());
+
+    // Print the array
+    print(char12);
+
+    return 0;
+}</code></pre><p>Calling <code>print()</code> with <code>char12</code> will call the version of <code>print()</code> that takes a <code>StaticArray&lt;T, size></code>, because <code>char12</code> is of type <code>StaticArray&lt;char, 12></code>, and our overloaded print() will only be called when passed a <code>StaticArray&lt;char, 14></code>.<p>Although we could make a copy of print() that handles <code>StaticArray&lt;char, 12></code>, what happens when we want to call print() with an array size of 5, or 22? We’d have to copy the function for each different array size. That’s redundant.<p>Obviously full template specialization is too restrictive a solution here. The solution we are looking for is partial template specialization.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Partial template specialization<p>Partial template specialization allows us to specialize classes (but not individual functions!) where some, but not all, of the template parameters have been explicitly defined. For our challenge above, the ideal solution would be to have our overloaded print function work with StaticArray of type char, but leave the length expression parameter templated so it can vary as needed. Partial template specialization allows us to do just that!<p>Here’s our example with an overloaded print function that takes a partially specialized StaticArray:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// overload of print() function for partially specialized StaticArray&lt;char, size&gt;
+template &lt;int size&gt; // size is still a template non-type parameter
+void print(const StaticArray&lt;char, size&gt;&amp; array) // we&#39;re explicitly defining type char here
+{
+	for (int count{ 0 }; count &lt; size; ++count)
+		std::cout &lt;&lt; array[count];
+}</code></pre><p>As you can see here, we’ve explicitly declared that this function will only work for StaticArray of type char, but size is still a templated expression parameter, so it will work for char arrays of any size. That’s all there is to it!<p>Here’s a full program using this:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;algorithm&gt;
+#include &lt;iostream&gt;
+#include &lt;string_view&gt;
+
+template &lt;typename T, int size&gt; // size is the expression parameter
+class StaticArray
+{
+private:
+	// The expression parameter controls the size of the array
+	T m_array[size]{};
+
+public:
+	T* getArray() { return m_array; }
+
+	const T&amp; operator[](int index) const { return m_array[index]; }
+	T&amp; operator[](int index) { return m_array[index]; }
+};
+
+template &lt;typename T, int size&gt;
+void print(const StaticArray&lt;T, size&gt;&amp; array)
+{
+	for (int count{ 0 }; count &lt; size; ++count)
+		std::cout &lt;&lt; array[count] &lt;&lt; &#39; &#39;;
+}
+
+// overload of print() function for partially specialized StaticArray&lt;char, size&gt;
+template &lt;int size&gt;
+void print(const StaticArray&lt;char, size&gt;&amp; array)
+{
+	for (int count{ 0 }; count &lt; size; ++count)
+		std::cout &lt;&lt; array[count];
+}
+
+int main()
+{
+	// Declare an char array of size 14
+	StaticArray&lt;char, 14&gt; char14{};
+
+	// Copy some data into it
+	constexpr std::string_view hello14{ &#34;Hello, world!&#34; };
+	std::copy_n(hello14.begin(), hello14.size(), char14.getArray());
+
+	// Print the array
+	print(char14);
+
+	std::cout &lt;&lt; &#39; &#39;;
+
+	// Now declare an char array of size 12
+	StaticArray&lt;char, 12&gt; char12{};
+
+	// Copy some data into it
+	constexpr std::string_view hello12{ &#34;Hello, mom!&#34; };
+	std::copy_n(hello12.begin(), hello12.size(), char12.getArray());
+
+	// Print the array
+	print(char12);
+
+	return 0;
+}</code></pre><p>This prints:<pre>Hello, world! Hello, mom!
+</pre><p>Just as we expect.<p>Partial template specialization can only be used with classes, not template functions (functions must be fully specialized). Our <code>void print(StaticArray&lt;char, size> &amp;array)</code> example works because the print function is not partially specialized (it’s just an overloaded template function that happens to have a partially-specialized class parameter).<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Partial template specialization for member functions<p>The limitation on the partial specialization of functions can lead to some challenges when dealing with member functions. For example, what if we had defined StaticArray like this?<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">template &lt;typename T, int size&gt;
+class StaticArray
+{
+private:
+    T m_array[size]{};
+ 
+public:
+    T* getArray() { return m_array; }
+	
+    const T&amp; operator[](int index) const { return m_array[index]; }
+    T&amp; operator[](int index) { return m_array[index]; }
+
+    void print() const;
+};
+
+template &lt;typename T, int size&gt; 
+void StaticArray&lt;T, size&gt;::print() const
+{
+    for (int i{ 0 }; i &lt; size; ++i)
+        std::cout &lt;&lt; m_array[i] &lt;&lt; &#39; &#39;;
+    std::cout &lt;&lt; &#39;\n&#39;;
+}</code></pre><p>print() is now a member function of class <code>StaticArray&lt;T, int></code>. So what happens when we want to partially specialize print(), so that it works differently? You might try this:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Doesn&#39;t work, can&#39;t partially specialize functions
+template &lt;int size&gt;
+void StaticArray&lt;double, size&gt;::print() const
+{
+	for (int i{ 0 }; i &lt; size; ++i)
+		std::cout &lt;&lt; std::scientific &lt;&lt; m_array[i] &lt;&lt; &#39; &#39;;
+	std::cout &lt;&lt; &#39;\n&#39;;
+}</code></pre><p>Unfortunately, this doesn’t work, because we’re trying to partially specialize a function, which is disallowed.<p>So how do we get around this? One obvious way is to partially specialize the entire class:<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+
+template &lt;typename T, int size&gt;
+class StaticArray
+{
+private:
+	T m_array[size]{};
+
+public:
+	T* getArray() { return m_array; }
+
+	const T&amp; operator[](int index) const { return m_array[index]; }
+	T&amp; operator[](int index) { return m_array[index]; }
+
+	void print() const;
+};
+
+template &lt;typename T, int size&gt; 
+void StaticArray&lt;T, size&gt;::print() const
+{
+	for (int i{ 0 }; i &lt; size; ++i)
+		std::cout &lt;&lt; m_array[i] &lt;&lt; &#39; &#39;;
+	std::cout &lt;&lt; &#39;\n&#39;;
+}
+
+// Partially specialized class
+template &lt;int size&gt;
+class StaticArray&lt;double, size&gt;
+{
+private:
+	double m_array[size]{};
+
+public:
+	double* getArray() { return m_array; }
+
+	const double&amp; operator[](int index) const { return m_array[index]; }
+	double&amp; operator[](int index) { return m_array[index]; }
+
+	void print() const;
+};
+
+// Member function of partially specialized class
+template &lt;int size&gt;
+void StaticArray&lt;double, size&gt;::print() const
+{
+	for (int i{ 0 }; i &lt; size; ++i)
+		std::cout &lt;&lt; std::scientific &lt;&lt; m_array[i] &lt;&lt; &#39; &#39;;
+	std::cout &lt;&lt; &#39;\n&#39;;
+}
+
+int main()
+{
+	// declare an integer array with room for 6 integers
+	StaticArray&lt;int, 6&gt; intArray{};
+
+	// Fill it up in order, then print it
+	for (int count{ 0 }; count &lt; 6; ++count)
+		intArray[count] = count;
+
+	intArray.print();
+
+	// declare a double buffer with room for 4 doubles
+	StaticArray&lt;double, 4&gt; doubleArray{};
+
+	for (int count{ 0 }; count &lt; 4; ++count)
+		doubleArray[count] = (4.0 + 0.1 * count);
+
+	doubleArray.print();
+
+	return 0;
+}</code></pre><p>This prints:<pre>0 1 2 3 4 5
+4.000000e+00 4.100000e+00 4.200000e+00 4.300000e+00
+</pre><p>This works because <code>StaticArray&lt;double, size>::print()</code> is no longer a partially specialized function -- it is a non-specialized member of partially specialized class <code>StaticArray&lt;double, size></code>.<p>However, this isn’t a great solution, because we have to duplicate a lot of code from <code>StaticArray&lt;T, size></code> to <code>StaticArray&lt;double, size></code>.<p>If only there were some way to reuse the code in <code>StaticArray&lt;T, size></code> in <code>StaticArray&lt;double, size></code>. Sounds like a job for inheritance!<p>You might start off trying to write that code like this:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">template &lt;int size&gt; // size is the expression parameter
+class StaticArray&lt;double, size&gt;: public StaticArray&lt;T, size&gt;</code></pre><p>But this doesn’t work, because we’ve used <code>T</code> without defining it. There is no syntax that allows us to inherit in such a manner.<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">As an aside…<p>Even if we were able to define <code>T</code> as a type template parameter, when <code>StaticArray&lt;double, size></code> was instantiated, the compiler would need to replace the <code>T</code> in <code>StaticArray&lt;T, size></code> with an actual type. What actual type would it use? The only type that makes sense is <code>T=double</code>, but that would leave <code>StaticArray&lt;double, size></code> inheriting from itself!</div><p>Fortunately, there’s a workaround, by using a common base class:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+
+template &lt;typename T, int size&gt;
+class StaticArray_Base
+{
+protected:
+	T m_array[size]{};
+
+public:
+	T* getArray() { return m_array; }
+
+	const T&amp; operator[](int index) const { return m_array[index]; }
+	T&amp; operator[](int index) { return m_array[index]; }
+
+	void print() const
+	{
+		for (int i{ 0 }; i &lt; size; ++i)
+			std::cout &lt;&lt; m_array[i] &lt;&lt; &#39; &#39;;
+		std::cout &lt;&lt; &#39;\n&#39;;
+	}
+
+	// Don&#39;t forget a virtual destructor if you&#39;re going to use virtual function resolution
+};
+
+template &lt;typename T, int size&gt;
+class StaticArray: public StaticArray_Base&lt;T, size&gt;
+{
+};
+
+template &lt;int size&gt;
+class StaticArray&lt;double, size&gt;: public StaticArray_Base&lt;double, size&gt;
+{
+public:
+
+	void print() const
+	{
+		for (int i{ 0 }; i &lt; size; ++i)
+			std::cout &lt;&lt; std::scientific &lt;&lt; this-&gt;m_array[i] &lt;&lt; &#39; &#39;;
+// note: The this-&gt; prefix in the above line is needed.
+// See https://stackoverflow.com/a/6592617 or https://isocpp.org/wiki/faq/templates#nondependent-name-lookup-members for more info on why.
+		std::cout &lt;&lt; &#39;\n&#39;;
+	}
+};
+
+int main()
+{
+	// declare an integer array with room for 6 integers
+	StaticArray&lt;int, 6&gt; intArray{};
+
+	// Fill it up in order, then print it
+	for (int count{ 0 }; count &lt; 6; ++count)
+		intArray[count] = count;
+
+	intArray.print();
+
+	// declare a double buffer with room for 4 doubles
+	StaticArray&lt;double, 4&gt; doubleArray{};
+
+	for (int count{ 0 }; count &lt; 4; ++count)
+		doubleArray[count] = (4.0 + 0.1 * count);
+
+	doubleArray.print();
+
+	return 0;
+}</code></pre><p>This prints the same as above, but has significantly less duplicated code.<div class=prevnext><div class=prevnext-inline><a class=nav-link href="../partial-template-specialization-for-pointers/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Next lesson</div><div class=nav-button-lesson><span class=nav-button-lesson-number>26.6</span>Partial template specialization for pointers</div></div></div></a><a class=nav-link href="https://www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Back to table of contents</div></div></div></a><a class=nav-link href="../class-template-specialization/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Previous lesson</div><div class=nav-button-lesson><span class=nav-button-lesson-number>26.4</span>Class template specialization</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="https://www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=https://www.learncpp.com/partial-template-specialization/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Previous Post</em><a href="../class-template-specialization/index.html" rel=prev><span>26.4 — Class template specialization</span></a></div><div class=nav-next><em>Next Post</em><a href="../151-the-need-for-exceptions/index.html" rel=next><span>27.1 — The need for exceptions</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Label</label>
+<textarea id=wc-textarea-0_0 placeholder="Leave a comment..." aria-label="Leave a comment..." required name=wc_comment class="wc_comment wpd-field"></textarea></div><div class=wpd-editor-buttons-right></div></div></div></div><div class=wpd-form-foot><div class=wpdiscuz-textarea-foot><div class=wpdiscuz-button-actions></div></div><div class=wpd-form-row><div class=wpd-form-col-left><div class="wpdiscuz-item wc_name-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-user"></i></div><input id=wc_name-0_0 required aria-required=true class="wc_name wpd-field" name=wc_name placeholder=Name* maxlength=50 pattern=.{3,50}>
+<label for=wc_name-0_0 class=wpdlb>Name*</label></div><div class="wpdiscuz-item wc_email-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-at"></i></div><input id=wc_email-0_0 required aria-required=true class="wc_email wpd-field" type=email name=wc_email placeholder=Email*>
+<label for=wc_email-0_0 class=wpdlb>Email*</label><div class=wpd-field-desc><i class="far fa-question-circle"></i><span>Your email address will not be displayed</span></div></div><div class=cpp_correction_div style=padding-bottom:4px><div class=wpd-field-icon style=display:inline-block;width:20px><i style=opacity:.6 class="fas fa-regular fa-bug"></i></div>Find a mistake? Leave a comment above!<div class=wpd-field-desc><i class="far fa-question-circle"></i><span>Correction-related comments will be deleted after processing to help reduce clutter. Thanks for helping to make the site better for everyone!</span></div></div><div class=cpp_avatar_div style=padding-bottom:4px><div class=wpd-field-icon style=display:inline-block;width:20px><i style=opacity:.6 class="fas fa-user"></i></div>Avatars from <a target=_blank rel="noopener noreferrer" href=https://gravatar.com/>https://gravatar.com/</a> are connected to your provided email address.</div></div><div class=wpd-form-col-right><div class=wc-field-submit><span style=margin-top:6px>Notify me about replies:  </span>
+<label class=wpd_label wpd-tooltip="Notify me about new replies to this comment"><input id=wc_notification_new_comment-0_0 class="wc_notification_new_comment-0_0 wpd_label__checkbox" value=comment type=checkbox name=wpdiscuz_notification_type checked>
+<span class=wpd_label__text><span class=wpd_label__check><i class="fas fa-bell wpdicon wpdicon-on"></i><i class="fas fa-bell-slash wpdicon wpdicon-off"></i></span></span></label><input id=wpd-field-submit-0_0 class="wc_comm_submit wpd_not_clicked wpd-prim-button" type=submit name=submit value="Post Comment"></div></div><div class=clearfix></div></div></div><input type=hidden class=wpdiscuz_unique_id value=0_0 name=wpdiscuz_unique_id></form></div><div id=wpdiscuz_hidden_secondary_form style=display:none><div class="wpd-form wpd-form-wrapper wpd-secondary-form-wrapper" id=wpd-secondary-form-wrapper-wpdiscuzuniqueid style=display:none><div class=wpd-secondary-forms-social-content></div><div class=clearfix></div><form class="wpd_comm_form wpd-secondary-form-wrapper" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-wpdiscuzuniqueid class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-wpdiscuzuniqueid>Label</label>
+<textarea id=wc-textarea-wpdiscuzuniqueid placeholder="Leave a comment..." aria-label="Leave a comment..." required name=wc_comment class="wc_comment wpd-field"></textarea></div><div class=wpd-editor-buttons-right></div></div></div></div><div class=wpd-form-foot><div class=wpdiscuz-textarea-foot><div class=wpdiscuz-button-actions></div></div><div class=wpd-form-row><div class=wpd-form-col-left><div class="wpdiscuz-item wc_name-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-user"></i></div><input id=wc_name-wpdiscuzuniqueid required aria-required=true class="wc_name wpd-field" name=wc_name placeholder=Name* maxlength=50 pattern=.{3,50}>
+<label for=wc_name-wpdiscuzuniqueid class=wpdlb>Name*</label></div><div class="wpdiscuz-item wc_email-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-at"></i></div><input id=wc_email-wpdiscuzuniqueid required aria-required=true class="wc_email wpd-field" type=email name=wc_email placeholder=Email*>
+<label for=wc_email-wpdiscuzuniqueid class=wpdlb>Email*</label><div class=wpd-field-desc><i class="far fa-question-circle"></i><span>Your email address will not be displayed</span></div></div><div class=cpp_correction_div style=padding-bottom:4px><div class=wpd-field-icon style=display:inline-block;width:20px><i style=opacity:.6 class="fas fa-regular fa-bug"></i></div>Find a mistake? Leave a comment above!<div class=wpd-field-desc><i class="far fa-question-circle"></i><span>Correction-related comments will be deleted after processing to help reduce clutter. Thanks for helping to make the site better for everyone!</span></div></div><div class=cpp_avatar_div style=padding-bottom:4px><div class=wpd-field-icon style=display:inline-block;width:20px><i style=opacity:.6 class="fas fa-user"></i></div>Avatars from <a target=_blank rel="noopener noreferrer" href=https://gravatar.com/>https://gravatar.com/</a> are connected to your provided email address.</div></div><div class=wpd-form-col-right><div class=wc-field-submit><label class=wpd_label wpd-tooltip="Notify me about new replies to this comment"><input id=wc_notification_new_comment-wpdiscuzuniqueid class="wc_notification_new_comment-wpdiscuzuniqueid wpd_label__checkbox" value=comment type=checkbox name=wpdiscuz_notification_type checked>
+<span class=wpd_label__text><span class=wpd_label__check><i class="fas fa-bell wpdicon wpdicon-on"></i><i class="fas fa-bell-slash wpdicon wpdicon-off"></i></span></span></label><input id=wpd-field-submit-wpdiscuzuniqueid class="wc_comm_submit wpd_not_clicked wpd-prim-button" type=submit name=submit value="Post Comment"></div></div><div class=clearfix></div></div></div><input type=hidden class=wpdiscuz_unique_id value=wpdiscuzuniqueid name=wpdiscuz_unique_id></form></div></div></div><div id=wpd-threads class=wpd-thread-wrapper><div class=wpd-thread-head><div class=wpd-thread-info data-comments-count=168><span class=wpdtc title=168>168</span> Comments</div><div class=wpd-space></div><div class=wpd-thread-filter><div class="wpd-filter wpdf-sorting"><span class="wpdiscuz-sort-button wpdiscuz-date-sort-desc wpdiscuz-sort-button-active" data-sorting=newest>Newest</span>
+<i class="fas fa-sort-down"></i><div class=wpdiscuz-sort-buttons><span class="wpdiscuz-sort-button wpdiscuz-date-sort-asc" data-sorting=oldest>Oldest</span>
+<span class="wpdiscuz-sort-button wpdiscuz-vote-sort-up" data-sorting=by_vote>Most Voted</span></div></div></div></div><div class=wpd-comment-info-bar><div class=wpd-current-view><i class="fas fa-quote-left"></i>Inline Feedbacks</div><div class=wpd-filter-view-all>View all comments</div></div><div class=wpd-thread-list><div class=wpdiscuz-comment-pagination style=display:none><div class=wpd-load-more-submit-wrap><button name=submit data-lastparentid=0 class="wpd-load-more-submit wpd-loaded wpd-prim-button">
+Load More Comments</button></div><input id=wpdiscuzHasMoreComments type=hidden value=0></div></div></div></div></div><div id=wpdiscuz-loading-bar class=wpdiscuz-loading-bar-unauth></div><div id=wpdiscuz-comment-message class=wpdiscuz-comment-message-unauth></div></main><aside id=primary class="widget-area sidey" role=complementary itemscope itemtype=http://schema.org/WPSideBar><section id=custom_html-2 class="widget_text widget-container widget_custom_html"><div class="textwidget custom-html-widget"><div class=cf_monitor style=float:right><div id=ezoic-pub-ad-placeholder-103></div><ins class=adsbygoogle style=display:inline-block;width:160px;height:600px data-ad-client=ca-pub-0588844875925051 data-ad-slot=6408671241></ins></div></div></section></aside><aside id=secondary class="widget-area sidey" role=complementary itemscope itemtype=http://schema.org/WPSideBar><section id=custom_html-3 class="widget_text widget-container widget_custom_html"><div class="textwidget custom-html-widget"><div class=cf_monitor style=float:left><div id=ezoic-pub-ad-placeholder-102></div><ins class=adsbygoogle style=display:inline-block;width:160px;height:600px data-ad-client=ca-pub-0588844875925051 data-ad-slot=1425558446></ins></div></div></section></aside></div><aside id=colophon role=complementary itemscope itemtype=http://schema.org/WPSideBar><div id=colophon-inside class=footer-one><section id=text-10 class="widget-container widget_text"><div class=footer-widget-inside><div class=textwidget><p><em>©2024 Learn C++</em> <a href=https://g.ezoic.net/privacy/learncpp.com>Privacy Policy</a></div></div></section></div></aside></div><footer id=footer class=cryout role=contentinfo itemscope itemtype=http://schema.org/WPFooter><div id=footer-inside></div></footer></div><a href=javascript:void(0); id=wpdUserContentInfoAnchor style=display:none rel=#wpdusercontentinfo data-wpd-lity>wpDiscuz</a><div id=wpdUserContentInfo style=overflow:auto;background:#fdfdf6;padding:20px;width:600px;max-width:100%;border-radius:6px class=lity-hide></div><div id=wpd-editor-source-code-wrapper-bg></div><div id=wpd-editor-source-code-wrapper><textarea id=wpd-editor-source-code></textarea><button id=wpd-insert-source-code>Insert</button><input type=hidden id=wpd-editor-uid></div><div class=wpdiscuz-fem-email style=display:none></div><div class=wpdiscuz-fem-email-form style=display:none><span class=wpdiscuz-fem-author>You are going to send email to <em></em></span><i class="fas fa-times"></i><div class=wpdiscuz_clear></div><input placeholder="Email Subject" class=wpdiscuz-fem-subj><textarea class=wpdiscuz-fem-msg placeholder="Enter your message here"></textarea><br><div class=wpdiscuz-fem-button-align><button type=button class=wpdiscuz-fem-send>Send</button></div><input type=hidden id=wpdiscuz_fem_email_comment_id></div><div class=wpdiscuz-fem-moving style=display:none></div><div class=wpdiscuz-fem-move-form style=display:none><span class=wpdiscuz-fem-author>Move Comment<br><em></em></span><i class="fas fa-times"></i><div class=wpdiscuz_clear></div><div class=wpdiscuz-fem-posts-search><input class=wpdiscuz-fem-post placeholder="Enter post title..."><div class=wpdiscuz-fem-posts></div></div><div class=wpdiscuz-fem-button-align><button type=button class=wpdiscuz-fem-move>Move</button></div><input type=hidden id=wpdiscuz_fem_move_comment_id></div></body></html>

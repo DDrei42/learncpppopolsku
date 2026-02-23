@@ -1,0 +1,758 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8>
+
+
+
+
+
+<base href=""><meta name=viewport content="width=device-width,user-scalable=yes,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><link rel=profile href="https://gmpg.org/xfn/11"><title>16.x — Chapter 16 summary and quiz – Learn C++</title><meta name=robots content="max-image-preview:large"><link rel=dns-prefetch href="https://fd.cleantalk.org/"><link rel=stylesheet id=wgs2-css href="../../blog/wp-content/plugins/wp-google-search/wgs2.css@ver=4084444bfee884f6024e8b1b3cfa6cdd.css" media=all><link rel=stylesheet id=dashicons-css href="../../blog/wp-includes/css/dashicons.min.css@ver=4084444bfee884f6024e8b1b3cfa6cdd.css" media=all><link rel=stylesheet id=font-awesome-css href="../../blog/wp-content/plugins/menu-icons/vendor/codeinwp/icon-picker/css/types/font-awesome.min.css@ver=4.7.0.css" media=all><link rel=stylesheet id=menu-icons-extra-css href="../../blog/wp-content/plugins/menu-icons/css/extra.min.css@ver=0.12.9.css" media=all><link rel=stylesheet id=wp-block-library-css href="../../blog/wp-includes/css/dist/block-library/style.min.css@ver=4084444bfee884f6024e8b1b3cfa6cdd.css" media=all><link rel=stylesheet id=cleantalk-public-css-css href="../../blog/wp-content/plugins/cleantalk-spam-protect/css/cleantalk-public.min.css@ver=6.68_1763367835.css" media=all><link rel=stylesheet id=cleantalk-email-decoder-css-css href="../../blog/wp-content/plugins/cleantalk-spam-protect/css/cleantalk-email-decoder.min.css@ver=6.68_1763367835.css" media=all><link rel=stylesheet id=monacoCSS-css href="../../blog/wp-content/plugins/learncpp-prism/fonts/monaco.css@ver=0.135.css" media=all><link rel=stylesheet id=prismThemeCSS-css href="../../blog/wp-content/plugins/learncpp-prism/prism-theme.css@ver=0.135.css" media=all><link rel=stylesheet id=vscf_style-css href="../../blog/wp-content/plugins/very-simple-contact-form/css/vscf-style.min.css@ver=4084444bfee884f6024e8b1b3cfa6cdd.css" media=all><link rel=stylesheet id=wpdiscuz-frontend-css-css href="../../blog/wp-content/plugins/wpdiscuz/themes/default/style.css@ver=7.3.17.css" media=all><style id=wpdiscuz-frontend-css-inline-css>#wpdcom .wpd-blog-administrator .wpd-comment-label{color:#fff;background-color:#ff451f;border:none}#wpdcom .wpd-blog-administrator .wpd-comment-author,#wpdcom .wpd-blog-administrator .wpd-comment-author a{color:#ff451f}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-administrator .wpd-avatar img{border-color:#ff451f}#wpdcom.wpd-layout-2 .wpd-comment.wpd-reply .wpd-comment-wrap.wpd-blog-administrator{border-left:3px solid #ff451f}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-administrator .wpd-avatar img{border-bottom-color:#ff451f}#wpdcom.wpd-layout-3 .wpd-blog-administrator .wpd-comment-subheader{border-top:1px dashed #ff451f}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-administrator .wpd-comment-right{border-left:1px solid #ff451f}#wpdcom .wpd-blog-author .wpd-comment-label{color:#fff;background-color:#327324;border:none}#wpdcom .wpd-blog-author .wpd-comment-author,#wpdcom .wpd-blog-author .wpd-comment-author a{color:#327324}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-author .wpd-avatar img{border-color:#327324}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-author .wpd-avatar img{border-bottom-color:#327324}#wpdcom.wpd-layout-3 .wpd-blog-author .wpd-comment-subheader{border-top:1px dashed #327324}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-author .wpd-comment-right{border-left:1px solid #327324}#wpdcom .wpd-blog-contributor .wpd-comment-label{color:#fff;background-color:#a240cd;border:none}#wpdcom .wpd-blog-contributor .wpd-comment-author,#wpdcom .wpd-blog-contributor .wpd-comment-author a{color:#a240cd}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-contributor .wpd-avatar img{border-color:#a240cd}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-contributor .wpd-avatar img{border-bottom-color:#a240cd}#wpdcom.wpd-layout-3 .wpd-blog-contributor .wpd-comment-subheader{border-top:1px dashed #a240cd}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-contributor .wpd-comment-right{border-left:1px solid #a240cd}#wpdcom .wpd-blog-editor .wpd-comment-label{color:#fff;background-color:#d36000;border:none}#wpdcom .wpd-blog-editor .wpd-comment-author,#wpdcom .wpd-blog-editor .wpd-comment-author a{color:#d36000}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-editor .wpd-avatar img{border-color:#d36000}#wpdcom.wpd-layout-2 .wpd-comment.wpd-reply .wpd-comment-wrap.wpd-blog-editor{border-left:3px solid #d36000}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-editor .wpd-avatar img{border-bottom-color:#d36000}#wpdcom.wpd-layout-3 .wpd-blog-editor .wpd-comment-subheader{border-top:1px dashed #d36000}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-editor .wpd-comment-right{border-left:1px solid #d36000}#wpdcom .wpd-blog-localization_author .wpd-comment-label{color:#fff;background-color:#31839e;border:none}#wpdcom .wpd-blog-localization_author .wpd-comment-author,#wpdcom .wpd-blog-localization_author .wpd-comment-author a{color:#31839e}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-localization_author .wpd-avatar img{border-color:#31839e}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-localization_author .wpd-avatar img{border-bottom-color:#31839e}#wpdcom.wpd-layout-3 .wpd-blog-localization_author .wpd-comment-subheader{border-top:1px dashed #31839e}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-localization_author .wpd-comment-right{border-left:1px solid #31839e}#wpdcom .wpd-blog-subscriber .wpd-comment-label{color:#fff;background-color:#31839e;border:none}#wpdcom .wpd-blog-subscriber .wpd-comment-author,#wpdcom .wpd-blog-subscriber .wpd-comment-author a{color:#31839e}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-subscriber .wpd-avatar img{border-bottom-color:#31839e}#wpdcom.wpd-layout-3 .wpd-blog-subscriber .wpd-comment-subheader{border-top:1px dashed #31839e}#wpdcom .wpd-blog-subadministrator .wpd-comment-label{color:#fff;background-color:#31839e;border:none}#wpdcom .wpd-blog-subadministrator .wpd-comment-author,#wpdcom .wpd-blog-subadministrator .wpd-comment-author a{color:#31839e}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-subadministrator .wpd-avatar img{border-color:#31839e}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-subadministrator .wpd-avatar img{border-bottom-color:#31839e}#wpdcom.wpd-layout-3 .wpd-blog-subadministrator .wpd-comment-subheader{border-top:1px dashed #31839e}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-subadministrator .wpd-comment-right{border-left:1px solid #31839e}#wpdcom .wpd-blog-css_js_designer .wpd-comment-label{color:#fff;background-color:#00b38f;border:none}#wpdcom .wpd-blog-css_js_designer .wpd-comment-author,#wpdcom .wpd-blog-css_js_designer .wpd-comment-author a{color:#00b38f}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-css_js_designer .wpd-avatar img{border-color:#00b38f}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-css_js_designer .wpd-avatar img{border-bottom-color:#00b38f}#wpdcom.wpd-layout-3 .wpd-blog-css_js_designer .wpd-comment-subheader{border-top:1px dashed #00b38f}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-css_js_designer .wpd-comment-right{border-left:1px solid #00b38f}#wpdcom .wpd-blog-post_author .wpd-comment-label{color:#fff;background-color:#07b290;border:none}#wpdcom .wpd-blog-post_author .wpd-comment-author,#wpdcom .wpd-blog-post_author .wpd-comment-author a{color:#07b290}#wpdcom .wpd-blog-post_author .wpd-avatar img{border-color:#07b290}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-post_author .wpd-avatar img{border-color:#07b290}#wpdcom.wpd-layout-2 .wpd-comment.wpd-reply .wpd-comment-wrap.wpd-blog-post_author{border-left:3px solid #07b290}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-post_author .wpd-avatar img{border-bottom-color:#07b290}#wpdcom.wpd-layout-3 .wpd-blog-post_author .wpd-comment-subheader{border-top:1px dashed #07b290}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-post_author .wpd-comment-right{border-left:1px solid #07b290}#wpdcom .wpd-blog-guest .wpd-comment-label{color:#fff;background-color:#898989;border:none}#wpdcom .wpd-blog-guest .wpd-comment-author,#wpdcom .wpd-blog-guest .wpd-comment-author a{color:#898989}#wpdcom.wpd-layout-3 .wpd-blog-guest .wpd-comment-subheader{border-top:1px dashed #898989}#comments,#respond,.comments-area,#wpdcom{}#wpdcom .ql-editor>*{color:#777}#wpdcom .ql-editor::before{}#wpdcom .ql-toolbar{border:1px solid #ddd;border-top:none}#wpdcom .ql-container{border:1px solid #ddd;border-bottom:none}#wpdcom .wpd-form-row .wpdiscuz-item input[type=text],#wpdcom .wpd-form-row .wpdiscuz-item input[type=email],#wpdcom .wpd-form-row .wpdiscuz-item input[type=url],#wpdcom .wpd-form-row .wpdiscuz-item input[type=color],#wpdcom .wpd-form-row .wpdiscuz-item input[type=date],#wpdcom .wpd-form-row .wpdiscuz-item input[type=datetime],#wpdcom .wpd-form-row .wpdiscuz-item input[type=datetime-local],#wpdcom .wpd-form-row .wpdiscuz-item input[type=month],#wpdcom .wpd-form-row .wpdiscuz-item input[type=number],#wpdcom .wpd-form-row .wpdiscuz-item input[type=time],#wpdcom textarea,#wpdcom select{border:1px solid #ddd;color:#777}#wpdcom .wpd-form-row .wpdiscuz-item textarea{border:1px solid #ddd}#wpdcom input::placeholder,#wpdcom textarea::placeholder,#wpdcom input::-moz-placeholder,#wpdcom textarea::-webkit-input-placeholder{}#wpdcom .wpd-comment-text{color:#777}#wpdcom .wpd-thread-head .wpd-thread-info{border-bottom:2px solid #00b38f}#wpdcom .wpd-thread-head .wpd-thread-info.wpd-reviews-tab svg{fill:#00b38f}#wpdcom .wpd-thread-head .wpdiscuz-user-settings{border-bottom:2px solid #00b38f}#wpdcom .wpd-thread-head .wpdiscuz-user-settings:hover{color:#00b38f}#wpdcom .wpd-comment .wpd-follow-link:hover{color:#00b38f}#wpdcom .wpd-comment-status .wpd-sticky{color:#00b38f}#wpdcom .wpd-thread-filter .wpdf-active{color:#00b38f;border-bottom-color:#00b38f}#wpdcom .wpd-comment-info-bar{border:1px dashed #33c3a6;background:#e6f8f4}#wpdcom .wpd-comment-info-bar .wpd-current-view i{color:#00b38f}#wpdcom .wpd-filter-view-all:hover{background:#00b38f}#wpdcom .wpdiscuz-item .wpdiscuz-rating>label{color:#ddd}#wpdcom .wpdiscuz-item .wpdiscuz-rating:not(:checked)>label:hover,.wpdiscuz-rating:not(:checked)>label:hover~label{}#wpdcom .wpdiscuz-item .wpdiscuz-rating>input~label:hover,#wpdcom .wpdiscuz-item .wpdiscuz-rating>input:not(:checked)~label:hover~label,#wpdcom .wpdiscuz-item .wpdiscuz-rating>input:not(:checked)~label:hover~label{color:#ffed85}#wpdcom .wpdiscuz-item .wpdiscuz-rating>input:checked~label:hover,#wpdcom .wpdiscuz-item .wpdiscuz-rating>input:checked~label:hover,#wpdcom .wpdiscuz-item .wpdiscuz-rating>label:hover~input:checked~label,#wpdcom .wpdiscuz-item .wpdiscuz-rating>input:checked+label:hover~label,#wpdcom .wpdiscuz-item .wpdiscuz-rating>input:checked~label:hover~label,.wpd-custom-field .wcf-active-star,#wpdcom .wpdiscuz-item .wpdiscuz-rating>input:checked~label{color:gold}#wpd-post-rating .wpd-rating-wrap .wpd-rating-stars svg .wpd-star{fill:#ddd}#wpd-post-rating .wpd-rating-wrap .wpd-rating-stars svg .wpd-active{fill:gold}#wpd-post-rating .wpd-rating-wrap .wpd-rate-starts svg .wpd-star{fill:#ddd}#wpd-post-rating .wpd-rating-wrap .wpd-rate-starts:hover svg .wpd-star{fill:#ffed85}#wpd-post-rating.wpd-not-rated .wpd-rating-wrap .wpd-rate-starts svg:hover~svg .wpd-star{fill:#ddd}.wpdiscuz-post-rating-wrap .wpd-rating .wpd-rating-wrap .wpd-rating-stars svg .wpd-star{fill:#ddd}.wpdiscuz-post-rating-wrap .wpd-rating .wpd-rating-wrap .wpd-rating-stars svg .wpd-active{fill:gold}#wpdcom .wpd-comment .wpd-follow-active{color:#ff7a00}#wpdcom .page-numbers{color:#555;border:#555 1px solid}#wpdcom span.current{background:#555}#wpdcom.wpd-layout-1 .wpd-new-loaded-comment>.wpd-comment-wrap>.wpd-comment-right{background:#fffad6}#wpdcom.wpd-layout-2 .wpd-new-loaded-comment.wpd-comment>.wpd-comment-wrap>.wpd-comment-right{background:#fffad6}#wpdcom.wpd-layout-2 .wpd-new-loaded-comment.wpd-comment.wpd-reply>.wpd-comment-wrap>.wpd-comment-right{background:0 0}#wpdcom.wpd-layout-2 .wpd-new-loaded-comment.wpd-comment.wpd-reply>.wpd-comment-wrap{background:#fffad6}#wpdcom.wpd-layout-3 .wpd-new-loaded-comment.wpd-comment>.wpd-comment-wrap>.wpd-comment-right{background:#fffad6}#wpdcom .wpd-follow:hover i,#wpdcom .wpd-unfollow:hover i,#wpdcom .wpd-comment .wpd-follow-active:hover i{color:#00b38f}#wpdcom .wpdiscuz-readmore{cursor:pointer;color:#00b38f}.wpd-custom-field .wcf-pasiv-star,#wpcomm .wpdiscuz-item .wpdiscuz-rating>label{color:#ddd}.wpd-wrapper .wpd-list-item.wpd-active{border-top:3px solid #00b38f}#wpdcom.wpd-layout-2 .wpd-comment.wpd-reply.wpd-unapproved-comment .wpd-comment-wrap{border-left:3px solid #fffad6}#wpdcom.wpd-layout-3 .wpd-comment.wpd-reply.wpd-unapproved-comment .wpd-comment-right{border-left:1px solid #fffad6}#wpdcom .wpd-prim-button{background-color:#07b290;color:#fff}#wpdcom .wpd_label__check i.wpdicon-on{color:#07b290;border:1px solid #83d9c8}#wpd-bubble-wrapper #wpd-bubble-all-comments-count{color:#1db99a}#wpd-bubble-wrapper>div{background-color:#1db99a}#wpd-bubble-wrapper>#wpd-bubble #wpd-bubble-add-message{background-color:#1db99a}#wpd-bubble-wrapper>#wpd-bubble #wpd-bubble-add-message::before{border-left-color:#1db99a;border-right-color:#1db99a}#wpd-bubble-wrapper.wpd-right-corner>#wpd-bubble #wpd-bubble-add-message::before{border-left-color:#1db99a;border-right-color:#1db99a}.wpd-inline-icon-wrapper path.wpd-inline-icon-first{fill:#1db99a}.wpd-inline-icon-count{background-color:#1db99a}.wpd-inline-icon-count::before{border-right-color:#1db99a}.wpd-inline-form-wrapper::before{border-bottom-color:#1db99a}.wpd-inline-form-question{background-color:#1db99a}.wpd-inline-form{background-color:#1db99a}.wpd-last-inline-comments-wrapper{border-color:#1db99a}.wpd-last-inline-comments-wrapper::before{border-bottom-color:#1db99a}.wpd-last-inline-comments-wrapper .wpd-view-all-inline-comments{background:#1db99a}.wpd-last-inline-comments-wrapper .wpd-view-all-inline-comments:hover,.wpd-last-inline-comments-wrapper .wpd-view-all-inline-comments:active,.wpd-last-inline-comments-wrapper .wpd-view-all-inline-comments:focus{background-color:#1db99a}#wpdcom .ql-snow .ql-tooltip[data-mode=link]::before{content:"Enter link:"}#wpdcom .ql-snow .ql-tooltip.ql-editing a.ql-action::after{content:"Save"}.comments-area{width:auto}</style><link rel=stylesheet id=wpdiscuz-fa-css href="../../blog/wp-content/plugins/wpdiscuz/assets/third-party/font-awesome-5.13.0/css/fa.min.css@ver=7.3.17.css" media=all><link rel=stylesheet id=wpdiscuz-combo-css-css href="../../blog/wp-content/plugins/wpdiscuz/assets/css/wpdiscuz-combo-no_quill.min.css@ver=4084444bfee884f6024e8b1b3cfa6cdd.css" media=all><link rel=stylesheet id=parent-style-css href="../../blog/wp-content/themes/septera/style.css@ver=4084444bfee884f6024e8b1b3cfa6cdd.css" media=all><link rel=stylesheet id=septera-themefonts-css href="../../blog/wp-content/themes/septera/resources/fonts/fontfaces.css@ver=1.5.1.css" media=all><link rel=stylesheet id=septera-googlefonts-css href="../../blog/wp-content/uploads/omgf/septera-googlefonts/septera-googlefonts.css@ver=1700504504.css" media=all><link rel=stylesheet id=septera-main-css href="../../blog/wp-content/themes/septera-child/style.css@ver=1.5.1.css" media=all><style id=septera-main-inline-css>body:not(.septera-landing-page) #container,#site-header-main-inside,#colophon-inside,#footer-inside,#breadcrumbs-container-inside{margin:0 auto;max-width:1920px}#site-header-main{left:0;right:0}#primary{width:200px}#secondary{width:200px}#container.one-column .main{width:100%}#container.two-columns-right #secondary{float:right}#container.two-columns-right .main,.two-columns-right #breadcrumbs{width:calc( 100% - 200px );float:left}#container.two-columns-left #primary{float:left}#container.two-columns-left .main,.two-columns-left #breadcrumbs{width:calc( 100% - 200px );float:right}#container.three-columns-right #primary,#container.three-columns-left #primary,#container.three-columns-sided #primary{float:left}#container.three-columns-right #secondary,#container.three-columns-left #secondary,#container.three-columns-sided #secondary{float:left}#container.three-columns-right #primary,#container.three-columns-left #secondary{margin-left:0%;margin-right:0%}#container.three-columns-right .main,.three-columns-right #breadcrumbs{width:calc( 100% - 400px );float:left}#container.three-columns-left .main,.three-columns-left #breadcrumbs{width:calc( 100% - 400px );float:right}#container.three-columns-sided #secondary{float:right}#container.three-columns-sided .main,.three-columns-sided #breadcrumbs{width:calc( 100% - 400px );float:right}.three-columns-sided #breadcrumbs{margin:0 calc( 0% + 200px )0 -1920px}html{font-family:Open Sans;font-size:14px;font-weight:400;line-height:1.6}#site-title{font-family:Open Sans;font-size:120%;font-weight:700}#access ul li a{font-family:Open Sans;font-size:90%;font-weight:700}.widget-title{font-family:Open Sans;font-size:100%;font-weight:700}.widget-container{font-family:Open Sans;font-size:100%;font-weight:400}.entry-title,#reply-title{font-family:Open Sans;font-size:200%;font-weight:400}.entry-title.singular-title{font-size:200%}.content-masonry .entry-title{font-size:124%}h1{font-size:2.3em}h2{font-size:2em}h3{font-size:1.7em}h4{font-size:1.4em}h5{font-size:1.1em}h6{font-size:.8em}h1,h2,h3,h4,h5,h6{font-family:Open Sans;font-weight:700}body{color:#2d3140;background-color:#d6d6d6}@media(min-width:1152px){.septera-over-menu #site-title a,.septera-over-menu #access>div>ul>li,.septera-over-menu #access>div>ul>li>a,.septera-over-menu #sheader.socials a::before{color:#fff}.septera-landing-page.septera-over-menu #site-title a,.septera-landing-page.septera-over-menu #access>div>ul>li,.septera-landing-page.septera-over-menu #access>div>ul>li>a,.septera-landing-page.septera-over-menu #sheader.socials a::before{color:#fff}}.lp-staticslider .staticslider-caption-title,.seriousslider.seriousslider-theme .seriousslider-caption-title,.lp-staticslider .staticslider-caption-text,.seriousslider.seriousslider-theme .seriousslider-caption-text,.lp-staticslider .staticslider-caption-text a{color:#fff}#site-header-main,#access ul ul,.menu-search-animated .searchform input[type=search],#access::after,.septera-over-menu .header-fixed#site-header-main,.septera-over-menu .header-fixed#site-header-main #access:after{background-color:#fff}.septera-over-menu .header-fixed#site-header-main #site-title a{color:#365da0}#access>div>ul>li,#access>div>ul>li>a,.septera-over-menu .header-fixed#site-header-main #access>div>ul>li:not([class*=current]),.septera-over-menu .header-fixed#site-header-main #access>div>ul>li:not([class*=current])>a,.septera-over-menu .header-fixed#site-header-main #sheader.socials a::before,#sheader.socials a::before,#mobile-menu{color:#365da0}#access ul.sub-menu li a,#access ul.children li a{color:#888}#access ul.sub-menu li a,#access ul.children li a{background-color:#fff}#access>div>ul>li a:hover,#access>div>ul>li:hover,.septera-over-menu .header-fixed#site-header-main #access>div>ul>li>a:hover,.septera-over-menu .header-fixed#site-header-main #access>div>ul>li:hover,.septera-over-menu .header-fixed#site-header-main #sheader.socials a:hover::before,#sheader.socials a:hover::before{color:#365da0}#access>div>ul>li.current_page_item>a,#access>div>ul>li.current-menu-item>a,#access>div>ul>li.current_page_ancestor>a,#access>div>ul>li.current-menu-ancestor>a,#access .sub-menu,#access .children,.septera-over-menu .header-fixed#site-header-main #access>div>ul>li>a{color:#96bbe0}#access ul.children>li.current_page_item>a,#access ul.sub-menu>li.current-menu-item>a,#access ul.children>li.current_page_ancestor>a,#access ul.sub-menu>li.current-menu-ancestor>a{color:#96bbe0}.searchform .searchsubmit{color:#2d3140}.searchform:hover input[type=search],.searchform input[type=search]:focus{border-color:#365da0}body:not(.septera-landing-page) .main,#lp-posts,#lp-page,.searchform{background-color:#fff}.pagination span,.pagination a{background-color:#f3f3f3}#breadcrumbs-container{border-bottom-color:#eee;background-color:#fff}#primary{background-color:#d6d6d6}#secondary{background-color:#d6d6d6}#colophon,#footer{background-color:#d6d6d6;color:#2d3140}.entry-title a:active,.entry-title a:hover{color:#365da0}span.entry-format{color:#365da0}.format-aside{border-top-color:#fff}article.hentry .post-thumbnail-container{background-color:rgba(45,49,64,.15)}article.hentry .post-thumbnail-container a::after{background-color:#365da0}.entry-content blockquote::before,.entry-content blockquote::after{color:rgba(45,49,64,.2)}.entry-content h1,.entry-content h2,.entry-content h3,.entry-content h4,.lp-text-content h1,.lp-text-content h2,.lp-text-content h3,.lp-text-content h4,.entry-title{color:#2d3140}a{color:#365da0}a:hover,.entry-meta span a:hover,.comments-link a:hover{color:#96bbe0}.entry-meta span.comments-link{top:.62em}.continue-reading-link{color:#365da0;background-color:#f5f5f5}.continue-reading-link:hover{color:#96bbe0}.socials a:before{color:#365da0}.socials a:hover:before{color:#96bbe0}.septera-normalizedtags #content .tagcloud a{color:#fff;background-color:#365da0}.septera-normalizedtags #content .tagcloud a:hover{background-color:#96bbe0}#toTop{background-color:rgba(189,189,189,.8);color:#365da0}#toTop:hover{background-color:#365da0;color:#d6d6d6}.entry-meta .icon-metas:before{color:#000}.septera-caption-one .main .wp-caption .wp-caption-text{border-bottom-color:#eee}.septera-caption-two .main .wp-caption .wp-caption-text{background-color:#f5f5f5}.septera-image-one .entry-content img[class*=align],.septera-image-one .entry-summary img[class*=align],.septera-image-two .entry-content img[class*=align],.septera-image-two .entry-summary img[class*=align]{border-color:#eee}.septera-image-five .entry-content img[class*=align],.septera-image-five .entry-summary img[class*=align]{border-color:#365da0}span.edit-link a.post-edit-link,span.edit-link a.post-edit-link:hover,span.edit-link .icon-edit:before{color:#727685}.searchform{border-color:#ebebeb}.entry-meta span,.entry-meta a,.entry-utility span,.entry-utility a,.entry-meta time,#breadcrumbs-nav,.footermenu ul li span.sep{color:#000}.entry-meta span.entry-sticky{background-color:#000;color:#fff}#footer-separator{background:#c7c7c7}#commentform{max-width:1e3px}code,#nav-below .nav-previous a:before,#nav-below .nav-next a:before{background-color:#eee}pre,.page-link>span,.comment-author,.commentlist .comment-body,.commentlist .pingback{border-color:#eee}.page-header.pad-container,#author-info{background-color:#f5f5f5}.comment-meta a{color:#000}.commentlist .reply a{color:#000}select,input[type],textarea{color:#2d3140;border-color:#f0f0f0}input[type]:hover,textarea:hover,select:hover,input[type]:focus,textarea:focus,select:focus{background:#f0f0f0}button,input[type=button],input[type=submit],input[type=reset]{background-color:#365da0;color:#fff}button:hover,input[type=button]:hover,input[type=submit]:hover,input[type=reset]:hover{background-color:#96bbe0}hr{background-color:#f0f0f0}.wp-block-image.alignwide{margin-left:calc( ( 0% + 2.5em ) * -1 );margin-right:calc( ( 0% + 2.5em ) * -1 )}.wp-block-image.alignwide img{width:calc( 100% + 5em );max-width:calc( 100% + 5em )}.has-accent-1-color,.has-accent-1-color:hover{color:#365da0}.has-accent-2-color,.has-accent-2-color:hover{color:#96bbe0}.has-headings-color,.has-headings-color:hover{color:#2d3140}.has-sitetext-color,.has-sitetext-color:hover{color:#2d3140}.has-sitebg-color,.has-sitebg-color:hover{color:#fff}.has-accent-1-background-color{background-color:#365da0}.has-accent-2-background-color{background-color:#96bbe0}.has-headings-background-color{background-color:#2d3140}.has-sitetext-background-color{background-color:#2d3140}.has-sitebg-background-color{background-color:#fff}.has-small-font-size{font-size:8px}.has-regular-font-size{font-size:14px}.has-large-font-size{font-size:22px}.has-larger-font-size{font-size:35px}.has-huge-font-size{font-size:35px}.woocommerce-page #respond input#submit.alt,.woocommerce a.button.alt,.woocommerce-page button.button.alt,.woocommerce input.button.alt,.woocommerce #respond input#submit,.woocommerce a.button,.woocommerce button.button,.woocommerce input.button{background-color:#365da0;color:#fff;line-height:1.6}.woocommerce #respond input#submit:hover,.woocommerce a.button:hover,.woocommerce button.button:hover,.woocommerce input.button:hover{background-color:#587fc2;color:#fff}.woocommerce-page #respond input#submit.alt,.woocommerce a.button.alt,.woocommerce-page button.button.alt,.woocommerce input.button.alt{background-color:#96bbe0;color:#fff;line-height:1.6}.woocommerce-page #respond input#submit.alt:hover,.woocommerce a.button.alt:hover,.woocommerce-page button.button.alt:hover,.woocommerce input.button.alt:hover{background-color:#b8ddff;color:#fff}.woocommerce div.product .woocommerce-tabs ul.tabs li.active{border-bottom-color:#fff}.woocommerce #respond input#submit.alt.disabled,.woocommerce #respond input#submit.alt.disabled:hover,.woocommerce #respond input#submit.alt:disabled,.woocommerce #respond input#submit.alt:disabled:hover,.woocommerce #respond input#submit.alt[disabled]:disabled,.woocommerce #respond input#submit.alt[disabled]:disabled:hover,.woocommerce a.button.alt.disabled,.woocommerce a.button.alt.disabled:hover,.woocommerce a.button.alt:disabled,.woocommerce a.button.alt:disabled:hover,.woocommerce a.button.alt[disabled]:disabled,.woocommerce a.button.alt[disabled]:disabled:hover,.woocommerce button.button.alt.disabled,.woocommerce button.button.alt.disabled:hover,.woocommerce button.button.alt:disabled,.woocommerce button.button.alt:disabled:hover,.woocommerce button.button.alt[disabled]:disabled,.woocommerce button.button.alt[disabled]:disabled:hover,.woocommerce input.button.alt.disabled,.woocommerce input.button.alt.disabled:hover,.woocommerce input.button.alt:disabled,.woocommerce input.button.alt:disabled:hover,.woocommerce input.button.alt[disabled]:disabled,.woocommerce input.button.alt[disabled]:disabled:hover{background-color:#96bbe0}.woocommerce ul.products li.product .price,.woocommerce div.product p.price,.woocommerce div.product span.price{color:#00000e}#add_payment_method #payment,.woocommerce-cart #payment,.woocommerce-checkout #payment{background:#f5f5f5}.woocommerce .main .page-title{}nav#mobile-menu{background-color:#fff}#mobile-menu .mobile-arrow{color:#2d3140}.main .entry-content,.main .entry-summary{text-align:inherit}.main p,.main ul,.main ol,.main dd,.main pre,.main hr{margin-bottom:1em}.main p{text-indent:0}.main a.post-featured-image{background-position:50%}#header-widget-area{width:33%;right:10px}.septera-stripped-table .main thead th,.septera-bordered-table .main thead th,.septera-stripped-table .main td,.septera-stripped-table .main th,.septera-bordered-table .main th,.septera-bordered-table .main td{border-color:#e9e9e9}.septera-clean-table .main th,.septera-stripped-table .main tr:nth-child(even) td,.septera-stripped-table .main tr:nth-child(even) th{background-color:#f6f6f6}article.hentry .article-inner,#content-masonry article.hentry .article-inner{padding:0%}#site-header-main{height:50px}#access .menu-search-animated .searchform{top:52px}.menu-search-animated,#sheader,.identity,#nav-toggle{height:50px;line-height:50px}#access div>ul>li>a{line-height:50px}#branding{height:50px}#header-widget-area{top:60px}.septera-responsive-headerimage #masthead #header-image-main-inside{max-height:10px}.septera-cropped-headerimage #masthead div.header-image{height:10px}#site-description{display:block}#masthead #site-header-main{position:fixed}.septera-fixed-menu #header-image-main{margin-top:50px}.lp-staticslider .staticslider-caption-text a{border-color:#fff}.lp-staticslider .staticslider-caption,.seriousslider.seriousslider-theme .seriousslider-caption,.septera-landing-page .lp-blocks-inside,.septera-landing-page .lp-boxes-inside,.septera-landing-page .lp-text-inside,.septera-landing-page .lp-posts-inside,.septera-landing-page .lp-page-inside,.septera-landing-page .lp-section-header,.septera-landing-page .content-widget{max-width:1920px}.septera-landing-page .content-widget{margin:0 auto}.seriousslider-theme .seriousslider-caption-buttons a:nth-child(2n+1),a.staticslider-button:nth-child(2n+1){color:#2d3140;border-color:#fff;background-color:#fff}.seriousslider-theme .seriousslider-caption-buttons a:nth-child(2n+1):hover,a.staticslider-button:nth-child(2n+1):hover{color:#fff}.seriousslider-theme .seriousslider-caption-buttons a:nth-child(2n),a.staticslider-button:nth-child(2n){border-color:#fff;color:#fff}.seriousslider-theme .seriousslider-caption-buttons a:nth-child(2n):hover,.staticslider-button:nth-child(2n):hover{color:#2d3140;background-color:#fff}.lp-staticslider::before,.lp-dynamic-slider .item>a::before,#header-image-main::before{background-color:#24a7cf}.lp-staticslider::before,.lp-dynamic-slider .item>a::before,#header-image-main::before{z-index:2}.lp-staticslider-image,.header-image,.seriousslider .item-image{-webkit-filter:grayscale(75%)brightness(110%);filter:grayscale(75%)brightness(110%)}@-webkit-keyframes animation-slider-overlay{to{opacity:.75}}@keyframes animation-slider-overlay{to{opacity:.75}}.lp-dynamic-slider .item>a::before{opacity:.75}.lp-blocks{background-color:#fff}.lp-boxes{background-color:#fff}.lp-text{background-color:#f8f8f8}.staticslider-caption-container,.lp-dynamic-slider{background-color:#fff}.lp-block>i::before{color:#365da0}.lp-block:hover i::before{color:#96bbe0}.lp-block i::after{background-color:#365da0}.lp-blocks .lp-block:hover .lp-block-title{color:#365da0}.lp-blocks .lp-block:hover i::after{background-color:#96bbe0}.lp-block-text,.lp-boxes-static .lp-box-text,.lp-section-desc{color:#050918}.lp-boxes .lp-box .lp-box-image{height:300px}.lp-boxes.lp-boxes-animated .lp-box:hover .lp-box-text{max-height:200px}.lp-boxes .lp-box .lp-box-image{height:400px}.lp-boxes.lp-boxes-animated .lp-box:hover .lp-box-text{max-height:300px}.lp-boxes-animated .lp-box-readmore:hover{color:#365da0;opacity:.7}.lp-boxes-static .lp-box-overlay{background-color:rgba(54,93,160,.9)}#cryout_ajax_more_trigger{background-color:#365da0;color:#fff}.lpbox-rnd1{background-color:#c8c8c8}.lpbox-rnd2{background-color:#c3c3c3}.lpbox-rnd3{background-color:#bebebe}.lpbox-rnd4{background-color:#b9b9b9}.lpbox-rnd5{background-color:#b4b4b4}.lpbox-rnd6{background-color:#afafaf}.lpbox-rnd7{background-color:#aaa}.lpbox-rnd8{background-color:#a5a5a5}</style><link rel=https://api.w.org/ href=https://www.learncpp.com/wp-json/><link rel=alternate type=application/json href=https://www.learncpp.com/wp-json/wp/v2/posts/15417><link rel=canonical href="index.html"><link rel=alternate type=application/json+oembed href="https://www.learncpp.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fchapter-16-summary-and-quiz%2F"><link rel=alternate type=text/xml+oembed href="https://www.learncpp.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fchapter-16-summary-and-quiz%2F&amp;format=xml"><link rel=stylesheet id=18062-css href="../../blog/wp-content/uploads/custom-css-js/18062.css@v=430.css" media=all><link rel=icon href="../../blog/wp-content/uploads/learncpp.png" sizes=32x32><link rel=icon href="../../blog/wp-content/uploads/learncpp.png" sizes=192x192><link rel=apple-touch-icon href="../../blog/wp-content/uploads/learncpp.png"><meta name=msapplication-TileImage content="https://www.learncpp.com/blog/wp-content/uploads/learncpp.png"><style>div.printOnly{margin-left:3em}</style><style media=screen>.printOnly{display:none}</style>
+<style id="offline-fix">#site-wrapper{display:block !important;visibility:visible !important;}#container,#content,#main,.main,article.hentry{visibility:visible !important;opacity:1 !important;}.ai-list-data,.lessontables,.lessontables-visible{display:block !important;visibility:visible !important;opacity:1 !important;}.animated-article{opacity:1 !important;transform:none !important;animation:none !important;}.code-block,.cf_monitor,.adsbygoogle,[id^="ezoic-pub-ad-placeholder-"],[class*="ezoic-adpicker-ad"]{display:none !important;width:0 !important;height:0 !important;margin:0 !important;padding:0 !important;overflow:hidden !important;}body{overflow:auto !important;}</style></head><body class="post-template-default single single-post postid-15417 single-format-standard wp-custom-logo wp-embed-responsive septera-image-none septera-caption-one septera-totop-normal septera-bordered-table septera-fixed-menu septera-responsive-headerimage septera-responsive-featured septera-magazine-two septera-magazine-layout septera-comment-placeholder septera-normalizedtags septera-article-animation-slide mobile" itemscope itemtype=http://schema.org/WebPage><div id=site-wrapper><header id=masthead class=cryout itemscope itemtype=http://schema.org/WPHeader role=banner><div id=site-header-main><div id=site-header-main-inside><nav id=mobile-menu><span id=nav-cancel><i class=icon-cancel></i></span><div><ul id=mobile-nav><li id=menu-item-9876 class="menu-item menu-item-type- menu-item-object- menu-item-has-children menu-item-9876"><a><span>Navigate</span></a><ul class=sub-menu><li id=menu-item-1009876 class="menu-item menu-item-type- menu-item-object- menu-item-1009876"><a href="../introduction-to-stdarray/index.html"><span><i class="cpp_menu _mi _before fa fa-chevron-circle-right"></i>17.1 — Introduction to std::array</span></a><li class="menu-item menu-item-type- menu-item-object- menu-item-1009876"><a href="https://www.learncpp.com/"><span><i class="cpp_menu _mi _before fa fa-home"></i>Table of contents</span></a><li class="menu-item menu-item-type- menu-item-object- menu-item-1009876"><a href="../stdvector-bool/index.html"><span><i class="cpp_menu _mi _before fa fa-chevron-circle-left"></i>16.12 — std::vector&lt;bool></span></a></ul><li id=menu-item-6312 class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6312"><a href=https://www.learncpp.com/learn-cpp-site-index/><span><i class="_mi _before fa fa-crosshairs" aria-hidden=true></i><span>Site Index</span></span></a><li id=menu-item-12722 class="menu-item menu-item-type-post_type menu-item-object-page menu-item-12722"><a href=https://www.learncpp.com/latest-changes/><span><i class="_mi _before fa fa-list" aria-hidden=true></i><span>Latest Changes</span></span></a><li id=menu-item-6313 class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-6313"><a href=https://www.learncpp.com/about/><span>About</span></a><ul class=sub-menu><li id=menu-item-12083 class="menu-item menu-item-type-post_type menu-item-object-post menu-item-12083"><a href=https://www.learncpp.com/leave-feedback-report-issue/><span><i class="_mi _before fa fa-comment" aria-hidden=true></i><span>Leave feedback</span></span></a><li id=menu-item-11706 class="menu-item menu-item-type-post_type menu-item-object-post menu-item-11706"><a href=https://www.learncpp.com/leave-feedback-report-issue/><span><i class="_mi _before fa fa-bug" aria-hidden=true></i><span>Report an issue</span></span></a><li id=menu-item-11707 class="menu-item menu-item-type-post_type menu-item-object-page menu-item-11707"><a href=https://www.learncpp.com/about/><span><i class="_mi _before dashicons dashicons-welcome-write-blog" aria-hidden=true></i><span>Contact / Support</span></span></a><li id=menu-item-11705 class="menu-item menu-item-type-custom menu-item-object-custom menu-item-11705"><a href="../introduction-to-these-tutorials.html#FAQ"><span><i class="_mi _before fa fa-question-circle" aria-hidden=true></i><span>Site FAQ</span></span></a><li id=menu-item-17734 class="menu-item menu-item-type-custom menu-item-object-custom menu-item-17734"><a href=https://g.ezoic.net/privacy/learncpp.com><span><i class="_mi _before fa fa-bed" aria-hidden=true></i><span>Privacy Policy</span></span></a><li id=menu-item-16006 class="menu-item menu-item-type-post_type menu-item-object-page menu-item-16006"><a href=https://www.learncpp.com/about/><span><i class="_mi _before fa fa-smile-o" aria-hidden=true></i><span>Donate</span></span></a></ul><li id=menu-item-12082 class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12082"><a title="LearnCPP doesn’t have a native dark mode, but this link will take you to a browser plugin that will let you make any web page dark." target=_blank rel=noopener href=https://darkreader.org/><span><i class="_mi _before fa fa-moon-o" aria-hidden=true></i><span> </span></span></a><li class="menu-main-search menu-search-animated"><a role=link "https://www.learncpp.com/cpp-tutorial/chapter-16-summary-and-quiz/href"><i class=icon-search></i><span class=screen-reader-text>Search</span></a><form apbct-form-sign=native_search role=search class=searchform action=https://www.learncpp.com/><label><span class=screen-reader-text>Search for:</span>
+<input type=search class=s placeholder=Search name=s></label>
+<button class=searchsubmit><span class=screen-reader-text>Search</span><i class=icon-search></i></button>
+<input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=11409></form></ul></div></nav><div id=branding><div class=identity><a href=https://www.learncpp.com/ id=logo class=custom-logo-link title="Learn C++" rel=home><img src="../../blog/wp-content/uploads/learncpp.png" class=custom-logo alt="Learn C++"></a></div><div id=site-text><div itemprop=headline id=site-title><span><a href=https://www.learncpp.com/ title="Skill up with our free tutorials" rel=home>Learn C++</a></span></div><span id=site-description itemprop=description>Skill up with our free tutorials</span></div></div><a id=nav-toggle><i class=icon-menu></i></a><nav id=access role=navigation aria-label="Primary Menu" itemscope itemtype=http://schema.org/SiteNavigationElement><div class="skip-link screen-reader-text"><a href="index.html#main" title="Skip to content">Skip to content</a></div><div><ul id=prime_nav><li class="menu-item menu-item-type- menu-item-object- menu-item-has-children menu-item-9876"><a><span>Navigate</span></a><ul class=sub-menu><li class="menu-item menu-item-type- menu-item-object- menu-item-1009876"><a href="../introduction-to-stdarray/index.html"><span><i class="cpp_menu _mi _before fa fa-chevron-circle-right"></i>17.1 — Introduction to std::array</span></a><li class="menu-item menu-item-type- menu-item-object- menu-item-1009876"><a href="https://www.learncpp.com/"><span><i class="cpp_menu _mi _before fa fa-home"></i>Table of contents</span></a><li class="menu-item menu-item-type- menu-item-object- menu-item-1009876"><a href="../stdvector-bool/index.html"><span><i class="cpp_menu _mi _before fa fa-chevron-circle-left"></i>16.12 — std::vector&lt;bool></span></a></ul><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6312"><a href=https://www.learncpp.com/learn-cpp-site-index/><span><i class="_mi _before fa fa-crosshairs" aria-hidden=true></i><span>Site Index</span></span></a><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-12722"><a href=https://www.learncpp.com/latest-changes/><span><i class="_mi _before fa fa-list" aria-hidden=true></i><span>Latest Changes</span></span></a><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-6313"><a href=https://www.learncpp.com/about/><span>About</span></a><ul class=sub-menu><li class="menu-item menu-item-type-post_type menu-item-object-post menu-item-12083"><a href=https://www.learncpp.com/leave-feedback-report-issue/><span><i class="_mi _before fa fa-comment" aria-hidden=true></i><span>Leave feedback</span></span></a><li class="menu-item menu-item-type-post_type menu-item-object-post menu-item-11706"><a href=https://www.learncpp.com/leave-feedback-report-issue/><span><i class="_mi _before fa fa-bug" aria-hidden=true></i><span>Report an issue</span></span></a><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-11707"><a href=https://www.learncpp.com/about/><span><i class="_mi _before dashicons dashicons-welcome-write-blog" aria-hidden=true></i><span>Contact / Support</span></span></a><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-11705"><a href="../introduction-to-these-tutorials.html#FAQ"><span><i class="_mi _before fa fa-question-circle" aria-hidden=true></i><span>Site FAQ</span></span></a><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-17734"><a href=https://g.ezoic.net/privacy/learncpp.com><span><i class="_mi _before fa fa-bed" aria-hidden=true></i><span>Privacy Policy</span></span></a><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-16006"><a href=https://www.learncpp.com/about/><span><i class="_mi _before fa fa-smile-o" aria-hidden=true></i><span>Donate</span></span></a></ul><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12082"><a title="LearnCPP doesn’t have a native dark mode, but this link will take you to a browser plugin that will let you make any web page dark." target=_blank rel=noopener href=https://darkreader.org/><span><i class="_mi _before fa fa-moon-o" aria-hidden=true></i><span> </span></span></a><li class="menu-main-search menu-search-animated"><a role=link "https://www.learncpp.com/cpp-tutorial/chapter-16-summary-and-quiz/href"><i class=icon-search></i><span class=screen-reader-text>Search</span></a><form apbct-form-sign=native_search role=search class=searchform action=https://www.learncpp.com/><label><span class=screen-reader-text>Search for:</span>
+<input type=search class=s placeholder=Search name=s></label>
+<button class=searchsubmit><span class=screen-reader-text>Search</span><i class=icon-search></i></button>
+<input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=25199></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="16.x — Chapter 16 summary and quiz" src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-15417 class="post-15417 post type-post status-publish format-standard hentry category-cpp-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>16.x — Chapter 16 summary and quiz</h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Author></i><a class="url fn n" rel=author href=https://www.learncpp.com/author/Alex/ title="View all posts by Alex" itemprop=url><em itemprop=name>Alex</em></a></span>
+<span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2023-09-11T14:56:33-07:00 itemprop=datePublished>September 11, 2023, 2:56 pm PDT</time>
+<time class=updated datetime=2025-02-04T21:23:18-08:00 itemprop=dateModified>February 4, 2025</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p class="cpp-section cpp-topline" style=clear:both>Words of encouragement<p>This chapter isn’t an easy one. We covered a lot of material, and unearthed some of C++’s warts. Congrats on making it through!<p>Arrays are one of the keys that unlock a huge amount of power within your C++ programs.<p class=cpp-section>Chapter Review<p>A <strong>container</strong> is a data type that provides storage for a collection of unnamed objects (called <strong>elements</strong>). We typically use containers when we need to work with a set of related values.<p>The number of elements in a container is often called it’s <strong>length</strong> (or sometimes <strong>count</strong>). In C++, the term <strong>size</strong> is also commonly used for the number of elements in a container. In most programming languages (including C++), containers are <strong>homogenous</strong>, meaning the elements of a container are required to have the same type.<p>The <strong>Containers library</strong> is a part of the C++ standard library that contains various class types that implement some common types of containers. A class type that implements a container is sometimes called a <strong>container class</strong>.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>An <strong>array</strong> is a container data type that stores a sequence of values <strong>contiguously</strong> (meaning each element is placed in an adjacent memory location, with no gaps). Arrays allow fast, direct access to any element.<p>C++ contains three primary array types: (C-style) arrays, the <code>std::vector</code> container class, and the <code>std::array</code> container class.<p><code>std::vector</code> is one of the container classes in the C++ standard containers library that implements an array. <code>std::vector</code> is defined in the &lt;vector> header as a class template, with a template type parameter that defines the type of the elements. Thus, <code>std::vector&lt;int></code> declares a <code>std::vector</code> whose elements are of type <code>int</code>.<p>Containers typically have a special constructor called a <strong>list constructor</strong> that allows us to construct an instance of the container using an initializer list. Use list initialization with an initializer list of values to construct a container with those element values.<p>In C++, the most common way to access array elements is by using the name of the array along with the subscript operator (<code>operator[]</code>). To select a specific element, inside the square brackets of the subscript operator, we provide an integral value that identifies which element we want to select. This integral value is called a <strong>subscript</strong> (or informally, an <strong>index</strong>). The first element is accessed using index 0, the second is accessed using index 1, etc… Because the indexing starts with 0 rather than 1, we say arrays in C++ are <strong>zero-based</strong>.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p><code>operator[]</code> does not do any kind of <strong>bounds checking</strong>, meaning it does not check to see whether the index is within the bounds of 0 to N-1 (inclusive). Passing an invalid index to <code>operator[]</code> will result in undefined behavior.<p>Arrays are one of the few container types that allow <strong>random access</strong>, meaning every element in the container can be accessed directly and with equal speed, regardless of the number of elements in the container.<p>When constructing a class type object, a matching list constructor is selected over other matching constructors. When constructing a container (or any type that has a list constructor) with initializers that are not element values, use direct initialization.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::vector v1 { 5 }; // defines a 1 element vector containing value `5`.
+std::vector v2 ( 5 ); // defines a 5 element vector where elements are value-initialized.</code></pre><p><code>std::vector</code> can be made const but not constexpr.<p>Each of the standard library container classes defines a nested typedef member named <code>size_type</code> (sometimes written as <code>T::size_type</code>), which is an alias for the type used for the length (and indices, if supported) of the container. <code>size_type</code> is almost always an alias for <code>std::size_t</code>, but can be overridden (in rare cases) to use a different type. We can reasonably assume <code>size_type</code> is an alias for <code>std::size_t</code>.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>When accessing the <code>size_type</code> member of a container class, we must scope qualify it with the fully templated name of the container class. For example, <code>std::vector&lt;int>::size_type</code>.<p>We can ask a container class object for its length using the <code>size()</code> member function, which returns the length as unsigned <code>size_type</code>. In C++17, we can also use the <code>std::size()</code> non-member function.<p>In C++20, the <code>std::ssize()</code> non-member function, which returns the length as a large <em>signed</em> integral type (usually <code>std::ptrdiff_t</code>, which is the type normally used as the signed counterpart to <code>std::size_t</code>).<p>Accessing array elements using the <code>at()</code> member function does runtime bounds checking (and throws an exception of type <code>std::out_of_range</code> if the bounds are out of range). If the exception isn’t caught, the application will be terminated.<p>Both <code>operator[]</code> and the <code>at()</code> member function support indexing with non-const indices. However, both expect the index to be of type <code>size_type</code>, which is an unsigned integral type. This causes sign conversion problems when the indices are non-constexpr.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>An object of type <code>std::vector</code> can be passed to a function just like any other object. That means if we pass a <code>std::vector</code> by value, an expensive copy will be made. Therefore, we typically pass <code>std::vector</code> by (const) reference to avoid such copies.<p>We can use a function template to be able to pass a <code>std::vector</code> with any element type into a function. You can use an <code>assert()</code> to ensure the vector passed in has the correct length.<p>The term <strong>copy semantics</strong> refers to the rules that determine how copies of objects are made. When we say copy semantics are being invoked, that means we’ve done something that will make a copy of an object.<p>When ownership of data is transfered from one object to another, we say that data has been <strong>moved</strong>.<p><strong>Move semantics</strong> refers to the rules that determine how the data from one object is moved to another object. When move semantics is invoked, any data member that can be moved is moved, and any data member that can’t be moved is copied. The ability to move data instead of copying it can make move semantics more efficient than copy semantics, especially when we can replace an expensive copy with an inexpensive move.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p>Normally, when an object is being initialized with or assigned an object of the same type, copy semantics will be used (assuming the copy isn’t elided). Move semantics will be automatically used instead when the type of the object supports move semantics, and the initializer or object being assigned from is an rvalue.<p>We can return move-capable types (like <code>std::vector</code> and <code>std::string</code>) by value. Such types will inexpensively move their values instead of making an expensive copy.<p>Accessing each element of a container in some order is called <strong>traversal</strong>, or <strong>traversing</strong> the container. Traversal is also sometimes called <strong>iterating over</strong> or <strong>iterating through</strong> the container.<p>Loops are often used to traverse through an array, with a loop variable being used as an index. Beware of off-by-one errors, where the loop body executes one too many or one too few times.<p>A <strong>range-based for loop</strong> (also sometimes called a <strong>for-each loop</strong>) allows traversal of a container without having to do explicit indexing. Favor range-based-for loops over regular for-loops when traversing containers.<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>Use type deduction (<code>auto</code>) with ranged-based for-loops to have the compiler deduce the type of the array element. The element declaration should use a (const) reference whenever you would normally pass that element type by (const) reference. Consider always using <code>const auto&</code> unless you need to work with copies. This will ensure copies aren’t made even if the element type is later changed.<p>Unscoped enumerations can be used as indices, and help provide any information about the meaning of the index.<p>Adding an additional “count” enumerator is useful whenever we need an enumerator that represents the array length. You can assert or static_assert that an array’s length is equal to the count enumerator to ensure an array is initialized with the expected number of initializers.<p>Arrays where the length of the array must be defined at the point of instantiation and then cannot be changed are called <strong>fixed-size arrays</strong> or <strong>fixed-length arrays</strong>. A <strong>dynamic array</strong> (also called a <strong>resizable array</strong>) is an array whose size can be changed after instantiation. This ability to be resized is what makes <code>std::vector</code> special.<p>A <code>std::vector</code> can be resized after instantiation by calling the <code>resize()</code> member function with the new desired length.<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><p>In the context of a <code>std::vector</code>, <strong>capacity</strong> is how many elements the <code>std::vector</code> has allocated storage for, and <strong>length</strong> is how many elements are currently being used. We can ask a <code>std::vector</code> for its capacity via the <code>capacity()</code> member function.<p>When a <code>std::vector</code> changes the amount of storage it is managing, this process is called <strong>reallocation</strong>. Because reallocation typically requires every element in the array to be copied, reallocation is an expensive process. As a result, we want to avoid reallocation as much as reasonable.<p>Valid indices for the subscript operator (<code>operator[]</code>) and <code>at()</code> member function is based on the vector’s length, not the capacity.<p><code>std::vector</code> has a member function called <code>shrink_to_fit()</code> that requests that the vector shrink its capacity to match its length. This request is non-binding.<p>The order in which items are added to and removed from a stack can be described as <strong>last-in, first-out (LIFO)</strong>. The last plate added onto the stack will be the first plate that is removed. In programming, a <strong>stack</strong> is a container data type where the insertion and removal of elements occurs in a LIFO manner. This is commonly implemented via two operations named <strong>push</strong> and <strong>pop</strong>.<p>The <code>std::vector</code> member functions <code>push_back()</code> and <code>emplace_back()</code> will increment the length of a <code>std::vector</code>, and will cause a reallocation to occur if the capacity is not sufficient to insert the value. When pushing triggers a reallocation, <code>std::vector</code> will typically allocate some extra capacity to allow additional elements to be added without triggering another reallocation the next time an element is added.<p>The <code>resize()</code> member function changes the length of the vector, and the capacity (if necessary).<br>The <code>reserve()</code> member function changes just the capacity (if necessary)<p>To increase the number of elements in a <code>std::vector</code>:<ul><li>Use <code>resize()</code> when accessing a vector via indexing. This changes the length of the vector so your indices will be valid.<li>Use <code>reserve()</code> when accessing a vector using stack operations. This adds capacity without changing the length of the vector.</ul><p>Both <code>push_back()</code> and <code>emplace_back()</code> push an element onto the stack. If the object to be pushed already exists, <code>push_back()</code> and <code>emplace_back()</code> are equivalent. However, in cases where we are creating a temporary object for the purpose of pushing it onto the vector, <code>emplace_back()</code> can be more efficient. Prefer emplace_back() when creating a new temporary object to add to the container, or when you need to access an explicit constructor. Prefer push_back() otherwise.<p>There is a special implementation for <code>std::vector&lt;bool></code> that may be more space efficient for Boolean values by similarly compacting 8 Boolean values into a byte.<p><code>std::vector&lt;bool></code> is not a vector (it is not required to be contiguous in memory), nor does it hold <code>bool</code> values (it holds a collection of bits), nor does it meet C++’s definition of a container. Although <code>std::vector&lt;bool></code> behaves like a vector in most cases, it is not fully compatible with the rest of the standard library. Code that works with other element types may not work with <code>std::vector&lt;bool></code>. As a result, <code>std::vector&lt;bool></code> should generally be avoided.<p class="cpp-section cpp-topline" style=clear:both>Quiz time<p class=cpp-quiz-question style=clear:both>Question #1<p>Write definitions for the following. Use CTAD where possible (<a href="../class-template-argument-deduction-ctad-and-deduction-guides/index.html">13.14 -- Class template argument deduction (CTAD) and deduction guides</a>).<p>a) A <code>std::vector</code> initialized with the first 6 even numbers.<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')">Show Solution</a><div class=wpsolution id=cpp_solution_id_0 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::vector evens { 2, 4, 6, 8, 10, 12 };</code></pre></div><p>b) A constant <code>std::vector</code> initialized with the values <code>1.2</code>, <code>3.4</code>, <code>5.6</code>, and <code>7.8</code>.<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'),this,'Show Solution','Hide Solution')">Show Solution</a><div class=wpsolution id=cpp_solution_id_1 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">const std::vector d { 1.2, 3.4, 5.6, 7.8 }; // reminder: std::vector can&#39;t be constexpr</code></pre></div><p>c) A constant <code>std::vector</code> of <code>std::string_view</code> initialized with the names “Alex”, “Brad”, “Charles”, and “Dave”.<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_2'),this,'Show Solution','Hide Solution')">Show Solution</a><div class=wpsolution id=cpp_solution_id_2 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">using namespace std::literals::string_view_literals; // for sv suffix
+const std::vector names { &#34;Alex&#34;sv, &#34;Brad&#34;sv, &#34;Charles&#34;sv, &#34;Dave&#34;sv }; // sv suffix needed for CTAD to infer std::string_view</code></pre></div><p>d) A <code>std::vector</code> with the single element value <code>12</code>.<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_3'),this,'Show Solution','Hide Solution')">Show Solution</a><div class=wpsolution id=cpp_solution_id_3 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::vector v { 12 };</code></pre><p>When initializing a <code>std::vector</code> with element values, we should use list initialization.</div><p>e) A <code>std::vector</code> with 12 int elements, initialized to the default values.<p><a class=hint_link_show href=javascript:void(0) onclick="cppHintToggle(document.getElementById('cpp_hint_id_0'),this,'Show Hint','')">Show Hint</a><div class=wphint id=cpp_hint_id_0 style=display:none;margin-bottom:1em>Hint: Think about whether CTAD is usable in this case.</div><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_4'),this,'Show Solution','Hide Solution')">Show Solution</a><div class=wpsolution id=cpp_solution_id_4 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::vector&lt;int&gt; v( 12 );</code></pre><p>When initializing a <code>std::vector</code> with an initial length, we must use direct initialization. We also must explicitly specify the type template argument since there are no initializers in which to infer the element type from.</div><p class="cpp-quiz-question cpp-topline" style=clear:both>Question #2<p>Let’s say you’re writing a game where the player can hold 3 types of items: health potions, torches, and arrows.<p class="cpp-quiz-question cpp-topline" style=clear:both>> Step #1<p>Define an unscoped enum in a namespace to identify the different types of items. Define an <code>std::vector</code> to store the number of each item type the player is carrying. The player should start with 1 health potion, 5 torches, and 10 arrows. Assert to make sure the array has the correct number of initializers.<p>Hint: Define a count enumerator and use it inside the assert.<p>The program should output the following:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">You have 16 total items</code></pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_5'),this,'Show Solution','Hide Solution')">Show Solution</a><div class=wpsolution id=cpp_solution_id_5 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cassert&gt;
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+
+namespace Items
+{
+    enum Type
+    {
+        health_potion,
+        torch,
+        arrow,
+        max_items
+    };
+}
+
+// Inventory items should have integral quantities, so we don&#39;t need a function template here
+int countTotalItems(const std::vector&lt;int&gt;&amp; inventory)
+{
+    int sum { 0 };
+    for (auto e: inventory)
+        sum += e;
+    return sum;
+}
+
+int main()
+{
+    std::vector inventory { 1, 5, 10 };
+    assert(std::size(inventory) == Items::max_items); // make sure our inventory has the correct number of initializers
+
+    std::cout &lt;&lt; &#34;You have &#34; &lt;&lt; countTotalItems(inventory) &lt;&lt; &#34; total items\n&#34;;
+    
+    return 0;
+}</code></pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>> Step #2<p>Modify your program from the prior step so it now outputs:<pre>You have 1 health potion
+You have 5 torches
+You have 10 arrows
+You have 16 total items
+</pre><p>Use a loop to print out the number of items and the item names for each inventory item. Handle proper pluralization of the names.<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_6'),this,'Show Solution','Hide Solution')">Show Solution</a><div class=wpsolution id=cpp_solution_id_6 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cassert&gt;
+#include &lt;iostream&gt;
+#include &lt;string_view&gt;
+#include &lt;type_traits&gt; // for std::is_integral and std::is_enum
+#include &lt;vector&gt;
+
+namespace Items
+{
+    enum Type: int
+    {
+        health_potion,
+        torch,
+        arrow,
+        max_items
+    };
+}
+
+std::string_view getItemNamePlural(Items::Type type)
+{
+    switch (type)
+    {
+        case Items::health_potion:  return &#34;health potions&#34;;
+        case Items::torch:          return &#34;torches&#34;;
+        case Items::arrow:          return &#34;arrows&#34;;
+
+        default:                    return &#34;???&#34;;
+    }
+}
+
+std::string_view getItemNameSingular(Items::Type type)
+{
+    switch (type)
+    {
+        case Items::health_potion:  return &#34;health potion&#34;;
+        case Items::torch:          return &#34;torch&#34;;
+        case Items::arrow:          return &#34;arrow&#34;;
+
+        default:                    return &#34;???&#34;;
+    }
+}
+
+// Helper function to convert `value` into an object of type std::size_t
+// UZ is the suffix for literals of type std::size_t.
+template &lt;typename T&gt;
+constexpr std::size_t toUZ(T value)
+{
+    // make sure T is an integral type
+    static_assert(std::is_integral&lt;T&gt;() || std::is_enum&lt;T&gt;());
+    
+    return static_cast&lt;std::size_t&gt;(value);
+}
+
+
+void printInventoryItem(const std::vector&lt;int&gt;&amp; inventory, Items::Type type)
+{
+    bool plural { inventory[toUZ(type)] != 1 };
+    std::cout &lt;&lt; &#34;You have &#34; &lt;&lt; inventory[toUZ(type)] &lt;&lt; &#39; &#39;;
+    std::cout &lt;&lt; (plural ? getItemNamePlural(type) : getItemNameSingular(type)) &lt;&lt; &#39;\n&#39;;
+}
+
+// Inventory items should have integral quantities, so we don&#39;t need a function template here
+int countTotalItems(const std::vector&lt;int&gt;&amp; inventory)
+{
+    int sum { 0 };
+    for (auto e: inventory)
+        sum += e;
+    return sum;
+}
+
+int main()
+{
+    std::vector inventory { 1, 5, 10 };
+    assert(std::size(inventory) == Items::max_items); // make sure our inventory has the correct number of initializers
+
+    // Since we can&#39;t iterate over an enumerated type using a ranged-for, we&#39;ll need to use a traditional for-loop here
+    for (int i=0; i &lt; Items::max_items; ++i)
+    {
+        auto item { static_cast&lt;Items::Type&gt;(i) };
+        printInventoryItem(inventory, item);
+    }
+
+    std::cout &lt;&lt; &#34;You have &#34; &lt;&lt; countTotalItems(inventory) &lt;&lt; &#34; total items\n&#34;;
+
+    return 0;
+}</code></pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>Question #3<p>Write a function that takes a <code>std::vector</code>, returns a <code>std::pair</code> containing the indices of the elements with the min and max values in the array. The documentation for <code>std::pair</code> can be found <a href=https://en.cppreference.com/w/cpp/utility/pair>here</a>. Call the function on the following two vectors:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    std::vector v1 { 3, 8, 2, 5, 7, 8, 3 };
+    std::vector v2 { 5.5, 2.7, 3.3, 7.6, 1.2, 8.8, 6.6 };</code></pre><p>The program should output the following:<pre>With array ( 3, 8, 2, 5, 7, 8, 3 ):
+The min element has index 2 and value 2
+The max element has index 1 and value 8
+
+With array ( 5.5, 2.7, 3.3, 7.6, 1.2, 8.8, 6.6 ):
+The min element has index 4 and value 1.2
+The max element has index 5 and value 8.8
+</pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_7'),this,'Show Solution','Hide Solution')">Show Solution</a><div class=wpsolution id=cpp_solution_id_7 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+
+template &lt;typename T&gt;
+std::pair&lt;std::size_t, std::size_t&gt; findMinMaxIndices(const std::vector&lt;T&gt;&amp; v)
+{
+    // Assume element 0 is the minimum and the maximum
+    std::size_t minIndex { 0 };
+    std::size_t maxIndex { 0 };
+
+    // Look through the remaining elements to see if we can find a smaller or larger element
+    for (std::size_t index { 1 }; index &lt; v.size(); ++index)
+    {
+        if (v[index] &lt; v[minIndex])
+            minIndex = index;
+        if (v[index] &gt; v[maxIndex])
+            maxIndex = index;
+    }
+
+    return { minIndex, maxIndex };
+}
+
+template &lt;typename T&gt;
+void printArray(const std::vector&lt;T&gt;&amp; v)
+{
+    bool comma { false };
+    std::cout &lt;&lt; &#34;With array ( &#34;;
+    for (const auto&amp; e: v)
+    {
+        if (comma)
+            std::cout &lt;&lt; &#34;, &#34;;
+
+        std::cout &lt;&lt; e;
+        comma = true;
+    }
+    std::cout &lt;&lt; &#34; ):\n&#34;;
+}
+
+int main()
+{
+    std::vector v1 { 3, 8, 2, 5, 7, 8, 3 };
+    printArray(v1);
+    
+    auto m1 { findMinMaxIndices(v1) };
+    std::cout &lt;&lt; &#34;The min element has index &#34; &lt;&lt; m1.first &lt;&lt; &#34; and value &#34; &lt;&lt; v1[m1.first] &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; &#34;The max element has index &#34; &lt;&lt; m1.second &lt;&lt; &#34; and value &#34; &lt;&lt; v1[m1.second] &lt;&lt; &#39;\n&#39;;
+
+    std::cout &lt;&lt; &#39;\n&#39;;
+    
+    std::vector v2 { 5.5, 2.7, 3.3, 7.6, 1.2, 8.8, 6.6 };
+    printArray(v2);
+
+    auto m2 { findMinMaxIndices(v2) };
+    std::cout &lt;&lt; &#34;The min element has index &#34; &lt;&lt; m2.first &lt;&lt; &#34; and value &#34; &lt;&lt; v2[m2.first] &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; &#34;The max element has index &#34; &lt;&lt; m2.second &lt;&lt; &#34; and value &#34; &lt;&lt; v2[m2.second] &lt;&lt; &#39;\n&#39;;
+
+    return 0;
+}</code></pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>Question #4<p>Modify the prior program so that the user can enter as many integers as they like. Stop accepting input when the user enters <code>-1</code>.<p>Print the vector and find the min and max elements.<p>When run with the input <code>3 8 5 2 3 7 -1</code>, the program should produce the following output:<pre>Enter numbers to add (use -1 to stop): 3 8 5 2 3 7 -1
+With array ( 3, 8, 5, 2, 3, 7 ):
+The min element has index 3 and value 2
+The max element has index 1 and value 8
+</pre><p>Do something reasonable when the user enters <code>-1</code> as the first input.<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_8'),this,'Show Solution','Hide Solution')">Show Solution</a><div class=wpsolution id=cpp_solution_id_8 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+#include &lt;limits&gt;
+#include &lt;vector&gt;
+
+template &lt;typename T&gt;
+std::pair&lt;std::size_t, std::size_t&gt; findMinMaxIndices(const std::vector&lt;T&gt;&amp; v)
+{
+    // Assume element 0 is the minimum and the maximum
+    std::size_t minIndex { 0 };
+    std::size_t maxIndex { 0 };
+
+    // Look through the remaining elements to see if we can find a smaller or larger element
+    for (std::size_t index { 1 }; index &lt; v.size(); ++index)
+    {
+        if (v[index] &lt; v[minIndex])
+            minIndex = index;
+        if (v[index] &gt; v[maxIndex])
+            maxIndex = index;
+    }
+
+    return { minIndex, maxIndex };
+}
+
+template &lt;typename T&gt;
+void printArray(const std::vector&lt;T&gt;&amp; v)
+{
+    bool comma { false };
+    std::cout &lt;&lt; &#34;With array ( &#34;;
+    for (const auto&amp; e: v)
+    {
+        if (comma)
+            std::cout &lt;&lt; &#34;, &#34;;
+
+        std::cout &lt;&lt; e;
+        comma = true;
+    }
+    std::cout &lt;&lt; &#34; ):\n&#34;;
+}
+
+int main()
+{
+    std::vector&lt;int&gt; v1 { };
+    std::cout &lt;&lt; &#34;Enter numbers to add (use -1 to stop): &#34;;
+
+    while (true)
+    {
+        int input{};
+        std::cin &gt;&gt; input;
+        if (input == -1)
+            break;
+
+        if (!std::cin) // if the previous extraction failed
+        {
+            std::cin.clear(); // put us back in &#39;normal&#39; operation mode
+            std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), &#39;\n&#39;); // and remove the bad input
+            continue;
+        }
+
+        v1.push_back(input);
+    }
+
+    // If the array is empty
+    if (v1.size() == 0)
+    {
+        std::cout &lt;&lt; &#34;The array has no elements\n&#34;;
+    }
+    else
+    {
+        printArray(v1);
+
+        auto m1 { findMinMaxIndices(v1) };
+        std::cout &lt;&lt; &#34;The min element has index &#34; &lt;&lt; m1.first &lt;&lt; &#34; and value &#34; &lt;&lt; v1[m1.first] &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; &#34;The max element has index &#34; &lt;&lt; m1.second &lt;&lt; &#34; and value &#34; &lt;&lt; v1[m1.second] &lt;&lt; &#39;\n&#39;;
+    }
+
+    return 0;
+}</code></pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>Question #5<p>Let’s implement the game C++man (which will be our version of the classic children’s lynching game <a href=https://en.wikipedia.org/wiki/Hangman_(game%29>Hangman</a>.<p>In case you’ve never played it before, here are the abbreviated rules:<p>High level:<ul><li>The computer will pick a word at random and draw an underscore for each letter in the word.<li>The player wins if they guess all the letters in the word before making X wrong guesses (where X is configurable).</ul><p>Each turn:<ul><li>The player will guess a single letter.<li>If the player has already guessed that letter, it doesn’t count, and play continues.<li>If any of the underscores represent that letter, those underscores are replaced with that letter, and play continues.<li>If no underscores represent that letter, the player uses up one of their wrong guesses.</ul><p>Status:<ul><li>The player should know how many wrong guesses they have left.<li>The player should know what letters they have guessed incorrectly (in alphabetical order).</ul><p>Because this is C++man, we’ll use a <code>+</code> symbol to indicate the number of wrong guesses left. If you run out of <code>+</code> symbols, you lose.<p>Here’s sample output from the finished game:<pre>Welcome to C++man (a variant of Hangman)
+To win: guess the word.  To lose: run out of pluses.
+
+The word: ________   Wrong guesses: ++++++
+Enter your next letter: a
+No, &#39;a&#39; is not in the word!
+
+The word: ________   Wrong guesses: +++++a
+Enter your next letter: b
+Yes, &#39;b&#39; is in the word!
+
+The word: b_______   Wrong guesses: +++++a
+Enter your next letter: c
+Yes, &#39;c&#39; is in the word!
+
+The word: b__cc___   Wrong guesses: +++++a
+Enter your next letter: d
+No, &#39;d&#39; is not in the word!
+
+The word: b__cc___   Wrong guesses: ++++ad
+Enter your next letter: %
+That wasn&#39;t a valid input.  Try again.
+
+The word: b__cc___   Wrong guesses: ++++ad
+Enter your next letter: d
+You already guessed that.  Try again.
+
+The word: b__cc___   Wrong guesses: ++++ad
+Enter your next letter: e
+No, &#39;e&#39; is not in the word!
+
+The word: b__cc___   Wrong guesses: +++ade
+Enter your next letter: f
+No, &#39;f&#39; is not in the word!
+
+The word: b__cc___   Wrong guesses: ++adef
+Enter your next letter: g
+No, &#39;g&#39; is not in the word!
+
+The word: b__cc___   Wrong guesses: +adefg
+Enter your next letter: h
+No, &#39;h&#39; is not in the word!
+
+The word: b__cc___   Wrong guesses: adefgh
+You lost!  The word was: broccoli
+</pre><p class="cpp-quiz-question cpp-topline" style=clear:both>> Step #1<p>Goals:<ul><li>We’ll start by defining our list of words and writing a random word picker. You can use the Random.h from lesson <a href="../global-random-numbers-random-h/index.html#RandomH">8.15 -- Global random numbers (Random.h)</a> to assist.</ul><p>Tasks:<ul><li>First define a namespace named <code>WordList</code>. The starter list of words is: “mystery”, “broccoli” , “account”, “almost”, “spaghetti”, “opinion”, “beautiful”, “distance”, “luggage”. You can add others if you like.<li>Write a function to pick a random word and display the word picked. Run the program several times to make sure the word is randomized.</ul><p>Here is a sample output from this step:<pre>Welcome to C++man (a variant of Hangman)
+To win: guess the word.  To lose: run out of pluses.
+
+The word is: broccoli
+</pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_9'),this,'Show Solution','Hide Solution')">Show Solution</a><div class=wpsolution id=cpp_solution_id_9 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &#34;Random.h&#34;
+
+namespace WordList
+{
+    // Define your list of words here
+    std::vector&lt;std::string_view&gt; words { &#34;mystery&#34;, &#34;broccoli&#34; , &#34;account&#34;, &#34;almost&#34;, &#34;spaghetti&#34;, &#34;opinion&#34;, &#34;beautiful&#34;, &#34;distance&#34;, &#34;luggage&#34; };
+
+    std::string_view getRandomWord()
+    {
+        return words[Random::get&lt;std::size_t&gt;(0, words.size()-1)];
+    }
+}
+
+int main()
+{
+    std::cout &lt;&lt; &#34;Welcome to C++man (a variant of Hangman)\n&#34;;
+    std::cout &lt;&lt; &#34;To win: guess the word.  To lose: run out of pluses.\n&#34;;
+
+    std::cout &lt;&lt; &#34;The word is: &#34; &lt;&lt; WordList::getRandomWord();
+  
+    return 0;
+}</code></pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>> Step #2<p>As we develop complex programs, we want to work incrementally, adding one or two things at a time and then making sure they work. What makes sense to add next?<p>Goals:<ul><li>Be able to draw the basic state of the game, showing the word as underscores.<li>Accept a letter of input from the user, with basic error validation.</ul><p>In this step, we will not yet keep track of which letters the user has entered.<p>Here is the sample output from this step:<pre>Welcome to C++man (a variant of Hangman)
+To win: guess the word.  To lose: run out of pluses.
+
+The word: ________
+Enter your next letter: %
+That wasn&#39;t a valid input.  Try again.
+Enter your next letter: a
+You entered: a
+</pre><p>Tasks:<ul><li>Create a class named <code>Session</code> that will be used to store all of the data the game needs to manage in a game session. For now, we just need to know what the random word is.<li>Create a function to display the basic state of the game, where the word is displayed as underscores.<li>Create a function to accept a letter of input from the user. Do basic input validation to filter out non-letters or extraneous input.</ul><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_10'),this,'Show Solution','Hide Solution')">Show Solution</a><div class=wpsolution id=cpp_solution_id_10 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+#include &lt;string_view&gt;
+#include &lt;vector&gt;
+#include &#34;Random.h&#34;
+
+namespace WordList
+{
+    // Define your list of words here
+    std::vector&lt;std::string_view&gt; words { &#34;mystery&#34;, &#34;broccoli&#34; , &#34;account&#34;, &#34;almost&#34;, &#34;spaghetti&#34;, &#34;opinion&#34;, &#34;beautiful&#34;, &#34;distance&#34;, &#34;luggage&#34; };
+
+    std::string_view getRandomWord()
+    {
+        return words[Random::get&lt;std::size_t&gt;(0, words.size()-1)];
+    }
+}
+
+class Session
+{
+private:
+    // Game session data
+    std::string_view m_word { WordList::getRandomWord() };
+
+public:
+    std::string_view getWord() const { return m_word; }
+};
+
+void draw(const Session&amp; s)
+{
+    std::cout &lt;&lt; &#39;\n&#39;;
+
+    std::cout &lt;&lt; &#34;The word: &#34;;
+    for ([[maybe_unused]] auto c: s.getWord()) // step through each letter of word
+    {
+        std::cout &lt;&lt; &#39;_&#39;;
+    }
+
+    std::cout &lt;&lt; &#39;\n&#39;;
+}
+
+char getGuess()
+{
+    while (true)
+    {
+        std::cout &lt;&lt; &#34;Enter your next letter: &#34;;
+
+        char c{};
+        std::cin &gt;&gt; c;
+
+        // If user did something bad, try again
+        if (!std::cin)
+        {
+            // Fix it
+            std::cin.clear();
+            std::cout &lt;&lt; &#34;That wasn&#39;t a valid input.  Try again.\n&#34;;
+            std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), &#39;\n&#39;);
+            continue;
+        }
+        
+        // Clear out any extraneous input
+        std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), &#39;\n&#39;);
+
+        // If the user entered an invalid char, try again
+        if (c &lt; &#39;a&#39; || c &gt; &#39;z&#39;)
+        {
+            std::cout &lt;&lt; &#34;That wasn&#39;t a valid input.  Try again.\n&#34;;
+            continue;
+        }
+
+        return c;
+    }
+}
+
+int main()
+{
+    std::cout &lt;&lt; &#34;Welcome to C++man (a variant of Hangman)\n&#34;;
+    std::cout &lt;&lt; &#34;To win: guess the word.  To lose: run out of pluses.\n&#34;;
+
+    Session s{};
+
+    draw(s);
+    char c { getGuess() };
+    std::cout &lt;&lt; &#34;You guessed: &#34; &lt;&lt; c &lt;&lt; &#39;\n&#39;;
+    
+    return 0;
+}</code></pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>> Step #3<p>Now that we can display some game state and get input from the user, let’s integrate that user input into the game.<p>Goals:<ul><li>Keep track of which letters the user has guessed.<li>Display correctly guessed letters.<li>Implement a basic game loop.</ul><p>Tasks:<ul><li>Update the Session class to track which letters have been guessed so far.<li>Modify the game state function to display both underscores and correctly guessed letters.<li>Update the input routine to reject letters that have already been guessed.<li>Write a loop that executes 6 times before quitting (so we can test the above).</ul><p>In this step, we will not tell the user whether the letter they guessed is in the word (but we will show it as part of the game state display).<p>The tricky part of this step is deciding how to store information on which letters the user has guessed. There are several different viable ways to do this. A hint: there are a fixed number of letters, and you’re going to be doing this a lot.<p><a class=hint_link_show href=javascript:void(0) onclick="cppHintToggle(document.getElementById('cpp_hint_id_1'),this,'Show Hint','')">Show Hint</a><div class=wphint id=cpp_hint_id_1 style=display:none;margin-bottom:1em>Hint: It’s easier and faster to use a <code>bool</code> for each letter than it is to keep a list of letters and have to search that list to determine whether a letter exists.</div><p><a class=hint_link_show href=javascript:void(0) onclick="cppHintToggle(document.getElementById('cpp_hint_id_2'),this,'Show Hint','')">Show Hint</a><div class=wphint id=cpp_hint_id_2 style=display:none;margin-bottom:1em>Hint: It is okay to use <code>std::vector&lt;bool></code> here since we won’t be using any of the other functionality of the standard library.</div><p><a class=hint_link_show href=javascript:void(0) onclick="cppHintToggle(document.getElementById('cpp_hint_id_3'),this,'Show Hint','')">Show Hint</a><div class=wphint id=cpp_hint_id_3 style=display:none;margin-bottom:1em>Hint: You can convert a letter into an array index via <code>(letter % 32)-1</code>. This works with both lower case and upper case letters.</div><p>Here’s sample output for this step:<pre>Welcome to C++man (a variant of Hangman)
+To win: guess the word.  To lose: run out of pluses.
+
+The word: ________
+Enter your next letter: a
+
+The word: ____a___
+Enter your next letter: a
+You already guessed that.  Try again.
+Enter your next letter: b
+
+The word: ____a___
+Enter your next letter: c
+
+The word: ____a___
+Enter your next letter: d
+
+The word: d___a___
+Enter your next letter: e
+
+The word: d___a__e
+Enter your next letter: f
+
+The word: d___a__e
+Enter your next letter: g
+</pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_11'),this,'Show Solution','Hide Solution')">Show Solution</a><div class=wpsolution id=cpp_solution_id_11 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+#include &lt;string_view&gt;
+#include &lt;vector&gt;
+#include &#34;Random.h&#34;
+
+namespace WordList
+{
+    // Define your list of words here
+    std::vector&lt;std::string_view&gt; words { &#34;mystery&#34;, &#34;broccoli&#34; , &#34;account&#34;, &#34;almost&#34;, &#34;spaghetti&#34;, &#34;opinion&#34;, &#34;beautiful&#34;, &#34;distance&#34;, &#34;luggage&#34; };
+
+    std::string_view getRandomWord()
+    {
+        return words[Random::get&lt;std::size_t&gt;(0, words.size()-1)];
+    }
+}
+
+class Session
+{
+private:
+    // Game session data
+    std::string_view m_word { WordList::getRandomWord() };
+    std::vector&lt;bool&gt; m_letterGuessed { std::vector&lt;bool&gt;(26) };
+
+    std::size_t toIndex(char c) const { return static_cast&lt;std::size_t&gt;((c % 32)-1); }
+
+public:
+    std::string_view getWord() const { return m_word; }
+
+    bool isLetterGuessed(char c) const { return m_letterGuessed[toIndex(c)]; }
+    void setLetterGuessed(char c) { m_letterGuessed[toIndex(c)] = true; }
+};
+
+void draw(const Session&amp; s)
+{
+    std::cout &lt;&lt; &#39;\n&#39;;
+
+    std::cout &lt;&lt; &#34;The word: &#34;;
+    for (auto c: s.getWord()) // step through each letter of word
+    {
+        if (s.isLetterGuessed(c))
+            std::cout &lt;&lt; c;
+        else
+            std::cout &lt;&lt; &#39;_&#39;;
+    }
+
+    std::cout &lt;&lt; &#39;\n&#39;;
+}
+
+char getGuess(const Session&amp; s)
+{
+    while (true)
+    {
+        std::cout &lt;&lt; &#34;Enter your next letter: &#34;;
+
+        char c{};
+        std::cin &gt;&gt; c;
+
+        // If user did something bad, try again
+        if (!std::cin)
+        {
+            // Fix it
+            std::cin.clear();
+            std::cout &lt;&lt; &#34;That wasn&#39;t a valid input.  Try again.\n&#34;;
+            std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), &#39;\n&#39;);
+            continue;
+        }
+        
+        // Clear out any extraneous input
+        std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), &#39;\n&#39;);
+
+        // If the user entered an invalid char, try again
+        if (c &lt; &#39;a&#39; || c &gt; &#39;z&#39;)
+        {
+            std::cout &lt;&lt; &#34;That wasn&#39;t a valid input.  Try again.\n&#34;;
+            continue;
+        }
+
+        // If the letter was already guessed, try again
+        if (s.isLetterGuessed(c))
+        {
+            std::cout &lt;&lt; &#34;You already guessed that.  Try again.\n&#34;;
+            continue;
+        }
+
+        // If we got here, this must be a valid guess
+        return c;
+    }
+}
+
+int main()
+{
+    std::cout &lt;&lt; &#34;Welcome to C++man (a variant of Hangman)\n&#34;;
+    std::cout &lt;&lt; &#34;To win: guess the word.  To lose: run out of pluses.\n&#34;;
+
+    Session s {};
+
+    int count { 6 };
+    while (--count)
+    {
+        draw(s);
+        char c { getGuess(s) };
+        s.setLetterGuessed(c);
+    }
+
+    // Draw the final state of the game
+    draw(s);
+    
+    return 0;
+}</code></pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>> Step #4<p>Goal: Finish the game.<p>Tasks:<ul><li>Add in display of total wrong guesses left<li>Add in display of incorrect letters guessed<li>Add in win/loss condition and win/loss text.</ul><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_12'),this,'Show Solution','Hide Solution')">Show Solution</a><div class=wpsolution id=cpp_solution_id_12 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+#include &lt;string_view&gt;
+#include &lt;vector&gt;
+#include &#34;Random.h&#34;
+
+namespace Settings
+{
+    constexpr int wrongGuessesAllowed { 6 };
+}
+
+namespace WordList
+{
+    // Define your list of words here
+    std::vector&lt;std::string_view&gt; words { &#34;mystery&#34;, &#34;broccoli&#34; , &#34;account&#34;, &#34;almost&#34;, &#34;spaghetti&#34;, &#34;opinion&#34;, &#34;beautiful&#34;, &#34;distance&#34;, &#34;luggage&#34; };
+
+    std::string_view getRandomWord()
+    {
+        return words[Random::get&lt;std::size_t&gt;(0, words.size()-1)];
+    }
+}
+
+class Session
+{
+private:
+    // Game session data
+    std::string_view m_word { WordList::getRandomWord() };
+    int m_wrongGuessesLeft { Settings::wrongGuessesAllowed };
+    std::vector&lt;bool&gt; m_letterGuessed { std::vector&lt;bool&gt;(26) };
+
+    std::size_t toIndex(char c) const { return static_cast&lt;std::size_t&gt;((c % 32)-1); }
+
+public:
+    std::string_view getWord() const { return m_word; }
+
+    int wrongGuessesLeft() const { return m_wrongGuessesLeft; }
+    void removeGuess() { --m_wrongGuessesLeft; }
+
+    bool isLetterGuessed(char c) const { return m_letterGuessed[toIndex(c)]; }
+    void setLetterGuessed(char c) { m_letterGuessed[toIndex(c)] = true; }
+
+    bool isLetterInWord(char c) const
+    {
+        for (auto ch: m_word) // step through each letter of word
+        {
+            if (ch == c)
+                return true;
+        }
+
+        return false;
+    }
+
+    bool won()
+    {
+        for (auto c: m_word) // step through each letter of word
+        {
+            if (!isLetterGuessed(c))
+                return false;
+        }
+        
+        return true;
+    }
+};
+
+void draw(const Session&amp; s)
+{
+    std::cout &lt;&lt; &#39;\n&#39;;
+
+    std::cout &lt;&lt; &#34;The word: &#34;;
+    for (auto c: s.getWord()) // step through each letter of word
+    {
+        if (s.isLetterGuessed(c))
+            std::cout &lt;&lt; c;
+        else
+            std::cout &lt;&lt; &#39;_&#39;;
+    }
+
+    std::cout &lt;&lt; &#34;   Wrong guesses: &#34;;
+    for (int i=0; i &lt; s.wrongGuessesLeft(); ++i)
+        std::cout &lt;&lt; &#39;+&#39;;
+
+
+    for (char c=&#39;a&#39;; c &lt;= &#39;z&#39;; ++c)
+        if (s.isLetterGuessed(c) &amp;&amp; !s.isLetterInWord(c))
+            std::cout &lt;&lt; c;
+
+    std::cout &lt;&lt; &#39;\n&#39;;
+}
+
+char getGuess(const Session&amp; s)
+{
+    while (true)
+    {
+        std::cout &lt;&lt; &#34;Enter your next letter: &#34;;
+
+        char c{};
+        std::cin &gt;&gt; c;
+
+        // If user did something bad, try again
+        if (!std::cin)
+        {
+            // Fix it
+            std::cin.clear();
+            std::cout &lt;&lt; &#34;That wasn&#39;t a valid input.  Try again.\n&#34;;
+            std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), &#39;\n&#39;);
+            continue;
+        }
+        
+        // Clear out any extraneous input
+        std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), &#39;\n&#39;);
+
+        // If the user entered an invalid char, try again
+        if (c &lt; &#39;a&#39; || c &gt; &#39;z&#39;)
+        {
+            std::cout &lt;&lt; &#34;That wasn&#39;t a valid input.  Try again.\n&#34;;
+            continue;
+        }
+
+        // If the letter was already guessed, try again
+        if (s.isLetterGuessed(c))
+        {
+            std::cout &lt;&lt; &#34;You already guessed that.  Try again.\n&#34;;
+            continue;
+        }
+
+        // If we got here, this must be a valid guess
+        return c;
+    }
+}
+
+void handleGuess(Session &amp;s, char c)
+{
+    s.setLetterGuessed(c);
+    
+    if (s.isLetterInWord(c))
+    {
+        std::cout &lt;&lt; &#34;Yes, &#39;&#34; &lt;&lt; c &lt;&lt; &#34;&#39; is in the word!\n&#34;;
+        return;
+    }
+    
+    std::cout &lt;&lt; &#34;No, &#39;&#34; &lt;&lt; c &lt;&lt; &#34;&#39; is not in the word!\n&#34;;
+    s.removeGuess();
+}
+
+int main()
+{
+    std::cout &lt;&lt; &#34;Welcome to C++man (a variant of Hangman)\n&#34;;
+    std::cout &lt;&lt; &#34;To win: guess the word.  To lose: run out of pluses.\n&#34;;
+
+    Session s{};
+
+    while (s.wrongGuessesLeft() &amp;&amp; !s.won())
+    {
+        draw(s);
+        char c { getGuess(s) };
+        handleGuess(s, c);
+    }
+
+    // Draw the final state of the game
+    draw(s);
+
+    if (!s.wrongGuessesLeft())
+        std::cout &lt;&lt; &#34;You lost!  The word was: &#34; &lt;&lt; s.getWord() &lt;&lt; &#39;\n&#39;;
+    else
+        std::cout &lt;&lt; &#34;You won!\n&#34;;
+    
+    return 0;
+}</code></pre></div><div class=prevnext><div class=prevnext-inline><a class=nav-link href="../introduction-to-stdarray/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Next lesson</div><div class=nav-button-lesson><span class=nav-button-lesson-number>17.1</span>Introduction to std::array</div></div></div></a><a class=nav-link href="https://www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Back to table of contents</div></div></div></a><a class=nav-link href="../stdvector-bool/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Previous lesson</div><div class=nav-button-lesson><span class=nav-button-lesson-number>16.12</span>std::vector&lt;bool></div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="https://www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=https://www.learncpp.com/chapter-16-summary-and-quiz/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Previous Post</em><a href="../stdvector-bool/index.html" rel=prev><span>16.12 — std::vector&lt;bool></span></a></div><div class=nav-next><em>Next Post</em><a href="../stdarray-length-and-indexing/index.html" rel=next><span>17.2 — std::array length and indexing</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Label</label>
+<textarea id=wc-textarea-0_0 placeholder="Leave a comment..." aria-label="Leave a comment..." required name=wc_comment class="wc_comment wpd-field"></textarea></div><div class=wpd-editor-buttons-right></div></div></div></div><div class=wpd-form-foot><div class=wpdiscuz-textarea-foot><div class=wpdiscuz-button-actions></div></div><div class=wpd-form-row><div class=wpd-form-col-left><div class="wpdiscuz-item wc_name-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-user"></i></div><input id=wc_name-0_0 required aria-required=true class="wc_name wpd-field" name=wc_name placeholder=Name* maxlength=50 pattern=.{3,50}>
+<label for=wc_name-0_0 class=wpdlb>Name*</label></div><div class="wpdiscuz-item wc_email-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-at"></i></div><input id=wc_email-0_0 required aria-required=true class="wc_email wpd-field" type=email name=wc_email placeholder=Email*>
+<label for=wc_email-0_0 class=wpdlb>Email*</label><div class=wpd-field-desc><i class="far fa-question-circle"></i><span>Your email address will not be displayed</span></div></div><div class=cpp_correction_div style=padding-bottom:4px><div class=wpd-field-icon style=display:inline-block;width:20px><i style=opacity:.6 class="fas fa-regular fa-bug"></i></div>Find a mistake? Leave a comment above!<div class=wpd-field-desc><i class="far fa-question-circle"></i><span>Correction-related comments will be deleted after processing to help reduce clutter. Thanks for helping to make the site better for everyone!</span></div></div><div class=cpp_avatar_div style=padding-bottom:4px><div class=wpd-field-icon style=display:inline-block;width:20px><i style=opacity:.6 class="fas fa-user"></i></div>Avatars from <a target=_blank rel="noopener noreferrer" href=https://gravatar.com/>https://gravatar.com/</a> are connected to your provided email address.</div></div><div class=wpd-form-col-right><div class=wc-field-submit><span style=margin-top:6px>Notify me about replies:  </span>
+<label class=wpd_label wpd-tooltip="Notify me about new replies to this comment"><input id=wc_notification_new_comment-0_0 class="wc_notification_new_comment-0_0 wpd_label__checkbox" value=comment type=checkbox name=wpdiscuz_notification_type checked>
+<span class=wpd_label__text><span class=wpd_label__check><i class="fas fa-bell wpdicon wpdicon-on"></i><i class="fas fa-bell-slash wpdicon wpdicon-off"></i></span></span></label><input id=wpd-field-submit-0_0 class="wc_comm_submit wpd_not_clicked wpd-prim-button" type=submit name=submit value="Post Comment"></div></div><div class=clearfix></div></div></div><input type=hidden class=wpdiscuz_unique_id value=0_0 name=wpdiscuz_unique_id></form></div><div id=wpdiscuz_hidden_secondary_form style=display:none><div class="wpd-form wpd-form-wrapper wpd-secondary-form-wrapper" id=wpd-secondary-form-wrapper-wpdiscuzuniqueid style=display:none><div class=wpd-secondary-forms-social-content></div><div class=clearfix></div><form class="wpd_comm_form wpd-secondary-form-wrapper" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-wpdiscuzuniqueid class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-wpdiscuzuniqueid>Label</label>
+<textarea id=wc-textarea-wpdiscuzuniqueid placeholder="Leave a comment..." aria-label="Leave a comment..." required name=wc_comment class="wc_comment wpd-field"></textarea></div><div class=wpd-editor-buttons-right></div></div></div></div><div class=wpd-form-foot><div class=wpdiscuz-textarea-foot><div class=wpdiscuz-button-actions></div></div><div class=wpd-form-row><div class=wpd-form-col-left><div class="wpdiscuz-item wc_name-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-user"></i></div><input id=wc_name-wpdiscuzuniqueid required aria-required=true class="wc_name wpd-field" name=wc_name placeholder=Name* maxlength=50 pattern=.{3,50}>
+<label for=wc_name-wpdiscuzuniqueid class=wpdlb>Name*</label></div><div class="wpdiscuz-item wc_email-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-at"></i></div><input id=wc_email-wpdiscuzuniqueid required aria-required=true class="wc_email wpd-field" type=email name=wc_email placeholder=Email*>
+<label for=wc_email-wpdiscuzuniqueid class=wpdlb>Email*</label><div class=wpd-field-desc><i class="far fa-question-circle"></i><span>Your email address will not be displayed</span></div></div><div class=cpp_correction_div style=padding-bottom:4px><div class=wpd-field-icon style=display:inline-block;width:20px><i style=opacity:.6 class="fas fa-regular fa-bug"></i></div>Find a mistake? Leave a comment above!<div class=wpd-field-desc><i class="far fa-question-circle"></i><span>Correction-related comments will be deleted after processing to help reduce clutter. Thanks for helping to make the site better for everyone!</span></div></div><div class=cpp_avatar_div style=padding-bottom:4px><div class=wpd-field-icon style=display:inline-block;width:20px><i style=opacity:.6 class="fas fa-user"></i></div>Avatars from <a target=_blank rel="noopener noreferrer" href=https://gravatar.com/>https://gravatar.com/</a> are connected to your provided email address.</div></div><div class=wpd-form-col-right><div class=wc-field-submit><label class=wpd_label wpd-tooltip="Notify me about new replies to this comment"><input id=wc_notification_new_comment-wpdiscuzuniqueid class="wc_notification_new_comment-wpdiscuzuniqueid wpd_label__checkbox" value=comment type=checkbox name=wpdiscuz_notification_type checked>
+<span class=wpd_label__text><span class=wpd_label__check><i class="fas fa-bell wpdicon wpdicon-on"></i><i class="fas fa-bell-slash wpdicon wpdicon-off"></i></span></span></label><input id=wpd-field-submit-wpdiscuzuniqueid class="wc_comm_submit wpd_not_clicked wpd-prim-button" type=submit name=submit value="Post Comment"></div></div><div class=clearfix></div></div></div><input type=hidden class=wpdiscuz_unique_id value=wpdiscuzuniqueid name=wpdiscuz_unique_id></form></div></div></div><div id=wpd-threads class=wpd-thread-wrapper><div class=wpd-thread-head><div class=wpd-thread-info data-comments-count=299><span class=wpdtc title=299>299</span> Comments</div><div class=wpd-space></div><div class=wpd-thread-filter><div class="wpd-filter wpdf-sorting"><span class="wpdiscuz-sort-button wpdiscuz-date-sort-desc wpdiscuz-sort-button-active" data-sorting=newest>Newest</span>
+<i class="fas fa-sort-down"></i><div class=wpdiscuz-sort-buttons><span class="wpdiscuz-sort-button wpdiscuz-date-sort-asc" data-sorting=oldest>Oldest</span>
+<span class="wpdiscuz-sort-button wpdiscuz-vote-sort-up" data-sorting=by_vote>Most Voted</span></div></div></div></div><div class=wpd-comment-info-bar><div class=wpd-current-view><i class="fas fa-quote-left"></i>Inline Feedbacks</div><div class=wpd-filter-view-all>View all comments</div></div><div class=wpd-thread-list><div class=wpdiscuz-comment-pagination style=display:none><div class=wpd-load-more-submit-wrap><button name=submit data-lastparentid=0 class="wpd-load-more-submit wpd-loaded wpd-prim-button">
+Load More Comments</button></div><input id=wpdiscuzHasMoreComments type=hidden value=0></div></div></div></div></div><div id=wpdiscuz-loading-bar class=wpdiscuz-loading-bar-unauth></div><div id=wpdiscuz-comment-message class=wpdiscuz-comment-message-unauth></div></main><aside id=primary class="widget-area sidey" role=complementary itemscope itemtype=http://schema.org/WPSideBar><section id=custom_html-2 class="widget_text widget-container widget_custom_html"><div class="textwidget custom-html-widget"><div class=cf_monitor style=float:right><div id=ezoic-pub-ad-placeholder-103></div><ins class=adsbygoogle style=display:inline-block;width:160px;height:600px data-ad-client=ca-pub-0588844875925051 data-ad-slot=6408671241></ins></div></div></section></aside><aside id=secondary class="widget-area sidey" role=complementary itemscope itemtype=http://schema.org/WPSideBar><section id=custom_html-3 class="widget_text widget-container widget_custom_html"><div class="textwidget custom-html-widget"><div class=cf_monitor style=float:left><div id=ezoic-pub-ad-placeholder-102></div><ins class=adsbygoogle style=display:inline-block;width:160px;height:600px data-ad-client=ca-pub-0588844875925051 data-ad-slot=1425558446></ins></div></div></section></aside></div><aside id=colophon role=complementary itemscope itemtype=http://schema.org/WPSideBar><div id=colophon-inside class=footer-one><section id=text-10 class="widget-container widget_text"><div class=footer-widget-inside><div class=textwidget><p><em>©2024 Learn C++</em> <a href=https://g.ezoic.net/privacy/learncpp.com>Privacy Policy</a></div></div></section></div></aside></div><footer id=footer class=cryout role=contentinfo itemscope itemtype=http://schema.org/WPFooter><div id=footer-inside></div></footer></div><a href=javascript:void(0); id=wpdUserContentInfoAnchor style=display:none rel=#wpdusercontentinfo data-wpd-lity>wpDiscuz</a><div id=wpdUserContentInfo style=overflow:auto;background:#fdfdf6;padding:20px;width:600px;max-width:100%;border-radius:6px class=lity-hide></div><div id=wpd-editor-source-code-wrapper-bg></div><div id=wpd-editor-source-code-wrapper><textarea id=wpd-editor-source-code></textarea><button id=wpd-insert-source-code>Insert</button><input type=hidden id=wpd-editor-uid></div><div class=wpdiscuz-fem-email style=display:none></div><div class=wpdiscuz-fem-email-form style=display:none><span class=wpdiscuz-fem-author>You are going to send email to <em></em></span><i class="fas fa-times"></i><div class=wpdiscuz_clear></div><input placeholder="Email Subject" class=wpdiscuz-fem-subj><textarea class=wpdiscuz-fem-msg placeholder="Enter your message here"></textarea><br><div class=wpdiscuz-fem-button-align><button type=button class=wpdiscuz-fem-send>Send</button></div><input type=hidden id=wpdiscuz_fem_email_comment_id></div><div class=wpdiscuz-fem-moving style=display:none></div><div class=wpdiscuz-fem-move-form style=display:none><span class=wpdiscuz-fem-author>Move Comment<br><em></em></span><i class="fas fa-times"></i><div class=wpdiscuz_clear></div><div class=wpdiscuz-fem-posts-search><input class=wpdiscuz-fem-post placeholder="Enter post title..."><div class=wpdiscuz-fem-posts></div></div><div class=wpdiscuz-fem-button-align><button type=button class=wpdiscuz-fem-move>Move</button></div><input type=hidden id=wpdiscuz_fem_move_comment_id></div></body></html>

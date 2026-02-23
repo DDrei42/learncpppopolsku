@@ -1,0 +1,1239 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8>
+
+
+
+
+
+<base href=""><meta name=viewport content="width=device-width,user-scalable=yes,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><link rel=profile href="https://gmpg.org/xfn/11"><title>24.x — Chapter 24 summary and quiz – Learn C++</title><meta name=robots content="max-image-preview:large"><link rel=dns-prefetch href="https://fd.cleantalk.org/"><link rel=stylesheet id=wgs2-css href="../../blog/wp-content/plugins/wp-google-search/wgs2.css@ver=4084444bfee884f6024e8b1b3cfa6cdd.css" media=all><link rel=stylesheet id=dashicons-css href="../../blog/wp-includes/css/dashicons.min.css@ver=4084444bfee884f6024e8b1b3cfa6cdd.css" media=all><link rel=stylesheet id=font-awesome-css href="../../blog/wp-content/plugins/menu-icons/vendor/codeinwp/icon-picker/css/types/font-awesome.min.css@ver=4.7.0.css" media=all><link rel=stylesheet id=menu-icons-extra-css href="../../blog/wp-content/plugins/menu-icons/css/extra.min.css@ver=0.12.9.css" media=all><link rel=stylesheet id=wp-block-library-css href="../../blog/wp-includes/css/dist/block-library/style.min.css@ver=4084444bfee884f6024e8b1b3cfa6cdd.css" media=all><link rel=stylesheet id=cleantalk-public-css-css href="../../blog/wp-content/plugins/cleantalk-spam-protect/css/cleantalk-public.min.css@ver=6.68_1763367835.css" media=all><link rel=stylesheet id=cleantalk-email-decoder-css-css href="../../blog/wp-content/plugins/cleantalk-spam-protect/css/cleantalk-email-decoder.min.css@ver=6.68_1763367835.css" media=all><link rel=stylesheet id=monacoCSS-css href="../../blog/wp-content/plugins/learncpp-prism/fonts/monaco.css@ver=0.135.css" media=all><link rel=stylesheet id=prismThemeCSS-css href="../../blog/wp-content/plugins/learncpp-prism/prism-theme.css@ver=0.135.css" media=all><link rel=stylesheet id=vscf_style-css href="../../blog/wp-content/plugins/very-simple-contact-form/css/vscf-style.min.css@ver=4084444bfee884f6024e8b1b3cfa6cdd.css" media=all><link rel=stylesheet id=wpdiscuz-frontend-css-css href="../../blog/wp-content/plugins/wpdiscuz/themes/default/style.css@ver=7.3.17.css" media=all><style id=wpdiscuz-frontend-css-inline-css>#wpdcom .wpd-blog-administrator .wpd-comment-label{color:#fff;background-color:#ff451f;border:none}#wpdcom .wpd-blog-administrator .wpd-comment-author,#wpdcom .wpd-blog-administrator .wpd-comment-author a{color:#ff451f}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-administrator .wpd-avatar img{border-color:#ff451f}#wpdcom.wpd-layout-2 .wpd-comment.wpd-reply .wpd-comment-wrap.wpd-blog-administrator{border-left:3px solid #ff451f}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-administrator .wpd-avatar img{border-bottom-color:#ff451f}#wpdcom.wpd-layout-3 .wpd-blog-administrator .wpd-comment-subheader{border-top:1px dashed #ff451f}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-administrator .wpd-comment-right{border-left:1px solid #ff451f}#wpdcom .wpd-blog-author .wpd-comment-label{color:#fff;background-color:#327324;border:none}#wpdcom .wpd-blog-author .wpd-comment-author,#wpdcom .wpd-blog-author .wpd-comment-author a{color:#327324}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-author .wpd-avatar img{border-color:#327324}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-author .wpd-avatar img{border-bottom-color:#327324}#wpdcom.wpd-layout-3 .wpd-blog-author .wpd-comment-subheader{border-top:1px dashed #327324}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-author .wpd-comment-right{border-left:1px solid #327324}#wpdcom .wpd-blog-contributor .wpd-comment-label{color:#fff;background-color:#a240cd;border:none}#wpdcom .wpd-blog-contributor .wpd-comment-author,#wpdcom .wpd-blog-contributor .wpd-comment-author a{color:#a240cd}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-contributor .wpd-avatar img{border-color:#a240cd}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-contributor .wpd-avatar img{border-bottom-color:#a240cd}#wpdcom.wpd-layout-3 .wpd-blog-contributor .wpd-comment-subheader{border-top:1px dashed #a240cd}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-contributor .wpd-comment-right{border-left:1px solid #a240cd}#wpdcom .wpd-blog-editor .wpd-comment-label{color:#fff;background-color:#d36000;border:none}#wpdcom .wpd-blog-editor .wpd-comment-author,#wpdcom .wpd-blog-editor .wpd-comment-author a{color:#d36000}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-editor .wpd-avatar img{border-color:#d36000}#wpdcom.wpd-layout-2 .wpd-comment.wpd-reply .wpd-comment-wrap.wpd-blog-editor{border-left:3px solid #d36000}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-editor .wpd-avatar img{border-bottom-color:#d36000}#wpdcom.wpd-layout-3 .wpd-blog-editor .wpd-comment-subheader{border-top:1px dashed #d36000}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-editor .wpd-comment-right{border-left:1px solid #d36000}#wpdcom .wpd-blog-localization_author .wpd-comment-label{color:#fff;background-color:#31839e;border:none}#wpdcom .wpd-blog-localization_author .wpd-comment-author,#wpdcom .wpd-blog-localization_author .wpd-comment-author a{color:#31839e}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-localization_author .wpd-avatar img{border-color:#31839e}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-localization_author .wpd-avatar img{border-bottom-color:#31839e}#wpdcom.wpd-layout-3 .wpd-blog-localization_author .wpd-comment-subheader{border-top:1px dashed #31839e}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-localization_author .wpd-comment-right{border-left:1px solid #31839e}#wpdcom .wpd-blog-subscriber .wpd-comment-label{color:#fff;background-color:#31839e;border:none}#wpdcom .wpd-blog-subscriber .wpd-comment-author,#wpdcom .wpd-blog-subscriber .wpd-comment-author a{color:#31839e}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-subscriber .wpd-avatar img{border-bottom-color:#31839e}#wpdcom.wpd-layout-3 .wpd-blog-subscriber .wpd-comment-subheader{border-top:1px dashed #31839e}#wpdcom .wpd-blog-subadministrator .wpd-comment-label{color:#fff;background-color:#31839e;border:none}#wpdcom .wpd-blog-subadministrator .wpd-comment-author,#wpdcom .wpd-blog-subadministrator .wpd-comment-author a{color:#31839e}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-subadministrator .wpd-avatar img{border-color:#31839e}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-subadministrator .wpd-avatar img{border-bottom-color:#31839e}#wpdcom.wpd-layout-3 .wpd-blog-subadministrator .wpd-comment-subheader{border-top:1px dashed #31839e}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-subadministrator .wpd-comment-right{border-left:1px solid #31839e}#wpdcom .wpd-blog-css_js_designer .wpd-comment-label{color:#fff;background-color:#00b38f;border:none}#wpdcom .wpd-blog-css_js_designer .wpd-comment-author,#wpdcom .wpd-blog-css_js_designer .wpd-comment-author a{color:#00b38f}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-css_js_designer .wpd-avatar img{border-color:#00b38f}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-css_js_designer .wpd-avatar img{border-bottom-color:#00b38f}#wpdcom.wpd-layout-3 .wpd-blog-css_js_designer .wpd-comment-subheader{border-top:1px dashed #00b38f}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-css_js_designer .wpd-comment-right{border-left:1px solid #00b38f}#wpdcom .wpd-blog-post_author .wpd-comment-label{color:#fff;background-color:#07b290;border:none}#wpdcom .wpd-blog-post_author .wpd-comment-author,#wpdcom .wpd-blog-post_author .wpd-comment-author a{color:#07b290}#wpdcom .wpd-blog-post_author .wpd-avatar img{border-color:#07b290}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-post_author .wpd-avatar img{border-color:#07b290}#wpdcom.wpd-layout-2 .wpd-comment.wpd-reply .wpd-comment-wrap.wpd-blog-post_author{border-left:3px solid #07b290}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-post_author .wpd-avatar img{border-bottom-color:#07b290}#wpdcom.wpd-layout-3 .wpd-blog-post_author .wpd-comment-subheader{border-top:1px dashed #07b290}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-post_author .wpd-comment-right{border-left:1px solid #07b290}#wpdcom .wpd-blog-guest .wpd-comment-label{color:#fff;background-color:#898989;border:none}#wpdcom .wpd-blog-guest .wpd-comment-author,#wpdcom .wpd-blog-guest .wpd-comment-author a{color:#898989}#wpdcom.wpd-layout-3 .wpd-blog-guest .wpd-comment-subheader{border-top:1px dashed #898989}#comments,#respond,.comments-area,#wpdcom{}#wpdcom .ql-editor>*{color:#777}#wpdcom .ql-editor::before{}#wpdcom .ql-toolbar{border:1px solid #ddd;border-top:none}#wpdcom .ql-container{border:1px solid #ddd;border-bottom:none}#wpdcom .wpd-form-row .wpdiscuz-item input[type=text],#wpdcom .wpd-form-row .wpdiscuz-item input[type=email],#wpdcom .wpd-form-row .wpdiscuz-item input[type=url],#wpdcom .wpd-form-row .wpdiscuz-item input[type=color],#wpdcom .wpd-form-row .wpdiscuz-item input[type=date],#wpdcom .wpd-form-row .wpdiscuz-item input[type=datetime],#wpdcom .wpd-form-row .wpdiscuz-item input[type=datetime-local],#wpdcom .wpd-form-row .wpdiscuz-item input[type=month],#wpdcom .wpd-form-row .wpdiscuz-item input[type=number],#wpdcom .wpd-form-row .wpdiscuz-item input[type=time],#wpdcom textarea,#wpdcom select{border:1px solid #ddd;color:#777}#wpdcom .wpd-form-row .wpdiscuz-item textarea{border:1px solid #ddd}#wpdcom input::placeholder,#wpdcom textarea::placeholder,#wpdcom input::-moz-placeholder,#wpdcom textarea::-webkit-input-placeholder{}#wpdcom .wpd-comment-text{color:#777}#wpdcom .wpd-thread-head .wpd-thread-info{border-bottom:2px solid #00b38f}#wpdcom .wpd-thread-head .wpd-thread-info.wpd-reviews-tab svg{fill:#00b38f}#wpdcom .wpd-thread-head .wpdiscuz-user-settings{border-bottom:2px solid #00b38f}#wpdcom .wpd-thread-head .wpdiscuz-user-settings:hover{color:#00b38f}#wpdcom .wpd-comment .wpd-follow-link:hover{color:#00b38f}#wpdcom .wpd-comment-status .wpd-sticky{color:#00b38f}#wpdcom .wpd-thread-filter .wpdf-active{color:#00b38f;border-bottom-color:#00b38f}#wpdcom .wpd-comment-info-bar{border:1px dashed #33c3a6;background:#e6f8f4}#wpdcom .wpd-comment-info-bar .wpd-current-view i{color:#00b38f}#wpdcom .wpd-filter-view-all:hover{background:#00b38f}#wpdcom .wpdiscuz-item .wpdiscuz-rating>label{color:#ddd}#wpdcom .wpdiscuz-item .wpdiscuz-rating:not(:checked)>label:hover,.wpdiscuz-rating:not(:checked)>label:hover~label{}#wpdcom .wpdiscuz-item .wpdiscuz-rating>input~label:hover,#wpdcom .wpdiscuz-item .wpdiscuz-rating>input:not(:checked)~label:hover~label,#wpdcom .wpdiscuz-item .wpdiscuz-rating>input:not(:checked)~label:hover~label{color:#ffed85}#wpdcom .wpdiscuz-item .wpdiscuz-rating>input:checked~label:hover,#wpdcom .wpdiscuz-item .wpdiscuz-rating>input:checked~label:hover,#wpdcom .wpdiscuz-item .wpdiscuz-rating>label:hover~input:checked~label,#wpdcom .wpdiscuz-item .wpdiscuz-rating>input:checked+label:hover~label,#wpdcom .wpdiscuz-item .wpdiscuz-rating>input:checked~label:hover~label,.wpd-custom-field .wcf-active-star,#wpdcom .wpdiscuz-item .wpdiscuz-rating>input:checked~label{color:gold}#wpd-post-rating .wpd-rating-wrap .wpd-rating-stars svg .wpd-star{fill:#ddd}#wpd-post-rating .wpd-rating-wrap .wpd-rating-stars svg .wpd-active{fill:gold}#wpd-post-rating .wpd-rating-wrap .wpd-rate-starts svg .wpd-star{fill:#ddd}#wpd-post-rating .wpd-rating-wrap .wpd-rate-starts:hover svg .wpd-star{fill:#ffed85}#wpd-post-rating.wpd-not-rated .wpd-rating-wrap .wpd-rate-starts svg:hover~svg .wpd-star{fill:#ddd}.wpdiscuz-post-rating-wrap .wpd-rating .wpd-rating-wrap .wpd-rating-stars svg .wpd-star{fill:#ddd}.wpdiscuz-post-rating-wrap .wpd-rating .wpd-rating-wrap .wpd-rating-stars svg .wpd-active{fill:gold}#wpdcom .wpd-comment .wpd-follow-active{color:#ff7a00}#wpdcom .page-numbers{color:#555;border:#555 1px solid}#wpdcom span.current{background:#555}#wpdcom.wpd-layout-1 .wpd-new-loaded-comment>.wpd-comment-wrap>.wpd-comment-right{background:#fffad6}#wpdcom.wpd-layout-2 .wpd-new-loaded-comment.wpd-comment>.wpd-comment-wrap>.wpd-comment-right{background:#fffad6}#wpdcom.wpd-layout-2 .wpd-new-loaded-comment.wpd-comment.wpd-reply>.wpd-comment-wrap>.wpd-comment-right{background:0 0}#wpdcom.wpd-layout-2 .wpd-new-loaded-comment.wpd-comment.wpd-reply>.wpd-comment-wrap{background:#fffad6}#wpdcom.wpd-layout-3 .wpd-new-loaded-comment.wpd-comment>.wpd-comment-wrap>.wpd-comment-right{background:#fffad6}#wpdcom .wpd-follow:hover i,#wpdcom .wpd-unfollow:hover i,#wpdcom .wpd-comment .wpd-follow-active:hover i{color:#00b38f}#wpdcom .wpdiscuz-readmore{cursor:pointer;color:#00b38f}.wpd-custom-field .wcf-pasiv-star,#wpcomm .wpdiscuz-item .wpdiscuz-rating>label{color:#ddd}.wpd-wrapper .wpd-list-item.wpd-active{border-top:3px solid #00b38f}#wpdcom.wpd-layout-2 .wpd-comment.wpd-reply.wpd-unapproved-comment .wpd-comment-wrap{border-left:3px solid #fffad6}#wpdcom.wpd-layout-3 .wpd-comment.wpd-reply.wpd-unapproved-comment .wpd-comment-right{border-left:1px solid #fffad6}#wpdcom .wpd-prim-button{background-color:#07b290;color:#fff}#wpdcom .wpd_label__check i.wpdicon-on{color:#07b290;border:1px solid #83d9c8}#wpd-bubble-wrapper #wpd-bubble-all-comments-count{color:#1db99a}#wpd-bubble-wrapper>div{background-color:#1db99a}#wpd-bubble-wrapper>#wpd-bubble #wpd-bubble-add-message{background-color:#1db99a}#wpd-bubble-wrapper>#wpd-bubble #wpd-bubble-add-message::before{border-left-color:#1db99a;border-right-color:#1db99a}#wpd-bubble-wrapper.wpd-right-corner>#wpd-bubble #wpd-bubble-add-message::before{border-left-color:#1db99a;border-right-color:#1db99a}.wpd-inline-icon-wrapper path.wpd-inline-icon-first{fill:#1db99a}.wpd-inline-icon-count{background-color:#1db99a}.wpd-inline-icon-count::before{border-right-color:#1db99a}.wpd-inline-form-wrapper::before{border-bottom-color:#1db99a}.wpd-inline-form-question{background-color:#1db99a}.wpd-inline-form{background-color:#1db99a}.wpd-last-inline-comments-wrapper{border-color:#1db99a}.wpd-last-inline-comments-wrapper::before{border-bottom-color:#1db99a}.wpd-last-inline-comments-wrapper .wpd-view-all-inline-comments{background:#1db99a}.wpd-last-inline-comments-wrapper .wpd-view-all-inline-comments:hover,.wpd-last-inline-comments-wrapper .wpd-view-all-inline-comments:active,.wpd-last-inline-comments-wrapper .wpd-view-all-inline-comments:focus{background-color:#1db99a}#wpdcom .ql-snow .ql-tooltip[data-mode=link]::before{content:"Enter link:"}#wpdcom .ql-snow .ql-tooltip.ql-editing a.ql-action::after{content:"Save"}.comments-area{width:auto}</style><link rel=stylesheet id=wpdiscuz-fa-css href="../../blog/wp-content/plugins/wpdiscuz/assets/third-party/font-awesome-5.13.0/css/fa.min.css@ver=7.3.17.css" media=all><link rel=stylesheet id=wpdiscuz-combo-css-css href="../../blog/wp-content/plugins/wpdiscuz/assets/css/wpdiscuz-combo-no_quill.min.css@ver=4084444bfee884f6024e8b1b3cfa6cdd.css" media=all><link rel=stylesheet id=parent-style-css href="../../blog/wp-content/themes/septera/style.css@ver=4084444bfee884f6024e8b1b3cfa6cdd.css" media=all><link rel=stylesheet id=septera-themefonts-css href="../../blog/wp-content/themes/septera/resources/fonts/fontfaces.css@ver=1.5.1.css" media=all><link rel=stylesheet id=septera-googlefonts-css href="../../blog/wp-content/uploads/omgf/septera-googlefonts/septera-googlefonts.css@ver=1700504504.css" media=all><link rel=stylesheet id=septera-main-css href="../../blog/wp-content/themes/septera-child/style.css@ver=1.5.1.css" media=all><style id=septera-main-inline-css>body:not(.septera-landing-page) #container,#site-header-main-inside,#colophon-inside,#footer-inside,#breadcrumbs-container-inside{margin:0 auto;max-width:1920px}#site-header-main{left:0;right:0}#primary{width:200px}#secondary{width:200px}#container.one-column .main{width:100%}#container.two-columns-right #secondary{float:right}#container.two-columns-right .main,.two-columns-right #breadcrumbs{width:calc( 100% - 200px );float:left}#container.two-columns-left #primary{float:left}#container.two-columns-left .main,.two-columns-left #breadcrumbs{width:calc( 100% - 200px );float:right}#container.three-columns-right #primary,#container.three-columns-left #primary,#container.three-columns-sided #primary{float:left}#container.three-columns-right #secondary,#container.three-columns-left #secondary,#container.three-columns-sided #secondary{float:left}#container.three-columns-right #primary,#container.three-columns-left #secondary{margin-left:0%;margin-right:0%}#container.three-columns-right .main,.three-columns-right #breadcrumbs{width:calc( 100% - 400px );float:left}#container.three-columns-left .main,.three-columns-left #breadcrumbs{width:calc( 100% - 400px );float:right}#container.three-columns-sided #secondary{float:right}#container.three-columns-sided .main,.three-columns-sided #breadcrumbs{width:calc( 100% - 400px );float:right}.three-columns-sided #breadcrumbs{margin:0 calc( 0% + 200px )0 -1920px}html{font-family:Open Sans;font-size:14px;font-weight:400;line-height:1.6}#site-title{font-family:Open Sans;font-size:120%;font-weight:700}#access ul li a{font-family:Open Sans;font-size:90%;font-weight:700}.widget-title{font-family:Open Sans;font-size:100%;font-weight:700}.widget-container{font-family:Open Sans;font-size:100%;font-weight:400}.entry-title,#reply-title{font-family:Open Sans;font-size:200%;font-weight:400}.entry-title.singular-title{font-size:200%}.content-masonry .entry-title{font-size:124%}h1{font-size:2.3em}h2{font-size:2em}h3{font-size:1.7em}h4{font-size:1.4em}h5{font-size:1.1em}h6{font-size:.8em}h1,h2,h3,h4,h5,h6{font-family:Open Sans;font-weight:700}body{color:#2d3140;background-color:#d6d6d6}@media(min-width:1152px){.septera-over-menu #site-title a,.septera-over-menu #access>div>ul>li,.septera-over-menu #access>div>ul>li>a,.septera-over-menu #sheader.socials a::before{color:#fff}.septera-landing-page.septera-over-menu #site-title a,.septera-landing-page.septera-over-menu #access>div>ul>li,.septera-landing-page.septera-over-menu #access>div>ul>li>a,.septera-landing-page.septera-over-menu #sheader.socials a::before{color:#fff}}.lp-staticslider .staticslider-caption-title,.seriousslider.seriousslider-theme .seriousslider-caption-title,.lp-staticslider .staticslider-caption-text,.seriousslider.seriousslider-theme .seriousslider-caption-text,.lp-staticslider .staticslider-caption-text a{color:#fff}#site-header-main,#access ul ul,.menu-search-animated .searchform input[type=search],#access::after,.septera-over-menu .header-fixed#site-header-main,.septera-over-menu .header-fixed#site-header-main #access:after{background-color:#fff}.septera-over-menu .header-fixed#site-header-main #site-title a{color:#365da0}#access>div>ul>li,#access>div>ul>li>a,.septera-over-menu .header-fixed#site-header-main #access>div>ul>li:not([class*=current]),.septera-over-menu .header-fixed#site-header-main #access>div>ul>li:not([class*=current])>a,.septera-over-menu .header-fixed#site-header-main #sheader.socials a::before,#sheader.socials a::before,#mobile-menu{color:#365da0}#access ul.sub-menu li a,#access ul.children li a{color:#888}#access ul.sub-menu li a,#access ul.children li a{background-color:#fff}#access>div>ul>li a:hover,#access>div>ul>li:hover,.septera-over-menu .header-fixed#site-header-main #access>div>ul>li>a:hover,.septera-over-menu .header-fixed#site-header-main #access>div>ul>li:hover,.septera-over-menu .header-fixed#site-header-main #sheader.socials a:hover::before,#sheader.socials a:hover::before{color:#365da0}#access>div>ul>li.current_page_item>a,#access>div>ul>li.current-menu-item>a,#access>div>ul>li.current_page_ancestor>a,#access>div>ul>li.current-menu-ancestor>a,#access .sub-menu,#access .children,.septera-over-menu .header-fixed#site-header-main #access>div>ul>li>a{color:#96bbe0}#access ul.children>li.current_page_item>a,#access ul.sub-menu>li.current-menu-item>a,#access ul.children>li.current_page_ancestor>a,#access ul.sub-menu>li.current-menu-ancestor>a{color:#96bbe0}.searchform .searchsubmit{color:#2d3140}.searchform:hover input[type=search],.searchform input[type=search]:focus{border-color:#365da0}body:not(.septera-landing-page) .main,#lp-posts,#lp-page,.searchform{background-color:#fff}.pagination span,.pagination a{background-color:#f3f3f3}#breadcrumbs-container{border-bottom-color:#eee;background-color:#fff}#primary{background-color:#d6d6d6}#secondary{background-color:#d6d6d6}#colophon,#footer{background-color:#d6d6d6;color:#2d3140}.entry-title a:active,.entry-title a:hover{color:#365da0}span.entry-format{color:#365da0}.format-aside{border-top-color:#fff}article.hentry .post-thumbnail-container{background-color:rgba(45,49,64,.15)}article.hentry .post-thumbnail-container a::after{background-color:#365da0}.entry-content blockquote::before,.entry-content blockquote::after{color:rgba(45,49,64,.2)}.entry-content h1,.entry-content h2,.entry-content h3,.entry-content h4,.lp-text-content h1,.lp-text-content h2,.lp-text-content h3,.lp-text-content h4,.entry-title{color:#2d3140}a{color:#365da0}a:hover,.entry-meta span a:hover,.comments-link a:hover{color:#96bbe0}.entry-meta span.comments-link{top:.62em}.continue-reading-link{color:#365da0;background-color:#f5f5f5}.continue-reading-link:hover{color:#96bbe0}.socials a:before{color:#365da0}.socials a:hover:before{color:#96bbe0}.septera-normalizedtags #content .tagcloud a{color:#fff;background-color:#365da0}.septera-normalizedtags #content .tagcloud a:hover{background-color:#96bbe0}#toTop{background-color:rgba(189,189,189,.8);color:#365da0}#toTop:hover{background-color:#365da0;color:#d6d6d6}.entry-meta .icon-metas:before{color:#000}.septera-caption-one .main .wp-caption .wp-caption-text{border-bottom-color:#eee}.septera-caption-two .main .wp-caption .wp-caption-text{background-color:#f5f5f5}.septera-image-one .entry-content img[class*=align],.septera-image-one .entry-summary img[class*=align],.septera-image-two .entry-content img[class*=align],.septera-image-two .entry-summary img[class*=align]{border-color:#eee}.septera-image-five .entry-content img[class*=align],.septera-image-five .entry-summary img[class*=align]{border-color:#365da0}span.edit-link a.post-edit-link,span.edit-link a.post-edit-link:hover,span.edit-link .icon-edit:before{color:#727685}.searchform{border-color:#ebebeb}.entry-meta span,.entry-meta a,.entry-utility span,.entry-utility a,.entry-meta time,#breadcrumbs-nav,.footermenu ul li span.sep{color:#000}.entry-meta span.entry-sticky{background-color:#000;color:#fff}#footer-separator{background:#c7c7c7}#commentform{max-width:1e3px}code,#nav-below .nav-previous a:before,#nav-below .nav-next a:before{background-color:#eee}pre,.page-link>span,.comment-author,.commentlist .comment-body,.commentlist .pingback{border-color:#eee}.page-header.pad-container,#author-info{background-color:#f5f5f5}.comment-meta a{color:#000}.commentlist .reply a{color:#000}select,input[type],textarea{color:#2d3140;border-color:#f0f0f0}input[type]:hover,textarea:hover,select:hover,input[type]:focus,textarea:focus,select:focus{background:#f0f0f0}button,input[type=button],input[type=submit],input[type=reset]{background-color:#365da0;color:#fff}button:hover,input[type=button]:hover,input[type=submit]:hover,input[type=reset]:hover{background-color:#96bbe0}hr{background-color:#f0f0f0}.wp-block-image.alignwide{margin-left:calc( ( 0% + 2.5em ) * -1 );margin-right:calc( ( 0% + 2.5em ) * -1 )}.wp-block-image.alignwide img{width:calc( 100% + 5em );max-width:calc( 100% + 5em )}.has-accent-1-color,.has-accent-1-color:hover{color:#365da0}.has-accent-2-color,.has-accent-2-color:hover{color:#96bbe0}.has-headings-color,.has-headings-color:hover{color:#2d3140}.has-sitetext-color,.has-sitetext-color:hover{color:#2d3140}.has-sitebg-color,.has-sitebg-color:hover{color:#fff}.has-accent-1-background-color{background-color:#365da0}.has-accent-2-background-color{background-color:#96bbe0}.has-headings-background-color{background-color:#2d3140}.has-sitetext-background-color{background-color:#2d3140}.has-sitebg-background-color{background-color:#fff}.has-small-font-size{font-size:8px}.has-regular-font-size{font-size:14px}.has-large-font-size{font-size:22px}.has-larger-font-size{font-size:35px}.has-huge-font-size{font-size:35px}.woocommerce-page #respond input#submit.alt,.woocommerce a.button.alt,.woocommerce-page button.button.alt,.woocommerce input.button.alt,.woocommerce #respond input#submit,.woocommerce a.button,.woocommerce button.button,.woocommerce input.button{background-color:#365da0;color:#fff;line-height:1.6}.woocommerce #respond input#submit:hover,.woocommerce a.button:hover,.woocommerce button.button:hover,.woocommerce input.button:hover{background-color:#587fc2;color:#fff}.woocommerce-page #respond input#submit.alt,.woocommerce a.button.alt,.woocommerce-page button.button.alt,.woocommerce input.button.alt{background-color:#96bbe0;color:#fff;line-height:1.6}.woocommerce-page #respond input#submit.alt:hover,.woocommerce a.button.alt:hover,.woocommerce-page button.button.alt:hover,.woocommerce input.button.alt:hover{background-color:#b8ddff;color:#fff}.woocommerce div.product .woocommerce-tabs ul.tabs li.active{border-bottom-color:#fff}.woocommerce #respond input#submit.alt.disabled,.woocommerce #respond input#submit.alt.disabled:hover,.woocommerce #respond input#submit.alt:disabled,.woocommerce #respond input#submit.alt:disabled:hover,.woocommerce #respond input#submit.alt[disabled]:disabled,.woocommerce #respond input#submit.alt[disabled]:disabled:hover,.woocommerce a.button.alt.disabled,.woocommerce a.button.alt.disabled:hover,.woocommerce a.button.alt:disabled,.woocommerce a.button.alt:disabled:hover,.woocommerce a.button.alt[disabled]:disabled,.woocommerce a.button.alt[disabled]:disabled:hover,.woocommerce button.button.alt.disabled,.woocommerce button.button.alt.disabled:hover,.woocommerce button.button.alt:disabled,.woocommerce button.button.alt:disabled:hover,.woocommerce button.button.alt[disabled]:disabled,.woocommerce button.button.alt[disabled]:disabled:hover,.woocommerce input.button.alt.disabled,.woocommerce input.button.alt.disabled:hover,.woocommerce input.button.alt:disabled,.woocommerce input.button.alt:disabled:hover,.woocommerce input.button.alt[disabled]:disabled,.woocommerce input.button.alt[disabled]:disabled:hover{background-color:#96bbe0}.woocommerce ul.products li.product .price,.woocommerce div.product p.price,.woocommerce div.product span.price{color:#00000e}#add_payment_method #payment,.woocommerce-cart #payment,.woocommerce-checkout #payment{background:#f5f5f5}.woocommerce .main .page-title{}nav#mobile-menu{background-color:#fff}#mobile-menu .mobile-arrow{color:#2d3140}.main .entry-content,.main .entry-summary{text-align:inherit}.main p,.main ul,.main ol,.main dd,.main pre,.main hr{margin-bottom:1em}.main p{text-indent:0}.main a.post-featured-image{background-position:50%}#header-widget-area{width:33%;right:10px}.septera-stripped-table .main thead th,.septera-bordered-table .main thead th,.septera-stripped-table .main td,.septera-stripped-table .main th,.septera-bordered-table .main th,.septera-bordered-table .main td{border-color:#e9e9e9}.septera-clean-table .main th,.septera-stripped-table .main tr:nth-child(even) td,.septera-stripped-table .main tr:nth-child(even) th{background-color:#f6f6f6}article.hentry .article-inner,#content-masonry article.hentry .article-inner{padding:0%}#site-header-main{height:50px}#access .menu-search-animated .searchform{top:52px}.menu-search-animated,#sheader,.identity,#nav-toggle{height:50px;line-height:50px}#access div>ul>li>a{line-height:50px}#branding{height:50px}#header-widget-area{top:60px}.septera-responsive-headerimage #masthead #header-image-main-inside{max-height:10px}.septera-cropped-headerimage #masthead div.header-image{height:10px}#site-description{display:block}#masthead #site-header-main{position:fixed}.septera-fixed-menu #header-image-main{margin-top:50px}.lp-staticslider .staticslider-caption-text a{border-color:#fff}.lp-staticslider .staticslider-caption,.seriousslider.seriousslider-theme .seriousslider-caption,.septera-landing-page .lp-blocks-inside,.septera-landing-page .lp-boxes-inside,.septera-landing-page .lp-text-inside,.septera-landing-page .lp-posts-inside,.septera-landing-page .lp-page-inside,.septera-landing-page .lp-section-header,.septera-landing-page .content-widget{max-width:1920px}.septera-landing-page .content-widget{margin:0 auto}.seriousslider-theme .seriousslider-caption-buttons a:nth-child(2n+1),a.staticslider-button:nth-child(2n+1){color:#2d3140;border-color:#fff;background-color:#fff}.seriousslider-theme .seriousslider-caption-buttons a:nth-child(2n+1):hover,a.staticslider-button:nth-child(2n+1):hover{color:#fff}.seriousslider-theme .seriousslider-caption-buttons a:nth-child(2n),a.staticslider-button:nth-child(2n){border-color:#fff;color:#fff}.seriousslider-theme .seriousslider-caption-buttons a:nth-child(2n):hover,.staticslider-button:nth-child(2n):hover{color:#2d3140;background-color:#fff}.lp-staticslider::before,.lp-dynamic-slider .item>a::before,#header-image-main::before{background-color:#24a7cf}.lp-staticslider::before,.lp-dynamic-slider .item>a::before,#header-image-main::before{z-index:2}.lp-staticslider-image,.header-image,.seriousslider .item-image{-webkit-filter:grayscale(75%)brightness(110%);filter:grayscale(75%)brightness(110%)}@-webkit-keyframes animation-slider-overlay{to{opacity:.75}}@keyframes animation-slider-overlay{to{opacity:.75}}.lp-dynamic-slider .item>a::before{opacity:.75}.lp-blocks{background-color:#fff}.lp-boxes{background-color:#fff}.lp-text{background-color:#f8f8f8}.staticslider-caption-container,.lp-dynamic-slider{background-color:#fff}.lp-block>i::before{color:#365da0}.lp-block:hover i::before{color:#96bbe0}.lp-block i::after{background-color:#365da0}.lp-blocks .lp-block:hover .lp-block-title{color:#365da0}.lp-blocks .lp-block:hover i::after{background-color:#96bbe0}.lp-block-text,.lp-boxes-static .lp-box-text,.lp-section-desc{color:#050918}.lp-boxes .lp-box .lp-box-image{height:300px}.lp-boxes.lp-boxes-animated .lp-box:hover .lp-box-text{max-height:200px}.lp-boxes .lp-box .lp-box-image{height:400px}.lp-boxes.lp-boxes-animated .lp-box:hover .lp-box-text{max-height:300px}.lp-boxes-animated .lp-box-readmore:hover{color:#365da0;opacity:.7}.lp-boxes-static .lp-box-overlay{background-color:rgba(54,93,160,.9)}#cryout_ajax_more_trigger{background-color:#365da0;color:#fff}.lpbox-rnd1{background-color:#c8c8c8}.lpbox-rnd2{background-color:#c3c3c3}.lpbox-rnd3{background-color:#bebebe}.lpbox-rnd4{background-color:#b9b9b9}.lpbox-rnd5{background-color:#b4b4b4}.lpbox-rnd6{background-color:#afafaf}.lpbox-rnd7{background-color:#aaa}.lpbox-rnd8{background-color:#a5a5a5}</style><link rel=https://api.w.org/ href=https://www.learncpp.com/wp-json/><link rel=alternate type=application/json href=https://www.learncpp.com/wp-json/wp/v2/posts/4814><link rel=canonical href="../11-x-chapter-11-comprehensive-quiz/comment-page-5/index.html"><link rel=alternate type=application/json+oembed href="https://www.learncpp.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fchapter-24-summary-and-quiz%2F"><link rel=alternate type=text/xml+oembed href="https://www.learncpp.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fchapter-24-summary-and-quiz%2F&amp;format=xml"><link rel=stylesheet id=18062-css href="../../blog/wp-content/uploads/custom-css-js/18062.css@v=430.css" media=all><link rel=icon href="../../blog/wp-content/uploads/learncpp.png" sizes=32x32><link rel=icon href="../../blog/wp-content/uploads/learncpp.png" sizes=192x192><link rel=apple-touch-icon href="../../blog/wp-content/uploads/learncpp.png"><meta name=msapplication-TileImage content="https://www.learncpp.com/blog/wp-content/uploads/learncpp.png"><style>div.printOnly{margin-left:3em}</style><style media=screen>.printOnly{display:none}</style>
+<style id="offline-fix">#site-wrapper{display:block !important;visibility:visible !important;}#container,#content,#main,.main,article.hentry{visibility:visible !important;opacity:1 !important;}.ai-list-data,.lessontables,.lessontables-visible{display:block !important;visibility:visible !important;opacity:1 !important;}.animated-article{opacity:1 !important;transform:none !important;animation:none !important;}.code-block,.cf_monitor,.adsbygoogle,[id^="ezoic-pub-ad-placeholder-"],[class*="ezoic-adpicker-ad"]{display:none !important;width:0 !important;height:0 !important;margin:0 !important;padding:0 !important;overflow:hidden !important;}body{overflow:auto !important;}</style></head><body class="post-template-default single single-post postid-4814 single-format-standard wp-custom-logo wp-embed-responsive septera-image-none septera-caption-one septera-totop-normal septera-bordered-table septera-fixed-menu septera-responsive-headerimage septera-responsive-featured septera-magazine-two septera-magazine-layout septera-comment-placeholder septera-normalizedtags septera-article-animation-slide" itemscope itemtype=http://schema.org/WebPage><div id=site-wrapper><header id=masthead class=cryout itemscope itemtype=http://schema.org/WPHeader role=banner><div id=site-header-main><div id=site-header-main-inside><nav id=mobile-menu><span id=nav-cancel><i class=icon-cancel></i></span><div><ul id=mobile-nav><li id=menu-item-9876 class="menu-item menu-item-type- menu-item-object- menu-item-has-children menu-item-9876"><a><span>Navigate</span></a><ul class=sub-menu><li id=menu-item-1009876 class="menu-item menu-item-type- menu-item-object- menu-item-1009876"><a href="../121-pointers-and-references-to-the-base-class-of-derived-objects/index.html"><span><i class="cpp_menu _mi _before fa fa-chevron-circle-right"></i>25.1 — Pointers and references to the base class of derived objects</span></a><li class="menu-item menu-item-type- menu-item-object- menu-item-1009876"><a href="https://www.learncpp.com/"><span><i class="cpp_menu _mi _before fa fa-home"></i>Table of contents</span></a><li class="menu-item menu-item-type- menu-item-object- menu-item-1009876"><a href="../multiple-inheritance/index.html"><span><i class="cpp_menu _mi _before fa fa-chevron-circle-left"></i>24.9 — Multiple inheritance</span></a></ul><li id=menu-item-6312 class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6312"><a href=https://www.learncpp.com/learn-cpp-site-index/><span><i class="_mi _before fa fa-crosshairs" aria-hidden=true></i><span>Site Index</span></span></a><li id=menu-item-12722 class="menu-item menu-item-type-post_type menu-item-object-page menu-item-12722"><a href=https://www.learncpp.com/latest-changes/><span><i class="_mi _before fa fa-list" aria-hidden=true></i><span>Latest Changes</span></span></a><li id=menu-item-6313 class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-6313"><a href=https://www.learncpp.com/about/><span>About</span></a><ul class=sub-menu><li id=menu-item-12083 class="menu-item menu-item-type-post_type menu-item-object-post menu-item-12083"><a href=https://www.learncpp.com/leave-feedback-report-issue/><span><i class="_mi _before fa fa-comment" aria-hidden=true></i><span>Leave feedback</span></span></a><li id=menu-item-11706 class="menu-item menu-item-type-post_type menu-item-object-post menu-item-11706"><a href=https://www.learncpp.com/leave-feedback-report-issue/><span><i class="_mi _before fa fa-bug" aria-hidden=true></i><span>Report an issue</span></span></a><li id=menu-item-11707 class="menu-item menu-item-type-post_type menu-item-object-page menu-item-11707"><a href=https://www.learncpp.com/about/><span><i class="_mi _before dashicons dashicons-welcome-write-blog" aria-hidden=true></i><span>Contact / Support</span></span></a><li id=menu-item-11705 class="menu-item menu-item-type-custom menu-item-object-custom menu-item-11705"><a href="../introduction-to-these-tutorials.html#FAQ"><span><i class="_mi _before fa fa-question-circle" aria-hidden=true></i><span>Site FAQ</span></span></a><li id=menu-item-17734 class="menu-item menu-item-type-custom menu-item-object-custom menu-item-17734"><a href=https://g.ezoic.net/privacy/learncpp.com><span><i class="_mi _before fa fa-bed" aria-hidden=true></i><span>Privacy Policy</span></span></a><li id=menu-item-16006 class="menu-item menu-item-type-post_type menu-item-object-page menu-item-16006"><a href=https://www.learncpp.com/about/><span><i class="_mi _before fa fa-smile-o" aria-hidden=true></i><span>Donate</span></span></a></ul><li id=menu-item-12082 class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12082"><a title="LearnCPP doesn’t have a native dark mode, but this link will take you to a browser plugin that will let you make any web page dark." target=_blank rel=noopener href=https://darkreader.org/><span><i class="_mi _before fa fa-moon-o" aria-hidden=true></i><span> </span></span></a><li class="menu-main-search menu-search-animated"><a role=link "https://www.learncpp.com/cpp-tutorial/chapter-24-summary-and-quiz/href"><i class=icon-search></i><span class=screen-reader-text>Search</span></a><form apbct-form-sign=native_search role=search class=searchform action=https://www.learncpp.com/><label><span class=screen-reader-text>Search for:</span>
+<input type=search class=s placeholder=Search name=s></label>
+<button class=searchsubmit><span class=screen-reader-text>Search</span><i class=icon-search></i></button>
+<input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=90597></form></ul></div></nav><div id=branding><div class=identity><a href=https://www.learncpp.com/ id=logo class=custom-logo-link title="Learn C++" rel=home><img src="../../blog/wp-content/uploads/learncpp.png" class=custom-logo alt="Learn C++"></a></div><div id=site-text><div itemprop=headline id=site-title><span><a href=https://www.learncpp.com/ title="Skill up with our free tutorials" rel=home>Learn C++</a></span></div><span id=site-description itemprop=description>Skill up with our free tutorials</span></div></div><a id=nav-toggle><i class=icon-menu></i></a><nav id=access role=navigation aria-label="Primary Menu" itemscope itemtype=http://schema.org/SiteNavigationElement><div class="skip-link screen-reader-text"><a href="../11-x-chapter-11-comprehensive-quiz/comment-page-5/index.html#main" title="Skip to content">Skip to content</a></div><div><ul id=prime_nav><li class="menu-item menu-item-type- menu-item-object- menu-item-has-children menu-item-9876"><a><span>Navigate</span></a><ul class=sub-menu><li class="menu-item menu-item-type- menu-item-object- menu-item-1009876"><a href="../121-pointers-and-references-to-the-base-class-of-derived-objects/index.html"><span><i class="cpp_menu _mi _before fa fa-chevron-circle-right"></i>25.1 — Pointers and references to the base class of derived objects</span></a><li class="menu-item menu-item-type- menu-item-object- menu-item-1009876"><a href="https://www.learncpp.com/"><span><i class="cpp_menu _mi _before fa fa-home"></i>Table of contents</span></a><li class="menu-item menu-item-type- menu-item-object- menu-item-1009876"><a href="../multiple-inheritance/index.html"><span><i class="cpp_menu _mi _before fa fa-chevron-circle-left"></i>24.9 — Multiple inheritance</span></a></ul><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6312"><a href=https://www.learncpp.com/learn-cpp-site-index/><span><i class="_mi _before fa fa-crosshairs" aria-hidden=true></i><span>Site Index</span></span></a><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-12722"><a href=https://www.learncpp.com/latest-changes/><span><i class="_mi _before fa fa-list" aria-hidden=true></i><span>Latest Changes</span></span></a><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-6313"><a href=https://www.learncpp.com/about/><span>About</span></a><ul class=sub-menu><li class="menu-item menu-item-type-post_type menu-item-object-post menu-item-12083"><a href=https://www.learncpp.com/leave-feedback-report-issue/><span><i class="_mi _before fa fa-comment" aria-hidden=true></i><span>Leave feedback</span></span></a><li class="menu-item menu-item-type-post_type menu-item-object-post menu-item-11706"><a href=https://www.learncpp.com/leave-feedback-report-issue/><span><i class="_mi _before fa fa-bug" aria-hidden=true></i><span>Report an issue</span></span></a><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-11707"><a href=https://www.learncpp.com/about/><span><i class="_mi _before dashicons dashicons-welcome-write-blog" aria-hidden=true></i><span>Contact / Support</span></span></a><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-11705"><a href="../introduction-to-these-tutorials.html#FAQ"><span><i class="_mi _before fa fa-question-circle" aria-hidden=true></i><span>Site FAQ</span></span></a><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-17734"><a href=https://g.ezoic.net/privacy/learncpp.com><span><i class="_mi _before fa fa-bed" aria-hidden=true></i><span>Privacy Policy</span></span></a><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-16006"><a href=https://www.learncpp.com/about/><span><i class="_mi _before fa fa-smile-o" aria-hidden=true></i><span>Donate</span></span></a></ul><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12082"><a title="LearnCPP doesn’t have a native dark mode, but this link will take you to a browser plugin that will let you make any web page dark." target=_blank rel=noopener href=https://darkreader.org/><span><i class="_mi _before fa fa-moon-o" aria-hidden=true></i><span> </span></span></a><li class="menu-main-search menu-search-animated"><a role=link "https://www.learncpp.com/cpp-tutorial/chapter-24-summary-and-quiz/href"><i class=icon-search></i><span class=screen-reader-text>Search</span></a><form apbct-form-sign=native_search role=search class=searchform action=https://www.learncpp.com/><label><span class=screen-reader-text>Search for:</span>
+<input type=search class=s placeholder=Search name=s></label>
+<button class=searchsubmit><span class=screen-reader-text>Search</span><i class=icon-search></i></button>
+<input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=41553></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="24.x — Chapter 24 summary and quiz" src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-4814 class="post-4814 post type-post status-publish format-standard hentry category-cpp-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>24.x — Chapter 24 summary and quiz</h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Author></i><a class="url fn n" rel=author href=https://www.learncpp.com/author/Alex/ title="View all posts by Alex" itemprop=url><em itemprop=name>Alex</em></a></span>
+<span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2016-10-29T15:32:33-07:00 itemprop=datePublished>October 29, 2016, 3:32 pm PDT</time>
+<time class=updated datetime=2024-01-31T23:20:47-08:00 itemprop=dateModified>January 31, 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p class="cpp-section cpp-topline" style=clear:both>Summary<p>Inheritance allows us to model an is-a relationship between two objects. The object being inherited from is called the parent class, base class, or superclass. The object doing the inheriting is called the child class, derived class, or subclass.<p>When a derived class inherits from a base class, the derived class acquires all of the members of the base class.<p style=clear:both><p><p>When a derived class is constructed, the base portion of the class is constructed first, and then the derived portion is constructed. In more detail:<ol><li>Memory for the derived class is set aside (enough for both the base and derived portions).<li>The appropriate derived class constructor is called.<li>The base class object is constructed first using the appropriate base class constructor. If no base class constructor is specified, the default constructor will be used.<li>The initialization list of the derived class initializes members of the derived class.<li>The body of the derived class constructor executes.<li>Control is returned to the caller.</ol><p>Destruction happens in the opposite order, from most-derived to most-base class.<p>C++ has 3 access specifiers: public, private, and protected. The protected access specifier allows the class the member belongs to, friends, and derived classes to access protected members, but not the public.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Classes can inherit from another class publicly, privately, or protectedly. Classes almost always inherit publicly.<p>Here’s a table of all of the access specifier and inheritance types combinations:<div class=cpp-table-wrapper><p><p><table class=cpp-table><tbody><tr><th>Access specifier in base class<th>Access specifier when inherited publicly<th>Access specifier when inherited privately<th>Access specifier when inherited protectedly<tr><td>Public<td>Public<td>Private<td>Protected<tr><td>Private<td>Inaccessible<td>Inaccessible<td>Inaccessible<tr><td>Protected<td>Protected<td>Private<td>Protected</table></div><p>Derived classes can add new functions, change the way functions that exist in the base class work in the derived class, change an inherited member’s access level, or hide functionality.<p>Multiple inheritance enables a derived class to inherit members from more than one parent. You should generally avoid multiple inheritance unless alternatives lead to more complexity.<p class="cpp-section cpp-topline" style=clear:both>Quiz time<div class=quiz style=clear:both><p class=quiz-header>Question #1<p>For each of the following programs, determine what they output, or if they would not compile, indicate why. This exercise is meant to be done by inspection, so do not compile these (otherwise the answers are trivial).<p>a)<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+
+class Base
+{
+public:
+	Base()
+	{
+		std::cout &lt;&lt; &#34;Base()\n&#34;;
+	}
+	~Base()
+	{
+		std::cout &lt;&lt; &#34;~Base()\n&#34;;
+	}
+};
+
+class Derived: public Base
+{
+public:
+	Derived()
+	{
+		std::cout &lt;&lt; &#34;Derived()\n&#34;;
+	}
+	~Derived()
+	{
+		std::cout &lt;&lt; &#34;~Derived()\n&#34;;
+	}
+};
+
+int main()
+{
+	Derived d;
+
+	return 0;
+}</code></pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')">Show Solution</a><div class=wpsolution id=cpp_solution_id_0 style=display:none><p>Construction happens in order from most-Parent to most-Child. Destruction happens in the opposite order.<pre>Base()
+Derived()
+~Derived()
+~Base()
+</pre></div><p>b)<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+
+class Base
+{
+public:
+	Base()
+	{
+		std::cout &lt;&lt; &#34;Base()\n&#34;;
+	}
+	~Base()
+	{
+		std::cout &lt;&lt; &#34;~Base()\n&#34;;
+	}
+};
+
+class Derived: public Base
+{
+public:
+	Derived()
+	{
+		std::cout &lt;&lt; &#34;Derived()\n&#34;;
+	}
+	~Derived()
+	{
+		std::cout &lt;&lt; &#34;~Derived()\n&#34;;
+	}
+};
+
+int main()
+{
+	Derived d;
+	Base b;
+
+	return 0;
+}</code></pre><p>Hint: Local variables are destroyed in the opposite order of definition.<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'),this,'Show Solution','Hide Solution')">Show Solution</a><div class=wpsolution id=cpp_solution_id_1 style=display:none><p>First we construct d, which prints:<pre>Base()
+Derived()
+</pre><p>Then we construct b, which prints:<pre>Base()
+</pre><p>Then we destruct b, which prints:<pre>~Base()
+</pre><p>Then we destruct d, which prints:<pre>~Derived()
+~Base()
+</pre></div><p>c)<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+
+class Base
+{
+private:
+	int m_x {};
+public:
+	Base(int x): m_x{ x }
+	{
+		std::cout &lt;&lt; &#34;Base()\n&#34;;
+	}
+	~Base()
+	{
+		std::cout &lt;&lt; &#34;~Base()\n&#34;;
+	}
+
+	void print() const { std::cout &lt;&lt; &#34;Base: &#34; &lt;&lt; m_x &lt;&lt; &#39;\n&#39;;  }
+};
+
+class Derived: public Base
+{
+public:
+	Derived(int y):  Base{ y }
+	{
+		std::cout &lt;&lt; &#34;Derived()\n&#34;;
+	}
+	~Derived()
+	{
+		std::cout &lt;&lt; &#34;~Derived()\n&#34;;
+	}
+
+	void print() const { std::cout &lt;&lt; &#34;Derived: &#34; &lt;&lt; m_x &lt;&lt; &#39;\n&#39;; }
+};
+
+int main()
+{
+	Derived d{ 5 };
+	d.print();
+
+	return 0;
+}</code></pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_2'),this,'Show Solution','Hide Solution')">Show Solution</a><div class=wpsolution id=cpp_solution_id_2 style=display:none><p>Doesn’t compile, Derived::print() can’t access private member m_x</div><p>d)<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+
+class Base
+{
+protected:
+	int m_x {};
+public:
+	Base(int x): m_x{ x }
+	{
+		std::cout &lt;&lt; &#34;Base()\n&#34;;
+	}
+	~Base()
+	{
+		std::cout &lt;&lt; &#34;~Base()\n&#34;;
+	}
+
+	void print() const { std::cout &lt;&lt; &#34;Base: &#34; &lt;&lt; m_x &lt;&lt; &#39;\n&#39;;  }
+};
+
+class Derived: public Base
+{
+public:
+	Derived(int y):  Base{ y }
+	{
+		std::cout &lt;&lt; &#34;Derived()\n&#34;;
+	}
+	~Derived()
+	{
+		std::cout &lt;&lt; &#34;~Derived()\n&#34;;
+	}
+
+	void print() const { std::cout &lt;&lt; &#34;Derived: &#34; &lt;&lt; m_x &lt;&lt; &#39;\n&#39;; }
+};
+
+int main()
+{
+	Derived d{ 5 };
+	d.print();
+
+	return 0;
+}</code></pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_3'),this,'Show Solution','Hide Solution')">Show Solution</a><div class=wpsolution id=cpp_solution_id_3 style=display:none><pre>Base()
+Derived()
+Derived: 5
+~Derived()
+~Base()
+</pre></div><p>e)<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+
+class Base
+{
+protected:
+	int m_x {};
+public:
+	Base(int x): m_x{ x }
+	{
+		std::cout &lt;&lt; &#34;Base()\n&#34;;
+	}
+	~Base()
+	{
+		std::cout &lt;&lt; &#34;~Base()\n&#34;;
+	}
+
+	void print() const { std::cout &lt;&lt; &#34;Base: &#34; &lt;&lt; m_x &lt;&lt; &#39;\n&#39;;  }
+};
+
+class Derived: public Base
+{
+public:
+	Derived(int y):  Base{ y }
+	{
+		std::cout &lt;&lt; &#34;Derived()\n&#34;;
+	}
+	~Derived()
+	{
+		std::cout &lt;&lt; &#34;~Derived()\n&#34;;
+	}
+
+	void print() const { std::cout &lt;&lt; &#34;Derived: &#34; &lt;&lt; m_x &lt;&lt; &#39;\n&#39;; }
+};
+
+class D2 : public Derived
+{
+public:
+	D2(int z): Derived{ z }
+	{
+		std::cout &lt;&lt; &#34;D2()\n&#34;;
+	}
+	~D2()
+	{
+		std::cout &lt;&lt; &#34;~D2()\n&#34;;
+	}
+
+        // note: no print() function here
+};
+
+int main()
+{
+	D2 d{ 5 };
+	d.print();
+
+	return 0;
+}</code></pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_4'),this,'Show Solution','Hide Solution')">Show Solution</a><div class=wpsolution id=cpp_solution_id_4 style=display:none><p>Base()<br>Derived()<br>D2()<br>Derived: 5<br>~D2()<br>~Derived()<br>~Base()</div><p></div><div class=quiz style=clear:both><p class=quiz-header>Question #2<p>a) Write an Apple class and a Banana class that are derived from a common Fruit class. Fruit should have two members: a name and a color.<p>The following program should run:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
+{
+	Apple a{ &#34;red&#34; };
+	Banana b{};
+
+	std::cout &lt;&lt; &#34;My &#34; &lt;&lt; a.getName() &lt;&lt; &#34; is &#34; &lt;&lt; a.getColor() &lt;&lt; &#34;.\n&#34;;
+	std::cout &lt;&lt; &#34;My &#34; &lt;&lt; b.getName() &lt;&lt; &#34; is &#34; &lt;&lt; b.getColor() &lt;&lt; &#34;.\n&#34;;
+	
+	return 0;
+}</code></pre><p>And produce the result:<pre>My apple is red.
+My banana is yellow.
+</pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_5'),this,'Show Solution','Hide Solution')">Show Solution</a><div class=wpsolution id=cpp_solution_id_5 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;string_view&gt;
+
+class Fruit
+{
+private:
+	std::string m_name;
+	std::string m_color;
+
+public:
+	Fruit(std::string_view name, std::string_view color)
+		: m_name{ name }, m_color{ color }
+	{
+	}
+
+	const std::string&amp; getName() const { return m_name; }
+	const std::string&amp; getColor() const { return m_color; }
+};
+
+class Apple: public Fruit
+{
+public:
+	Apple(std::string_view color=&#34;red&#34;)
+		: Fruit{ &#34;apple&#34;, color }
+	{
+	}
+};
+
+class Banana : public Fruit
+{
+public:
+	Banana()
+		: Fruit{ &#34;banana&#34;, &#34;yellow&#34; }
+	{
+	}
+};
+
+int main()
+{
+	Apple a{ &#34;red&#34; };
+	Banana b;
+
+	std::cout &lt;&lt; &#34;My &#34; &lt;&lt; a.getName() &lt;&lt; &#34; is &#34; &lt;&lt; a.getColor() &lt;&lt; &#34;.\n&#34;;
+	std::cout &lt;&lt; &#34;My &#34; &lt;&lt; b.getName() &lt;&lt; &#34; is &#34; &lt;&lt; b.getColor() &lt;&lt; &#34;.\n&#34;;
+	
+	return 0;
+}</code></pre></div><p>b) Add a new class to the previous program called GrannySmith that inherits from Apple.<p>The following program should run:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
+{
+	Apple a{ &#34;red&#34; };
+	Banana b;
+	GrannySmith c;
+
+	std::cout &lt;&lt; &#34;My &#34; &lt;&lt; a.getName() &lt;&lt; &#34; is &#34; &lt;&lt; a.getColor() &lt;&lt; &#34;.\n&#34;;
+	std::cout &lt;&lt; &#34;My &#34; &lt;&lt; b.getName() &lt;&lt; &#34; is &#34; &lt;&lt; b.getColor() &lt;&lt; &#34;.\n&#34;;
+	std::cout &lt;&lt; &#34;My &#34; &lt;&lt; c.getName() &lt;&lt; &#34; is &#34; &lt;&lt; c.getColor() &lt;&lt; &#34;.\n&#34;;
+	
+	return 0;
+}</code></pre><p>And produce the result:<pre>My apple is red.
+My banana is yellow.
+My granny smith apple is green.
+</pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_6'),this,'Show Solution','Hide Solution')">Show Solution</a><div class=wpsolution id=cpp_solution_id_6 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;string_view&gt;
+
+class Fruit
+{
+private:
+	std::string m_name;
+	std::string m_color;
+
+public:
+	Fruit(std::string_view name, std::string_view color)
+		: m_name{ name }, m_color{ color }
+	{
+	}
+
+	const std::string&amp; getName() const { return m_name; }
+	const std::string&amp; getColor() const { return m_color; }
+};
+
+class Apple: public Fruit
+{
+// The previous constructor we used for Apple had a fixed name (&#34;apple&#34;).
+// We need a new constructor for GrannySmith to use to set the name of the fruit
+protected: // protected so only derived classes can access
+	Apple(std::string_view name, std::string_view color)
+		: Fruit{ name, color }
+	{
+	}
+
+public:
+	Apple(std::string_view color=&#34;red&#34;)
+		: Fruit{ &#34;apple&#34;, color }
+	{
+	}
+};
+
+class Banana : public Fruit
+{
+public:
+	Banana()
+		: Fruit{ &#34;banana&#34;, &#34;yellow&#34; }
+	{
+	}
+};
+
+class GrannySmith : public Apple
+{
+public:
+	GrannySmith()
+		: Apple{ &#34;granny smith apple&#34;, &#34;green&#34; }
+	{
+	}
+};
+
+int main()
+{
+	Apple a{ &#34;red&#34; };
+	Banana b;
+	GrannySmith c;
+
+	std::cout &lt;&lt; &#34;My &#34; &lt;&lt; a.getName() &lt;&lt; &#34; is &#34; &lt;&lt; a.getColor() &lt;&lt; &#34;.\n&#34;;
+	std::cout &lt;&lt; &#34;My &#34; &lt;&lt; b.getName() &lt;&lt; &#34; is &#34; &lt;&lt; b.getColor() &lt;&lt; &#34;.\n&#34;;
+	std::cout &lt;&lt; &#34;My &#34; &lt;&lt; c.getName() &lt;&lt; &#34; is &#34; &lt;&lt; c.getColor() &lt;&lt; &#34;.\n&#34;;
+
+	return 0;
+}</code></pre></div></div><div class=quiz style=clear:both><p class=quiz-header>Question #3<p>Challenge time! The following quiz question is more difficult and lengthy. We’re going to write a simple game where you fight monsters. The goal of the game is to collect as much gold as you can before you die or get to level 20.<p>Our program is going to consist of 3 classes: a Creature class, a Player class, and a Monster class. Player and Monster both inherit from Creature.<p>a) First create the Creature class. Creatures have 5 attributes: A name (std::string), a symbol (a char), an amount of health (int), the amount of damage they do per attack (int), and the amount of gold they are carrying (int). Implement these as class members. Write a full set of getters (a get function for each member). Add three other functions: void reduceHealth(int) reduces the Creature’s health by an integer amount. bool isDead() returns true when the Creature’s health is 0 or less. void addGold(int) adds gold to the Creature.<p>The following program should run:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+int main()
+{
+	Creature o{ &#34;orc&#34;, &#39;o&#39;, 4, 2, 10 };
+	o.addGold(5);
+	o.reduceHealth(1);
+	std::cout &lt;&lt; &#34;The &#34; &lt;&lt; o.getName() &lt;&lt; &#34; has &#34; &lt;&lt; o.getHealth() &lt;&lt; &#34; health and is carrying &#34; &lt;&lt; o.getGold() &lt;&lt; &#34; gold.\n&#34;;
+
+	return 0;
+}</code></pre><p>And produce the result:<pre>The orc has 3 health and is carrying 15 gold.
+</pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_7'),this,'Show Solution','Hide Solution')">Show Solution</a><div class=wpsolution id=cpp_solution_id_7 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;string_view&gt; // Requires C++17
+
+class Creature
+{
+protected:
+	std::string m_name;
+	char m_symbol {};
+	int m_health {};
+	int m_damage {};
+	int m_gold {};
+
+public:
+	Creature(std::string_view name, char symbol, int health, int damage, int gold)
+		: m_name{ name }
+		, m_symbol{ symbol }
+		, m_health{ health }
+		, m_damage{ damage }
+		, m_gold{ gold }
+	{
+	}
+
+	const std::string&amp; getName() const { return m_name; }
+	char getSymbol() const { return m_symbol; }
+	int getHealth() const { return m_health; }
+	int getDamage() const { return m_damage; }
+	int getGold() const { return m_gold; }
+
+	void reduceHealth(int health) { m_health -= health; }
+	bool isDead() const { return m_health &lt;= 0; }
+	void addGold(int gold) { m_gold += gold; }
+};
+
+int main()
+{
+	Creature o{ &#34;orc&#34;, &#39;o&#39;, 4, 2, 10 };
+	o.addGold(5);
+	o.reduceHealth(1);
+	std::cout &lt;&lt; &#34;The &#34; &lt;&lt; o.getName() &lt;&lt; &#34; has &#34; &lt;&lt; o.getHealth() &lt;&lt; &#34; health and is carrying &#34; &lt;&lt; o.getGold() &lt;&lt; &#34; gold.\n&#34;;
+
+	return 0;
+}</code></pre></div><p>b) Now we’re going to create the Player class. The Player class inherits from Creature. Player has one additional member, the player’s level, which starts at 1. The player has a custom name (entered by the user), uses symbol ‘@’, has 10 health, does 1 damage to start, and has no gold. Write a function called levelUp() that increases the player’s level and damage by 1. Also write a getter for the level member. Finally, write a function called hasWon() that returns true if the player has reached level 20.<p>Write a new main() function that asks the user for their name and produces the output as follows:<pre>Enter your name: Alex
+Welcome, Alex.
+You have 10 health and are carrying 0 gold.
+</pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_8'),this,'Show Solution','Hide Solution')">Show Solution</a><div class=wpsolution id=cpp_solution_id_8 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;string_view&gt; // std::string_view requires C++17
+
+class Creature
+{
+protected:
+	std::string m_name;
+	char m_symbol {};
+	int m_health {};
+	int m_damage {};
+	int m_gold {};
+
+public:
+	Creature(std::string_view name, char symbol, int health, int damage, int gold)
+		: m_name{ name }
+		, m_symbol{ symbol }
+		, m_health{ health }
+		, m_damage{ damage }
+		, m_gold{ gold }
+	{
+	}
+
+	const std::string&amp; getName() const { return m_name; }
+	char getSymbol() const { return m_symbol; }
+	int getHealth() const { return m_health; }
+	int getDamage() const { return m_damage; }
+	int getGold() const { return m_gold; }
+
+	void reduceHealth(int health) { m_health -= health; }
+	bool isDead() const { return m_health &lt;= 0; }
+	void addGold(int gold) { m_gold += gold; }
+};
+
+class Player : public Creature
+{
+	int m_level{ 1 };
+
+public:
+	Player(std::string_view name)
+		: Creature{ name, &#39;@&#39;, 10, 1, 0 }
+	{
+	}
+
+	void levelUp()
+	{
+		++m_level;
+		++m_damage;
+	}
+
+	int getLevel() const { return m_level; }
+	bool hasWon() const { return m_level &gt;= 20; }
+};
+
+int main()
+{
+	std::cout &lt;&lt; &#34;Enter your name: &#34;;
+	std::string playerName;
+	std::cin &gt;&gt; playerName;
+
+	Player p{ playerName };
+	std::cout &lt;&lt; &#34;Welcome, &#34; &lt;&lt; p.getName() &lt;&lt; &#34;.\n&#34;;
+
+	std::cout &lt;&lt; &#34;You have &#34; &lt;&lt; p.getHealth() &lt;&lt; &#34; health and are carrying &#34; &lt;&lt; p.getGold() &lt;&lt; &#34; gold.\n&#34;;
+
+	return 0;
+}</code></pre></div><p>c) Next up is the Monster class. Monster also inherits from Creature. Monsters have no non-inherited member variables.<p>First, write an empty Monster class inheriting from Creature, and then add an enum inside the Monster class named Type that contains enumerators for the 3 monsters that we’ll have in this game: <code>dragon</code>, <code>orc</code>, and <code>slime</code> (you’ll also want a <code>max_types</code> enumerator, as that will come in handy in a bit).<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_9'),this,'Show Solution','Hide Solution')">Show Solution</a><div class=wpsolution id=cpp_solution_id_9 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">class Monster : public Creature
+{
+public:
+	enum Type
+	{
+		dragon,
+		orc,
+		slime,
+		max_types
+	};
+};</code></pre></div><p>d) Each Monster type will have a different name, symbol, starting health, gold, and damage. Here is a table of stats for each monster Type:<div class=cpp-table-wrapper><p><p><table class=cpp-table><tbody><tr><th>Type<th>Name<th>Symbol<th>Health<th>Damage<th>Gold<tr><td>dragon<td>dragon<td>D<td>20<td>4<td>100<tr><td>orc<td>orc<td>o<td>4<td>2<td>25<tr><td>slime<td>slime<td>s<td>1<td>1<td>10</table></div><p>Next step is to write a Monster constructor, so we can create monsters. The Monster constructor should take a Type enum as a parameter, and then create a Monster with the appropriate stats for that kind of monster.<p>There are a number of different ways to implement this (some better, some worse). However in this case, because all of our monster attributes are predefined (not random or customized per creature), we can use a lookup table. Our lookup table will be a C-style array of Creature, where indexing the array with a Type will return the appropriate Creature for that Type.<p>Since this Creature table is specific to Monster, we can define it inside the Monster class as <code>static inline Creature monsterData[] { }</code>, initialized with our Creature elements.<p>Our Monster constructor is then easy: we can call the Creature copy constructor and pass it the appropriate Creature from our monsterData table.<p>The following program should compile:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+int main()
+{
+	Monster m{ Monster::Type::orc };
+	std::cout &lt;&lt; &#34;A &#34; &lt;&lt; m.getName() &lt;&lt; &#34; (&#34; &lt;&lt; m.getSymbol() &lt;&lt; &#34;) was created.\n&#34;;
+
+	return 0;
+}</code></pre><p>and print:<pre>A orc (o) was created.
+</pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_10'),this,'Show Solution','Hide Solution')">Show Solution</a><div class=wpsolution id=cpp_solution_id_10 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;array&gt;
+#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;string_view&gt;
+ 
+class Creature
+{
+protected:
+    std::string m_name;
+    char m_symbol {};
+    int m_health {};
+    int m_damage {};
+    int m_gold {};
+ 
+public:
+     Creature(std::string_view name, char symbol, int health, int damage, int gold)
+        : m_name{ name }
+        , m_symbol{ symbol }
+        , m_health{ health }
+        , m_damage{ damage }
+        , m_gold{ gold }
+    { }
+ 
+    char getSymbol() const { return m_symbol; }
+    const std::string&amp; getName() const { return m_name; }
+    bool isDead() const { return m_health &lt;= 0; }
+    int getGold() const { return m_gold; }
+    void addGold(int gold) { m_gold += gold; }
+    void reduceHealth(int health) { m_health -= health; }
+    int getHealth() const { return m_health; }
+    int getDamage() const { return m_damage; }
+};
+ 
+class Player : public Creature
+{
+    int m_level{ 1 };
+ 
+public:
+    Player(const std::string&amp; name)
+        : Creature{ name, &#39;@&#39;, 10, 1, 0 }
+    {
+    }
+ 
+    void levelUp()
+    {
+        ++m_level;
+        ++m_damage;
+    }
+ 
+    int getLevel() const { return m_level; }
+    bool hasWon() const { return m_level &gt;= 20; }
+};
+ 
+class Monster : public Creature
+{
+public:
+    enum Type
+    {
+        dragon,
+        orc,
+        slime,
+        max_types
+    };
+ 
+private:
+    inline static Creature monsterData[] {
+        Creature { &#34;dragon&#34;, &#39;D&#39;, 20, 4, 100 },
+        Creature { &#34;orc&#34;, &#39;o&#39;, 4, 2, 25 },
+        Creature { &#34;slime&#34;, &#39;s&#39;, 1, 1, 10 }
+        };
+
+    static_assert(std::size(monsterData) == max_types);
+
+public:
+    Monster(Type type)
+        : Creature{ monsterData[type] }
+    {
+    }
+};
+ 
+int main()
+{
+    Monster m{ Monster::Type::orc };
+    std::cout &lt;&lt; &#34;A &#34; &lt;&lt; m.getName() &lt;&lt; &#34; (&#34; &lt;&lt; m.getSymbol() &lt;&lt; &#34;) was created.\n&#34;;
+ 
+  return 0;
+}</code></pre></div><p>e) Finally, add a <code>static</code> function to Monster named <code>getRandomMonster()</code>. This function should pick a random number from <code>0</code> to <code>max_types-1</code> and return a monster (by value) with that <code>Type</code> (you’ll need to <code>static_cast</code> the <code>int</code> to a <code>Type</code> to pass it to the <code>Monster</code> constructor).<p>Lesson <a href="../global-random-numbers-random-h/index.html#RandomH">8.15 -- Global random numbers (Random.h)</a> contains code you can use to pick a random number.<p>The following main function should run:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+int main()
+{
+	for (int i{ 0 }; i &lt; 10; ++i)
+	{
+		Monster m{ Monster::getRandomMonster() };
+		std::cout &lt;&lt; &#34;A &#34; &lt;&lt; m.getName() &lt;&lt; &#34; (&#34; &lt;&lt; m.getSymbol() &lt;&lt; &#34;) was created.\n&#34;;
+	}
+
+	return 0;
+}</code></pre><p>The results of this program should be randomized.<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_11'),this,'Show Solution','Hide Solution')">Show Solution</a><div class=wpsolution id=cpp_solution_id_11 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &#34;Random.h&#34; // https://www.learncpp.com/cpp-tutorial/global-random-numbers-random-h/
+#include &lt;array&gt;
+#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;string_view&gt;
+ 
+class Creature
+{
+protected:
+    std::string m_name;
+    char m_symbol {};
+    int m_health {};
+    int m_damage {};
+    int m_gold {};
+ 
+public:
+     Creature(std::string_view name, char symbol, int health, int damage, int gold)
+        : m_name{ name }
+        , m_symbol{ symbol }
+        , m_health{ health }
+        , m_damage{ damage }
+        , m_gold{ gold }
+    { }
+ 
+    char getSymbol() const { return m_symbol; }
+    const std::string&amp; getName() const { return m_name; }
+    bool isDead() const { return m_health &lt;= 0; }
+    int getGold() const { return m_gold; }
+    void addGold(int gold) { m_gold += gold; }
+    void reduceHealth(int health) { m_health -= health; }
+    int getHealth() const { return m_health; }
+    int getDamage() const { return m_damage; }
+};
+ 
+class Player : public Creature
+{
+    int m_level{ 1 };
+ 
+public:
+    Player(const std::string&amp; name)
+        : Creature{ name, &#39;@&#39;, 10, 1, 0 }
+    {
+    }
+ 
+    void levelUp()
+    {
+        ++m_level;
+        ++m_damage;
+    }
+ 
+    int getLevel() const { return m_level; }
+    bool hasWon() const { return m_level &gt;= 20; }
+};
+ 
+class Monster : public Creature
+{
+public:
+    enum Type
+    {
+        dragon,
+        orc,
+        slime,
+        max_types
+    };
+ 
+private:
+    inline static Creature monsterData[] {
+        Creature { &#34;dragon&#34;, &#39;D&#39;, 20, 4, 100 },
+        Creature { &#34;orc&#34;, &#39;o&#39;, 4, 2, 25 },
+        Creature { &#34;slime&#34;, &#39;s&#39;, 1, 1, 10 }
+        };
+
+    static_assert(std::size(monsterData) == max_types);
+
+public:
+    Monster(Type type)
+        : Creature{ monsterData[type] }
+    {
+    }
+ 
+    static Monster getRandomMonster()
+    {
+        int num{ Random::get(0, max_types - 1) };
+        return Monster{ static_cast&lt;Type&gt;(num) };
+    }
+};
+ 
+int main()
+{
+    for (int i{ 0 }; i &lt; 10; ++i)
+    {
+        Monster m{ Monster::getRandomMonster() };
+        std::cout &lt;&lt; &#34;A &#34; &lt;&lt; m.getName() &lt;&lt; &#34; (&#34; &lt;&lt; m.getSymbol() &lt;&lt; &#34;) was created.\n&#34;;
+    }
+ 
+  return 0;
+}</code></pre></div><p>f) We’re finally set to write our game logic!<p>Here are the rules for the game:<p>The player encounters one randomly generated monster at a time.<br>For each monster, the player has two choices: (R)un or (F)ight.<br>If the player decides to Run, they have a 50% chance of escaping.<br>If the player escapes, they move to the next encounter with no ill effects.<br>If the player does not escape, the monster gets a free attack, and the player chooses their next action.<br>If the player chooses to fight, the player attacks first. The monster’s health is reduced by the player’s damage.<br>If the monster dies, the player takes any gold the monster is carrying. The player also levels up, increasing their level and damage by 1.<br>If the monster does not die, the monster attacks the player back. The player’s health is reduced by the monster’s damage.<br>The game ends when the player has died (loss) or reached level 20 (win)<br>If the player dies, the game should tell the player what level they were and how much gold they had.<br>If the player wins, the game should tell the player they won, and how much gold they had<p>Here’s a sample game session:<p>Enter your name: Alex<br>Welcome, Alex<br>You have encountered a slime (s).<br>(R)un or (F)ight: f<br>You hit the slime for 1 damage.<br>You killed the slime.<br>You are now level 2.<br>You found 10 gold.<br>You have encountered a dragon (D).<br>(R)un or (F)ight: r<br>You failed to flee.<br>The dragon hit you for 4 damage.<br>(R)un or (F)ight: r<br>You successfully fled.<br>You have encountered a orc (o).<br>(R)un or (F)ight: f<br>You hit the orc for 2 damage.<br>The orc hit you for 2 damage.<br>(R)un or (F)ight: f<br>You hit the orc for 2 damage.<br>You killed the orc.<br>You are now level 3.<br>You found 25 gold.<br>You have encountered a dragon (D).<br>(R)un or (F)ight: r<br>You failed to flee.<br>The dragon hit you for 4 damage.<br>You died at level 3 and with 35 gold.<br>Too bad you can’t take it with you!<p>Hint: Create 4 functions:<ul><li>The main() function should handle game setup (creating the Player) and the main game loop.<li>fightMonster() handles the fight between the Player and a single Monster, including asking the player what they want to do, handling the run or fight cases.<li>attackMonster() handles the player attacking the monster, including leveling up.<li>attackPlayer() handles the monster attacking the player.</ul><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_12'),this,'Show Solution','Hide Solution')">Show Solution</a><div class=wpsolution id=cpp_solution_id_12 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &#34;Random.h&#34; // https://www.learncpp.com/cpp-tutorial/global-random-numbers-random-h/
+#include &lt;array&gt;
+#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;string_view&gt;
+ 
+class Creature
+{
+protected:
+    std::string m_name;
+    char m_symbol {};
+    int m_health {};
+    int m_damage {};
+    int m_gold {};
+ 
+public:
+     Creature(std::string_view name, char symbol, int health, int damage, int gold)
+        : m_name{ name }
+        , m_symbol{ symbol }
+        , m_health{ health }
+        , m_damage{ damage }
+        , m_gold{ gold }
+    { }
+ 
+    char getSymbol() const { return m_symbol; }
+    const std::string&amp; getName() const { return m_name; }
+    bool isDead() const { return m_health &lt;= 0; }
+    int getGold() const { return m_gold; }
+    void addGold(int gold) { m_gold += gold; }
+    void reduceHealth(int health) { m_health -= health; }
+    int getHealth() const { return m_health; }
+    int getDamage() const { return m_damage; }
+};
+ 
+class Player : public Creature
+{
+    int m_level{ 1 };
+ 
+public:
+    Player(const std::string&amp; name)
+        : Creature{ name, &#39;@&#39;, 10, 1, 0 }
+    {
+    }
+ 
+    void levelUp()
+    {
+        ++m_level;
+        ++m_damage;
+    }
+ 
+    int getLevel() const { return m_level; }
+    bool hasWon() const { return m_level &gt;= 20; }
+};
+ 
+class Monster : public Creature
+{
+public:
+    enum Type
+    {
+        dragon,
+        orc,
+        slime,
+        max_types
+    };
+ 
+private:
+    inline static Creature monsterData[] {
+        Creature { &#34;dragon&#34;, &#39;D&#39;, 20, 4, 100 },
+        Creature { &#34;orc&#34;, &#39;o&#39;, 4, 2, 25 },
+        Creature { &#34;slime&#34;, &#39;s&#39;, 1, 1, 10 }
+        };
+
+    static_assert(std::size(monsterData) == max_types);
+
+public:
+    Monster(Type type)
+        : Creature{ monsterData[type] }
+    {
+    }
+ 
+    static Monster getRandomMonster()
+    {
+        int num{ Random::get(0, max_types - 1) };
+        return Monster{ static_cast&lt;Type&gt;(num) };
+    }
+};
+ 
+// This function handles the player attacking the monster
+void attackMonster(Player&amp; player, Monster&amp; monster)
+{
+    // If the player is dead, we can&#39;t attack the monster
+    if (player.isDead())
+        return;
+
+    std::cout &lt;&lt; &#34;You hit the &#34; &lt;&lt; monster.getName() &lt;&lt; &#34; for &#34; &lt;&lt; player.getDamage() &lt;&lt; &#34; damage.\n&#34;;
+
+    // Reduce the monster&#39;s health by the player&#39;s damage
+    monster.reduceHealth(player.getDamage());
+
+    // If the monster is now dead, level the player up
+    if (monster.isDead())
+    {
+        std::cout &lt;&lt; &#34;You killed the &#34; &lt;&lt; monster.getName() &lt;&lt; &#34;.\n&#34;;
+        player.levelUp();
+        std::cout &lt;&lt; &#34;You are now level &#34; &lt;&lt; player.getLevel() &lt;&lt; &#34;.\n&#34;;
+        std::cout &lt;&lt; &#34;You found &#34; &lt;&lt; monster.getGold() &lt;&lt; &#34; gold.\n&#34;;
+        player.addGold(monster.getGold());
+    }
+}
+
+// This function handles the monster attacking the player
+void attackPlayer(const Monster&amp; monster, Player&amp; player)
+{
+    // If the monster is dead, it can&#39;t attack the player
+    if (monster.isDead())
+        return;
+
+    // Reduce the player&#39;s health by the monster&#39;s damage
+    player.reduceHealth(monster.getDamage());
+    std::cout &lt;&lt; &#34;The &#34; &lt;&lt; monster.getName() &lt;&lt; &#34; hit you for &#34; &lt;&lt; monster.getDamage() &lt;&lt; &#34; damage.\n&#34;;
+}
+
+// This function handles the entire fight between a player and a randomly generated monster
+void fightMonster(Player&amp; player)
+{
+    // First randomly generate a monster
+    Monster monster{ Monster::getRandomMonster() };
+    std::cout &lt;&lt; &#34;You have encountered a &#34; &lt;&lt; monster.getName() &lt;&lt; &#34; (&#34; &lt;&lt; monster.getSymbol() &lt;&lt; &#34;).\n&#34;;
+
+    // While the monster isn&#39;t dead and the player isn&#39;t dead, the fight continues
+    while (!monster.isDead() &amp;&amp; !player.isDead())
+    {
+        std::cout &lt;&lt; &#34;(R)un or (F)ight: &#34;;
+        char input{};
+        std::cin &gt;&gt; input;
+        if (input == &#39;R&#39; || input == &#39;r&#39;)
+        {
+            // 50% chance of fleeing successfully
+            if (Random::get(1, 2) == 1)
+            {
+                std::cout &lt;&lt; &#34;You successfully fled.\n&#34;;
+                return; // success ends the encounter
+            }
+            else
+            {
+                // Failure to flee gives the monster a free attack on the player
+                std::cout &lt;&lt; &#34;You failed to flee.\n&#34;;
+                attackPlayer(monster, player);
+                continue;
+            }
+        }
+
+        if (input == &#39;F&#39; || input == &#39;f&#39;)
+        {
+            // Player attacks first, monster attacks second
+            attackMonster(player, monster);
+            attackPlayer(monster, player);
+        }
+    }
+}
+
+int main()
+{
+    std::cout &lt;&lt; &#34;Enter your name: &#34;;
+    std::string playerName;
+    std::cin &gt;&gt; playerName;
+
+    Player player{ playerName };
+    std::cout &lt;&lt; &#34;Welcome, &#34; &lt;&lt; player.getName() &lt;&lt; &#39;\n&#39;;
+
+    // If the player isn&#39;t dead and hasn&#39;t won yet, the game continues
+    while (!player.isDead() &amp;&amp; !player.hasWon())
+        fightMonster(player);
+
+    // At this point, the player is either dead or has won
+    if (player.isDead())
+    {
+        std::cout &lt;&lt; &#34;You died at level &#34; &lt;&lt; player.getLevel() &lt;&lt; &#34; and with &#34; &lt;&lt; player.getGold() &lt;&lt; &#34; gold.\n&#34;;
+        std::cout &lt;&lt; &#34;Too bad you can&#39;t take it with you!\n&#34;;
+    }
+    else
+    {
+        std::cout &lt;&lt; &#34;You won the game with &#34; &lt;&lt; player.getGold() &lt;&lt; &#34; gold!\n&#34;;
+    }
+
+  return 0;
+}</code></pre></div><p>g) Extra credit:<br>Reader <a href="../11-x-chapter-11-comprehensive-quiz/comment-page-5/index.html#comment-471079">Tom</a> didn’t sharpen his sword enough to defeat the mighty dragon. Help him by implementing the following potions in different sizes:<div class=cpp-table-wrapper><p><p><table class=cpp-table><tbody><tr><th>Type<th>Effect (Small)<th>Effect (Medium)<th>Effect (Large)<tr><td>Health<td>+2 Health<td>+2 Health<td>+5 Health<tr><td>Strength<td>+1 Damage<td>+1 Damage<td>+1 Damage<tr><td>Poison<td>-1 Health<td>-1 Health<td>-1 Health</table></div><p>Feel free to get creative and add more potions or change their effects!<p>The player has a 30% chance of finding a potion after every won fight and has the choice between drinking or not drinking it. If the player doesn’t drink the potion, it disappears. The player doesn’t know what type of potion was found until the player drinks it, at which point the type and size of the potion is revealed and the effect is applied.<p>In the following example, the player found a poison potion and died from drinking it (Poison was much more damaging in this example)<pre>You have encountered a slime (s).
+(R)un or (F)ight: f
+You hit the slime for 1 damage.
+You killed the slime.
+You are now level 2.
+You found 10 gold.
+You found a mythical potion! Do you want to drink it? [y/n]: y
+You drank a Medium potion of Poison
+You died at level 2 and with 10 gold.
+Too bad you can&#39;t take it with you!
+</pre><p><a class=hint_link_show href=javascript:void(0) onclick="cppHintToggle(document.getElementById('cpp_hint_id_0'),this,'Show Hint','')">Show Hint</a><div class=wphint id=cpp_hint_id_0 style=display:none;margin-bottom:1em>Hint: Add a Potion class that has a type and size member variable, along with a member function that returns its name and a static member function the creates a random Potion, similar to the getRandomMonster() function.<br>In the Player class, add a drinkPotion() member function the applies the potion’s effect.</div><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_13'),this,'Show Solution','Hide Solution')">Show Solution</a><div class=wpsolution id=cpp_solution_id_13 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &#34;Random.h&#34; // https://www.learncpp.com/cpp-tutorial/global-random-numbers-random-h/
+#include &lt;array&gt;
+#include &lt;iostream&gt;
+#include &lt;sstream&gt;
+#include &lt;string&gt;
+#include &lt;string_view&gt;
+
+class Potion
+{
+public:
+    // All possible types of potions
+    enum Type
+    {
+        health,
+        strength,
+        poison,
+
+        // For random potion generation
+        max_type
+    };
+
+    enum Size
+    {
+        small,
+        medium,
+        large,
+
+        max_size
+    };
+
+
+private:
+    Type m_type{};
+    Size m_size{};
+
+public:
+    Potion(Type type, Size size)
+        : m_type{ type },
+        m_size{ size }
+    {
+    }
+
+    Type getType() const { return m_type; }
+    Size getSize() const { return m_size; }
+
+    // The names of potions are compile-time literals, we can
+    // return a std::string_view.
+    static std::string_view getPotionTypeName(Type type)
+    {
+        static constexpr std::string_view names[] {
+          &#34;Health&#34;,
+          &#34;Strength&#34;,
+          &#34;Poison&#34;
+        };
+
+        return names[type];
+    }
+
+    static std::string_view getPotionSizeName(Size size)
+    {
+        static constexpr std::string_view names[] {
+          &#34;Small&#34;,
+          &#34;Medium&#34;,
+          &#34;Large&#34;
+        };
+
+        return names[size];
+    }
+
+    std::string getName() const
+    {
+        // We use a std::stringstream, but this could also be solved using
+        // std::string.
+        // We first used std::stringstream in lesson 7.13.
+        std::stringstream result{};
+
+        result &lt;&lt; getPotionSizeName(getSize()) &lt;&lt; &#34; potion of &#34; &lt;&lt; getPotionTypeName(getType());
+
+        // We can extract the string from an std::stringstream by using the str()
+        // member function.
+        return result.str();
+    }
+
+    static Potion getRandomPotion()
+    {
+        return Potion{
+          static_cast&lt;Type&gt;(Random::get(0, max_type - 1)),
+          static_cast&lt;Size&gt;(Random::get(0, max_size - 1))
+        };
+    }
+};
+
+class Creature
+{
+protected:
+    std::string m_name;
+    char m_symbol {};
+    int m_health {};
+    int m_damage {};
+    int m_gold {};
+ 
+public:
+     Creature(std::string_view name, char symbol, int health, int damage, int gold)
+        : m_name{ name }
+        , m_symbol{ symbol }
+        , m_health{ health }
+        , m_damage{ damage }
+        , m_gold{ gold }
+    { }
+ 
+    char getSymbol() const { return m_symbol; }
+    const std::string&amp; getName() const { return m_name; }
+    bool isDead() const { return m_health &lt;= 0; }
+    int getGold() const { return m_gold; }
+    void addGold(int gold) { m_gold += gold; }
+    void reduceHealth(int health) { m_health -= health; }
+    int getHealth() const { return m_health; }
+    int getDamage() const { return m_damage; }
+};
+ 
+class Player : public Creature
+{
+    int m_level{ 1 };
+ 
+public:
+    Player(const std::string&amp; name)
+        : Creature{ name, &#39;@&#39;, 10, 1, 0 }
+    {
+    }
+ 
+    void levelUp()
+    {
+        ++m_level;
+        ++m_damage;
+    }
+
+    // Applies a potion&#39;s effect to the player
+    void drinkPotion(const Potion&amp; potion)
+    {
+        switch (potion.getType())
+        {
+        case Potion::health:
+            // Only a health potion&#39;s size affects its power. All other
+            // potions are independent of size.
+            m_health += ((potion.getSize() == Potion::large) ? 5 : 2);
+            break;
+        case Potion::strength:
+            ++m_damage;
+            break;
+        case Potion::poison:
+            reduceHealth(1);
+            break;
+            // Handle max_type to silence the compiler warning. Don&#39;t use default:
+            // because we want the compiler to warn us if we add a new potion but
+            // forget to implement its effect.
+        case Potion::max_type:
+            break;
+        }
+    }
+
+    int getLevel() const { return m_level; }
+    bool hasWon() const { return m_level &gt;= 20; }
+};
+ 
+class Monster : public Creature
+{
+public:
+    enum Type
+    {
+        dragon,
+        orc,
+        slime,
+        max_types
+    };
+ 
+private:
+    inline static Creature monsterData[] {
+        Creature { &#34;dragon&#34;, &#39;D&#39;, 20, 4, 100 },
+        Creature { &#34;orc&#34;, &#39;o&#39;, 4, 2, 25 },
+        Creature { &#34;slime&#34;, &#39;s&#39;, 1, 1, 10 }
+        };
+
+    static_assert(std::size(monsterData) == max_types);
+
+public:
+    Monster(Type type)
+        : Creature{ monsterData[type] }
+    {
+    }
+ 
+    static Monster getRandomMonster()
+    {
+        int num{ Random::get(0, max_types - 1) };
+        return Monster{ static_cast&lt;Type&gt;(num) };
+    }
+};
+
+// We moved this out of attackMonster() to keep the function shorter.
+void onMonsterKilled(Player&amp; player, const Monster&amp; monster)
+{
+    std::cout &lt;&lt; &#34;You killed the &#34; &lt;&lt; monster.getName() &lt;&lt; &#34;.\n&#34;;
+    player.levelUp();
+    std::cout &lt;&lt; &#34;You are now level &#34; &lt;&lt; player.getLevel() &lt;&lt; &#34;.\n&#34;;
+    std::cout &lt;&lt; &#34;You found &#34; &lt;&lt; monster.getGold() &lt;&lt; &#34; gold.\n&#34;;
+    player.addGold(monster.getGold());
+
+    // 30% chance of finding a potion
+    constexpr int potionChance{ 30 };
+    if (Random::get(1, 100) &lt;= potionChance)
+    {
+        // Generate a random potion
+        auto potion{ Potion::getRandomPotion() };
+
+        std::cout &lt;&lt; &#34;You found a mythical potion! Do you want to drink it? [y/n]: &#34;;
+        char choice{};
+        std::cin &gt;&gt; choice;
+
+        if (choice == &#39;Y&#39; || choice == &#39;y&#39;)
+        {
+            // Apply the effect
+            player.drinkPotion(potion);
+            // Reveal the potion type and size
+            std::cout &lt;&lt; &#34;You drank a &#34; &lt;&lt; potion.getName() &lt;&lt; &#34;.\n&#34;;
+        }
+    }
+}
+
+// This function handles the player attacking the monster
+void attackMonster(Player&amp; player, Monster&amp; monster)
+{
+    // If the player is dead, we can&#39;t attack the monster
+    if (player.isDead())
+        return;
+
+    std::cout &lt;&lt; &#34;You hit the &#34; &lt;&lt; monster.getName() &lt;&lt; &#34; for &#34; &lt;&lt; player.getDamage() &lt;&lt; &#34; damage.\n&#34;;
+
+    // Reduce the monster&#39;s health by the player&#39;s damage
+    monster.reduceHealth(player.getDamage());
+
+    // If the monster is now dead, level the player up
+    if (monster.isDead())
+    {
+        // Reward the player
+        onMonsterKilled(player, monster);
+    }
+}
+
+// This function handles the monster attacking the player
+void attackPlayer(const Monster&amp; monster, Player&amp; player)
+{
+    // If the monster is dead, it can&#39;t attack the player
+    if (monster.isDead())
+        return;
+
+    // Reduce the player&#39;s health by the monster&#39;s damage
+    player.reduceHealth(monster.getDamage());
+    std::cout &lt;&lt; &#34;The &#34; &lt;&lt; monster.getName() &lt;&lt; &#34; hit you for &#34; &lt;&lt; monster.getDamage() &lt;&lt; &#34; damage.\n&#34;;
+}
+
+// This function handles the entire fight between a player and a randomly generated monster
+void fightMonster(Player&amp; player)
+{
+    // First randomly generate a monster
+    Monster monster{ Monster::getRandomMonster() };
+    std::cout &lt;&lt; &#34;You have encountered a &#34; &lt;&lt; monster.getName() &lt;&lt; &#34; (&#34; &lt;&lt; monster.getSymbol() &lt;&lt; &#34;).\n&#34;;
+
+    // While the monster isn&#39;t dead and the player isn&#39;t dead, the fight continues
+    while (!monster.isDead() &amp;&amp; !player.isDead())
+    {
+        std::cout &lt;&lt; &#34;(R)un or (F)ight: &#34;;
+        char input{};
+        std::cin &gt;&gt; input;
+        if (input == &#39;R&#39; || input == &#39;r&#39;)
+        {
+            // 50% chance of fleeing successfully
+            if (Random::get(1, 2) == 1)
+            {
+                std::cout &lt;&lt; &#34;You successfully fled.\n&#34;;
+                return; // success ends the encounter
+            }
+            else
+            {
+                // Failure to flee gives the monster a free attack on the player
+                std::cout &lt;&lt; &#34;You failed to flee.\n&#34;;
+                attackPlayer(monster, player);
+                continue;
+            }
+        }
+
+        if (input == &#39;F&#39; || input == &#39;f&#39;)
+        {
+            // Player attacks first, monster attacks second
+            attackMonster(player, monster);
+            attackPlayer(monster, player);
+        }
+    }
+}
+
+int main()
+{
+    std::cout &lt;&lt; &#34;Enter your name: &#34;;
+    std::string playerName;
+    std::cin &gt;&gt; playerName;
+
+    Player player{ playerName };
+    std::cout &lt;&lt; &#34;Welcome, &#34; &lt;&lt; player.getName() &lt;&lt; &#39;\n&#39;;
+
+    // If the player isn&#39;t dead and hasn&#39;t won yet, the game continues
+    while (!player.isDead() &amp;&amp; !player.hasWon())
+        fightMonster(player);
+
+    // At this point, the player is either dead or has won
+    if (player.isDead())
+    {
+        std::cout &lt;&lt; &#34;You died at level &#34; &lt;&lt; player.getLevel() &lt;&lt; &#34; and with &#34; &lt;&lt; player.getGold() &lt;&lt; &#34; gold.\n&#34;;
+        std::cout &lt;&lt; &#34;Too bad you can&#39;t take it with you!\n&#34;;
+    }
+    else
+    {
+        std::cout &lt;&lt; &#34;You won the game with &#34; &lt;&lt; player.getGold() &lt;&lt; &#34; gold!\n&#34;;
+    }
+
+  return 0;
+}</code></pre></div></div><div class=prevnext><div class=prevnext-inline><a class=nav-link href="../121-pointers-and-references-to-the-base-class-of-derived-objects/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Next lesson</div><div class=nav-button-lesson><span class=nav-button-lesson-number>25.1</span>Pointers and references to the base class of derived objects</div></div></div></a><a class=nav-link href="https://www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Back to table of contents</div></div></div></a><a class=nav-link href="../multiple-inheritance/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Previous lesson</div><div class=nav-button-lesson><span class=nav-button-lesson-number>24.9</span>Multiple inheritance</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="https://www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=https://www.learncpp.com/chapter-24-summary-and-quiz/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Previous Post</em><a href="../chapter-23-summary-and-quiz/index.html" rel=prev><span>23.x — Chapter 23 summary and quiz</span></a></div><div class=nav-next><em>Next Post</em><a href="../the-override-and-final-specifiers-and-covariant-return-types/index.html" rel=next><span>25.3 — The override and final specifiers, and covariant return types</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Label</label>
+<textarea id=wc-textarea-0_0 placeholder="Leave a comment..." aria-label="Leave a comment..." required name=wc_comment class="wc_comment wpd-field"></textarea></div><div class=wpd-editor-buttons-right></div></div></div></div><div class=wpd-form-foot><div class=wpdiscuz-textarea-foot><div class=wpdiscuz-button-actions></div></div><div class=wpd-form-row><div class=wpd-form-col-left><div class="wpdiscuz-item wc_name-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-user"></i></div><input id=wc_name-0_0 required aria-required=true class="wc_name wpd-field" name=wc_name placeholder=Name* maxlength=50 pattern=.{3,50}>
+<label for=wc_name-0_0 class=wpdlb>Name*</label></div><div class="wpdiscuz-item wc_email-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-at"></i></div><input id=wc_email-0_0 required aria-required=true class="wc_email wpd-field" type=email name=wc_email placeholder=Email*>
+<label for=wc_email-0_0 class=wpdlb>Email*</label><div class=wpd-field-desc><i class="far fa-question-circle"></i><span>Your email address will not be displayed</span></div></div><div class=cpp_correction_div style=padding-bottom:4px><div class=wpd-field-icon style=display:inline-block;width:20px><i style=opacity:.6 class="fas fa-regular fa-bug"></i></div>Find a mistake? Leave a comment above!<div class=wpd-field-desc><i class="far fa-question-circle"></i><span>Correction-related comments will be deleted after processing to help reduce clutter. Thanks for helping to make the site better for everyone!</span></div></div><div class=cpp_avatar_div style=padding-bottom:4px><div class=wpd-field-icon style=display:inline-block;width:20px><i style=opacity:.6 class="fas fa-user"></i></div>Avatars from <a target=_blank rel="noopener noreferrer" href=https://gravatar.com/>https://gravatar.com/</a> are connected to your provided email address.</div></div><div class=wpd-form-col-right><div class=wc-field-submit><span style=margin-top:6px>Notify me about replies:  </span>
+<label class=wpd_label wpd-tooltip="Notify me about new replies to this comment"><input id=wc_notification_new_comment-0_0 class="wc_notification_new_comment-0_0 wpd_label__checkbox" value=comment type=checkbox name=wpdiscuz_notification_type checked>
+<span class=wpd_label__text><span class=wpd_label__check><i class="fas fa-bell wpdicon wpdicon-on"></i><i class="fas fa-bell-slash wpdicon wpdicon-off"></i></span></span></label><input id=wpd-field-submit-0_0 class="wc_comm_submit wpd_not_clicked wpd-prim-button" type=submit name=submit value="Post Comment"></div></div><div class=clearfix></div></div></div><input type=hidden class=wpdiscuz_unique_id value=0_0 name=wpdiscuz_unique_id></form></div><div id=wpdiscuz_hidden_secondary_form style=display:none><div class="wpd-form wpd-form-wrapper wpd-secondary-form-wrapper" id=wpd-secondary-form-wrapper-wpdiscuzuniqueid style=display:none><div class=wpd-secondary-forms-social-content></div><div class=clearfix></div><form class="wpd_comm_form wpd-secondary-form-wrapper" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-wpdiscuzuniqueid class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-wpdiscuzuniqueid>Label</label>
+<textarea id=wc-textarea-wpdiscuzuniqueid placeholder="Leave a comment..." aria-label="Leave a comment..." required name=wc_comment class="wc_comment wpd-field"></textarea></div><div class=wpd-editor-buttons-right></div></div></div></div><div class=wpd-form-foot><div class=wpdiscuz-textarea-foot><div class=wpdiscuz-button-actions></div></div><div class=wpd-form-row><div class=wpd-form-col-left><div class="wpdiscuz-item wc_name-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-user"></i></div><input id=wc_name-wpdiscuzuniqueid required aria-required=true class="wc_name wpd-field" name=wc_name placeholder=Name* maxlength=50 pattern=.{3,50}>
+<label for=wc_name-wpdiscuzuniqueid class=wpdlb>Name*</label></div><div class="wpdiscuz-item wc_email-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-at"></i></div><input id=wc_email-wpdiscuzuniqueid required aria-required=true class="wc_email wpd-field" type=email name=wc_email placeholder=Email*>
+<label for=wc_email-wpdiscuzuniqueid class=wpdlb>Email*</label><div class=wpd-field-desc><i class="far fa-question-circle"></i><span>Your email address will not be displayed</span></div></div><div class=cpp_correction_div style=padding-bottom:4px><div class=wpd-field-icon style=display:inline-block;width:20px><i style=opacity:.6 class="fas fa-regular fa-bug"></i></div>Find a mistake? Leave a comment above!<div class=wpd-field-desc><i class="far fa-question-circle"></i><span>Correction-related comments will be deleted after processing to help reduce clutter. Thanks for helping to make the site better for everyone!</span></div></div><div class=cpp_avatar_div style=padding-bottom:4px><div class=wpd-field-icon style=display:inline-block;width:20px><i style=opacity:.6 class="fas fa-user"></i></div>Avatars from <a target=_blank rel="noopener noreferrer" href=https://gravatar.com/>https://gravatar.com/</a> are connected to your provided email address.</div></div><div class=wpd-form-col-right><div class=wc-field-submit><label class=wpd_label wpd-tooltip="Notify me about new replies to this comment"><input id=wc_notification_new_comment-wpdiscuzuniqueid class="wc_notification_new_comment-wpdiscuzuniqueid wpd_label__checkbox" value=comment type=checkbox name=wpdiscuz_notification_type checked>
+<span class=wpd_label__text><span class=wpd_label__check><i class="fas fa-bell wpdicon wpdicon-on"></i><i class="fas fa-bell-slash wpdicon wpdicon-off"></i></span></span></label><input id=wpd-field-submit-wpdiscuzuniqueid class="wc_comm_submit wpd_not_clicked wpd-prim-button" type=submit name=submit value="Post Comment"></div></div><div class=clearfix></div></div></div><input type=hidden class=wpdiscuz_unique_id value=wpdiscuzuniqueid name=wpdiscuz_unique_id></form></div></div></div><div id=wpd-threads class=wpd-thread-wrapper><div class=wpd-thread-head><div class=wpd-thread-info data-comments-count=660><span class=wpdtc title=660>660</span> Comments</div><div class=wpd-space></div><div class=wpd-thread-filter><div class="wpd-filter wpdf-sorting"><span class="wpdiscuz-sort-button wpdiscuz-date-sort-desc wpdiscuz-sort-button-active" data-sorting=newest>Newest</span>
+<i class="fas fa-sort-down"></i><div class=wpdiscuz-sort-buttons><span class="wpdiscuz-sort-button wpdiscuz-date-sort-asc" data-sorting=oldest>Oldest</span>
+<span class="wpdiscuz-sort-button wpdiscuz-vote-sort-up" data-sorting=by_vote>Most Voted</span></div></div></div></div><div class=wpd-comment-info-bar><div class=wpd-current-view><i class="fas fa-quote-left"></i>Inline Feedbacks</div><div class=wpd-filter-view-all>View all comments</div></div><div class=wpd-thread-list><div class=wpdiscuz-comment-pagination style=display:none><div class=wpd-load-more-submit-wrap><button name=submit data-lastparentid=0 class="wpd-load-more-submit wpd-loaded wpd-prim-button">
+Load More Comments</button></div><input id=wpdiscuzHasMoreComments type=hidden value=0></div></div></div></div></div><div id=wpdiscuz-loading-bar class=wpdiscuz-loading-bar-unauth></div><div id=wpdiscuz-comment-message class=wpdiscuz-comment-message-unauth></div></main><aside id=primary class="widget-area sidey" role=complementary itemscope itemtype=http://schema.org/WPSideBar><section id=custom_html-2 class="widget_text widget-container widget_custom_html"><div class="textwidget custom-html-widget"><div class=cf_monitor style=float:right><div id=ezoic-pub-ad-placeholder-103></div><ins class=adsbygoogle style=display:inline-block;width:160px;height:600px data-ad-client=ca-pub-0588844875925051 data-ad-slot=6408671241></ins></div></div></section></aside><aside id=secondary class="widget-area sidey" role=complementary itemscope itemtype=http://schema.org/WPSideBar><section id=custom_html-3 class="widget_text widget-container widget_custom_html"><div class="textwidget custom-html-widget"><div class=cf_monitor style=float:left><div id=ezoic-pub-ad-placeholder-102></div><ins class=adsbygoogle style=display:inline-block;width:160px;height:600px data-ad-client=ca-pub-0588844875925051 data-ad-slot=1425558446></ins></div></div></section></aside></div><aside id=colophon role=complementary itemscope itemtype=http://schema.org/WPSideBar><div id=colophon-inside class=footer-one><section id=text-10 class="widget-container widget_text"><div class=footer-widget-inside><div class=textwidget><p><em>©2024 Learn C++</em> <a href=https://g.ezoic.net/privacy/learncpp.com>Privacy Policy</a></div></div></section></div></aside></div><footer id=footer class=cryout role=contentinfo itemscope itemtype=http://schema.org/WPFooter><div id=footer-inside></div></footer></div><a href=javascript:void(0); id=wpdUserContentInfoAnchor style=display:none rel=#wpdusercontentinfo data-wpd-lity>wpDiscuz</a><div id=wpdUserContentInfo style=overflow:auto;background:#fdfdf6;padding:20px;width:600px;max-width:100%;border-radius:6px class=lity-hide></div><div id=wpd-editor-source-code-wrapper-bg></div><div id=wpd-editor-source-code-wrapper><textarea id=wpd-editor-source-code></textarea><button id=wpd-insert-source-code>Insert</button><input type=hidden id=wpd-editor-uid></div><div class=wpdiscuz-fem-email style=display:none></div><div class=wpdiscuz-fem-email-form style=display:none><span class=wpdiscuz-fem-author>You are going to send email to <em></em></span><i class="fas fa-times"></i><div class=wpdiscuz_clear></div><input placeholder="Email Subject" class=wpdiscuz-fem-subj><textarea class=wpdiscuz-fem-msg placeholder="Enter your message here"></textarea><br><div class=wpdiscuz-fem-button-align><button type=button class=wpdiscuz-fem-send>Send</button></div><input type=hidden id=wpdiscuz_fem_email_comment_id></div><div class=wpdiscuz-fem-moving style=display:none></div><div class=wpdiscuz-fem-move-form style=display:none><span class=wpdiscuz-fem-author>Move Comment<br><em></em></span><i class="fas fa-times"></i><div class=wpdiscuz_clear></div><div class=wpdiscuz-fem-posts-search><input class=wpdiscuz-fem-post placeholder="Enter post title..."><div class=wpdiscuz-fem-posts></div></div><div class=wpdiscuz-fem-button-align><button type=button class=wpdiscuz-fem-move>Move</button></div><input type=hidden id=wpdiscuz_fem_move_comment_id></div></body></html>

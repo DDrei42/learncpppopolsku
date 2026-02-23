@@ -1,0 +1,646 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8>
+
+
+
+
+
+<base href=""><meta name=viewport content="width=device-width,user-scalable=yes,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><link rel=profile href="https://gmpg.org/xfn/11"><title>20.7 — Przechwytywanie lambda – Naucz się C++</title><meta name=robots content="max-image-preview:large"><link rel=dns-prefetch href="https://fd.cleantalk.org/"><link rel=stylesheet id=wgs2-css href="../../blog/wp-content/plugins/wp-google-search/wgs2.css@ver=4084444bfee884f6024e8b1b3cfa6cdd.css" media=all><link rel=stylesheet id=dashicons-css href="../../blog/wp-includes/css/dashicons.min.css@ver=4084444bfee884f6024e8b1b3cfa6cdd.css" media=all><link rel=stylesheet id=font-awesome-css href="../../blog/wp-content/plugins/menu-icons/vendor/codeinwp/icon-picker/css/types/font-awesome.min.css@ver=4.7.0.css" media=all><link rel=stylesheet id=menu-icons-extra-css href="../../blog/wp-content/plugins/menu-icons/css/extra.min.css@ver=0.12.9.css" media=all><link rel=stylesheet id=wp-block-library-css href="../../blog/wp-includes/css/dist/block-library/style.min.css@ver=4084444bfee884f6024e8b1b3cfa6cdd.css" media=all><link rel=stylesheet id=cleantalk-public-css-css href="../../blog/wp-content/plugins/cleantalk-spam-protect/css/cleantalk-public.min.css@ver=6.68_1763367835.css" media=all><link rel=stylesheet id=cleantalk-email-decoder-css-css href="../../blog/wp-content/plugins/cleantalk-spam-protect/css/cleantalk-email-decoder.min.css@ver=6.68_1763367835.css" media=all><link rel=stylesheet id=monacoCSS-css href="../../blog/wp-content/plugins/learncpp-prism/fonts/monaco.css@ver=0.135.css" media=all><link rel=stylesheet id=prismThemeCSS-css href="../../blog/wp-content/plugins/learncpp-prism/prism-theme.css@ver=0.135.css" media=all><link rel=stylesheet id=vscf_style-css href="../../blog/wp-content/plugins/very-simple-contact-form/css/vscf-style.min.css@ver=4084444bfee884f6024e8b1b3cfa6cdd.css" media=all><link rel=stylesheet id=wpdiscuz-frontend-css-css href="../../blog/wp-content/plugins/wpdiscuz/themes/default/style.css@ver=7.3.17.css" media=all><style id=wpdiscuz-frontend-css-inline-css>#wpdcom .wpd-blog-administrator .wpd-comment-label{color:#fff;background-color:#ff451f;border:none}#wpdcom .wpd-blog-administrator .wpd-comment-author,#wpdcom .wpd-blog-administrator .wpd-comment-author a{color:#ff451f}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-administrator .wpd-avatar img{border-color:#ff451f}#wpdcom.wpd-layout-2 .wpd-comment.wpd-reply .wpd-comment-wrap.wpd-blog-administrator{border-left:3px solid #ff451f}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-administrator .wpd-avatar img{border-bottom-color:#ff451f}#wpdcom.wpd-layout-3 .wpd-blog-administrator .wpd-comment-subheader{border-top:1px dashed #ff451f}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-administrator .wpd-comment-right{border-left:1px solid #ff451f}#wpdcom .wpd-blog-author .wpd-comment-label{color:#fff;background-color:#327324;border:none}#wpdcom .wpd-blog-author .wpd-comment-author,#wpdcom .wpd-blog-author .wpd-comment-author a{color:#327324}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-author .wpd-avatar img{border-color:#327324}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-author .wpd-avatar img{border-bottom-color:#327324}#wpdcom.wpd-layout-3 .wpd-blog-author .wpd-comment-subheader{border-top:1px dashed #327324}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-author .wpd-comment-right{border-left:1px solid #327324}#wpdcom .wpd-blog-contributor .wpd-comment-label{color:#fff;background-color:#a240cd;border:none}#wpdcom .wpd-blog-contributor .wpd-comment-author,#wpdcom .wpd-blog-contributor .wpd-comment-author a{color:#a240cd}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-contributor .wpd-avatar img{border-color:#a240cd}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-contributor .wpd-avatar img{border-bottom-color:#a240cd}#wpdcom.wpd-layout-3 .wpd-blog-contributor .wpd-comment-subheader{border-top:1px dashed #a240cd}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-contributor .wpd-comment-right{border-left:1px solid #a240cd}#wpdcom .wpd-blog-editor .wpd-comment-label{color:#fff;background-color:#d36000;border:none}#wpdcom .wpd-blog-editor .wpd-comment-author,#wpdcom .wpd-blog-editor .wpd-comment-author a{color:#d36000}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-editor .wpd-avatar img{border-color:#d36000}#wpdcom.wpd-layout-2 .wpd-comment.wpd-reply .wpd-comment-wrap.wpd-blog-editor{border-left:3px solid #d36000}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-editor .wpd-avatar img{border-bottom-color:#d36000}#wpdcom.wpd-layout-3 .wpd-blog-editor .wpd-comment-subheader{border-top:1px dashed #d36000}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-editor .wpd-comment-right{border-left:1px solid #d36000}#wpdcom .wpd-blog-localization_author .wpd-comment-label{color:#fff;background-color:#31839e;border:none}#wpdcom .wpd-blog-localization_author .wpd-comment-author,#wpdcom .wpd-blog-localization_author .wpd-comment-author a{color:#31839e}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-localization_author .wpd-avatar img{border-color:#31839e}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-localization_author .wpd-avatar img{border-bottom-color:#31839e}#wpdcom.wpd-layout-3 .wpd-blog-localization_author .wpd-comment-subheader{border-top:1px dashed #31839e}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-localization_author .wpd-comment-right{border-left:1px solid #31839e}#wpdcom .wpd-blog-subscriber .wpd-comment-label{color:#fff;background-color:#31839e;border:none}#wpdcom .wpd-blog-subscriber .wpd-comment-author,#wpdcom .wpd-blog-subscriber .wpd-comment-author a{color:#31839e}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-subscriber .wpd-avatar img{border-bottom-color:#31839e}#wpdcom.wpd-layout-3 .wpd-blog-subscriber .wpd-comment-subheader{border-top:1px dashed #31839e}#wpdcom .wpd-blog-subadministrator .wpd-comment-label{color:#fff;background-color:#31839e;border:none}#wpdcom .wpd-blog-subadministrator .wpd-comment-author,#wpdcom .wpd-blog-subadministrator .wpd-comment-author a{color:#31839e}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-subadministrator .wpd-avatar img{border-color:#31839e}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-subadministrator .wpd-avatar img{border-bottom-color:#31839e}#wpdcom.wpd-layout-3 .wpd-blog-subadministrator .wpd-comment-subheader{border-top:1px dashed #31839e}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-subadministrator .wpd-comment-right{border-left:1px solid #31839e}#wpdcom .wpd-blog-css_js_designer .wpd-comment-label{color:#fff;background-color:#00b38f;border:none}#wpdcom .wpd-blog-css_js_designer .wpd-comment-author,#wpdcom .wpd-blog-css_js_designer .wpd-comment-author a{color:#00b38f}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-css_js_designer .wpd-avatar img{border-color:#00b38f}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-css_js_designer .wpd-avatar img{border-bottom-color:#00b38f}#wpdcom.wpd-layout-3 .wpd-blog-css_js_designer .wpd-comment-subheader{border-top:1px dashed #00b38f}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-css_js_designer .wpd-comment-right{border-left:1px solid #00b38f}#wpdcom .wpd-blog-post_author .wpd-comment-label{color:#fff;background-color:#07b290;border:none}#wpdcom .wpd-blog-post_author .wpd-comment-author,#wpdcom .wpd-blog-post_author .wpd-comment-author a{color:#07b290}#wpdcom .wpd-blog-post_author .wpd-avatar img{border-color:#07b290}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-post_author .wpd-avatar img{border-color:#07b290}#wpdcom.wpd-layout-2 .wpd-comment.wpd-reply .wpd-comment-wrap.wpd-blog-post_author{border-left:3px solid #07b290}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-post_author .wpd-avatar img{border-bottom-color:#07b290}#wpdcom.wpd-layout-3 .wpd-blog-post_author .wpd-comment-subheader{border-top:1px dashed #07b290}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-post_author .wpd-comment-right{border-left:1px solid #07b290}#wpdcom .wpd-blog-guest .wpd-comment-label{color:#fff;background-color:#898989;border:none}#wpdcom .wpd-blog-guest .wpd-comment-author,#wpdcom .wpd-blog-guest .wpd-comment-author a{color:#898989}#wpdcom.wpd-layout-3 .wpd-blog-guest .wpd-comment-subheader{border-top:1px dashed #898989}#comments,#respond,.comments-area,#wpdcom{}#wpdcom .ql-editor>*{color:#777}#wpdcom .ql-editor::before{}#wpdcom .ql-toolbar{border:1px solid #ddd;border-top:none}#wpdcom .ql-container{border:1px solid #ddd;border-bottom:none}#wpdcom .wpd-form-row .wpdiscuz-item input[type=text],#wpdcom .wpd-form-row .wpdiscuz-item input[type=email],#wpdcom .wpd-form-row .wpdiscuz-item input[type=url],#wpdcom .wpd-form-row .wpdiscuz-item input[type=color],#wpdcom .wpd-form-row .wpdiscuz-item input[type=date],#wpdcom .wpd-form-row .wpdiscuz-item input[type=datetime],#wpdcom .wpd-form-row .wpdiscuz-item input[type=datetime-local],#wpdcom .wpd-form-row .wpdiscuz-item input[type=month],#wpdcom .wpd-form-row .wpdiscuz-item input[type=number],#wpdcom .wpd-form-row .wpdiscuz-item input[type=time],#wpdcom textarea,#wpdcom select{border:1px solid #ddd;color:#777}#wpdcom .wpd-form-row .wpdiscuz-item textarea{border:1px solid #ddd}#wpdcom input::placeholder,#wpdcom textarea::placeholder,#wpdcom input::-moz-placeholder,#wpdcom textarea::-webkit-input-placeholder{}#wpdcom .wpd-comment-text{color:#777}#wpdcom .wpd-thread-head .wpd-thread-info{border-bottom:2px solid #00b38f}#wpdcom .wpd-thread-head .wpd-thread-info.wpd-reviews-tab svg{fill:#00b38f}#wpdcom .wpd-thread-head .wpdiscuz-user-settings{border-bottom:2px solid #00b38f}#wpdcom .wpd-thread-head .wpdiscuz-user-settings:hover{color:#00b38f}#wpdcom .wpd-comment .wpd-follow-link:hover{color:#00b38f}#wpdcom .wpd-comment-status .wpd-sticky{color:#00b38f}#wpdcom .wpd-thread-filter .wpdf-active{color:#00b38f;border-bottom-color:#00b38f}#wpdcom .wpd-comment-info-bar{border:1px dashed #33c3a6;background:#e6f8f4}#wpdcom .wpd-comment-info-bar .wpd-current-view i{color:#00b38f}#wpdcom .wpd-filter-view-all:hover{background:#00b38f}#wpdcom .wpdiscuz-item .wpdiscuz-rating>label{color:#ddd}#wpdcom .wpdiscuz-item .wpdiscuz-rating:not(:checked)>label:hover,.wpdiscuz-rating:not(:checked)>label:hover~label{}#wpdcom .wpdiscuz-item .wpdiscuz-rating>input~label:hover,#wpdcom .wpdiscuz-item .wpdiscuz-rating>input:not(:checked)~label:hover~label,#wpdcom .wpdiscuz-item .wpdiscuz-rating>input:not(:checked)~label:hover~label{color:#ffed85}#wpdcom .wpdiscuz-item .wpdiscuz-rating>input:checked~label:hover,#wpdcom .wpdiscuz-item .wpdiscuz-rating>input:checked~label:hover,#wpdcom .wpdiscuz-item .wpdiscuz-rating>label:hover~input:checked~label,#wpdcom .wpdiscuz-item .wpdiscuz-rating>input:checked+label:hover~label,#wpdcom .wpdiscuz-item .wpdiscuz-rating>input:checked~label:hover~label,.wpd-custom-field .wcf-active-star,#wpdcom .wpdiscuz-item .wpdiscuz-rating>input:checked~label{color:gold}#wpd-post-rating .wpd-rating-wrap .wpd-rating-stars svg .wpd-star{fill:#ddd}#wpd-post-rating .wpd-rating-wrap .wpd-rating-stars svg .wpd-active{fill:gold}#wpd-post-rating .wpd-rating-wrap .wpd-rate-starts svg .wpd-star{fill:#ddd}#wpd-post-rating .wpd-rating-wrap .wpd-rate-starts:hover svg .wpd-star{fill:#ffed85}#wpd-post-rating.wpd-not-rated .wpd-rating-wrap .wpd-rate-starts svg:hover~svg .wpd-star{fill:#ddd}.wpdiscuz-post-rating-wrap .wpd-rating .wpd-rating-wrap .wpd-rating-stars svg .wpd-star{fill:#ddd}.wpdiscuz-post-rating-wrap .wpd-rating .wpd-rating-wrap .wpd-rating-stars svg .wpd-active{fill:gold}#wpdcom .wpd-comment .wpd-follow-active{color:#ff7a00}#wpdcom .page-numbers{color:#555;border:#555 1px solid}#wpdcom span.current{background:#555}#wpdcom.wpd-layout-1 .wpd-new-loaded-comment>.wpd-comment-wrap>.wpd-comment-right{background:#fffad6}#wpdcom.wpd-layout-2 .wpd-new-loaded-comment.wpd-comment>.wpd-comment-wrap>.wpd-comment-right{background:#fffad6}#wpdcom.wpd-layout-2 .wpd-new-loaded-comment.wpd-comment.wpd-reply>.wpd-comment-wrap>.wpd-comment-right{background:0 0}#wpdcom.wpd-layout-2 .wpd-new-loaded-comment.wpd-comment.wpd-reply>.wpd-comment-wrap{background:#fffad6}#wpdcom.wpd-layout-3 .wpd-new-loaded-comment.wpd-comment>.wpd-comment-wrap>.wpd-comment-right{background:#fffad6}#wpdcom .wpd-follow:hover i,#wpdcom .wpd-unfollow:hover i,#wpdcom .wpd-comment .wpd-follow-active:hover i{color:#00b38f}#wpdcom .wpdiscuz-readmore{cursor:pointer;color:#00b38f}.wpd-custom-field .wcf-pasiv-star,#wpcomm .wpdiscuz-item .wpdiscuz-rating>label{color:#ddd}.wpd-wrapper .wpd-list-item.wpd-active{border-top:3px solid #00b38f}#wpdcom.wpd-layout-2 .wpd-comment.wpd-reply.wpd-unapproved-comment .wpd-comment-wrap{border-left:3px solid #fffad6}#wpdcom.wpd-layout-3 .wpd-comment.wpd-reply.wpd-unapproved-comment .wpd-comment-right{border-left:1px solid #fffad6}#wpdcom .wpd-prim-button{background-color:#07b290;color:#fff}#wpdcom .wpd_label__check i.wpdicon-on{color:#07b290;border:1px solid #83d9c8}#wpd-bubble-wrapper #wpd-bubble-all-comments-count{color:#1db99a}#wpd-bubble-wrapper>div{background-color:#1db99a}#wpd-bubble-wrapper>#wpd-bubble #wpd-bubble-add-message{background-color:#1db99a}#wpd-bubble-wrapper>#wpd-bubble #wpd-bubble-add-message::before{border-left-color:#1db99a;border-right-color:#1db99a}#wpd-bubble-wrapper.wpd-right-corner>#wpd-bubble #wpd-bubble-add-message::before{border-left-color:#1db99a;border-right-color:#1db99a}.wpd-inline-icon-wrapper path.wpd-inline-icon-first{fill:#1db99a}.wpd-inline-icon-count{background-color:#1db99a}.wpd-inline-icon-count::before{border-right-color:#1db99a}.wpd-inline-form-wrapper::before{border-bottom-color:#1db99a}.wpd-inline-form-question{background-color:#1db99a}.wpd-inline-form{background-color:#1db99a}.wpd-last-inline-comments-wrapper{border-color:#1db99a}.wpd-last-inline-comments-wrapper::before{border-bottom-color:#1db99a}.wpd-last-inline-comments-wrapper .wpd-view-all-inline-comments{background:#1db99a}.wpd-last-inline-comments-wrapper .wpd-view-all-inline-comments:hover,.wpd-last-inline-comments-wrapper .wpd-view-all-inline-comments:active,.wpd-last-inline-comments-wrapper .wpd-view-all-inline-comments:focus{background-color:#1db99a}#wpdcom .ql-snow .ql-tooltip[data-mode=link]::before{content:"Wpisz link:"}#wpdcom .ql-snow .ql-tooltip.ql-editing a.ql-action::after{content:"Zapisz"}.comments-area{width:auto}</style><link rel=stylesheet id=wpdiscuz-fa-css href="../../blog/wp-content/plugins/wpdiscuz/assets/third-party/font-awesome-5.13.0/css/fa.min.css@ver=7.3.17.css" media=all><link rel=stylesheet id=wpdiscuz-combo-css-css href="../../blog/wp-content/plugins/wpdiscuz/assets/css/wpdiscuz-combo-no_quill.min.css@ver=4084444bfee884f6024e8b1b3cfa6cdd.css" media=all><link rel=stylesheet id=parent-style-css href="../../blog/wp-content/themes/septera/style.css@ver=4084444bfee884f6024e8b1b3cfa6cdd.css" media=all><link rel=stylesheet id=septera-themefonts-css href="../../blog/wp-content/themes/septera/resources/fonts/fontfaces.css@ver=1.5.1.css" media=all><link rel=stylesheet id=septera-googlefonts-css href="../../blog/wp-content/uploads/omgf/septera-googlefonts/septera-googlefonts.css@ver=1700504504.css" media=all><link rel=stylesheet id=septera-main-css href="../../blog/wp-content/themes/septera-child/style.css@ver=1.5.1.css" media=all><style id=septera-main-inline-css>body:not(.septera-landing-page) #container,#site-header-main-inside,#colophon-inside,#footer-inside,#breadcrumbs-container-inside{margin:0 auto;max-width:1920px}#site-header-main{left:0;right:0}#primary{width:200px}#secondary{width:200px}#container.one-column .main{width:100%}#container.two-columns-right #secondary{float:right}#container.two-columns-right .main,.two-columns-right #breadcrumbs{width:calc( 100% - 200px );float:left}#container.two-columns-left #primary{float:left}#container.two-columns-left .main,.two-columns-left #breadcrumbs{width:calc( 100% - 200px );float:right}#container.three-columns-right #primary,#container.three-columns-left #primary,#container.three-columns-sided #primary{float:left}#container.three-columns-right #secondary,#container.three-columns-left #secondary,#container.three-columns-sided #secondary{float:left}#container.three-columns-right #primary,#container.three-columns-left #secondary{margin-left:0%;margin-right:0%}#container.three-columns-right .main,.three-columns-right #breadcrumbs{width:calc( 100% - 400px );float:left}#container.three-columns-left .main,.three-columns-left #breadcrumbs{width:calc( 100% - 400px );float:right}#container.three-columns-sided #secondary{float:right}#container.three-columns-sided .main,.three-columns-sided #breadcrumbs{width:calc( 100% - 400px );float:right}.three-columns-sided #breadcrumbs{margin:0 calc( 0% + 200px )0 -1920px}html{font-family:Open Sans;font-size:14px;font-weight:400;line-height:1.6}#site-title{font-family:Open Sans;font-size:120%;font-weight:700}#access ul li a{font-family:Open Sans;font-size:90%;font-weight:700}.widget-title{font-family:Open Sans;font-size:100%;font-weight:700}.widget-container{font-family:Open Sans;font-size:100%;font-weight:400}.entry-title,#reply-title{font-family:Open Sans;font-size:200%;font-weight:400}.entry-title.singular-title{font-size:200%}.content-masonry .entry-title{font-size:124%}h1{font-size:2.3em}h2{font-size:2em}h3{font-size:1.7em}h4{font-size:1.4em}h5{font-size:1.1em}h6{font-size:.8em}h1,h2,h3,h4,h5,h6{font-family:Open Sans;font-weight:700}body{color:#2d3140;background-color:#d6d6d6}@media(min-width:1152px){.septera-over-menu #site-title a,.septera-over-menu #access>div>ul>li,.septera-over-menu #access>div>ul>li>a,.septera-over-menu #sheader.socials a::before{color:#fff}.septera-landing-page.septera-over-menu #site-title a,.septera-landing-page.septera-over-menu #access>div>ul>li,.septera-landing-page.septera-over-menu #access>div>ul>li>a,.septera-landing-page.septera-over-menu #sheader.socials a::before{color:#fff}}.lp-staticslider .staticslider-caption-title,.seriousslider.seriousslider-theme .seriousslider-caption-title,.lp-staticslider .staticslider-caption-text,.seriousslider.seriousslider-theme .seriousslider-caption-text,.lp-staticslider .staticslider-caption-text a{color:#fff}#site-header-main,#access ul ul,.menu-search-animated .searchform input[type=search],#access::after,.septera-over-menu .header-fixed#site-header-main,.septera-over-menu .header-fixed#site-header-main #access:after{background-color:#fff}.septera-over-menu .header-fixed#site-header-main #site-title a{color:#365da0}#access>div>ul>li,#access>div>ul>li>a,.septera-over-menu .header-fixed#site-header-main #access>div>ul>li:not([class*=current]),.septera-over-menu .header-fixed#site-header-main #access>div>ul>li:not([class*=current])>a,.septera-over-menu .header-fixed#site-header-main #sheader.socials a::before,#sheader.socials a::before,#mobile-menu{color:#365da0}#access ul.sub-menu li a,#access ul.children li a{color:#888}#access ul.sub-menu li a,#access ul.children li a{background-color:#fff}#access>div>ul>li a:hover,#access>div>ul>li:hover,.septera-over-menu .header-fixed#site-header-main #access>div>ul>li>a:hover,.septera-over-menu .header-fixed#site-header-main #access>div>ul>li:hover,.septera-over-menu .header-fixed#site-header-main #sheader.socials a:hover::before,#sheader.socials a:hover::before{color:#365da0}#access>div>ul>li.current_page_item>a,#access>div>ul>li.current-menu-item>a,#access>div>ul>li.current_page_ancestor>a,#access>div>ul>li.current-menu-ancestor>a,#access .sub-menu,#access .children,.septera-over-menu .header-fixed#site-header-main #access>div>ul>li>a{color:#96bbe0}#access ul.children>li.current_page_item>a,#access ul.sub-menu>li.current-menu-item>a,#access ul.children>li.current_page_ancestor>a,#access ul.sub-menu>li.current-menu-ancestor>a{color:#96bbe0}.searchform .searchsubmit{color:#2d3140}.searchform:hover input[type=search],.searchform input[type=search]:focus{border-color:#365da0}body:not(.septera-landing-page) .main,#lp-posts,#lp-page,.searchform{background-color:#fff}.pagination span,.pagination a{background-color:#f3f3f3}#breadcrumbs-container{border-bottom-color:#eee;background-color:#fff}#primary{background-color:#d6d6d6}#secondary{background-color:#d6d6d6}#colophon,#footer{background-color:#d6d6d6;color:#2d3140}.entry-title a:active,.entry-title a:hover{color:#365da0}span.entry-format{color:#365da0}.format-aside{border-top-color:#fff}article.hentry .post-thumbnail-container{background-color:rgba(45,49,64,.15)}article.hentry .post-thumbnail-container a::after{background-color:#365da0}.entry-content blockquote::before,.entry-content blockquote::after{color:rgba(45,49,64,.2)}.entry-content h1,.entry-content h2,.entry-content h3,.entry-content h4,.lp-text-content h1,.lp-text-content h2,.lp-text-content h3,.lp-text-content h4,.entry-title{color:#2d3140}a{color:#365da0}a:hover,.entry-meta span a:hover,.comments-link a:hover{color:#96bbe0}.entry-meta span.comments-link{top:.62em}.continue-reading-link{color:#365da0;background-color:#f5f5f5}.continue-reading-link:hover{color:#96bbe0}.socials a:before{color:#365da0}.socials a:hover:before{color:#96bbe0}.septera-normalizedtags #content .tagcloud a{color:#fff;background-color:#365da0}.septera-normalizedtags #content .tagcloud a:hover{background-color:#96bbe0}#toTop{background-color:rgba(189,189,189,.8);color:#365da0}#toTop:hover{background-color:#365da0;color:#d6d6d6}.entry-meta .icon-metas:before{color:#000}.septera-caption-one .main .wp-caption .wp-caption-text{border-bottom-color:#eee}.septera-caption-two .main .wp-caption .wp-caption-text{background-color:#f5f5f5}.septera-image-one .entry-content img[class*=align],.septera-image-one .entry-summary img[class*=align],.septera-image-two .entry-content img[class*=align],.septera-image-two .entry-summary img[class*=align]{border-color:#eee}.septera-image-five .entry-content img[class*=align],.septera-image-five .entry-summary img[class*=align]{border-color:#365da0}span.edit-link a.post-edit-link,span.edit-link a.post-edit-link:hover,span.edit-link .icon-edit:before{color:#727685}.searchform{border-color:#ebebeb}.entry-meta span,.entry-meta a,.entry-utility span,.entry-utility a,.entry-meta time,#breadcrumbs-nav,.footermenu ul li span.sep{color:#000}.entry-meta span.entry-sticky{background-color:#000;color:#fff}#footer-separator{background:#c7c7c7}#commentform{max-width:1e3px}code,#nav-below .nav-previous a:before,#nav-below .nav-next a:before{background-color:#eee}pre,.page-link>span,.comment-author,.commentlist .comment-body,.commentlist .pingback{border-color:#eee}.page-header.pad-container,#author-info{background-color:#f5f5f5}.comment-meta a{color:#000}.commentlist .reply a{color:#000}select,input[type],textarea{color:#2d3140;border-color:#f0f0f0}input[type]:hover,textarea:hover,select:hover,input[type]:focus,textarea:focus,select:focus{background:#f0f0f0}button,input[type=button],input[type=submit],input[type=reset]{background-color:#365da0;color:#fff}button:hover,input[type=button]:hover,input[type=submit]:hover,input[type=reset]:hover{background-color:#96bbe0}hr{background-color:#f0f0f0}.wp-block-image.alignwide{margin-left:calc( ( 0% + 2.5em ) * -1 );margin-right:calc( ( 0% + 2.5em ) * -1 )}.wp-block-image.alignwide img{width:calc( 100% + 5em );max-width:calc( 100% + 5em )}.has-accent-1-color,.has-accent-1-color:hover{color:#365da0}.has-accent-2-color,.has-accent-2-color:hover{color:#96bbe0}.has-headings-color,.has-headings-color:hover{color:#2d3140}.has-sitetext-color,.has-sitetext-color:hover{color:#2d3140}.has-sitebg-color,.has-sitebg-color:hover{color:#fff}.has-accent-1-background-color{background-color:#365da0}.has-accent-2-background-color{background-color:#96bbe0}.has-headings-background-color{background-color:#2d3140}.has-sitetext-background-color{background-color:#2d3140}.has-sitebg-background-color{background-color:#fff}.has-small-font-size{font-size:8px}.has-regular-font-size{font-size:14px}.has-large-font-size{font-size:22px}.has-larger-font-size{font-size:35px}.has-huge-font-size{font-size:35px}.woocommerce-page #respond input#submit.alt,.woocommerce a.button.alt,.woocommerce-page button.button.alt,.woocommerce input.button.alt,.woocommerce #respond input#submit,.woocommerce a.button,.woocommerce button.button,.woocommerce input.button{background-color:#365da0;color:#fff;line-height:1.6}.woocommerce #respond input#submit:hover,.woocommerce a.button:hover,.woocommerce button.button:hover,.woocommerce input.button:hover{background-color:#587fc2;color:#fff}.woocommerce-page #respond input#submit.alt,.woocommerce a.button.alt,.woocommerce-page button.button.alt,.woocommerce input.button.alt{background-color:#96bbe0;color:#fff;line-height:1.6}.woocommerce-page #respond input#submit.alt:hover,.woocommerce a.button.alt:hover,.woocommerce-page button.button.alt:hover,.woocommerce input.button.alt:hover{background-color:#b8ddff;color:#fff}.woocommerce div.product .woocommerce-tabs ul.tabs li.active{border-bottom-color:#fff}.woocommerce #respond input#submit.alt.disabled,.woocommerce #respond input#submit.alt.disabled:hover,.woocommerce #respond input#submit.alt:disabled,.woocommerce #respond input#submit.alt:disabled:hover,.woocommerce #respond input#submit.alt[disabled]:disabled,.woocommerce #respond input#submit.alt[disabled]:disabled:hover,.woocommerce a.button.alt.disabled,.woocommerce a.button.alt.disabled:hover,.woocommerce a.button.alt:disabled,.woocommerce a.button.alt:disabled:hover,.woocommerce a.button.alt[disabled]:disabled,.woocommerce a.button.alt[disabled]:disabled:hover,.woocommerce button.button.alt.disabled,.woocommerce button.button.alt.disabled:hover,.woocommerce button.button.alt:disabled,.woocommerce button.button.alt:disabled:hover,.woocommerce button.button.alt[disabled]:disabled,.woocommerce button.button.alt[disabled]:disabled:hover,.woocommerce input.button.alt.disabled,.woocommerce input.button.alt.disabled:hover,.woocommerce input.button.alt:disabled,.woocommerce input.button.alt:disabled:hover,.woocommerce input.button.alt[disabled]:disabled,.woocommerce input.button.alt[disabled]:disabled:hover{background-color:#96bbe0}.woocommerce ul.products li.product .price,.woocommerce div.product p.price,.woocommerce div.product span.price{color:#00000e}#add_payment_method #payment,.woocommerce-cart #payment,.woocommerce-checkout #payment{background:#f5f5f5}.woocommerce .main .page-title{}nav#mobile-menu{background-color:#fff}#mobile-menu .mobile-arrow{color:#2d3140}.main .entry-content,.main .entry-summary{text-align:inherit}.main p,.main ul,.main ol,.main dd,.main pre,.main hr{margin-bottom:1em}.main p{text-indent:0}.main a.post-featured-image{background-position:50%}#header-widget-area{width:33%;right:10px}.septera-stripped-table .main thead th,.septera-bordered-table .main thead th,.septera-stripped-table .main td,.septera-stripped-table .main th,.septera-bordered-table .main th,.septera-bordered-table .main td{border-color:#e9e9e9}.septera-clean-table .main th,.septera-stripped-table .main tr:nth-child(even) td,.septera-stripped-table .main tr:nth-child(even) th{background-color:#f6f6f6}article.hentry .article-inner,#content-masonry article.hentry .article-inner{padding:0%}#site-header-main{height:50px}#access .menu-search-animated .searchform{top:52px}.menu-search-animated,#sheader,.identity,#nav-toggle{height:50px;line-height:50px}#access div>ul>li>a{line-height:50px}#branding{height:50px}#header-widget-area{top:60px}.septera-responsive-headerimage #masthead #header-image-main-inside{max-height:10px}.septera-cropped-headerimage #masthead div.header-image{height:10px}#site-description{display:block}#masthead #site-header-main{position:fixed}.septera-fixed-menu #header-image-main{margin-top:50px}.lp-staticslider .staticslider-caption-text a{border-color:#fff}.lp-staticslider .staticslider-caption,.seriousslider.seriousslider-theme .seriousslider-caption,.septera-landing-page .lp-blocks-inside,.septera-landing-page .lp-boxes-inside,.septera-landing-page .lp-text-inside,.septera-landing-page .lp-posts-inside,.septera-landing-page .lp-page-inside,.septera-landing-page .lp-section-header,.septera-landing-page .content-widget{max-width:1920px}.septera-landing-page .content-widget{margin:0 auto}.seriousslider-theme .seriousslider-caption-buttons a:nth-child(2n+1),a.staticslider-button:nth-child(2n+1){color:#2d3140;border-color:#fff;background-color:#fff}.seriousslider-theme .seriousslider-caption-buttons a:nth-child(2n+1):hover,a.staticslider-button:nth-child(2n+1):hover{color:#fff}.seriousslider-theme .seriousslider-caption-buttons a:nth-child(2n),a.staticslider-button:nth-child(2n){border-color:#fff;color:#fff}.seriousslider-theme .seriousslider-caption-buttons a:nth-child(2n):hover,.staticslider-button:nth-child(2n):hover{color:#2d3140;background-color:#fff}.lp-staticslider::before,.lp-dynamic-slider .item>a::before,#header-image-main::before{background-color:#24a7cf}.lp-staticslider::before,.lp-dynamic-slider .item>a::before,#header-image-main::before{z-index:2}.lp-staticslider-image,.header-image,.seriousslider .item-image{-webkit-filter:grayscale(75%)brightness(110%);filter:grayscale(75%)brightness(110%)}@-webkit-keyframes animation-slider-overlay{to{opacity:.75}}@keyframes animation-slider-overlay{to{opacity:.75}}.lp-dynamic-slider .item>a::before{opacity:.75}.lp-blocks{background-color:#fff}.lp-boxes{background-color:#fff}.lp-text{background-color:#f8f8f8}.staticslider-caption-container,.lp-dynamic-slider{background-color:#fff}.lp-block>i::before{color:#365da0}.lp-block:hover i::before{color:#96bbe0}.lp-block i::after{background-color:#365da0}.lp-blocks .lp-block:hover .lp-block-title{color:#365da0}.lp-blocks .lp-block:hover i::after{background-color:#96bbe0}.lp-block-text,.lp-boxes-static .lp-box-text,.lp-section-desc{color:#050918}.lp-boxes .lp-box .lp-box-image{height:300px}.lp-boxes.lp-boxes-animated .lp-box:hover .lp-box-text{max-height:200px}.lp-boxes .lp-box .lp-box-image{height:400px}.lp-boxes.lp-boxes-animated .lp-box:hover .lp-box-text{max-height:300px}.lp-boxes-animated .lp-box-readmore:hover{color:#365da0;opacity:.7}.lp-boxes-static .lp-box-overlay{background-color:rgba(54,93,160,.9)}#cryout_ajax_more_trigger{background-color:#365da0;color:#fff}.lpbox-rnd1{background-color:#c8c8c8}.lpbox-rnd2{background-color:#c3c3c3}.lpbox-rnd3{background-color:#bebebe}.lpbox-rnd4{background-color:#b9b9b9}.lpbox-rnd5{background-color:#b4b4b4}.lpbox-rnd6{background-color:#afafaf}.lpbox-rnd7{background-color:#aaa}.lpbox-rnd8{background-color:#a5a5a5}</style><link rel=https://api.w.org/ href=https://www.learncpp.com/wp-json/><link rel=alternate type=application/json href=https://www.learncpp.com/wp-json/wp/v2/posts/9369><link rel=canonical href="index.html"><link rel=alternate type=application/json+oembed href="https://www.learncpp.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Flambda-captures%2F"><link rel=alternate type=text/xml+oembed href="https://www.learncpp.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Flambda-captures%2F&amp;format=xml"><link rel=stylesheet id=18062-css href="../../blog/wp-content/uploads/custom-css-js/18062.css@v=430.css" media=all><link rel=icon href="../../blog/wp-content/uploads/learncpp.png" sizes=32x32><link rel=icon href="../../blog/wp-content/uploads/learncpp.png" sizes=192x192><link rel=apple-touch-icon href="../../blog/wp-content/uploads/learncpp.png"><meta name=msapplication-TileImage content="https://www.learncpp.com/blog/wp-content/uploads/learncpp.png"><style>div.printOnly{margin-left:3em}</style><style media=screen>.printOnly{display:none}</style>
+<style id="offline-fix">#site-wrapper{display:block !important;visibility:visible !important;}#container,#content,#main,.main,article.hentry{visibility:visible !important;opacity:1 !important;}.ai-list-data,.lessontables,.lessontables-visible{display:block !important;visibility:visible !important;opacity:1 !important;}.animated-article{opacity:1 !important;transform:none !important;animation:none !important;}.code-block,.cf_monitor,.adsbygoogle,[id^="ezoic-pub-ad-placeholder-"],[class*="ezoic-adpicker-ad"]{display:none !important;width:0 !important;height:0 !important;margin:0 !important;padding:0 !important;overflow:hidden !important;}body{overflow:auto !important;}</style></head><body class="post-template-default single single-post postid-9369 single-format-standard wp-custom-logo wp-embed-responsive septera-image-none septera-caption-one septera-totop-normal septera-bordered-table septera-fixed-menu septera-responsive-headerimage septera-responsive-featured septera-magazine-two septera-magazine-layout septera-comment-placeholder septera-normalizedtags septera-article-animation-slide" itemscope itemtype=http://schema.org/WebPage><div id=site-wrapper><header id=masthead class=cryout itemscope itemtype=http://schema.org/WPHeader role=banner><div id=site-header-main><div id=site-header-main-inside><nav id=mobile-menu><span id=nav-cancel><i class=icon-cancel></i></span><div><ul id=mobile-nav><li id=menu-item-9876 class="menu-item menu-item-type- menu-item-object- menu-item-has-children menu-item-9876"><a><span>Nawiguj</span></a><ul class=sub-menu><li id=menu-item-1009876 class="menu-item menu-item-type- menu-item-object- menu-item-1009876"><a href="../chapter-20-summary-and-quiz/index.html"><span><i class="cpp_menu _mi _before fa fa-chevron-circle-right"></i>20.x — podsumowanie rozdziału 20 i quiz</span></a><li class="menu-item menu-item-type- menu-item-object- menu-item-1009876"><a href="https://www.learncpp.com/"><span><i class="cpp_menu _mi _before fa fa-home"></i>Spis treści</span></a><li class="menu-item menu-item-type- menu-item-object- menu-item-1009876"><a href="../introduction-to-lambdas-anonymous-functions/index.html"><span><i class="cpp_menu _mi _before fa fa-chevron-circle-left"></i>20.6 — Wprowadzenie do lambd (funkcji anonimowych)</span></a></ul><li id=menu-item-6312 class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6312"><a href=https://www.learncpp.com/learn-cpp-site-index/><span><i class="_mi _before fa fa-crosshairs" aria-hidden=true></i><span>Indeks witryny</span></span></a><li id=menu-item-12722 class="menu-item menu-item-type-post_type menu-item-object-page menu-item-12722"><a href=https://www.learncpp.com/latest-changes/><span><i class="_mi _before fa fa-list" aria-hidden=true></i><span>Najnowsze zmiany</span></span></a><li id=menu-item-6313 class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-6313"><a href=https://www.learncpp.com/about/><span>O </span></a><ul class=sub-menu><li id=menu-item-12083 class="menu-item menu-item-type-post_type menu-item-object-post menu-item-12083"><a href=https://www.learncpp.com/leave-feedback-report-issue/><span><i class="_mi _before fa fa-comment" aria-hidden=true></i><span>Wystaw opinię</span></span></a><li id=menu-item-11706 class="menu-item menu-item-type-post_type menu-item-object-post menu-item-11706"><a href=https://www.learncpp.com/leave-feedback-report-issue/><span><i class="_mi _before fa fa-bug" aria-hidden=true></i><span>Zgłoś problem</span></span></a><li id=menu-item-11707 class="menu-item menu-item-type-post_type menu-item-object-page menu-item-11707"><a href=https://www.learncpp.com/about/><span><i class="_mi _before dashicons dashicons-welcome-write-blog" aria-hidden=true></i><span>Kontakt / wsparcie</span></span></a><li id=menu-item-11705 class="menu-item menu-item-type-custom menu-item-object-custom menu-item-11705"><a href="../introduction-to-these-tutorials.html#FAQ"><span><i class="_mi _before fa fa-question-circle" aria-hidden=true></i><span>Często zadawane pytania dotyczące witryny</span></span></a><li id=menu-item-17734 class="menu-item menu-item-type-custom menu-item-object-custom menu-item-17734"><a href=https://g.ezoic.net/privacy/learncpp.com><span><i class="_mi _before fa fa-bed" aria-hidden=true></i><span>Polityka prywatności</span></span></a><li id=menu-item-16006 class="menu-item menu-item-type-post_type menu-item-object-page menu-item-16006"><a href=https://www.learncpp.com/about/><span><i class="_mi _before fa fa-smile-o" aria-hidden=true></i><span>Przekaż darowiznę</span></span></a></ul><li id=menu-item-12082 class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12082"><a title="LearnCPP nie ma natywnego trybu ciemnego, ale ten link przeniesie Cię do wtyczki przeglądarki, która pozwoli Ci przyciemnić dowolną stronę internetową." target=_blank rel=noopener href=https://darkreader.org/><span><i class="_mi _before fa fa-moon-o" aria-hidden=true></i><span> </span></span></a><li class="menu-main-search menu-search-animated"><a role=link "https://www.learncpp.com/cpp-tutorial/lambda-captures/href"><i class=icon-search></i><span class=screen-reader-text>Szukaj</span></a><form apbct-form-sign=native_search role=search class=searchform action=https://www.learncpp.com/><label><span class=screen-reader-text>Szukaj:</span>
+<input type=search class=s placeholder=Search name=s></label>
+<button class=searchsubmit><span class=screen-reader-text>Szukaj</span><i class=icon-search></i></button>
+<input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=81746></form></ul></div></nav><div id=branding><div class=identity><a href=https://www.learncpp.com/ id=logo class=custom-logo-link title="Naucz się C++" rel=home><img src="../../blog/wp-content/uploads/learncpp.png" class=custom-logo alt="Naucz się C++"></a></div><div id=site-text><div itemprop=headline id=site-title><span><a href=https://www.learncpp.com/ title="Zdobądź umiejętności dzięki naszym darmowym samouczkom" rel=home>Naucz się C++</a></span></div><span id=site-description itemprop=description>Zdobądź umiejętności dzięki naszym darmowym samouczkom</span></div></div><a id=nav-toggle><i class=icon-menu></i></a><nav id=access role=navigation aria-label="Menu główne" itemscope itemtype=http://schema.org/SiteNavigationElement><div class="skip-link screen-reader-text"><a href="index.html#main" title="Przejdź do treść">Przejdź do treść</a></div><div><ul id=prime_nav><li class="menu-item menu-item-type- menu-item-object- menu-item-has-children menu-item-9876"><a><span>Nawiguj</span></a><ul class=sub-menu><li class="menu-item menu-item-type- menu-item-object- menu-item-1009876"><a href="../chapter-20-summary-and-quiz/index.html"><span><i class="cpp_menu _mi _before fa fa-chevron-circle-right"></i>20.x — podsumowanie rozdziału 20 i quiz</span></a><li class="menu-item menu-item-type- menu-item-object- menu-item-1009876"><a href="https://www.learncpp.com/"><span><i class="cpp_menu _mi _before fa fa-home"></i>Spis treści</span></a><li class="menu-item menu-item-type- menu-item-object- menu-item-1009876"><a href="../introduction-to-lambdas-anonymous-functions/index.html"><span><i class="cpp_menu _mi _before fa fa-chevron-circle-left"></i>20.6 — Wprowadzenie do lambd (funkcji anonimowych)</span></a></ul><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6312"><a href=https://www.learncpp.com/learn-cpp-site-index/><span><i class="_mi _before fa fa-crosshairs" aria-hidden=true></i><span>Indeks witryny</span></span></a><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-12722"><a href=https://www.learncpp.com/latest-changes/><span><i class="_mi _before fa fa-list" aria-hidden=true></i><span>Najnowsze zmiany</span></span></a><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-6313"><a href=https://www.learncpp.com/about/><span>O </span></a><ul class=sub-menu><li class="menu-item menu-item-type-post_type menu-item-object-post menu-item-12083"><a href=https://www.learncpp.com/leave-feedback-report-issue/><span><i class="_mi _before fa fa-comment" aria-hidden=true></i><span>Wystaw opinię</span></span></a><li class="menu-item menu-item-type-post_type menu-item-object-post menu-item-11706"><a href=https://www.learncpp.com/leave-feedback-report-issue/><span><i class="_mi _before fa fa-bug" aria-hidden=true></i><span>Zgłoś problem</span></span></a><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-11707"><a href=https://www.learncpp.com/about/><span><i class="_mi _before dashicons dashicons-welcome-write-blog" aria-hidden=true></i><span>Kontakt / wsparcie</span></span></a><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-11705"><a href="../introduction-to-these-tutorials.html#FAQ"><span><i class="_mi _before fa fa-question-circle" aria-hidden=true></i><span>Często zadawane pytania dotyczące witryny</span></span></a><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-17734"><a href=https://g.ezoic.net/privacy/learncpp.com><span><i class="_mi _before fa fa-bed" aria-hidden=true></i><span>Polityka prywatności</span></span></a><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-16006"><a href=https://www.learncpp.com/about/><span><i class="_mi _before fa fa-smile-o" aria-hidden=true></i><span>Przekaż darowiznę</span></span></a></ul><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12082"><a title="LearnCPP nie ma natywnego trybu ciemnego, ale ten link przeniesie Cię do wtyczki przeglądarki, która pozwoli Ci przyciemnić dowolną stronę internetową." target=_blank rel=noopener href=https://darkreader.org/><span><i class="_mi _before fa fa-moon-o" aria-hidden=true></i><span> </span></span></a><li class="menu-main-search menu-search-animated"><a role=link "https://www.learncpp.com/cpp-tutorial/lambda-captures/href"><i class=icon-search></i><span class=screen-reader-text>Szukaj</span></a><form apbct-form-sign=native_search role=search class=searchform action=https://www.learncpp.com/><label><span class=screen-reader-text>Szukaj:</span>
+<input type=search class=s placeholder=Search name=s></label>
+<button class=searchsubmit><span class=screen-reader-text>Szukaj</span><i class=icon-search></i></button>
+<input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=71333></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="20.7 — Przechwytywanie lambda" src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-9369 class="post-9369 post type-post status-publish format-standard hentry category-cpp-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>20.7 — Przechwytywanie lambda</h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Autor></i><a class="url fn n" rel=author href=https://www.learncpp.com/author/nascardriver/ title="Wyświetl wszystkie posty nascarddriver" itemprop=url><em itemprop=name>nascardriver</em></a></span>
+<span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2020-01-03T05:19:38-08:00 itemprop=datePublished>3 stycznia 2020, 5:19 czasu PST</time>
+<time class=updated datetime=2024-12-04T19:00:02-08:00 itemprop=dateModified>4 grudnia 2024 r.</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p><br><p class=cpp-section>Klauzule przechwytywania i przechwytywanie według wartości<p><p>W poprzedniej lekcji (<a href="../introduction-to-lambdas-anonymous-functions/index.html">20.6 -- Wprowadzenie do lambd (funkcji anonimowych)</a>), przedstawiliśmy ten przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;algorithm&gt;
+#include &lt;array&gt;
+#include &lt;iostream&gt;
+#include &lt;string_view&gt;
+
+int main()
+{
+  std::array&lt;std::string_view, 4&gt; arr{ &#34;apple&#34;, &#34;banana&#34;, &#34;walnut&#34;, &#34;lemon&#34; };
+
+  auto found{ std::find_if(arr.begin(), arr.end(),
+                           [](std::string_view str)
+                           {
+                             return str.find(&#34;nut&#34;) != std::string_view::npos;
+                           }) };
+
+  if (found == arr.end())
+  {
+    std::cout &lt;&lt; &#34;No nuts\n&#34;;
+  }
+  else
+  {
+    std::cout &lt;&lt; &#34;Found &#34; &lt;&lt; *found &lt;&lt; &#39;\n&#39;;
+  }
+
+  return 0;
+}</code></pre><p>Teraz zmodyfikujmy przykład nakrętki i pozwól użytkownikowi wybrać podciąg do wyszukania. To nie jest tak intuicyjne, jak można by się spodziewać.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;algorithm&gt;
+#include &lt;array&gt;
+#include &lt;iostream&gt;
+#include &lt;string_view&gt;
+#include &lt;string&gt;
+
+int main()
+{
+  std::array&lt;std::string_view, 4&gt; arr{ &#34;apple&#34;, &#34;banana&#34;, &#34;walnut&#34;, &#34;lemon&#34; };
+
+  // Ask the user what to search for.
+  std::cout &lt;&lt; &#34;search for: &#34;;
+
+  std::string search{};
+  std::cin &gt;&gt; search;
+
+  auto found{ std::find_if(arr.begin(), arr.end(), [](std::string_view str) {
+    // Search for @search rather than &#34;nut&#34;.
+    return str.find(search) != std::string_view::npos; // Error: search not accessible in this scope
+  }) };
+
+  if (found == arr.end())
+  {
+    std::cout &lt;&lt; &#34;Not found\n&#34;;
+  }
+  else
+  {
+    std::cout &lt;&lt; &#34;Found &#34; &lt;&lt; *found &lt;&lt; &#39;\n&#39;;
+  }
+
+  return 0;
+}</code></pre><p>Ten kod nie zostanie skompilowany. W przeciwieństwie do bloków zagnieżdżonych, gdzie dowolny identyfikator dostępny w bloku zewnętrznym jest dostępny w bloku zagnieżdżonym, wyrażenia lambda mogą uzyskać dostęp tylko do niektórych rodzajów obiektów, które zostały zdefiniowane poza lambdą. Obejmuje to:<ul><li>Obiekty o statycznym (lub lokalnym wątku) czasie przechowywania (w tym zmienne globalne i statyczne lokalne)<li>Obiekty, które są constexpr (jawnie lub pośrednio)</ul><p>Ponieważ <code>search</code> nie spełniają żadnego z tych wymagań, lambda ich nie widzi.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>Lambda może uzyskać dostęp tylko do niektórych rodzajów obiektów, które zostały zdefiniowane poza lambdą, w tym do tych z czas trwania przechowywania statycznego (np. zmienne globalne i statyczne lokalne) oraz obiekty constexpr.</div><p>Aby uzyskać dostęp <code>search</code> z poziomu lambdy, będziemy musieli użyć klauzuli przechwytywania.<p class="cpp-section cpp-topline" style=clear:both>Klauzula przechwytywania<p>Klasa <strong>klauzula przechwytywania</strong> jest używana do (pośredniego) zapewnienia lambdzie dostępu do zmiennych dostępnych w otaczającym zakresie, tak jak zwykle nie mieć dostępu do. Wszystko, co musimy zrobić, to wyświetlić listę jednostek, do których chcemy uzyskać dostęp, z poziomu lambda w ramach klauzuli przechwytywania. W tym przypadku chcemy dać naszej lambdzie dostęp do wartości zmiennej <code>search</code>, więc dodajemy ją do klauzuli przechwytywania:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;algorithm&gt;
+#include &lt;array&gt;
+#include &lt;iostream&gt;
+#include &lt;string_view&gt;
+#include &lt;string&gt;
+
+int main()
+{
+  std::array&lt;std::string_view, 4&gt; arr{ &#34;apple&#34;, &#34;banana&#34;, &#34;walnut&#34;, &#34;lemon&#34; };
+
+  std::cout &lt;&lt; &#34;search for: &#34;;
+
+  std::string search{};
+  std::cin &gt;&gt; search;
+
+  // Capture @search                                vvvvvv
+  auto found{ std::find_if(arr.begin(), arr.end(), [search](std::string_view str) {
+    return str.find(search) != std::string_view::npos;
+  }) };
+
+  if (found == arr.end())
+  {
+    std::cout &lt;&lt; &#34;Not found\n&#34;;
+  }
+  else
+  {
+    std::cout &lt;&lt; &#34;Found &#34; &lt;&lt; *found &lt;&lt; &#39;\n&#39;;
+  }
+
+  return 0;
+}</code></pre><p>Użytkownik może teraz wyszukiwać element naszej tablicy.<p>Wyjście<pre>search for: nana
+Found banana
+</pre><p class="cpp-section cpp-topline" style=clear:both>Jak więc właściwie działają przechwytywania?<p>Chociaż może wyglądać na to, że nasza lambda w powyższym przykładzie uzyskuje bezpośredni dostęp do wartości <code>main</code>'S <code>search</code> zmiennej, to tak nie jest. Lambdy mogą wyglądać jak zagnieżdżone bloki, ale działają nieco inaczej (a rozróżnienie jest ważne).<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Gdy wykonywana jest definicja lambdy, dla każdej zmiennej przechwytywanej przez lambdę tworzony jest klon tej zmiennej (o identycznej nazwie) wewnątrz lambdy. Te sklonowane zmienne są inicjowane w tym momencie ze zmiennych zakresu zewnętrznego o tej samej nazwie.<p>Tak więc w powyższym przykładzie, gdy tworzony jest obiekt lambda, lambda otrzymuje własną sklonowaną zmienną o nazwie <code>search</code>. Sklonowana <code>search</code> ma tę samą wartość co  <code>main</code>'S <code>search</code>, więc zachowuje się, jakbyśmy uzyskiwali dostęp do <code>main</code>'S <code>search</code>, ale tak nie jest.<p>Chociaż te sklonowane zmienne mają tę samą nazwę, niekoniecznie mają ten sam typ co zmienna oryginalna. Zbadamy to w kolejnych częściach tej lekcji.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Przechwycone zmienne lambdy są <em>kopiami</em> zmiennych o zewnętrznym zasięgu, a nie rzeczywistych zmiennych.</div><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Dla zaawansowanych czytelników<p>Chociaż lambdy wyglądają jak funkcje, w rzeczywistości są obiektami, które można nazwać funkcjami (są to zwane <strong>funktorami</strong> -- w przyszłej lekcji omówimy, jak utworzyć własne funktory od podstaw).<p>Kiedy kompilator napotyka definicję lambda, tworzy niestandardową definicję obiektu dla tej lambdy. Każda przechwycona zmienna staje się elementem danych obiektu.<p>W czasie wykonywania, po napotkaniu definicji lambda, tworzona jest instancja obiektu lambda i w tym momencie inicjowane są elementy składowe lambda.</div><p class="cpp-section cpp-topline" style=clear:both>Przechwycenia są domyślnie traktowane jako const<p>Gdy wywoływana jest lambda, wywoływane jest  <code>operator()</code> . Domyślnie <code>operator()</code> traktuje przechwytywanie jako stałą, co oznacza, że lambda nie może modyfikować tych przechwytywania.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>W poniższym przykładzie przechwytujemy zmienną <code>ammo</code> i próbujemy ją zmniejszyć.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+
+int main()
+{
+  int ammo{ 10 };
+
+  // Define a lambda and store it in a variable called &#34;shoot&#34;.
+  auto shoot{
+    [ammo]() {
+      // Illegal, ammo cannot be modified.
+      --ammo;
+
+      std::cout &lt;&lt; &#34;Pew! &#34; &lt;&lt; ammo &lt;&lt; &#34; shot(s) left.\n&#34;;
+    }
+  };
+
+  // Call the lambda
+  shoot();
+
+  std::cout &lt;&lt; ammo &lt;&lt; &#34; shot(s) left\n&#34;;
+
+  return 0;
+}</code></pre><p>Powyższe nie zostanie skompilowane, ponieważ <code>ammo</code> jest traktowane jako stała w obrębie lambda.<p class="cpp-section cpp-topline" style=clear:both>Mutable przechwytuje<p>Aby umożliwić modyfikację przechwyconych zmiennych, możemy oznaczyć lambdę jako <code>mutable</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+
+int main()
+{
+  int ammo{ 10 };
+
+  auto shoot{
+    [ammo]() mutable { // now mutable
+      // We&#39;re allowed to modify ammo now
+      --ammo;
+
+      std::cout &lt;&lt; &#34;Pew! &#34; &lt;&lt; ammo &lt;&lt; &#34; shot(s) left.\n&#34;;
+    }
+  };
+
+  shoot();
+  shoot();
+
+  std::cout &lt;&lt; ammo &lt;&lt; &#34; shot(s) left\n&#34;;
+
+  return 0;
+}</code></pre><p>Wyjście:<pre>Pew! 9 shot(s) left.
+Pew! 8 shot(s) left.
+10 shot(s) left
+</pre><p>Podczas kompilacji nadal występuje błąd logiczny. Co się stało? Po wywołaniu lambda przechwyciła <em>kopię</em> z <code>ammo</code>. Kiedy lambda zmniejszała <code>ammo</code> z <code>10</code> Do <code>9</code> Do <code>8</code>, zmniejszała swoją własną kopię, a nie oryginalną <code>ammo</code> wartość w <code>main()</code>.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>Zauważ, że wartość <code>ammo</code> jest zachowywana we wszystkich wywołaniach lambdy!<div class="cpp-note cpp-lightredbackground"><p class="cpp-note-title cpp-bottomline">Ostrzeżenie<p>Ponieważ przechwycone zmienne są elementami obiektu lambda, ich wartości są utrwalane w wielu wywołaniach lambdy!</div><p class="cpp-section cpp-topline" style=clear:both>Przechwytywanie przez referencja<p>Podobnie jak funkcje mogą zmieniać wartość argumentów przekazywanych przez referencję, możemy także przechwytywać zmienne przez referencję, aby nasza lambda miała wpływ na wartość argumentu.<p>Aby przechwycić zmienną przez referencję, dodajemy ampersand (<code>&</code>) do nazwy zmiennej podczas przechwytywania. W przeciwieństwie do zmiennych przechwytywanych przez wartość, zmienne przechwytywane przez referencję nie są stałymi, chyba że przechwytywana zmienna to  <code>const</code>. Przechwytywanie przez referencję powinno być preferowane zamiast przechwytywania przez wartość, gdy normalnie wolisz przekazać argument do funkcji przez referencję (np. w przypadku typów innych niż podstawowe).<p>Oto powyższy kod z  <code>ammo</code> przechwyconym przez referencję:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+
+int main()
+{
+  int ammo{ 10 };
+
+  auto shoot{
+    // We don&#39;t need mutable anymore
+    [&amp;ammo]() { // &amp;ammo means ammo is captured by reference
+      // Changes to ammo will affect main&#39;s ammo
+      --ammo;
+
+      std::cout &lt;&lt; &#34;Pew! &#34; &lt;&lt; ammo &lt;&lt; &#34; shot(s) left.\n&#34;;
+    }
+  };
+
+  shoot();
+
+  std::cout &lt;&lt; ammo &lt;&lt; &#34; shot(s) left\n&#34;;
+
+  return 0;
+}</code></pre><p>To daje oczekiwaną odpowiedź:<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><pre>Pew! 9 shot(s) left.
+9 shot(s) left
+</pre><p>Teraz użyjmy przechwytywania referencji, aby policzyć, ile porównania <code>std::sort</code> wykonywane podczas sortowania tablicy.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;algorithm&gt;
+#include &lt;array&gt;
+#include &lt;iostream&gt;
+#include &lt;string_view&gt;
+
+struct Car
+{
+  std::string_view make{};
+  std::string_view model{};
+};
+
+int main()
+{
+  std::array&lt;Car, 3&gt; cars{ { { &#34;Volkswagen&#34;, &#34;Golf&#34; },
+                             { &#34;Toyota&#34;, &#34;Corolla&#34; },
+                             { &#34;Honda&#34;, &#34;Civic&#34; } } };
+
+  int comparisons{ 0 };
+
+  std::sort(cars.begin(), cars.end(),
+    // Capture @comparisons by reference.
+    [&amp;comparisons](const auto&amp; a, const auto&amp; b) {
+      // We captured comparisons by reference. We can modify it without &#34;mutable&#34;.
+      ++comparisons;
+
+      // Sort the cars by their make.
+      return a.make &lt; b.make;
+  });
+
+  std::cout &lt;&lt; &#34;Comparisons: &#34; &lt;&lt; comparisons &lt;&lt; &#39;\n&#39;;
+
+  for (const auto&amp; car : cars)
+  {
+    std::cout &lt;&lt; car.make &lt;&lt; &#39; &#39; &lt;&lt; car.model &lt;&lt; &#39;\n&#39;;
+  }
+
+  return 0;
+}</code></pre><p>Możliwe wyniki<pre>Comparisons: 2
+Honda Civic
+Toyota Corolla
+Volkswagen Golf
+</pre><p class="cpp-section cpp-topline" style=clear:both>Przechwytywanie wielu zmiennych<p>Wiele zmiennych można przechwycić, oddzielając je przecinkiem. Może to obejmować kombinację zmiennych przechwytywanych według wartości lub przez odniesienie:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int health{ 33 };
+int armor{ 100 };
+std::vector&lt;CEnemy&gt; enemies{};
+
+// Capture health and armor by value, and enemies by reference.
+[health, armor, &amp;enemies](){};</code></pre><p class="cpp-section cpp-topline" style=clear:both>Przechwytywanie domyślne<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>Konieczność jawnego wyszczególnienia zmiennych, które chcesz przechwycić, może być uciążliwa. Jeśli zmodyfikujesz lambdę, możesz zapomnieć o dodaniu lub usunięciu przechwyconych zmiennych. Na szczęście możemy skorzystać z pomocy kompilatora, aby automatycznie wygenerował listę zmiennych, które musimy przechwycić.<p>A <strong>default catch</strong> (zwana także <strong>capture-default</strong>) przechwytuje wszystkie zmienne wymienione w lambdzie. Zmienne niewymienione w lambdzie nie są przechwytywane, jeśli używane jest przechwytywanie domyślne.<p>Aby przechwycić wszystkie używane zmienne według wartości, użyj wartości przechwytywania <code>=</code>.<br>Aby przechwycić wszystkie używane zmienne przez odniesienie, użyj wartości przechwytywania  <code>&</code>.<p>Oto przykład użycia domyślnego przechwytywania według wartości:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;algorithm&gt;
+#include &lt;array&gt;
+#include &lt;iostream&gt;
+
+int main()
+{
+  std::array areas{ 100, 25, 121, 40, 56 };
+
+  int width{};
+  int height{};
+
+  std::cout &lt;&lt; &#34;Enter width and height: &#34;;
+  std::cin &gt;&gt; width &gt;&gt; height;
+
+  auto found{ std::find_if(areas.begin(), areas.end(),
+                           [=](int knownArea) { // will default capture width and height by value
+                             return width * height == knownArea; // because they&#39;re mentioned here
+                           }) };
+
+  if (found == areas.end())
+  {
+    std::cout &lt;&lt; &#34;I don&#39;t know this area :(\n&#34;;
+  }
+  else
+  {
+    std::cout &lt;&lt; &#34;Area found :)\n&#34;;
+  }
+
+  return 0;
+}</code></pre><p>Przechwytywanie domyślne można łączyć z normalnymi przechwytywaniami. Niektóre zmienne możemy przechwycić według wartości, a inne przez referencję, ale każdą zmienną można przechwycić tylko raz.<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int health{ 33 };
+int armor{ 100 };
+std::vector&lt;CEnemy&gt; enemies{};
+
+// Capture health and armor by value, and enemies by reference.
+[health, armor, &amp;enemies](){};
+
+// Capture enemies by reference and everything else by value.
+[=, &amp;enemies](){};
+
+// Capture armor by value and everything else by reference.
+[&amp;, armor](){};
+
+// Illegal, we already said we want to capture everything by reference.
+[&amp;, &amp;armor](){};
+
+// Illegal, we already said we want to capture everything by value.
+[=, armor](){};
+
+// Illegal, armor appears twice.
+[armor, &amp;health, &amp;armor](){};
+
+// Illegal, the default capture has to be the first element in the capture group.
+[armor, &amp;](){};</code></pre><p class="cpp-section cpp-topline" style=clear:both>Definiowanie nowych zmiennych w przechwytywaniu lambda<p>Czasami chcemy przechwycić zmienną z niewielką modyfikacją lub zadeklarować nową zmienną, która jest widoczna tylko w zakresie lambda. Możemy to zrobić definiując zmienną w przechwytywaniu lambda bez określania jej typu.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;array&gt;
+#include &lt;iostream&gt;
+#include &lt;algorithm&gt;
+
+int main()
+{
+  std::array areas{ 100, 25, 121, 40, 56 };
+
+  int width{};
+  int height{};
+
+  std::cout &lt;&lt; &#34;Enter width and height: &#34;;
+  std::cin &gt;&gt; width &gt;&gt; height;
+
+  // We store areas, but the user entered width and height.
+  // We need to calculate the area before we can search for it.
+  auto found{ std::find_if(areas.begin(), areas.end(),
+                           // Declare a new variable that&#39;s visible only to the lambda.
+                           // The type of userArea is automatically deduced to int.
+                           [userArea{ width * height }](int knownArea) {
+                             return userArea == knownArea;
+                           }) };
+
+  if (found == areas.end())
+  {
+    std::cout &lt;&lt; &#34;I don&#39;t know this area :(\n&#34;;
+  }
+  else
+  {
+    std::cout &lt;&lt; &#34;Area found :)\n&#34;;
+  }
+
+  return 0;
+}</code></pre><p><code>userArea</code> zostanie obliczone tylko raz, gdy zdefiniowana zostanie lambda. Obliczony obszar jest przechowywany w obiekcie lambda i jest taki sam dla każdego wywołania. Jeśli lambda jest zmienna i modyfikuje zmienną zdefiniowaną podczas przechwytywania, pierwotna wartość zostanie nadpisana.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Inicjuj zmienne w przechwytywaniu tylko wtedy, gdy ich wartość jest krótka, a ich typ jest oczywisty. W przeciwnym razie najlepiej zdefiniować zmienną poza lambdą i przechwycić ją.</div><p class="cpp-section cpp-topline" style=clear:both>Wiszące przechwycone zmienne<p>Zmienne są przechwytywane w momencie zdefiniowania lambdy. Jeśli zmienna przechwycona przez referencję umrze przed lambdą, lambda pozostanie z zawieszoną referencją.<p>Na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+// returns a lambda
+auto makeWalrus(const std::string&amp; name)
+{
+  // Capture name by reference and return the lambda.
+  return [&amp;]() {
+    std::cout &lt;&lt; &#34;I am a walrus, my name is &#34; &lt;&lt; name &lt;&lt; &#39;\n&#39;; // Undefined behavior
+  };
+}
+
+int main()
+{
+  // Create a new walrus whose name is Roofus.
+  // sayName is the lambda returned by makeWalrus.
+  auto sayName{ makeWalrus(&#34;Roofus&#34;) };
+
+  // Call the lambda function that makeWalrus returned.
+  sayName();
+
+  return 0;
+}</code></pre><p>Wywołanie <code>makeWalrus()</code> tworzy tymczasowy <code>std::string</code> z literału łańcuchowego <code>"Roofus"</code>. Lambda w <code>makeWalrus()</code> przechwytuje ciąg tymczasowy przez odniesienie. Łańcuch tymczasowy umiera na końcu pełnego wyrażenia zawierającego wywołanie  <code>makeWalrus()</code>, ale lambda <code>sayName</code> w dalszym ciągu odwołuje się do niego poza tym punktem. Zatem, gdy wywołujemy  <code>sayName</code>, uzyskujemy dostęp do wiszącego odniesienia, co powoduje niezdefiniowane zachowanie.<p>Zauważ, że dzieje się to również w przypadku <code>"Roofus"</code> jest przekazywane do <code>makeWalrus()</code> według wartości. Parametr <code>name</code> umiera na końcu <code>makeWalrus()</code>, a lambda pozostaje z zawieszoną referencją.<div class="cpp-note cpp-lightredbackground"><p class="cpp-note-title cpp-bottomline">Ostrzeżenie<p>Zachowaj szczególną ostrożność podczas przechwytywania zmiennych przez referencję, szczególnie w przypadku domyślnego przechwytywania referencji. Przechwycone zmienne muszą przetrwać dłużej niż lambda.</div><p>Jeśli chcemy, aby przechwycone <code>name</code> były prawidłowe, gdy używana jest lambda, musimy zamiast tego przechwycić je według wartości (albo jawnie, albo przy użyciu domyślnego przechwytywania według wartości).<p class="cpp-section cpp-topline" style=clear:both><a name=mutable_copy></a>Niezamierzone kopie modyfikowalnych lambd <a href="index.html#mutable_copy"><i class="fa fa-link" style=font-size:.8em></i></a><p>Ponieważ lambdy są obiektami, można je kopiować. W niektórych przypadkach może to powodować problemy. Rozważ następujący kod:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+
+int main()
+{
+  int i{ 0 };
+
+  // Create a new lambda named count
+  auto count{ [i]() mutable {
+    std::cout &lt;&lt; ++i &lt;&lt; &#39;\n&#39;;
+  } };
+
+  count(); // invoke count
+
+  auto otherCount{ count }; // create a copy of count
+
+  // invoke both count and the copy
+  count();
+  otherCount();
+
+  return 0;
+}</code></pre><p>Wyjście<pre>1
+2
+2
+</pre><p>Zamiast drukować 1, 2, 3, kod drukuje 2 dwukrotnie. Kiedy tworzyliśmy <code>otherCount</code> jako kopię <code>count</code>, stworzyliśmy kopię <code>count</code> w jej obecnym stanie. <code>count</code>'S <code>i</code> wyniosło 1, więc <code>otherCount</code>'S <code>i</code> jest również 1. Ponieważ <code>otherCount</code> jest kopią <code>count</code> każdy z nich ma swój własny <code>i</code>.<p>Przyjrzyjmy się teraz nieco mniej oczywistemu przykładowi:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+#include &lt;functional&gt;
+
+void myInvoke(const std::function&lt;void()&gt;&amp; fn)
+{
+    fn();
+}
+
+int main()
+{
+    int i{ 0 };
+
+    // Increments and prints its local copy of @i.
+    auto count{ [i]() mutable {
+      std::cout &lt;&lt; ++i &lt;&lt; &#39;\n&#39;;
+    } };
+
+    myInvoke(count);
+    myInvoke(count);
+    myInvoke(count);
+
+    return 0;
+}</code></pre><p>Wyjście:<pre>1
+1
+1
+</pre><p>Wykazuje ten sam problem, co poprzedni przykład w bardziej niejasnej formie.<p>Kiedy wywołujemy  <code>myInvoke(count)</code>, kompilator zobaczy, że <code>count</code> (który ma typ lambda) nie pasuje do typu parametru referencyjnego (<code>std::function&lt;void()></code>). Przekonwertuje lambdę na tymczasową <code>std::function</code> , tak aby parametr referencyjny mógł się z nią powiązać, co spowoduje utworzenie kopii lambdy. Zatem nasze wywołanie  <code>fn()</code> jest faktycznie wykonywane na kopii naszej lambdy, która istnieje jako część tymczasowej <code>std::function</code>, a nie rzeczywistej lambdy.<p>Jeśli musimy przekazać zmienną lambdę i chcemy uniknąć możliwości utworzenia przypadkowych kopii, istnieją dwie możliwości. Jedną z opcji jest użycie zamiast tego lambdy nieprzechwytującej — w powyższym przypadku moglibyśmy usunąć przechwytywanie i śledzić nasz stan, używając zamiast tego statycznej zmiennej lokalnej. Jednak statyczne zmienne lokalne mogą być trudne do śledzenia i sprawić, że nasz kod będzie mniej czytelny. Lepszą opcją jest przede wszystkim uniemożliwienie tworzenia kopii naszej lambdy. Ale skoro nie możemy wpływać na sposób implementacji <code>std::function</code> (lub innych standardowych funkcji bibliotecznych lub obiektów), jak możemy to zrobić?<p>Jedną z opcji (h/t do czytnika Dck) jest natychmiastowe umieszczenie naszej lambdy w <code>std::function</code> . W ten sposób, gdy wywołamy  <code>myInvoke()</code>, parametr referencyjny <code>fn</code> może powiązać się z naszym <code>std::function</code> i nie zostanie utworzona żadna tymczasowa kopia:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+#include &lt;functional&gt;
+
+void myInvoke(const std::function&lt;void()&gt;&amp; fn)
+{
+    fn();
+}
+
+int main()
+{
+    int i{ 0 };
+
+    // Increments and prints its local copy of @i.
+    std::function count{ [i]() mutable { // lambda object stored in a std::function
+      std::cout &lt;&lt; ++i &lt;&lt; &#39;\n&#39;;
+    } };
+
+    myInvoke(count); // doesn&#39;t create copy when called
+    myInvoke(count); // doesn&#39;t create copy when called
+    myInvoke(count); // doesn&#39;t create copy when called
+
+    return 0;
+}</code></pre><p>Nasze dane wyjściowe są teraz zgodne z oczekiwaniami:<pre>1
+2
+3
+</pre><p>Alternatywnym rozwiązaniem jest użycie opakowania referencyjnego. C++ udostępnia wygodny typ (jako część nagłówka &lt;function&gt;) o nazwie  <code>std::reference_wrapper</code> , który pozwala nam przekazywać normalny typ tak, jakby był referencją. Dla jeszcze większej wygody  <code>std::reference_wrapper</code> można utworzyć za pomocą funkcji <code>std::ref()</code> . Zawijając naszą lambdę w  <code>std::reference_wrapper</code>, za każdym razem, gdy ktoś spróbuje utworzyć kopię naszej lambdy, zamiast tego utworzy kopię reference_wrapper (unikając tworzenia kopii lambdy).<p>Oto nasz zaktualizowany kod przy użyciu <code>std::ref</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+#include &lt;functional&gt; // includes std::reference_wrapper and std::ref
+
+void myInvoke(const std::function&lt;void()&gt;&amp; fn)
+{
+    fn();
+}
+
+int main()
+{
+    int i{ 0 };
+
+    // Increments and prints its local copy of @i.
+    auto count{ [i]() mutable {
+      std::cout &lt;&lt; ++i &lt;&lt; &#39;\n&#39;;
+    } };
+
+    // std::ref(count) ensures count is treated like a reference
+    // thus, anything that tries to copy count will actually copy the reference
+    // ensuring that only one count exists
+    myInvoke(std::ref(count));
+    myInvoke(std::ref(count));
+    myInvoke(std::ref(count));
+
+    return 0;
+}</code></pre><p>Nasze dane wyjściowe są teraz zgodne z oczekiwaniami:<pre>1
+2
+3
+</pre><p>Interesujące w tej metodzie jest to, że działa ona nawet jeśli <code>myInvoke</code> przyjmuje <code>fn</code> przez wartość (a nie przez odniesienie)!<div class="cpp-note cpp-lightpurplebackground"><p class="cpp-note-title cpp-bottomline">Reguła<p>Funkcje z bibliotek standardowych mogą kopiować obiekty funkcyjne (przypomnienie: lambdy są obiektami funkcyjnymi). Jeśli chcesz dostarczyć lambdy z modyfikowalnymi, przechwyconymi zmiennymi, przekaż je przez referencję, używając <code>std::ref</code>.</div><div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Staraj się unikać modyfikowalnych lambd. Niemodyfikowalne lambdy są łatwiejsze do zrozumienia i nie są obarczone powyższymi problemami, a także bardziej niebezpiecznymi problemami, które pojawiają się po dodaniu wykonania równoległego.</div><p class="cpp-section cpp-topline" style=clear:both>Czas quizu<div class=quiz style=clear:both><p class=quiz-header>Pytanie nr 1<p>Która z poniższych zmiennych może zostać użyta przez lambdę w <code>main</code> bez ich jawnego przechwytywania?<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int i{};
+static int j{};
+
+int getValue()
+{
+  return 0;
+}
+
+int main()
+{
+  int a{};
+  constexpr int b{};
+  static int c{};
+  static constexpr int d{};
+  const int e{};
+  const int f{ getValue() };
+  static const int g{}; 
+  static const int h{ getValue() }; 
+
+  [](){
+    // Try to use the variables without explicitly capturing them.
+    a;
+    b;
+    c;
+    d;
+    e;
+    f;
+    g;
+    h;
+    i;
+    j;
+  }();
+
+  return 0;
+}</code></pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_0 style=display:none><div class=cpp-table-wrapper><p><p><table class=cpp-table><tbody><tr><th>Zmienna<th>Można używać bez jawnego przechwytywania<tr><td><code>a</code><td>Nie. <code>a</code> ma automatyczne przechowywanie czas trwania.<tr><td><code>b</code><td>Tak. <code>b</code> można używać w wyrażeniu stałym.<tr><td><code>c</code><td>Tak. <code>c</code> ma statyczny czas przechowywania.<tr><td><code>d</code><td>Tak.<tr><td><code>e</code><td>Tak. <code>e</code> można używać w wyrażeniu stałym.<tr><td><code>f</code><td>Nie. <code>f</code>wartość zależy od <code>getValue</code>, co może wymagać uruchomienia programu.<tr><td><code>g</code><td>Tak.<tr><td><code>h</code><td>Tak. <code>h</code> ma statyczny czas przechowywania.<tr><td><code>i</code><td>Tak. <code>i</code> jest zmienną globalną.<tr><td><code>j</code><td>Tak. <code>j</code> jest dostępne w całym pliku.</table></div></div><p></div><div class=quiz style=clear:both><p class=quiz-header>Pytanie nr 2<p>Co wypisuje poniższy kod? Nie uruchamiaj kodu, przemyśl go w swojej głowie.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+int main()
+{
+  std::string favoriteFruit{ &#34;grapes&#34; };
+
+  auto printFavoriteFruit{
+    [=]() {
+      std::cout &lt;&lt; &#34;I like &#34; &lt;&lt; favoriteFruit &lt;&lt; &#39;\n&#39;;
+    }
+  };
+
+  favoriteFruit = &#34;bananas with chocolate&#34;;
+
+  printFavoriteFruit();
+
+  return 0;
+}</code></pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_1 style=display:none><pre>I like grapes
+</pre><p><code>printFavoriteFruit</code> uchwycony <code>favoriteFruit</code> według wartości. Modyfikowanie <code>main</code>'S <code>favoriteFruit</code> nie ma wpływu na lambdę <code>favoriteFruit</code>.</div><p></div><div class=quiz style=clear:both><p class=quiz-header>Pytanie nr 3<p>Napiszemy małą grę z liczbami kwadratowymi (liczbami, które można utworzyć mnożąc liczbę całkowitą przez siebie (1, 4, 9, 16, 25, …)).<p>Aby skonfigurować grę:<ul><li>Poproś użytkownika o wprowadzenie liczby, od której zaczniesz (np. 3).<li>Zapytaj użytkownika, ile wartości ma wygenerować.<li>Wybierz losową liczbę całkowitą z zakresu od 2 do 4. To jest mnożnik.<li>Wygeneruj liczbę wartości wskazaną przez użytkownika. Zaczynając od numeru początkowego, każda wartość powinna być następną liczbą kwadratową pomnożoną przez mnożnik.</ul><p>Aby zagrać w grę:<ul><li>Użytkownik wprowadza typ.<li>Jeśli odgadnięcie pasuje do dowolnej wygenerowanej wartości, wartość jest usuwana z listy, a użytkownik może zgadnąć ponownie.<li>Jeśli użytkownik odgadnie wszystkie wygenerowane wartości, zostaną one wygrana.<li>Jeśli odgadnięcie nie pasuje do wygenerowanej wartości, użytkownik przegrywa, a program podaje mu najbliższą nieprzewidzianą wartość.</ul><p>Oto kilka przykładowych sesji, które pozwolą ci lepiej zrozumieć, jak działa gra:<pre>Start where? 4
+How many? 5
+I generated 5 square numbers. Do you know what each number is after multiplying it by 2?
+&gt; 32
+Nice! 4 number(s) left.
+&gt; 72
+Nice! 3 number(s) left.
+&gt; 50
+Nice! 2 number(s) left.
+&gt; 126
+126 is wrong! Try 128 next time.
+</pre><ul><li>Począwszy od 4, program generuje kolejnych 5 kwadratów: 16, 25, 36, 49, 64<li>Program wybrał 2 jako losowy mnożnik, więc każdy kwadrat jest mnożony przez 2: 32, 50, 72, 98, 128<li>Teraz użytkownik może zgadnąć.<li>32 jest na liście.<li>72 jest na liście.<li>126 nie ma na liście, więc użytkownik traci. Najbliższa nieodgadniona liczba to 128.</ul><pre>Start where? 1
+How many? 3
+I generated 3 square numbers. Do you know what each number is after multiplying it by 4?
+&gt; 4
+Nice! 2 number(s) left.
+&gt; 16
+Nice! 1 number(s) left.
+&gt; 36
+Nice! You found all numbers, good job!
+</pre><ul><li>Poczynając od 1, program generuje kolejne 3 kwadraty: 1, 4, 9<li>Program wybrał 4 jako losowy mnożnik, więc każdy kwadrat jest mnożony przez 4: 4, 16, 36<li>Użytkownik poprawnie odgadnie wszystkie liczby i wygrywa gra.</ul><p>Wskazówki:<ul><li>Użyj Random.h (<a href="../global-random-numbers-random-h/index.html">8.15 -- Globalne liczby losowe (Random.h)</a>) do wygenerowania liczb losowych.<li>Użyj <code>std::find()</code> (<a href="../introduction-to-standard-library-algorithms/index.html#std_find">18.3 — Wprowadzenie do algorytmów bibliotek standardowych</a>), aby wyszukać liczbę na liście.<li>Użyj <code>std::vector::erase()</code> aby usunąć element, np.</ul><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">auto found{ std::find(/* ... */) };
+
+// Make sure the element was found
+
+myVector.erase(found);</code></pre><ul><li>Użyj <code>std::min_element</code> i lambdę, aby znaleźć liczbę najbliższą użytkownikowi zgadnij. <code>std::min_element</code> działa analogicznie do <code>std::max_element</code> z poprzedniego quizu.</ul><p><a class=hint_link_show href=javascript:void(0) onclick="cppHintToggle(document.getElementById('cpp_hint_id_0'),this,'Show Hint','')">Pokaż wskazówkę</a><div class=wphint id=cpp_hint_id_0 style=display:none;margin-bottom:1em>Wskazówka: użyj  <code>std::abs</code> z &lt;cmath&gt;, aby obliczyć dodatnią różnicę między dwiema liczbami.<p><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int distance{ std::abs(3 - 5) }; // 2</code></pre></div><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_2'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_2 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;algorithm&gt; // std::find, std::min_element
+#include &lt;cmath&gt; // std::abs
+#include &lt;cstddef&gt; // std::size_t
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &#34;Random.h&#34;
+
+using Numbers = std::vector&lt;int&gt;;
+
+namespace config
+{
+    constexpr int multiplierMin{ 2 };
+    constexpr int multiplierMax{ 6 };
+}
+
+// Generates @count numbers starting at @start*@start and multiplies
+// every square number by @multiplier.
+Numbers generateNumbers(int start, int count, int multiplier)
+{
+    Numbers numbers(static_cast&lt;std::size_t&gt;(count));
+
+    for (int index = 0; index &lt; count; ++index)
+    {
+        std::size_t uindex{ static_cast&lt;std::size_t&gt;(index) };
+        numbers[uindex] = (start + index) * (start + index) * multiplier;
+    }
+
+    return numbers;
+}
+
+// Asks the user to input starting number, then generates array of numbers
+Numbers setupGame()
+{
+    int start{};
+    std::cout &lt;&lt; &#34;Start where? &#34;;
+    std::cin &gt;&gt; start;
+
+    int count{};
+    std::cout &lt;&lt; &#34;How many? &#34;;
+    std::cin &gt;&gt; count;
+
+    int multiplier{ Random::get(config::multiplierMin, config::multiplierMax) };
+
+    std::cout &lt;&lt; &#34;I generated &#34; &lt;&lt; count
+        &lt;&lt; &#34; square numbers. Do you know what each number is after multiplying it by &#34;
+        &lt;&lt; multiplier &lt;&lt; &#34;?\n&#34;;
+
+    return generateNumbers(start, count, multiplier);
+}
+
+// Returns the user&#39;s guess
+int getUserGuess()
+{
+    int guess{};
+
+    std::cout &lt;&lt; &#34;&gt; &#34;;
+    std::cin &gt;&gt; guess;
+
+    return guess;
+}
+
+// Searches for the value @guess in @numbers and removes it.
+// Returns true if the value was found. False otherwise.
+bool findAndRemove(Numbers&amp; numbers, int guess)
+{
+    auto found{ std::find(numbers.begin(), numbers.end(), guess) };
+
+    if (found == numbers.end())
+        return false;
+
+    numbers.erase(found);
+    return true;
+}
+
+// Finds the value in @numbers that is closest to @guess.
+int findClosestNumber(const Numbers&amp; numbers, int guess)
+{
+    return *std::min_element(numbers.begin(), numbers.end(),
+        [=](int a, int b)
+        {
+            return std::abs(a - guess) &lt; std::abs(b - guess);
+        });
+}
+
+
+// Called when the user guesses a number correctly.
+void printSuccess(const Numbers&amp; numbers)
+{
+    std::cout &lt;&lt; &#34;Nice! &#34;;
+
+    if (numbers.size() == 0)
+    {
+        std::cout &lt;&lt; &#34;You found all numbers, good job!\n&#34;;
+    }
+    else
+    {
+        std::cout &lt;&lt; numbers.size() &lt;&lt; &#34; number(s) left.\n&#34;;
+    }
+}
+
+// Called when the user guesses a number that is not in the numbers.
+void printFailure(const Numbers&amp; numbers, int guess)
+{
+    int closest{ findClosestNumber(numbers, guess) };
+
+    std::cout &lt;&lt; guess &lt;&lt; &#34; is wrong!\n&#34;;
+
+    std::cout &lt;&lt; &#34;Try &#34; &lt;&lt; closest &lt;&lt; &#34; next time.\n&#34;;
+}
+
+int main()
+{
+    Numbers numbers{ setupGame() };
+
+    while (true)
+    {
+        int guess{ getUserGuess() };
+
+        if (!findAndRemove(numbers, guess))
+        {
+            printFailure(numbers, guess);
+            break;
+        }
+        
+        printSuccess(numbers);
+        if (numbers.size() == 0)
+            break;
+    }
+
+    return 0;
+}</code></pre></div></div><div class=prevnext><div class=prevnext-inline><a class=nav-link href="../chapter-20-summary-and-quiz/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>20.x</span>Rozdział 20 Podsumowanie i quiz</div></div></div></a><a class=nav-link href="https://www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../introduction-to-lambdas-anonymous-functions/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>20.6</span>Wprowadzenie do lambd (anonimowe funkcje)</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="https://www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=https://www.learncpp.com/lambda-captures/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzednia Post</em><a href="../introduction-to-lambdas-anonymous-functions/index.html" rel=prev><span>20.6 — Wprowadzenie do lambd (funkcji anonimowych)</span></a></div><div class=nav-next><em>Następny post</em><a href="../internal-linkage/index.html" rel=next><span>7.6 — Powiązanie wewnętrzne</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>
+<textarea id=wc-textarea-0_0 placeholder="Zostaw komentarz..." aria-label="Zostaw komentarz..." required name=wc_comment class="wc_comment wpd-field"></textarea></div><div class=wpd-editor-buttons-right></div></div></div></div><div class=wpd-form-foot><div class=wpdiscuz-textarea-foot><div class=wpdiscuz-button-actions></div></div><div class=wpd-form-row><div class=wpd-form-col-left><div class="wpdiscuz-item wc_name-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-user"></i></div><input id=wc_name-0_0 required aria-required=true class="wc_name wpd-field" name=wc_name placeholder=Imię* maxlength=50 pattern=.{3,50}>
+<label for=wc_name-0_0 class=wpdlb>Imię*</label></div><div class="wpdiscuz-item wc_email-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-at"></i></div><input id=wc_email-0_0 required aria-required=true class="wc_email wpd-field" type=email name=wc_email placeholder=E-mail*>
+<label for=wc_email-0_0 class=wpdlb>E-mail*</label><div class=wpd-field-desc><i class="far fa-question-circle"></i><span>Twój adres e-mail nie zostanie wyświetlony</span></div></div><div class=cpp_correction_div style=padding-bottom:4px><div class=wpd-field-icon style=display:inline-block;width:20px><i style=opacity:.6 class="fas fa-regular fa-bug"></i></div>Znalazłeś błąd? Zostaw komentarz powyżej!<div class=wpd-field-desc><i class="far fa-question-circle"></i><span>Komentarze związane z poprawkami zostaną usunięte po przetworzeniu, aby pomóc zmniejszyć bałagan. Dziękujemy za pomoc w ulepszaniu witryny dla wszystkich!</span></div></div><div class=cpp_avatar_div style=padding-bottom:4px><div class=wpd-field-icon style=display:inline-block;width:20px><i style=opacity:.6 class="fas fa-user"></i></div>Awatary z <a target=_blank rel="noopener noreferrer" href=https://gravatar.com/>https://gravatar.com/</a> są połączone z podanym adresem e-mail.</div></div><div class=wpd-form-col-right><div class=wc-field-submit><span style=margin-top:6px>Powiadamiaj mnie o odpowiedziach:  </span>
+<label class=wpd_label wpd-tooltip="Powiadamiaj mnie o nowych odpowiedziach na ten komentarz"><input id=wc_notification_new_comment-0_0 class="wc_notification_new_comment-0_0 wpd_label__checkbox" value=comment type=checkbox name=wpdiscuz_notification_type checked>
+<span class=wpd_label__text><span class=wpd_label__check><i class="fas fa-bell wpdicon wpdicon-on"></i><i class="fas fa-bell-slash wpdicon wpdicon-off"></i></span></span></label><input id=wpd-field-submit-0_0 class="wc_comm_submit wpd_not_clicked wpd-prim-button" type=submit name=submit value="Dodaj komentarz"></div></div><div class=clearfix></div></div></div><input type=hidden class=wpdiscuz_unique_id value=0_0 name=wpdiscuz_unique_id></form></div><div id=wpdiscuz_hidden_secondary_form style=display:none><div class="wpd-form wpd-form-wrapper wpd-secondary-form-wrapper" id=wpd-secondary-form-wrapper-wpdiscuzuniqueid style=display:none><div class=wpd-secondary-forms-social-content></div><div class=clearfix></div><form class="wpd_comm_form wpd-secondary-form-wrapper" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-wpdiscuzuniqueid class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-wpdiscuzuniqueid>Etykieta</label>
+<textarea id=wc-textarea-wpdiscuzuniqueid placeholder="Zostaw komentarz..." aria-label="Zostaw komentarz..." required name=wc_comment class="wc_comment wpd-field"></textarea></div><div class=wpd-editor-buttons-right></div></div></div></div><div class=wpd-form-foot><div class=wpdiscuz-textarea-foot><div class=wpdiscuz-button-actions></div></div><div class=wpd-form-row><div class=wpd-form-col-left><div class="wpdiscuz-item wc_name-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-user"></i></div><input id=wc_name-wpdiscuzuniqueid required aria-required=true class="wc_name wpd-field" name=wc_name placeholder=Imię* maxlength=50 pattern=.{3,50}>
+<label for=wc_name-wpdiscuzuniqueid class=wpdlb>Imię*</label></div><div class="wpdiscuz-item wc_email-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-at"></i></div><input id=wc_email-wpdiscuzuniqueid required aria-required=true class="wc_email wpd-field" type=email name=wc_email placeholder=E-mail*>
+<label for=wc_email-wpdiscuzuniqueid class=wpdlb>E-mail*</label><div class=wpd-field-desc><i class="far fa-question-circle"></i><span>Twój adres e-mail nie zostanie wyświetlony</span></div></div><div class=cpp_correction_div style=padding-bottom:4px><div class=wpd-field-icon style=display:inline-block;width:20px><i style=opacity:.6 class="fas fa-regular fa-bug"></i></div>Znalazłeś błąd? Zostaw komentarz powyżej!<div class=wpd-field-desc><i class="far fa-question-circle"></i><span>Komentarze związane z poprawkami zostaną usunięte po przetworzeniu, aby pomóc zmniejszyć bałagan. Dziękujemy za pomoc w ulepszaniu witryny dla wszystkich!</span></div></div><div class=cpp_avatar_div style=padding-bottom:4px><div class=wpd-field-icon style=display:inline-block;width:20px><i style=opacity:.6 class="fas fa-user"></i></div>Awatary z <a target=_blank rel="noopener noreferrer" href=https://gravatar.com/>https://gravatar.com/</a> są połączone z podanym adresem e-mail.</div></div><div class=wpd-form-col-right><div class=wc-field-submit><label class=wpd_label wpd-tooltip="Powiadamiaj mnie o nowych odpowiedziach na ten komentarz"><input id=wc_notification_new_comment-wpdiscuzuniqueid class="wc_notification_new_comment-wpdiscuzuniqueid wpd_label__checkbox" value=comment type=checkbox name=wpdiscuz_notification_type checked>
+<span class=wpd_label__text><span class=wpd_label__check><i class="fas fa-bell wpdicon wpdicon-on"></i><i class="fas fa-bell-slash wpdicon wpdicon-off"></i></span></span></label><input id=wpd-field-submit-wpdiscuzuniqueid class="wc_comm_submit wpd_not_clicked wpd-prim-button" type=submit name=submit value="Dodaj komentarz"></div></div><div class=clearfix></div></div></div><input type=hidden class=wpdiscuz_unique_id value=wpdiscuzuniqueid name=wpdiscuz_unique_id></form></div></div></div><div id=wpd-threads class=wpd-thread-wrapper><div class=wpd-thread-head><div class=wpd-thread-info data-comments-count=485><span class=wpdtc title=485>485</span> Komentarze</div><div class=wpd-space></div><div class=wpd-thread-filter><div class="wpd-filter wpdf-sorting"><span class="wpdiscuz-sort-button wpdiscuz-date-sort-desc wpdiscuz-sort-button-active" data-sorting=newest>Najnowsze</span>
+<i class="fas fa-sort-down"></i><div class=wpdiscuz-sort-buttons><span class="wpdiscuz-sort-button wpdiscuz-date-sort-asc" data-sorting=oldest>Najstarsze</span>
+<span class="wpdiscuz-sort-button wpdiscuz-vote-sort-up" data-sorting=by_vote>Najczęściej głosowane</span></div></div></div></div><div class=wpd-comment-info-bar><div class=wpd-current-view><i class="fas fa-quote-left"></i>Wbudowane opinie</div><div class=wpd-filter-view-all>Wyświetl wszystkie komentarze</div></div><div class=wpd-thread-list><div class=wpdiscuz-comment-pagination style=display:none><div class=wpd-load-more-submit-wrap><button name=submit data-lastparentid=0 class="wpd-load-more-submit wpd-loaded wpd-prim-button">
+Wczytaj więcej komentarzy</button></div><input id=wpdiscuzHasMoreComments type=hidden value=0></div></div></div></div></div><div id=wpdiscuz-loading-bar class=wpdiscuz-loading-bar-unauth></div><div id=wpdiscuz-comment-message class=wpdiscuz-comment-message-unauth></div></main><aside id=primary class="widget-area sidey" role=complementary itemscope itemtype=http://schema.org/WPSideBar><section id=custom_html-2 class="widget_text widget-container widget_custom_html"><div class="textwidget custom-html-widget"><div class=cf_monitor style=float:right><div id=ezoic-pub-ad-placeholder-103></div><ins class=adsbygoogle style=display:inline-block;width:160px;height:600px data-ad-client=ca-pub-0588844875925051 data-ad-slot=6408671241></ins></div></div></section></aside><aside id=secondary class="widget-area sidey" role=complementary itemscope itemtype=http://schema.org/WPSideBar><section id=custom_html-3 class="widget_text widget-container widget_custom_html"><div class="textwidget custom-html-widget"><div class=cf_monitor style=float:left><div id=ezoic-pub-ad-placeholder-102></div><ins class=adsbygoogle style=display:inline-block;width:160px;height:600px data-ad-client=ca-pub-0588844875925051 data-ad-slot=1425558446></ins></div></div></section></aside></div><aside id=colophon role=complementary itemscope itemtype=http://schema.org/WPSideBar><div id=colophon-inside class=footer-one><section id=text-10 class="widget-container widget_text"><div class=footer-widget-inside><div class=textwidget><p><em>©2024 Naucz się C++</em> <a href=https://g.ezoic.net/privacy/learncpp.com>Polityka prywatności</a></div></div></section></div></aside></div><footer id=footer class=cryout role=contentinfo itemscope itemtype=http://schema.org/WPFooter><div id=footer-inside></div></footer></div><a href=javascript:void(0); id=wpdUserContentInfoAnchor style=display:none rel=#wpdusercontentinfo data-wpd-lity>wpDiscuz</a><div id=wpdUserContentInfo style=overflow:auto;background:#fdfdf6;padding:20px;width:600px;max-width:100%;border-radius:6px class=lity-hide></div><div id=wpd-editor-source-code-wrapper-bg></div><div id=wpd-editor-source-code-wrapper><textarea id=wpd-editor-source-code></textarea><button id=wpd-insert-source-code>Wstaw</button><input type=hidden id=wpd-editor-uid></div><div class=wpdiscuz-fem-email style=display:none></div><div class=wpdiscuz-fem-email-form style=display:none><span class=wpdiscuz-fem-author>Zamierzasz wysłać e-mail na adres <em></em></span><i class="fas fa-times"></i><div class=wpdiscuz_clear></div><input placeholder="Temat e-maila" class=wpdiscuz-fem-subj><textarea class=wpdiscuz-fem-msg placeholder="Wpisz tutaj wiadomość"></textarea><br><div class=wpdiscuz-fem-button-align><button type=button class=wpdiscuz-fem-send>Wyślij</button></div><input type=hidden id=wpdiscuz_fem_email_comment_id></div><div class=wpdiscuz-fem-moving style=display:none></div><div class=wpdiscuz-fem-move-form style=display:none><span class=wpdiscuz-fem-author>Przenieś Komentarz<br><em></em></span><i class="fas fa-times"></i><div class=wpdiscuz_clear></div><div class=wpdiscuz-fem-posts-search><input class=wpdiscuz-fem-post placeholder="Wprowadź tytuł posta..."><div class=wpdiscuz-fem-posts></div></div><div class=wpdiscuz-fem-button-align><button type=button class=wpdiscuz-fem-move>Przenieś</button></div><input type=hidden id=wpdiscuz_fem_move_comment_id></div></body></html>

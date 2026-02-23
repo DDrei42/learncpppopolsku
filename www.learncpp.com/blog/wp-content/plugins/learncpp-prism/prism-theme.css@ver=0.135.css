@@ -1,0 +1,168 @@
+/* CSS for Visual Studio-like styling.  This is a site-specific file and is not part of the Prism distribution. */
+@import "prism.css";
+
+pre
+{
+	border: 1px solid #EEEEEE;
+}
+
+/* Prism CSS overrides */
+
+.code-toolbar
+{
+	clear: both;
+}
+
+#main pre[class*="language-"], #main pre[class*="language-"] *
+{
+	font-size: 12px;
+	line-height: 16px;
+	font-family: Monaco, MonacoRegular, Menlo, Consolas, Liberation Mono, Lucida Console, monospace;
+	font-weight: 400;
+}
+
+#main pre[class*="language-"]
+{
+	padding: 16px;
+	
+	background-color: #FFF;
+    background-image: linear-gradient(transparent 50%, rgba(150, 150, 150, 0.1) 50%);
+	background-size: 32px 32px;
+	background-attachment: local;
+}
+
+pre[class*="language-"]>code
+{
+	background-color:transparent;
+}
+
+pre.line-numbers
+{
+  padding-left: 0px !important;
+
+}
+pre.line-numbers > code
+{
+	padding: 0 3.8em;	
+  display: inline-block;
+}
+
+code[class*="language-"] > span:not(.line-numbers-rows)
+{
+}
+
+.line-numbers .line-numbers-rows
+{
+  left: 0;
+}
+
+div.code-toolbar > .toolbar > .toolbar-item > a, div.code-toolbar > .toolbar > .toolbar-item > button, div.code-toolbar > .toolbar > .toolbar-item > span
+{
+	background: #204a94;
+	opacity: 0.5;
+	color: #fff;
+}
+
+div.code-toolbar > .toolbar > .toolbar-item > a:hover,
+div.code-toolbar > .toolbar > .toolbar-item > a:focus,
+div.code-toolbar > .toolbar > .toolbar-item > button:hover,
+div.code-toolbar > .toolbar > .toolbar-item > button:focus,
+div.code-toolbar > .toolbar > .toolbar-item > span:hover,
+div.code-toolbar > .toolbar > .toolbar-item > span:focus
+{
+	opacity: 1;
+	color: #fff;
+}
+
+/* VS styling for Prism */
+code[class*="language-"], pre[class*="language-"] {
+  background: #FFFFFF;
+  color: #000;
+}
+
+.token.punctuation {
+  color: #000; }
+
+
+.token.boolean {
+  color: #004ed0; }
+
+.token.comment {
+  color: #008016; }
+
+.token.string {
+  color: #E21F1F; }
+
+.token.function {
+  color: #74531F; }
+
+.token.class-name {
+  color: #0491C1; }
+
+.token.doctype, .token.prolog {
+  color: #0491C1; }
+
+.token.keyword {
+  color: #004ed0; }
+
+.token.preprocessor.property {
+  color: #80807F; }
+.token.preprocessor.property .keyword {
+  color: #80807F; }
+.token.macro.property {
+  color: #80807F; }
+.token.directive.keyword {
+  color: #80807F; }
+.token.selector {
+  color: #B80000; }
+
+.token.atrule {
+  color: #004ed0; }
+
+.token.tag {
+  color: #B80000; }
+
+.token.attr-name {
+  color: #FF0000; }
+
+.token.attr-value {
+  color: #004ed0; }
+
+.token.keyword.keyword-break,
+.token.keyword.keyword-case,
+.token.keyword.keyword-catch,
+.token.keyword.keyword-continue,
+.token.keyword.keyword-do,
+.token.keyword.keyword-else,
+.token.keyword.keyword-for,
+.token.keyword.keyword-goto,
+.token.keyword.keyword-if,
+.token.keyword.keyword-return,
+.token.keyword.keyword-switch,
+.token.keyword.keyword-throw,
+.token.keyword.keyword-try,
+.token.keyword.keyword-while
+{
+	color: #8F08C4;
+}
+
+/* Word wrap */
+#main pre[class*="language-" ] {
+    white-space: pre-wrap;
+    overflow: hidden;
+    word-break: break-word;
+	clear: both;
+}
+
+#main code[class*="language-"],
+pre[class*="language-"] {
+	text-shadow: none;
+}
+
+/* For some reason, wpDiscuz's  CSS #comments #wpdcom span, #respond #wpdcom span, #wpdcom span { display: inline; } breaks Prism line number heights inside comments
+ * This is the only way I've found to fix it.  Total hack.  No idea why it works.
+*/
+#comments #wpdcom  .line-numbers-rows
+{
+	display: inline-grid;
+}

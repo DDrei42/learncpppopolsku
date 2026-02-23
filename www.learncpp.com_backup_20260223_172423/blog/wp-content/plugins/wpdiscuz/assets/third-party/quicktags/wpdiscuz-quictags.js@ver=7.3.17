@@ -1,0 +1,169 @@
+// Modified by AP
+// https://codex.wordpress.org/Quicktags_API
+jQuery(document).ready(function ($) {
+    var id = 'wc-textarea-0_0';
+	settings = {
+        id: id,
+//        buttons: 'strong,em,link,ul,ol,li'
+        buttons: ','
+    }
+
+	QTags.addButton('cpp_bold_button', 'b', function(el, canvas) {
+			pressButton(canvas, '**', '**', 'bold text here');
+		}, '', '', 'Bold text', 120);
+	QTags.addButton('cpp_underline_button', 'u', function(el, canvas) {
+			pressButton(canvas, ' ___', '___ ', 'underlined text here');
+		}, '', '', 'Underlined text', 130);
+	QTags.addButton('cpp_link_button', 'url', '[name](https://url)', '', '', 'Link to another website', 140);
+	QTags.addButton('cpp_code_button', 'Inline code', function(el, canvas) {
+			pressButton(canvas, '`', '`', 'inline code here');
+		}, '', '', 'A short piece of C++ code displayed as part of a sentence', 150);
+	QTags.addButton('cpp_code_block_button', 'C++ code block', function(el, canvas) {
+			pressButton(canvas, '\n```\n', '\n```\n', '// Replace this line with your C++ program');
+		}, '', '', 'A syntax-highlighted block of C++ code', 160);
+	QTags.addButton('cpp_help_button', 'Help!', function(el, canvas) {
+			window.open("/comment-formatting-help/");
+		}, '', '', 'Opens a new tab with help on how to use these buttons', 170);
+
+	
+/*	
+	QTags.addButton('cpp_bold_button', 'b', function(el, canvas) {
+			toggleButton(el, canvas, '**', '**');
+		}, '', '', 'Bold text', 120);
+	QTags.addButton('cpp_underline_button', 'u', function(el, canvas) {
+			toggleButton(el, canvas, ' ___', '___ ');
+		}, '', '', 'Underlined text', 130);
+	QTags.addButton('cpp_link_button', 'url', '[name](https://url)', '', '', 'Link to another website', 140);
+	QTags.addButton('cpp_code_button', 'Inline code', function(el, canvas) {
+			toggleButton(el, canvas, '`', '`');
+		}, '', '', 'A short piece of C++ code displayed as part of a sentence', 150);
+	QTags.addButton('cpp_code_block_button', 'Code block', function(el, canvas) {
+			toggleButton(el, canvas, '\n```\n// Replace this line with your C++ program', '\n```\n');
+		}, '', '', 'A syntax-highlighted block of C++ code', 160);
+	QTags.addButton('cpp_help_button', 'Help!', function(el, canvas) {
+			window.open("/comment-formatting-help/");
+		}, '', '', 'Opens a new tab with help on how to use these buttons', 170);
+*/	
+	quicktags(settings);
+		
+    $(document).on('click', '.wpd-reply-button', function () {
+        var uniqueId = 'wc-textarea-' + wpdiscuzGetUniqueId($(this));
+        if (uniqueId) {
+            var settings = {
+                id: uniqueId,
+                buttons: ','
+//                buttons: 'strong,em,link,ul,ol,li'
+            }
+            quicktags(settings);
+            QTags._buttonsInit();
+        }
+    });
+	
+    function wpdiscuzGetUniqueId(field)
+	{
+        var uniqueId = 0;
+        if (field.parents('.wpd-comment').attr('id')) {
+            uniqueId = field.parents('.wpd-comment').attr('id');
+        }
+        if (uniqueId !== 0 && uniqueId.length) {
+            uniqueId = uniqueId.substring(uniqueId.lastIndexOf('-') + 1);
+        }
+        return uniqueId;
+    }
+
+	function toggleButton(el, canvas, openTag, closeTag)
+	{
+		if (el.style.backgroundColor == '')
+		{
+			el.style.backgroundColor = '#ffdddd';
+			insertAtCursor(canvas, openTag);
+			el.value = '/' + el.value;
+		}
+		else
+		{
+			el.style.backgroundColor = '';
+			insertAtCursor(canvas, closeTag);
+			el.value = el.value.substring(1);
+		}		
+	}	
+	
+	function insertAtCursor(canvas, text) {
+		// IE support
+		if (document.selection) {
+			canvas.focus();
+			var sel = document.selection.createRange();
+			sel.text = text;
+			canvas.focus();
+		}
+		// Mozilla and others
+		else if (canvas.selectionStart || canvas.selectionStart === 0) {
+			var startPos = canvas.selectionStart;
+			var endPos = canvas.selectionEnd;
+			canvas.value = canvas.value.substring(0, startPos)
+				+ text
+				+ canvas.value.substring(endPos, canvas.value.length);
+			canvas.selectionStart = startPos + text.length;
+			canvas.selectionEnd = startPos + text.length;
+			canvas.focus();
+		} else {
+			canvas.value += text;
+	        canvas.focus();
+		}
+	
+		if ( document.createEvent ) {
+			event = document.createEvent( 'HTMLEvents' );
+			event.initEvent( 'change', false, true );
+			canvas.dispatchEvent( event );
+		} else if ( canvas.fireEvent ) {
+			canvas.fireEvent( 'onchange' );
+		}
+	}
+
+	function pressButton(canvas, openTag, closeTag, sampleText) {
+		// IE support
+		if (document.selection) {
+			canvas.focus();
+			var sel = document.selection.createRange();
+			sel.text = openTag + sampleText + closeTag;
+			canvas.focus();
+		}
+		// Mozilla and others
+		else if (canvas.selectionStart || canvas.selectionStart === 0) {
+			var startPos = canvas.selectionStart;
+			var endPos = canvas.selectionEnd;
+			var startText = canvas.value.substring(0, startPos);
+			var endText = canvas.value.substring(endPos, canvas.value.length);
+
+			// If text is selected
+			if (endPos > startPos)
+			{
+				var insertText = openTag + canvas.value.substring(startPos, endPos) + closeTag; 
+				canvas.value = startText + insertText + endText;
+				canvas.selectionStart = startPos + insertText.length;
+				canvas.selectionEnd = startPos + insertText.length;					
+			}
+			else // no text selected
+			{
+				var insertText = openTag + sampleText + closeTag;
+				canvas.value = startText + insertText + endText;
+				canvas.selectionStart = startPos + openTag.length;
+				canvas.selectionEnd = startPos + openTag.length + sampleText.length;					
+			}
+
+			canvas.focus();
+		} else {
+			canvas.value += openTag + sampleText + closeTag;
+	        canvas.focus();
+		}
+	
+		if ( document.createEvent ) {
+			event = document.createEvent( 'HTMLEvents' );
+			event.initEvent( 'change', false, true );
+			canvas.dispatchEvent( event );
+		} else if ( canvas.fireEvent ) {
+			canvas.fireEvent( 'onchange' );
+		}
+	}
+	
+});
+
