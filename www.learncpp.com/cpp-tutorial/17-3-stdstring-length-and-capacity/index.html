@@ -28,14 +28,14 @@ Capacity: 15
 std::cout &lt;&lt; &#34;Length: &#34; &lt;&lt; s.length() &lt;&lt; &#39;\n&#39;;
 std::cout &lt;&lt; &#34;Capacity: &#34; &lt;&lt; s.capacity() &lt;&lt; &#39;\n&#39;;</code></pre><p>Ten program wyprowadza:<pre>Length: 15
 Capacity: 15
-</pre><p>(Wyniki mogą się różnić w zależności od kompilatora).<p>Dodajmy jeden znak do łańcucha i obserwujmy zmianę pojemności:<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::string s(&#34;0123456789abcde&#34;);
-std::cout &lt;&lt; &#34;Length: &#34; &lt;&lt; s.length() &lt;&lt; &#39;\n&#39;;
-std::cout &lt;&lt; &#34;Capacity: &#34; &lt;&lt; s.capacity() &lt;&lt; &#39;\n&#39;;
+</pre><p>(Wyniki mogą się różnić w zależności od kompilatora).<p>Dodajmy jeden znak do łańcucha i obserwujmy zmianę pojemności:<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::string s("0123456789abcde");
+std::cout &lt;&lt; "Length: " &lt;&lt; s.length() &lt;&lt; '\n';
+std::cout &lt;&lt; "Capacity: " &lt;&lt; s.capacity() &lt;&lt; '\n';
 
-// Now add a new character
-s += &#34;f&#34;;
-std::cout &lt;&lt; &#34;Length: &#34; &lt;&lt; s.length() &lt;&lt; &#39;\n&#39;;
-std::cout &lt;&lt; &#34;Capacity: &#34; &lt;&lt; s.capacity() &lt;&lt; &#39;\n&#39;;</code></pre><p>Daje to wynik:<pre>Length: 15
+// Teraz nowy dodaj znak
+s += "f";
+std::cout &lt;&lt; "Length: " &lt;&lt; s.length() &lt;&lt; '\n';
+std::cout &lt;&lt; "Capacity: " &lt;&lt; s.capacity() &lt;&lt; '\n';</code></pre><p>Daje to wynik:<pre>Length: 15
 Capacity: 15
 Length: 16
 Capacity: 31
@@ -57,19 +57,19 @@ Length: 8
 Capacity: 207
 </pre></table></div><p>Ten przykład pokazuje dwie interesujące rzeczy. Po pierwsze, chociaż poprosiliśmy o pojemność 200, w rzeczywistości otrzymaliśmy pojemność 207. Zawsze gwarantujemy, że pojemność będzie co najmniej tak duża, jak wymagana jest Twoja prośba, ale może być większa. Następnie poprosiliśmy o zmianę pojemności w celu dopasowania ciągu. To żądanie zostało zignorowane, ponieważ pojemność nie uległa zmianie.<p>Jeśli wiesz z góry, że będziesz konstruować duży ciąg znaków, wykonując wiele operacji na łańcuchach, które zwiększą jego rozmiar, możesz uniknąć wielokrotnej ponownej alokacji łańcucha, rezerwując od początku wystarczającą pojemność:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;string&gt;
-#include &lt;cstdlib&gt; // for rand() and srand()
-#include &lt;ctime&gt; // for time()
+#include &lt;cstdlib&gt; // dla Rand() i srand()
+#include &lt;ctime&gt; // dla time()
 
 int main()
 {
-    std::srand(std::time(nullptr)); // seed random number generator
+    std::srand(std::time(nullptr)); // generator liczb losowych nasion
 
     std::string s{}; // length 0
     s.reserve(64); // reserve 64 characters
 
-    // Fill string up with random lower case characters
+    // Wypełnij ciąg losowymi małymi literami
     for (int count{ 0 }; count &lt; 64; ++count)
-        s += &#39;a&#39; + std::rand() % 26;
+        s += 'a' + std::rand() % 26;
 
     std::cout &lt;&lt; s;
 }</code></pre><p>Wynik działania tego programu będzie się zmieniać za każdym razem, ale oto wynik jednego wykonania:<pre>wzpzujwuaokbakgijqdawvzjqlgcipiiuuxhyfkdppxpyycvytvyxwqsbtielxpy

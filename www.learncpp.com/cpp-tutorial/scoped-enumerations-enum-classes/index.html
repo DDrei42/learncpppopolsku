@@ -32,49 +32,49 @@ int main()
     Color color { red };
     Fruit fruit { banana };
 
-    if (color == fruit) // The compiler will compare color and fruit as integers
-        std::cout &lt;&lt; &#34;color and fruit are equal\n&#34;; // and find they are equal!
+    if (color == fruit) // The kompilator porówna kolor i owoc jako liczby całkowite
+        std::cout &lt;&lt; "color and fruit are equal\n"; // i stwierdzimy, że są równe!
     else
-        std::cout &lt;&lt; &#34;color and fruit are not equal\n&#34;;
+        std::cout &lt;&lt; "color and fruit are not equal\n";
 
     return 0;
 }</code></pre><p>Wypisuje:<pre>color and fruit are equal
-</pre><p>Po wywołaniu <code>color</code> i <code>fruit</code> są porównywane, kompilator sprawdzi, czy wie, jak porównać a <code>Color</code> oraz a <code>Fruit</code>. Tak nie jest. Następnie spróbuje przekonwertować  <code>Color</code> i/lub <code>Fruit</code>  na liczby całkowite, aby sprawdzić, czy uda mu się znaleźć dopasowanie. Ostatecznie kompilator ustali, że jeśli skonwertuje obie liczby na liczby całkowite, będzie mógł przeprowadzić porównanie. Ponieważ  <code>color</code> i <code>fruit</code> są ustawione na moduły wyliczające, które konwertują na wartość całkowitą, <code>0</code>, <code>color</code> będą równe <code>fruit</code>.<p>To nie ma sensu semantycznie, ponieważ <code>color</code> i <code>fruit</code> pochodzą z różnych wyliczeń i nie mają być porównywalne. W przypadku standardowych modułów wyliczających nie można w łatwy sposób temu zapobiec.<p>Ze względu na takie wyzwania, a także problem z zanieczyszczeniem przestrzeni nazw (wyliczenia bez zakresu zdefiniowane w zasięgu globalnym umieszczają swoje wyliczacze w globalnej przestrzeni nazw), projektanci C++ ustalili, że przydałoby się czystsze rozwiązanie dla wyliczeń.<p class="cpp-section cpp-topline" style=clear:both>Wyliczenia o zakresie<p>To rozwiązanie ma <strong>ograniczony zakres enumeration</strong> (często nazywana <strong>klasą wyliczeniową</strong> w C++ z powodów, które wkrótce staną się oczywiste).<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Wyliczenia z zakresem działają podobnie do wyliczeń bez zakresu (<a href="../unscoped-enumerations/index.html">13.2 — Wyliczenia bez zakresu</a>), ale mają dwie podstawowe różnice: nie są domyślnie konwertowane na liczby całkowite, a moduły wyliczające are <em>tylko</em> umieszczane w obszarze zakresu wyliczenia (a nie w regionie zasięgu, w którym znajduje się wyliczenie zdefiniowane).<p>Aby dokonać wyliczenia zakresowego, używamy słów kluczowych <code>enum class</code>. Pozostała część definicji wyliczenia o zakresie jest taka sama jak definicja wyliczenia bez zakresu. Oto przykład: <pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+</pre><p>Po wywołaniu <code>color</code> i <code>fruit</code> są porównywane, kompilator sprawdzi, czy wie, jak porównać <code>Color</code> oraz <code>Fruit</code>. Tak nie jest. Następnie spróbuje przekonwertować  <code>Color</code> i/lub <code>Fruit</code>  na liczby całkowite, aby sprawdzić, czy uda mu się znaleźć dopasowanie. Ostatecznie kompilator ustali, że jeśli skonwertuje obie liczby na liczby całkowite, będzie mógł przeprowadzić porównanie. Ponieważ  <code>color</code> i <code>fruit</code> są ustawione na moduły wyliczające, które konwertują na wartość całkowitą, <code>0</code>, <code>color</code> będą równe <code>fruit</code>.<p>To nie ma sensu semantycznie, ponieważ <code>color</code> i <code>fruit</code> pochodzą z różnych wyliczeń i nie mają być porównywalne. W przypadku standardowych modułów wyliczających nie można w łatwy sposób temu zapobiec.<p>Ze względu na takie wyzwania, a także problem z zanieczyszczeniem przestrzeni nazw (wyliczenia bez zakresu zdefiniowane w zasięgu globalnym umieszczają swoje wyliczacze w globalnej przestrzeni nazw), projektanci C++ ustalili, że przydałoby się czystsze rozwiązanie dla wyliczeń.<p class="cpp-section cpp-topline" style=clear:both>Wyliczenia o zakresie<p>To rozwiązanie ma <strong>ograniczony zakres enumeration</strong> (często nazywana <strong>klasą wyliczeniową</strong> w C++ z powodów, które wkrótce staną się oczywiste).<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Wyliczenia z zakresem działają podobnie do wyliczeń bez zakresu (<a href="../unscoped-enumerations/index.html">13.2 — Wyliczenia bez zakresu</a>), ale mają dwie podstawowe różnice: nie są domyślnie konwertowane na liczby całkowite, a moduły wyliczające are <em>tylko</em> umieszczane w obszarze zakresu wyliczenia (a nie w regionie zasięgu, w którym znajduje się wyliczenie zdefiniowane).<p>Aby dokonać wyliczenia zakresowego, używamy słów kluczowych <code>enum class</code>. Pozostała część definicji wyliczenia o zakresie jest taka sama jak definicja wyliczenia bez zakresu. Oto przykład: <pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 int main()
 {
-    enum class Color // &#34;enum class&#34; defines this as a scoped enumeration rather than an unscoped enumeration
+    enum class Color // „enum class” definiuje to jako wyliczenie o określonym zakresie, a nie wyliczenie bez zakresu
     {
-        red, // red is considered part of Color&#39;s scope region
+        red, // czerwony jest uważany za część obszaru zasięgu Color
         blue,
     };
 
     enum class Fruit
     {
-        banana, // banana is considered part of Fruit&#39;s scope region
+        banana, // banana jest uważany za część obszaru zasięgu Fruit
         apple,
     };
 
-    Color color { Color::red }; // note: red is not directly accessible, we have to use Color::red
-    Fruit fruit { Fruit::banana }; // note: banana is not directly accessible, we have to use Fruit::banana
+    Color color { Color::red }; // uwaga: kolor czerwony nie jest bezpośrednio dostępny, musimy użyć Color::red
+    Fruit fruit { Fruit::banana }; // uwaga: banan nie jest bezpośrednio dostępny, musimy użyć Fruit::banana
 	
-    if (color == fruit) // compile error: the compiler doesn&#39;t know how to compare different types Color and Fruit
-        std::cout &lt;&lt; &#34;color and fruit are equal\n&#34;;
+    if (color == fruit) // błąd kompilacji: kompilator nie wie, jak porównać różne typy Color i Fruit
+        std::cout &lt;&lt; "color and fruit are equal\n";
     else
-        std::cout &lt;&lt; &#34;color and fruit are not equal\n&#34;;
+        std::cout &lt;&lt; "color and fruit are not equal\n";
 
     return 0;
 }</code></pre><p>Ten program generuje błąd kompilacji w linii 19, ponieważ wyliczenie o określonym zasięgu nie zostanie przekonwertowane na żaden typ, który można porównać z innym typem. Słowo kluczowe <div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Na marginesie…<p>Klasa <code>class</code>  (wraz ze słowem kluczowym  <code>static</code> ) jest jednym z najbardziej przeciążonych słów kluczowych w języku C++ i może mieć różne znaczenia w zależności od kontekstu. Chociaż wyliczenia o określonym zakresie używają słowa kluczowego <code>class</code> , nie są one uważane za „typ klasy” (który jest zarezerwowany dla struktur, klas i unii).<p><code>enum struct</code> działa również w tym kontekście i zachowuje się identycznie jak  <code>enum class</code>. Jednakże użycie <code>enum struct</code> nie jest idiomatyczne, więc unikaj jego używania.</div><p class="cpp-section cpp-topline" style=clear:both>Wyliczenia o zakresie definiują własne obszary zakresu<p>W przeciwieństwie do wyliczeń bez zakresu, które umieszczają swoje moduły wyliczające w tym samym zakresie co samo wyliczenie, wyliczenia o zakresie umieszczają swoje moduły wyliczające <em>tylko</em> w obszarze zasięgu wyliczenia. Innymi słowy, wyliczenia o określonym zakresie działają jak przestrzeń nazw dla ich modułów wyliczających. Ta wbudowana przestrzeń nazw pomaga zmniejszyć zanieczyszczenie globalnej przestrzeni nazw i ryzyko konfliktów nazw, gdy w zakresie globalnym używane są wyliczenia o określonym zakresie.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Aby uzyskać dostęp do modułu wyliczającego o określonym zakresie, robimy to tak, jakby znajdował się on w przestrzeni nazw o tej samej nazwie co wyliczenie o zakresie:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 int main()
 {
-    enum class Color // &#34;enum class&#34; defines this as a scoped enum rather than an unscoped enum
+    enum class Color // „klasa wyliczeniowa” definiuje to jako wyliczenie o określonym zakresie, a nie wyliczenie bez zakresu
     {
-        red, // red is considered part of Color&#39;s scope region
+        red, // czerwony jest uważany za część obszaru zasięgu Color
         blue,
     };
 
-    std::cout &lt;&lt; red &lt;&lt; &#39;\n&#39;;        // compile error: red not defined in this scope region
-    std::cout &lt;&lt; Color::red &lt;&lt; &#39;\n&#39;; // compile error: std::cout doesn&#39;t know how to print this (will not implicitly convert to int)
+    std::cout &lt;&lt; red &lt;&lt; '\n';        // błąd kompilacji: czerwony nie zdefiniowany w tym zakresie region
+    std::cout &lt;&lt; Color::red &lt;&lt; '\n'; // błąd kompilacji: std::cout nie wie, jak to wydrukować (nie zostanie domyślnie przekonwertowany na int)
 
     Color color { Color::blue }; // okay
 
@@ -90,14 +90,14 @@ int main()
 
     Color shirt { Color::red };
 
-    if (shirt == Color::red) // this Color to Color comparison is okay
-        std::cout &lt;&lt; &#34;The shirt is red!\n&#34;;
+    if (shirt == Color::red) // to porównanie kolorów do kolorów jest w porządku
+        std::cout &lt;&lt; "The shirt is red!\n";
     else if (shirt == Color::blue)
-        std::cout &lt;&lt; &#34;The shirt is blue!\n&#34;;
+        std::cout &lt;&lt; "The shirt is blue!\n";
 
     return 0;
-}</code></pre><p>Czasami przydatne jest traktowanie modułu wyliczającego o określonym zakresie jako wartości całkowitej. W takich przypadkach można jawnie przekonwertować moduł wyliczający o określonym zakresie na liczbę całkowitą, używając a <code>static_cast</code>. Lepszym wyborem w C++23 jest użycie <code>std::to_underlying()</code> (zdefiniowanego w nagłówku &lt;utility&gt;), które konwertuje moduł wyliczający na wartość typu bazowego wyliczenia.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
-#include &lt;utility&gt; // for std::to_underlying() (C++23)
+}</code></pre><p>Czasami przydatne jest traktowanie modułu wyliczającego o określonym zakresie jako wartości całkowitej. W takich przypadkach można jawnie przekonwertować moduł wyliczający o określonym zakresie na liczbę całkowitą, używając <code>static_cast</code>. Lepszym wyborem w C++23 jest użycie <code>std::to_underlying()</code> (zdefiniowanego w nagłówku &lt;utility&gt;), które konwertuje moduł wyliczający na wartość typu bazowego wyliczenia.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+#include &lt;utility&gt; // dla std::to_underlying() (C++23)
 
 int main()
 {
@@ -109,9 +109,9 @@ int main()
 
     Color color { Color::blue };
 
-    std::cout &lt;&lt; color &lt;&lt; &#39;\n&#39;; // won&#39;t work, because there&#39;s no implicit conversion to int
-    std::cout &lt;&lt; static_cast&lt;int&gt;(color) &lt;&lt; &#39;\n&#39;;   // explicit conversion to int, will print 1
-    std::cout &lt;&lt; std::to_underlying(color) &lt;&lt; &#39;\n&#39;; // convert to underlying type, will print 1 (C++23)
+    std::cout &lt;&lt; color &lt;&lt; '\n'; // nie zadziała, ponieważ nie ma ukrytej konwersji na int
+    std::cout &lt;&lt; static_cast&lt;int&gt;(color) &lt;&lt; '\n';   // jawna konwersja na int, wyświetli 1
+    std::cout &lt;&lt; std::to_underlying(color) &lt;&lt; '\n'; // konwertuje na typ bazowy, wypisuje 1 (C++23)
 
     return 0;
 }</code></pre><p>I odwrotnie, możesz także  <code>static_cast</code> liczbę całkowitą do modułu wyliczającego o określonym zakresie, co może być przydatne podczas wprowadzania danych od użytkowników:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -126,17 +126,17 @@ int main()
         whale, // assigned 3
     };
 
-    std::cout &lt;&lt; &#34;Enter a pet (0=cat, 1=dog, 2=pig, 3=whale): &#34;;
+    std::cout &lt;&lt; "Enter a pet (0=cat, 1=dog, 2=pig, 3=whale): ";
 
     int input{};
-    std::cin &gt;&gt; input; // input an integer
+    std::cin &gt;&gt; input; // wprowadzenie liczby całkowitej
 
-    Pet pet{ static_cast&lt;Pet&gt;(input) }; // static_cast our integer to a Pet
+    Pet pet{ static_cast&lt;Pet&gt;(input) }; // static_cast naszą liczbę całkowitą do Pet
 
     return 0;
-}</code></pre><p>Począwszy od C++17, możesz zainicjować listę wyliczenie o ograniczonym zakresie przy użyciu wartości całkowitej bez static_cast (i w przeciwieństwie do wyliczenia bez zakresu, nie trzeba określać podstawy):<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">   // using enum class Pet from prior example
+}</code></pre><p>Począwszy od C++17, możesz zainicjować listę wyliczenie o ograniczonym zakresie przy użyciu wartości całkowitej bez static_cast (i w przeciwieństwie do wyliczenia bez zakresu, nie trzeba określać podstawy):<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">   // używając klasy wyliczeniowej Pet z poprzedniego przykładu
    Pet pet { 1 }; // okay</code></pre><div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Preferuj wyliczenia o ograniczonym zakresie zamiast wyliczeń bez zakresu, chyba że istnieje ważny powód, aby zrobić inaczej.</div><p>Pomimo korzyści, jakie oferują wyliczenia o zakresie, wyliczenia bez zakresu są nadal powszechnie używane w C++, ponieważ istnieją sytuacje, w których wymagana jest niejawna konwersja na int (robienie dużej ilości rzutowania statycznego staje się denerwujące) i nie potrzebujemy dodatkowej przestrzeni nazw.<p class="cpp-section cpp-topline" style=clear:both><a name=operatorplus></a>Ułatwianie konwersji modułów wyliczających o ograniczonym zakresie na liczby całkowite (zaawansowane) <a href="index.html#operatorplus"><i class="fa fa-link" style=font-size:.8em></i></a><div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>Wyliczenia o ograniczonym zakresie są świetne, ale brak ukrytej konwersji na liczby całkowite może czasami być problemem. Jeśli musimy często konwertować wyliczenie o zakresie na liczby całkowite (np. w przypadkach, gdy chcemy używać modułów wyliczających o zasięgu jako indeksów tablicy), konieczność używania static_cast za każdym razem, gdy chcemy dokonać konwersji, może znacznie zaśmiecić nasz kod.<p>Jeśli znajdziesz się w sytuacji, w której przydatne byłoby ułatwienie konwersji modułów wyliczających o zakresie na liczby całkowite, przydatnym sposobem jest przeciążenie jednoargumentowego <code>operator+</code> w celu wykonania ta konwersja:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
-#include &lt;type_traits&gt; // for std::underlying_type_t
+#include &lt;type_traits&gt; // dla std::underlying_type_t
 
 enum class Animals
 {
@@ -150,9 +150,9 @@ enum class Animals
     maxAnimals,
 };
 
-// Overload the unary + operator to convert an enum to the underlying type
+// Przeciąż operator jednoargumentowy +, aby przekonwertować wyliczenie na typ podstawowy
 // adapted from https://stackoverflow.com/a/42198760, thanks to Pixelchemist for the idea
-// In C++23, you can #include &lt;utility&gt; and return std::to_underlying(a) instead
+// W C++23 możesz #include &lt;utility&gt; i zamiast tego zwróć std::to_underlying(a)
 template &lt;typename T&gt;
 constexpr auto operator+(T a) noexcept
 {
@@ -161,7 +161,7 @@ constexpr auto operator+(T a) noexcept
 
 int main()
 {
-    std::cout &lt;&lt; +Animals::elephant &lt;&lt; &#39;\n&#39;; // convert Animals::elephant to an integer using unary operator+
+    std::cout &lt;&lt; +Animals::elephant &lt;&lt; '\n'; // konwertuj Animals::elephant na liczbę całkowitą za pomocą operatora jednoargumentowego+
 
     return 0;
 }</code></pre><p>Wypisuje:<pre>3
@@ -178,14 +178,14 @@ enum class Color
 constexpr std::string_view getColor(Color color)
 {
     using enum Color; // bring all Color enumerators into current scope (C++20)
-    // We can now access the enumerators of Color without using a Color:: prefix
+    // Możemy teraz uzyskać dostęp do modułów wyliczających Color bez użycia przedrostka Color::
 
     switch (color)
     {
-    case black: return &#34;black&#34;; // note: black instead of Color::black
-    case red:   return &#34;red&#34;;
-    case blue:  return &#34;blue&#34;;
-    default:    return &#34;???&#34;;
+    case black: return "black"; // note: black instead of Color::black
+    case red:   return "red";
+    case blue:  return "blue";
+    default:    return "???";
     }
 }
 
@@ -193,14 +193,14 @@ int main()
 {
     Color shirt{ Color::blue };
 
-    std::cout &lt;&lt; &#34;Your shirt is &#34; &lt;&lt; getColor(shirt) &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "Your shirt is " &lt;&lt; getColor(shirt) &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>W powyższym przykładzie <code>Color</code> jest klasą wyliczeniową, więc normalnie uzyskiwalibyśmy dostęp do modułów wyliczających przy użyciu w pełni kwalifikowanej nazwy (np. <code>Color::blue</code>). Jednak w obrębie funkcji <code>getColor()</code> dodaliśmy instrukcję <code>using enum Color;</code>, która umożliwia nam dostęp do tych modułów wyliczających bez  <code>Color::</code> prefiksu.<p>Dzięki temu nie musimy mieć wielu zbędnych, oczywistych przedrostków wewnątrz instrukcji switch.<p class="cpp-section cpp-topline" style=clear:both>Czas quizu<p class=cpp-quiz-question style=clear:both>Pytanie nr 1<p>Zdefiniuj klasę wyliczeniową o nazwie Animal, która zawiera następujące zwierzęta: świnia, kurczak, koza, kot, pies, kaczka. Napisz funkcję o nazwie getAnimalName(), która pobiera parametr Animal i używa instrukcji switch w celu zwrócenia nazwy tego zwierzęcia w postaci std::string_view (lub std::string, jeśli używasz C++ 14). Napisz inną funkcję o nazwie printNumberOfLegs(), która używa instrukcji switch do wydrukowania liczby nóg, po których chodzi każde zwierzę. Upewnij się, że obie funkcje mają domyślną wielkość liter, która wyświetla komunikat o błędzie. Wywołaj printNumberOfLegs() z main() z kotem i kurczakiem. Twoje dane wyjściowe powinny wyglądać następująco:<pre>A cat has 4 legs.
 A chicken has 2 legs.
 </pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><div class=wpsolution id=cpp_solution_id_0 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;string_view&gt; // C++17
-//#include &lt;string&gt; // for C++14
+//#include &lt;string&gt; // dla C++14
 
 enum class Animal
 {
@@ -213,34 +213,34 @@ enum class Animal
 };
 
 constexpr std::string_view getAnimalName(Animal animal) // C++17
-// const std::string getAnimalName(Animal animal) // C++14
+// const std::string getAnimalName(Animal zwierzę) // C++14
 {
-    // If C++20 capable, could use `using enum Animal` here to reduce Animal prefix redundancy
+    // Jeśli obsługuje C++20, mógłby użyć tutaj `używając enum Animal`, aby zmniejszyć redundancję przedrostka Animal
     switch (animal)
     {
         case Animal::chicken:
-            return &#34;chicken&#34;;
+            return "chicken";
         case Animal::duck:
-            return &#34;duck&#34;;
+            return "duck";
         case Animal::pig:
-            return &#34;pig&#34;;
+            return "pig";
         case Animal::goat:
-            return &#34;goat&#34;;
+            return "goat";
         case Animal::cat:
-            return &#34;cat&#34;;
+            return "cat";
         case Animal::dog:
-            return &#34;dog&#34;;
+            return "dog";
 
         default:
-            return &#34;???&#34;;
+            return "???";
     }
 }
 
 void printNumberOfLegs(Animal animal)
 {
-    std::cout &lt;&lt; &#34;A &#34; &lt;&lt; getAnimalName(animal) &lt;&lt; &#34; has &#34;;
+    std::cout &lt;&lt; "A " &lt;&lt; getAnimalName(animal) &lt;&lt; " has ";
 
-    // If C++20 capable, could use `using enum Animal` here to reduce Animal prefix redundancy
+    // Jeśli obsługuje C++20, mógłby użyć tutaj `używając enum Animal`, aby zmniejszyć redundancję przedrostka Animal
     switch (animal)
     {
         case Animal::chicken:
@@ -256,11 +256,11 @@ void printNumberOfLegs(Animal animal)
             break;
 
         default:
-            std::cout &lt;&lt; &#34;???&#34;;
+            std::cout &lt;&lt; "???";
             break;
     }
 
-    std::cout &lt;&lt; &#34; legs.\n&#34;;
+    std::cout &lt;&lt; " legs.\n";
 }
 
 int main()

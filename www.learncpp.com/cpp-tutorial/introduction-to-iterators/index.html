@@ -19,43 +19,43 @@
 
 int main()
 {
-    // In C++17, the type of variable arr is deduced to std::array&lt;int, 7&gt;
-    // If you get an error compiling this example, see the warning below
+    // W C++17 typ zmiennej arr jest dedukowany na std::array&lt;int, 7&gt;
+    // Jeśli podczas kompilacji tego przykładu wystąpił błąd, zobacz ostrzeżenie poniżej
     std::array arr{ 0, 1, 2, 3, 4, 5, 6 };
     std::size_t length{ std::size(arr) };
 
-    // while-loop with explicit index
+    // pętla while z jawnym indeksem
     std::size_t index{ 0 };
     while (index &lt; length)
     {
-        std::cout &lt;&lt; arr[index] &lt;&lt; &#39; &#39;;
+        std::cout &lt;&lt; arr[index] &lt;&lt; ' ';
         ++index;
     }
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
 
-    // for-loop with explicit index
+    // pętla for z jawnym indeksem
     for (index = 0; index &lt; length; ++index)
     {
-        std::cout &lt;&lt; arr[index] &lt;&lt; &#39; &#39;;
+        std::cout &lt;&lt; arr[index] &lt;&lt; ' ';
     }
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
 
-    // for-loop with pointer (Note: ptr can&#39;t be const, because we increment it)
+    // pętla for ze wskaźnikiem (Uwaga: ptr nie może być stałą, ponieważ ją zwiększamy)
     for (auto ptr{ &amp;arr[0] }; ptr != (&amp;arr[0] + length); ++ptr)
     {
-        std::cout &lt;&lt; *ptr &lt;&lt; &#39; &#39;;
+        std::cout &lt;&lt; *ptr &lt;&lt; ' ';
     }
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
 
-    // range-based for loop
+    // oparty na zakresie dla pętli
     for (int i : arr)
     {
-        std::cout &lt;&lt; i &lt;&lt; &#39; &#39;;
+        std::cout &lt;&lt; i &lt;&lt; ' ';
     }
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
 
     return 0;
-}</code></pre><div class="cpp-note cpp-lightredbackground"><p class="cpp-note-title cpp-bottomline">Ostrzeżenie<p>W przykładach w tej lekcji wykorzystano funkcję C++17 zwaną <code>class template argument deduction</code> w celu wydedukowania argumentów szablonu zmiennej szablonu z jej inicjatora. W powyższym przykładzie, gdy kompilator zobaczy <code>std::array arr{ 0, 1, 2, 3, 4, 5, 6 };</code>, wywnioskuje, że chcemy <code>std::array&lt;int, 7> arr { 0, 1, 2, 3, 4, 5, 6 };</code>.<p>Jeśli Twój kompilator nie obsługuje C++ 17, pojawi się błąd mówiący coś w rodzaju „brak argumentów szablonu przed „arr””. W takim przypadku najlepiej będzie włączyć C++ 17, zgodnie z lekcją <a href="../configuring-your-compiler-choosing-a-language-standard/index.html">0.12 — Konfigurowanie kompilatora: Wybieranie standardu językowego</a>. Jeśli nie możesz, możesz zastąpić linie korzystające z dedukcji argumentów szablonu klasy liniami, które mają jawne argumenty szablonu (np. zamień <code>std::array arr{ 0, 1, 2, 3, 4, 5, 6 };</code> z <code>std::array&lt;int, 7> arr { 0, 1, 2, 3, 4, 5, 6 };</code></div><p>Pętla z użyciem indeksów wymaga więcej pisania niż potrzeba, jeśli używamy indeksu tylko do uzyskania dostępu do elementów. Działa to również tylko wtedy, gdy kontener (np. tablica) zapewnia bezpośredni dostęp do elementów (co robią tablice, ale niektóre inne typy kontenerów, takie jak listy, nie).<p>Pętla z wskaźniki i arytmetyka wskaźników jest gadatliwa i może być myląca dla czytelników, którzy nie znają zasad arytmetyki wskaźników. Arytmetyka wskaźników działa również tylko wtedy, gdy elementy znajdują się w pamięci po sobie (co dotyczy tablic, ale nie dotyczy innych typów kontenerów, takich jak listy, drzewa i mapy).<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Dla zaawansowanych czytelników<p>Wskaźniki (bez arytmetyki wskaźników) mogą być również używane do iteracji po niektórych elementach. struktury niesekwencyjne. Na liście połączonej każdy element jest połączony z poprzednim elementem za pomocą wskaźnika. Możemy iterować po liście, podążając za łańcuchem wskaźników. </div><p>Pętle for oparte na zakresach są nieco bardziej interesujące, ponieważ mechanizm iteracji po naszym kontenerze jest ukryty - a mimo to nadal działają w przypadku wszelkiego rodzaju różnych struktur (tablic, list, drzew, map itp.). iteratory.<p class="cpp-section cpp-topline" style=clear:both>Iteratory<p>An <strong>iterator</strong> to obiekt przeznaczony do przechodzenia przez kontener (np. wartości w tablicy lub znaki w ciągu znaków), zapewniający po drodze dostęp do każdego elementu.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Kontener może udostępniać różne rodzaje iteratorów Na przykład kontener tablicy może oferować iterator do przodu, który przechodzi przez tablicę w kolejności do przodu, oraz iterator odwrotny, który przechodzi przez tablicę w odwrotnej kolejności.<p>Po utworzeniu odpowiedniego typu iteratora programista może następnie używać interfejsu dostarczonego przez iterator do przeglądania elementów i uzyskiwania dostępu do nich bez konieczności martwienia się o rodzaj wykonywanego przechodzenia lub w jaki sposób dane są przechowywane w kontenerze. A ponieważ iteratory C++ zazwyczaj używają tego samego interfejsu do przechodzenia (operator++ do przejścia do następnego elementu) i dostępu (operator* do uzyskiwania dostępu do elementu). bieżący element), możemy iterować po wielu różnych typach kontenerów, stosując spójną metodę.<p class="cpp-section cpp-topline" style=clear:both>Wskaźniki jako iterator<p>Najprostszym rodzajem iteratora jest wskaźnik, który (przy użyciu arytmetyki wskaźników) działa dla danych przechowywanych sekwencyjnie w pamięci. Przyjrzyjmy się ponownie prostemu przechodzeniu przez tablicę przy użyciu arytmetyki wskaźników i wskaźników:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;array&gt;
+}</code></pre><div class="cpp-note cpp-lightredbackground"><p class="cpp-note-title cpp-bottomline">Ostrzeżenie<p>W przykładach w tej lekcji wykorzystano funkcję C++17 zwaną <code>class template argument deduction</code> w celu wydedukowania argumentów szablonu zmiennej szablonu z jej inicjatora. W powyższym przykładzie, gdy kompilator zobaczy <code>std::array arr{ 0, 1, 2, 3, 4, 5, 6 };</code>, wywnioskuje, że chcemy <code>std::array&lt;int, 7> arr { 0, 1, 2, 3, 4, 5, 6 };</code>.<p>Jeśli Twój kompilator nie obsługuje C++ 17, pojawi się błąd mówiący coś w rodzaju „brak argumentów szablonu przed „arr””. W takim przypadku najlepiej będzie włączyć C++ 17, zgodnie z lekcją <a href="../configuring-your-compiler-choosing-a-language-standard/index.html">0.12 — Konfigurowanie kompilatora: Wybieranie standardu językowego</a>. Jeśli nie możesz, możesz zastąpić linie korzystające z dedukcji argumentów szablonu klasy liniami, które mają jawne argumenty szablonu (np. zamień <code>std::array arr{ 0, 1, 2, 3, 4, 5, 6 };</code> z <code>std::array&lt;int, 7> arr { 0, 1, 2, 3, 4, 5, 6 };</code></div><p>Pętla z użyciem indeksów wymaga więcej pisania niż potrzeba, jeśli używamy indeksu tylko do uzyskania dostępu do elementów. Działa to również tylko wtedy, gdy kontener (np. tablica) zapewnia bezpośredni dostęp do elementów (co robią tablice, ale niektóre inne typy kontenerów, takie jak listy, nie).<p>Pętla z wskaźniki i arytmetyka wskaźników jest gadatliwa i może być myląca dla czytelników, którzy nie znają zasad arytmetyki wskaźników. Arytmetyka wskaźników działa również tylko wtedy, gdy elementy znajdują się w pamięci po sobie (co dotyczy tablic, ale nie dotyczy innych typów kontenerów, takich jak listy, drzewa i mapy).<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Dla zaawansowanych czytelników<p>Wskaźniki (bez arytmetyki wskaźników) mogą być również używane do iteracji po niektórych elementach. struktury niesekwencyjne. Na liście połączonej każdy element jest połączony z poprzednim elementem za pomocą wskaźnika. Możemy iterować po liście, podążając za łańcuchem wskaźników. </div><p>Pętle for oparte na zakresach są nieco bardziej interesujące, ponieważ mechanizm iteracji po naszym kontenerze jest ukryty - a mimo to nadal działają w przypadku wszelkiego rodzaju różnych struktur (tablic, list, drzew, map itp.). iteratory.<p class="cpp-section cpp-topline" style=clear:both>Iteratory<p><strong>iterator</strong> to obiekt przeznaczony do przechodzenia przez kontener (np. wartości w tablicy lub znaki w ciągu znaków), zapewniający po drodze dostęp do każdego elementu.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Kontener może udostępniać różne rodzaje iteratorów Na przykład kontener tablicy może oferować iterator do przodu, który przechodzi przez tablicę w kolejności do przodu, oraz iterator odwrotny, który przechodzi przez tablicę w odwrotnej kolejności.<p>Po utworzeniu odpowiedniego typu iteratora programista może następnie używać interfejsu dostarczonego przez iterator do przeglądania elementów i uzyskiwania dostępu do nich bez konieczności martwienia się o rodzaj wykonywanego przechodzenia lub w jaki sposób dane są przechowywane w kontenerze. A ponieważ iteratory C++ zazwyczaj używają tego samego interfejsu do przechodzenia (operator++ do przejścia do następnego elementu) i dostępu (operator* do uzyskiwania dostępu do elementu). bieżący element), możemy iterować po wielu różnych typach kontenerów, stosując spójną metodę.<p class="cpp-section cpp-topline" style=clear:both>Wskaźniki jako iterator<p>Najprostszym rodzajem iteratora jest wskaźnik, który (przy użyciu arytmetyki wskaźników) działa dla danych przechowywanych sekwencyjnie w pamięci. Przyjrzyjmy się ponownie prostemu przechodzeniu przez tablicę przy użyciu arytmetyki wskaźników i wskaźników:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;array&gt;
 #include &lt;iostream&gt;
 
 int main()
@@ -63,34 +63,34 @@ int main()
     std::array arr{ 0, 1, 2, 3, 4, 5, 6 };
 
     auto begin{ &amp;arr[0] };
-    // note that this points to one spot beyond the last element
+    // zauważ, że to wskazuje na jedno miejsce poza ostatnim elementem
     auto end{ begin + std::size(arr) };
 
-    // for-loop with pointer
-    for (auto ptr{ begin }; ptr != end; ++ptr) // ++ to move to next element
+    // pętla for ze wskaźnikiem
+    for (auto ptr{ begin }; ptr != end; ++ptr) // ++ aby przejść do następnego elementu
     {
-        std::cout &lt;&lt; *ptr &lt;&lt; &#39; &#39;; // Indirection to get value of current element
+        std::cout &lt;&lt; *ptr &lt;&lt; ' '; // Pośredniość do pobrania wartości bieżącego elementu
     }
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Wyjście:<pre>0 1 2 3 4 5 6
-</pre><p>In. powyżej zdefiniowaliśmy dwie zmienne: <code>begin</code> (która wskazuje początek naszego kontenera) i <code>end</code> (która wyznacza punkt końcowy). W przypadku tablic znacznikiem końcowym jest zazwyczaj miejsce w pamięci, w którym znajdowałby się ostatni element, gdyby kontener zawierał jeszcze jeden element.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Wskaźnik następnie wykonuje iterację pomiędzy  <code>begin</code> i <code>end</code>, a dostęp do bieżącego elementu można uzyskać poprzez wyłuskanie elementu wskaźnik.<div class="cpp-note cpp-lightredbackground"><p class="cpp-note-title cpp-bottomline">Ostrzeżenie<p>Możesz ulec pokusie obliczenia znacznika końca przy użyciu operatora adresu i składni tablicy w następujący sposób:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int* end{ &amp;arr[std::size(arr)] };</code></pre><p>Ale powoduje to niezdefiniowane zachowanie, ponieważ <code>arr[std::size(arr)]</code> w sposób dorozumiany usuwa referencje do elementu znajdującego się poza końcem tablicy.<p>Zamiast tego użyj:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int* end{ arr.data() + std::size(arr) }; // data() returns a pointer to the first element</code></pre></div><p class="cpp-section cpp-topline" style=clear:both>Iteratorów standardowych bibliotek<p>Iteracja jest tak powszechną operacją że wszystkie standardowe kontenery bibliotek oferują bezpośrednie wsparcie dla iteracji. Zamiast obliczać własne punkty początkowe i końcowe, możemy po prostu zapytać kontener o punkty początkowe i końcowe za pomocą funkcji składowych o wygodnej nazwie <code>begin()</code> i <code>end()</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;array&gt;
+</pre><p>In. powyżej zdefiniowaliśmy dwie zmienne: <code>begin</code> (która wskazuje początek naszego kontenera) i <code>end</code> (która wyznacza punkt końcowy). W przypadku tablic znacznikiem końcowym jest zazwyczaj miejsce w pamięci, w którym znajdowałby się ostatni element, gdyby kontener zawierał jeszcze jeden element.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Wskaźnik następnie wykonuje iterację pomiędzy  <code>begin</code> i <code>end</code>, a dostęp do bieżącego elementu można uzyskać poprzez wyłuskanie elementu wskaźnik.<div class="cpp-note cpp-lightredbackground"><p class="cpp-note-title cpp-bottomline">Ostrzeżenie<p>Możesz ulec pokusie obliczenia znacznika końca przy użyciu operatora adresu i składni tablicy w następujący sposób:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int* end{ &amp;arr[std::size(arr)] };</code></pre><p>Ale powoduje to niezdefiniowane zachowanie, ponieważ <code>arr[std::size(arr)]</code> w sposób dorozumiany usuwa referencje do elementu znajdującego się poza końcem tablicy.<p>Zamiast tego użyj:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int* end{ arr.data() + std::size(arr) }; // data() zwraca wskaźnik do pierwszy element</code></pre></div><p class="cpp-section cpp-topline" style=clear:both>Iteratorów standardowych bibliotek<p>Iteracja jest tak powszechną operacją że wszystkie standardowe kontenery bibliotek oferują bezpośrednie wsparcie dla iteracji. Zamiast obliczać własne punkty początkowe i końcowe, możemy po prostu zapytać kontener o punkty początkowe i końcowe za pomocą funkcji składowych o wygodnej nazwie <code>begin()</code> i <code>end()</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;array&gt;
 #include &lt;iostream&gt;
 
 int main()
 {
     std::array array{ 1, 2, 3 };
 
-    // Ask our array for the begin and end points (via the begin and end member functions).
+    // Zapytaj naszą tablicę o punkty początkowe i końcowe (poprzez funkcje elementu początkowego i końcowego).
     auto begin{ array.begin() };
     auto end{ array.end() };
 
-    for (auto p{ begin }; p != end; ++p) // ++ to move to next element.
+    for (auto p{ begin }; p != end; ++p) // ++ aby przejść do następnego elementu.
     {
-        std::cout &lt;&lt; *p &lt;&lt; &#39; &#39;; // Indirection to get value of current element.
+        std::cout &lt;&lt; *p &lt;&lt; ' '; // Pośrednia do pobrania wartości bieżącego elementu.
     }
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Wypisuje:<pre>1 2 3
@@ -101,15 +101,15 @@ int main()
 {
     std::array array{ 1, 2, 3 };
 
-    // Use std::begin and std::end to get the begin and end points.
+    // Użyj std::begin i std::end, aby uzyskać punkty początkowe i końcowe.
     auto begin{ std::begin(array) };
     auto end{ std::end(array) };
 
-    for (auto p{ begin }; p != end; ++p) // ++ to move to next element
+    for (auto p{ begin }; p != end; ++p) // ++ aby przejść do następnego elementu
     {
-        std::cout &lt;&lt; *p &lt;&lt; &#39; &#39;; // Indirection to get value of current element
+        std::cout &lt;&lt; *p &lt;&lt; ' '; // Pośredniość do pobrania wartości bieżącego elementu
     }
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>To również wypisuje:<pre>1 2 3
@@ -120,12 +120,12 @@ int main()
 {
     std::array array{ 1, 2, 3 };
 
-    // This does exactly the same as the loop we used before.
+    // Działa dokładnie tak samo jak pętla, której używaliśmy wcześniej.
     for (int i : array)
     {
-        std::cout &lt;&lt; i &lt;&lt; &#39; &#39;;
+        std::cout &lt;&lt; i &lt;&lt; ' ';
     }
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Za kulisami wywołania pętli for oparte na zakresach <code>begin()</code> i <code>end()</code> typu, po którym można iterować. <code>std::array</code> has <code>begin</code> i <code>end</code> funkcje składowe, dzięki czemu możemy ich używać w pętli opartej na zakresach. Stałych tablic w stylu C można używać z funkcjami <code>std::begin</code> i <code>std::end</code> , więc możemy je przeglądać również za pomocą pętli opartej na zakresie. Dynamiczne tablice w stylu C (lub tablice w stylu C) nie działają, ponieważ nie ma dla nich <code>std::end</code> funkcji (ponieważ informacja o typie nie zawiera długości tablicy).<p>Jak dodać te funkcje do typów dowiesz się później, aby można było ich używać również z pętlami for opartymi na zakresach.<p>Pętle for oparte na zakresach nie są najlepszym rozwiązaniem jedyna rzecz, która korzysta z iteratorów. Są one również używane w <code>std::sort</code> i innych algorytmach. Teraz, gdy już wiesz, czym one są, zauważysz, że są często używane w bibliotece standardowej.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Unieważnianie iteratorów (iteratory wiszące)<p>Podobnie jak wskaźniki i referencje, iteratory mogą pozostać „zawieszone”, jeśli elementy poddawane iteracji zmienią adres lub zostaną zniszczone. Gdy tak się stanie, mówimy, że iterator został  <strong>unieważniają</strong>. Dostęp do unieważnionego iteratora powoduje niezdefiniowane zachowanie.<p>Niektóre operacje modyfikujące kontenery (takie jak dodanie elementu do <code>std::vector</code>) mogą mieć efekt uboczny w postaci spowodowania zmiany adresów elementów w kontenerze. Kiedy tak się stanie, istniejące iteratory tych elementów zostaną unieważnione. Dobra dokumentacja referencyjna C++ powinna zawierać informacje, które operacje kontenerowe mogą lub spowodują unieważnienie iteratorów. Jako przykład zobacz sekcję <a href=https://en.cppreference.com/w/cpp/container/vector#Iterator_invalidation>„Unieważnianie iteratora” w <code>std::vector</code> na temat cppreference</a>.<p>Ponieważ pętle for oparte na zakresach używają iteratorów za kulisami, musimy uważać, aby nie zrobić niczego, co unieważnia iteratory kontenera, przez który aktywnie przechodzimy:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;vector&gt;
@@ -134,10 +134,10 @@ int main()
 {
     std::vector v { 0, 1, 2, 3 };
 
-    for (auto num : v) // implicitly iterates over v
+    for (auto num : v) // niejawnie iteruje po v
     {
         if (num % 2 == 0)
-            v.push_back(num + 1); // when this invalidates the iterators of v, undefined behavior will result
+            v.push_back(num + 1); // kiedy to unieważniło iteratory v, wystąpi niezdefiniowane zachowanie
     }
 
     return 0;
@@ -150,16 +150,16 @@ int main()
 
 	auto it{ v.begin() };
 
-	++it; // move to second element
-	std::cout &lt;&lt; *it &lt;&lt; &#39;\n&#39;; // ok: prints 2
+	++it; // przejdź do drugiego elementu
+	std::cout &lt;&lt; *it &lt;&lt; '\n'; // ok: prints 2
 
-	v.erase(it); // erase the element currently being iterated over
+	v.erase(it); // usuń aktualnie wykonywany element over
 
-	// erase() invalidates iterators to the erased element (and subsequent elements)
-	// so iterator &#34;it&#34; is now invalidated
+	// erase() unieważnia iteratory do usuniętego elementu (i kolejnych elementów)
+	// więc iterator „it” jest teraz unieważniany
 
 	++it; // undefined behavior
-	std::cout &lt;&lt; *it &lt;&lt; &#39;\n&#39;; // undefined behavior
+	std::cout &lt;&lt; *it &lt;&lt; '\n'; // undefined behavior
 
 	return 0;
 }</code></pre><p>Unieważnione iteratory można ponownie sprawdzić, przypisując im prawidłowy iterator (np.  <code>begin()</code>, <code>end()</code> lub wartość zwracaną przez inną funkcję, która zwraca iterator).<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>Klasa <code>erase()</code> zwraca iterator do elementu pierwszego za usuniętym elementem (lub <code>end()</code> jeśli ostatni element został usunięty). Dlatego możemy naprawić powyższy kod w następujący sposób:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -171,12 +171,12 @@ int main()
 
 	auto it{ v.begin() };
 
-	++it; // move to second element
-	std::cout &lt;&lt; *it &lt;&lt; &#39;\n&#39;;
+	++it; // przejdź do drugiego elementu
+	std::cout &lt;&lt; *it &lt;&lt; '\n';
 
-	it = v.erase(it); // erase the element currently being iterated over, set `it` to next element
+	it = v.erase(it); // usuń element aktualnie poddawany iteracji, ustaw `it` na następny element
 
-	std::cout &lt;&lt; *it &lt;&lt; &#39;\n&#39;; // now ok, prints 3
+	std::cout &lt;&lt; *it &lt;&lt; '\n'; // OK, teraz wypisuje 3
 
 	return 0;
 }</code></pre><div class=prevnext><div class=prevnext-inline><a class=nav-link href="../introduction-to-standard-library-algorithms/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>18.3</span>Wprowadzenie do algorytmów bibliotek standardowych</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../sorting-an-array-using-selection-sort/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>18.1</span>Sortowanie tablicy za pomocą sortowania przez wybór</div></div></div></a></div></div><p>(h/t do nascarddriver za znaczący wkład w tę lekcję)<div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/introduction-to-iterators/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../configuring-your-compiler-choosing-a-language-standard/index.html" rel=prev><span>0.12 — Konfigurowanie kompilator: Wybór standardu językowego</span></a></div><div class=nav-next><em>Następny post</em><a href="../introduction-to-standard-library-algorithms/index.html" rel=next><span>18.3 — Wprowadzenie do algorytmów bibliotek standardowych</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>

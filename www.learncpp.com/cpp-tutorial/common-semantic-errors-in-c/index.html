@@ -17,12 +17,12 @@
 
 int main()
 {
-    std::cout &lt;&lt; &#34;Enter an integer: &#34;;
+    std::cout &lt;&lt; "Enter an integer: ";
     int x{};
     std::cin &gt;&gt; x;
 
-    if (x &gt;= 5) // oops, we used operator&gt;= instead of operator&gt;
-        std::cout &lt;&lt; x &lt;&lt; &#34; is greater than 5\n&#34;;
+    if (x &gt;= 5) // ups, użyliśmy operatora&gt;= zamiast operatora&gt;
+        std::cout &lt;&lt; x &lt;&lt; " is greater than 5\n";
 
     return 0;
 }</code></pre><p>Oto wykonanie programu, który wykazuje błąd logiki warunkowej:<pre>Enter an integer: 5
@@ -31,17 +31,17 @@ int main()
 
 int main()
 {
-    std::cout &lt;&lt; &#34;Enter an integer: &#34;;
+    std::cout &lt;&lt; "Enter an integer: ";
     int x{};
     std::cin &gt;&gt; x;
 
-    // oops, we used operator&gt; instead of operator&lt;
+    // oops, użyliśmy operatora&gt; zamiast operatora&lt;
     for (int count{ 1 }; count &gt; x; ++count)
     {
-        std::cout &lt;&lt; count &lt;&lt; &#39; &#39;;
+        std::cout &lt;&lt; count &lt;&lt; ' ';
     }
 
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Ten program ma wypisać wszystkie liczby pomiędzy 1 i numer wprowadzony przez użytkownika. Ale oto, co faktycznie robi:<pre>Enter an integer: 5
@@ -50,14 +50,14 @@ int main()
 int main()
 {
     int count{ 1 };
-    while (count &lt;= 10) // this condition will never be false
+    while (count &lt;= 10) // ten warunek nigdy nie będzie fałszywy
     {
-        std::cout &lt;&lt; count &lt;&lt; &#39; &#39;; // so this line will repeatedly execute
+        std::cout &lt;&lt; count &lt;&lt; ' '; // więc ta linia będzie wielokrotnie wykonywana
     }
  
-    std::cout &lt;&lt; &#39;\n&#39;; // this line will never execute
+    std::cout &lt;&lt; '\n'; // ta linia nigdy nie będzie wykonaj
 
-    return 0; // this line will never execute
+    return 0; // ta linia nigdy nie będzie wykonaj
 }</code></pre><p>W tym przypadku zapomnieliśmy o inkrementacji <code>count</code>, więc warunek pętli nigdy nie będzie fałszywe i pętla będzie drukowana:<pre>1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
 </pre><p>… dopóki użytkownik nie zamknie programu.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>Oto kolejny przykład, który nauczyciele uwielbiają zadawać w formie pytań quizowych. Co jest nie tak z następującym kodem?<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
@@ -75,7 +75,7 @@ int main()
 
     return 0;
 }</code></pre><p>Ten program powinien wydrukować <code>5 4 3 2 1 blastoff!</code> i to robi, ale na tym się nie kończy. W rzeczywistości wypisuje:<pre>5 4 3 2 1 blastoff! 4294967295 4294967294 4294967293 4294967292 4294967291
-</pre><p>, a następnie po prostu zmniejsza wartość. Program nigdy się nie zakończy, ponieważ <code>count >= 0</code> nie może być <code>false</code> gdy <code>count</code> jest liczbą całkowitą bez znaku.<p class="cpp-section cpp-topline" style=clear:both>Błędy o jeden <p>An <strong>błąd o jeden </strong> to błąd pojawiający się, gdy pętla wykona się o jeden raz za dużo, raz za mało. Oto przykład, który omówiliśmy w lekcji <a href="../for-statements/index.html">8.10 -- Dla instrukcji</a>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+</pre><p>, a następnie po prostu zmniejsza wartość. Program nigdy się nie zakończy, ponieważ <code>count >= 0</code> nie może być <code>false</code> gdy <code>count</code> jest liczbą całkowitą bez znaku.<p class="cpp-section cpp-topline" style=clear:both>Błędy o jeden <p><strong>błąd o jeden </strong> to błąd pojawiający się, gdy pętla wykona się o jeden raz za dużo, raz za mało. Oto przykład, który omówiliśmy w lekcji <a href="../for-statements/index.html">8.10 -- Dla instrukcji</a>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 int main()
 {
@@ -94,10 +94,10 @@ int main()
     int x{ 5 };
     int y{ 7 };
 
-    if (!x &gt; y) // oops: operator precedence issue
-        std::cout &lt;&lt; x &lt;&lt; &#34; is not greater than &#34; &lt;&lt; y &lt;&lt; &#39;\n&#39;;
+    if (!x &gt; y) // ups: problem z pierwszeństwem operatora
+        std::cout &lt;&lt; x &lt;&lt; " is not greater than " &lt;&lt; y &lt;&lt; '\n';
     else
-        std::cout &lt;&lt; x &lt;&lt; &#34; is greater than &#34; &lt;&lt; y &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; x &lt;&lt; " is greater than " &lt;&lt; y &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Ponieważ <code>logical NOT</code> ma wyższy priorytet niż <code>operator></code>, warunek ocenia tak, jakby był napisany <code>(!x) > y</code>, co nie jest zamierzone przez programistę.<p>W rezultacie ten program wypisuje:<pre>5 is greater than 7
@@ -114,12 +114,12 @@ int main()
 
 int main()
 {
-    double d{ 0.1 + 0.1 + 0.1 + 0.1 + 0.1 + 0.1 + 0.1 + 0.1 + 0.1 + 0.1 }; // should sum to 1.0
+    double d{ 0.1 + 0.1 + 0.1 + 0.1 + 0.1 + 0.1 + 0.1 + 0.1 + 0.1 + 0.1 }; // powinna sumować się do 1.0
 
     if (d == 1.0)
-        std::cout &lt;&lt; &#34;equal\n&#34;;
+        std::cout &lt;&lt; "equal\n";
     else
-        std::cout &lt;&lt; &#34;not equal\n&#34;;
+        std::cout &lt;&lt; "not equal\n";
 
     return 0;
 }</code></pre><p>Ten program wypisuje:<pre>not equal
@@ -138,17 +138,17 @@ int main()
 
 void blowUpWorld()
 {
-    std::cout &lt;&lt; &#34;Kaboom!\n&#34;;
+    std::cout &lt;&lt; "Kaboom!\n";
 } 
 
 int main()
 {
-    std::cout &lt;&lt; &#34;Should we blow up the world again? (y/n): &#34;;
+    std::cout &lt;&lt; "Should we blow up the world again? (y/n): ";
     char c{};
     std::cin &gt;&gt; c;
 
-    if (c == &#39;y&#39;);     // accidental null statement here
-        blowUpWorld(); // so this will always execute since it&#39;s not part of the if-statement
+    if (c == 'y');     // tutaj następuje decyzja zerowa
+        blowUpWorld(); // więc to będzie zawsze wykonane, ponieważ nie jest częścią instrukcji if
  
     return 0;
 }</code></pre><p>Jednakże ze względu na przypadkowo <code>null statement</code>, wywołanie funkcji  <code>blowUpWorld()</code> jest zawsze wykonywane, więc wysadzamy to w powietrze niezależnie od:<pre>Should we blow up the world again? (y/n): n
@@ -157,36 +157,36 @@ Kaboom!
 
 void blowUpWorld()
 {
-    std::cout &lt;&lt; &#34;Kaboom!\n&#34;;
+    std::cout &lt;&lt; "Kaboom!\n";
 } 
 
 int main()
 {
-    std::cout &lt;&lt; &#34;Should we blow up the world again? (y/n): &#34;;
+    std::cout &lt;&lt; "Should we blow up the world again? (y/n): ";
     char c{};
     std::cin &gt;&gt; c;
 
-    if (c == &#39;y&#39;)
-        std::cout &lt;&lt; &#34;Okay, here we go...\n&#34;;
-        blowUpWorld(); // Will always execute.  Should be inside compound statement.
+    if (c == 'y')
+        std::cout &lt;&lt; "Okay, here we go...\n";
+        blowUpWorld(); // Będzie zawsze wykonywany. Powinno znajdować się wewnątrz instrukcji złożonej.
  
     return 0;
 }</code></pre><p>Ten program wypisuje:<pre>Should we blow up the world again? (y/n): n
 Kaboom!
-</pre><p>A <code>dangling else</code> (opisane w lekcji <a href="../common-if-statement-problems/index.html">8.3 -- Wspólna instrukcja if problemy</a>) również należy do tej kategorii.<p class="cpp-section cpp-topline" style=clear:both>Używanie przypisania zamiast równości w warunku<p>Ponieważ operator przypisania (<code>=</code>) i operator równości (<code>==</code>) są podobne, możemy chcieć użyć równości, ale przypadkowo zamiast tego użyliśmy przypisania:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+</pre><p><code>dangling else</code> (opisane w lekcji <a href="../common-if-statement-problems/index.html">8.3 -- Wspólna instrukcja if problemy</a>) również należy do tej kategorii.<p class="cpp-section cpp-topline" style=clear:both>Używanie przypisania zamiast równości w warunku<p>Ponieważ operator przypisania (<code>=</code>) i operator równości (<code>==</code>) są podobne, możemy chcieć użyć równości, ale przypadkowo zamiast tego użyliśmy przypisania:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 void blowUpWorld()
 {
-    std::cout &lt;&lt; &#34;Kaboom!\n&#34;;
+    std::cout &lt;&lt; "Kaboom!\n";
 } 
 
 int main()
 {
-    std::cout &lt;&lt; &#34;Should we blow up the world again? (y/n): &#34;;
+    std::cout &lt;&lt; "Should we blow up the world again? (y/n): ";
     char c{};
     std::cin &gt;&gt; c;
 
-    if (c = &#39;y&#39;) // uses assignment operator instead of equality operator
+    if (c = 'y') // używa operatora przypisania zamiast operatora równości
         blowUpWorld();
  
     return 0;

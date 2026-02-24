@@ -11,7 +11,7 @@
 <input type=search class=s placeholder=Search name=s></label>
 <button class=searchsubmit><span class=screen-reader-text>Szukaj</span><i class=icon-search></i></button></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="21.4 — Algorytmy STL przegląd" src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-541 class="post-541 post type-post status-publish format-standard hentry category-cpp-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>21.4 — Algorytmy STL przegląd</h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Autor></i><a class="url fn n" rel=author href=/www.learncpp.com/author/Alex/ title="Wyświetl wszystkie posty Alexa" itemprop=url><em itemprop=name>Alex</em></a></span>
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2011-09-11T15:45:06-07:00 itemprop=datePublished>11 września 2011, 15:45 PDT</time>
-<time class=updated datetime=2021-10-21T11:03:01-07:00 itemprop=dateModified>21 października, 2021</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>Oprócz klas kontenerów i iteratorów STL udostępnia także szereg ogólnych algorytmów do pracy z elementami klas kontenerów. Umożliwiają one wyszukiwanie, sortowanie, wstawianie, zmianę kolejności, usuwanie i kopiowanie elementów klasy kontenera.<p>Zauważ, że algorytmy są implementowane jako funkcje działające przy użyciu iteratorów. Oznacza to, że każdy algorytm musi zostać zaimplementowany tylko raz i zazwyczaj będzie działał automatycznie dla wszystkich kontenerów udostępniających zestaw iteratorów (w tym niestandardowych klas kontenerów). Chociaż jest to bardzo przydatne i może prowadzić do możliwości bardzo szybkiego pisania złożonego kodu, ma też ciemną stronę: niektóre kombinacje algorytmów i typów kontenerów mogą nie działać, mogą powodować nieskończone pętle lub mogą działać, ale działać bardzo słabo. Używaj ich więc na własne ryzyko.<p>STL udostępnia sporo algorytmów — omówimy tutaj tylko niektóre z bardziej powszechnych i łatwych w użyciu. Reszta (i wszystkie szczegóły) zostaną zapisane w rozdziale poświęconym algorytmom STL.<p>Aby użyć dowolnego algorytmu STL, po prostu dołącz plik nagłówkowy algorytmu.<p><strong>min_element i max_element</strong><p>Klasa <code>std::min_element</code> i <code>std::max_element</code> algorytmy znajdują element min i max w klasie kontenera. <code>std::iota</code> generuje ciągłą serię wartości.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;algorithm&gt; // std::min_element and std::max_element
+<time class=updated datetime=2021-10-21T11:03:01-07:00 itemprop=dateModified>21 października, 2021</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>Oprócz klas kontenerów i iteratorów STL udostępnia także szereg ogólnych algorytmów do pracy z elementami klas kontenerów. Umożliwiają one wyszukiwanie, sortowanie, wstawianie, zmianę kolejności, usuwanie i kopiowanie elementów klasy kontenera.<p>Zauważ, że algorytmy są implementowane jako funkcje działające przy użyciu iteratorów. Oznacza to, że każdy algorytm musi zostać zaimplementowany tylko raz i zazwyczaj będzie działał automatycznie dla wszystkich kontenerów udostępniających zestaw iteratorów (w tym niestandardowych klas kontenerów). Chociaż jest to bardzo przydatne i może prowadzić do możliwości bardzo szybkiego pisania złożonego kodu, ma też ciemną stronę: niektóre kombinacje algorytmów i typów kontenerów mogą nie działać, mogą powodować nieskończone pętle lub mogą działać, ale działać bardzo słabo. Używaj ich więc na własne ryzyko.<p>STL udostępnia sporo algorytmów — omówimy tutaj tylko niektóre z bardziej powszechnych i łatwych w użyciu. Reszta (i wszystkie szczegóły) zostaną zapisane w rozdziale poświęconym algorytmom STL.<p>Aby użyć dowolnego algorytmu STL, po prostu dołącz plik nagłówkowy algorytmu.<p><strong>min_element i max_element</strong><p>Klasa <code>std::min_element</code> i <code>std::max_element</code> algorytmy znajdują element min i max w klasie kontenera. <code>std::iota</code> generuje ciągłą serię wartości.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;algorithm&gt; // std::min_element i std::max_element
 #include &lt;iostream&gt;
 #include &lt;list&gt;
 #include &lt;numeric&gt; // std::iota
@@ -19,11 +19,11 @@
 int main()
 {
     std::list&lt;int&gt; li(6);
-    // Fill li with numbers starting at 0.
+    // Wypełnij li liczbami zaczynającymi się od 0.
     std::iota(li.begin(), li.end(), 0);
 
-    std::cout &lt;&lt; *std::min_element(li.begin(), li.end()) &lt;&lt; &#39; &#39;
-              &lt;&lt; *std::max_element(li.begin(), li.end()) &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; *std::min_element(li.begin(), li.end()) &lt;&lt; ' '
+              &lt;&lt; *std::max_element(li.begin(), li.end()) &lt;&lt; '\n';
 	
     return 0;
 }</code></pre><p>Drukuje:<p>0 5<p><strong>znajdź (i list::insert)</strong><p>W tym przykładzie użyjemy <code>std::find()</code> algorytmu, aby znaleźć wartość w klasie listy, a następnie użyjemy funkcji list::insert(), aby dodać w tym miejscu nową wartość do listy.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;algorithm&gt;
@@ -36,16 +36,16 @@ int main()
     std::list&lt;int&gt; li(6);
     std::iota(li.begin(), li.end(), 0);
 
-    // Find the value 3 in the list
+    // Znajdź wartość 3 na liście
     auto it{ std::find(li.begin(), li.end(), 3) };
     
-    // Insert 8 right before 3.
+    // Wstaw 8 tuż przed 3.
     li.insert(it, 8);
 
-    for (int i : li) // for loop with iterators
-        std::cout &lt;&lt; i &lt;&lt; &#39; &#39;;
+    for (int i : li) // for pętla z iteratory
+        std::cout &lt;&lt; i &lt;&lt; ' ';
     	
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>To wypisuje wartości<pre>0 1 2 8 3 4 5
@@ -64,25 +64,25 @@ int main()
 {
     std::vector&lt;int&gt; vect{ 7, -3, 6, 2, -5, 0, 4 };
 
-    // sort the vector
+    // sortowanie wektor
     std::sort(vect.begin(), vect.end());
 
     for (int i : vect)
     {
-        std::cout &lt;&lt; i &lt;&lt; &#39; &#39;;
+        std::cout &lt;&lt; i &lt;&lt; ' ';
     }
 
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
 
-    // reverse the vector
+    // odwróć wektor
     std::reverse(vect.begin(), vect.end());
 
     for (int i : vect)
     {
-        std::cout &lt;&lt; i &lt;&lt; &#39; &#39;;
+        std::cout &lt;&lt; i &lt;&lt; ' ';
     }
  	
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Daje to wynik:<pre>-5 -3 0 2 4 6 7

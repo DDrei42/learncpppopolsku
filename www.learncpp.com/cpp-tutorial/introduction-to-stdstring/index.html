@@ -17,24 +17,24 @@
  
 int main()
 {
-    std::cout &lt;&lt; &#34;Hello, world!&#34;; // &#34;Hello world!&#34; is a C-style string literal.
+    std::cout &lt;&lt; "Hello, world!"; // "Witaj, świecie!" jest literałem łańcuchowym w stylu C.
     return 0;
-}</code></pre><p>O ile literały łańcuchowe w stylu C są w porządku, zmienne łańcuchowe w stylu C zachowują się dziwnie i są trudne w obsłudze (np. nie można ich używać przypisanie w celu przypisania zmiennej łańcuchowej w stylu C nowej wartości) i są niebezpieczne (np. jeśli skopiujesz większy ciąg w stylu C w miejsce przeznaczone na krótszy ciąg w stylu C, spowoduje to niezdefiniowane zachowanie). We współczesnym C++ najlepiej unikać zmiennych łańcuchowych w stylu C.<p>Na szczęście w C++ wprowadzono do języka dwa dodatkowe typy ciągów, z którymi praca jest znacznie łatwiejsza i bezpieczniejsza: <code>std::string</code> i <code>std::string_view</code> (C++17). W przeciwieństwie do typów, które przedstawiliśmy wcześniej, <code>std::string</code> i <code>std::string_view</code> nie są typami podstawowymi (są typami klasowymi, które omówimy w przyszłości). Jednak podstawowe użycie każdego z nich jest na tyle proste i przydatne, że je tutaj przedstawimy.<p class="cpp-section cpp-topline" style=clear:both>Wprowadzenie <code>std::string</code><p>Najprostszym sposobem pracy z łańcuchami i obiektami łańcuchowymi w C++ jest użycie typu <code>std::string</code> , który znajduje się w nagłówku &lt;string&gt;.<p>Możemy tworzyć obiekty typu <code>std::string</code> tak jak inne obiekty:<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;string&gt; // allows use of std::string
+}</code></pre><p>O ile literały łańcuchowe w stylu C są w porządku, zmienne łańcuchowe w stylu C zachowują się dziwnie i są trudne w obsłudze (np. nie można ich używać przypisanie w celu przypisania zmiennej łańcuchowej w stylu C nowej wartości) i są niebezpieczne (np. jeśli skopiujesz większy ciąg w stylu C w miejsce przeznaczone na krótszy ciąg w stylu C, spowoduje to niezdefiniowane zachowanie). We współczesnym C++ najlepiej unikać zmiennych łańcuchowych w stylu C.<p>Na szczęście w C++ wprowadzono do języka dwa dodatkowe typy ciągów, z którymi praca jest znacznie łatwiejsza i bezpieczniejsza: <code>std::string</code> i <code>std::string_view</code> (C++17). W przeciwieństwie do typów, które przedstawiliśmy wcześniej, <code>std::string</code> i <code>std::string_view</code> nie są typami podstawowymi (są typami klasowymi, które omówimy w przyszłości). Jednak podstawowe użycie każdego z nich jest na tyle proste i przydatne, że je tutaj przedstawimy.<p class="cpp-section cpp-topline" style=clear:both>Wprowadzenie <code>std::string</code><p>Najprostszym sposobem pracy z łańcuchami i obiektami łańcuchowymi w C++ jest użycie typu <code>std::string</code> , który znajduje się w nagłówku &lt;string&gt;.<p>Możemy tworzyć obiekty typu <code>std::string</code> tak jak inne obiekty:<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;string&gt; // pozwala na użycie std::string
 
 int main()
 {
-    std::string name {}; // empty string
+    std::string name {}; // pusty ciąg
 
     return 0;
 }</code></pre><p>Tylko podobnie jak zwykłe zmienne, możesz inicjalizować lub przypisywać wartości do obiektów std::string, zgodnie z oczekiwaniami:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;string&gt;
 
 int main()
 {
-    std::string name { &#34;Alex&#34; }; // initialize name with string literal &#34;Alex&#34;
-    name = &#34;John&#34;;               // change name to &#34;John&#34;
+    std::string name { "Alex" }; // zainicjuj nazwę za pomocą literał łańcuchowy "Alex"
+    name = "John";               // zmień nazwisko na "John"
 
     return 0;
-}</code></pre><p>Zauważ, że ciągi mogą składać się również ze znaków numerycznych:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::string myID{ &#34;45&#34; }; // &#34;45&#34; is not the same as integer 45!</code></pre><p>W formie ciągu liczb są traktowane jak tekst, a nie jak liczby i dlatego nie można nimi manipulować jak liczbami (np. nie można ich pomnożyć). C++ nie będzie automatycznie konwertował ciągów znaków na wartości całkowite lub zmiennoprzecinkowe i odwrotnie (chociaż można to zrobić, omówimy to w przyszłej lekcji).<p class="cpp-section cpp-topline" style=clear:both>Wyjście ciągu znaków z <code>std::cout</code><p><code>std::string</code> obiektami może zostać wyprowadzone zgodnie z oczekiwaniami przy użyciu <code>std::cout</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+}</code></pre><p>Zauważ, że ciągi mogą składać się również ze znaków numerycznych:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::string myID{ "45" }; // "45" to nie to samo, co liczba całkowita 45!</code></pre><p>W formie ciągu liczb są traktowane jak tekst, a nie jak liczby i dlatego nie można nimi manipulować jak liczbami (np. nie można ich pomnożyć). C++ nie będzie automatycznie konwertował ciągów znaków na wartości całkowite lub zmiennoprzecinkowe i odwrotnie (chociaż można to zrobić, omówimy to w przyszłej lekcji).<p class="cpp-section cpp-topline" style=clear:both>Wyjście ciągu znaków z <code>std::cout</code><p><code>std::string</code> obiektami może zostać wyprowadzone zgodnie z oczekiwaniami przy użyciu <code>std::cout</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;string&gt;
 
 int main()
@@ -59,14 +59,14 @@ int main()
 
 int main()
 {
-    std::string name { &#34;Alex&#34; }; // initialize name with string literal &#34;Alex&#34;
-    std::cout &lt;&lt; name &lt;&lt; &#39;\n&#39;;
+    std::string name { "Alex" }; // zainicjuj nazwę za pomocą literał łańcuchowy "Alex"
+    std::cout &lt;&lt; name &lt;&lt; '\n';
 
-    name = &#34;Jason&#34;;              // change name to a longer string
-    std::cout &lt;&lt; name &lt;&lt; &#39;\n&#39;;
+    name = "Jason";              // zmień imię na dłuższe
+    std::cout &lt;&lt; name &lt;&lt; '\n';
 
-    name = &#34;Jay&#34;;                // change name to a shorter string
-    std::cout &lt;&lt; name &lt;&lt; &#39;\n&#39;;
+    name = "Jay";                // zmień imię na krótsze
+    std::cout &lt;&lt; name &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Wypisuje:<pre>Alex
@@ -77,33 +77,33 @@ Jay
 
 int main()
 {
-    std::cout &lt;&lt; &#34;Enter your full name: &#34;;
+    std::cout &lt;&lt; "Enter your full name: ";
     std::string name{};
-    std::cin &gt;&gt; name; // this won&#39;t work as expected since std::cin breaks on whitespace
+    std::cin &gt;&gt; name; // to nie będzie działać zgodnie z oczekiwaniami, ponieważ std::cin przerywa białe znaki
 
-    std::cout &lt;&lt; &#34;Enter your favorite color: &#34;;
+    std::cout &lt;&lt; "Enter your favorite color: ";
     std::string color{};
     std::cin &gt;&gt; color;
 
-    std::cout &lt;&lt; &#34;Your name is &#34; &lt;&lt; name &lt;&lt; &#34; and your favorite color is &#34; &lt;&lt; color &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "Your name is " &lt;&lt; name &lt;&lt; " and your favorite color is " &lt;&lt; color &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Oto wyniki przykładowego uruchomienia tego programu:<pre>Enter your full name: John Doe
 Enter your favorite color: Your name is John and your favorite color is Doe
 </pre><p>Hmmm, to nieprawda! Co się stało? Okazuje się, że użycie  <code>operator>></code> do wyodrębnienia ciągu z <code>std::cin</code>, <code>operator>></code> zwróci tylko znaki do pierwszego napotkanego odstępu. Wszelkie inne znaki pozostają wewnątrz <code>std::cin</code> i czekają na następną ekstrakcję.<p>Więc kiedy użyliśmy <code>operator>></code> do wyodrębnienia danych wejściowych do zmiennej <code>name</code>, wyodrębniono tylko <code>"John"</code> , pozostawiając <code>" Doe"</code> wewnątrz <code>std::cin</code>. Kiedy następnie użyliśmy <code>operator>></code> aby wyodrębnić dane wejściowe do zmiennej <code>color</code>, wyodrębniono <code>"Doe"</code> zamiast czekać, aż wprowadzimy kolor. Następnie program się kończy.<p class="cpp-section cpp-topline" style=clear:both>Użyj <code>std::getline()</code> aby wprowadzić tekst<p>Aby wczytać całą linię danych wejściowych do ciągu znaków, lepiej zamiast tego użyć funkcji <code>std::getline()</code> . <code>std::getline()</code> wymaga dwóch argumentów: pierwszy to <code>std::cin</code>, a drugi to zmienna łańcuchowa.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>Oto ten sam program co powyżej używając <code>std::getline()</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
-#include &lt;string&gt; // For std::string and std::getline
+#include &lt;string&gt; // Dla std::string i std::getline
 
 int main()
 {
-    std::cout &lt;&lt; &#34;Enter your full name: &#34;;
+    std::cout &lt;&lt; "Enter your full name: ";
     std::string name{};
-    std::getline(std::cin &gt;&gt; std::ws, name); // read a full line of text into name
+    std::getline(std::cin &gt;&gt; std::ws, name); // czytaj całą linię tekstu na nazwę
 
-    std::cout &lt;&lt; &#34;Enter your favorite color: &#34;;
+    std::cout &lt;&lt; "Enter your favorite color: ";
     std::string color{};
-    std::getline(std::cin &gt;&gt; std::ws, color); // read a full line of text into color
+    std::getline(std::cin &gt;&gt; std::ws, color); // czytaj całą linię tekstu na kolor
 
-    std::cout &lt;&lt; &#34;Your name is &#34; &lt;&lt; name &lt;&lt; &#34; and your favorite color is &#34; &lt;&lt; color &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "Your name is " &lt;&lt; name &lt;&lt; " and your favorite color is " &lt;&lt; color &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Teraz nasz program działa zgodnie z oczekiwaniami:<pre>Enter your full name: John Doe
@@ -114,15 +114,15 @@ Your name is John Doe and your favorite color is blue
 
 int main()
 {
-    std::cout &lt;&lt; &#34;Pick 1 or 2: &#34;;
+    std::cout &lt;&lt; "Pick 1 or 2: ";
     int choice{};
     std::cin &gt;&gt; choice;
 
-    std::cout &lt;&lt; &#34;Now enter your name: &#34;;
+    std::cout &lt;&lt; "Now enter your name: ";
     std::string name{};
-    std::getline(std::cin, name); // note: no std::ws here
+    std::getline(std::cin, name); // uwaga: nie std::ws tutaj
 
-    std::cout &lt;&lt; &#34;Hello, &#34; &lt;&lt; name &lt;&lt; &#34;, you picked &#34; &lt;&lt; choice &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "Hello, " &lt;&lt; name &lt;&lt; ", you picked " &lt;&lt; choice &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Oto wynik działania tego programu:<pre>Pick 1 or 2: 2
@@ -132,15 +132,15 @@ Now enter your name: Hello, , you picked 2
 
 int main()
 {
-    std::cout &lt;&lt; &#34;Pick 1 or 2: &#34;;
+    std::cout &lt;&lt; "Pick 1 or 2: ";
     int choice{};
     std::cin &gt;&gt; choice;
 
-    std::cout &lt;&lt; &#34;Now enter your name: &#34;;
+    std::cout &lt;&lt; "Now enter your name: ";
     std::string name{};
-    std::getline(std::cin &gt;&gt; std::ws, name); // note: added std::ws here
+    std::getline(std::cin &gt;&gt; std::ws, name); // uwaga: dodano std::ws tutaj
 
-    std::cout &lt;&lt; &#34;Hello, &#34; &lt;&lt; name &lt;&lt; &#34;, you picked &#34; &lt;&lt; choice &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "Hello, " &lt;&lt; name &lt;&lt; ", you picked " &lt;&lt; choice &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Teraz ten program będzie działał zgodnie z przeznaczeniem.<pre>Pick 1 or 2: 2
@@ -156,7 +156,7 @@ int main()
 
     return 0;
 }</code></pre><p>Wypisuje:<pre>Alex has 4 characters
-</pre><p>Chociaż <code>std::string</code> wymagane jest, aby łańcuch był zakończony znakiem null (od C++ 11), zwracana długość a <code>std::string</code> nie zawiera ukrytego znaku terminatora zerowego.<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><p>Zauważ, że zamiast pytać o długość łańcucha jako <code>length(name)</code>, mówimy <code>name.length()</code>. Słowo kluczowe <code>length()</code> funkcja nie jest normalną funkcją samodzielną — jest to specjalny typ funkcji zagnieżdżony w  <code>std::string</code> zwany  <em>funkcją składową</em>. Ponieważ  <code>length()</code> funkcja składowa jest zadeklarowana wewnątrz <code>std::string</code>, czasami jest zapisywana jako <code>std::string::length()</code> w dokumentacji.<p>Funkcje składowe, w tym sposób pisania własnych, omówimy bardziej szczegółowo później.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>W przypadku normalnych funkcji wywołujemy  <code>function(object)</code>. W przypadku funkcji składowych wywołujemy <code>object.function()</code>.</div><p>Pamiętaj również, że <code>std::string::length()</code> zwraca wartość całkowita bez znaku (najprawdopodobniej typu  <code>size_t</code>). Jeśli chcesz przypisać długość do zmiennej <code>int</code> zmiennej, powinieneś  <code>static_cast</code> uniknąć ostrzeżeń kompilatora o konwersjach ze znakiem/bez znaku:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int length { static_cast&lt;int&gt;(name.length()) };</code></pre><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Dla zaawansowanych czytelników<p>W C++20 możesz także użyć funkcji <code>std::ssize()</code> , aby uzyskać długość <code>std::string</code> jako duży typ całkowity ze znakiem (zwykle <code>std::ptrdiff_t</code>):<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+</pre><p>Chociaż <code>std::string</code> wymagane jest, aby łańcuch był zakończony znakiem null (od C++ 11), zwracana długość <code>std::string</code> nie zawiera ukrytego znaku terminatora zerowego.<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><p>Zauważ, że zamiast pytać o długość łańcucha jako <code>length(name)</code>, mówimy <code>name.length()</code>. Słowo kluczowe <code>length()</code> funkcja nie jest normalną funkcją samodzielną — jest to specjalny typ funkcji zagnieżdżony w  <code>std::string</code> zwany  <em>funkcją składową</em>. Ponieważ  <code>length()</code> funkcja składowa jest zadeklarowana wewnątrz <code>std::string</code>, czasami jest zapisywana jako <code>std::string::length()</code> w dokumentacji.<p>Funkcje składowe, w tym sposób pisania własnych, omówimy bardziej szczegółowo później.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>W przypadku normalnych funkcji wywołujemy  <code>function(object)</code>. W przypadku funkcji składowych wywołujemy <code>object.function()</code>.</div><p>Pamiętaj również, że <code>std::string::length()</code> zwraca wartość całkowita bez znaku (najprawdopodobniej typu  <code>size_t</code>). Jeśli chcesz przypisać długość do zmiennej <code>int</code> zmiennej, powinieneś  <code>static_cast</code> uniknąć ostrzeżeń kompilatora o konwersjach ze znakiem/bez znaku:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int length { static_cast&lt;int&gt;(name.length()) };</code></pre><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Dla zaawansowanych czytelników<p>W C++20 możesz także użyć funkcji <code>std::ssize()</code> , aby uzyskać długość <code>std::string</code> jako duży typ całkowity ze znakiem (zwykle <code>std::ptrdiff_t</code>):<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;string&gt;
 
 int main()
@@ -165,18 +165,18 @@ int main()
     std::cout &lt;&lt; name &lt;&lt; &#34; has &#34; &lt;&lt; std::ssize(name) &lt;&lt; &#34; characters\n&#34;;
 
     return 0;
-}</code></pre><p>Ponieważ a <code>ptrdiff_t</code> może być większy niż  <code>int</code>, jeśli chcesz zapisać wynik  <code>std::ssize()</code> w  <code>int</code> zmiennej, powinieneś  <code>static_cast</code> wynik  <code>int</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int len { static_cast&lt;int&gt;(std::ssize(name)) };</code></pre></div><p class="cpp-section cpp-topline" style=clear:both>Inicjowanie  <code>std::string</code> jest kosztowne<p>Za każdym razem, gdy std::string jest inicjowany, tworzona jest kopia łańcucha użytego do jego inicjalizacji. Wykonywanie kopii ciągów jest kosztowne, dlatego należy zachować ostrożność, aby zminimalizować liczbę wykonanych kopii.<p class="cpp-section cpp-topline" style=clear:both>Nie przekazuj <code>std::string</code> według wartości<p>Kiedy <code>std::string</code> jest przekazywany do funkcji przez wartość, należy utworzyć instancję parametru funkcji  <code>std::string</code>  i zainicjować go argumentem. Powoduje to kosztowną kopię. Omówimy, co zamiast tego zrobić (użyj <code>std::string_view</code>) w lekcja <a href="../introduction-to-stdstring_view/index.html">5.8 — Wprowadzenie do std::string_view</a>.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Nie przekazuj <code>std::string</code> przez wartość, ponieważ powoduje to kosztowną kopię.</div><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>W większości przypadków zamiast tego użyj parametru <code>std::string_view</code> (opisanego w lekcji <a href="../introduction-to-stdstring_view/index.html">5.8 — Wprowadzenie do std::string_view</a>).</div><p class="cpp-section cpp-topline" style=clear:both>Zwrócenie <code>std::string</code><p>Gdy funkcja zwraca wartość do osoby wywołującej, zwracana wartość jest zwykle kopiowana z funkcji z powrotem do osoby wywołującej. Możesz się więc spodziewać, że nie powinieneś tego robić return <code>std::string</code> według wartości, ponieważ spowodowałoby to zwrócenie kosztownej kopii <code>std::string</code>.<p>Jednak zgodnie z ogólną zasadą można zwrócić <code>std::string</code> według wartości, gdy wyrażenie instrukcji return ma postać dowolnego z poniższych:<ul><li>Zmienna lokalna typu <code>std::string</code>.<li>A <code>std::string</code> , która została zwrócona przez wartość z innego wywołania funkcji lub operatora.<li>A <code>std::string</code> tymczasowa tworzony jako część instrukcji return.</ul><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Dla zaawansowanych czytelników<p><code>std::string</code> obsługuje funkcję zwaną semantyką przenoszenia, która pozwala zamiast tego zwrócić obiekt, który zostanie zniszczony na końcu funkcji, poprzez wartość bez tworzenia kopii. Sposób działania semantyki przenoszenia wykracza poza zakres tego wprowadzającego artykułu, ale przedstawimy go w lekcji <a href="../returning-stdvector-and-an-introduction-to-move-semantics/index.html">16.5 — Zwrócenie std::vector i wprowadzenie do semantyki przenoszenia</a>.</div><p>W większości innych przypadków wolimy unikać zwracania <code>std::string</code> według wartości, ponieważ będzie to kosztowne copy.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>Jeśli zwracasz literał łańcuchowy w stylu C, użyj zamiast tego  <code>std::string_view</code> typu zwracanego (omówionego w lekcji <a href="../stdstring_view-part-2/index.html">5.9 — std::string_view (część 2)</a>).</div><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Dla zaawansowanych czytelników<p>W niektórych przypadkach  <code>std::string</code> może zostać zwrócony również przez (const) odwołanie, co jest kolejnym sposobem uniknięcia tworzenia kopii. Omówimy to w dalszej części lekcje <a href="../return-by-reference-and-return-by-address/index.html">12.12 -- Powrót przez referencję i powrót przez adres</a> i <a href="../access-functions/index.html">14.6 — Funkcje dostępu</a>.</div><p class="cpp-section cpp-topline" style=clear:both>Literały dla <code>std::string</code><p>Literały łańcuchowe w cudzysłowie (np. „Witaj, świecie!”) są domyślnie ciągami w stylu C (a zatem mają dziwny typ).<p>Możemy tworzyć literały łańcuchowe z typem <code>std::string</code> używając a <code>s</code> sufiks po literale ciągu w cudzysłowie <code>s</code> musi być pisany małymi literami.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
-#include &lt;string&gt; // for std::string
+}</code></pre><p>Ponieważ <code>ptrdiff_t</code> może być większy niż  <code>int</code>, jeśli chcesz zapisać wynik  <code>std::ssize()</code> w  <code>int</code> zmiennej, powinieneś  <code>static_cast</code> wynik  <code>int</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int len { static_cast&lt;int&gt;(std::ssize(name)) };</code></pre></div><p class="cpp-section cpp-topline" style=clear:both>Inicjowanie  <code>std::string</code> jest kosztowne<p>Za każdym razem, gdy std::string jest inicjowany, tworzona jest kopia łańcucha użytego do jego inicjalizacji. Wykonywanie kopii ciągów jest kosztowne, dlatego należy zachować ostrożność, aby zminimalizować liczbę wykonanych kopii.<p class="cpp-section cpp-topline" style=clear:both>Nie przekazuj <code>std::string</code> według wartości<p>Kiedy <code>std::string</code> jest przekazywany do funkcji przez wartość, należy utworzyć instancję parametru funkcji  <code>std::string</code>  i zainicjować go argumentem. Powoduje to kosztowną kopię. Omówimy, co zamiast tego zrobić (użyj <code>std::string_view</code>) w lekcja <a href="../introduction-to-stdstring_view/index.html">5.8 — Wprowadzenie do std::string_view</a>.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Nie przekazuj <code>std::string</code> przez wartość, ponieważ powoduje to kosztowną kopię.</div><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>W większości przypadków zamiast tego użyj parametru <code>std::string_view</code> (opisanego w lekcji <a href="../introduction-to-stdstring_view/index.html">5.8 — Wprowadzenie do std::string_view</a>).</div><p class="cpp-section cpp-topline" style=clear:both>Zwrócenie <code>std::string</code><p>Gdy funkcja zwraca wartość do osoby wywołującej, zwracana wartość jest zwykle kopiowana z funkcji z powrotem do osoby wywołującej. Możesz się więc spodziewać, że nie powinieneś tego robić return <code>std::string</code> według wartości, ponieważ spowodowałoby to zwrócenie kosztownej kopii <code>std::string</code>.<p>Jednak zgodnie z ogólną zasadą można zwrócić <code>std::string</code> według wartości, gdy wyrażenie instrukcji return ma postać dowolnego z poniższych:<ul><li>Zmienna lokalna typu <code>std::string</code>.<li><code>std::string</code> , która została zwrócona przez wartość z innego wywołania funkcji lub operatora.<li><code>std::string</code> tymczasowa tworzony jako część instrukcji return.</ul><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Dla zaawansowanych czytelników<p><code>std::string</code> obsługuje funkcję zwaną semantyką przenoszenia, która pozwala zamiast tego zwrócić obiekt, który zostanie zniszczony na końcu funkcji, poprzez wartość bez tworzenia kopii. Sposób działania semantyki przenoszenia wykracza poza zakres tego wprowadzającego artykułu, ale przedstawimy go w lekcji <a href="../returning-stdvector-and-an-introduction-to-move-semantics/index.html">16.5 — Zwrócenie std::vector i wprowadzenie do semantyki przenoszenia</a>.</div><p>W większości innych przypadków wolimy unikać zwracania <code>std::string</code> według wartości, ponieważ będzie to kosztowne copy.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>Jeśli zwracasz literał łańcuchowy w stylu C, użyj zamiast tego  <code>std::string_view</code> typu zwracanego (omówionego w lekcji <a href="../stdstring_view-part-2/index.html">5.9 — std::string_view (część 2)</a>).</div><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Dla zaawansowanych czytelników<p>W niektórych przypadkach  <code>std::string</code> może zostać zwrócony również przez (const) odwołanie, co jest kolejnym sposobem uniknięcia tworzenia kopii. Omówimy to w dalszej części lekcje <a href="../return-by-reference-and-return-by-address/index.html">12.12 -- Powrót przez referencję i powrót przez adres</a> i <a href="../access-functions/index.html">14.6 — Funkcje dostępu</a>.</div><p class="cpp-section cpp-topline" style=clear:both>Literały dla <code>std::string</code><p>Literały łańcuchowe w cudzysłowie (np. „Witaj, świecie!”) są domyślnie ciągami w stylu C (a zatem mają dziwny typ).<p>Możemy tworzyć literały łańcuchowe z typem <code>std::string</code> używając <code>s</code> sufiks po literale ciągu w cudzysłowie <code>s</code> musi być pisany małymi literami.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+#include &lt;string&gt; // dla std::string
 
 int main()
 {
-    using namespace std::string_literals; // easy access to the s suffix
+    using namespace std::string_literals; // łatwy dostęp do sufiksu s
 
-    std::cout &lt;&lt; &#34;foo\n&#34;;   // no suffix is a C-style string literal
-    std::cout &lt;&lt; &#34;goo\n&#34;s;  // s suffix is a std::string literal
+    std::cout &lt;&lt; "foo\n";   // żaden sufiks nie jest literałem łańcuchowym w stylu C
+    std::cout &lt;&lt; "goo\n"s;  // s sufiks jest std::string literał
 
     return 0;
-}</code></pre><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>Sufiks „s” znajduje się w przestrzeni nazw <code>std::literals::string_literals</code>.<p>Najbardziej zwięzły sposób dostępu do sufiksów literału polega na użyciu dyrektywy using <code>using namespace std::literals</code> Jednakże powoduje to import <em>uniknąć</em>  standardowe literały biblioteczne w zakres dyrektywy using, która wprowadza mnóstwo rzeczy, których prawdopodobnie nie będziesz używać.<p>Polecamy program <code>using namespace std::string_literals</code>, która importuje tylko literały dla <code>std::string</code>.<p>Dyrektywy using omawiamy na lekcji <a href="../using-declarations-and-using-directives/index.html">&gt;7.13 -- Używanie deklaracji i dyrektyw</a>. Jest to jeden z wyjątkowych przypadków, gdzie <code>using</code> cała przestrzeń nazw jest ogólnie w porządku, ponieważ jest mało prawdopodobne, aby zdefiniowane w niej przyrostki kolidowały z żadnymi. swojego kodu. Unikaj takich dyrektyw using poza funkcjami w plikach nagłówkowych.</div><p>Prawdopodobnie nie będziesz musiał zbyt często używać <code>std::string</code> literałów (ponieważ można zainicjować <code>std::string</code> obiekt literałem łańcuchowym w stylu C), ale w przyszłych lekcjach (obejmujących dedukcję typów) zobaczymy kilka przypadków, w których zamiast literałów  <code>std::string</code>  Literały łańcuchowe w stylu C ułatwiają sprawę (patrz <a href="../type-deduction-for-objects-using-the-auto-keyword/index.html">10.8 -- Dedukcja typu dla obiektów korzystających z auto słowo kluczowe</a> przykład).<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Dla zaawansowanych czytelników<p><code>"Hello"s</code> rozwiązuje się do <code>std::string { "Hello", 5 }</code> która tworzy tymczasowy <code>std::string</code> zainicjowany literałem łańcuchowym w stylu C „Hello” (który ma długość 5, z wyłączeniem niejawnego zakończenia zerowego).</div><p class="cpp-section cpp-topline" style=clear:both><a name=constexprStrings></a>Ciągi Constexpr <a href="index.html#constexprStrings"><i class="fa fa-link" style=font-size:.8em></i></a><p>Jeśli spróbujesz zdefiniować a <code>constexpr std::string</code>, Twój kompilator prawdopodobnie wygeneruje błąd:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+}</code></pre><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>Sufiks „s” znajduje się w przestrzeni nazw <code>std::literals::string_literals</code>.<p>Najbardziej zwięzły sposób dostępu do sufiksów literału polega na użyciu dyrektywy using <code>using namespace std::literals</code> Jednakże powoduje to import <em>uniknąć</em>  standardowe literały biblioteczne w zakres dyrektywy using, która wprowadza mnóstwo rzeczy, których prawdopodobnie nie będziesz używać.<p>Polecamy program <code>using namespace std::string_literals</code>, która importuje tylko literały dla <code>std::string</code>.<p>Dyrektywy using omawiamy na lekcji <a href="../using-declarations-and-using-directives/index.html">7.13 -- Używanie deklaracji i dyrektyw</a>. Jest to jeden z wyjątkowych przypadków, gdzie <code>using</code> cała przestrzeń nazw jest ogólnie w porządku, ponieważ jest mało prawdopodobne, aby zdefiniowane w niej przyrostki kolidowały z żadnymi. swojego kodu. Unikaj takich dyrektyw using poza funkcjami w plikach nagłówkowych.</div><p>Prawdopodobnie nie będziesz musiał zbyt często używać <code>std::string</code> literałów (ponieważ można zainicjować <code>std::string</code> obiekt literałem łańcuchowym w stylu C), ale w przyszłych lekcjach (obejmujących dedukcję typów) zobaczymy kilka przypadków, w których zamiast literałów  <code>std::string</code>  Literały łańcuchowe w stylu C ułatwiają sprawę (patrz <a href="../type-deduction-for-objects-using-the-auto-keyword/index.html">10.8 -- Dedukcja typu dla obiektów korzystających z auto słowo kluczowe</a> przykład).<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Dla zaawansowanych czytelników<p><code>"Hello"s</code> rozwiązuje się do <code>std::string { "Hello", 5 }</code> która tworzy tymczasowy <code>std::string</code> zainicjowany literałem łańcuchowym w stylu C „Hello” (który ma długość 5, z wyłączeniem niejawnego zakończenia zerowego).</div><p class="cpp-section cpp-topline" style=clear:both><a name=constexprStrings></a>Ciągi Constexpr <a href="index.html#constexprStrings"><i class="fa fa-link" style=font-size:.8em></i></a><p>Jeśli spróbujesz zdefiniować <code>constexpr std::string</code>, Twój kompilator prawdopodobnie wygeneruje błąd:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;string&gt;
 
 int main()
@@ -196,18 +196,18 @@ Your age + length of name is: 40
 
 int main()
 {
-    std::cout &lt;&lt; &#34;Enter your full name: &#34;;
+    std::cout &lt;&lt; "Enter your full name: ";
     std::string name{};
-    std::getline(std::cin &gt;&gt; std::ws, name); // read a full line of text into name
+    std::getline(std::cin &gt;&gt; std::ws, name); // czytaj całą linię tekstu na nazwę
 
-    std::cout &lt;&lt; &#34;Enter your age: &#34;;
-    int age{}; // age needs to be an integer, not a string, so we can do math with it
+    std::cout &lt;&lt; "Enter your age: ";
+    int age{}; // wiek musi być liczbą całkowitą, a nie łańcuchem, abyśmy mogli z nim wykonywać obliczenia
     std::cin &gt;&gt; age;
 
-    // age is signed, and name.length() is unsigned -- we shouldn&#39;t mix these
-    // We&#39;ll convert name.length() to a signed value
-    int nameLen { static_cast&lt;int&gt;(name.length()) }; // get number of chars in name (including spaces)
-    std::cout &lt;&lt; &#34;Your age + length of name is: &#34; &lt;&lt; age + nameLen &lt;&lt; &#39;\n&#39;;
+    // wiek jest podpisany, a name.length() jest bez znaku -- nie powinniśmy ich mieszać
+    // Przekonwertujemy name.length() na wartość ze znakiem
+    int nameLen { static_cast&lt;int&gt;(name.length()) }; // pobierz liczbę znaków w nazwie (ze spacjami)
+    std::cout &lt;&lt; "Your age + length of name is: " &lt;&lt; age + nameLen &lt;&lt; '\n';
 
     return 0;
 }</code></pre></div><div class=prevnext><div class=prevnext-inline><a class=nav-link href="../introduction-to-stdstring_view/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>5.8</span>Wprowadzenie do std::string_view</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../constexpr-variables/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>5.6</span>Zmienne Constexpr</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/introduction-to-stdstring/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../scoped-enumerations-enum-classes/index.html" rel=prev><span>13.6 -- Wyliczenia o ograniczonym zakresie (klasy wyliczeniowe)</span></a></div><div class=nav-next><em>Następny post</em><a href="../chapter-7-summary-and-quiz/index.html" rel=next><span>7.x — Podsumowanie i quiz rozdziału 7</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>

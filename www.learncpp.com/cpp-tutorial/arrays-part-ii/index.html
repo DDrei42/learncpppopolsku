@@ -11,22 +11,22 @@
 <input type=search class=s placeholder=Search name=s></label>
 <button class=searchsubmit><span class=screen-reader-text>Szukaj</span><i class=icon-search></i></button></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="11.2 — Tablice (Część II)" src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-83 class="post-83 post type-post status-publish format-standard hentry category-cpp-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>11.2 -- Tablice (Część II)</h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Autor></i><a class="url fn n" rel=author href=/www.learncpp.com/author/Alex/ title="Wyświetl wszystkie posty Alexa" itemprop=url><em itemprop=name>Alex</em></a></span>
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2007-06-27T17:48:43-07:00 itemprop=datePublished>27 czerwca 2007, 17:48 czasu PDT</time>
-<time class=updated datetime=2024-04-20T14:39:32-07:00 itemprop=dateModified>20 kwietnia 2024 r</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><div class="cpp-note cpp-lightredbackground"><p class="cpp-note-title cpp-bottomline">Ostrzeżenie<p>Ta lekcja została wycofana i zastąpiona zaktualizowanymi lekcjami z drugiej połowy rozdziału 17 (zaczynając od lekcji <a href="../introduction-to-c-style-arrays/index.html">17.7 -- Wprowadzenie do tablic w stylu C</a>).</div><p>Ta lekcja stanowi kontynuację dyskusji na temat tablic rozpoczętej na lekcji <a href="../introduction-to-c-style-arrays/index.html">17.7 -- Wprowadzenie do tablic w stylu C</a>.<p class="cpp-section cpp-topline" style=clear:both>Inicjowanie stałych tablic<p>Elementy tablicy są traktowane jak zwykłe zmienne i jako takie nie są inicjowane podczas tworzenia.<p>Jednym ze sposobów „inicjalizacji” tablicy jest wykonanie tego element po elemencie:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int prime[5]; // hold the first 5 prime numbers
+<time class=updated datetime=2024-04-20T14:39:32-07:00 itemprop=dateModified>20 kwietnia 2024 r</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><div class="cpp-note cpp-lightredbackground"><p class="cpp-note-title cpp-bottomline">Ostrzeżenie<p>Ta lekcja została wycofana i zastąpiona zaktualizowanymi lekcjami z drugiej połowy rozdziału 17 (zaczynając od lekcji <a href="../introduction-to-c-style-arrays/index.html">17.7 -- Wprowadzenie do tablic w stylu C</a>).</div><p>Ta lekcja stanowi kontynuację dyskusji na temat tablic rozpoczętej na lekcji <a href="../introduction-to-c-style-arrays/index.html">17.7 -- Wprowadzenie do tablic w stylu C</a>.<p class="cpp-section cpp-topline" style=clear:both>Inicjowanie stałych tablic<p>Elementy tablicy są traktowane jak zwykłe zmienne i jako takie nie są inicjowane podczas tworzenia.<p>Jednym ze sposobów „inicjalizacji” tablicy jest wykonanie tego element po elemencie:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int prime[5]; // zachowaj pierwsze 5 pierwszych
 prime[0] = 2;
 prime[1] = 3;
 prime[2] = 5;
 prime[3] = 7;
-prime[4] = 11;</code></pre><p>Jest to jednak uciążliwe, zwłaszcza gdy tablica staje się większa. Co więcej, nie jest to inicjalizacja, ale przypisanie. Przypisania nie działają, jeśli tablica jest <code>const</code>.<p>Na szczęście C++ zapewnia wygodniejszy sposób inicjowania całych tablic za pomocą metody <strong>lista inicjatorów</strong>. Poniższy przykład inicjuje tablicę tymi samymi wartościami, co powyższy:<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int prime[5]{ 2, 3, 5, 7, 11 }; // use initializer list to initialize the fixed array</code></pre><p>Jeśli na liście znajduje się więcej inicjatorów niż tablica może pomieścić, kompilator wygeneruje błąd.<p>Jeśli jednak na liście jest mniej inicjatorów, niż może pomieścić tablica, pozostałe elementy są inicjalizowane na 0 (lub inną wartość, na którą 0 jest konwertowane dla nieintegralnego typu podstawowego - np. 0,0 dla typu double). To się nazywa <strong>inicjalizacja zerowa</strong>.<p>Poniższy przykład pokazuje to w akcji:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+prime[4] = 11;</code></pre><p>Jest to jednak uciążliwe, zwłaszcza gdy tablica staje się większa. Co więcej, nie jest to inicjalizacja, ale przypisanie. Przypisania nie działają, jeśli tablica jest <code>const</code>.<p>Na szczęście C++ zapewnia wygodniejszy sposób inicjowania całych tablic za pomocą metody <strong>lista inicjatorów</strong>. Poniższy przykład inicjuje tablicę tymi samymi wartościami, co powyższy:<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int prime[5]{ 2, 3, 5, 7, 11 }; // użyj listy inicjatorów, aby zainicjować stałą tablicę</code></pre><p>Jeśli na liście znajduje się więcej inicjatorów niż tablica może pomieścić, kompilator wygeneruje błąd.<p>Jeśli jednak na liście jest mniej inicjatorów, niż może pomieścić tablica, pozostałe elementy są inicjalizowane na 0 (lub inną wartość, na którą 0 jest konwertowane dla nieintegralnego typu podstawowego - np. 0,0 dla typu double). To się nazywa <strong>inicjalizacja zerowa</strong>.<p>Poniższy przykład pokazuje to w akcji:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 int main()
 {
-    int array[5]{ 7, 4, 5 }; // only initialize first 3 elements
+    int array[5]{ 7, 4, 5 }; // tylko inicjuje pierwsze 3 elementy
 
-    std::cout &lt;&lt; array[0] &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; array[1] &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; array[2] &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; array[3] &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; array[4] &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; array[0] &lt;&lt; '\n';
+    std::cout &lt;&lt; array[1] &lt;&lt; '\n';
+    std::cout &lt;&lt; array[2] &lt;&lt; '\n';
+    std::cout &lt;&lt; array[3] &lt;&lt; '\n';
+    std::cout &lt;&lt; array[4] &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Wypisuje:<pre>7
@@ -34,12 +34,12 @@ int main()
 5
 0
 0
-</pre><p>W związku z tym, aby zainicjować wszystkie elementy tablicy na 0, możesz to zrobić:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int array[5]{};          // Initialize all elements to 0
-double array[5] {};      // Initialize all elements to 0.0
-std::string array[5] {}; // Initialize all elements to an empty string</code></pre><p>Jeśli lista inicjatorów zostanie pominięta, elementy nie zostaną zainicjowane, chyba że są typem klasy, który samoinicjuje się.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int array[5];         // uninitialized (since int doesn&#39;t self-initialize)
-double array[5];      // uninitialized (since double doesn&#39;t self-initialize)
-std::string array[5]; // Initialize all elements to an empty string</code></pre><div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Jawnie zainicjuj swoje tablice (nawet jeśli typ elementu jest samoinicjujący).</div><p class="cpp-section cpp-topline" style=clear:both>Pominięta długość<p>Jeśli inicjujesz stałą tablicę elementów przy użyciu listy inicjatorów, kompilator może obliczyć długość tablicy za Ciebie i możesz pominąć jawne deklarowanie długości tablicy.<p>Poniższe dwie linie są równoważne:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int array[5]{ 0, 1, 2, 3, 4 }; // explicitly define the length of the array
-int array[]{ 0, 1, 2, 3, 4 }; // let the initializer list set length of the array</code></pre><p>To nie tylko oszczędza pisanie, ale także oznacza, że ​​nie musisz aktualizować długości tablicy, jeśli później dodasz lub usuniesz elementy.<p class="cpp-section cpp-topline" style=clear:both>Tablice i wyliczenia<p>Jednym z dużych problemów z dokumentacją tablic jest to, że indeksy całkowite nie dostarczają programiście żadnych informacji na temat znaczenia indeksu. Rozważmy klasę składającą się z 5 uczniów:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">constexpr int numberOfStudents{5};
+</pre><p>W związku z tym, aby zainicjować wszystkie elementy tablicy na 0, możesz to zrobić:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int array[5]{};          // Zainijuj wszystkie elementy na 0
+double array[5] {};      // Zainijuj wszystkie elementy na 0.0
+std::string array[5] {}; // Zainicjuj wszystkie elementy pustym ciągiem znaków</code></pre><p>Jeśli lista inicjatorów zostanie pominięta, elementy nie zostaną zainicjowane, chyba że są typem klasy, który samoinicjuje się.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int array[5];         // uninitialized (since int doesn't self-initialize)
+double array[5];      // uninitialized (since double doesn't self-initialize)
+std::string array[5]; // Zainicjuj wszystkie elementy pustym ciągiem znaków</code></pre><div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Jawnie zainicjuj swoje tablice (nawet jeśli typ elementu jest samoinicjujący).</div><p class="cpp-section cpp-topline" style=clear:both>Pominięta długość<p>Jeśli inicjujesz stałą tablicę elementów przy użyciu listy inicjatorów, kompilator może obliczyć długość tablicy za Ciebie i możesz pominąć jawne deklarowanie długości tablicy.<p>Poniższe dwie linie są równoważne:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int array[5]{ 0, 1, 2, 3, 4 }; // jawnie zdefiniuj długość tablicy
+int array[]{ 0, 1, 2, 3, 4 }; // niech lista inicjatorów ustawi długość tablicy</code></pre><p>To nie tylko oszczędza pisanie, ale także oznacza, że ​​nie musisz aktualizować długości tablicy, jeśli później dodasz lub usuniesz elementy.<p class="cpp-section cpp-topline" style=clear:both>Tablice i wyliczenia<p>Jednym z dużych problemów z dokumentacją tablic jest to, że indeksy całkowite nie dostarczają programiście żadnych informacji na temat znaczenia indeksu. Rozważmy klasę składającą się z 5 uczniów:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">constexpr int numberOfStudents{5};
 int testScores[numberOfStudents]{};
 testScores[2] = 76;</code></pre><p>Kogo reprezentują testScores[2]? To nie jest jasne.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>Można to rozwiązać, konfigurując wyliczenie, w którym jeden moduł wyliczający odwzorowuje każdy z możliwych indeksów tablicy:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">enum StudentNames
 {
@@ -71,7 +71,7 @@ int main()
 int main()
 {
     int testScores[max_students]{}; // allocate 6 integers
-    testScores[stan] = 76; // still works
+    testScores[stan] = 76; // nadal działa
 
     return 0;
 }</code></pre><p>Pamiętaj, że ta „sztuczka” działa tylko wtedy, gdy nie zmienisz ręcznie wartości modułu wyliczającego!<p class="cpp-section cpp-topline" style=clear:both>Tablice i wyliczenie klasy<p>Klasy wyliczeniowe nie mają ukrytej konwersji na liczbę całkowitą, więc jeśli spróbujesz wykonać następujące czynności:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">enum class StudentNames
@@ -119,14 +119,14 @@ int main()
     return 0;
 }</code></pre><p class="cpp-section cpp-topline" style=clear:both>Przekazywanie tablic do funkcji<p>Chociaż przekazywanie tablicy do funkcji na pierwszy rzut oka wygląda jak przekazywanie normalnej zmiennej, pod maską C++ traktuje tablice inaczej.<p>Kiedy zwykła zmienna jest przekazywana przez wartość, C++ kopiuje wartość argumentu do parametru funkcji. Ponieważ parametr jest kopią, zmiana wartości parametru nie powoduje zmiany wartości oryginalnego argumentu.<p>Jednakże kopiowanie dużych tablic może być bardzo kosztowne, C++ <em>nie</em> kopiuje tablicę, gdy jest ona przekazywana do funkcji. Zamiast tego przekazywana jest tablica  <em>aktualna</em> . Ma to efekt uboczny polegający na umożliwieniu funkcjom bezpośredniej zmiany wartości elementów tablicy!<p>Poniższy przykład ilustruje tę koncepcję:<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-void passValue(int value) // value is a copy of the argument
+void passValue(int value) // wartość jest kopią argumentu
 {
-    value = 99; // so changing it here won&#39;t change the value of the argument
+    value = 99; // więc zmiana to tutaj nie zmieni wartości argumentu
 }
 
-void passArray(int prime[5]) // prime is the actual array
+void passArray(int prime[5]) // prime jest rzeczywistą wartością tablica
 {
-    prime[0] = 11; // so changing it here will change the original argument!
+    prime[0] = 11; // więc zmiana go tutaj spowoduje zmianę pierwotnego argumentu!
     prime[1] = 7;
     prime[2] = 5;
     prime[3] = 3;
@@ -136,36 +136,36 @@ void passArray(int prime[5]) // prime is the actual array
 int main()
 {
     int value{ 1 };
-    std::cout &lt;&lt; &#34;before passValue: &#34; &lt;&lt; value &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "before passValue: " &lt;&lt; value &lt;&lt; '\n';
     passValue(value);
-    std::cout &lt;&lt; &#34;after passValue: &#34; &lt;&lt; value &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "after passValue: " &lt;&lt; value &lt;&lt; '\n';
 
-    int prime[]{ 2, 3, 5, 7, 11 }; // type deduced as int prime[5]
-    std::cout &lt;&lt; &#34;before passArray: &#34; &lt;&lt; prime[0] &lt;&lt; &#34; &#34; &lt;&lt; prime[1] &lt;&lt; &#34; &#34; &lt;&lt; prime[2] &lt;&lt; &#34; &#34; &lt;&lt; prime[3] &lt;&lt; &#34; &#34; &lt;&lt; prime[4] &lt;&lt; &#39;\n&#39;;
+    int prime[]{ 2, 3, 5, 7, 11 }; // typ wydedukowany jako int prime[5]
+    std::cout &lt;&lt; "before passArray: " &lt;&lt; prime[0] &lt;&lt; " " &lt;&lt; prime[1] &lt;&lt; " " &lt;&lt; prime[2] &lt;&lt; " " &lt;&lt; prime[3] &lt;&lt; " " &lt;&lt; prime[4] &lt;&lt; '\n';
     passArray(prime);
-    std::cout &lt;&lt; &#34;after passArray: &#34; &lt;&lt; prime[0] &lt;&lt; &#34; &#34; &lt;&lt; prime[1] &lt;&lt; &#34; &#34; &lt;&lt; prime[2] &lt;&lt; &#34; &#34; &lt;&lt; prime[3] &lt;&lt; &#34; &#34; &lt;&lt; prime[4] &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "after passArray: " &lt;&lt; prime[0] &lt;&lt; " " &lt;&lt; prime[1] &lt;&lt; " " &lt;&lt; prime[2] &lt;&lt; " " &lt;&lt; prime[3] &lt;&lt; " " &lt;&lt; prime[4] &lt;&lt; '\n';
 
     return 0;
 }</code></pre><pre>before passValue: 1
 after passValue: 1
 before passArray: 2 3 5 7 11
 after passArray: 11 7 5 3 2
-</pre><p>W powyższym przykładzie wartość nie jest zmieniana w funkcji main(), ponieważ wartość parametru w funkcji passValue() była kopią wartości zmiennej w funkcji main(), a nie rzeczywistą zmienną. Jednakże, ponieważ tablica parametrów w funkcji passArray() jest rzeczywistą tablicą, passArray() może bezpośrednio zmieniać wartości elementów!<p>Przyczyna takiego stanu rzeczy jest związana ze sposobem implementacji tablic w C++, do tematu, do którego wrócimy podczas lekcji <a href="../c-style-array-decay/index.html">17.8 -- Zanikanie tablicy w stylu C</a>. Na razie możesz to uznać za dziwactwo języka.<p>Na marginesie: jeśli chcesz mieć pewność, że funkcja nie modyfikuje przekazywanych do niej elementów tablicy, możesz ustawić tablicę const:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// even though prime is the actual array, within this function it should be treated as a constant
+</pre><p>W powyższym przykładzie wartość nie jest zmieniana w funkcji main(), ponieważ wartość parametru w funkcji passValue() była kopią wartości zmiennej w funkcji main(), a nie rzeczywistą zmienną. Jednakże, ponieważ tablica parametrów w funkcji passArray() jest rzeczywistą tablicą, passArray() może bezpośrednio zmieniać wartości elementów!<p>Przyczyna takiego stanu rzeczy jest związana ze sposobem implementacji tablic w C++, do tematu, do którego wrócimy podczas lekcji <a href="../c-style-array-decay/index.html">17.8 -- Zanikanie tablicy w stylu C</a>. Na razie możesz to uznać za dziwactwo języka.<p>Na marginesie: jeśli chcesz mieć pewność, że funkcja nie modyfikuje przekazywanych do niej elementów tablicy, możesz ustawić tablicę const:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// mimo że liczba pierwsza jest rzeczywistą tablicą, w ramach tej funkcji powinna być traktowana jako stała
 void passArray(const int prime[5])
 {
-    // so each of these lines will cause a compile error!
+    // więc każda z tych linii spowoduje błąd kompilacji!
     prime[0] = 11;
     prime[1] = 7;
     prime[2] = 5;
     prime[3] = 3;
     prime[4] = 2;
 }</code></pre><p class="cpp-section cpp-topline" style=clear:both>Określanie długości tablicy<p>Funkcji std::size() z nagłówka &lt;iterator&gt; można użyć do określenia długości tablice.<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>Oto przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
-#include &lt;iterator&gt; // for std::size
+#include &lt;iterator&gt; // dla std::size
 
 int main()
 {
     int array[]{ 1, 1, 2, 3, 5, 8, 13, 21 };
-    std::cout &lt;&lt; &#34;The array has: &#34; &lt;&lt; std::size(array) &lt;&lt; &#34; elements\n&#34;;
+    std::cout &lt;&lt; "The array has: " &lt;&lt; std::size(array) &lt;&lt; " elements\n";
 
     return 0;
 }</code></pre><p>Wypisuje:<pre>The array has: 8 elements
@@ -174,13 +174,13 @@ int main()
 
 void printSize(int array[])
 {
-    std::cout &lt;&lt; std::size(array) &lt;&lt; &#39;\n&#39;; // Error
+    std::cout &lt;&lt; std::size(array) &lt;&lt; '\n'; // Error
 }
 
 int main()
 {
     int array[]{ 1, 1, 2, 3, 5, 8, 13, 21 };
-    std::cout &lt;&lt; std::size(array) &lt;&lt; &#39;\n&#39;; // will print the length of the array
+    std::cout &lt;&lt; std::size(array) &lt;&lt; '\n'; // wydrukuje długość tablicy
     printSize(array);
 
     return 0;
@@ -203,8 +203,8 @@ int main() {
 int main()
 {
     int array[]{ 1, 1, 2, 3, 5, 8, 13, 21 };
-    std::cout &lt;&lt; sizeof(array) &lt;&lt; &#39;\n&#39;; // will print the size of the array multiplied by the size of an int
-    std::cout &lt;&lt; sizeof(int) &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; sizeof(array) &lt;&lt; '\n'; // wypisze rozmiar tablicy pomnożony przez rozmiar int
+    std::cout &lt;&lt; sizeof(int) &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Na maszynie z 4-bajtowymi liczbami całkowitymi i 8-bajtowymi wskaźnikami zostanie wydrukowane:<pre>32
@@ -236,16 +236,16 @@ int main()
 2
 </pre><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nota autora<p>Prawidłowo skonfigurowany kompilator powinien wyświetlić ostrzeżenie, jeśli spróbujesz użyć sizeof() na tablicy przekazanej do funkcji.</div><p>Obliczenia w funkcji main() były poprawne, ale funkcja sizeof() w funkcji printSize() zwróciła 8 (rozmiar wskaźnika), a 8 podzielone przez 4 daje 2.<p>Z tego powodu uważaj, używając sizeof() na tablicach!<p>Uwaga: w powszechnym użyciu terminy „rozmiar tablicy” i „długość tablicy” są najczęściej używane w odniesieniu do długości tablicy (rozmiar tablicy w większości przypadków nie jest przydatny, poza sztuczką, którą pokazaliśmy powyżej).<p class="cpp-section cpp-topline" style=clear:both>Indeksowanie tablicy poza zakresem<p>Pamiętaj że tablica o długości N zawiera elementy tablicy od 0 do N-1. Co więc się stanie, jeśli spróbujesz uzyskać dostęp do tablicy z indeksem dolnym spoza tego zakresu?<p>Rozważ następujący program:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
-    int prime[5]{}; // hold the first 5 prime numbers
+    int prime[5]{}; // zachowaj pierwsze 5 pierwszych
     prime[5] = 13;
 
     return 0;
 }</code></pre><p>W tym programie nasza tablica ma długość 5, ale staramy się zapisać liczbę pierwszą w szóstym elemencie (indeks 5).<p>C++  <em>nie</em> wykonuje wszelkie sprawdzenia, aby upewnić się, że Twoje indeksy są prawidłowe dla długości tablicy. Zatem w powyższym przykładzie wartość 13 zostanie wstawiona do pamięci w miejscu, w którym znajdowałby się szósty element, gdyby istniał. Kiedy tak się stanie, otrzymasz niezdefiniowane zachowanie — na przykład może to spowodować nadpisanie wartości innej zmiennej lub spowodować awarię programu.<p>Chociaż zdarza się to rzadziej, C++ pozwoli ci również użyć indeksu ujemnego, z podobnie niepożądanymi skutkami.<div class="cpp-note cpp-lightpurplebackground"><p class="cpp-note-title cpp-bottomline">Reguła<p>Jeśli używasz tablic, upewnij się, że twoje indeksy są prawidłowe dla zakresu twojego tablica!</div><p class="cpp-section cpp-topline" style=clear:both>Quiz<ol start=1><li>Zadeklaruj tablicę przechowującą wysoką temperaturę (z dokładnością do dziesiątej części stopnia) dla każdego dnia w roku (zakładając, że rok ma 365 dni). Zainicjuj tablicę wartością 0,0 dla każdego dnia.<li>Utwórz wyliczenie z nazwami następujących zwierząt: kurczak, pies, kot, słoń, kaczka i wąż. Umieść wyliczenie w przestrzeni nazw. Zdefiniuj tablicę zawierającą element dla każdego z tych zwierząt i użyj listy inicjalizacyjnej, aby zainicjować każdy element w celu przechowywania liczby nóg zwierzęcia.</ol><p>Napisz główną funkcję, która wypisze liczbę nóg słonia, używając modułu wyliczającego.<p><strong>Odpowiedzi do quizu</strong><ol start=1><li><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a></ol><div class=wpsolution id=cpp_solution_id_0 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">double temperature[365] { };</code></pre></div><ol start=2><li><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a></ol><div class=wpsolution id=cpp_solution_id_1 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
-#include &lt;iterator&gt; // for std::size
+#include &lt;iterator&gt; // dla std::size
 
 namespace Animals
 {
-    enum Animals // The name of this enum could be omitted since it isn&#39;t used anywhere
+    enum Animals // Nazwę tego wyliczenia można pominąć, ponieważ nie jest ona nigdzie używana
     {
         chicken,
         dog,
@@ -262,7 +262,7 @@ int main()
     int legs[]{ 2, 4, 4, 4, 2, 0 };
     static_assert(std::size(legs) == Animals::max_animals);
 
-    std::cout &lt;&lt; &#34;An elephant has &#34; &lt;&lt; legs[Animals::elephant] &lt;&lt; &#34; legs.\n&#34;;
+    std::cout &lt;&lt; "An elephant has " &lt;&lt; legs[Animals::elephant] &lt;&lt; " legs.\n";
 
     return 0;
 }</code></pre></div><font color=FF0000>%Brakujące wyszukiwanie identyfikatora lekcji 83%</font><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/arrays-part-ii/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../introduction-to-c-style-arrays/index.html" rel=prev><span>17.7 — Wprowadzenie do Tablice w stylu C</span></a></div><div class=nav-next><em>Następny post</em><a href="../a1-static-and-dynamic-libraries/index.html" rel=next><span>A.1 — Biblioteki statyczne i dynamiczne</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>

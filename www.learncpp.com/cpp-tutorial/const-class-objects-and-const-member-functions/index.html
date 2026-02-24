@@ -13,9 +13,9 @@
 <button class=searchsubmit><span class=screen-reader-text>Szukaj</span><i class=icon-search></i></button>
 <input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=63001></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="14.4 — Obiekty klas Const i funkcje składowe const" src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-133 class="post-133 post type-post status-publish format-standard hentry category-cpp-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>14.4 — Obiekty klas Const i funkcje składowe const</h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Autor></i><a class="url fn n" rel=author href=/www.learncpp.com/author/Alex/ title="Wyświetl wszystkie posty Alexa" itemprop=url><em itemprop=name>Alex</em></a></span>
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2007-09-11T18:19:49-07:00 itemprop=datePublished>11 września 2007, 18:19 PDT</time>
-<time class=updated datetime=2025-02-12T11:31:57-08:00 itemprop=dateModified>12 lutego 2025</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>W lekcji <a href="../constant-variables-named-constants/index.html">&gt;5.1 -- Zmienne stałe (zwane stałymi)</a>, dowiedziałeś się, że obiekty podstawowego typu danych (<code>int</code>, <code>double</code>, <code>char</code> itd.) można uczynić stałymi za pomocą słowa kluczowego <code>const</code> . Wszystkie zmienne const muszą zostać zainicjowane w momencie tworzenia.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">const int x;      // compile error: not initialized
-const int y{};    // ok: value initialized
-const int z{ 5 }; // ok: list initialized</code></pre><p>Podobnie obiekty typu klasowego (struktura, klasy i związki) mogą również zostać ustawione na stałe za pomocą słowa kluczowego <code>const</code> . Takie obiekty muszą być również inicjalizowane w momencie tworzenia.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">struct Date
+<time class=updated datetime=2025-02-12T11:31:57-08:00 itemprop=dateModified>12 lutego 2025</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>W lekcji <a href="../constant-variables-named-constants/index.html">5.1 -- Zmienne stałe (zwane stałymi)</a>, dowiedziałeś się, że obiekty podstawowego typu danych (<code>int</code>, <code>double</code>, <code>char</code> itd.) można uczynić stałymi za pomocą słowa kluczowego <code>const</code> . Wszystkie zmienne const muszą zostać zainicjowane w momencie tworzenia.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">const int x;      // błąd kompilacji: nie zainicjowano
+const int y{};    // ok: wartość zainicjowana
+const int z{ 5 }; // ok: lista została zainicjowana</code></pre><p>Podobnie obiekty typu klasowego (struktura, klasy i związki) mogą również zostać ustawione na stałe za pomocą słowa kluczowego <code>const</code> . Takie obiekty muszą być również inicjalizowane w momencie tworzenia.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">struct Date
 {
     int year {};
     int month {};
@@ -24,7 +24,7 @@ const int z{ 5 }; // ok: list initialized</code></pre><p>Podobnie obiekty typu k
 
 int main()
 {
-    const Date today { 2020, 10, 14 }; // const class type object
+    const Date today { 2020, 10, 14 }; // stały obiekt typu klasy
 
     return 0;
 }</code></pre><p>Podobnie jak w przypadku normalnych zmiennych, zazwyczaj chcesz, aby obiekty typu klasy były const (lub constexpr), gdy chcesz mieć pewność, że nie zostaną zmodyfikowane po utworzeniu.<p class="cpp-section cpp-topline" style=clear:both>Modyfikowanie elementów danych obiektów const jest niedozwolone<p>Po zainicjowaniu obiektu klasy const jakakolwiek próba modyfikacji elementów danych obiektu jest niemożliwa niedozwolone, gdyż naruszałoby to stałość obiektu. Obejmuje to zarówno bezpośrednią zmianę zmiennych składowych (jeśli są publiczne), jak i wywoływanie funkcji składowych, które ustawiają wartość zmiennych składowych.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">struct Date
@@ -43,8 +43,8 @@ int main()
 {
     const Date today { 2020, 10, 14 }; // const
 
-    today.day += 1;        // compile error: can&#39;t modify member of const object
-    today.incrementDay();  // compile error: can&#39;t call member function that modifies member of const object
+    today.day += 1;        // błąd kompilacji: nie można zmodyfikować elementu stałego obiekt
+    today.incrementDay();  // błąd kompilacji: nie można wywołać funkcji członkowskiej, która modyfikuje element składowy obiektu const
 
     return 0;
 }</code></pre><p class="cpp-section cpp-topline" style=clear:both>Obiekt Const nie może wywoływać funkcji składowych innych niż const<p>Możesz być zaskoczony, gdy zauważysz, że ten kod również powoduje błąd kompilacji:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -57,7 +57,7 @@ struct Date
 
     void print()
     {
-        std::cout &lt;&lt; year &lt;&lt; &#39;/&#39; &lt;&lt; month &lt;&lt; &#39;/&#39; &lt;&lt; day;
+        std::cout &lt;&lt; year &lt;&lt; '/' &lt;&lt; month &lt;&lt; '/' &lt;&lt; day;
     }
 };
 
@@ -65,10 +65,10 @@ int main()
 {
     const Date today { 2020, 10, 14 }; // const
 
-    today.print();  // compile error: can&#39;t call non-const member function
+    today.print();  // błąd kompilacji: nie można wywołać funkcji składowej innej niż stała
 
     return 0;
-}</code></pre><p>Mimo że <code>print()</code> nie próbuje modyfikować zmiennej składowej, nasze wywołanie  <code>today.print()</code> jest nadal stałe naruszenie. Dzieje się tak, ponieważ sama  <code>print()</code> funkcja składowa nie jest zadeklarowana jako const. Kompilator nie pozwoli nam wywołać funkcji składowej innej niż stała w obiekcie const.<p class="cpp-section cpp-topline" style=clear:both>Funkcje składowe Const<p>Aby rozwiązać powyższy problem, musimy utworzyć <code>print()</code> funkcję składową const. A <strong>funkcja składowa const</strong> jest funkcją składową, która gwarantuje, że nie zmodyfikuje obiektu ani nie wywoła żadnych funkcji składowych innych niż stałe (ponieważ mogą modyfikować obiekt).<p>Utworzenie <code>print()</code> funkcji składowej const jest łatwe — po prostu dołączamy  <code>const</code> słowo kluczowe do prototypu funkcji, po liście parametrów, ale przed treścią funkcji:<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+}</code></pre><p>Mimo że <code>print()</code> nie próbuje modyfikować zmiennej składowej, nasze wywołanie  <code>today.print()</code> jest nadal stałe naruszenie. Dzieje się tak, ponieważ sama  <code>print()</code> funkcja składowa nie jest zadeklarowana jako const. Kompilator nie pozwoli nam wywołać funkcji składowej innej niż stała w obiekcie const.<p class="cpp-section cpp-topline" style=clear:both>Funkcje składowe Const<p>Aby rozwiązać powyższy problem, musimy utworzyć <code>print()</code> funkcję składową const. <strong>funkcja składowa const</strong> jest funkcją składową, która gwarantuje, że nie zmodyfikuje obiektu ani nie wywoła żadnych funkcji składowych innych niż stałe (ponieważ mogą modyfikować obiekt).<p>Utworzenie <code>print()</code> funkcji składowej const jest łatwe — po prostu dołączamy  słowo kluczowe <code>const</code> do prototypu funkcji, po liście parametrów, ale przed treścią funkcji:<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 struct Date
 {
@@ -76,9 +76,9 @@ struct Date
     int month {};
     int day {};
 
-    void print() const // now a const member function
+    void print() const // teraz stała funkcja członkowska
     {
-        std::cout &lt;&lt; year &lt;&lt; &#39;/&#39; &lt;&lt; month &lt;&lt; &#39;/&#39; &lt;&lt; day;
+        std::cout &lt;&lt; year &lt;&lt; '/' &lt;&lt; month &lt;&lt; '/' &lt;&lt; day;
     }
 };
 
@@ -86,7 +86,7 @@ int main()
 {
     const Date today { 2020, 10, 14 }; // const
 
-    today.print();  // ok: const object can call const member function
+    today.print();  // ok: obiekt const może wywołać funkcję członkowską const
 
     return 0;
 }</code></pre><p>W powyższym przykładzie <code>print()</code> została wykonana stała funkcja składowa, co oznacza, że możemy ją wywołać na obiektach stałych (takich jak <code>today</code>).<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Dla zaawansowanych czytelników<p>W przypadku funkcji składowych zdefiniowanych poza definicją klasy, słowo kluczowe <code>const</code>  musi zostać użyte zarówno w deklaracji funkcji w definicji klasy, jak i w definicji funkcji poza definicją klasy. Przykład tego pokazujemy w lekcji <a href="../classes-and-header-files/index.html">15.2 — Klasy i pliki nagłówkowe</a>.<p>Konstruktory nie mogą być stałe, ponieważ muszą zainicjować elementy obiektu, co wymaga ich modyfikacji. Konstruktory omówimy w lekcji <a href="../introduction-to-constructors/index.html">14.9 -- Wprowadzenie do konstruktorów</a>.</div><p>Funkcja składowa const, która próbuje zmienić element członkowski danych lub wywołać funkcję składową inną niż stała, spowoduje wystąpienie błędu kompilatora. Na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">struct Date
@@ -97,7 +97,7 @@ int main()
 
     void incrementDay() const // made const
     {
-        ++day; // compile error: const function can&#39;t modify member
+        ++day; // błąd kompilacji: funkcja const nie może modyfikować elementu
     }
 };
 
@@ -118,7 +118,7 @@ struct Date
 
     void print() const // const
     {
-        std::cout &lt;&lt; year &lt;&lt; &#39;/&#39; &lt;&lt; month &lt;&lt; &#39;/&#39; &lt;&lt; day;
+        std::cout &lt;&lt; year &lt;&lt; '/' &lt;&lt; month &lt;&lt; '/' &lt;&lt; day;
     }
 };
 
@@ -126,7 +126,7 @@ int main()
 {
     Date today { 2020, 10, 14 }; // non-const
 
-    today.print();  // ok: can call const member function on non-const object
+    today.print();  // ok: można wywołać funkcję członkowską const na obiekcie innym niż stała
 
     return 0;
 }</code></pre><p>Ponieważ funkcje składowe const mogą być wywoływane zarówno na obiektach const, jak i innych niż const, jeśli funkcja składowa nie modyfikuje stanu obiektu, należy to zrobić st.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Funkcja składowa, która nie modyfikuje (i nigdy nie będzie) modyfikować stanu obiektu, powinna mieć postać const, aby można ją było wywoływać zarówno na obiektach const, jak i innych.</div><p>Uważaj, do jakich funkcji składowych stosujesz <code>const</code> . Gdy funkcja członkowska stanie się stałą, można ją wywołać na obiektach const. Późniejsze usunięcie <code>const</code> funkcji składowej spowoduje uszkodzenie dowolnego kodu wywołującego tę funkcję składową obiektu const.<p class="cpp-section cpp-topline" style=clear:both>Obiekty Const poprzez przekazywanie przez odwołanie do const<p>Chociaż tworzenie instancji zmiennych lokalnych const jest jednym ze sposobów tworzenia obiektów const, bardziej powszechnym sposobem uzyskania obiektu const jest przekazanie obiektu do funkcji przez odwołanie do const.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>W lekcji <a href="../pass-by-lvalue-reference/index.html">12.5 -- Przekazywanie przez lvalue reference</a>, omówiliśmy zalety przekazywania argumentów typu klasy za pomocą stałej referencji, a nie wartości. Podsumowując, przekazanie argumentu typu klasy przez wartość powoduje utworzenie kopii klasy (co jest powolne) — w większości przypadków nie potrzebujemy kopii, odwołanie do oryginalnego argumentu działa dobrze i pozwala uniknąć tworzenia kopii. Zwykle tworzymy odwołanie jako const, aby umożliwić funkcji akceptowanie argumentów const lvalue i rvalue (np. literałów i obiektów tymczasowych).<p>Czy możesz zrozumieć, co jest nie tak z następującym kodem?<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -164,9 +164,9 @@ struct Date
     int month {};
     int day {};
 
-    void print() const // now const
+    void print() const // teraz const
     {
-        std::cout &lt;&lt; year &lt;&lt; &#39;/&#39; &lt;&lt; month &lt;&lt; &#39;/&#39; &lt;&lt; day;
+        std::cout &lt;&lt; year &lt;&lt; '/' &lt;&lt; month &lt;&lt; '/' &lt;&lt; day;
     }
 };
 
@@ -189,22 +189,22 @@ struct Something
 {
     void print()
     {
-        std::cout &lt;&lt; &#34;non-const\n&#34;;
+        std::cout &lt;&lt; "non-const\n";
     }
 
     void print() const
     {
-        std::cout &lt;&lt; &#34;const\n&#34;;
+        std::cout &lt;&lt; "const\n";
     }
 };
 
 int main()
 {
     Something s1{};
-    s1.print(); // calls print()
+    s1.print(); // wywołuje drukowanie()
 
     const Something s2{};
-    s2.print(); // calls print() const
+    s2.print(); // wywołuje print() const
     
     return 0;
 }</code></pre><p>Wypisuje:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">non-const

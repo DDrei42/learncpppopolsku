@@ -13,7 +13,7 @@
 <button class=searchsubmit><span class=screen-reader-text>Szukaj</span><i class=icon-search></i></button>
 <input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=46760></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="21.9 — Przeciążenie operatora indeksu dolnego" src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-146 class="post-146 post type-post status-publish format-standard hentry category-cpp-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>21.9 — Przeciążenie operatora indeksu dolnego</h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Autor></i><a class="url fn n" rel=author href=/www.learncpp.com/author/Alex/ title="Wyświetl wszystkie posty Alexa" itemprop=url><em itemprop=name>Alex</em></a></span>
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2007-10-19T09:50:10-07:00 itemprop=datePublished>19 października 2007, 9:50 czasu PDT</time>
-<time class=updated datetime=2025-02-02T22:17:52-08:00 itemprop=dateModified>2 lutego, 2025</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>Podczas pracy z tablicami zwykle używamy operatora indeksu dolnego ([]) do indeksowania określonych elementów tablicy:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">myArray[0] = 7; // put the value 7 in the first element of the array</code></pre><p>Rozważmy jednak następującą <code>IntList</code> klasę, której zmienna składowa jest tablicą:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">class IntList
+<time class=updated datetime=2025-02-02T22:17:52-08:00 itemprop=dateModified>2 lutego, 2025</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>Podczas pracy z tablicami zwykle używamy operatora indeksu dolnego ([]) do indeksowania określonych elementów tablicy:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">myArray[0] = 7; // umieści wartość 7 w pierwszym elemencie tablicy</code></pre><p>Rozważmy jednak następującą <code>IntList</code> klasę, której zmienna składowa jest tablicą:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">class IntList
 {
 private:
     int m_list[10]{};
@@ -22,7 +22,7 @@ private:
 int main()
 {
     IntList list{};
-    // how do we access elements from m_list?
+    // jak uzyskać dostęp do elementów z m_list?
     return 0;
 }</code></pre><p>Ponieważ zmienna składowa m_list jest prywatna, nie możemy uzyskać do niej dostępu bezpośrednio z listy zmiennych. Oznacza to, że nie mamy możliwości bezpośredniego pobrania lub ustawienia wartości w tablicy m_list. Jak więc pobrać lub umieścić elementy na naszej liście?<p>Bez przeciążania operatora typową metodą byłoby utworzenie funkcji dostępu:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">class IntList
 {
@@ -66,7 +66,7 @@ public:
 };
 
 /*
-// Can also be implemented outside the class definition
+// Można również zaimplementować poza definicją klasy
 int&amp; IntList::operator[] (int index)
 {
     return m_list[index];
@@ -76,8 +76,8 @@ int&amp; IntList::operator[] (int index)
 int main()
 {
     IntList list{};
-    list[2] = 3; // set a value
-    std::cout &lt;&lt; list[2] &lt;&lt; &#39;\n&#39;; // get a value
+    list[2] = 3; // ustaw wartość
+    std::cout &lt;&lt; list[2] &lt;&lt; '\n'; // pobierz wartość
 
     return 0;
 }</code></pre><p>Teraz, ilekroć użyjemy operatora indeksu dolnego ([]) na obiekcie naszej klasy, kompilator zwróci odpowiedni element ze zmiennej składowej m_list! Pozwala nam to bezpośrednio pobierać i ustawiać wartości m_list.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Jest to łatwe zarówno pod względem syntaktycznym, jak i ze zrozumienia. Kiedy <code>list[2]</code> wykonuje ocenę, kompilator najpierw sprawdza, czy istnieje przeciążona funkcja operator[]. Jeśli tak, przekazuje wartość w nawiasach twardych (w tym przypadku 2) jako argument funkcji.<p>Zauważ, że chociaż możesz podać wartość domyślną parametru funkcji, w rzeczywistości użycie operatora[] bez indeksu dolnego w środku nie jest uważane za prawidłową składnię, więc nie ma sensu.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>C++23 dodaje obsługę przeciążania operatora[] wieloma indeksami dolnymi.</div><p class="cpp-section cpp-topline" style=clear:both>Dlaczego operator[] zwraca odniesienie<p>Przyjrzyjmy się bliżej, jak <code>list[2] = 3</code> ocenia. Ponieważ operator indeksu dolnego ma wyższy priorytet niż operator przypisania, <code>list[2]</code> wykonuje najpierw ocenę. <code>list[2]</code> wywołuje operator[], który zdefiniowaliśmy tak, aby zwracał referencję do <code>list.m_list[2]</code>. Ponieważ operator[] zwraca referencję, zwraca rzeczywisty <code>list.m_list[2]</code> element tablicy. Nasze częściowo ocenione wyrażenie staje się <code>list.m_list[2] = 3</code>, co jest prostym przypisaniem liczby całkowitej.<p>W lekcji <a href="../value-categories-lvalues-and-rvalues/index.html">12.2 — Kategorie wartości (lwartości i rwartości)</a>, nauczyłeś się, że każda wartość po lewej stronie instrukcji przypisania musi być l-wartością (która jest zmienną mającą rzeczywisty adres pamięci). Ponieważ wynik operatora[] może zostać użyty po lewej stronie przypisania (np.  <code>list[2] = 3</code>), wartość zwracana przez operator[] musi być wartością l. Jak się okazuje, referencje są zawsze l-wartościami, ponieważ referencje można przyjmować tylko do zmiennych, które mają adresy pamięci. Zatem zwracając referencję, kompilator jest przekonany, że zwracamy l-wartość.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>Zastanów się, co by się stało, gdyby operator[] zwrócił liczbę całkowitą według wartości, a nie referencji. <code>list[2]</code> wywołałby operator[], który zwróciłby <em>wartość</em> list.m_list[2]. Na przykład, jeśli m_list[2] miałby wartość 6, operator[] zwróciłby wartość 6. <code>list[2] = 3</code> częściowo wyceniłby  <code>6 = 3</code>, co nie ma sensu! Jeśli spróbujesz to zrobić, kompilator C++ zasygnalizuje:<pre>C:VCProjectsTest.cpp(386) : error C2106: &#39;=&#39; : left operand must be l-value
@@ -86,17 +86,17 @@ int main()
 class IntList
 {
 private:
-    int m_list[10]{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }; // give this class some initial state for this example
+    int m_list[10]{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }; // nadaj tej klasie pewien stan początkowy dla tego przykładu
 
 public:
-    // For non-const objects: can be used for assignment
+    // W przypadku obiektów innych niż stałe: można użyć do przypisania
     int&amp; operator[] (int index)
     {
         return m_list[index];
     }
 
-    // For const objects: can only be used for access
-    // This function could also return by value if the type is cheap to copy
+    // W przypadku obiektów const: można używać tylko w celu uzyskania dostępu
+    // Ta funkcja może również zwracać wartość, jeśli typ jest tani do skopiowania
     const int&amp; operator[] (int index) const
     {
         return m_list[index];
@@ -106,28 +106,28 @@ public:
 int main()
 {
     IntList list{};
-    list[2] = 3; // okay: calls non-const version of operator[]
-    std::cout &lt;&lt; list[2] &lt;&lt; &#39;\n&#39;;
+    list[2] = 3; // oky: wywołuje inną niż stała wersję operatora[]
+    std::cout &lt;&lt; list[2] &lt;&lt; '\n';
 
     const IntList clist{};
-    // clist[2] = 3; // compile error: clist[2] returns const reference, which we can&#39;t assign to
-    std::cout &lt;&lt; clist[2] &lt;&lt; &#39;\n&#39;;
+    // clist[2] = 3; // błąd kompilacji: clist[2] zwraca odwołanie do stałej, której nie możemy przypisać
+    std::cout &lt;&lt; clist[2] &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p class="cpp-section cpp-topline" style=clear:both>Usuwanie zduplikowanego kodu pomiędzy przeciążeniami const i non-const<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>W powyższym przykładzie należy zauważyć, że implementacje <code>int& IntList::operator[](int)</code> i <code>const int& IntList::operator[](int) const</code> są identyczne. Jedyną różnicą jest typ zwracany przez funkcję.<p>W przypadkach, gdy implementacja jest trywialna (np. pojedyncza linia), dobrze (i preferowane) jest, aby obie funkcje korzystały z identycznej implementacji. Nie warto usuwać niewielkiej ilości redundancji, jaką to wprowadza.<p>Ale co by było, gdyby implementacja tych operatorów była złożona i wymagała wielu instrukcji? Na przykład może ważne jest, abyśmy sprawdzili, czy indeks jest rzeczywiście poprawny, co wymaga dodania wielu zbędnych linii kodu do każdej funkcji.<p>W takim przypadku redundancja wprowadzona przez wiele zduplikowanych instrukcji jest bardziej problematyczna i pożądana byłaby jedna implementacja, której moglibyśmy użyć dla obu przeciążeń. Ale jak? Zwykle po prostu implementujemy jedną funkcję w odniesieniu do drugiej (np. jedna funkcja wywołuje drugą). Ale w tym przypadku jest to trochę trudne. Stała wersja funkcji nie może wywołać wersji innej niż stała, ponieważ wymagałoby to odrzucenia const obiektu const. I chociaż wersja funkcji inna niż stała może wywołać stałą wersję funkcji, wersja stała funkcji zwraca odwołanie do stałej, gdy musimy zwrócić odwołanie inne niż stała. Na szczęście można to obejść.<p>Preferowane rozwiązanie jest następujące:<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><ul><li>Zaimplementuj logikę dla stałej wersji funkcji.<li>Poproś funkcję inną o wywołanie funkcji const i użyj <code>const_cast</code> aby usunąć stałą.</ul><p>Wynikowe rozwiązanie wygląda mniej więcej tak to:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
-#include &lt;utility&gt; // for std::as_const
+#include &lt;utility&gt; // dla std::as_const
 
 class IntList
 {
 private:
-    int m_list[10]{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }; // give this class some initial state for this example
+    int m_list[10]{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }; // nadaj tej klasie pewien stan początkowy dla tego przykładu
 
 public:
     int&amp; operator[] (int index)
     {
-        // use std::as_const to get a const version of `this` (as a reference) 
-        // so we can call the const version of operator[]
-        // then const_cast to discard the const on the returned reference
+        // użyj std::as_const, aby uzyskać stałą wersję `this` (jako odniesienie) 
+        // więc możemy wywołać stałą wersję operator[]
+        // następnie const_cast, aby odrzucić stałą ze zwróconego odniesienia
         return const_cast&lt;int&amp;&gt;(std::as_const(*this)[index]);
     }
 
@@ -140,12 +140,12 @@ public:
 int main()
 {
     IntList list{};
-    list[2] = 3; // okay: calls non-const version of operator[]
-    std::cout &lt;&lt; list[2] &lt;&lt; &#39;\n&#39;;
+    list[2] = 3; // oky: wywołuje inną niż stała wersję operatora[]
+    std::cout &lt;&lt; list[2] &lt;&lt; '\n';
 
     const IntList clist{};
-    // clist[2] = 3; // compile error: clist[2] returns const reference, which we can&#39;t assign to
-    std::cout &lt;&lt; clist[2] &lt;&lt; &#39;\n&#39;;
+    // clist[2] = 3; // błąd kompilacji: clist[2] zwraca odwołanie do stałej, której nie możemy przypisać
+    std::cout &lt;&lt; clist[2] &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Zwykle używanie <code>const_cast</code> do usuwania const jest czymś, czego chcemy uniknąć, ale w tym przypadku jest to dopuszczalne. Jeśli wywołano przeciążenie inne niż const, to wiemy, że pracujemy z obiektem innym niż const. Można usunąć const z odwołania const do obiektu innego niż const.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Dla zaawansowanych czytelników<p>W C++23 możemy zrobić jeszcze lepiej, korzystając z kilku funkcji, których nie omówiliśmy jeszcze w tej serii samouczków:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -153,13 +153,13 @@ int main()
 class IntList
 {
 private:
-    int m_list[10]{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }; // give this class some initial state for this example
+    int m_list[10]{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }; // nadaj tej klasie pewien stan początkowy dla tego przykładu
 
 public:
-    // Use an explicit object parameter (self) and auto&amp;&amp; to differentiate const vs non-const
+    // Użyj jawnego parametru obiektu (self) i auto&amp;&amp;, aby rozróżnić const od non-const
     auto&amp;&amp; operator[](this auto&amp;&amp; self, int index)
     {
-        // Complex code goes here
+        // Tutaj znajduje się złożony kod
         return self.m_list[index];
     }
 };
@@ -167,17 +167,17 @@ public:
 int main()
 {
     IntList list{};
-    list[2] = 3; // okay: calls non-const version of operator[]
-    std::cout &lt;&lt; list[2] &lt;&lt; &#39;\n&#39;;
+    list[2] = 3; // oky: wywołuje inną niż stała wersję operatora[]
+    std::cout &lt;&lt; list[2] &lt;&lt; '\n';
 
     const IntList clist{};
-    // clist[2] = 3; // compile error: clist[2] returns const reference, which we can&#39;t assign to
-    std::cout &lt;&lt; clist[2] &lt;&lt; &#39;\n&#39;;
+    // clist[2] = 3; // błąd kompilacji: clist[2] zwraca odwołanie do stałej, której nie możemy przypisać
+    std::cout &lt;&lt; clist[2] &lt;&lt; '\n';
 
     return 0;
 }</code></pre></div><p class="cpp-section cpp-topline" style=clear:both>Wykrywanie ważności indeksu<p>Jedną inną zaletą przeciążania operatora indeksu dolnego jest to, że możemy uczynić go bezpieczniejszym niż uzyskiwanie dostępu tablice bezpośrednio. Zwykle podczas uzyskiwania dostępu do tablic operator indeksu dolnego nie sprawdza, czy indeks jest prawidłowy. Na przykład kompilator nie będzie narzekał na następujący kod:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int list[5]{};
-list[7] = 3; // index 7 is out of bounds!</code></pre><p>Jeśli jednak znamy rozmiar naszej tablicy, możemy sprawdzić nasz przeciążony operator indeksu dolnego, aby upewnić się, że indeks mieści się w dopuszczalnych granicach:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cassert&gt; // for assert()
-#include &lt;iterator&gt; // for std::size()
+list[7] = 3; // indeks 7 jest poza zakresem!</code></pre><p>Jeśli jednak znamy rozmiar naszej tablicy, możemy sprawdzić nasz przeciążony operator indeksu dolnego, aby upewnić się, że indeks mieści się w dopuszczalnych granicach:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cassert&gt; // dla Assert()
+#include &lt;iterator&gt; // dla std::size()
 
 class IntList
 {
@@ -191,7 +191,7 @@ public:
 
         return m_list[index];
     }
-};</code></pre><p>W powyższym przykładzie użyliśmy funkcji Assert() (zawartej w nagłówku Cassert), aby upewnić się, że nasz indeks jest prawidłowy. Jeśli wyrażenie wewnątrz potwierdzenia ma wartość false (co oznacza, że ​​użytkownik przekazał nieprawidłowy indeks), program zakończy się komunikatem o błędzie, co jest znacznie lepszym rozwiązaniem niż alternatywa (uszkodzenie pamięci). Jest to prawdopodobnie najpowszechniejsza metoda sprawdzania błędów tego rodzaju.<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>Jeśli nie chcesz używać potwierdzenia (które zostanie skompilowane z kompilacji bez debugowania), możesz zamiast tego użyć instrukcji if i swojej ulubionej metody obsługi błędów (np. zgłosić wyjątek, wywołać <code>std::exit</code> itd.):<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iterator&gt; // for std::size()
+};</code></pre><p>W powyższym przykładzie użyliśmy funkcji Assert() (zawartej w nagłówku Cassert), aby upewnić się, że nasz indeks jest prawidłowy. Jeśli wyrażenie wewnątrz potwierdzenia ma wartość false (co oznacza, że ​​użytkownik przekazał nieprawidłowy indeks), program zakończy się komunikatem o błędzie, co jest znacznie lepszym rozwiązaniem niż alternatywa (uszkodzenie pamięci). Jest to prawdopodobnie najpowszechniejsza metoda sprawdzania błędów tego rodzaju.<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>Jeśli nie chcesz używać potwierdzenia (które zostanie skompilowane z kompilacji bez debugowania), możesz zamiast tego użyć instrukcji if i swojej ulubionej metody obsługi błędów (np. zgłosić wyjątek, wywołać <code>std::exit</code> itd.):<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iterator&gt; // dla std::size()
 
 class IntList
 {
@@ -203,13 +203,13 @@ public:
     {
         if (!(index &gt;= 0 &amp;&amp; static_cast&lt;std::size_t&gt;(index) &lt; std::size(m_list))
         {
-            // handle invalid index here
+            // obsługa tutaj nieprawidłowego indeksu
         }
 
         return m_list[index];
     }
-};</code></pre><p class="cpp-section cpp-topline" style=clear:both>Wskaźniki do obiektów i przeciążony operator[] nie działają mix<p>Jeśli spróbujesz wywołać operator[] na wskaźniku do obiektu, C++ założy, że próbujesz zaindeksować tablicę obiektów tego typu.<p>Rozważ następujący przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cassert&gt; // for assert()
-#include &lt;iterator&gt; // for std::size()
+};</code></pre><p class="cpp-section cpp-topline" style=clear:both>Wskaźniki do obiektów i przeciążony operator[] nie działają mix<p>Jeśli spróbujesz wywołać operator[] na wskaźniku do obiektu, C++ założy, że próbujesz zaindeksować tablicę obiektów tego typu.<p>Rozważ następujący przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cassert&gt; // dla Assert()
+#include &lt;iterator&gt; // dla std::size()
 
 class IntList
 {
@@ -226,14 +226,14 @@ public:
 int main()
 {
     IntList* list{ new IntList{} };
-    list [2] = 3; // error: this will assume we&#39;re accessing index 2 of an array of IntLists
+    list [2] = 3; // błąd: zakłada się, że uzyskujemy dostęp do indeksu 2 tablicy IntLists
     delete list;
 
     return 0;
 }</code></pre><p>Ponieważ nie możemy przypisać liczby całkowitej do IntList, nie zostanie to skompilowane. Jeśli jednak przypisanie liczby całkowitej byłoby prawidłowe, zostałoby to skompilowane i uruchomione z niezdefiniowanymi wynikami.<div class="cpp-note cpp-lightpurplebackground"><p class="cpp-note-title cpp-bottomline">Reguła<p>Upewnij się, że nie próbujesz wywołać przeciążonego operatora[] na wskaźniku do obiektu.</div><p>Właściwa składnia polegałaby na tym, aby najpierw usunąć referencję do wskaźnika (upewnij się, że używasz nawiasów, ponieważ operator[] ma wyższy priorytet niż operator*), a następnie wywołaj operator[]:<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
     IntList* list{ new IntList{} };
-    (*list)[2] = 3; // get our IntList object, then call overloaded operator[]
+    (*list)[2] = 3; // pobierz nasz obiekt IntList, a następnie wywołaj przeciążony operator[]
     delete list;
 
     return 0;
@@ -248,8 +248,8 @@ public:
 	void operator[] (std::string_view index);
 };
 
-// It doesn&#39;t make sense to overload operator[] to print something
-// but it is the easiest way to show that the function parameter can be a non-integer
+// Nie ma sensu przeciążać operatora[], aby coś wydrukować
+// ale jest to najłatwiejszy sposób pokazania, że parametr funkcji może być liczbą niecałkowitą
 void Stupid::operator[] (std::string_view index)
 {
 	std::cout &lt;&lt; index;
@@ -258,17 +258,17 @@ void Stupid::operator[] (std::string_view index)
 int main()
 {
 	Stupid stupid{};
-	stupid[&#34;Hello, world!&#34;];
+	stupid["Hello, world!"];
 
 	return 0;
 }</code></pre><p>Jak można się spodziewać, wyświetli się:<pre>Hello, world!
-</pre><p>Przeciążenie operatora[] w celu pobrania parametru std::string może być przydatne podczas pisania niektórych rodzajów klas, takich jak te, które używają słów jako indeksy.<p class="cpp-section cpp-topline" style=clear:both>Czas quizu<p class=cpp-quiz-question style=clear:both>Pytanie nr 1<p>Mapa to klasa przechowująca elementy w postaci pary klucz-wartość. Klucz musi być unikalny i służy do uzyskiwania dostępu do powiązanej pary. W tym quizie napiszemy aplikację, która pozwoli nam przypisywać oceny uczniom po imieniu, za pomocą prostej klasy mapy. Imię ucznia będzie kluczem, a ocena (jako znak) będzie wartością.<p>a) Najpierw napisz strukturę o nazwie <code>StudentGrade</code> zawierającą imię i nazwisko ucznia (jako a <code>std::string</code>) i ocenę (jako a <code>char</code>).<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_0 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;string&gt;
+</pre><p>Przeciążenie operatora[] w celu pobrania parametru std::string może być przydatne podczas pisania niektórych rodzajów klas, takich jak te, które używają słów jako indeksy.<p class="cpp-section cpp-topline" style=clear:both>Czas quizu<p class=cpp-quiz-question style=clear:both>Pytanie nr 1<p>Mapa to klasa przechowująca elementy w postaci pary klucz-wartość. Klucz musi być unikalny i służy do uzyskiwania dostępu do powiązanej pary. W tym quizie napiszemy aplikację, która pozwoli nam przypisywać oceny uczniom po imieniu, za pomocą prostej klasy mapy. Imię ucznia będzie kluczem, a ocena (jako znak) będzie wartością.<p>a) Najpierw napisz strukturę o nazwie <code>StudentGrade</code> zawierającą imię i nazwisko ucznia (jako <code>std::string</code>) i ocenę (jako <code>char</code>).<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_0 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;string&gt;
 
 struct StudentGrade
 {
     std::string name{};
     char grade{};
-};</code></pre></div><p>b) Dodaj klasę o nazwie <code>GradeMap</code> zawierającą a <code>std::vector</code> z <code>StudentGrade</code> nazwany <code>m_map</code>.<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_1 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;string&gt;
+};</code></pre></div><p>b) Dodaj klasę o nazwie <code>GradeMap</code> zawierającą <code>std::vector</code> z <code>StudentGrade</code> nazwany <code>m_map</code>.<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_1 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;string&gt;
 #include &lt;vector&gt;
 
 struct StudentGrade
@@ -320,8 +320,8 @@ public:
 char&amp; GradeMap::operator[](std::string_view name)
 {
 	auto found{ std::find_if(m_map.begin(), m_map.end(),
-				[name](const auto&amp; student) { // this is a lambda that captures name from the surrounding scope
-					return (student.name == name); // so we can use name here
+				[name](const auto&amp; student) { // to jest lambda, która przechwytuje nazwę z otaczającego zakresu
+					return (student.name == name); // abyśmy mogli tutaj użyć name
 				}) };
 
 	if (found != m_map.end())
@@ -329,14 +329,14 @@ char&amp; GradeMap::operator[](std::string_view name)
 		return found-&gt;grade;
 	}
 
-	// otherwise create a new StudentGrade for this student and add
-	// it to the end of our vector.  Then return the grade.
+	// w przeciwnym razie utwórz nową StudentGrade dla tego ucznia i dodaj
+	// na końcu naszego wektora. Następnie zwróć ocenę.
 
 	// emplace_back version (C++20 onward)
-	// StudentGrade is an aggregate and emplace_back only works with aggregates as of C++20
+	// StudentGrade jest agregatem, a emplace_back działa tylko z agregatami od C++ 20
 	return m_map.emplace_back(std::string{name}).grade;
 
-	// push_back version (C++17 or older)
+	// wersja push_back (C++ 17 lub starsza)
 	// m_map.push_back(StudentGrade{std::string{name}});
 	// return m_map.back().grade;
 }
@@ -345,11 +345,11 @@ int main()
 {
 	GradeMap grades{};
 
-	grades[&#34;Joe&#34;] = &#39;A&#39;;
-	grades[&#34;Frank&#34;] = &#39;B&#39;;
+	grades["Joe"] = 'A';
+	grades["Frank"] = 'B';
 
-	std::cout &lt;&lt; &#34;Joe has a grade of &#34; &lt;&lt; grades[&#34;Joe&#34;] &lt;&lt; &#39;\n&#39;;
-	std::cout &lt;&lt; &#34;Frank has a grade of &#34; &lt;&lt; grades[&#34;Frank&#34;] &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; "Joe has a grade of " &lt;&lt; grades["Joe"] &lt;&lt; '\n';
+	std::cout &lt;&lt; "Frank has a grade of " &lt;&lt; grades["Frank"] &lt;&lt; '\n';
 
 	return 0;
 }</code></pre><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Przypomnienie<p>Zobacz <a href="../introduction-to-lambdas-anonymous-functions/index.html">20.6 -- Wprowadzenie do lambd (funkcji anonimowych)</a> aby uzyskać więcej informacji na temat lambd.</div><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>Ponieważ mapy są powszechne, standardowa biblioteka oferuje <a href=https://en.cppreference.com/w/cpp/container/map><code>std::map</code></a>, które nie jest obecnie omawiany w Learncpp. Używając <code>std::map</code>, możemy uprościć nasz kod do<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -358,18 +358,18 @@ int main()
 
 int main()
 {
-	// std::map can be initialized
+	// std::map można zainicjować
 	std::map&lt;std::string, char&gt; grades{
-		{ &#34;Joe&#34;, &#39;A&#39; },
-		{ &#34;Frank&#34;, &#39;B&#39; }
+		{ "Joe", 'A' },
+		{ "Frank", 'B' }
 	};
 
-	// and assigned
-	grades[&#34;Susan&#34;] = &#39;C&#39;;
-	grades[&#34;Tom&#34;] = &#39;D&#39;;
+	// oraz przypisany
+	grades["Susan"] = 'C';
+	grades["Tom"] = 'D';
 
-	std::cout &lt;&lt; &#34;Joe has a grade of &#34; &lt;&lt; grades[&#34;Joe&#34;] &lt;&lt; &#39;\n&#39;;
-	std::cout &lt;&lt; &#34;Frank has a grade of &#34; &lt;&lt; grades[&#34;Frank&#34;] &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; "Joe has a grade of " &lt;&lt; grades["Joe"] &lt;&lt; '\n';
+	std::cout &lt;&lt; "Frank has a grade of " &lt;&lt; grades["Frank"] &lt;&lt; '\n';
 
 	return 0;
 }</code></pre><p>Woli używać <code>std::map</code> niż pisać własną implementację.</div></div><p class="cpp-quiz-question cpp-topline" style=clear:both>Pytanie nr 2<p>Dodatkowy punkt nr 1:  <code>GradeMap</code> klasa i przykładowy program, który napisaliśmy, jest nieefektywny z wielu powodów. Opisz jeden ze sposobów ulepszenia klasy <code>GradeMap</code> .<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_3'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_3 style=display:none><p><code>std::vector</code> jest z natury niesortowana. Oznacza to, że za każdym razem, gdy wywołujemy  <code>operator[]</code>, potencjalnie przemierzamy cały  <code>std::vector</code> , aby znaleźć nasz element. W przypadku kilku elementów nie stanowi to problemu, ale w miarę dodawania nazw będzie to coraz wolniejsze. Moglibyśmy to zoptymalizować, sortując  <code>m_map</code> i korzystając z wyszukiwania binarnego, dzięki czemu minimalizujemy liczbę elementów, które musimy przejrzeć, aby znaleźć te, które nas interesują. </div><p class="cpp-quiz-question cpp-topline" style=clear:both>Pytanie nr 3<p>Dodatkowy kredyt nr 2: Dlaczego ten program potencjalnie nie działa zgodnie z oczekiwaniami?<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -378,14 +378,14 @@ int main()
 {
 	GradeMap grades{};
 
-	char&amp; gradeJoe{ grades[&#34;Joe&#34;] }; // does an emplace_back
-	gradeJoe = &#39;A&#39;;
+	char&amp; gradeJoe{ grades["Joe"] }; // miejsce emplace_back
+	gradeJoe = 'A';
 
-	char&amp; gradeFrank{ grades[&#34;Frank&#34;] }; // does a emplace_back
-	gradeFrank = &#39;B&#39;;
+	char&amp; gradeFrank{ grades["Frank"] }; // miejsce emplace_back
+	gradeFrank = 'B';
 
-	std::cout &lt;&lt; &#34;Joe has a grade of &#34; &lt;&lt; gradeJoe &lt;&lt; &#39;\n&#39;;
-	std::cout &lt;&lt; &#34;Frank has a grade of &#34; &lt;&lt; gradeFrank &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; "Joe has a grade of " &lt;&lt; gradeJoe &lt;&lt; '\n';
+	std::cout &lt;&lt; "Frank has a grade of " &lt;&lt; gradeFrank &lt;&lt; '\n';
 
 	return 0;
 }</code></pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_4'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_4 style=display:none><p>Gdy dodany zostanie Frank,  <code>std::vector</code> może potrzebować urosnąć, aby go utrzymać. Wymaga to dynamicznego przydzielenia nowego bloku pamięci, skopiowania elementów tablicy do tego nowego bloku i usunięcia starego bloku. Gdy tak się stanie, wszelkie odniesienia do istniejących elementów w std::vector zostaną unieważnione (co oznacza, że ​​pozostaną jako wiszące odniesienia do usuniętej pamięci).<p>Innymi słowy, jeśli po <code>emplace_back("Frank")</code> std::vector musiałby wzrosnąć, aby zrobić miejsce dla Franka, odniesienie <code>gradeJoe</code> zostanie unieważnione. Dostęp <code>gradeJoe</code> w celu wydrukowania oceny Joego prowadziłby wówczas do niezdefiniowanych wyników.<p>To, jak rośnie std::vector, jest szczegółem specyficznym dla kompilatora, więc możemy oczekiwać, że powyższy program będzie działał poprawnie po skompilowaniu z niektórymi kompilatorami, a nie innymi.</div><div class=prevnext><div class=prevnext-inline><a class=nav-link href="../overloading-the-parenthesis-operator/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>21.10</span>Przeciążenie operatora nawiasów</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../overloading-the-increment-and-decrement-operators/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>21.8</span>Przeciążenie inkrementacji i dekrementacji operatory</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/overloading-the-subscript-operator/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../overloading-the-increment-and-decrement-operators/index.html" rel=prev><span>21.8 — Przeciążanie operatorów inkrementacji i dekrementacji</span></a></div><div class=nav-next><em>Następny post</em><a href="../712-handling-errors-assert-cerr-exit-and-exceptions/index.html" rel=next><span>9.4 — Wykrywanie i obsługa błędów</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>

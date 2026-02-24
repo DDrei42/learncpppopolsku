@@ -71,32 +71,32 @@ Enter a decimal number: 7
 </pre><p>W tym przypadku poprosiliśmy użytkownika o wprowadzenie jednego z czterech symboli, ale zamiast tego wpisał „k”. „k” jest prawidłowym znakiem, więc <code>std::cin</code> z radością wyodrębnia go do zmiennej <code>op</code>, a ta zostaje zwrócona do <code>main</code>. Jednak nasz program nie spodziewał się, że tak się stanie, więc nie radzi sobie właściwie z tym przypadkiem. W rezultacie otrzymujemy:<pre>5 k 7 is
 </pre><p>Rozwiązanie jest proste: wykonaj walidację danych wejściowych. Zwykle składa się to z 3 kroków:<ol start=1><li>Sprawdź, czy dane wprowadzone przez użytkownika były zgodne z oczekiwaniami.<li>Jeśli tak, zwróć wartość osobie dzwoniącej.<li>Jeśli nie, powiedz użytkownikowi, że coś poszło nie tak i poproś go o ponowną próbę.</ol><p>Oto zaktualizowana funkcja getOperator(), która sprawdza poprawność wprowadzonych danych.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">char getOperator()
 {
-    while (true) // Loop until user enters a valid input
+    while (true) // Pętla aż użytkownik wprowadzi prawidłowe dane wejściowe
     {
-        std::cout &lt;&lt; &#34;Enter one of the following: +, -, *, or /: &#34;;
+        std::cout &lt;&lt; "Enter one of the following: +, -, *, or /: ";
         char operation{};
         std::cin &gt;&gt; operation;
 
-        // Check whether the user entered meaningful input
+        // Sprawdź, czy użytkownik wprowadził sensowne dane wejściowe
         switch (operation)
         {
-        case &#39;+&#39;:
-        case &#39;-&#39;:
-        case &#39;*&#39;:
-        case &#39;/&#39;:
-            return operation; // return it to the caller
-        default: // otherwise tell the user what went wrong
-            std::cout &lt;&lt; &#34;Oops, that input is invalid.  Please try again.\n&#34;;
+        case '+':
+        case '-':
+        case '*':
+        case '/':
+            return operation; // zwróć ją wywołującemu
+        default: // w przeciwnym razie powiedz użytkownikowi, co poszło nie tak
+            std::cout &lt;&lt; "Oops, that input is invalid.  Please try again.\n";
         }
-    } // and try again
+    } // i spróbuj ponownie
 }</code></pre><p>Jak widać, używamy pętli while do ciągłego zapętlania, dopóki użytkownik nie wprowadzi prawidłowych danych wejściowych. Jeśli tego nie zrobią, prosimy ich, aby spróbowali ponownie, dopóki nie przekażą nam prawidłowych danych wejściowych, zamkną program lub zniszczą komputer.<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Przypadek błędu 2: Wyodrębnianie powiodło się, ale z zewnętrznymi danymi wejściowymi<p>Rozważ następujące wykonanie powyższego programu:<pre>Enter a decimal number: 5*7
 </pre><p>Jak myślisz, co stanie się dalej?<pre>Enter a decimal number: 5*7
 Enter one of the following: +, -, *, or /: Enter a decimal number: 5 * 7 is 35
-</pre><p>Program wypisuje poprawną odpowiedź, ale całe formatowanie jest błędne w górę. Przyjrzyjmy się bliżej dlaczego.<p>Gdy użytkownik wprowadzi <code>5*7</code> jako dane wejściowe, te dane wejściowe trafiają do bufora. Następnie <code>operator>></code> wyodrębnia 5 do zmiennej x, pozostawiając <code>*7\n</code> w buforze. Następnie program wypisuje „Wprowadź jedno z poniższych: +, -, * lub /:”. Jednak po wywołaniu operatora wyodrębniania widzi <code>*7\n</code> czekający w buforze na wyodrębnienie, więc używa go, zamiast prosić użytkownika o dalsze dane wejściowe. W rezultacie wyodrębnia znak „*”, pozostawiając <code>7\n</code> w buforze.<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><p>Po poproszeniu użytkownika o wprowadzenie kolejnej liczby dziesiętnej,  <code>7</code> z bufora zostaje wyodrębniony bez pytania użytkownika. Ponieważ użytkownik nigdy nie miał możliwości wprowadzenia dodatkowych danych i naciśnięcia klawisza Enter (powodując pojawienie się nowej linii), wszystkie monity wyjściowe są wyświetlane w tej samej linii.<p>Chociaż powyższy program działa, wykonanie jest nieuporządkowane. Byłoby lepiej, gdyby wszelkie wprowadzone znaki obce zostały po prostu zignorowane. Na szczęście znaki można łatwo zignorować:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::cin.ignore(100, &#39;\n&#39;);  // clear up to 100 characters out of the buffer, or until a &#39;\n&#39; character is removed</code></pre><p>To wywołanie usunie do 100 znaków, ale jeśli użytkownik wprowadzi więcej niż 100 znaków, ponownie otrzymamy nieuporządkowany wynik. Aby zignorować wszystkie znaki aż do następnego „\n”, możemy przekazać  <code>std::numeric_limits&lt;std::streamsize>::max()</code> Do <code>>std::cin.ignore()</code>. <code>std::numeric_limits&lt;std::streamsize>::max()</code> zwraca największą wartość, jaką można zapisać w zmiennej typu  <code>std::streamsize</code>. Przekazanie tej wartości do  <code>std::cin.ignore()</code> powoduje wyłączenie sprawdzania zliczania.<p>Aby zignorować wszystko aż do następnego znaku „\n” włącznie, wywołujemy<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), &#39;\n&#39;);</code></pre><p>Ponieważ ta linia jest dość długa jak na jej działanie, wygodnie jest zawinąć ją w funkcję, którą można wywołać zamiast <code>std::cin.ignore()</code>.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;limits&gt; // for std::numeric_limits
+</pre><p>Program wypisuje poprawną odpowiedź, ale całe formatowanie jest błędne w górę. Przyjrzyjmy się bliżej dlaczego.<p>Gdy użytkownik wprowadzi <code>5*7</code> jako dane wejściowe, te dane wejściowe trafiają do bufora. Następnie <code>operator>></code> wyodrębnia 5 do zmiennej x, pozostawiając <code>*7\n</code> w buforze. Następnie program wypisuje „Wprowadź jedno z poniższych: +, -, * lub /:”. Jednak po wywołaniu operatora wyodrębniania widzi <code>*7\n</code> czekający w buforze na wyodrębnienie, więc używa go, zamiast prosić użytkownika o dalsze dane wejściowe. W rezultacie wyodrębnia znak „*”, pozostawiając <code>7\n</code> w buforze.<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><p>Po poproszeniu użytkownika o wprowadzenie kolejnej liczby dziesiętnej,  <code>7</code> z bufora zostaje wyodrębniony bez pytania użytkownika. Ponieważ użytkownik nigdy nie miał możliwości wprowadzenia dodatkowych danych i naciśnięcia klawisza Enter (powodując pojawienie się nowej linii), wszystkie monity wyjściowe są wyświetlane w tej samej linii.<p>Chociaż powyższy program działa, wykonanie jest nieuporządkowane. Byłoby lepiej, gdyby wszelkie wprowadzone znaki obce zostały po prostu zignorowane. Na szczęście znaki można łatwo zignorować:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::cin.ignore(100, '\n');  // wyczyść maksymalnie 100 znaków z bufora lub do momentu usunięcia znaku '\n'</code></pre><p>To wywołanie usunie do 100 znaków, ale jeśli użytkownik wprowadzi więcej niż 100 znaków, ponownie otrzymamy nieuporządkowany wynik. Aby zignorować wszystkie znaki aż do następnego „\n”, możemy przekazać  <code>std::numeric_limits&lt;std::streamsize>::max()</code> Do <code>>std::cin.ignore()</code>. <code>std::numeric_limits&lt;std::streamsize>::max()</code> zwraca największą wartość, jaką można zapisać w zmiennej typu  <code>std::streamsize</code>. Przekazanie tej wartości do  <code>std::cin.ignore()</code> powoduje wyłączenie sprawdzania zliczania.<p>Aby zignorować wszystko aż do następnego znaku „\n” włącznie, wywołujemy<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), &#39;\n&#39;);</code></pre><p>Ponieważ ta linia jest dość długa jak na jej działanie, wygodnie jest zawinąć ją w funkcję, którą można wywołać zamiast <code>std::cin.ignore()</code>.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;limits&gt; // dla std::numeric_limits
 
 void ignoreLine()
 {
-    std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), &#39;\n&#39;);
+    std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), '\n');
 }</code></pre><p>Ponieważ ostatnim wprowadzonym przez użytkownika znakiem jest zazwyczaj „\n”, możemy tell <code>std::cin</code> aby ignorować buforowane znaki, dopóki nie znajdzie znaku nowej linii (który również zostanie usunięty).<p>Zaktualizujmy naszą funkcję getDouble(), aby ignorowała wszelkie zewnętrzne dane wejściowe:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">double getDouble()
 {
     std::cout &lt;&lt; &#34;Enter a decimal number: &#34;;
@@ -105,26 +105,26 @@ void ignoreLine()
 
     ignoreLine();
     return x;
-}</code></pre><p>Teraz nasz program będzie działał zgodnie z oczekiwaniami, nawet jeśli wprowadzimy <code>5*7</code> dla pierwszego wejścia - 5 zostanie wyodrębnionych, a pozostałe znaki zostaną usunięte z bufora wejściowego. Ponieważ bufor wejściowy jest teraz pusty, użytkownik zostanie poprawnie poproszony o wprowadzenie danych przy następnej operacji wyodrębniania!<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>W niektórych przypadkach może być lepiej potraktować obce dane wejściowe jako przypadek niepowodzenia (zamiast je ignorować). Następnie możemy poprosić użytkownika o ponowne wprowadzenie danych.<p>Oto odmiana <code>getDouble()</code> która prosi użytkownika o ponowne wprowadzenie danych, jeśli zostaną wprowadzone dodatkowe dane:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// returns true if std::cin has unextracted input on the current line, false otherwise
+}</code></pre><p>Teraz nasz program będzie działał zgodnie z oczekiwaniami, nawet jeśli wprowadzimy <code>5*7</code> dla pierwszego wejścia - 5 zostanie wyodrębnionych, a pozostałe znaki zostaną usunięte z bufora wejściowego. Ponieważ bufor wejściowy jest teraz pusty, użytkownik zostanie poprawnie poproszony o wprowadzenie danych przy następnej operacji wyodrębniania!<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>W niektórych przypadkach może być lepiej potraktować obce dane wejściowe jako przypadek niepowodzenia (zamiast je ignorować). Następnie możemy poprosić użytkownika o ponowne wprowadzenie danych.<p>Oto odmiana <code>getDouble()</code> która prosi użytkownika o ponowne wprowadzenie danych, jeśli zostaną wprowadzone dodatkowe dane:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// zwraca wartość true, jeśli std::cin ma niewyodrębnione dane wejściowe w bieżącej linii, false w przeciwnym razie
 bool hasUnextractedInput()
 {
-    return !std::cin.eof() &amp;&amp; std::cin.peek() != &#39;\n&#39;;
+    return !std::cin.eof() &amp;&amp; std::cin.peek() != '\n';
 }
 
 double getDouble()
 {
-    while (true) // Loop until user enters a valid input
+    while (true) // Pętla aż użytkownik wprowadzi prawidłowe dane wejściowe
     {
-        std::cout &lt;&lt; &#34;Enter a decimal number: &#34;;
+        std::cout &lt;&lt; "Enter a decimal number: ";
         double x{};
         std::cin &gt;&gt; x;
 
-        // NOTE: YOU SHOULD CHECK FOR A FAILED EXTRACTION HERE (see section below)
+        // UWAGA: NALEŻY SPRAWDZIĆ TUTAJ, CZY EKSTRAKCJA NIE BUDOWAŁA SIĘ (patrz sekcja poniżej)
 
-        // If there is extraneous input, treat as failure case
+        // Jeśli istnieją dodatkowe dane wejściowe, traktuj je jako przypadek niepowodzenia
         if (hasUnextractedInput())
         {
-            ignoreLine(); // remove extraneous input
+            ignoreLine(); // usuń obce dane wejściowe
             continue;
         }
     
@@ -135,72 +135,72 @@ double getDouble()
 Enter one of the following: +, -, *, or /: Oops, that input is invalid.  Please try again.
 Enter one of the following: +, -, *, or /: Oops, that input is invalid.  Please try again.
 Enter one of the following: +, -, *, or /: Oops, that input is invalid.  Please try again.
-</pre><p>i ostatnia linia jest drukowana aż do zamknięcia programu.<p>Wygląda to bardzo podobnie do przypadku zbędnych danych wejściowych, ale jest trochę inaczej. Przyjrzyjmy się bliżej.<p>Gdy użytkownik wpisze „a”, znak ten zostaje umieszczony w buforze. Następnie operator&gt;&gt; próbuje wyodrębnić „a” do zmiennej x, która jest typu double. Ponieważ „a” nie może zostać przekonwertowane na liczbę podwójną,  <code>operator>></code> nie można przeprowadzić ekstrakcji. W tym momencie dzieją się dwie rzeczy: „a” pozostaje w buforze, a std::cin przechodzi w „tryb awarii”. <p>Po wejściu w „tryb awarii” przyszłe żądania wyodrębnienia danych wejściowych będą dyskretnie kończyć się niepowodzeniem. Zatem w naszym programie kalkulatora monity wyjściowe są nadal drukowane, ale wszelkie żądania dalszego wyodrębnienia są ignorowane. Oznacza to, że zamiast czekać, aż wejdziemy w operację, monit o wprowadzenie danych jest pomijany i utkniemy w nieskończonej pętli, ponieważ nie ma możliwości dotarcia do jednego z prawidłowych przypadków.<p>Aby  <code>std::cin</code> znowu działać poprawnie, zazwyczaj musimy wykonać trzy rzeczy:<ul><li>Wykryć, że wcześniejsze wyodrębnienie nie powiodło się.<li>Przywróć <code>std::cin</code> normalne działanie <li>Usuń dane wejściowe, które spowodowały awarię (aby następne żądanie wyodrębnienia nie zakończyło się niepowodzeniem w identyczny sposób).</ul><p>Oto jak to wygląda:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">if (std::cin.fail()) // If the previous extraction failed
+</pre><p>i ostatnia linia jest drukowana aż do zamknięcia programu.<p>Wygląda to bardzo podobnie do przypadku zbędnych danych wejściowych, ale jest trochę inaczej. Przyjrzyjmy się bliżej.<p>Gdy użytkownik wpisze „a”, znak ten zostaje umieszczony w buforze. Następnie operator&gt;&gt; próbuje wyodrębnić „a” do zmiennej x, która jest typu double. Ponieważ „a” nie może zostać przekonwertowane na liczbę podwójną,  <code>operator>></code> nie można przeprowadzić ekstrakcji. W tym momencie dzieją się dwie rzeczy: „a” pozostaje w buforze, a std::cin przechodzi w „tryb awarii”. <p>Po wejściu w „tryb awarii” przyszłe żądania wyodrębnienia danych wejściowych będą dyskretnie kończyć się niepowodzeniem. Zatem w naszym programie kalkulatora monity wyjściowe są nadal drukowane, ale wszelkie żądania dalszego wyodrębnienia są ignorowane. Oznacza to, że zamiast czekać, aż wejdziemy w operację, monit o wprowadzenie danych jest pomijany i utkniemy w nieskończonej pętli, ponieważ nie ma możliwości dotarcia do jednego z prawidłowych przypadków.<p>Aby  <code>std::cin</code> znowu działać poprawnie, zazwyczaj musimy wykonać trzy rzeczy:<ul><li>Wykryć, że wcześniejsze wyodrębnienie nie powiodło się.<li>Przywróć <code>std::cin</code> normalne działanie <li>Usuń dane wejściowe, które spowodowały awarię (aby następne żądanie wyodrębnienia nie zakończyło się niepowodzeniem w identyczny sposób).</ul><p>Oto jak to wygląda:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">if (std::cin.fail()) // Jeśli poprzednia ekstrakcja nie powiodło się
 {
-    // Let&#39;s handle the failure
-    std::cin.clear(); // Put us back in &#39;normal&#39; operation mode
-    ignoreLine();     // And remove the bad input
-}</code></pre><p>Ponieważ <code>std::cin</code> ma konwersję logiczną wskazującą, czy ostatnie dane wejściowe powiodły się, bardziej idiomatyczne jest zapisanie powyższego w następujący sposób:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">if (!std::cin) // If the previous extraction failed
+    // Zajmijmy się niepowodzeniem
+    std::cin.clear(); // Wprowadź nas z powrotem do „normalnego” trybu działania
+    ignoreLine();     // I usuń błędne wejście
+}</code></pre><p>Ponieważ <code>std::cin</code> ma konwersję logiczną wskazującą, czy ostatnie dane wejściowe powiodły się, bardziej idiomatyczne jest zapisanie powyższego w następujący sposób:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">if (!std::cin) // Jeśli poprzednia ekstrakcja nie powiodło się
 {
-    // Let&#39;s handle the failure
-    std::cin.clear(); // Put us back in &#39;normal&#39; operation mode
-    ignoreLine();     // And remove the bad input
+    // Zajmijmy się niepowodzeniem
+    std::cin.clear(); // Wprowadź nas z powrotem do „normalnego” trybu działania
+    ignoreLine();     // I usuń błędne wejście
 }</code></pre><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Gdy wyodrębnianie nie powiedzie się, przyszłe żądania wyodrębnienia danych wejściowych (w tym wywołania) do <code>ignore()</code>) zakończy się niepowodzeniem do czasu wywołania funkcji <code>clear()</code> . Zatem po wykryciu nieudanej ekstrakcji, wywołanie  <code>clear()</code> jest zwykle pierwszą rzeczą, którą powinieneś zrobić.</div><p>Zintegrujmy to z naszą funkcją getDouble():<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">double getDouble()
 {
-    while (true) // Loop until user enters a valid input
+    while (true) // Pętla aż użytkownik wprowadzi prawidłowe dane wejściowe
     {
-        std::cout &lt;&lt; &#34;Enter a decimal number: &#34;;
+        std::cout &lt;&lt; "Enter a decimal number: ";
         double x{};
         std::cin &gt;&gt; x;
 
-        if (!std::cin) // If the previous extraction failed
+        if (!std::cin) // Jeśli poprzednia ekstrakcja nie powiodło się
         {
-            // Let&#39;s handle the failure
-            std::cin.clear(); // Put us back in &#39;normal&#39; operation mode
-            ignoreLine();     // And remove the bad input
+            // Zajmijmy się niepowodzeniem
+            std::cin.clear(); // Wprowadź nas z powrotem do „normalnego” trybu działania
+            ignoreLine();     // I usuń błędne wejście
             continue;
         }
 
-        // Our extraction succeeded
-        ignoreLine(); // Ignore any additional input on this line
-        return x;     // Return the value we extracted
+        // Nasza ekstrakcja się powiodła
+        ignoreLine(); // Zignoruj wszelkie dodatkowe dane wejściowe w tej linii
+        return x;     // Zwróć wartość, którą wyodrębniliśmy
     }
 }</code></pre><p>W przypadku typów podstawowych nieudana ekstrakcja z powodu nieprawidłowych danych wejściowych spowoduje, że zmiennej zostanie przypisana wartość <code>0</code> (lub inna wartość <code>0</code> konwertowana w zmiennej wpisz).<p>Możesz wywołać <code>clear()</code> nawet jeśli ekstrakcja nie zakończyła się niepowodzeniem – to nic nie da. W przypadkach, w których zamierzamy wywołać <code>ignoreLine()</code> niezależnie od tego, czy odnieśliśmy sukces, czy nie, możemy zasadniczo połączyć dwa przypadki:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">double getDouble()
 {
-    while (true) // Loop until user enters a valid input
+    while (true) // Pętla aż użytkownik wprowadzi prawidłowe dane wejściowe
     {
-        std::cout &lt;&lt; &#34;Enter a decimal number: &#34;;
+        std::cout &lt;&lt; "Enter a decimal number: ";
         double x{};
         std::cin &gt;&gt; x;
 
-        bool success { std::cin }; // Remember whether we had a successful extraction
-        std::cin.clear();          // Put us back in &#39;normal&#39; operation mode (in case we failed)
-        ignoreLine();              // Ignore any additional input on this line (regardless)
+        bool success { std::cin }; // Pamiętaj, czy ekstrakcja przebiegła pomyślnie
+        std::cin.clear();          // Włącz nas z powrotem do „normalnego” trybu działania (w przypadku niepowodzenia)
+        ignoreLine();              // Zignoruj wszelkie dodatkowe dane wejściowe w tej linii (niezależnie)
 
-        if (success)               // If we actually extracted a value
-            return x;              // Return it (otherwise, we go back to top of loop)
+        if (success)               // Jeśli rzeczywiście wyodrębniliśmy wartość
+            return x;              // Zwróć ją (w przeciwnym razie wracamy na początek pętla)
     }
-}</code></pre><p class="cpp-section cpp-topline" style=clear:both>Sprawdzanie EOF<p>Jest jeszcze jeden przypadek, którym musimy się zająć.<p>Koniec pliku (EOF) to specjalny stan błędu, który oznacza „Brak dostępnych danych”. Jest to zwykle generowane <strong>po</strong> operacja wejściowa kończy się niepowodzeniem z powodu braku dostępnych danych. Na przykład, jeśli czytałeś zawartość pliku na dysku, a następnie próbowałeś wczytać więcej danych po osiągnięciu końca pliku, zostanie wygenerowany EOF informujący, że nie ma więcej dostępnych danych. W przypadku wprowadzania pliku nie stanowi to problemu - możemy po prostu zamknąć plik i przejść dalej.<p>Teraz rozważ <code>std::cin</code>. Jeśli spróbujemy wyodrębnić dane wejściowe z  <code>std::cin</code> , a ich nie ma, zgodnie z projektem nie wygeneruje on EOF - po prostu poczeka, aż użytkownik wprowadzi więcej danych wejściowych. Jednakże <code>std::cin</code> może wygenerować EOF w niektórych przypadkach — najczęściej gdy użytkownik wprowadzi specjalną kombinację klawiszy dla swojego systemu operacyjnego. Zarówno Unix (przez ctrl-D), jak i Windows (przez ctrl-Z + ENTER) obsługują wprowadzanie „znaku EOF” z klawiatury.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>W C++ EOF jest stanem błędu, a nie znakiem. Różne systemy operacyjne mają specjalne kombinacje znaków, które są traktowane jako „wprowadzone przez użytkownika żądanie EOF”. Są one czasami nazywane „znakami EOF”.</div><p>Podczas wyodrębniania danych do <code>std::cin</code> i użytkownik wprowadzi znak EOF, zachowanie jest specyficzne dla systemu operacyjnego. Oto, co zwykle się dzieje: <ul><li>Jeśli EOF nie jest pierwszym znakiem wejściowym: Wszystkie dane wejściowe poprzedzające EOF zostaną usunięte, a znak EOF zostanie zignorowany. W systemie Windows wszelkie znaki wprowadzone po EOF są ignorowane, z wyjątkiem nowej linii.<li>Jeśli EOF jest pierwszym wprowadzonym znakiem: Zostanie ustawiony błąd EOF. Strumień wejściowy może (ale nie musi) zostać odłączony.</ul><p>Chociaż <code>std::cin.clear()</code> skasuje błąd EOF, jeśli strumień wejściowy zostanie odłączony, następne żądanie wejściowe wygeneruje kolejny błąd EOF. Jest to problematyczne, gdy nasze dane wejściowe znajdują się w <code>while(true)</code> pętli, ponieważ utkniemy w nieskończonej pętli błędów EOF.<p>Ponieważ znak wprowadzany z klawiatury <code>EOF</code>  ma na celu zakończenie strumienia wejściowego, najlepiej jest wykryć EOF (przez <code>std::cin.eof()</code>) i następnie zakończyć program.<p>Ponieważ wyczyszczenie nieudanego strumienia wejściowego to coś, co prawdopodobnie będziemy często sprawdzać. Jest to dobry kandydat na funkcję wielokrotnego użytku:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;limits&gt; // for std::numeric_limits
+}</code></pre><p class="cpp-section cpp-topline" style=clear:both>Sprawdzanie EOF<p>Jest jeszcze jeden przypadek, którym musimy się zająć.<p>Koniec pliku (EOF) to specjalny stan błędu, który oznacza „Brak dostępnych danych”. Jest to zwykle generowane <strong>po</strong> operacja wejściowa kończy się niepowodzeniem z powodu braku dostępnych danych. Na przykład, jeśli czytałeś zawartość pliku na dysku, a następnie próbowałeś wczytać więcej danych po osiągnięciu końca pliku, zostanie wygenerowany EOF informujący, że nie ma więcej dostępnych danych. W przypadku wprowadzania pliku nie stanowi to problemu - możemy po prostu zamknąć plik i przejść dalej.<p>Teraz rozważ <code>std::cin</code>. Jeśli spróbujemy wyodrębnić dane wejściowe z  <code>std::cin</code> , a ich nie ma, zgodnie z projektem nie wygeneruje on EOF - po prostu poczeka, aż użytkownik wprowadzi więcej danych wejściowych. Jednakże <code>std::cin</code> może wygenerować EOF w niektórych przypadkach — najczęściej gdy użytkownik wprowadzi specjalną kombinację klawiszy dla swojego systemu operacyjnego. Zarówno Unix (przez ctrl-D), jak i Windows (przez ctrl-Z + ENTER) obsługują wprowadzanie „znaku EOF” z klawiatury.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>W C++ EOF jest stanem błędu, a nie znakiem. Różne systemy operacyjne mają specjalne kombinacje znaków, które są traktowane jako „wprowadzone przez użytkownika żądanie EOF”. Są one czasami nazywane „znakami EOF”.</div><p>Podczas wyodrębniania danych do <code>std::cin</code> i użytkownik wprowadzi znak EOF, zachowanie jest specyficzne dla systemu operacyjnego. Oto, co zwykle się dzieje: <ul><li>Jeśli EOF nie jest pierwszym znakiem wejściowym: Wszystkie dane wejściowe poprzedzające EOF zostaną usunięte, a znak EOF zostanie zignorowany. W systemie Windows wszelkie znaki wprowadzone po EOF są ignorowane, z wyjątkiem nowej linii.<li>Jeśli EOF jest pierwszym wprowadzonym znakiem: Zostanie ustawiony błąd EOF. Strumień wejściowy może (ale nie musi) zostać odłączony.</ul><p>Chociaż <code>std::cin.clear()</code> skasuje błąd EOF, jeśli strumień wejściowy zostanie odłączony, następne żądanie wejściowe wygeneruje kolejny błąd EOF. Jest to problematyczne, gdy nasze dane wejściowe znajdują się w <code>while(true)</code> pętli, ponieważ utkniemy w nieskończonej pętli błędów EOF.<p>Ponieważ znak wprowadzany z klawiatury <code>EOF</code>  ma na celu zakończenie strumienia wejściowego, najlepiej jest wykryć EOF (przez <code>std::cin.eof()</code>) i następnie zakończyć program.<p>Ponieważ wyczyszczenie nieudanego strumienia wejściowego to coś, co prawdopodobnie będziemy często sprawdzać. Jest to dobry kandydat na funkcję wielokrotnego użytku:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;limits&gt; // dla std::numeric_limits
 
 void ignoreLine()
 {
-    std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), &#39;\n&#39;);
+    std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), '\n');
 }
 
-// returns true if extraction failed, false otherwise
+// zwraca wartość true, jeśli ekstrakcja się nie powiodła, w przeciwnym razie false
 bool clearFailedExtraction()
 {
-    // Check for failed extraction
-    if (!std::cin) // If the previous extraction failed
+    // Sprawdź, czy ekstrakcja nie powiodła się
+    if (!std::cin) // Jeśli poprzednia ekstrakcja nie powiodło się
     {
-        if (std::cin.eof()) // If the user entered an EOF
+        if (std::cin.eof()) // Jeśli użytkownik wprowadził EOF
         {
-            std::exit(0); // Shut down the program now
+            std::exit(0); // Zamknij program teraz
         }
 
-        // Let&#39;s handle the failure
-        std::cin.clear(); // Put us back in &#39;normal&#39; operation mode
-        ignoreLine();     // And remove the bad input
+        // Zajmijmy się niepowodzeniem
+        std::cin.clear(); // Wprowadź nas z powrotem do „normalnego” trybu działania
+        ignoreLine();     // I usuń błędne wejście
 
         return true;
     }
@@ -211,41 +211,41 @@ bool clearFailedExtraction()
 
 int main()
 {
-    std::int16_t x{}; // x is 16 bits, holds from -32768 to 32767
-    std::cout &lt;&lt; &#34;Enter a number between -32768 and 32767: &#34;;
+    std::int16_t x{}; // x ma 16 bitów i mieści się w zakresie od -32768 do 32767
+    std::cout &lt;&lt; "Enter a number between -32768 and 32767: ";
     std::cin &gt;&gt; x;
 
-    std::int16_t y{}; // y is 16 bits, holds from -32768 to 32767
-    std::cout &lt;&lt; &#34;Enter another number between -32768 and 32767: &#34;;
+    std::int16_t y{}; // y ma 16 bitów, utrzymuje się od -32768 do 32767
+    std::cout &lt;&lt; "Enter another number between -32768 and 32767: ";
     std::cin &gt;&gt; y;
 
-    std::cout &lt;&lt; &#34;The sum is: &#34; &lt;&lt; x + y &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "The sum is: " &lt;&lt; x + y &lt;&lt; '\n';
     return 0;
 }</code></pre><p>Co się stanie, jeśli użytkownik wprowadzi zbyt dużą liczbę (np. 40000)?<pre>Enter a number between -32768 and 32767: 40000
 Enter another number between -32768 and 32767: The sum is: 32767
-</pre><p>W powyższym przypadku <code>std::cin</code> przechodzi natychmiast do „tryb awaryjny”, ale także przypisuje zmiennej najbliższą wartość z zakresu. Jeżeli wprowadzona wartość jest większa niż największa możliwa wartość dla typu, najbliższą wartością z zakresu jest największa możliwa wartość dla typu. W rezultacie <code>x</code> pozostaje przypisana wartość <code>32767</code>. Dodatkowe wejścia są pomijane, pozostawiając <code>y</code> z zainicjowaną wartością <code>0</code>. Z tego rodzaju błędem możemy sobie poradzić w taki sam sposób, jak z nieudaną ekstrakcją.<p class="cpp-section cpp-topline" style=clear:both>Składanie wszystkiego w całość<p>Oto nasz przykładowy kalkulator, zaktualizowany o kilka dodatkowych elementów sprawdzania błędów:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cstdlib&gt; // for std::exit
+</pre><p>W powyższym przypadku <code>std::cin</code> przechodzi natychmiast do „tryb awaryjny”, ale także przypisuje zmiennej najbliższą wartość z zakresu. Jeżeli wprowadzona wartość jest większa niż największa możliwa wartość dla typu, najbliższą wartością z zakresu jest największa możliwa wartość dla typu. W rezultacie <code>x</code> pozostaje przypisana wartość <code>32767</code>. Dodatkowe wejścia są pomijane, pozostawiając <code>y</code> z zainicjowaną wartością <code>0</code>. Z tego rodzaju błędem możemy sobie poradzić w taki sam sposób, jak z nieudaną ekstrakcją.<p class="cpp-section cpp-topline" style=clear:both>Składanie wszystkiego w całość<p>Oto nasz przykładowy kalkulator, zaktualizowany o kilka dodatkowych elementów sprawdzania błędów:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cstdlib&gt; // dla std::exit
 #include &lt;iostream&gt;
-#include &lt;limits&gt; // for std::numeric_limits
+#include &lt;limits&gt; // dla std::numeric_limits
 
 void ignoreLine()
 {
-    std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), &#39;\n&#39;);
+    std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), '\n');
 }
 
-// returns true if extraction failed, false otherwise
+// zwraca wartość true, jeśli ekstrakcja się nie powiodła, w przeciwnym razie false
 bool clearFailedExtraction()
 {
-    // Check for failed extraction
-    if (!std::cin) // If the previous extraction failed
+    // Sprawdź, czy ekstrakcja nie powiodła się
+    if (!std::cin) // Jeśli poprzednia ekstrakcja nie powiodło się
     {
-        if (std::cin.eof()) // If the stream was closed
+        if (std::cin.eof()) // Jeśli strumień został zamknięty
         {
-            std::exit(0); // Shut down the program now
+            std::exit(0); // Zamknij program teraz
         }
 
-        // Let&#39;s handle the failure
-        std::cin.clear(); // Put us back in &#39;normal&#39; operation mode
-        ignoreLine();     // And remove the bad input
+        // Zajmijmy się niepowodzeniem
+        std::cin.clear(); // Wprowadź nas z powrotem do „normalnego” trybu działania
+        ignoreLine();     // I usuń błędne wejście
 
         return true;
     }
@@ -255,72 +255,72 @@ bool clearFailedExtraction()
 
 double getDouble()
 {
-    while (true) // Loop until user enters a valid input
+    while (true) // Pętla aż użytkownik wprowadzi prawidłowe dane wejściowe
     {
-        std::cout &lt;&lt; &#34;Enter a decimal number: &#34;;
+        std::cout &lt;&lt; "Enter a decimal number: ";
         double x{};
         std::cin &gt;&gt; x;
 
         if (clearFailedExtraction())
         {
-            std::cout &lt;&lt; &#34;Oops, that input is invalid.  Please try again.\n&#34;;
+            std::cout &lt;&lt; "Oops, that input is invalid.  Please try again.\n";
             continue;
         }
 
-        ignoreLine(); // Remove any extraneous input
-        return x;     // Return the value we extracted
+        ignoreLine(); // Usuń wszelkie obce dane wejściowe
+        return x;     // Zwróć wartość, którą wyodrębniliśmy
     }
 }
 
 char getOperator()
 {
-    while (true) // Loop until user enters a valid input
+    while (true) // Pętla aż użytkownik wprowadzi prawidłowe dane wejściowe
     {
-        std::cout &lt;&lt; &#34;Enter one of the following: +, -, *, or /: &#34;;
+        std::cout &lt;&lt; "Enter one of the following: +, -, *, or /: ";
         char operation{};
         std::cin &gt;&gt; operation;
 
-        if (!clearFailedExtraction()) // we&#39;ll handle error messaging if extraction failed below
-             ignoreLine(); // remove any extraneous input (only if extraction succeded)
+        if (!clearFailedExtraction()) // w przypadku niepowodzenia ekstrakcji zajmiemy się komunikatem o błędzie poniżej
+             ignoreLine(); // usuń wszelkie dodatkowe dane wejściowe (tylko jeśli wyodrębnienie się powiodło)
 
-        // Check whether the user entered meaningful input
+        // Sprawdź, czy użytkownik wprowadził sensowne dane wejściowe
         switch (operation)
         {
-        case &#39;+&#39;:
-        case &#39;-&#39;:
-        case &#39;*&#39;:
-        case &#39;/&#39;:
-            return operation; // Return the entered char to the caller
-        default: // Otherwise tell the user what went wrong
-            std::cout &lt;&lt; &#34;Oops, that input is invalid.  Please try again.\n&#34;;
+        case '+':
+        case '-':
+        case '*':
+        case '/':
+            return operation; // Zwróć wprowadzony znak dzwoniącemu
+        default: // W przeciwnym razie powiedz użytkownikowi, co poszło nie tak
+            std::cout &lt;&lt; "Oops, that input is invalid.  Please try again.\n";
         }
     }
 }
  
 void printResult(double x, char operation, double y)
 {
-    std::cout &lt;&lt; x &lt;&lt; &#39; &#39; &lt;&lt; operation &lt;&lt; &#39; &#39; &lt;&lt; y &lt;&lt; &#34; is &#34;;
+    std::cout &lt;&lt; x &lt;&lt; ' ' &lt;&lt; operation &lt;&lt; ' ' &lt;&lt; y &lt;&lt; " is ";
 
     switch (operation)
     {
-    case &#39;+&#39;:
-        std::cout &lt;&lt; x + y &lt;&lt; &#39;\n&#39;;
+    case '+':
+        std::cout &lt;&lt; x + y &lt;&lt; '\n';
         return;
-    case &#39;-&#39;:
-        std::cout &lt;&lt; x - y &lt;&lt; &#39;\n&#39;;
+    case '-':
+        std::cout &lt;&lt; x - y &lt;&lt; '\n';
         return;
-    case &#39;*&#39;:
-        std::cout &lt;&lt; x * y &lt;&lt; &#39;\n&#39;;
+    case '*':
+        std::cout &lt;&lt; x * y &lt;&lt; '\n';
         return;
-    case &#39;/&#39;:
+    case '/':
         if (y == 0.0)
             break;
 
-        std::cout &lt;&lt; x / y &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; x / y &lt;&lt; '\n';
         return;
     }
 
-    std::cout &lt;&lt; &#34;???&#34;;  // Being robust means handling unexpected parameters as well, even though getOperator() guarantees operation is valid in this particular program
+    std::cout &lt;&lt; "???";  // Bycie solidnym oznacza również obsługę nieoczekiwanych parametrów, nawet jeśli getOperator() gwarantuje, że operacja jest poprawna w tym konkretnym programie
 }
  
 int main()
@@ -329,44 +329,44 @@ int main()
     char operation{ getOperator() };
     double y{ getDouble() };
 
-    // Handle division by 0
-    while (operation == &#39;/&#39; &amp;&amp; y == 0.0) 
+    // Obsługuj dzielenie przez 0
+    while (operation == '/' &amp;&amp; y == 0.0) 
     {
-        std::cout &lt;&lt; &#34;The denominator cannot be zero.  Try again.\n&#34;;
+        std::cout &lt;&lt; "The denominator cannot be zero.  Try again.\n";
         y = getDouble();
     }
  
     printResult(x, operation, y);
  
     return 0;
-}</code></pre><p class="cpp-section cpp-topline" style=clear:both>Wnioski<p>Pisząc programy, zastanów się, w jaki sposób użytkownicy będą go niewłaściwie używać, zwłaszcza przy wprowadzaniu tekstu. Dla każdego punktu wprowadzania tekstu rozważ:<ul><li>Czy ekstrakcja może się nie udać?<li>Czy użytkownik może wprowadzić więcej danych wejściowych niż oczekiwano?<li>Czy użytkownik może wprowadzić bezsensowne dane wejściowe?<li>Czy użytkownik może przepełnić dane wejściowe?</ul><p>Możesz użyć instrukcji if i logiki logicznej, aby sprawdzić, czy dane wejściowe są oczekiwane i znaczące.<p>Poniższe kod usunie wszelkie niepotrzebne dane wejściowe:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;limits&gt; // for std::numeric_limits
+}</code></pre><p class="cpp-section cpp-topline" style=clear:both>Wnioski<p>Pisząc programy, zastanów się, w jaki sposób użytkownicy będą go niewłaściwie używać, zwłaszcza przy wprowadzaniu tekstu. Dla każdego punktu wprowadzania tekstu rozważ:<ul><li>Czy ekstrakcja może się nie udać?<li>Czy użytkownik może wprowadzić więcej danych wejściowych niż oczekiwano?<li>Czy użytkownik może wprowadzić bezsensowne dane wejściowe?<li>Czy użytkownik może przepełnić dane wejściowe?</ul><p>Możesz użyć instrukcji if i logiki logicznej, aby sprawdzić, czy dane wejściowe są oczekiwane i znaczące.<p>Poniższe kod usunie wszelkie niepotrzebne dane wejściowe:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;limits&gt; // dla std::numeric_limits
 
 void ignoreLine()
 {
-    std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), &#39;\n&#39;);
-}</code></pre><p>Następujący kod przetestuje i naprawi nieudane wyodrębnianie lub przepełnienie (oraz usunie niepotrzebne dane wejściowe):<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// returns true if extraction failed, false otherwise
+    std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), '\n');
+}</code></pre><p>Następujący kod przetestuje i naprawi nieudane wyodrębnianie lub przepełnienie (oraz usunie niepotrzebne dane wejściowe):<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// zwraca wartość true, jeśli ekstrakcja się nie powiodła, w przeciwnym razie false
 bool clearFailedExtraction()
 {
-    // Check for failed extraction
-    if (!std::cin) // If the previous extraction failed
+    // Sprawdź, czy ekstrakcja nie powiodła się
+    if (!std::cin) // Jeśli poprzednia ekstrakcja nie powiodło się
     {
-        if (std::cin.eof()) // If the stream was closed
+        if (std::cin.eof()) // Jeśli strumień został zamknięty
         {
-            std::exit(0); // Shut down the program now
+            std::exit(0); // Zamknij program teraz
         }
 
-        // Let&#39;s handle the failure
-        std::cin.clear(); // Put us back in &#39;normal&#39; operation mode
-        ignoreLine();     // And remove the bad input
+        // Zajmijmy się niepowodzeniem
+        std::cin.clear(); // Wprowadź nas z powrotem do „normalnego” trybu działania
+        ignoreLine();     // I usuń błędne wejście
 
         return true;
     }
     
     return false;
-}</code></pre><p>Możemy sprawdzić, czy istnieją niewyodrębnione dane wejściowe (inne niż znak nowej linii) w następujący sposób:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// returns true if std::cin has unextracted input on the current line, false otherwise
+}</code></pre><p>Możemy sprawdzić, czy istnieją niewyodrębnione dane wejściowe (inne niż znak nowej linii) w następujący sposób:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// zwraca wartość true, jeśli std::cin ma niewyodrębnione dane wejściowe w bieżącej linii, false w przeciwnym razie
 bool hasUnextractedInput()
 {
-    return !std::cin.eof() &amp;&amp; std::cin.peek() != &#39;\n&#39;;
+    return !std::cin.eof() &amp;&amp; std::cin.peek() != '\n';
 }</code></pre><p>Na koniec użyj pętli, aby poprosić użytkownika o ponowne wprowadzenie danych wejściowych, jeśli oryginalne dane wejściowe były nieprawidłowe.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nota autora<p>Weryfikacja danych wejściowych jest ważne i przydatne, ale powoduje też, że przykłady stają się bardziej skomplikowane i trudniejsze do naśladowania. W związku z tym na przyszłych lekcjach zasadniczo nie będziemy przeprowadzać żadnego rodzaju weryfikacji danych wejściowych, chyba że będzie to istotne dla czegoś, czego staramy się uczyć.</div><div class=prevnext><div class=prevnext-inline><a class=nav-link href="../assert-and-static_assert/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>9.6</span>Assert i static_assert</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../712-handling-errors-assert-cerr-exit-and-exceptions/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>9.4</span>Wykrywanie i obsługa błędów</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/stdcin-and-handling-invalid-input/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../scope-duration-and-linkage-summary/index.html" rel=prev><span>7.12 — Zakres, czas trwania i podsumowanie powiązań</span></a></div><div class=nav-next><em>Następny post</em><a href="../overloading-operators-using-normal-functions/index.html" rel=next><span>21.3 — Przeciążanie operatorów przy użyciu normalnych funkcji</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>
 <textarea id=wc-textarea-0_0 placeholder="Zostaw komentarz..." aria-label="Zostaw komentarz..." required name=wc_comment class="wc_comment wpd-field"></textarea></div><div class=wpd-editor-buttons-right></div></div></div></div><div class=wpd-form-foot><div class=wpdiscuz-textarea-foot><div class=wpdiscuz-button-actions></div></div><div class=wpd-form-row><div class=wpd-form-col-left><div class="wpdiscuz-item wc_name-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-user"></i></div><input id=wc_name-0_0 required aria-required=true class="wc_name wpd-field" name=wc_name placeholder=Imię* maxlength=50 pattern=.{3,50}>
 <label for=wc_name-0_0 class=wpdlb>Imię*</label></div><div class="wpdiscuz-item wc_email-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-at"></i></div><input id=wc_email-0_0 required aria-required=true class="wc_email wpd-field" type=email name=wc_email placeholder=E-mail*>

@@ -13,18 +13,18 @@
 <button class=searchsubmit><span class=screen-reader-text>Szukaj</span><i class=icon-search></i></button>
 <input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=80009></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="12.5 — Przekaż referencję lwartości" src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-110 class="post-110 post type-post status-publish format-standard hentry category-cpp-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>12.5 — Przekaż referencję lwartości</h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Autor></i><a class="url fn n" rel=author href=/www.learncpp.com/author/Alex/ title="Wyświetl wszystkie posty Alexa" itemprop=url><em itemprop=name>Alex</em></a></span>
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2007-07-24T18:06:35-07:00 itemprop=datePublished>24 lipca 2007, 18:06 czasu PDT</time>
-<time class=updated datetime=2024-12-06T09:52:30-08:00 itemprop=dateModified>6 grudnia 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>W poprzednich lekcjach wprowadziliśmy odniesienia do wartości (<a href="../lvalue-references/index.html">12.3 -- Odniesienia do wartości</a>) i odniesienia do wartości do const (<a href="../lvalue-references-to-const/index.html">12.4 -- Odniesienia do wartości do const</a>). Same w sobie mogły one nie wydawać się zbyt przydatne — po co tworzyć alias do zmiennej, skoro można po prostu użyć samej zmiennej?<p>W tej lekcji w końcu przedstawimy pewien wgląd w to, co sprawia, że ​​odniesienia są przydatne. A w dalszej części tego rozdziału zobaczysz regularnie używane odniesienia.<p>Najpierw trochę kontekstu. Wracając do lekcji <a href="../function-parameters-and-arguments/index.html">&gt;2.4 -- Wprowadzenie do parametrów i argumentów funkcji</a> omawialiśmy <code>pass by value</code>, gdzie argument przekazywany do funkcji jest kopiowany do parametru funkcji:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+<time class=updated datetime=2024-12-06T09:52:30-08:00 itemprop=dateModified>6 grudnia 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>W poprzednich lekcjach wprowadziliśmy odniesienia do wartości (<a href="../lvalue-references/index.html">12.3 -- Odniesienia do wartości</a>) i odniesienia do wartości do const (<a href="../lvalue-references-to-const/index.html">12.4 -- Odniesienia do wartości do const</a>). Same w sobie mogły one nie wydawać się zbyt przydatne — po co tworzyć alias do zmiennej, skoro można po prostu użyć samej zmiennej?<p>W tej lekcji w końcu przedstawimy pewien wgląd w to, co sprawia, że ​​odniesienia są przydatne. A w dalszej części tego rozdziału zobaczysz regularnie używane odniesienia.<p>Najpierw trochę kontekstu. Wracając do lekcji <a href="../function-parameters-and-arguments/index.html">2.4 -- Wprowadzenie do parametrów i argumentów funkcji</a> omawialiśmy <code>pass by value</code>, gdzie argument przekazywany do funkcji jest kopiowany do parametru funkcji:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 void printValue(int y)
 {
-    std::cout &lt;&lt; y &lt;&lt; &#39;\n&#39;;
-} // y is destroyed here
+    std::cout &lt;&lt; y &lt;&lt; '\n';
+} // y jest tutaj niszczący
 
 int main()
 {
     int x { 2 };
 
-    printValue(x); // x is passed by value (copied) into parameter y (inexpensive)
+    printValue(x); // x jest przekazywane przez wartość (kopiowane) do parametru y (niedrogi)
 
     return 0;
 }</code></pre><p>W powyższym programie, gdy  <code>printValue(x)</code> jest wywoływane, wartość <code>x</code> (<code>2</code>) jest <em>kopiowany</em> do parametru <code>y</code>. Następnie na końcu funkcji obiekt <code>y</code> jest zniszczony.<p>Oznacza to, że wywołując funkcję, zrobiliśmy kopię wartości naszego argumentu, tylko po to, by ją krótko wykorzystać, a następnie zniszczyć! Na szczęście, ponieważ kopiowanie typów podstawowych jest tanie, nie stanowi to problemu.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Kopiowanie niektórych obiektów jest kosztowne<p>Większość typów udostępnianych przez bibliotekę standardową (takich jak <code>std::string</code>) to typy klasowe. Kopiowanie typów klas jest zwykle kosztowne. O ile to możliwe, chcemy unikać tworzenia niepotrzebnych kopii obiektów, których kopiowanie jest kosztowne, szczególnie gdy zniszczymy te kopie niemal natychmiast.<p>Rozważmy następujący program ilustrujący ten punkt:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -32,30 +32,30 @@ int main()
 
 void printValue(std::string y)
 {
-    std::cout &lt;&lt; y &lt;&lt; &#39;\n&#39;;
-} // y is destroyed here
+    std::cout &lt;&lt; y &lt;&lt; '\n';
+} // y jest tutaj niszczący
 
 int main()
 {
-    std::string x { &#34;Hello, world!&#34; }; // x is a std::string
+    std::string x { "Hello, world!" }; // x jest std::stringiem
 
-    printValue(x); // x is passed by value (copied) into parameter y (expensive)
+    printValue(x); // x jest przekazywane przez wartość (kopiowane) do parametru y (drogie)
 
     return 0;
 }</code></pre><p>To wypisuje<pre>Hello, world!
-</pre><p>Chociaż program ten zachowuje się zgodnie z naszymi oczekiwaniami, jest również nieefektywny. Identycznie jak w poprzednim przykładzie, przy wywołaniu  <code>printValue()</code> argument <code>x</code> jest kopiowany do <code>printValue()</code> parametr <code>y</code>. Jednak w tym przykładzie argumentem jest <code>std::string</code> zamiast <code>int</code>, I <code>std::string</code> jest to typ klasy, którego kopiowanie jest kosztowne. I ta kosztowna kopia jest wykonywana za każdym razem, gdy  <code>printValue()</code> jest wywoływane!<p>Możemy zrobić to lepiej.<p class="cpp-section cpp-topline" style=clear:both>Przekazywanie przez odniesienie<p>Jednym ze sposobów uniknięcia kosztownej kopii argumentu podczas wywoływania funkcji jest użycie <code>pass by reference</code> zamiast <code>pass by value</code>. Używając  <strong>przejdź obok referencja</strong>, deklarujemy parametr funkcji jako typ referencyjny (lub stały typ referencyjny), a nie jako typ normalny. Kiedy funkcja jest wywoływana, każdy parametr referencyjny jest powiązany z odpowiednim argumentem. Ponieważ odwołanie działa jak alias argumentu, nie jest tworzona żadna jego kopia.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Oto ten sam przykład co powyżej, w którym zastosowano przekazywanie przez odwołanie zamiast przekazywania przez wartość:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+</pre><p>Chociaż program ten zachowuje się zgodnie z naszymi oczekiwaniami, jest również nieefektywny. Identycznie jak w poprzednim przykładzie, przy wywołaniu  <code>printValue()</code> argument <code>x</code> jest kopiowany do <code>printValue()</code> parametr <code>y</code>. Jednak w tym przykładzie argumentem jest <code>std::string</code> zamiast <code>int</code>, i <code>std::string</code> jest to typ klasy, którego kopiowanie jest kosztowne. I ta kosztowna kopia jest wykonywana za każdym razem, gdy  <code>printValue()</code> jest wywoływane!<p>Możemy zrobić to lepiej.<p class="cpp-section cpp-topline" style=clear:both>Przekazywanie przez odniesienie<p>Jednym ze sposobów uniknięcia kosztownej kopii argumentu podczas wywoływania funkcji jest użycie <code>pass by reference</code> zamiast <code>pass by value</code>. Używając  <strong>przejdź obok referencja</strong>, deklarujemy parametr funkcji jako typ referencyjny (lub stały typ referencyjny), a nie jako typ normalny. Kiedy funkcja jest wywoływana, każdy parametr referencyjny jest powiązany z odpowiednim argumentem. Ponieważ odwołanie działa jak alias argumentu, nie jest tworzona żadna jego kopia.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Oto ten sam przykład co powyżej, w którym zastosowano przekazywanie przez odwołanie zamiast przekazywania przez wartość:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;string&gt;
 
-void printValue(std::string&amp; y) // type changed to std::string&amp;
+void printValue(std::string&amp; y) // wpisz na std::string&amp;
 {
-    std::cout &lt;&lt; y &lt;&lt; &#39;\n&#39;;
-} // y is destroyed here
+    std::cout &lt;&lt; y &lt;&lt; '\n';
+} // y jest tutaj niszczący
 
 int main()
 {
-    std::string x { &#34;Hello, world!&#34; };
+    std::string x { "Hello, world!" };
 
-    printValue(x); // x is now passed by reference into reference parameter y (inexpensive)
+    printValue(x); // x jest teraz przekazywane przez referencję do parametru referencyjnego y (niedrogi)
 
     return 0;
 }</code></pre><p>Ten program jest identyczny z poprzednim, z tą różnicą, że typ parametru <code>y</code> został zmieniony z <code>std::string</code> Do <code>std::string&</code> (odniesienie do lwartości). Teraz, gdy zostanie wywołane  <code>printValue(x)</code> , parametr referencyjny wartości  <code>y</code> jest powiązany z argumentem <code>x</code>. Oprawienie referencji jest zawsze niedrogie i nie ma potrzeby wykonywania kopii <code>x</code> . Ponieważ referencja działa jak alias dla obiektu, do którego się odwołujemy, gdy <code>printValue()</code> używa referencji <code>y</code>, uzyskuje dostęp do rzeczywistego argumentu <code>x</code> (a nie do kopii  <code>x</code>).<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Przekazanie przez referencję pozwala nam przekazywać argumenty do funkcji bez tworzenia kopii tych argumentów przy każdym wywołaniu funkcji.</div><p>Poniższy program demonstruje, że wartość parametr jest obiektem odrębnym od argumentu, podczas gdy parametr referencyjny jest traktowany tak, jakby był argumentem:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -78,60 +78,60 @@ The address of the value parameter is: 0x7ffd16574de4
 The address of the reference parameter is: 0x7ffd16574de0
 </pre><p>Widzimy, że argument ma inny adres niż parametr value, co oznacza, że parametr value jest innym obiektem. Ponieważ mają one oddzielne adresy pamięci, aby parametr value miał taką samą wartość jak argument, wartość argumentu musi zostać skopiowana do pamięci przechowywanej przez wartość. parametr.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>Z drugiej strony widzimy, że wzięcie adresu parametru referencyjnego daje adres identyczny z adresem argumentu. Oznacza to, że parametr referencyjny jest traktowany tak, jakby był tym samym obiektem co argument.<p class="cpp-section cpp-topline" style=clear:both>Przekazywanie przez referencję pozwala nam zmienić wartość argumentu<p>Gdy obiekt jest przekazywany przez wartość, parametr funkcji otrzymuje kopię argumentu. Oznacza to, że wszelkie zmiany wartości parametru dokonywane są w kopii argumentu, a nie w samym argumencie:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-void addOne(int y) // y is a copy of x
+void addOne(int y) // y jest kopią x
 {
-    ++y; // this modifies the copy of x, not the actual object x
+    ++y; // to modyfikuje kopię x, a nie rzeczywisty obiekt x
 }
 
 int main()
 {
     int x { 5 };
 
-    std::cout &lt;&lt; &#34;value = &#34; &lt;&lt; x &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "value = " &lt;&lt; x &lt;&lt; '\n';
 
     addOne(x);
 
-    std::cout &lt;&lt; &#34;value = &#34; &lt;&lt; x &lt;&lt; &#39;\n&#39;; // x has not been modified
+    std::cout &lt;&lt; "value = " &lt;&lt; x &lt;&lt; '\n'; // x nie został zmodyfikowany
 
     return 0;
 }</code></pre><p>W powyższym programie, ponieważ wartość parametru <code>y</code> jest kopią <code>x</code>, gdy zwiększamy  <code>y</code>, dotyczy to tylko  <code>y</code>. Ten program wyprowadza:<pre>value = 5
 value = 5
 </pre><p>Ponieważ jednak odniesienie działa identycznie jak obiekt, do którego się odwołuje, podczas korzystania z przekazywania przez odniesienie wszelkie zmiany dokonane w parametrze odniesienia <em>będziesz</em> wpływają na argument:<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-void addOne(int&amp; y) // y is bound to the actual object x
+void addOne(int&amp; y) // y jest powiązana z rzeczywistym obiektem x
 {
-    ++y; // this modifies the actual object x
+    ++y; // do modyfikowalnego obiektu x
 }
 
 int main()
 {
     int x { 5 };
 
-    std::cout &lt;&lt; &#34;value = &#34; &lt;&lt; x &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "value = " &lt;&lt; x &lt;&lt; '\n';
 
     addOne(x);
 
-    std::cout &lt;&lt; &#34;value = &#34; &lt;&lt; x &lt;&lt; &#39;\n&#39;; // x has been modified
+    std::cout &lt;&lt; "value = " &lt;&lt; x &lt;&lt; '\n'; // x został zmodyfikowany
 
     return 0;
 }</code></pre><p>Ten program wyprowadza:<pre>value = 5
 value = 6
 </pre><p>W powyższym przykładzie <code>x</code> początkowo ma wartość <code>5</code>. Podczas oceny <code>addOne(x)</code> jest wywoływany, parametr odniesienia <code>y</code> jest powiązany z argumentem <code>x</code>. Kiedy  <code>addOne()</code> funkcja zwiększa odniesienie <code>y</code>, w rzeczywistości jest to argument zwiększający <code>x</code> z <code>5</code> Do <code>6</code> (nie kopia <code>x</code>). Ta zmieniona wartość utrzymuje się nawet po <code>addOne()</code> zakończeniu wykonywania.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Przekazaniu wartości przez referencję do wartości innej niż stała pozwala nam pisać funkcje modyfikujące wartość przekazywanych argumentów.</div><p>Przydatna może być możliwość modyfikowania przez funkcje wartości przekazywanych argumentów. Wyobraź sobie, że napisałeś funkcję sprawdzającą, czy potwór skutecznie zaatakował gracza. Jeśli tak, potwór powinien wyrządzić pewne obrażenia zdrowiu gracza. Jeśli przekażesz obiekt gracza przez referencję, funkcja może bezpośrednio zmodyfikować stan faktycznego obiektu gracza, który został przekazany. Jeśli przekażesz obiekt gracza według wartości, możesz zmodyfikować jedynie stan kopii obiektu gracza, co nie jest tak przydatne.<p class="cpp-section cpp-topline" style=clear:both>Przekazywanie przez odwołanie może akceptować tylko modyfikowalne argumenty lvalue<p>Ponieważ odwołanie do wartości innej niż stała może wiązać się tylko z modyfikowalną wartością (zasadniczo a) zmienna inna niż stała), oznacza to, że przekazywanie przez referencję działa tylko z argumentami, które są modyfikowalnymi wartościami. W praktyce znacznie ogranicza to użyteczność przekazywania przez referencje do obiektów innych niż const, ponieważ oznacza to, że nie możemy przekazywać zmiennych ani literałów const. Na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-void printValue(int&amp; y) // y only accepts modifiable lvalues
+void printValue(int&amp; y) // y akceptuje tylko modyfikowalne lwartości
 {
-    std::cout &lt;&lt; y &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; y &lt;&lt; '\n';
 }
 
 int main()
 {
     int x { 5 };
-    printValue(x); // ok: x is a modifiable lvalue
+    printValue(x); // ok: x jest modyfikowalną lwartością
 
     const int z { 5 };
-    printValue(z); // error: z is a non-modifiable lvalue
+    printValue(z); // błąd: z jest niemodyfikowalną wartością
 
-    printValue(5); // error: 5 is an rvalue
+    printValue(5); // błąd: 5 to wartość
 
     return 0;
 }</code></pre><p>Na szczęście istnieje prosty sposób na obejście tego problemu, który omówimy w następnej lekcji. Przyjrzymy się także, kiedy przekazywać wartość, a kiedy przekazywać przez referencję.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><div class=prevnext><div class=prevnext-inline><a class=nav-link href="../pass-by-const-lvalue-reference/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>12.6</span>Przekaż referencję do wartości stałej</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../lvalue-references-to-const/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>12.4</span>Lwartość odwołuje się do. const</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/pass-by-lvalue-reference/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../passing-arguments-by-value/index.html" rel=prev><span>x.x — Przekazywanie argumentów przez wartość</span></a></div><div class=nav-next><em>Następny post</em><a href="../pass-by-address/index.html" rel=next><span>12.10 — Przekazywanie adresu</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>

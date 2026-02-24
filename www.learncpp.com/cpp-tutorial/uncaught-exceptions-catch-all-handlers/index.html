@@ -14,26 +14,26 @@
 <input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=4896></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="27.4 — Nieprzechwycone wyjątki i procedury obsługi catch-all" src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-215 class="post-215 post type-post status-publish format-standard hentry category-cpp-tutorial tag-c tag-catch-all-handler tag-exception-specifiers tag-exceptions tag-programming tag-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>27.4 -- Nieprzechwycone wyjątki i procedury obsługi catch-all</h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Autor></i><a class="url fn n" rel=author href=/www.learncpp.com/author/Alex/ title="Wyświetl wszystkie posty Alexa" itemprop=url><em itemprop=name>Alex</em></a></span>
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2008-10-25T12:07:37-07:00 itemprop=datePublished>25 października 2008, 12:07 czasu PDT</time>
 <time class=updated datetime=2024-09-12T12:20:17-07:00 itemprop=dateModified>12 września 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>Do tej pory powinieneś mieć rozsądne pojęcie o tym, jak działają wyjątki. W tej lekcji omówimy kilka bardziej interesujących przypadków wyjątków.<p class="cpp-section cpp-topline" style=clear:both>Nieprzechwycone wyjątki<p>Kiedy funkcja zgłasza wyjątek, którego sama nie obsługuje, zakłada, że ​​funkcja znajdująca się gdzieś niżej na stosie wywołań obsłuży wyjątek. W poniższym przykładzie funkcja mySqrt() zakłada, że ​​ktoś obsłuży zgłoszony przez nią wyjątek — ale co się stanie, jeśli tak naprawdę nikt tego nie zrobi?<p>Oto ponownie nasz program pierwiastkowy, bez bloku try w funkcji main():<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
-#include &lt;cmath&gt; // for sqrt() function
+#include &lt;cmath&gt; // dla funkcji sqrt()
 
-// A modular square root function
+// Modułowy pierwiastek kwadratowy funkcja
 double mySqrt(double x)
 {
-    // If the user entered a negative number, this is an error condition
+    // Jeśli użytkownik wprowadził liczbę ujemną, jest to warunek błędu
     if (x &lt; 0.0)
-        throw &#34;Can not take sqrt of negative number&#34;; // throw exception of type const char*
+        throw "Can not take sqrt of negative number"; // zrzuć wyjątek typu const char*
 
     return std::sqrt(x);
 }
 
 int main()
 {
-    std::cout &lt;&lt; &#34;Enter a number: &#34;;
+    std::cout &lt;&lt; "Enter a number: ";
     double x;
     std::cin &gt;&gt; x;
 
-    // Look ma, no exception handler!
-    std::cout &lt;&lt; &#34;The sqrt of &#34; &lt;&lt; x &lt;&lt; &#34; is &#34; &lt;&lt; mySqrt(x) &lt;&lt; &#39;\n&#39;;
+    // Spójrz, mamo, nie ma obsługi wyjątków!
+    std::cout &lt;&lt; "The sqrt of " &lt;&lt; x &lt;&lt; " is " &lt;&lt; mySqrt(x) &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Załóżmy teraz, że użytkownik wprowadzi -4, a mySqrt(-4) zgłosi wyjątek. Funkcja mySqrt() nie obsługuje wyjątku, więc program sprawdza, czy jakaś funkcja znajdująca się na dole stosu wywołań obsłuży wyjątek. main() również nie ma procedury obsługi tego wyjątku, więc nie można znaleźć żadnej procedury obsługi.<p>Gdy nie można znaleźć procedury obsługi wyjątku dla funkcji, wywoływana jest std::terminate() i aplikacja kończy się. W takich przypadkach stos wywołań może zostać rozwinięty lub nie! Jeśli stos nie zostanie odwinięty, zmienne lokalne nie zostaną zniszczone i nie nastąpi żadne czyszczenie oczekiwane po zniszczeniu tych zmiennych!<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><div class="cpp-note cpp-lightredbackground"><p class="cpp-note-title cpp-bottomline">Ostrzeżenie<p>Stos wywołań może zostać odwinięty, jeśli wyjątek nie zostanie obsłużony.<p>Jeśli stos nie zostanie odwinięty, zmienne lokalne nie zostaną zniszczone, co może powodować problemy, jeśli zmienne te mają nietrywialne destruktory.</div><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Na marginesie…<p>Chociaż mogłoby się to wydawać dziwne, że w takim przypadku nie rozwija się stosu, istnieje dobry powód, aby tego nie robić. Nieobsługiwany wyjątek jest zazwyczaj czymś, czego należy za wszelką cenę uniknąć. Jeśli stos zostałby rozwinięty, wszystkie informacje debugowania dotyczące stanu stosu, które doprowadziły do ​​zgłoszenia nieobsługiwanego wyjątku, zostałyby utracone! Nie rozwijając, zachowujemy te informacje, co ułatwia ustalenie, w jaki sposób został zgłoszony nieobsługiwany wyjątek, i naprawienie go.</div><p>Gdy wyjątek nie zostanie obsłużony, system operacyjny zazwyczaj powiadomi Cię, że wystąpił błąd nieobsłużonego wyjątku. Sposób, w jaki to robi, zależy od systemu operacyjnego, ale możliwe są następujące możliwości: wydrukowanie komunikatu o błędzie, wyświetlenie okna dialogowego o błędzie lub po prostu awaria. Niektóre systemy operacyjne są mniej eleganckie niż inne. Generalnie jest to coś, czego należy unikać!<p class="cpp-section cpp-topline" style=clear:both>Procedury obsługi catch-all<p>A teraz znaleźliśmy się w zagadce:<ul><li>Funkcje mogą potencjalnie generować wyjątki dowolnego typu danych (w tym typów danych zdefiniowanych przez program), co oznacza, że istnieje nieskończona liczba możliwych typów wyjątków do przechwycenia.<li>Jeśli wyjątek nie zostanie przechwycony, program zakończy się natychmiast (a stos może nie zostać rozwinął się, więc Twój program może nawet nie posprzątać poprawnie).<li>Dodawanie jawnych procedur obsługi catch dla każdego możliwego typu jest uciążliwe, szczególnie w przypadku tych, które mają być osiągane tylko w wyjątkowych przypadkach!</ul><p>Na szczęście C++ zapewnia nam również mechanizm wychwytywania wszystkich typów wyjątków. Nazywa się to procedurą obsługi  <strong>catch-all</strong>. Procedura obsługi catch-all działa podobnie jak zwykły blok catch, z tą różnicą, że zamiast używać określonego typu do przechwytywania, używa operatora wielokropka (…) jako typu do przechwytywania. Z tego powodu procedura obsługi catch-all jest czasami nazywana „operacją obsługi przechwytywania wielokropka”<p>Jeśli pamiętasz z lekcji <a href="../ellipsis-and-why-to-avoid-them/index.html">20.5 -- Elipsa (i dlaczego jej unikać)</a>, elipsy były wcześniej używane do przekazywania argumentów dowolnego typu do funkcji. W tym kontekście reprezentują wyjątki dowolnego typu danych. Oto prosty przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -42,22 +42,22 @@ int main()
 {
 	try
 	{
-		throw 5; // throw an int exception
+		throw 5; // wyrzuć liczbę całkowitą wyjątek
 	}
 	catch (double x)
 	{
-		std::cout &lt;&lt; &#34;We caught an exception of type double: &#34; &lt;&lt; x &lt;&lt; &#39;\n&#39;;
+		std::cout &lt;&lt; "We caught an exception of type double: " &lt;&lt; x &lt;&lt; '\n';
 	}
-	catch (...) // catch-all handler
+	catch (...) // moduł obsługi catch-all
 	{
-		std::cout &lt;&lt; &#34;We caught an exception of an undetermined type\n&#34;;
+		std::cout &lt;&lt; "We caught an exception of an undetermined type\n";
 	}
 }</code></pre><p>Ponieważ nie ma określonej procedury obsługi wyjątku dla typu int, procedura obsługi catch-all przechwytuje ten wyjątek. Ten przykład daje następujący wynik:<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><pre>We caught an exception of an undetermined type
-</pre><p>Procedurę obsługi catch-all należy umieścić jako ostatnią w łańcuchu bloków catch. Ma to na celu zapewnienie, że wyjątki mogą zostać przechwycone przez procedury obsługi wyjątków dostosowane do określonych typów danych, jeśli takie procedury obsługi istnieją.<p>Często blok procedury obsługi catch-all pozostaje pusty:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">catch(...) {} // ignore any unanticipated exceptions</code></pre><p>To wyłapie wszelkie nieprzewidziane wyjątki, zapewniając, że odwinięcie stosu nastąpi do tego momentu i zapobiegnie zakończeniu programu, ale nie powoduje żadnej specyficznej obsługi błędów.<p class="cpp-section cpp-topline" style=clear:both>Używanie procedury obsługi catch-all do zawijania main()<p>Jednym z zastosowań procedury obsługi catch-all jest zawinięcie zawartości funkcji main():<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+</pre><p>Procedurę obsługi catch-all należy umieścić jako ostatnią w łańcuchu bloków catch. Ma to na celu zapewnienie, że wyjątki mogą zostać przechwycone przez procedury obsługi wyjątków dostosowane do określonych typów danych, jeśli takie procedury obsługi istnieją.<p>Często blok procedury obsługi catch-all pozostaje pusty:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">catch(...) {} // ignorować wszelkie nieprzewidziane wyjątki</code></pre><p>To wyłapie wszelkie nieprzewidziane wyjątki, zapewniając, że odwinięcie stosu nastąpi do tego momentu i zapobiegnie zakończeniu programu, ale nie powoduje żadnej specyficznej obsługi błędów.<p class="cpp-section cpp-topline" style=clear:both>Używanie procedury obsługi catch-all do zawijania main()<p>Jednym z zastosowań procedury obsługi catch-all jest zawinięcie zawartości funkcji main():<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 struct GameSession
 {
-    // Game session data here
+    // Dane gry tutaj
 };
 
 void runGame(GameSession&amp;)
@@ -67,7 +67,7 @@ void runGame(GameSession&amp;)
 
 void saveGame(GameSession&amp;)
 {
-    // Zapisz user&#39;s game here
+    // Gra użytkownika Zapisz tutaj
 }
 
 int main()
@@ -80,17 +80,17 @@ int main()
     }
     catch(...)
     {
-        std::cerr &lt;&lt; &#34;Abnormal termination\n&#34;;
+        std::cerr &lt;&lt; "Abnormal termination\n";
     }
 
-    saveGame(session); // save the user&#39;s game (even if catch-all handler was hit)
+    saveGame(session); // zapisać grę użytkownika (nawet jeśli został uruchomiony moduł obsługi catch-all)
 
     return 0;
 }</code></pre><p>W tym przypadku, jeśli runGame() lub dowolna z wywoływanych przez nią funkcji zgłosi wyjątek, który nie jest obsługiwany, zostanie on przechwycony przez tę procedurę obsługi catch-all. Stos będzie rozwijany w uporządkowany sposób (zapewniający zniszczenie zmiennych lokalnych). Zapobiegnie to również natychmiastowemu zakończeniu programu, dając nam szansę wydrukowania wybranego przez nas błędu i zapisania stanu użytkownika przed wyjściem.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>Jeśli Twój program używa wyjątków, rozważ użycie procedury obsługi catch-all w głównej części, aby zapewnić uporządkowane zachowanie w przypadku wystąpienia nieobsłużonego wyjątku.<p>Jeśli procedura obsługi catch-all przechwyci wyjątek, powinieneś założyć, że program znajduje się teraz w jakimś nieokreślonym stanie, natychmiast wykonaj czyszczenie, a następnie zakończyć.</div><p class="cpp-section cpp-topline" style=clear:both>Debugowanie nieobsługiwanych wyjątków<p>Nieobsługiwane wyjątki wskazują, że wydarzyło się coś nieoczekiwanego i prawdopodobnie chcemy w pierwszej kolejności zdiagnozować, dlaczego został zgłoszony nieobsługiwany wyjątek. Wiele debugerów będzie (lub można je tak skonfigurować) przerywać w przypadku nieobsługiwanych wyjątków, co pozwala nam wyświetlić stos w miejscu, w którym został zgłoszony nieobsługiwany wyjątek. Jeśli jednak mamy procedurę obsługi catch-all, wówczas obsługiwane są wszystkie wyjątki i (ponieważ stos jest rozwijany) tracimy przydatne informacje diagnostyczne.<p>Dlatego w kompilacjach debugowania przydatne może być wyłączenie procedury obsługi catch-all. Możemy to zrobić za pomocą dyrektyw kompilacji warunkowej.<p>Oto jeden ze sposobów, aby to zrobić:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 struct GameSession
 {
-    // Game session data here
+    // Dane gry tutaj
 };
 
 void runGame(GameSession&amp;)
@@ -100,10 +100,10 @@ void runGame(GameSession&amp;)
 
 void saveGame(GameSession&amp;)
 {
-    // Zapisz user&#39;s game here
+    // Gra użytkownika Zapisz tutaj
 }
 
-class DummyException // a dummy class that can&#39;t be instantiated
+class DummyException // fikcyjna klasa, której nie można utworzyć instancji
 {
     DummyException() = delete;
 }; 
@@ -116,18 +116,18 @@ int main()
     {
         runGame(session);
     }
-#ifndef NDEBUG // if we&#39;re in release node
-    catch(...) // compile in the catch-all handler
+#ifndef NDEBUG // jeśli jesteśmy w węźle wydania
+    catch(...) // kompilację w procedurze obsługi catch-all
     {
-        std::cerr &lt;&lt; &#34;Abnormal termination\n&#34;;
+        std::cerr &lt;&lt; "Abnormal termination\n";
     }
-#else // in debug mode, compile in a catch that will never be hit (for syntactic reasons)
+#else // w trybie debugowania, skompiluj w catch, który nigdy nie zostanie trafiony (ze względów składniowych)
     catch(DummyException)
     {
     }
 #endif
 
-    saveGame(session); // save the user&#39;s game (even if catch-all handler was hit)
+    saveGame(session); // zapisać grę użytkownika (nawet jeśli został uruchomiony moduł obsługi catch-all)
 
     return 0;
 }</code></pre><p>Składniowo, blok try wymaga co najmniej jednego powiązanego bloku catch. Jeśli więc procedura obsługi catch-all jest kompilowana warunkowo, musimy albo warunkowo skompilować blok try, albo musimy warunkowo skompilować w innym bloku catch. Bardziej przejrzyście jest zrobić to drugie.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>W tym celu tworzymy klasę <code>DummyException</code> której instancji nie można utworzyć, ponieważ ma usunięty konstruktor domyślny i nie ma innych konstruktorów. Kiedy zdefiniowano  <code>NDEBUG</code> , kompilujemy procedurę obsługi catch, aby przechwycić wyjątek typu  <code>DummyException</code>. Ponieważ nie możemy utworzyć  <code>DummyException</code>, ten moduł obsługi catch nigdy niczego nie złapie. Dlatego wszelkie wyjątki, które dotrą do tego punktu, nie będą obsługiwane.<div class=prevnext><div class=prevnext-inline><a class=nav-link href="../exceptions-classes-and-inheritance/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>27.5</span>Wyjątki, klasy i dziedziczenie</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../exceptions-functions-and-stack-unwinding/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>27.3</span>Wyjątki, funkcje i odwijanie stosu</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/uncaught-exceptions-catch-all-handlers/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../exceptions-functions-and-stack-unwinding/index.html" rel=prev><span>27.3 — Wyjątki, funkcje i rozwijanie stosu</span></a></div><div class=nav-next><em>Następny post</em><a href="../exceptions-classes-and-inheritance/index.html" rel=next><span>27.5 — Wyjątki, klasy i dziedziczenie</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>

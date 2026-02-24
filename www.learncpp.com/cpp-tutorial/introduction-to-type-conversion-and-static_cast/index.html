@@ -15,47 +15,47 @@
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2021-10-21T14:27:36-07:00 itemprop=datePublished>21 października 2021, 14:27 PDT</time>
 <time class=updated datetime=2025-03-03T13:45:24-08:00 itemprop=dateModified>3 marca 2025 r</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p class=cpp-section>Niejawna konwersja typu<p>Rozważ następujący program:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-void print(double x) // print takes a double parameter
+void print(double x) // drukuj pobiera podwójny parametr
 {
-	std::cout &lt;&lt; x &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; x &lt;&lt; '\n';
 }
 
 int main()
 {
-	print(5); // what happens when we pass an int value?
+	print(5); // co się stanie, gdy przekażemy int wartość?
 
 	return 0;
 }</code></pre><p>W powyższym przykładzie funkcja <code>print()</code> ma parametr typu <code>double</code> ale osoba wywołująca przekazuje wartość <code>5</code> która wynosi type <code>int</code>. Co się dzieje w tym przypadku?<p>W większości przypadków C++ umożliwi nam konwersję wartości jednego typu podstawowego na inny typ podstawowy. Proces konwersji danych z jednego typu na inny nazywa się <strong>konwersja typu</strong>. Zatem argument int <code>5</code> zostanie przekonwertowana na wartość double <code>5.0</code> a następnie skopiowany do funkcji parametru <code>x</code>. Słowo kluczowe <code>print()</code> wypisuje tę wartość, co daje następujący wynik:<pre>5
 </pre><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Przypomnienie<p>Domyślnie wartości zmiennoprzecinkowe, których część dziesiętna wynosi 0, są drukowane bez miejsc dziesiętnych (np.  <code>5.0</code> drukuje jako <code>5</code>).</div><p>Gdy kompilator wpisze konwersję w naszym imieniu bez naszej wyraźnej prośby, wywołujemy ta <strong>niejawna konwersja typu</strong> ilustruje to -- nigdzie wyraźnie nie mówimy kompilatorowi, aby przekonwertował wartość całkowitą <code>5</code>  na wartość podwójną <code>5.0</code>. Raczej funkcja oczekuje wartości podwójnej i przekazujemy argument będący liczbą całkowitą. Kompilator zauważy niezgodność i niejawnie przekonwertuje liczbę całkowitą na a double.<p>Oto podobny przykład, w którym naszym argumentem jest zmienna int zamiast literału int:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-void print(double x) // print takes a double parameter
+void print(double x) // drukuj pobiera podwójny parametr
 {
-	std::cout &lt;&lt; x &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; x &lt;&lt; '\n';
 }
 
 int main()
 {
 	int y { 5 };
-	print(y); // y is of type int
+	print(y); // jest typu int
 
 	return 0;
 }</code></pre><p>Działa to identycznie jak powyżej. Wartość przechowywana w zmiennej int <code>y</code> (<code>5</code>) zostanie przekonwertowana na wartość double <code>5.0</code>, a następnie skopiowana do parametru <code>x</code>.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Konwersja typu wartości daje nową wartość<p>Konwersja typu proces nie modyfikuje wartości (lub obiektu) dostarczającego dane do konwersji. Zamiast tego proces konwersji wykorzystuje te dane jako dane wejściowe i generuje przekonwertowany wynik.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Konwersja typu wartości na inny typ wartości zachowuje się podobnie do wywołania funkcji, której typ zwracany jest zgodny z docelowym typem konwersji. Dane do konwersji przekazywane są jako argument, a przekonwertowany wynik jest zwracany (w obiekcie tymczasowym) do wykorzystania przez obiekt wywołujący.</div><p>W powyższym przykładzie konwersja nie powoduje zmiany zmiennej <code>y</code> z typu <code>int</code> Do <code>double</code> ani wartości <code>y</code> z <code>5</code> Do <code>5.0</code>. Zamiast tego konwersja wykorzystuje wartość <code>y</code> (<code>5</code>) jako dane wejściowe i zwraca obiekt tymczasowy typu <code>double</code> o wartości <code>5.0</code>. Ten obiekt tymczasowy jest następnie przekazywany do funkcji <code>print</code>.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Dla zaawansowanych czytelników<p>Niektóre zaawansowane konwersje typów (np. te obejmujące <code>const_cast</code> lub <code>reinterpret_cast</code>) nie zwracają obiektów tymczasowych, lecz zamiast tego reinterpretują typ istniejącej wartości lub obiektu.</div><p class="cpp-section cpp-topline" style=clear:both>Ostrzeżenia dotyczące niejawnej konwersji typu<p>Chociaż niejawna konwersja typu jest wystarczająca w większości przypadków, gdy konieczna jest konwersja typu, w kilku przypadkach tak nie jest. Rozważmy następujący program, podobny do powyższego przykładu:<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-void print(int x) // print now takes an int parameter
+void print(int x) // drukuj teraz wartość typu int parametr
 {
-	std::cout &lt;&lt; x &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; x &lt;&lt; '\n';
 }
 
 int main()
 {
-	print(5.5); // warning: we&#39;re passing in a double value
+	print(5.5); // ostrzeżenie: przekazujemy podwójną wartość
 
 	return 0;
 }</code></pre><p>W tym programie zmieniliśmy <code>print()</code> aby przyjąć parametr <code>int</code> , a wywołanie funkcji  <code>print()</code> jest teraz przekazywane <code>double</code> wartości <code>5.5</code>. Podobnie jak powyżej, kompilator użyje niejawnej konwersji typu, aby przekonwertować podwójną wartość <code>5.5</code>  na wartość typu <code>int</code>, aby można ją było przekazać do funkcji <code>print()</code>.<p>W przeciwieństwie do początkowego przykładu, podczas kompilacji tego programu kompilator wygeneruje pewnego rodzaju ostrzeżenie o możliwej utracie danych. A ponieważ masz włączoną opcję „traktuj ostrzeżenia jako błędy” (tak robisz, prawda?), Twój kompilator przerwie proces kompilacji.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>Jeśli chcesz skompilować ten przykład, musisz tymczasowo wyłączyć opcję „traktuj ostrzeżenia jako błędy”. Zobacz lekcję <a href="../configuring-your-compiler-warning-and-error-levels/index.html">0.11 — Konfigurowanie kompilatora: poziomy ostrzeżeń i błędów</a> , aby uzyskać więcej informacji na temat tego ustawienia.</div><p>Po skompilowaniu i uruchomieniu program ten wypisuje następujące informacje:<pre>5
-</pre><p>Zauważ, że chociaż przekazaliśmy wartość <code>5.5</code>, program wydrukował <code>5</code>. Ponieważ wartości całkowite nie mogą przechowywać ułamków, gdy wartość double <code>5.5</code> jest niejawnie konwertowana na <code>int</code>, składnik ułamkowy jest pomijany, a zachowywana jest tylko wartość całkowita.<p>Ponieważ konwersja wartości zmiennoprzecinkowej na wartość całkowitą powoduje usunięcie dowolnego składnika ułamkowego, kompilator ostrzeże nas, gdy wykona niejawną konwersję typu z wartości zmiennoprzecinkowej na wartość całkowitą. Dzieje się tak nawet wtedy, gdy przekazujemy wartość zmiennoprzecinkową bez składnika ułamkowego, np. <code>5.0</code> --w tym konkretnym przypadku podczas konwersji na wartość całkowitą <code>5</code> nie następuje żadna rzeczywista utrata wartości, ale kompilator może nadal ostrzegać nas, że konwersja jest niebezpieczna.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Niektóre konwersje typów (takie jak a <code>char</code> na <code>int</code>) zawsze zachowują konwertowaną wartość, podczas gdy inne (takie jak <code>double</code> Do <code>int</code>) może spowodować zmianę wartości podczas konwersji. Niebezpieczne konwersje niejawne zazwyczaj generują ostrzeżenie kompilatora lub (w przypadku inicjalizacji nawiasów klamrowych) błąd.<p>Jest to jeden z głównych powodów, dla których inicjowanie nawiasów jest preferowaną formą inicjalizacji. Inicjalizacja nawiasów gwarantuje, że nie będziemy próbować inicjować zmiennej za pomocą inicjatora, który straci wartość, gdy zostanie niejawnie skonwertowany na typ:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
+</pre><p>Zauważ, że chociaż przekazaliśmy wartość <code>5.5</code>, program wydrukował <code>5</code>. Ponieważ wartości całkowite nie mogą przechowywać ułamków, gdy wartość double <code>5.5</code> jest niejawnie konwertowana na <code>int</code>, składnik ułamkowy jest pomijany, a zachowywana jest tylko wartość całkowita.<p>Ponieważ konwersja wartości zmiennoprzecinkowej na wartość całkowitą powoduje usunięcie dowolnego składnika ułamkowego, kompilator ostrzeże nas, gdy wykona niejawną konwersję typu z wartości zmiennoprzecinkowej na wartość całkowitą. Dzieje się tak nawet wtedy, gdy przekazujemy wartość zmiennoprzecinkową bez składnika ułamkowego, np. <code>5.0</code> --w tym konkretnym przypadku podczas konwersji na wartość całkowitą <code>5</code> nie następuje żadna rzeczywista utrata wartości, ale kompilator może nadal ostrzegać nas, że konwersja jest niebezpieczna.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Niektóre konwersje typów (takie jak <code>char</code> na <code>int</code>) zawsze zachowują konwertowaną wartość, podczas gdy inne (takie jak <code>double</code> Do <code>int</code>) może spowodować zmianę wartości podczas konwersji. Niebezpieczne konwersje niejawne zazwyczaj generują ostrzeżenie kompilatora lub (w przypadku inicjalizacji nawiasów klamrowych) błąd.<p>Jest to jeden z głównych powodów, dla których inicjowanie nawiasów jest preferowaną formą inicjalizacji. Inicjalizacja nawiasów gwarantuje, że nie będziemy próbować inicjować zmiennej za pomocą inicjatora, który straci wartość, gdy zostanie niejawnie skonwertowany na typ:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
-    double d { 5 }; // okay: int to double is safe
-    int x { 5.5 }; // error: double to int not safe
+    double d { 5 }; // OK: in na double jest bezpieczne
+    int x { 5.5 }; // błąd: double do int nie jest bezpieczny
 
     return 0;
 }</code></pre></div><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Powiązana treść<p>Niejawna konwersja typu to obszerny temat. Zgłębiamy ten temat bardziej szczegółowo w przyszłych lekcjach, zaczynając od lekcji  <a href="../implicit-type-conversion/index.html">10.1 -- Niejawna konwersja typów</a>.</div><p class="cpp-section cpp-topline" style=clear:both>Wprowadzenie do jawnej konwersji typów za pomocą operatora static_cast<p>Wracając do naszego najnowszego <code>print()</code> przykładu, co by było, gdybyśmy <em>celowo</em> chcieli przekazać wartość double do funkcji przyjmującej liczbę całkowitą (wiedząc, że przekonwertowana wartość spowoduje utratę ułamka komponent?) Wyłączenie opcji „traktuj ostrzeżenia jako błędy” tylko po to, aby nasz program się skompilował, jest złym pomysłem, ponieważ wtedy przy każdej kompilacji będziemy otrzymywać ostrzeżenia (które szybko nauczymy się ignorować) i ryzykujemy przeoczenie ostrzeżeń o poważniejszych problemach.<p>C++ obsługuje drugą metodę konwersji typów, zwaną jawną konwersją typów. <strong>Jawna konwersja typu</strong> pozwól nam (programiście) wyraźnie powiedzieć kompilatorowi, aby przekonwertował wartość z jednego typu na inny, i to bierzemy pełną odpowiedzialność za wynik tej konwersji. Jeśli taka konwersja spowoduje utratę wartości, kompilator nas nie ostrzeże.<p>Aby wykonać jawną konwersję typu, w większości przypadków użyjemy operatora <code>static_cast</code> . Składnia  <code>static cast</code> wygląda trochę zabawnie:<pre>static_cast&lt;new_type&gt;(expression)
@@ -63,20 +63,20 @@ int main()
 
 void print(int x)
 {
-	std::cout &lt;&lt; x &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; x &lt;&lt; '\n';
 }
 
 int main()
 {
-	print( static_cast&lt;int&gt;(5.5) ); // explicitly convert double value 5.5 to an int
+	print( static_cast&lt;int&gt;(5.5) ); // jawnie przekonwertuj wartość double 5.5 na liczbę typu int
 
 	return 0;
 }</code></pre><p>Ponieważ teraz wyraźnie żądamy konwersji tej podwójnej wartości <code>5.5</code>  na wartość <code>int</code> , kompilator nie wygeneruje ostrzeżenia o możliwej utracie danych podczas kompilacji (co oznacza, że możemy pozostawić „traktuj ostrzeżenia jako błędy” włączone).<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Powiązana treść<p>C++ obsługuje inne typy rzutowania. Więcej o różnych typach rzutowania porozmawiamy w przyszłej lekcji <a href="../explicit-type-conversion-casting-and-static-cast/index.html">10.6 -- Jawna konwersja typów (casting) i static_cast</a>.</div><p class="cpp-section cpp-topline" style=clear:both>Używanie static_cast do konwersji znaku na int<p>W lekcji na temat znaków <a href="../chars/index.html">4.11 -- Znaki</a> widzieliśmy, że wydrukowanie wartości znaku przy użyciu <code>std::cout</code>  powoduje wydrukowanie wartości jako znaku:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 int main()
 {
-    char ch{ 97 }; // 97 is ASCII code for &#39;a&#39;
-    std::cout &lt;&lt; ch &lt;&lt; &#39;\n&#39;;
+    char ch{ 97 }; // 97 wynosi Kod ASCII dla 'a'
+    std::cout &lt;&lt; ch &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Wypisuje:<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><pre>a
@@ -84,9 +84,9 @@ int main()
 
 int main()
 {
-    char ch{ 97 }; // 97 is ASCII code for &#39;a&#39;
-    // print value of variable ch as an int
-    std::cout &lt;&lt; ch &lt;&lt; &#34; has value &#34; &lt;&lt; static_cast&lt;int&gt;(ch) &lt;&lt; &#39;\n&#39;;
+    char ch{ 97 }; // 97 wynosi Kod ASCII dla 'a'
+    // wydrukuj wartość zmiennej ch jako liczbę całkowitą
+    std::cout &lt;&lt; ch &lt;&lt; " has value " &lt;&lt; static_cast&lt;int&gt;(ch) &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Wypisuje:<pre>a has value 97
@@ -95,14 +95,14 @@ int main()
 int main()
 {
     unsigned int u1 { 5 };
-    // Convert value of u1 to a signed int 
+    // Konwertuj wartość u1 na int ze znakiem 
     int s1 { static_cast&lt;int&gt;(u1) };
-    std::cout &lt;&lt; s1 &lt;&lt; &#39;\n&#39;; // prints 5
+    std::cout &lt;&lt; s1 &lt;&lt; '\n'; // prints 5
 
     int s2 { 5 };
-    // Convert value of s2 to an unsigned int
+    // Konwertuj wartość s2 na liczbę int bez znaku
     unsigned int u2 { static_cast&lt;unsigned int&gt;(s2) };
-    std::cout &lt;&lt; u2 &lt;&lt; &#39;\n&#39;; // prints 5
+    std::cout &lt;&lt; u2 &lt;&lt; '\n'; // prints 5
 
     return 0;
 }</code></pre><p>Wypisuje:<pre>5
@@ -112,10 +112,10 @@ int main()
 int main()
 {
     int s { -1 };
-    std::cout &lt;&lt; static_cast&lt;unsigned int&gt;(s) &lt;&lt; &#39;\n&#39;; // prints 4294967295 
+    std::cout &lt;&lt; static_cast&lt;unsigned int&gt;(s) &lt;&lt; '\n'; // prints 4294967295 
 
-    unsigned int u { 4294967295 }; // largest 32-bit unsigned int
-    std::cout &lt;&lt; static_cast&lt;int&gt;(u) &lt;&lt; &#39;\n&#39;; // implementation-defined prior to C++20, -1 as of C++20
+    unsigned int u { 4294967295 }; // największy 32-bitowy int bez znaku
+    std::cout &lt;&lt; static_cast&lt;int&gt;(u) &lt;&lt; '\n'; // implementacja zdefiniowana przed C++20, -1 od C++20
     
     return 0;
 }</code></pre><p>W przypadku C++20 daje to wynik:<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><pre>4294967295
@@ -125,8 +125,8 @@ int main()
 
 int main()
 {
-    std::int8_t myInt{65};      // initialize myInt with value 65
-    std::cout &lt;&lt; myInt &lt;&lt; &#39;\n&#39;; // you&#39;re probably expecting this to print 65
+    std::int8_t myInt{65};      // zainicjuj myInt wartością 65
+    std::cout &lt;&lt; myInt &lt;&lt; '\n'; // prawdopodobnie spodziewasz się, że to wydrukuje 65
 
     return 0;
 }</code></pre><p>Ponieważ <code>std::int8_t</code> opisuje się jako int, możesz dać się oszukać, wierząc, że powyższy program wydrukuje wartość całkowitą <code>65</code>. Jednak w większości systemów ten program zamiast tego wydrukuje <code>A</code> (traktując <code>myInt</code> jak <code>signed char</code>). Nie jest to jednak gwarantowane (w niektórych systemach może faktycznie zostać wydrukowane <code>65</code>).<p>Jeśli chcesz mieć pewność, że  <code>std::int8_t</code> lub <code>std::uint8_t</code> obiekt będzie traktowany jako liczba całkowita, możesz przekonwertować wartość na liczbę całkowitą za pomocą  <code>static_cast</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cstdint&gt;
@@ -135,7 +135,7 @@ int main()
 int main()
 {
     std::int8_t myInt{65};
-    std::cout &lt;&lt; static_cast&lt;int&gt;(myInt) &lt;&lt; &#39;\n&#39;; // will always print 65
+    std::cout &lt;&lt; static_cast&lt;int&gt;(myInt) &lt;&lt; '\n'; // będzie zawsze drukowane 65
 
     return 0;
 }</code></pre><p>W przypadkach, gdy <code>std::int8_t</code> jest traktowany jako znak, dane wejściowe z konsoli również mogą powodować problemy:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cstdint&gt;

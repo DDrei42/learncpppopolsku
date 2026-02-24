@@ -13,8 +13,8 @@
 <button class=searchsubmit><span class=screen-reader-text>Szukaj</span><i class=icon-search></i></button>
 <input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=40565></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="17.x — podsumowanie rozdziału 17 i quiz" src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-2809 class="post-2809 post type-post status-publish format-standard hentry category-cpp-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>17.x — podsumowanie rozdziału 17 i quiz</h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Autor></i><a class="url fn n" rel=author href=/www.learncpp.com/author/Alex/ title="Wyświetl wszystkie posty Alexa" itemprop=url><em itemprop=name>Alex</em></a></span>
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2015-10-05T16:20:13-07:00 itemprop=datePublished>5 października 2015, 16:20 czasu PDT</time>
-<time class=updated datetime=2025-01-06T14:06:38-08:00 itemprop=dateModified>6 stycznia 2025</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p class=cpp-section>Przegląd rozdziału<p><strong>Tablice o stałym rozmiarze</strong> (lub <strong>tablicami o stałej długości</strong>) wymagają, aby długość tablicy była znana w momencie tworzenia instancji i ta długość nie można później zmienić. Tablice w stylu C i  <code>std::array</code> są tablicami o stałym rozmiarze. Rozmiar tablic dynamicznych można zmieniać w czasie wykonywania. <code>std::vector</code> jest tablicą dynamiczną.<p>Długość <code>std::array</code> musi być wyrażeniem stałym. Najczęściej podaną wartością długości będzie literał całkowity, zmienna constexpr lub moduł wyliczający bez zakresu.<p><code>std::array</code> jest agregatem. Oznacza to, że nie ma konstruktorów i zamiast tego jest inicjowany przy użyciu inicjalizacji agregowanej.<p>Zdefiniuj swój <code>std::array</code> jako constexpr, jeśli to możliwe. Jeśli  <code>std::array</code> nie jest constexpr, rozważ użycie  <code>std::vector</code> .<p>Użyj odliczenia argumentów szablonu klasy (CTAD), aby kompilator wywnioskował typ i długość std::array z jej inicjatorów. <div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p><code>std::array</code> jest zaimplementowany jako struktura szablonu, której deklaracja wygląda następująco:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">template&lt;typename T, std::size_t N&gt; // N is a non-type template parameter
-struct array;</code></pre><p>Nietypowy parametr szablonu reprezentujący długość tablicy (<code>N</code>) ma typ <code>std::size_t</code>.<p>Aby uzyskać długość <code>std::array</code>:<ul><li>Możemy zapytać  <code>std::array</code> obiekt o jego długość za pomocą  <code>size()</code> funkcji składowej (która zwraca długość jako bez znaku <code>size_type</code>).<li>W C++17 możemy użyć <code>std::size()</code> nieelementowej (która for <code>std::array</code> po prostu wywołuje funkcję składową <code>size()</code> , zwracając w ten sposób długość bez znaku <code>size_type</code>).<li>W C++20 możemy użyć <code>std::ssize()</code> funkcja niebędąca członkiem, która zwraca długość jako dużą <em>podpisany</em> typ integralny (zwykle<code>std::ptrdiff_t</code>).</ul><p>Wszystkie trzy funkcje zwrócą długość jako wartość constexpr, z wyjątkiem sytuacji, gdy zostaną wywołane w <code>std::array</code> przekazanej przez referencję. Ten defekt został rozwiązany w C++23 przez <a href=https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2022/p2280r4.html>P2280</a>.<p>Aby zaindeksować <code>std::array</code>:<ul><li>Użyj operatora indeksu dolnego (<code>operator[]</code>). W tym przypadku nie jest wykonywane żadne sprawdzanie granic, a przekazanie nieprawidłowego indeksu spowoduje niezdefiniowane zachowanie.<li>Użyj  <code>at()</code> funkcji składowej, która wykonuje indeks dolny ze sprawdzaniem granic w czasie wykonywania. Zalecamy unikać tę funkcję, ponieważ zazwyczaj chcemy sprawdzić granice przed indeksowaniem lub chcemy sprawdzić granice w czasie kompilacji.<li>Użyj  <code>std::get()</code> szablonu funkcji, który przyjmuje indeks jako argument szablonu niebędący typem i sprawdza granice w czasie kompilacji.</ul><p>Możesz przekazywać  <code>std::array</code> z różnymi typami elementów i długościami do funkcji, używając szablonu funkcji z parametrem szablonu deklaracja <code>template &lt;typename T, std::size_t N></code>. Lub w C++20 użyj <code>template &lt;typename T, auto N></code>.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Zwrócenie <code>std::array</code> by wartością spowoduje utworzenie kopii tablicy i wszystkich elementów, ale może to być w porządku, jeśli tablica jest mała, a kopiowanie elementów nie jest drogie. W niektórych kontekstach lepszym wyborem może być użycie parametru out.<p>Podczas inicjalizacji <code>std::array</code> w przypadku struktury, klasy lub tablicy i bez podawania typu elementu przy każdym inicjatorze, będziesz potrzebować dodatkowej pary nawiasów klamrowych, aby kompilator właściwie zinterpretował to, co należy zainicjować. Jest to artefakt inicjowania agregacji, a inne standardowe typy kontenerów bibliotecznych (które używają konstruktorów list) nie wymagają w takich przypadkach podwójnych nawiasów.<p>Agregaty w C++ obsługują koncepcję zwaną <strong>elizja nawiasów</strong>, która określa pewne zasady dotyczące sytuacji, gdy może występować wiele nawiasów klamrowych. ogólnie rzecz biorąc, można pominąć nawiasy klamrowe podczas inicjowania  <code>std::array</code> za pomocą wartości skalarnych (pojedynczych) lub podczas inicjowania z typami klasowymi lub tablicami, gdzie typ jest jawnie nazwany przy każdym elemencie.<p>Nie możesz mieć tablicy odniesień, ale możesz mieć tablicę <code>std::reference_wrapper</code>, która zachowuje się jak modyfikowalne odwołanie do wartości.<p>Jest kilka rzeczy, o których warto pamiętać <code>std::reference_wrapper</code>:<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><ul><li><code>Operator=</code> ponowne osadzenie a <code>std::reference_wrapper</code> (zmiana obiektu, do którego się odwołuje).<li><code>std::reference_wrapper&lt;T></code> będzie niejawnie konwertowana do <code>T&</code>.<li>Klasa <code>get()</code> funkcji składowej, której można użyć do uzyskania <code>T&</code>. Jest to przydatne, gdy chcemy zaktualizować wartość obiektu, do którego się odwołujemy.</ul><p>Klasa <code>std::ref()</code> i <code>std::cref()</code> funkcje zostały udostępnione jako skróty do tworzenia <code>std::reference_wrapper</code> i <code>const std::reference_wrapper</code> owinięte obiektów.<p>Użyj <code>static_assert</code> jeśli to możliwe, upewnij się, <code>constexpr std::array</code> przy użyciu CTAD ma poprawną liczbę inicjatorów.<p>Tablice w stylu C zostały odziedziczone z języka C i są wbudowane w rdzeń języka C++. Ponieważ są częścią języka podstawowego, tablice w stylu C mają własną składnię deklaracji specjalnych. W deklaracji tablicy w stylu C używamy nawiasów kwadratowych ([]), aby poinformować kompilator, że zadeklarowany obiekt jest tablicą w stylu C. Wewnątrz nawiasów kwadratowych możemy opcjonalnie podać długość tablicy, która jest wartością całkowitą typu std::size_t, która informuje kompilator, ile elementów znajduje się w tablicy. Długość tablicy w stylu C musi być wyrażeniem stałym.<p>Tablice w stylu C są agregowane, co oznacza, że ​​można je inicjować przy użyciu inicjalizacji agregowanej. Używając listy inicjatorów do inicjowania wszystkich elementów tablicy w stylu C, lepiej pominąć długość i pozwolić kompilatorowi obliczyć długość tablicy.<p>Tablice w stylu C można indeksować za pomocą <code>operator[]</code>. Indeks tablicy w stylu C może być liczbą całkowitą ze znakiem lub bez znaku, albo wyliczeniem bez zakresu. Oznacza to, że tablice w stylu C nie podlegają wszystkim problemom z indeksowaniem konwersji znaków, które występują w standardowych klasach kontenerów bibliotek!<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>Tablice w stylu C mogą być const lub constexpr.<p>Aby uzyskać długość tablicy w stylu C:<ul><li>W C++17 możemy użyć <code>std::size()</code> funkcji niebędącej składową, która zwraca długość jako unsigned <code>std::size_t</code>.<li>W C++20 możemy użyć <code>std::ssize()</code> funkcja niebędąca członkiem, która zwraca długość jako dużą <em>podpisany</em> typ integralny (zwykle<code>std::ptrdiff_t</code>).</ul><p>W większości przypadków, gdy w wyrażeniu używana jest tablica w stylu C, tablica zostanie niejawnie przekonwertowana na wskaźnik do typu elementu, zainicjowany adresem pierwszego elementu (z indeksem 0). Potocznie nazywa się to  <strong>rozpadem tablicy</strong> (lub po prostu w skrócie rozpadu).<p><strong>Arytmetyka wskaźników</strong> to funkcja, która pozwala nam zastosować pewne operatory arytmetyczne na liczbach całkowitych (dodawanie, odejmowanie, zwiększanie lub zmniejszanie) do wskaźnika w celu wygenerowania nowego adresu pamięci. Biorąc pod uwagę pewien wskaźnik <code>ptr</code>, <code>ptr + 1</code> zwraca adres następnego <em>obiektu</em> w pamięci (w zależności od typu, na który wskazuje).<p>Użyj indeksu dolnego podczas indeksowania od początku tablicy (element 0), tak aby indeksy tablicy pokrywały się z elementem.<br>Użyj arytmetyki wskaźników podczas wykonywania względnych pozycjonowanie z danego elementu.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p>Ciągi w stylu C to po prostu tablice w stylu C, których typ elementu to <code>char</code> lub <code>const char</code>. W związku z tym ciągi w stylu C będą się rozpadać.<p>Klasa <strong>wymiar</strong> tablicy to liczba indeksów potrzebnych do wybrania elementu.<p>Tablica zawierająca tylko jeden wymiar nazywana jest <strong>tablicą jednowymiarową</strong> lub a <strong>tablicą jednowymiarową</strong> (czasami w skrócie <strong>1d tablica</strong>). Tablica tablic nazywana jest <strong>tablicą dwuwymiarową</strong> (czasami w skrócie <strong>tablicą 2d</strong>), ponieważ ma dwa indeksy dolne. Tablice z więcej niż jednym wymiarem nazywane są <strong>tablicami wielowymiarowymi</strong>. <strong>Spłaszczanie</strong> tablica to proces zmniejszania wymiarowości tablicy (często do jednego wymiaru).<p>W C++23  <code>std::mdspan</code> to widok zapewniający wielowymiarowy interfejs tablicy dla ciągłej sekwencji elementów.<p class="cpp-section cpp-topline" style=clear:both>Czas quizu<p class=cpp-quiz-question style=clear:both>Pytanie nr 1<p>Co jest nie tak z każdym z tych fragmentów i jak to naprawić?<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>A)<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;array&gt;
+<time class=updated datetime=2025-01-06T14:06:38-08:00 itemprop=dateModified>6 stycznia 2025</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p class=cpp-section>Przegląd rozdziału<p><strong>Tablice o stałym rozmiarze</strong> (lub <strong>tablicami o stałej długości</strong>) wymagają, aby długość tablicy była znana w momencie tworzenia instancji i ta długość nie można później zmienić. Tablice w stylu C i  <code>std::array</code> są tablicami o stałym rozmiarze. Rozmiar tablic dynamicznych można zmieniać w czasie wykonywania. <code>std::vector</code> jest tablicą dynamiczną.<p>Długość <code>std::array</code> musi być wyrażeniem stałym. Najczęściej podaną wartością długości będzie literał całkowity, zmienna constexpr lub moduł wyliczający bez zakresu.<p><code>std::array</code> jest agregatem. Oznacza to, że nie ma konstruktorów i zamiast tego jest inicjowany przy użyciu inicjalizacji agregowanej.<p>Zdefiniuj swój <code>std::array</code> jako constexpr, jeśli to możliwe. Jeśli  <code>std::array</code> nie jest constexpr, rozważ użycie  <code>std::vector</code> .<p>Użyj odliczenia argumentów szablonu klasy (CTAD), aby kompilator wywnioskował typ i długość std::array z jej inicjatorów. <div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p><code>std::array</code> jest zaimplementowany jako struktura szablonu, której deklaracja wygląda następująco:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">template&lt;typename T, std::size_t N&gt; // N jest szablonem innym niż typ parametr
+struct array;</code></pre><p>Nietypowy parametr szablonu reprezentujący długość tablicy (<code>N</code>) ma typ <code>std::size_t</code>.<p>Aby uzyskać długość <code>std::array</code>:<ul><li>Możemy zapytać  <code>std::array</code> obiekt o jego długość za pomocą  <code>size()</code> funkcji składowej (która zwraca długość jako bez znaku <code>size_type</code>).<li>W C++17 możemy użyć <code>std::size()</code> nieelementowej (która for <code>std::array</code> po prostu wywołuje funkcję składową <code>size()</code> , zwracając w ten sposób długość bez znaku <code>size_type</code>).<li>W C++20 możemy użyć <code>std::ssize()</code> funkcja niebędąca członkiem, która zwraca długość jako dużą <em>podpisany</em> typ integralny (zwykle<code>std::ptrdiff_t</code>).</ul><p>Wszystkie trzy funkcje zwrócą długość jako wartość constexpr, z wyjątkiem sytuacji, gdy zostaną wywołane w <code>std::array</code> przekazanej przez referencję. Ten defekt został rozwiązany w C++23 przez <a href=https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2022/p2280r4.html>P2280</a>.<p>Aby zaindeksować <code>std::array</code>:<ul><li>Użyj operatora indeksu dolnego (<code>operator[]</code>). W tym przypadku nie jest wykonywane żadne sprawdzanie granic, a przekazanie nieprawidłowego indeksu spowoduje niezdefiniowane zachowanie.<li>Użyj  <code>at()</code> funkcji składowej, która wykonuje indeks dolny ze sprawdzaniem granic w czasie wykonywania. Zalecamy unikać tę funkcję, ponieważ zazwyczaj chcemy sprawdzić granice przed indeksowaniem lub chcemy sprawdzić granice w czasie kompilacji.<li>Użyj  <code>std::get()</code> szablonu funkcji, który przyjmuje indeks jako argument szablonu niebędący typem i sprawdza granice w czasie kompilacji.</ul><p>Możesz przekazywać  <code>std::array</code> z różnymi typami elementów i długościami do funkcji, używając szablonu funkcji z parametrem szablonu deklaracja <code>template &lt;typename T, std::size_t N></code>. Lub w C++20 użyj <code>template &lt;typename T, auto N></code>.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Zwrócenie <code>std::array</code> by wartością spowoduje utworzenie kopii tablicy i wszystkich elementów, ale może to być w porządku, jeśli tablica jest mała, a kopiowanie elementów nie jest drogie. W niektórych kontekstach lepszym wyborem może być użycie parametru out.<p>Podczas inicjalizacji <code>std::array</code> w przypadku struktury, klasy lub tablicy i bez podawania typu elementu przy każdym inicjatorze, będziesz potrzebować dodatkowej pary nawiasów klamrowych, aby kompilator właściwie zinterpretował to, co należy zainicjować. Jest to artefakt inicjowania agregacji, a inne standardowe typy kontenerów bibliotecznych (które używają konstruktorów list) nie wymagają w takich przypadkach podwójnych nawiasów.<p>Agregaty w C++ obsługują koncepcję zwaną <strong>elizja nawiasów</strong>, która określa pewne zasady dotyczące sytuacji, gdy może występować wiele nawiasów klamrowych. ogólnie rzecz biorąc, można pominąć nawiasy klamrowe podczas inicjowania  <code>std::array</code> za pomocą wartości skalarnych (pojedynczych) lub podczas inicjowania z typami klasowymi lub tablicami, gdzie typ jest jawnie nazwany przy każdym elemencie.<p>Nie możesz mieć tablicy odniesień, ale możesz mieć tablicę <code>std::reference_wrapper</code>, która zachowuje się jak modyfikowalne odwołanie do wartości.<p>Jest kilka rzeczy, o których warto pamiętać <code>std::reference_wrapper</code>:<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><ul><li><code>Operator=</code> ponowne osadzenie <code>std::reference_wrapper</code> (zmiana obiektu, do którego się odwołuje).<li><code>std::reference_wrapper&lt;T></code> będzie niejawnie konwertowana do <code>T&</code>.<li>Klasa <code>get()</code> funkcji składowej, której można użyć do uzyskania <code>T&</code>. Jest to przydatne, gdy chcemy zaktualizować wartość obiektu, do którego się odwołujemy.</ul><p>Klasa <code>std::ref()</code> i <code>std::cref()</code> funkcje zostały udostępnione jako skróty do tworzenia <code>std::reference_wrapper</code> i <code>const std::reference_wrapper</code> owinięte obiektów.<p>Użyj <code>static_assert</code> jeśli to możliwe, upewnij się, <code>constexpr std::array</code> przy użyciu CTAD ma poprawną liczbę inicjatorów.<p>Tablice w stylu C zostały odziedziczone z języka C i są wbudowane w rdzeń języka C++. Ponieważ są częścią języka podstawowego, tablice w stylu C mają własną składnię deklaracji specjalnych. W deklaracji tablicy w stylu C używamy nawiasów kwadratowych ([]), aby poinformować kompilator, że zadeklarowany obiekt jest tablicą w stylu C. Wewnątrz nawiasów kwadratowych możemy opcjonalnie podać długość tablicy, która jest wartością całkowitą typu std::size_t, która informuje kompilator, ile elementów znajduje się w tablicy. Długość tablicy w stylu C musi być wyrażeniem stałym.<p>Tablice w stylu C są agregowane, co oznacza, że ​​można je inicjować przy użyciu inicjalizacji agregowanej. Używając listy inicjatorów do inicjowania wszystkich elementów tablicy w stylu C, lepiej pominąć długość i pozwolić kompilatorowi obliczyć długość tablicy.<p>Tablice w stylu C można indeksować za pomocą <code>operator[]</code>. Indeks tablicy w stylu C może być liczbą całkowitą ze znakiem lub bez znaku, albo wyliczeniem bez zakresu. Oznacza to, że tablice w stylu C nie podlegają wszystkim problemom z indeksowaniem konwersji znaków, które występują w standardowych klasach kontenerów bibliotek!<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>Tablice w stylu C mogą być const lub constexpr.<p>Aby uzyskać długość tablicy w stylu C:<ul><li>W C++17 możemy użyć <code>std::size()</code> funkcji niebędącej składową, która zwraca długość jako unsigned <code>std::size_t</code>.<li>W C++20 możemy użyć <code>std::ssize()</code> funkcja niebędąca członkiem, która zwraca długość jako dużą <em>podpisany</em> typ integralny (zwykle<code>std::ptrdiff_t</code>).</ul><p>W większości przypadków, gdy w wyrażeniu używana jest tablica w stylu C, tablica zostanie niejawnie przekonwertowana na wskaźnik do typu elementu, zainicjowany adresem pierwszego elementu (z indeksem 0). Potocznie nazywa się to  <strong>rozpadem tablicy</strong> (lub po prostu w skrócie rozpadu).<p><strong>Arytmetyka wskaźników</strong> to funkcja, która pozwala nam zastosować pewne operatory arytmetyczne na liczbach całkowitych (dodawanie, odejmowanie, zwiększanie lub zmniejszanie) do wskaźnika w celu wygenerowania nowego adresu pamięci. Biorąc pod uwagę pewien wskaźnik <code>ptr</code>, <code>ptr + 1</code> zwraca adres następnego <em>obiektu</em> w pamięci (w zależności od typu, na który wskazuje).<p>Użyj indeksu dolnego podczas indeksowania od początku tablicy (element 0), tak aby indeksy tablicy pokrywały się z elementem.<br>Użyj arytmetyki wskaźników podczas wykonywania względnych pozycjonowanie z danego elementu.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p>Ciągi w stylu C to po prostu tablice w stylu C, których typ elementu to <code>char</code> lub <code>const char</code>. W związku z tym ciągi w stylu C będą się rozpadać.<p>Klasa <strong>wymiar</strong> tablicy to liczba indeksów potrzebnych do wybrania elementu.<p>Tablica zawierająca tylko jeden wymiar nazywana jest <strong>tablicą jednowymiarową</strong> lub <strong>tablicą jednowymiarową</strong> (czasami w skrócie <strong>1d tablica</strong>). Tablica tablic nazywana jest <strong>tablicą dwuwymiarową</strong> (czasami w skrócie <strong>tablicą 2d</strong>), ponieważ ma dwa indeksy dolne. Tablice z więcej niż jednym wymiarem nazywane są <strong>tablicami wielowymiarowymi</strong>. <strong>Spłaszczanie</strong> tablica to proces zmniejszania wymiarowości tablicy (często do jednego wymiaru).<p>W C++23  <code>std::mdspan</code> to widok zapewniający wielowymiarowy interfejs tablicy dla ciągłej sekwencji elementów.<p class="cpp-section cpp-topline" style=clear:both>Czas quizu<p class=cpp-quiz-question style=clear:both>Pytanie nr 1<p>Co jest nie tak z każdym z tych fragmentów i jak to naprawić?<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>A)<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;array&gt;
 #include &lt;iostream&gt;
 
 int main()
@@ -116,7 +116,7 @@ Your inventory contains:
 You escaped with 11 gold remaining.
 
 Thanks for shopping at Roscoe&#39;s potion emporium!
-</pre><p>Gracz zaczyna z losową ilością złota od 80 do 120.<p>Brzmi zabawnie? Zróbmy to! Ponieważ trudno będzie wdrożyć to wszystko na raz, będziemy rozwijać to stopniowo.<p class="cpp-quiz-question cpp-topline" style=clear:both>&gt; Krok #1<p>Utwórz <code>Potion</code> przestrzeń nazw zawierająca wyliczenie o nazwie <code>Type</code> zawierające typy mikstur. Utwórz dwa <code>std::array</code>: jakiś <code>int</code> tablica do przechowywania kosztów mikstur, oraz a <code>std::string_view</code> tablica do przechowywania nazw mikstur.<p>Napisz także funkcję o nazwie <code>shop()</code> który wylicza poprzez listę <code>Potions</code> i drukuje ich numery, nazwy i koszt.<p>Program powinien wypisać co następuje:<pre>Here is our selection for today:
+</pre><p>Gracz zaczyna z losową ilością złota od 80 do 120.<p>Brzmi zabawnie? Zróbmy to! Ponieważ trudno będzie wdrożyć to wszystko na raz, będziemy rozwijać to stopniowo.<p class="cpp-quiz-question cpp-topline" style=clear:both>&gt; Krok #1<p>Utwórz <code>Potion</code> przestrzeń nazw zawierająca wyliczenie o nazwie <code>Type</code> zawierające typy mikstur. Utwórz dwa <code>std::array</code>: jakiś <code>int</code> tablica do przechowywania kosztów mikstur, oraz <code>std::string_view</code> tablica do przechowywania nazw mikstur.<p>Napisz także funkcję o nazwie <code>shop()</code> który wylicza poprzez listę <code>Potions</code> i drukuje ich numery, nazwy i koszt.<p>Program powinien wypisać co następuje:<pre>Here is our selection for today:
 0) healing costs 20
 1) mana costs 30
 2) speed costs 12
@@ -136,24 +136,24 @@ namespace Potion
     max_potions
     };
 
-    constexpr std::array types { healing, mana, speed, invisibility }; // An array of our enumerators
+    constexpr std::array types { healing, mana, speed, invisibility }; // Tablica naszych modułów wyliczających
 
-    // We could put these in a struct, but since we only have two attributes we&#39;ll keep them separate for now
-    // We will explicitly define the element type so we don&#39;t have to use the sv suffix
-    constexpr std::array&lt;std::string_view, max_potions&gt; name { &#34;healing&#34;, &#34;mana&#34;, &#34;speed&#34;, &#34;invisibility&#34; };
+    // Moglibyśmy umieścić je w strukturze, ale ponieważ mamy tylko dwa atrybuty, na razie zachowamy je oddzielnie
+    // Wyraźnie zdefiniujemy typ elementu, więc nie będziemy musieli używać sufiksu sv
+    constexpr std::array&lt;std::string_view, max_potions&gt; name { "healing", "mana", "speed", "invisibility" };
     constexpr std::array cost { 20, 30, 12, 50 };
 
-    static_assert(std::size(types) == max_potions);  // ensure &#39;all&#39; contains the correct number of enumerators
+    static_assert(std::size(types) == max_potions);  // upewnij się, że „all” zawiera poprawną liczbę modułów wyliczających
     static_assert(std::size(cost) == max_potions);
     static_assert(std::size(name) == max_potions);
 }
 
 void shop()
 {
-    std::cout &lt;&lt; &#34;Here is our selection for today:\n&#34;;
+    std::cout &lt;&lt; "Here is our selection for today:\n";
 
     for (auto p: Potion::types)
-        std::cout &lt;&lt; p &lt;&lt; &#34;) &#34; &lt;&lt; Potion::name[p] &lt;&lt; &#34; costs &#34; &lt;&lt; Potion::cost[p] &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; p &lt;&lt; ") " &lt;&lt; Potion::name[p] &lt;&lt; " costs " &lt;&lt; Potion::cost[p] &lt;&lt; '\n';
 }
 
 int main()
@@ -175,7 +175,7 @@ Thanks for shopping at Roscoe&#39;s potion emporium!
 </pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_4'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_4 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;array&gt;
 #include &lt;iostream&gt;
 #include &lt;string_view&gt;
-#include &#34;Random.h&#34;
+#include "Random.h"
 
 namespace Potion
 {
@@ -188,14 +188,14 @@ namespace Potion
         max_potions
     };
 
-    constexpr std::array types { healing, mana, speed, invisibility }; // An array of our enumerators
+    constexpr std::array types { healing, mana, speed, invisibility }; // Tablica naszych modułów wyliczających
 
-    // We could put these in a struct, but since we only have two attributes we&#39;ll keep them separate for now
-    // We will explicitly define the element type so we don&#39;t have to use the sv suffix
-    constexpr std::array&lt;std::string_view, max_potions&gt; name { &#34;healing&#34;, &#34;mana&#34;, &#34;speed&#34;, &#34;invisibility&#34; };
+    // Moglibyśmy umieścić je w strukturze, ale ponieważ mamy tylko dwa atrybuty, na razie zachowamy je oddzielnie
+    // Wyraźnie zdefiniujemy typ elementu, więc nie będziemy musieli używać sufiksu sv
+    constexpr std::array&lt;std::string_view, max_potions&gt; name { "healing", "mana", "speed", "invisibility" };
     constexpr std::array cost { 20, 30, 12, 50 };
 
-    static_assert(std::size(types) == max_potions);  // ensure &#39;all&#39; contains the correct number of enumerators
+    static_assert(std::size(types) == max_potions);  // upewnij się, że „all” zawiera poprawną liczbę modułów wyliczających
     static_assert(std::size(cost) == max_potions);
     static_assert(std::size(name) == max_potions);
 }
@@ -223,37 +223,37 @@ public:
 
 void shop()
 {
-    std::cout &lt;&lt; &#34;Here is our selection for today:\n&#34;;
+    std::cout &lt;&lt; "Here is our selection for today:\n";
 
     for (auto p: Potion::types)
-        std::cout &lt;&lt; p &lt;&lt; &#34;) &#34; &lt;&lt; Potion::name[p] &lt;&lt; &#34; costs &#34; &lt;&lt; Potion::cost[p] &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; p &lt;&lt; ") " &lt;&lt; Potion::name[p] &lt;&lt; " costs " &lt;&lt; Potion::cost[p] &lt;&lt; '\n';
 }
 
 int main()
 {
-    std::cout &lt;&lt; &#34;Welcome to Roscoe&#39;s potion emporium!\n&#34;;
-    std::cout &lt;&lt; &#34;Enter your name: &#34;;
+    std::cout &lt;&lt; "Welcome to Roscoe's potion emporium!\n";
+    std::cout &lt;&lt; "Enter your name: ";
 
     std::string name{};
-    std::getline(std::cin &gt;&gt; std::ws, name); // read a full line of text into name
+    std::getline(std::cin &gt;&gt; std::ws, name); // czytaj całą linię tekstu na nazwę
 
     Player player { name };
 
-    std::cout &lt;&lt; &#34;Hello, &#34; &lt;&lt; name &lt;&lt; &#34;, you have &#34; &lt;&lt; player.gold() &lt;&lt; &#34; gold.\n\n&#34;;
+    std::cout &lt;&lt; "Hello, " &lt;&lt; name &lt;&lt; ", you have " &lt;&lt; player.gold() &lt;&lt; " gold.\n\n";
 
     shop();
 
-    std::cout &lt;&lt; &#34;\nThanks for shopping at Roscoe&#39;s potion emporium!\n&#34;;
+    std::cout &lt;&lt; "\nThanks for shopping at Roscoe's potion emporium!\n";
 
     return 0;
 }</code></pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>&gt; Krok #3<p>Dodaj możliwość zakupu mikstur i obsługi nieprawidłowych danych wejściowych (każde obce dane wejściowe traktuj jako awarię). Wydrukuj ekwipunek gracza po jego wyjściu. Po tym kroku program powinien być gotowy.<p>Upewnij się, że testujesz następujące przypadki:<ul><li>Użytkownik wprowadza nieprawidłowy numer mikstury (np. „d”)<li>Użytkownik wprowadza prawidłowy numer mikstury, ale z dodatkowymi danymi (np. <code>2d</code>, <code>25</code>)</ul><p>Na lekcji omówimy obsługę nieprawidłowych danych wejściowych <a href="../stdcin-and-handling-invalid-input/index.html">9.5 — std::cin i obsługa nieprawidłowych danych wejściowych</a>.<p><a class=hint_link_show href=javascript:void(0) onclick="cppHintToggle(document.getElementById('cpp_hint_id_1'),this,'Show Hint','')">Pokaż wskazówkę</a><div class=wphint id=cpp_hint_id_1 style=display:none;margin-bottom:1em>Wskazówka: użytkownik może wprowadzić liczbę lub „q”, dlatego wyodrębnij dane wprowadzone przez użytkownika, aby wpisać <code>char</code>.<p><p>Aby przekonwertować znak liczby ASCII na liczbę typu int (np. <code>'5'</code> Do <code>5</code>), możesz użyć następujących opcji:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int charNumToInt(char c)
 {
     return c - &#39;0&#39;;
-}</code></pre></div><p><a class=hint_link_show href=javascript:void(0) onclick="cppHintToggle(document.getElementById('cpp_hint_id_2'),this,'Show Hint','')">Pokaż wskazówkę</a><div class=wphint id=cpp_hint_id_2 style=display:none;margin-bottom:1em>Wskazówka: Napisz funkcję obsługującą dane wprowadzane przez użytkownika. Powinien zwrócić <code>Potion::Type</code> wybrany przez użytkownika. Jeśli zamiast tego użytkownik zakończy działanie, funkcja może powrócić <code>Potion::max_potions</code>. Będziesz musiał static_cast wprowadzić dane użytkownika do a <code>Potion::Type</code>.</div><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_5'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_5 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;array&gt;
+}</code></pre></div><p><a class=hint_link_show href=javascript:void(0) onclick="cppHintToggle(document.getElementById('cpp_hint_id_2'),this,'Show Hint','')">Pokaż wskazówkę</a><div class=wphint id=cpp_hint_id_2 style=display:none;margin-bottom:1em>Wskazówka: Napisz funkcję obsługującą dane wprowadzane przez użytkownika. Powinien zwrócić <code>Potion::Type</code> wybrany przez użytkownika. Jeśli zamiast tego użytkownik zakończy działanie, funkcja może powrócić <code>Potion::max_potions</code>. Będziesz musiał static_cast wprowadzić dane użytkownika do <code>Potion::Type</code>.</div><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_5'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_5 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;array&gt;
 #include &lt;iostream&gt;
-#include &lt;limits&gt; // for std::numeric_limits
+#include &lt;limits&gt; // dla std::numeric_limits
 #include &lt;string_view&gt;
-#include &#34;Random.h&#34;
+#include "Random.h"
 
 namespace Potion
 {
@@ -266,14 +266,14 @@ namespace Potion
         max_potions
     };
 
-    constexpr std::array types { healing, mana, speed, invisibility }; // An array of our enumerators
+    constexpr std::array types { healing, mana, speed, invisibility }; // Tablica naszych modułów wyliczających
 
-    // We could put these in a struct, but since we only have two attributes we&#39;ll keep them separate for now
-    // We will explicitly define the element type so we don&#39;t have to use the sv suffix
-    constexpr std::array&lt;std::string_view, max_potions&gt; name { &#34;healing&#34;, &#34;mana&#34;, &#34;speed&#34;, &#34;invisibility&#34; };
+    // Moglibyśmy umieścić je w strukturze, ale ponieważ mamy tylko dwa atrybuty, na razie zachowamy je oddzielnie
+    // Wyraźnie zdefiniujemy typ elementu, więc nie będziemy musieli używać sufiksu sv
+    constexpr std::array&lt;std::string_view, max_potions&gt; name { "healing", "mana", "speed", "invisibility" };
     constexpr std::array cost { 20, 30, 12, 50 };
 
-    static_assert(std::size(types) == max_potions);  // ensure &#39;all&#39; contains the correct number of enumerators
+    static_assert(std::size(types) == max_potions);  // upewnij się, że „all” zawiera poprawną liczbę modułów wyliczających
     static_assert(std::size(cost) == max_potions);
     static_assert(std::size(name) == max_potions);
 }
@@ -295,7 +295,7 @@ public:
     { 
     }
 
-    // returns false if can&#39;t afford, true if purchased
+    // zwraca false, jeśli nie stać, true, jeśli zakupiono
     bool buy(Potion::Type type)
     {
         if (m_gold &lt; Potion::cost[type])
@@ -312,46 +312,46 @@ public:
 
 void ignoreLine()
 {
-    std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), &#39;\n&#39;);
+    std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), '\n');
 }
 
 int charNumToInt(char c)
 {
-    return c - &#39;0&#39;;
+    return c - '0';
 }
 
 Potion::Type whichPotion()
 {
-    std::cout &lt;&lt; &#34;Enter the number of the potion you&#39;d like to buy, or &#39;q&#39; to quit: &#34;;
+    std::cout &lt;&lt; "Enter the number of the potion you'd like to buy, or 'q' to quit: ";
     char input{};
     while (true)
     {
         std::cin &gt;&gt; input;
         if (!std::cin)
         {
-            std::cin.clear(); // put us back in &#39;normal&#39; operation mode
-            ignoreLine(); // and remove the bad input
+            std::cin.clear(); // wprowadziliśmy nas z powrotem do „normalnego” trybunału pracy
+            ignoreLine(); // i usunąć błędne wejście
             continue;
         }
 
-        // If there is extraneous input, treat as failure case
-        if (!std::cin.eof() &amp;&amp; std::cin.peek() != &#39;\n&#39;)
+        // Jeśli istnieją dodatkowe dane wejściowe, traktuj je jako przypadek niepowodzenia
+        if (!std::cin.eof() &amp;&amp; std::cin.peek() != '\n')
         {
-            std::cout &lt;&lt; &#34;I didn&#39;t understand what you said.  Try again: &#34;;
-            ignoreLine(); // ignore any extraneous input
+            std::cout &lt;&lt; "I didn't understand what you said.  Try again: ";
+            ignoreLine(); // zignoruj ​​wszelkie obce dane wejściowe
             continue;
         }
 
-        if (input == &#39;q&#39;)
+        if (input == 'q')
             return Potion::max_potions;
 
-        // Convert the char to a number and see if it&#39;s a valid potion selection
+        // Przekształć znak na liczbę i sprawdź, czy jest to prawidłowy wybór mikstury
         int val { charNumToInt(input) };
         if (val &gt;= 0 &amp;&amp; val &lt; Potion::max_potions)
             return static_cast&lt;Potion::Type&gt;(val);
 
-        // It wasn&#39;t a valid potion selection
-        std::cout &lt;&lt; &#34;I didn&#39;t understand what you said.  Try again: &#34;;
+        // To nie był prawidłowy wybór mikstury
+        std::cout &lt;&lt; "I didn't understand what you said.  Try again: ";
         ignoreLine();
     }
 }
@@ -360,10 +360,10 @@ void shop(Player &amp;player)
 {
     while (true)
     {
-        std::cout &lt;&lt; &#34;Here is our selection for today:\n&#34;;
+        std::cout &lt;&lt; "Here is our selection for today:\n";
 
         for (auto p: Potion::types)
-            std::cout &lt;&lt; p &lt;&lt; &#34;) &#34; &lt;&lt; Potion::name[p] &lt;&lt; &#34; costs &#34; &lt;&lt; Potion::cost[p] &lt;&lt; &#39;\n&#39;;
+            std::cout &lt;&lt; p &lt;&lt; ") " &lt;&lt; Potion::name[p] &lt;&lt; " costs " &lt;&lt; Potion::cost[p] &lt;&lt; '\n';
         
         Potion::Type which { whichPotion() };
         if (which == Potion::max_potions)
@@ -371,47 +371,47 @@ void shop(Player &amp;player)
 
         bool success { player.buy(which) };
         if (!success)
-            std::cout &lt;&lt; &#34;You can not afford that.\n\n&#34;;
+            std::cout &lt;&lt; "You can not afford that.\n\n";
         else
-            std::cout &lt;&lt; &#34;You purchased a potion of &#34; &lt;&lt; Potion::name[which] &lt;&lt; &#34;.  You have &#34; &lt;&lt; player.gold() &lt;&lt; &#34; gold left.\n\n&#34;;
+            std::cout &lt;&lt; "You purchased a potion of " &lt;&lt; Potion::name[which] &lt;&lt; ".  You have " &lt;&lt; player.gold() &lt;&lt; " gold left.\n\n";
     }
 }
 
 void printInventory(Player&amp; player)
 {
-    std::cout &lt;&lt; &#34;Your inventory contains: \n&#34;;
+    std::cout &lt;&lt; "Your inventory contains: \n";
     
     for (auto p: Potion::types)
     {
         if (player.inventory(p) &gt; 0)
-            std::cout &lt;&lt; player.inventory(p) &lt;&lt; &#34;x potion of &#34; &lt;&lt; Potion::name[p] &lt;&lt; &#39;\n&#39;;
+            std::cout &lt;&lt; player.inventory(p) &lt;&lt; "x potion of " &lt;&lt; Potion::name[p] &lt;&lt; '\n';
     }
 
-    std::cout &lt;&lt; &#34;You escaped with &#34; &lt;&lt; player.gold() &lt;&lt; &#34; gold remaining.\n&#34;;
+    std::cout &lt;&lt; "You escaped with " &lt;&lt; player.gold() &lt;&lt; " gold remaining.\n";
 }
 
 int main()
 {
-    std::cout &lt;&lt; &#34;Welcome to Roscoe&#39;s potion emporium!\n&#34;;
-    std::cout &lt;&lt; &#34;Enter your name: &#34;;
+    std::cout &lt;&lt; "Welcome to Roscoe's potion emporium!\n";
+    std::cout &lt;&lt; "Enter your name: ";
 
     std::string name{};
     std::cin &gt;&gt; name;
 
     Player player { name };
 
-    std::cout &lt;&lt; &#34;Hello, &#34; &lt;&lt; name &lt;&lt; &#34;, you have &#34; &lt;&lt; player.gold() &lt;&lt; &#34; gold.\n\n&#34;;
+    std::cout &lt;&lt; "Hello, " &lt;&lt; name &lt;&lt; ", you have " &lt;&lt; player.gold() &lt;&lt; " gold.\n\n";
 
     shop(player);
 
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
 
     printInventory(player);
 
-    std::cout &lt;&lt; &#34;\nThanks for shopping at Roscoe&#39;s potion emporium!\n&#34;;
+    std::cout &lt;&lt; "\nThanks for shopping at Roscoe's potion emporium!\n";
 
     return 0;
-}</code></pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>Pytanie nr 3<p>Załóżmy, że chcemy napisać grę karcianą wykorzystującą standardową talię kart. Aby to zrobić, będziemy potrzebować sposobu na przedstawienie tych kart i talii kart. Zbudujmy tę funkcjonalność.<p>Wykorzystamy go w następnym pytaniu quizu, aby faktycznie zaimplementować grę.<p class="cpp-quiz-question cpp-topline" style=clear:both>&gt; Krok #1<p>Talia kart składa się z 52 unikalnych kart (13 szeregów kart po 4 kolory). Twórz wyliczenia dla rang kart (as, 2, 3, 4, 5, 6, 7, 8, 9, 10, walet, dama, król) i kolorów (trefl, karo, kier, pik).<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_6'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_6 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Because identifiers can&#39;t start with a number, we&#39;ll use a &#34;rank_&#34; prefix for these
+}</code></pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>Pytanie nr 3<p>Załóżmy, że chcemy napisać grę karcianą wykorzystującą standardową talię kart. Aby to zrobić, będziemy potrzebować sposobu na przedstawienie tych kart i talii kart. Zbudujmy tę funkcjonalność.<p>Wykorzystamy go w następnym pytaniu quizu, aby faktycznie zaimplementować grę.<p class="cpp-quiz-question cpp-topline" style=clear:both>&gt; Krok #1<p>Talia kart składa się z 52 unikalnych kart (13 szeregów kart po 4 kolory). Twórz wyliczenia dla rang kart (as, 2, 3, 4, 5, 6, 7, 8, 9, 10, walet, dama, król) i kolorów (trefl, karo, kier, pik).<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_6'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_6 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Ponieważ identyfikatory nie mogą zaczynać się od liczby, użyjemy dla nich przedrostka „rank_”
 enum Rank
 {
     rank_ace,
@@ -431,7 +431,7 @@ enum Rank
     max_ranks
 };
 
-// We&#39;ll also prefix these for consistency
+// Będziemy je również poprzedzać spójność
 enum Suit
 {
     suit_club,
@@ -475,24 +475,24 @@ enum Suit
     Suit suit{};
 };</code></pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>&gt; Krok #3<p>Następnie dodajmy kilka przydatnych funkcji do naszej struktury Card. Po pierwsze, przeciążenie <code>operator&lt;&lt;</code> aby wydrukować rangę i kolor karty w postaci dwuliterowego kodu (np. walet pik zostanie wydrukowany jako JS). Można to zrobić wypełniając następującą funkcję:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">struct Card
 {
-    // Your other stuff here
+    // Twoje inne rzeczy tutaj
 
     friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const Card &amp;card)
     {
-        out &lt;&lt; // print your card rank and suit here
+        out &lt;&lt; // wydrukuj tutaj rangę i kolor swojej karty
         return out;
     }
-};</code></pre><p>Po drugie dodaj funkcję zwracającą wartość karty. Traktuj asa jako wartość 11. Na koniec dodaj a <code>std::array</code> rangi i koloru (o nazwie <code>allRanks</code> i <code>allSuits</code> odpowiednio), aby można było je iterować. Ponieważ są one częścią struktury (nie przestrzeni nazw), uczyń je statycznymi, aby były tworzone tylko raz (nie z każdym obiektem).<p>Poniższe powinno się skompilować:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
+};</code></pre><p>Po drugie dodaj funkcję zwracającą wartość karty. Traktuj asa jako wartość 11. Na koniec dodaj <code>std::array</code> rangi i koloru (o nazwie <code>allRanks</code> i <code>allSuits</code> odpowiednio), aby można było je iterować. Ponieważ są one częścią struktury (nie przestrzeni nazw), uczyń je statycznymi, aby były tworzone tylko raz (nie z każdym obiektem).<p>Poniższe powinno się skompilować:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
-    // Print one card
+    // Wydrukuj jedną kartę
     Card card { Card::rank_5, Card::suit_heart };
-    std::cout &lt;&lt; card &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; card &lt;&lt; '\n';
 
-    // Print all cards
+    // Wydrukuj wszystkie karty
     for (auto suit : Card::allSuits)
         for (auto rank : Card::allRanks)
-            std::cout &lt;&lt; Card { rank, suit } &lt;&lt; &#39; &#39;;
-    std::cout &lt;&lt; &#39;\n&#39;;
+            std::cout &lt;&lt; Card { rank, suit } &lt;&lt; ' ';
+    std::cout &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>i wygenerowany zostanie następujący wynik:<pre>5H
@@ -531,7 +531,7 @@ struct Card
         max_suits
     };
 
-    // These need to be static so they are only created once per program, not once per Card
+    // Muszą być statyczne, więc są tworzone tylko raz na program, a nie raz na Karta
     static constexpr std::array allRanks { rank_ace, rank_2, rank_3, rank_4, rank_5, rank_6, rank_7, rank_8, rank_9, rank_10, rank_jack, rank_queen, rank_king };
     static constexpr std::array allSuits { suit_club, suit_diamond, suit_heart, suit_spade };
 
@@ -540,8 +540,8 @@ struct Card
 
     friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const Card &amp;card)
     {
-        static constexpr std::array ranks { &#39;A&#39;, &#39;2&#39;, &#39;3&#39;, &#39;4&#39;, &#39;5&#39;, &#39;6&#39;, &#39;7&#39;, &#39;8&#39;, &#39;9&#39;, &#39;T&#39;, &#39;J&#39;, &#39;Q&#39;, &#39;K&#39; };
-        static constexpr std::array suits { &#39;C&#39;, &#39;D&#39;, &#39;H&#39;, &#39;S&#39; };
+        static constexpr std::array ranks { 'A', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K' };
+        static constexpr std::array suits { 'C', 'D', 'H', 'S' };
 
         out &lt;&lt; ranks[card.rank] &lt;&lt; suits[card.suit];
         return out;
@@ -556,22 +556,22 @@ struct Card
 
 int main()
 {
-    // Print one card
+    // Wydrukuj jedną kartę
     Card card { Card::rank_5, Card::suit_heart };
-    std::cout &lt;&lt; card &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; card &lt;&lt; '\n';
 
-    // Print all cards
+    // Wydrukuj wszystkie karty
     for (auto suit : Card::allSuits)
         for (auto rank : Card::allRanks)
-            std::cout &lt;&lt; Card { rank, suit } &lt;&lt; &#39; &#39;;
-    std::cout &lt;&lt; &#39;\n&#39;;
+            std::cout &lt;&lt; Card { rank, suit } &lt;&lt; ' ';
+    std::cout &lt;&lt; '\n';
 
     return 0;
-}</code></pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>&gt; Krok 4<p>Następnie stwórzmy naszą talię kart. Utwórz klasę o nazwie <code>Deck</code> zawierającą a <code>std::array</code> Kart. Możesz założyć, że talia składa się z 52 kart.<p>Talia powinna spełniać trzy funkcje:<p>Po pierwsze, konstruktor domyślny powinien zainicjować tablicę kart. Aby przeglądać wszystkie kolory i stopnie, możesz użyć pętli for ranged podobnej do tej w funkcji main() z poprzedniego przykładu.<p>Po drugie, dodaj a <code>dealCard()</code> funkcja, która zwraca następną kartę w talii według wartości. Od <code>std::array</code> jest tablicą o stałym rozmiarze, zastanów się, w jaki sposób będziesz śledzić, gdzie znajduje się następna karta. Ta funkcja powinna zostać potwierdzona, jeśli zostanie wywołana, gdy Deck przejdzie przez wszystkie karty.<p>Po trzecie napisz A <code>shuffle()</code> funkcja członkowska, która tasuje talię. Aby to ułatwić, skorzystamy z pomocy <code>std::shuffle</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;algorithm&gt; // for std::shuffle
-#include &#34;Random.h&#34;  // for Random::mt
+}</code></pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>&gt; Krok 4<p>Następnie stwórzmy naszą talię kart. Utwórz klasę o nazwie <code>Deck</code> zawierającą <code>std::array</code> Kart. Możesz założyć, że talia składa się z 52 kart.<p>Talia powinna spełniać trzy funkcje:<p>Po pierwsze, konstruktor domyślny powinien zainicjować tablicę kart. Aby przeglądać wszystkie kolory i stopnie, możesz użyć pętli for ranged podobnej do tej w funkcji main() z poprzedniego przykładu.<p>Po drugie, dodaj <code>dealCard()</code> funkcja, która zwraca następną kartę w talii według wartości. Od <code>std::array</code> jest tablicą o stałym rozmiarze, zastanów się, w jaki sposób będziesz śledzić, gdzie znajduje się następna karta. Ta funkcja powinna zostać potwierdzona, jeśli zostanie wywołana, gdy Deck przejdzie przez wszystkie karty.<p>Po trzecie napisz <code>shuffle()</code> funkcja członkowska, która tasuje talię. Aby to ułatwić, skorzystamy z pomocy <code>std::shuffle</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;algorithm&gt; // dla std::shuffle
+#include "Random.h"  // dla Random::mt
 
-    // Put this line in your shuffle function to shuffle m_cards using the Random::mt Mersenne Twister
-    // This will rearrange all the Cards in the deck randomly
+    // Umieść tę linię w swojej funkcji losowania, aby przetasować m_karty za pomocą Random::mt Mersenne Twister
+    // To spowoduje zmianę układu wszystkich kart w talii losowo
     std::shuffle(m_cards.begin(), m_cards.end(), Random::mt);</code></pre><p>Klasa <code>shuffle()</code> funkcja powinna również zostać zresetowana, jednakże śledzisz miejsce, w którym znajduje się następna karta na początek talii.<p>Powinien uruchomić się następujący program:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
     Deck deck{};
@@ -583,11 +583,11 @@ int main()
     return 0;
 }</code></pre><p>i otrzymasz następujący wynik (ostatnie 3 karty powinny zostać losowane):<pre>AC 2C 3C
 2H 7H 9C
-</pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_9'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_9 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;algorithm&gt; // for std::shuffle
+</pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_9'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_9 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;algorithm&gt; // dla std::shuffle
 #include &lt;array&gt;
 #include &lt;cassert&gt;
 #include &lt;iostream&gt;
-#include &#34;Random.h&#34;
+#include "Random.h"
 
 struct Card
 {
@@ -628,8 +628,8 @@ struct Card
 
     friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const Card &amp;card)
     {
-        static constexpr std::array ranks { &#39;A&#39;, &#39;2&#39;, &#39;3&#39;, &#39;4&#39;, &#39;5&#39;, &#39;6&#39;, &#39;7&#39;, &#39;8&#39;, &#39;9&#39;, &#39;T&#39;, &#39;J&#39;, &#39;Q&#39;, &#39;K&#39; };
-        static constexpr std::array suits { &#39;C&#39;, &#39;D&#39;, &#39;H&#39;, &#39;S&#39; };
+        static constexpr std::array ranks { 'A', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K' };
+        static constexpr std::array suits { 'C', 'D', 'H', 'S' };
 
         out &lt;&lt; ranks[card.rank] &lt;&lt; suits[card.suit];
         return out;
@@ -665,7 +665,7 @@ public:
 
     Card dealCard()
     {
-        assert(m_nextCardIndex != 52 &amp;&amp; &#34;Deck::dealCard ran out of cards&#34;);
+        assert(m_nextCardIndex != 52 &amp;&amp; "Deck::dealCard ran out of cards");
         return m_cards[m_nextCardIndex++];
     }
 };
@@ -673,10 +673,10 @@ public:
 int main()
 {
     Deck deck{};
-    std::cout &lt;&lt; deck.dealCard() &lt;&lt; &#39; &#39; &lt;&lt; deck.dealCard() &lt;&lt; &#39; &#39; &lt;&lt; deck.dealCard() &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; deck.dealCard() &lt;&lt; ' ' &lt;&lt; deck.dealCard() &lt;&lt; ' ' &lt;&lt; deck.dealCard() &lt;&lt; '\n';
 
     deck.shuffle();
-    std::cout &lt;&lt; deck.dealCard() &lt;&lt; &#39; &#39; &lt;&lt; deck.dealCard() &lt;&lt; &#39; &#39; &lt;&lt; deck.dealCard() &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; deck.dealCard() &lt;&lt; ' ' &lt;&lt; deck.dealCard() &lt;&lt; ' ' &lt;&lt; deck.dealCard() &lt;&lt; '\n';
 
     return 0;
 }</code></pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>Pytanie nr 4<p>W porządku, teraz użyjmy naszej karty i talii, aby wdrożyć uproszczoną wersję blackjacka! Jeśli nie znasz jeszcze Blackjacka, w Wikipedii znajdziesz artykuł na temat <a href=https://en.wikipedia.org/wiki/Blackjack>Blackjack</a> , który zawiera podsumowanie.<p>Oto zasady naszej wersji Blackjacka:<ul><li>Kurier otrzymuje na początek jedną kartę (w prawdziwym życiu krupier otrzymuje dwie, ale jedna jest zakryta, więc w tym momencie nie ma to znaczenia).<li>Gracz otrzymuje dwie karty do rozdania. start.<li>Gracz zaczyna.<li>Gracz może wielokrotnie „trafić” lub „wstać”.<li>Jeśli gracz „wstanie”, jego tura dobiega końca, a jego wynik jest obliczany na podstawie kart, które otrzymał.<li>Jeśli gracz „trafia”, otrzymuje kolejną kartę, a wartość tej karty jest dodawana do jego całkowitego wyniku.<li>Zwykle as liczy się jako 1 lub 11 (w zależności od tego, co jest lepsze dla całkowitego wyniku). Dla uproszczenia policzymy to tutaj jako 11.<li>Jeśli gracz przekroczy wynik 21, odpada i natychmiast przegrywa.<li>Gdy gracz skończy, nadchodzi kolej krupiera.<li>Krucznik wielokrotnie dobiera, aż osiągnie wynik 17 lub więcej, w którym to momencie musi przestać dobierać.<li>Jeśli krupier przekroczy wynik 17 21, odpada i gracz natychmiast wygrywa.<li>W przeciwnym razie, jeśli gracz ma wyższy wynik niż krupier, wygrywa. W przeciwnym razie gracz przegrywa (dla uproszczenia uznamy remis za wygraną krupiera).</ul><p>W naszej uproszczonej wersji Blackjacka nie będziemy śledzić, jakie konkretne karty otrzymali gracz i krupier. Będziemy śledzić jedynie sumę wartości kart, które otrzymali gracz i krupier. To upraszcza sprawę.<p>Zacznij od kodu, który napisałeś w poprzednim quizie (lub skorzystaj z naszego rozwiązania referencyjnego).<p class="cpp-quiz-question cpp-topline" style=clear:both>&gt; Krok #1<p>Utwórz strukturę o nazwie <code>Player</code> która będzie reprezentować uczestnika naszej gry (albo krupiera, albo gracza). Ponieważ w tej grze interesuje nas tylko wynik gracza, ta struktura potrzebuje tylko jednego członka.<p>Napisz funkcję, która (ostatecznie) rozegra rundę blackjacka. Na razie ta funkcja powinna losować jedną losową kartę dla krupiera i dwie losowe karty dla gracza. Powinien zwrócić wartość bool wskazującą, kto ma większy wynik.<p>Kod powinien wyprowadzić następującą treść:<pre>The dealer is showing: 10
@@ -685,11 +685,11 @@ You win!
 </pre><pre>The dealer is showing: 10
 You have score: 8
 You lose!
-</pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_10'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_10 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;algorithm&gt; // for std::shuffle
+</pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_10'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_10 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;algorithm&gt; // dla std::shuffle
 #include &lt;array&gt;
 #include &lt;cassert&gt;
 #include &lt;iostream&gt;
-#include &#34;Random.h&#34;
+#include "Random.h"
 
 struct Card
 {
@@ -730,8 +730,8 @@ struct Card
 
     friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const Card &amp;card)
     {
-        static constexpr std::array ranks { &#39;A&#39;, &#39;2&#39;, &#39;3&#39;, &#39;4&#39;, &#39;5&#39;, &#39;6&#39;, &#39;7&#39;, &#39;8&#39;, &#39;9&#39;, &#39;T&#39;, &#39;J&#39;, &#39;Q&#39;, &#39;K&#39; };
-        static constexpr std::array suits { &#39;C&#39;, &#39;D&#39;, &#39;H&#39;, &#39;S&#39; };
+        static constexpr std::array ranks { 'A', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K' };
+        static constexpr std::array suits { 'C', 'D', 'H', 'S' };
 
         out &lt;&lt; ranks[card.rank] &lt;&lt; suits[card.suit];
         return out;
@@ -767,7 +767,7 @@ public:
 
     Card dealCard()
     {
-        assert(m_nextCardIndex != 52 &amp;&amp; &#34;Deck::dealCard ran out of cards&#34;);
+        assert(m_nextCardIndex != 52 &amp;&amp; "Deck::dealCard ran out of cards");
         return m_cards[m_nextCardIndex++];
     }
 };
@@ -784,11 +784,11 @@ bool playBlackjack()
 
     Player dealer{ deck.dealCard().value() };
 
-    std::cout &lt;&lt; &#34;The dealer is showing: &#34; &lt;&lt; dealer.score &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "The dealer is showing: " &lt;&lt; dealer.score &lt;&lt; '\n';
 
     Player player { deck.dealCard().value() + deck.dealCard().value() };
 
-    std::cout &lt;&lt; &#34;You have score: &#34; &lt;&lt; player.score &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "You have score: " &lt;&lt; player.score &lt;&lt; '\n';
 
     return (player.score &gt; dealer.score);
 }
@@ -797,11 +797,11 @@ int main()
 {
     if (playBlackjack())
     {
-        std::cout &lt;&lt; &#34;You win!\n&#34;;
+        std::cout &lt;&lt; "You win!\n";
     }
     else
     {
-        std::cout &lt;&lt; &#34;You lose!\n&#34;;
+        std::cout &lt;&lt; "You lose!\n";
     }
 
     return 0;
@@ -821,11 +821,11 @@ You lose!
 You have score: 21
 The dealer flips a JC.  They now have: 17
 You win!
-</pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_11'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_11 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;algorithm&gt; // for std::shuffle
+</pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_11'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_11 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;algorithm&gt; // dla std::shuffle
 #include &lt;array&gt;
 #include &lt;cassert&gt;
 #include &lt;iostream&gt;
-#include &#34;Random.h&#34;
+#include "Random.h"
 
 struct Card
 {
@@ -866,8 +866,8 @@ struct Card
 
     friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const Card &amp;card)
     {
-        static constexpr std::array ranks { &#39;A&#39;, &#39;2&#39;, &#39;3&#39;, &#39;4&#39;, &#39;5&#39;, &#39;6&#39;, &#39;7&#39;, &#39;8&#39;, &#39;9&#39;, &#39;T&#39;, &#39;J&#39;, &#39;Q&#39;, &#39;K&#39; };
-        static constexpr std::array suits { &#39;C&#39;, &#39;D&#39;, &#39;H&#39;, &#39;S&#39; };
+        static constexpr std::array ranks { 'A', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K' };
+        static constexpr std::array suits { 'C', 'D', 'H', 'S' };
 
         out &lt;&lt; ranks[card.rank] &lt;&lt; suits[card.suit];
         return out;
@@ -903,7 +903,7 @@ public:
 
     Card dealCard()
     {
-        assert(m_nextCardIndex != 52 &amp;&amp; &#34;Deck::dealCard ran out of cards&#34;);
+        assert(m_nextCardIndex != 52 &amp;&amp; "Deck::dealCard ran out of cards");
         return m_cards[m_nextCardIndex++];
     }
 
@@ -916,26 +916,26 @@ struct Player
 
 namespace Settings
 {
-    // Maximum score before losing.
+    // Maksymalny wynik przed utratą.
     constexpr int bust{ 21 };
 
-    // Minium score that the dealer has to have.
+    // Minimalny wynik, jaki musi posiadać krupier.
     constexpr int dealerStopsAt{ 17 };
 }
 
-// Returns true if the dealer went bust. False otherwise.
+// Zwraca wartość true, jeśli krupier zbankrutował. W przeciwnym razie fałsz.
 bool dealerTurn(Deck&amp; deck, Player&amp; dealer)
 {
     while (dealer.score &lt; Settings::dealerStopsAt)
     {
         Card card { deck.dealCard() };
         dealer.score += card.value();
-        std::cout &lt;&lt; &#34;The dealer flips a &#34; &lt;&lt; card &lt;&lt; &#34;.  They now have: &#34; &lt;&lt; dealer.score &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; "The dealer flips a " &lt;&lt; card &lt;&lt; ".  They now have: " &lt;&lt; dealer.score &lt;&lt; '\n';
     }
 
     if (dealer.score &gt; Settings::bust)
     {
-        std::cout &lt;&lt; &#34;The dealer went bust!\n&#34;;
+        std::cout &lt;&lt; "The dealer went bust!\n";
         return true;
     }
     
@@ -949,11 +949,11 @@ bool playBlackjack()
 
     Player dealer{ deck.dealCard().value() };
 
-    std::cout &lt;&lt; &#34;The dealer is showing: &#34; &lt;&lt; dealer.score &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "The dealer is showing: " &lt;&lt; dealer.score &lt;&lt; '\n';
 
     Player player { deck.dealCard().value() + deck.dealCard().value() };
 
-    std::cout &lt;&lt; &#34;You have score: &#34; &lt;&lt; player.score &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "You have score: " &lt;&lt; player.score &lt;&lt; '\n';
 
     if (dealerTurn(deck, dealer))
         return true;
@@ -965,11 +965,11 @@ int main()
 {
     if (playBlackjack())
     {
-        std::cout &lt;&lt; &#34;You win!\n&#34;;
+        std::cout &lt;&lt; "You win!\n";
     }
     else
     {
-        std::cout &lt;&lt; &#34;You lose!\n&#34;;
+        std::cout &lt;&lt; "You lose!\n";
     }
 
     return 0;
@@ -998,11 +998,11 @@ The dealer flips a 6H.  They now have: 13
 The dealer flips a QC.  They now have: 23
 The dealer went bust!
 You win!
-</pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_12'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_12 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;algorithm&gt; // for std::shuffle
+</pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_12'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_12 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;algorithm&gt; // dla std::shuffle
 #include &lt;array&gt;
 #include &lt;cassert&gt;
 #include &lt;iostream&gt;
-#include &#34;Random.h&#34;
+#include "Random.h"
 
 struct Card
 {
@@ -1043,8 +1043,8 @@ struct Card
 
     friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const Card &amp;card)
     {
-        static constexpr std::array ranks { &#39;A&#39;, &#39;2&#39;, &#39;3&#39;, &#39;4&#39;, &#39;5&#39;, &#39;6&#39;, &#39;7&#39;, &#39;8&#39;, &#39;9&#39;, &#39;T&#39;, &#39;J&#39;, &#39;Q&#39;, &#39;K&#39; };
-        static constexpr std::array suits { &#39;C&#39;, &#39;D&#39;, &#39;H&#39;, &#39;S&#39; };
+        static constexpr std::array ranks { 'A', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K' };
+        static constexpr std::array suits { 'C', 'D', 'H', 'S' };
 
         out &lt;&lt; ranks[card.rank] &lt;&lt; suits[card.suit];
         return out;
@@ -1080,7 +1080,7 @@ public:
 
     Card dealCard()
     {
-        assert(m_nextCardIndex != 52 &amp;&amp; &#34;Deck::dealCard ran out of cards&#34;);
+        assert(m_nextCardIndex != 52 &amp;&amp; "Deck::dealCard ran out of cards");
         return m_cards[m_nextCardIndex++];
     }
 
@@ -1093,10 +1093,10 @@ struct Player
 
 namespace Settings
 {
-    // Maximum score before losing.
+    // Maksymalny wynik przed utratą.
     constexpr int bust{ 21 };
 
-    // Minium score that the dealer has to have.
+    // Minimalny wynik, jaki musi posiadać krupier.
     constexpr int dealerStopsAt{ 17 };
 }
 
@@ -1104,22 +1104,22 @@ bool playerWantsHit()
 {
     while (true)
     {
-        std::cout &lt;&lt; &#34;(h) to hit, or (s) to stand: &#34;;
+        std::cout &lt;&lt; "(h) to hit, or (s) to stand: ";
 
         char ch{};
         std::cin &gt;&gt; ch;
 
         switch (ch)
         {
-            case &#39;h&#39;:
+            case 'h':
                 return true;
-            case &#39;s&#39;:
+            case 's':
                 return false;
         }
     }
 }
 
-// Returns true if the player went bust. False otherwise.
+// Zwraca wartość true, jeśli gracz upadł. W przeciwnym razie fałsz.
 bool playerTurn(Deck&amp; deck, Player&amp; player)
 {
     while (player.score &lt; Settings::bust &amp;&amp; playerWantsHit())
@@ -1127,31 +1127,31 @@ bool playerTurn(Deck&amp; deck, Player&amp; player)
         Card card { deck.dealCard() };
         player.score += card.value();
 
-        std::cout &lt;&lt; &#34;You were dealt &#34; &lt;&lt; card  &lt;&lt; &#34;. You now have: &#34; &lt;&lt; player.score &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; "You were dealt " &lt;&lt; card  &lt;&lt; ". You now have: " &lt;&lt; player.score &lt;&lt; '\n';
     }
 
     if (player.score &gt; Settings::bust)
     {
-        std::cout &lt;&lt; &#34;You went bust!\n&#34;;
+        std::cout &lt;&lt; "You went bust!\n";
         return true;
     }
 
     return false;
 }
 
-// Returns true if the dealer went bust. False otherwise.
+// Zwraca wartość true, jeśli krupier zbankrutował. W przeciwnym razie fałsz.
 bool dealerTurn(Deck&amp; deck, Player&amp; dealer)
 {
     while (dealer.score &lt; Settings::dealerStopsAt)
     {
         Card card { deck.dealCard() };
         dealer.score += card.value();
-        std::cout &lt;&lt; &#34;The dealer flips a &#34; &lt;&lt; card &lt;&lt; &#34;.  They now have: &#34; &lt;&lt; dealer.score &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; "The dealer flips a " &lt;&lt; card &lt;&lt; ".  They now have: " &lt;&lt; dealer.score &lt;&lt; '\n';
     }
 
     if (dealer.score &gt; Settings::bust)
     {
-        std::cout &lt;&lt; &#34;The dealer went bust!\n&#34;;
+        std::cout &lt;&lt; "The dealer went bust!\n";
         return true;
     }
 
@@ -1165,11 +1165,11 @@ bool playBlackjack()
 
     Player dealer{ deck.dealCard().value() };
 
-    std::cout &lt;&lt; &#34;The dealer is showing: &#34; &lt;&lt; dealer.score &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "The dealer is showing: " &lt;&lt; dealer.score &lt;&lt; '\n';
 
     Player player { deck.dealCard().value() + deck.dealCard().value() };
 
-    std::cout &lt;&lt; &#34;You have score: &#34; &lt;&lt; player.score &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "You have score: " &lt;&lt; player.score &lt;&lt; '\n';
 
     if (playerTurn(deck, player))
         return false;
@@ -1184,11 +1184,11 @@ int main()
 {
     if (playBlackjack())
     {
-        std::cout &lt;&lt; &#34;You win!\n&#34;;
+        std::cout &lt;&lt; "You win!\n";
     }
     else
     {
-        std::cout &lt;&lt; &#34;You lose!\n&#34;;
+        std::cout &lt;&lt; "You lose!\n";
     }
 
     return 0;
@@ -1200,18 +1200,18 @@ You were dealt JD.  You now have: 18
 The dealer flips a 6C.  They now have: 16
 The dealer flips a AD.  They now have: 17
 You win!
-</pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_15'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_15 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;algorithm&gt; // for std::shuffle
+</pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_15'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_15 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;algorithm&gt; // dla std::shuffle
 #include &lt;array&gt;
 #include &lt;cassert&gt;
 #include &lt;iostream&gt;
-#include &#34;Random.h&#34;
+#include "Random.h"
 
 namespace Settings
 {
-    // Maximum score before losing.
+    // Maksymalny wynik przed utratą.
     constexpr int bust{ 21 };
 
-    // Minium score that the dealer has to have.
+    // Minimalny wynik, jaki musi posiadać krupier.
     constexpr int dealerStopsAt{ 17 };
 }
 
@@ -1254,8 +1254,8 @@ struct Card
 
     friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const Card &amp;card)
     {
-        static constexpr std::array ranks { &#39;A&#39;, &#39;2&#39;, &#39;3&#39;, &#39;4&#39;, &#39;5&#39;, &#39;6&#39;, &#39;7&#39;, &#39;8&#39;, &#39;9&#39;, &#39;T&#39;, &#39;J&#39;, &#39;Q&#39;, &#39;K&#39; };
-        static constexpr std::array suits { &#39;C&#39;, &#39;D&#39;, &#39;H&#39;, &#39;S&#39; };
+        static constexpr std::array ranks { 'A', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K' };
+        static constexpr std::array suits { 'C', 'D', 'H', 'S' };
 
         out &lt;&lt; ranks[card.rank] &lt;&lt; suits[card.suit];
         return out;
@@ -1291,7 +1291,7 @@ public:
 
     Card dealCard()
     {
-        assert(m_nextCardIndex != 52 &amp;&amp; &#34;Deck::dealCard ran out of cards&#34;);
+        assert(m_nextCardIndex != 52 &amp;&amp; "Deck::dealCard ran out of cards");
         return m_cards[m_nextCardIndex++];
     }
 
@@ -1301,23 +1301,23 @@ class Player
 {
 private:
     int m_score{ };
-    int m_ace11Count { 0 }; // how many aces worth 11 points the player has
+    int m_ace11Count { 0 }; // ile asów wartych 11 punktów ma gracz
 
 public:
-    // We&#39;ll use a function to add the card to the player&#39;s score
-    // Since we now need to count aces
+    // Użyjemy funkcji, aby dodać kartę do wyniku gracza
+    // Ponieważ musimy teraz policzyć asy
     void addToScore(Card card)
     {
         m_score += card.value();
         if (card.rank == Card::rank_ace)
-            ++m_ace11Count; // aces start at 11 points
+            ++m_ace11Count; // asy zaczynają się od 11 punktów
         consumeAces();
     }
 
-    // Decrease aceCount by 1 and 
+    // Zmniejsz aceCount o 1 i 
     void consumeAces()
     {
-        // If the player would bust, see if we can switch aces from 11 points to 1
+        // Jeśli gracz odpadnie, sprawdź, czy uda nam się zamienić asy z 11 punktów na 1
         while (m_score &gt; Settings::bust &amp;&amp; m_ace11Count &gt; 0)
         {
             m_score -= 10;
@@ -1332,22 +1332,22 @@ bool playerWantsHit()
 {
     while (true)
     {
-        std::cout &lt;&lt; &#34;(h) to hit, or (s) to stand: &#34;;
+        std::cout &lt;&lt; "(h) to hit, or (s) to stand: ";
 
         char ch{};
         std::cin &gt;&gt; ch;
 
         switch (ch)
         {
-            case &#39;h&#39;:
+            case 'h':
                 return true;
-            case &#39;s&#39;:
+            case 's':
                 return false;
         }
     }
 }
 
-// Returns true if the player went bust. False otherwise.
+// Zwraca wartość true, jeśli gracz upadł. W przeciwnym razie fałsz.
 bool playerTurn(Deck&amp; deck, Player&amp; player)
 {
     while (player.score() &lt; Settings::bust &amp;&amp; playerWantsHit())
@@ -1355,12 +1355,12 @@ bool playerTurn(Deck&amp; deck, Player&amp; player)
         Card card { deck.dealCard() };
         player.addToScore(card);
 
-        std::cout &lt;&lt; &#34;You were dealt &#34; &lt;&lt; card  &lt;&lt; &#34;. You now have: &#34; &lt;&lt; player.score() &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; "You were dealt " &lt;&lt; card  &lt;&lt; ". You now have: " &lt;&lt; player.score() &lt;&lt; '\n';
     }
 
     if (player.score() &gt; Settings::bust)
     {
-        std::cout &lt;&lt; &#34;You went bust!\n&#34;;
+        std::cout &lt;&lt; "You went bust!\n";
         return true;
     }
 
@@ -1368,7 +1368,7 @@ bool playerTurn(Deck&amp; deck, Player&amp; player)
 }
 
 
-// Returns true if the dealer went bust. False otherwise.
+// Zwraca wartość true, jeśli krupier zbankrutował. W przeciwnym razie fałsz.
 bool dealerTurn(Deck&amp; deck, Player&amp; dealer)
 {
     while (dealer.score() &lt; Settings::dealerStopsAt)
@@ -1376,12 +1376,12 @@ bool dealerTurn(Deck&amp; deck, Player&amp; dealer)
         Card card { deck.dealCard() };
         dealer.addToScore(card);
 
-        std::cout &lt;&lt; &#34;The dealer flips a &#34; &lt;&lt; card &lt;&lt; &#34;.  They now have: &#34; &lt;&lt; dealer.score() &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; "The dealer flips a " &lt;&lt; card &lt;&lt; ".  They now have: " &lt;&lt; dealer.score() &lt;&lt; '\n';
     }
 
     if (dealer.score() &gt; Settings::bust)
     {
-        std::cout &lt;&lt; &#34;The dealer went bust!\n&#34;;
+        std::cout &lt;&lt; "The dealer went bust!\n";
         return true;
     }
 
@@ -1403,19 +1403,19 @@ GameResult playBlackjack()
     Player dealer{};
     Card card1 { deck.dealCard() };
     dealer.addToScore(card1);
-    std::cout &lt;&lt; &#34;The dealer is showing &#34; &lt;&lt; card1 &lt;&lt; &#34; (&#34; &lt;&lt; dealer.score() &lt;&lt; &#34;)\n&#34;;
+    std::cout &lt;&lt; "The dealer is showing " &lt;&lt; card1 &lt;&lt; " (" &lt;&lt; dealer.score() &lt;&lt; ")\n";
 
     Player player{};
     Card card2 { deck.dealCard() };
     Card card3 { deck.dealCard() };
     player.addToScore(card2);
     player.addToScore(card3);
-    std::cout &lt;&lt; &#34;You are showing &#34; &lt;&lt; card2 &lt;&lt; &#39; &#39; &lt;&lt; card3 &lt;&lt; &#34; (&#34; &lt;&lt; player.score() &lt;&lt; &#34;)\n&#34;;
+    std::cout &lt;&lt; "You are showing " &lt;&lt; card2 &lt;&lt; ' ' &lt;&lt; card3 &lt;&lt; " (" &lt;&lt; player.score() &lt;&lt; ")\n";
 
-    if (playerTurn(deck, player)) // if player busted
+    if (playerTurn(deck, player)) // jeśli gracz przerwany
         return GameResult::dealerWon;
 
-    if (dealerTurn(deck, dealer)) // if dealer busted
+    if (dealerTurn(deck, dealer)) // jeśli krupier odpadł
         return GameResult::playerWon;
 
     if (player.score() == dealer.score())
@@ -1429,13 +1429,13 @@ int main()
     switch (playBlackjack())
     {
     case GameResult::playerWon:
-        std::cout &lt;&lt; &#34;You win!\n&#34;;
+        std::cout &lt;&lt; "You win!\n";
         return 0;
     case GameResult::dealerWon:
-        std::cout &lt;&lt; &#34;You lose!\n&#34;;
+        std::cout &lt;&lt; "You lose!\n";
         return 0;
     case GameResult::tie:
-        std::cout &lt;&lt; &#34;It&#39;s a tie.\n&#34;;
+        std::cout &lt;&lt; "It's a tie.\n";
         return 0;
     }
 

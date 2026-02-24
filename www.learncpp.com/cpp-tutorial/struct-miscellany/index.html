@@ -25,16 +25,16 @@ struct Employee
 struct Company
 {
     int numberOfEmployees {};
-    Employee CEO {}; // Employee is a struct within the Company struct
+    Employee CEO {}; // Pracownik do struktury w strukturze firmy
 };
 
 int main()
 {
-    Company myCompany{ 7, { 1, 32, 55000.0 } }; // Nested initialization list to initialize Employee
-    std::cout &lt;&lt; myCompany.CEO.wage &lt;&lt; &#39;\n&#39;; // print the CEO&#39;s wage
+    Company myCompany{ 7, { 1, 32, 55000.0 } }; // Zagnieżdżona lista inicjująca do inicjalizacji Pracownik
+    std::cout &lt;&lt; myCompany.CEO.wage &lt;&lt; '\n'; // wydrukuj pensję dyrektora generalnego
 
     return 0;
-}</code></pre><p>W powyższym przypadku zdefiniowaliśmy <code>Employee</code> struct, a następnie użyłem go jako członka w a <code>Company</code> struktura. Kiedy inicjujemy nasz <code>Company</code>, możemy również zainicjować nasz <code>Employee</code> przy użyciu zagnieżdżonej listy inicjującej. A jeśli chcemy wiedzieć, jaka była pensja dyrektora generalnego, po prostu dwukrotnie używamy operatora wyboru członka: <code>myCompany.CEO.wage;</code><p>Po drugie, typy można także zagnieżdżać w innych typach, więc jeśli pracownik istniałby tylko jako część firmy, typ pracownika mógłby być zagnieżdżony w strukturze firmy:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+}</code></pre><p>W powyższym przypadku zdefiniowaliśmy <code>Employee</code> struct, a następnie użyłem go jako członka w <code>Company</code> struktura. Kiedy inicjujemy nasz <code>Company</code>, możemy również zainicjować nasz <code>Employee</code> przy użyciu zagnieżdżonej listy inicjującej. A jeśli chcemy wiedzieć, jaka była pensja dyrektora generalnego, po prostu dwukrotnie używamy operatora wyboru członka: <code>myCompany.CEO.wage;</code><p>Po drugie, typy można także zagnieżdżać w innych typach, więc jeśli pracownik istniałby tylko jako część firmy, typ pracownika mógłby być zagnieżdżony w strukturze firmy:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 struct Company
 {
@@ -46,13 +46,13 @@ struct Company
     };
 
     int numberOfEmployees{};
-    Employee CEO{}; // Employee is a struct within the Company struct
+    Employee CEO{}; // Pracownik do struktury w strukturze firmy
 };
 
 int main()
 {
-    Company myCompany{ 7, { 1, 32, 55000.0 } }; // Nested initialization list to initialize Employee
-    std::cout &lt;&lt; myCompany.CEO.wage &lt;&lt; &#39;\n&#39;; // print the CEO&#39;s wage
+    Company myCompany{ 7, { 1, 32, 55000.0 } }; // Zagnieżdżona lista inicjująca do inicjalizacji Pracownik
+    std::cout &lt;&lt; myCompany.CEO.wage &lt;&lt; '\n'; // wydrukuj pensję dyrektora generalnego
 
     return 0;
 }</code></pre><p>Częściej robi się to podczas zajęć, więc porozmawiamy o tym więcej w przyszłej lekcji (<a href="../nested-types-member-types/index.html">15.3 -- Typy zagnieżdżone (typy elementów)</a>).<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Struktury będące właścicielami powinny mieć elementy członkowskie danych będące właścicielami<p>W lekcji <a href="../stdstring_view-part-2/index.html">5.9 — std::string_view (część 2)</a>wprowadziliśmy dualne pojęcia właścicieli i widzów. Właściciele zarządzają własnymi danymi i kontrolują, kiedy zostaną one zniszczone. Przeglądający przeglądają dane innej osoby i nie mają wpływu na to, kiedy zostaną one zmienione lub zniszczone.<p>W większości przypadków chcemy, aby nasze struktury (i klasy) były właścicielami danych, które zawierają. Zapewnia to kilka przydatnych korzyści:<ul><li>Elementy danych będą ważne tak długo, jak długo będzie trwała struktura (lub klasa).<li>Wartość tych elementów danych nie zmieni się nieoczekiwanie.</ul><p>Najłatwiejszym sposobem uczynienia struktury (lub klasy) właścicielem jest nadanie każdemu elementowi danych typu, który jest właścicielem (np. nie jest przeglądarką, wskaźnikiem ani referencją). Jeśli struktura lub klasa ma elementy danych, które są właścicielami, wówczas sama struktura lub klasa automatycznie staje się właścicielem.<p>Jeśli struktura (lub klasa) zawiera element danych będący przeglądarką, możliwe jest, że obiekt oglądany przez tego członka zostanie zniszczony przed członkiem danych, który go przegląda. Jeśli tak się stanie, struktura pozostanie z wiszącym elementem, a dostęp do tego elementu doprowadzi do niezdefiniowanego zachowania.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>W większości przypadków chcemy, aby nasze struktury (i klasy) były właścicielami. Najłatwiejszym sposobem włączenia tego jest upewnienie się, że każdy element członkowski danych ma typ będący właścicielem (np. nie przeglądarkę, wskaźnik ani odwołanie).</div><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nota autora<p>Ćwicz bezpieczne struktury. Nie pozwól, aby Twój członek zwisał.</div><p>Z tego powodu elementy danych ciągu są prawie zawsze typu <code>std::string</code> (który jest właścicielem), a nie typu <code>std::string_view</code> (który jest widzem). Poniższy przykład ilustruje przypadek, w którym ma to znaczenie:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -61,20 +61,20 @@ int main()
 
 struct Owner
 {
-    std::string name{}; // std::string is an owner
+    std::string name{}; // std::string jest właściciel
 };
 
 struct Viewer
 {
-    std::string_view name {}; // std::string_view is a viewer
+    std::string_view name {}; // std::string_view to przeglądarka
 };
 
-// getName() returns the user-entered string as a temporary std::string
-// This temporary std::string will be destroyed at the end of the full expression
-// containing the function call.
+// getName() zwraca wprowadzony przez użytkownika ciąg znaków jako tymczasowy std::string
+// To tymczasowe std::string zostanie zniszczone na końcu pełnego wyrażenie
+// zawierającymi wywołanie funkcji.
 std::string getName()
 {
-    std::cout &lt;&lt; &#34;Enter a name: &#34;;
+    std::cout &lt;&lt; "Enter a name: ";
     std::string name{};
     std::cin &gt;&gt; name;
     return name;
@@ -82,11 +82,11 @@ std::string getName()
 
 int main()
 {
-    Owner o { getName() };  // The return value of getName() is destroyed just after initialization
-    std::cout &lt;&lt; &#34;The owners name is &#34; &lt;&lt; o.name &lt;&lt; &#39;\n&#39;;  // ok
+    Owner o { getName() };  // Wartość zwracana przez getName() jest niszczona zaraz po inicjalizacji
+    std::cout &lt;&lt; "The owners name is " &lt;&lt; o.name &lt;&lt; '\n';  // ok
 
-    Viewer v { getName() }; // The return value of getName() is destroyed just after initialization
-    std::cout &lt;&lt; &#34;The viewers name is &#34; &lt;&lt; v.name &lt;&lt; &#39;\n&#39;; // undefined behavior
+    Viewer v { getName() }; // Wartość zwracana przez getName() jest niszczona zaraz po inicjalizacji
+    std::cout &lt;&lt; "The viewers name is " &lt;&lt; v.name &lt;&lt; '\n'; // undefined behavior
 
     return 0;
 }</code></pre><p>Klasa <code>getName()</code> funkcja zwraca nazwę wprowadzoną przez użytkownika jako tymczasową <code>std::string</code>. Ta tymczasowa wartość zwracana jest niszczona na końcu pełnego wyrażenia, w którym wywoływana jest funkcja.<p>W przypadku <code>o</code>, to tymczasowe <code>std::string</code> jest używany do inicjalizacji <code>o.name</code>. Ponieważ <code>o.name</code> jest <code>std::string</code>, <code>o.name</code> tworzy kopię tymczasową <code>std::string</code>. Tymczasowe <code>std::string</code> potem umiera, ale <code>o.name</code> nie ma to wpływu, ponieważ jest to kopia. Kiedy drukujemy <code>o.name</code> w kolejnym zestawieniu działa tak, jak tego oczekujemy.<p>W przypadku <code>v</code>, to tymczasowe <code>std::string</code> jest używany do inicjalizacji <code>v.name</code>. Ponieważ <code>v.name</code> jest <code>std::string_view</code>, <code>v.name</code> to tylko pogląd tymczasowy <code>std::string</code>, a nie kopia. Tymczasowe <code>std::string</code> potem umiera, odchodząc <code>v.name</code> zwisające. Kiedy drukujemy <code>v.name</code> w kolejnym stwierdzeniu otrzymamy niezdefiniowane zachowanie.<p class="cpp-section cpp-topline" style=clear:both>Rozmiar struktury i wyrównanie struktury danych<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>Zazwyczaj rozmiar struktury jest sumą rozmiaru wszystkich jej elementów, ale nie zawsze!<p>Rozważ następujący program:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -110,13 +110,13 @@ int main()
 }</code></pre><p>Na maszynie autora wydrukowało to:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">The size of short is 2 bytes
 The size of int is 4 bytes
 The size of double is 8 bytes
-The size of Foo is 16 bytes</code></pre><p>Należy pamiętać, że rozmiar <code>short</code> + <code>int</code> + <code>double</code> wynosi 14 bajtów, ale rozmiar <code>Foo</code> ma 16 bajtów!<p>Okazuje się, że możemy tylko powiedzieć, że rozmiar struktury będzie <em>co najmniej</em> tak duży, jak rozmiar wszystkich zmiennych, które zawiera. Ale mógłby być większy! Ze względu na wydajność kompilator czasami dodaje luki do struktur (jest to tzw <strong>dopełnianiem</strong>).<p>W <code>Foo</code> struct powyżej, kompilator w niewidoczny sposób dodaje 2 bajty dopełnienia po elemencie <code>a</code>, dzięki czemu rozmiar struktury wynosi 16 bajtów zamiast 14.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Dla zaawansowanych czytelników<p>Powód, dla którego kompilatory mogą dodawać dopełnienie wykracza poza zakres tego samouczka, ale czytelnicy, którzy chcą dowiedzieć się więcej, mogą przeczytać o <a href="https://en.wikipedia.org/wiki/Data_structure_alignment">wyrównaniu struktury danych</a> w Wikipedii. Jest to lektura opcjonalna i nie wymagana do zrozumienia struktur ani C++!</div><p>Może to faktycznie mieć dość znaczący wpływ na rozmiar struktury, jak pokazuje poniższy program:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+The size of Foo is 16 bytes</code></pre><p>Należy pamiętać, że rozmiar <code>short</code> + <code>int</code> + <code>double</code> wynosi 14 bajtów, ale rozmiar <code>Foo</code> ma 16 bajtów!<p>Okazuje się, że możemy tylko powiedzieć, że rozmiar struktury będzie <em>co najmniej</em> tak duży, jak rozmiar wszystkich zmiennych, które zawiera. Ale mógłby być większy! Ze względu na wydajność kompilator czasami dodaje luki do struktur (jest to tzw. <strong>dopełnianiem</strong>).<p>W <code>Foo</code> struct powyżej, kompilator w niewidoczny sposób dodaje 2 bajty dopełnienia po elemencie <code>a</code>, dzięki czemu rozmiar struktury wynosi 16 bajtów zamiast 14.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Dla zaawansowanych czytelników<p>Powód, dla którego kompilatory mogą dodawać dopełnienie wykracza poza zakres tego samouczka, ale czytelnicy, którzy chcą dowiedzieć się więcej, mogą przeczytać o <a href="https://en.wikipedia.org/wiki/Data_structure_alignment">wyrównaniu struktury danych</a> w Wikipedii. Jest to lektura opcjonalna i nie wymagana do zrozumienia struktur ani C++!</div><p>Może to faktycznie mieć dość znaczący wpływ na rozmiar struktury, jak pokazuje poniższy program:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 struct Foo1
 {
-    short a{}; // will have 2 bytes of padding after a
+    short a{}; // będzie miał 2 bajty dopełnienia po a
     int b{};
-    short c{}; // will have 2 bytes of padding after c
+    short c{}; // będzie miał 2 bajty dopełnienia po c
 };
 
 struct Foo2
@@ -128,8 +128,8 @@ struct Foo2
 
 int main()
 {
-    std::cout &lt;&lt; sizeof(Foo1) &lt;&lt; &#39;\n&#39;; // prints 12
-    std::cout &lt;&lt; sizeof(Foo2) &lt;&lt; &#39;\n&#39;; // prints 8
+    std::cout &lt;&lt; sizeof(Foo1) &lt;&lt; '\n'; // prints 12
+    std::cout &lt;&lt; sizeof(Foo2) &lt;&lt; '\n'; // prints 8
 
     return 0;
 }</code></pre><p>Ten program wypisuje:<pre>12

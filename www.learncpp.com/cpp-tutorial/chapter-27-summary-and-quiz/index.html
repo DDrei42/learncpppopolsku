@@ -17,8 +17,8 @@
 Enter the denominator: 0
 Invalid denominator
 </pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_0 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
-#include &lt;stdexcept&gt; // for std::runtime_error
-#include &lt;exception&gt; // for std::exception
+#include &lt;stdexcept&gt; // dla std::runtime_error
+#include &lt;exception&gt; // dla std::exception
 
 class Fraction
 {
@@ -32,7 +32,7 @@ public:
 		, m_denominator{ denominator }
 	{
 		if (m_denominator == 0)
-			throw std::runtime_error(&#34;Invalid denominator&#34;);
+			throw std::runtime_error("Invalid denominator");
 	}
 
 	friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const Fraction&amp; f1);
@@ -41,28 +41,28 @@ public:
 
 std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const Fraction&amp; f1)
 {
-	out &lt;&lt; f1.m_numerator &lt;&lt; &#39;/&#39; &lt;&lt; f1.m_denominator;
+	out &lt;&lt; f1.m_numerator &lt;&lt; '/' &lt;&lt; f1.m_denominator;
 	return out;
 }
 
 int main()
 {
-	std::cout &lt;&lt; &#34;Enter the numerator: &#34;;
+	std::cout &lt;&lt; "Enter the numerator: ";
 	int numerator{};
 	std::cin &gt;&gt; numerator;
 
-	std::cout &lt;&lt; &#34;Enter the denominator: &#34;;
+	std::cout &lt;&lt; "Enter the denominator: ";
 	int denominator{};
 	std::cin &gt;&gt; denominator;
 
 	try
 	{
 		Fraction f{ numerator, denominator };
-		std::cout &lt;&lt; &#34;Your fraction is: &#34; &lt;&lt; f &lt;&lt; &#39;\n&#39;;
+		std::cout &lt;&lt; "Your fraction is: " &lt;&lt; f &lt;&lt; '\n';
 	}
 	catch (const std::exception&amp; e)
 	{
-		std::cerr &lt;&lt; e.what() &lt;&lt; &#39;\n&#39;;
+		std::cerr &lt;&lt; e.what() &lt;&lt; '\n';
 	}
 
 	return 0;

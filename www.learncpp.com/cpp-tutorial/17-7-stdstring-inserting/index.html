@@ -23,10 +23,10 @@ sString.insert(4, &#34;cccc&#34;);
 cout &lt;&lt; sString &lt;&lt; endl;</code></pre><p>Wyjście:<pre>aaaa
 aabbbbaa
 aabbccccbbaa
-</pre></table></div><p>Oto szalona wersja funkcji Insert(), która pozwala wstawić podciąg do łańcucha o dowolnym indeksie:<div class=cpp-table-wrapper><p><p><table class=cpp-table><tbody><tr><td><b>string&amp; string::insert (size_type indeks, const string&amp; str, size_type startindex, size_type num)</b><p><ul><li>Ta funkcja wstawia num znaków str, zaczynając od startindex, do łańcucha o indeksie.<li>Zwraca *to, aby można było je „połączyć”.<li>Zgłasza out_of_range, jeśli indeks lub startindex jest poza zakresem<li>Zgłasza wyjąteklength_error, jeśli wynik przekracza maksymalną liczbę znaków.</ul><p>Przykładowy kod:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">string sString(&#34;aaaa&#34;);
+</pre></table></div><p>Oto szalona wersja funkcji Insert(), która pozwala wstawić podciąg do łańcucha o dowolnym indeksie:<div class=cpp-table-wrapper><p><p><table class=cpp-table><tbody><tr><td><b>string&amp; string::insert (size_type indeks, const string&amp; str, size_type startindex, size_type num)</b><p><ul><li>Ta funkcja wstawia num znaków str, zaczynając od startindex, do łańcucha o indeksie.<li>Zwraca *to, aby można było je „połączyć”.<li>Zgłasza out_of_range, jeśli indeks lub startindex jest poza zakresem<li>Zgłasza wyjąteklength_error, jeśli wynik przekracza maksymalną liczbę znaków.</ul><p>Przykładowy kod:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">string sString("aaaa");
 
-const string sInsert(&#34;01234567&#34;);
-sString.insert(2, sInsert, 3, 4); // insert substring of sInsert from index [3,7) into sString at index 2
+const string sInsert("01234567");
+sString.insert(2, sInsert, 3, 4); // wstaw podciąg sWstaw z indeksu [3,7) do sString pod indeksem 2
 cout &lt;&lt; sString &lt;&lt; endl;</code></pre><p>Wyjście:<pre>aa3456aa
 </pre></table></div><p>Istnieje odmiana metody Insert(), która wstawia pierwszą część łańcucha w stylu C:<div class=cpp-table-wrapper><p><p><table class=cpp-table><tbody><tr><td><b>string&amp; string::insert(size_type indeks, const char* str, size_type len)</b><p><ul><li>Wstawia len znaków str do łańcucha o indeksie<li>Zwraca *to, aby można było je „połączyć”.<li>Zgłasza wyjątek out_of_range, jeśli indeks jest nieprawidłowy<li>Zgłasza wyjąteklength_error, jeśli wynik przekracza maksymalną liczbę znaków.<li>Ignoruje znaki specjalne (takie jak ”)</ul><p>Przykładowy kod:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">string sString(&#34;aaaa&#34;);
 

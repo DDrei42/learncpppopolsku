@@ -39,12 +39,12 @@ public:
     double getCost() const { return m_cost; }
 };</code></pre><p>W przypadku klas niepochodnych konstruktorzy muszą martwić się jedynie o własne składowe. Rozważmy na przykład Bazę. Możemy stworzyć obiekt Base w następujący sposób:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
-    Base base{ 5 }; // use Base(int) constructor
+    Base base{ 5 }; // użyj konstruktora Base(int)
 
     return 0;
 }</code></pre><p>Oto co faktycznie się dzieje, gdy tworzona jest instancja bazy:<ol><li>Pamięć dla bazy jest odkładana<li>Wywoływany jest odpowiedni konstruktor Base<li>Lista inicjatorów składowych inicjuje zmienne<li>Treść konstruktora jest wykonywana<li>Kontrola jest zwracana do obiektu wywołującego</ol><p>To całkiem proste. W przypadku klas pochodnych sytuacja jest nieco bardziej złożona:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
-    Derived derived{ 1.3 }; // use Derived(double) constructor
+    Derived derived{ 1.3 }; // użyj konstruktora Derived(double)
 
     return 0;
 }</code></pre><p>Oto, co faktycznie dzieje się po utworzeniu instancji klasy pochodnej:<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><ol><li>Pamięć dla pochodnych jest rezerwowana (wystarczająca zarówno dla części Base, jak i Derived)<li>Wywoływany jest odpowiedni konstruktor Derived<li><b>Obiekt Base jest najpierw konstruowany przy użyciu odpowiedniego konstruktora Base</b>. Jeśli nie określono konstruktora bazowego, zostanie użyty konstruktor domyślny.<li>Lista inicjatorów składowych inicjuje zmienne<li>Treść konstruktora jest wykonywana<li>Kontrola jest zwracana do obiektu wywołującego</ol><p>Jedyna rzeczywista różnica między tym przypadkiem a przypadkiem niedziedziczonym polega na tym, że zanim konstruktor Derived będzie mógł zrobić cokolwiek istotnego, najpierw wywoływany jest konstruktor Base. Konstruktor Base konfiguruje część Base obiektu, kontrola jest zwracana do konstruktora Derived, a konstruktor Derived może dokończyć swoje zadanie.<p><strong>Inicjowanie elementów klasy bazowej</strong><p>Jedną z obecnych wad naszej klasy Derived w zapisanej formie jest to, że nie ma możliwości inicjalizacji m_id podczas tworzenia obiektu Derived. A co jeśli chcemy ustawić zarówno m_cost (z części pochodnej obiektu), jak i m_id (z części bazowej obiektu), kiedy tworzymy obiekt pochodny?<p>Nowi programiści często próbują rozwiązać ten problem w następujący sposób:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">class Derived: public Base
@@ -53,7 +53,7 @@ public:
     double m_cost {};
 
     Derived(double cost=0.0, int id=0)
-        // does not work
+        // nie działa
         : m_cost{ cost }
         , m_id{ id }
     {
@@ -78,7 +78,7 @@ public:
     double m_cost {};
 
     Derived(double cost=0.0, int id=0)
-        : Base{ id } // Call Base(int) constructor with value id!
+        : Base{ id } // Wywołaj konstruktor Base(int) z identyfikatorem wartości!
         , m_cost{ cost }
     {
     }
@@ -88,9 +88,9 @@ public:
 
 int main()
 {
-    Derived derived{ 1.3, 5 }; // use Derived(double, int) constructor
-    std::cout &lt;&lt; &#34;Id: &#34; &lt;&lt; derived.getId() &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; &#34;Cost: &#34; &lt;&lt; derived.getCost() &lt;&lt; &#39;\n&#39;;
+    Derived derived{ 1.3, 5 }; // użyj konstruktora Derived(double, int)
+    std::cout &lt;&lt; "Id: " &lt;&lt; derived.getId() &lt;&lt; '\n';
+    std::cout &lt;&lt; "Cost: " &lt;&lt; derived.getCost() &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Konstruktor klasy bazowej Base(int) zostanie użyty do zainicjowania m_id na 5, a konstruktor klasy pochodnej zostanie użyty do zainicjowania m_cost na 1.3!<p>W ten sposób program print:<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><pre>Id: 5
@@ -99,7 +99,7 @@ Cost: 1.3
 
 class Base
 {
-private: // our member is now private
+private: // nasz element jest teraz prywatny
     int m_id {};
  
 public:
@@ -113,12 +113,12 @@ public:
 
 class Derived: public Base
 {
-private: // our member is now private
+private: // nasz element jest teraz prywatny
     double m_cost;
 
 public:
     Derived(double cost=0.0, int id=0)
-        : Base{ id } // Call Base(int) constructor with value id!
+        : Base{ id } // Wywołaj konstruktor Base(int) z identyfikatorem wartości!
         , m_cost{ cost }
     {
     }
@@ -128,9 +128,9 @@ public:
 
 int main()
 {
-    Derived derived{ 1.3, 5 }; // use Derived(double, int) constructor
-    std::cout &lt;&lt; &#34;Id: &#34; &lt;&lt; derived.getId() &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; &#34;Cost: &#34; &lt;&lt; derived.getCost() &lt;&lt; &#39;\n&#39;;
+    Derived derived{ 1.3, 5 }; // użyj konstruktora Derived(double, int)
+    std::cout &lt;&lt; "Id: " &lt;&lt; derived.getId() &lt;&lt; '\n';
+    std::cout &lt;&lt; "Cost: " &lt;&lt; derived.getCost() &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>W powyższym kodzie ustawiliśmy m_id i m_cost na prywatne. Nie ma w tym nic złego, ponieważ do ich inicjalizacji używamy odpowiednich konstruktorów, a do pobierania wartości używamy publicznego akcesora.<p>Wypisuje zgodnie z oczekiwaniami:<pre>Id: 5
@@ -144,7 +144,7 @@ public:
     std::string m_name;
     int m_age {};
 
-    Person(std::string_view name = &#34;&#34;, int age = 0)
+    Person(std::string_view name = "", int age = 0)
         : m_name{ name }, m_age{ age }
     {
     }
@@ -153,7 +153,7 @@ public:
     int getAge() const { return m_age; }
 };
 
-// BaseballPlayer publicly inheriting Person
+// BaseballPlayer Osoba dziedzicząca publicznie
 class BaseballPlayer : public Person
 {
 public:
@@ -176,7 +176,7 @@ private:
     int m_age {};
 
 public:
-    Person(std::string_view name = &#34;&#34;, int age = 0)
+    Person(std::string_view name = "", int age = 0)
         : m_name{ name }, m_age{ age }
     {
     }
@@ -185,7 +185,7 @@ public:
     int getAge() const { return m_age; }
 
 };
-// BaseballPlayer publicly inheriting Person
+// BaseballPlayer Osoba dziedzicząca publicznie
 class BaseballPlayer : public Person
 {
 private:
@@ -193,9 +193,9 @@ private:
     int m_homeRuns {};
 
 public:
-    BaseballPlayer(std::string_view name = &#34;&#34;, int age = 0,
+    BaseballPlayer(std::string_view name = "", int age = 0,
         double battingAverage = 0.0, int homeRuns = 0)
-        : Person{ name, age } // call Person(std::string_view, int) to initialize these fields
+        : Person{ name, age } // wywołaj Person(std::string_view, int), aby zainicjować te pola
         , m_battingAverage{ battingAverage }, m_homeRuns{ homeRuns }
     {
     }

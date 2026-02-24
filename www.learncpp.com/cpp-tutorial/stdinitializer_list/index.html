@@ -33,7 +33,7 @@ int main()
 	delete[] array;
 
 	return 0;
-}</code></pre><p>W poprzedniej lekcji przedstawiliśmy koncepcję klas kontenerów i pokazaliśmy przykład klasy IntArray przechowującej tablicę liczb całkowitych:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cassert&gt; // for assert()
+}</code></pre><p>W poprzedniej lekcji przedstawiliśmy koncepcję klas kontenerów i pokazaliśmy przykład klasy IntArray przechowującej tablicę liczb całkowitych:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cassert&gt; // dla Assert()
 #include &lt;iostream&gt;
  
 class IntArray
@@ -54,7 +54,7 @@ public:
     ~IntArray()
     {
         delete[] m_data;
-        // we don&#39;t need to set m_data to null or m_length to 0 here, since the object will be destroyed immediately after this function anyway
+        // nie musimy ustawiać m_data na null lub m_length na 0, ponieważ obiekt i tak zostanie zniszczony natychmiast po wykonaniu tej funkcji
     }
  
     int&amp; operator[](int index)
@@ -68,10 +68,10 @@ public:
 
 int main()
 {
-	// What happens if we try to use an initializer list with this container class?
-	IntArray array { 5, 4, 3, 2, 1 }; // this line doesn&#39;t compile
+	// Co się stanie, jeśli spróbujemy użyć listy inicjatorów z tą klasą kontenera?
+	IntArray array { 5, 4, 3, 2, 1 }; // ta linia się nie kompiluje
 	for (int count{ 0 }; count &lt; 5; ++count)
-		std::cout &lt;&lt; array[count] &lt;&lt; &#39; &#39;;
+		std::cout &lt;&lt; array[count] &lt;&lt; ' ';
 
 	return 0;
 }</code></pre><p>Ten kod nie zostanie skompilowany, ponieważ klasa IntArray nie ma konstruktora, który wie, co zrobić z listą inicjatorów. W rezultacie pozostaje nam inicjowanie naszych elementów tablicy indywidualnie:<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
@@ -87,9 +87,9 @@ int main()
 		std::cout &lt;&lt; array[count] &lt;&lt; &#39; &#39;;
 
 	return 0;
-}</code></pre><p>To nie jest takie wspaniałe.<p class="cpp-section cpp-topline" style=clear:both>Inicjalizacja klasy przy użyciu std::initializer_list<p>Gdy kompilator widzi listę inicjatorów, automatycznie konwertuje ją na obiekt typu std::initializer_list. Dlatego jeśli utworzymy konstruktor, który przyjmuje parametr std::initializer_list, możemy tworzyć obiekty, używając listy inicjatorów jako danych wejściowych.<p>std::initializer_list żyje w  <code>&lt;initializer_list></code> .<p>Jest kilka rzeczy, które warto wiedzieć o std::initializer_list. Podobnie jak std::array lub std::vector, musisz powiedzieć std::initializer_list, jaki typ danych zawiera lista, używając nawiasów ostrych, chyba że od razu zainicjujesz std::initializer_list. Dlatego prawie nigdy nie zobaczysz zwykłej std::initializer_list. Zamiast tego zobaczysz coś w stylu  <code>std::initializer_list&lt;int></code> lub <code>std::initializer_list&lt;std::string></code>.<p>Po drugie, std::initializer_list zawiera (błędnie nazwaną) funkcję size(), która zwraca liczbę elementów na liście. Jest to przydatne, gdy musimy znać długość przekazywanej listy.<p>Po trzecie, std::initializer_list jest często przekazywana przez wartość. Podobnie jak std::string_view, std::initializer_list jest widokiem. Kopiowanie std::initializer_list nie powoduje skopiowania elementów listy.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Przyjrzyjmy się aktualizacji naszej klasy IntArray za pomocą konstruktora, który pobiera std::initializer_list.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;algorithm&gt; // for std::copy
-#include &lt;cassert&gt; // for assert()
-#include &lt;initializer_list&gt; // for std::initializer_list
+}</code></pre><p>To nie jest takie wspaniałe.<p class="cpp-section cpp-topline" style=clear:both>Inicjalizacja klasy przy użyciu std::initializer_list<p>Gdy kompilator widzi listę inicjatorów, automatycznie konwertuje ją na obiekt typu std::initializer_list. Dlatego jeśli utworzymy konstruktor, który przyjmuje parametr std::initializer_list, możemy tworzyć obiekty, używając listy inicjatorów jako danych wejściowych.<p>std::initializer_list żyje w  <code>&lt;initializer_list></code> .<p>Jest kilka rzeczy, które warto wiedzieć o std::initializer_list. Podobnie jak std::array lub std::vector, musisz powiedzieć std::initializer_list, jaki typ danych zawiera lista, używając nawiasów ostrych, chyba że od razu zainicjujesz std::initializer_list. Dlatego prawie nigdy nie zobaczysz zwykłej std::initializer_list. Zamiast tego zobaczysz coś w stylu  <code>std::initializer_list&lt;int></code> lub <code>std::initializer_list&lt;std::string></code>.<p>Po drugie, std::initializer_list zawiera (błędnie nazwaną) funkcję size(), która zwraca liczbę elementów na liście. Jest to przydatne, gdy musimy znać długość przekazywanej listy.<p>Po trzecie, std::initializer_list jest często przekazywana przez wartość. Podobnie jak std::string_view, std::initializer_list jest widokiem. Kopiowanie std::initializer_list nie powoduje skopiowania elementów listy.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Przyjrzyjmy się aktualizacji naszej klasy IntArray za pomocą konstruktora, który pobiera std::initializer_list.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;algorithm&gt; // dla std::copy
+#include &lt;cassert&gt; // dla Assert()
+#include &lt;initializer_list&gt; // dla std::initializer_list
 #include &lt;iostream&gt;
 
 class IntArray
@@ -108,21 +108,21 @@ public:
 
 	}
 
-	IntArray(std::initializer_list&lt;int&gt; list) // allow IntArray to be initialized via list initialization
-		: IntArray(static_cast&lt;int&gt;(list.size())) // use delegating constructor to set up initial array
+	IntArray(std::initializer_list&lt;int&gt; list) // pozwalają na inicjalizację IntArray poprzez inicjalizację listy
+		: IntArray(static_cast&lt;int&gt;(list.size())) // użyj konstruktora delegującego, aby ustawić tablicę początkową
 	{
-		// Now initialize our array from the list
+		// Teraz zainicjuj naszą tablicę z listy
 		std::copy(list.begin(), list.end(), m_data);
 	}
 
 	~IntArray()
 	{
 		delete[] m_data;
-		// we don&#39;t need to set m_data to null or m_length to 0 here, since the object will be destroyed immediately after this function anyway
+		// nie musimy ustawiać m_data na null lub m_length na 0, ponieważ obiekt i tak zostanie zniszczony natychmiast po wykonaniu tej funkcji
 	}
 
-	IntArray(const IntArray&amp;) = delete; // to avoid shallow copies
-	IntArray&amp; operator=(const IntArray&amp; list) = delete; // to avoid shallow copies
+	IntArray(const IntArray&amp;) = delete; // aby uniknąć płytkich kopii
+	IntArray&amp; operator=(const IntArray&amp; list) = delete; // aby uniknąć płytkich kopii
 
 	int&amp; operator[](int index)
 	{
@@ -137,27 +137,27 @@ int main()
 {
 	IntArray array{ 5, 4, 3, 2, 1 }; // initializer list
 	for (int count{ 0 }; count &lt; array.getLength(); ++count)
-		std::cout &lt;&lt; array[count] &lt;&lt; &#39; &#39;;
+		std::cout &lt;&lt; array[count] &lt;&lt; ' ';
 
 	return 0;
 }</code></pre><p>Daje to oczekiwany wynik:<pre>5 4 3 2 1
-</pre><p>To działa! Przyjrzyjmy się teraz temu bardziej szczegółowo.<p>Oto nasz konstruktor IntArray, który pobiera <code>std::initializer_list&lt;int></code>.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">	IntArray(std::initializer_list&lt;int&gt; list) // allow IntArray to be initialized via list initialization
-		: IntArray(static_cast&lt;int&gt;(list.size())) // use delegating constructor to set up initial array
+</pre><p>To działa! Przyjrzyjmy się teraz temu bardziej szczegółowo.<p>Oto nasz konstruktor IntArray, który pobiera <code>std::initializer_list&lt;int></code>.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">	IntArray(std::initializer_list&lt;int&gt; list) // pozwalają na inicjalizację IntArray poprzez inicjalizację listy
+		: IntArray(static_cast&lt;int&gt;(list.size())) // użyj konstruktora delegującego, aby ustawić tablicę początkową
 	{
-		// Now initialize our array from the list
+		// Teraz zainicjuj naszą tablicę z listy
 		std::copy(list.begin(), list.end(), m_data);
-	}</code></pre><p>w linii 1: Jak wspomniano powyżej, musimy użyć nawiasów kątowych, aby określić, jakiego typu elementu oczekujemy na liście. W tym przypadku, ponieważ jest to tablica IntArray, spodziewalibyśmy się, że lista będzie wypełniona wartością typu int. Pamiętaj, że nie przekazujemy listy poprzez odwołanie do stałej. Podobnie jak std::string_view, std::initializer_list jest bardzo lekki, a kopie są zwykle tańsze niż pośrednie.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>W linii 2: Delegujemy przydzielanie pamięci dla IntArray innemu konstruktorowi za pośrednictwem konstruktora delegującego (aby zredukować nadmiarowy kod). Ten inny konstruktor musi znać długość tablicy, dlatego przekazujemy mu list.size(), która zawiera liczbę elementów na liście. Zauważ, że list.size() zwraca size_t (bez znaku), więc musimy tutaj rzutować na int ze znakiem.<p>Treść konstruktora jest zarezerwowana do kopiowania elementów z listy do naszej klasy IntArray. Najłatwiej to zrobić, używając  <code>std::copy()</code>, który znajduje się w nagłówku &lt;algorithm&gt;.<p class="cpp-section cpp-topline" style=clear:both>Dostęp do elementów std::initializer_list<p>W niektórych przypadkach możesz chcieć uzyskać dostęp do każdego elementu std:initializer_list przed skopiowaniem tego elementu do tablicy wewnętrznej (np. w celu sprawdzenia poprawności wartości lub zmodyfikowania tych wartości jakoś).<p>Z jakiegoś niewytłumaczalnego powodu std::initializer_list nie zapewnia dostępu do elementów listy poprzez indeks dolny (operator[]). Komitetowi normalizacyjnym wielokrotnie zwracano uwagę na to pominięcie i nigdy się nim nie zajęto.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>Istnieje jednak wiele łatwych obejść:<ol start=1><li>Możesz użyć pętli for opartej na zakresach, aby iterować po elementach listy.<li>Innym sposobem jest użycie <code>begin()</code> funkcji składowej w celu uzyskania iteratora do <code>std::initializer_list</code>. Ponieważ ten iterator jest iteratorem o dostępie swobodnym, iteratory można indeksować:</ol><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">	IntArray(std::initializer_list&lt;int&gt; list) // allow IntArray to be initialized via list initialization
-		: IntArray(static_cast&lt;int&gt;(list.size())) // use delegating constructor to set up initial array
+	}</code></pre><p>w linii 1: Jak wspomniano powyżej, musimy użyć nawiasów kątowych, aby określić, jakiego typu elementu oczekujemy na liście. W tym przypadku, ponieważ jest to tablica IntArray, spodziewalibyśmy się, że lista będzie wypełniona wartością typu int. Pamiętaj, że nie przekazujemy listy poprzez odwołanie do stałej. Podobnie jak std::string_view, std::initializer_list jest bardzo lekki, a kopie są zwykle tańsze niż pośrednie.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>W linii 2: Delegujemy przydzielanie pamięci dla IntArray innemu konstruktorowi za pośrednictwem konstruktora delegującego (aby zredukować nadmiarowy kod). Ten inny konstruktor musi znać długość tablicy, dlatego przekazujemy mu list.size(), która zawiera liczbę elementów na liście. Zauważ, że list.size() zwraca size_t (bez znaku), więc musimy tutaj rzutować na int ze znakiem.<p>Treść konstruktora jest zarezerwowana do kopiowania elementów z listy do naszej klasy IntArray. Najłatwiej to zrobić, używając  <code>std::copy()</code>, który znajduje się w nagłówku &lt;algorithm&gt;.<p class="cpp-section cpp-topline" style=clear:both>Dostęp do elementów std::initializer_list<p>W niektórych przypadkach możesz chcieć uzyskać dostęp do każdego elementu std:initializer_list przed skopiowaniem tego elementu do tablicy wewnętrznej (np. w celu sprawdzenia poprawności wartości lub zmodyfikowania tych wartości jakoś).<p>Z jakiegoś niewytłumaczalnego powodu std::initializer_list nie zapewnia dostępu do elementów listy poprzez indeks dolny (operator[]). Komitetowi normalizacyjnym wielokrotnie zwracano uwagę na to pominięcie i nigdy się nim nie zajęto.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>Istnieje jednak wiele łatwych obejść:<ol start=1><li>Możesz użyć pętli for opartej na zakresach, aby iterować po elementach listy.<li>Innym sposobem jest użycie <code>begin()</code> funkcji składowej w celu uzyskania iteratora do <code>std::initializer_list</code>. Ponieważ ten iterator jest iteratorem o dostępie swobodnym, iteratory można indeksować:</ol><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">	IntArray(std::initializer_list&lt;int&gt; list) // pozwalają na inicjalizację IntArray poprzez inicjalizację listy
+		: IntArray(static_cast&lt;int&gt;(list.size())) // użyj konstruktora delegującego, aby ustawić tablicę początkową
 	{
-		// Now initialize our array from the list
+		// Teraz zainicjuj naszą tablicę z listy
 		for (std::size_t count{}; count &lt; list.size(); ++count)
 		{
 			m_data[count] = list.begin()[count];
 		}
-	}</code></pre><p class="cpp-section cpp-topline" style=clear:both>Inicjowanie listy preferuje konstruktory listowe zamiast konstruktorów nielistowych.<p>Niepuste listy inicjatorów zawsze będą faworyzować pasujący konstruktor inicjalizator_list w stosunku do innych potencjalnie pasujących konstruktorów. Rozważmy: <pre class="language-cpp line-numbers"><code class="language-cpp match-braces">IntArray a1(5);   // uses IntArray(int), allocates an array of size 5
-IntArray a2{ 5 }; // uses IntArray&lt;std::initializer_list&lt;int&gt;, allocates array of size 1</code></pre><p>Klasa <code>a1</code> case używa bezpośredniej inicjalizacji (która nie uwzględnia konstruktorów list), więc ta definicja wywoła  <code>IntArray(int)</code>, alokując tablicę o rozmiarze 5.<p>Klasa <code>a2</code> case używa inicjalizacji listy (co faworyzuje konstruktory list). Obydwa  <code>IntArray(int)</code> i <code>IntArray(std::initializer_list&lt;int>)</code> są tutaj możliwymi dopasowaniami, ale ponieważ preferowane są konstruktory list, zostanie wywołany <code>IntArray(std::initializer_list&lt;int>)</code> , przydzielający tablicę o rozmiarze 1 (z tym elementem o wartości 5)<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p>Dlatego nasz konstruktor delegujący powyżej używa bezpośredniej inicjalizacji podczas delegowania:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">	IntArray(std::initializer_list&lt;int&gt; list)
-		: IntArray(static_cast&lt;int&gt;(list.size())) // uses direct init</code></pre><p>To gwarantuje, że delegujemy do wersji <code>IntArray(int)</code> . Gdybyśmy zamiast tego delegowali przy użyciu inicjalizacji listy, konstruktor próbowałby delegować do siebie, co spowodowałoby błąd kompilacji.<p>To samo dzieje się z std::vector i innymi klasami kontenerów, które mają zarówno konstruktor listowy, jak i konstruktor z parametrem podobnego typu<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::vector&lt;int&gt; array(5); // Calls std::vector::vector(std::vector::size_type), 5 value-initialized elements: 0 0 0 0 0
-std::vector&lt;int&gt; array{ 5 }; // Calls std::vector::vector(std::initializer_list&lt;int&gt;), 1 element: 5</code></pre><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Inicjalizacja listy faworyzuje pasujące konstruktory listowe zamiast pasujących konstruktorów nielistowych.</div><div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Podczas inicjowania kontenera zawierającego listę konstruktor:<ul><li>Użyj inicjalizacji nawiasów klamrowych, gdy zamierzasz wywołać konstruktor listy (np. ponieważ inicjatory są wartościami elementów)<li>Użyj bezpośredniej inicjalizacji, gdy zamierzasz wywołać konstruktor niebędący listą (np. ponieważ inicjalizatory nie są wartościami elementów).</ul></div><p class="cpp-section cpp-topline" style=clear:both>Dodawanie konstruktorów list do istniejącej klasy jest niebezpieczne<p>Ponieważ inicjalizacja listy faworyzuje konstruktory list, dodanie konstruktora listy do istniejącej klasy, która wcześniej go nie posiadała, może spowodować cichą zmianę zachowania istniejących programów.<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>Rozważ następujący program:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;initializer_list&gt; // for std::initializer_list
+	}</code></pre><p class="cpp-section cpp-topline" style=clear:both>Inicjowanie listy preferuje konstruktory listowe zamiast konstruktorów nielistowych.<p>Niepuste listy inicjatorów zawsze będą faworyzować pasujący konstruktor inicjalizator_list w stosunku do innych potencjalnie pasujących konstruktorów. Rozważmy: <pre class="language-cpp line-numbers"><code class="language-cpp match-braces">IntArray a1(5);   // używa IntArray(int), przydziela tablicę rozmiaru 5
+IntArray a2{ 5 }; // używa IntArray&lt;std::initializer_list&lt;int&gt;, przydziela tablicę o rozmiarze 1</code></pre><p>Klasa <code>a1</code> case używa bezpośredniej inicjalizacji (która nie uwzględnia konstruktorów list), więc ta definicja wywoła  <code>IntArray(int)</code>, alokując tablicę o rozmiarze 5.<p>Klasa <code>a2</code> case używa inicjalizacji listy (co faworyzuje konstruktory list). Obydwa  <code>IntArray(int)</code> i <code>IntArray(std::initializer_list&lt;int>)</code> są tutaj możliwymi dopasowaniami, ale ponieważ preferowane są konstruktory list, zostanie wywołany <code>IntArray(std::initializer_list&lt;int>)</code> , przydzielający tablicę o rozmiarze 1 (z tym elementem o wartości 5)<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p>Dlatego nasz konstruktor delegujący powyżej używa bezpośredniej inicjalizacji podczas delegowania:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">	IntArray(std::initializer_list&lt;int&gt; list)
+		: IntArray(static_cast&lt;int&gt;(list.size())) // używa bezpośredniego inicjowania</code></pre><p>To gwarantuje, że delegujemy do wersji <code>IntArray(int)</code> . Gdybyśmy zamiast tego delegowali przy użyciu inicjalizacji listy, konstruktor próbowałby delegować do siebie, co spowodowałoby błąd kompilacji.<p>To samo dzieje się z std::vector i innymi klasami kontenerów, które mają zarówno konstruktor listowy, jak i konstruktor z parametrem podobnego typu<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::vector&lt;int&gt; array(5); // Wywołuje std::vector::vector(std::vector::size_type), 5 elementów inicjowanych wartością: 0 0 0 0 0
+std::vector&lt;int&gt; array{ 5 }; // Wywołuje std::vector::vector(std::initializer_list&lt;int&gt;), 1 element: 5</code></pre><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Inicjalizacja listy faworyzuje pasujące konstruktory listowe zamiast pasujących konstruktorów nielistowych.</div><div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Podczas inicjowania kontenera zawierającego listę konstruktor:<ul><li>Użyj inicjalizacji nawiasów klamrowych, gdy zamierzasz wywołać konstruktor listy (np. ponieważ inicjatory są wartościami elementów)<li>Użyj bezpośredniej inicjalizacji, gdy zamierzasz wywołać konstruktor niebędący listą (np. ponieważ inicjalizatory nie są wartościami elementów).</ul></div><p class="cpp-section cpp-topline" style=clear:both>Dodawanie konstruktorów list do istniejącej klasy jest niebezpieczne<p>Ponieważ inicjalizacja listy faworyzuje konstruktory list, dodanie konstruktora listy do istniejącej klasy, która wcześniej go nie posiadała, może spowodować cichą zmianę zachowania istniejących programów.<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>Rozważ następujący program:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;initializer_list&gt; // dla std::initializer_list
 #include &lt;iostream&gt;
 
 class Foo
@@ -165,7 +165,7 @@ class Foo
 public:
 	Foo(int, int)
 	{
-		std::cout &lt;&lt; &#34;Foo(int, int)&#34; &lt;&lt; &#39;\n&#39;;
+		std::cout &lt;&lt; "Foo(int, int)" &lt;&lt; '\n';
 	}
 };
 
@@ -175,7 +175,7 @@ int main()
 
 	return 0;
 }</code></pre><p>Wypisuje:<pre>Foo(int, int)
-</pre><p>Dodajmy teraz konstruktor listy do tej klasy:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;initializer_list&gt; // for std::initializer_list
+</pre><p>Dodajmy teraz konstruktor listy do tej klasy:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;initializer_list&gt; // dla std::initializer_list
 #include &lt;iostream&gt;
 
 class Foo
@@ -183,27 +183,27 @@ class Foo
 public:
 	Foo(int, int)
 	{
-		std::cout &lt;&lt; &#34;Foo(int, int)&#34; &lt;&lt; &#39;\n&#39;;
+		std::cout &lt;&lt; "Foo(int, int)" &lt;&lt; '\n';
 	}
 
-	// We&#39;ve added a list constructor
+	// Dodaliśmy konstruktor listy
 	Foo(std::initializer_list&lt;int&gt;)
 	{
-		std::cout &lt;&lt; &#34;Foo(std::initializer_list&lt;int&gt;)&#34; &lt;&lt; &#39;\n&#39;;
+		std::cout &lt;&lt; "Foo(std::initializer_list&lt;int&gt;)" &lt;&lt; '\n';
 	}
 
 };
 
 int main()
 {
-	// note that the following statement has not changed
-	Foo f1{ 1, 2 }; // now calls Foo(std::initializer_list&lt;int&gt;)
+	// zauważ, że poniższe stwierdzenie nie uległo zmianie
+	Foo f1{ 1, 2 }; // teraz wywołuje Foo(std::initializer_list&lt;int&gt;)
 
 	return 0;
 }</code></pre><p>Chociaż nie dokonaliśmy żadnych innych zmian w programie, ten program teraz wypisuje:<pre>Foo(std::initializer_list&lt;int&gt;)
-</pre><div class="cpp-note cpp-lightredbackground"><p class="cpp-note-title cpp-bottomline">Ostrzeżenie<p>Dodanie konstruktora listy do istniejącej klasy, która go nie posiadała, może przerwać istniejącą programy.</div><p class="cpp-section cpp-topline" style=clear:both>Przypisanie klasy za pomocą std::initializer_list<p>Możesz także użyć std::initializer_list, aby przypisać nowe wartości do klasy poprzez przeciążenie operatora przypisania w celu pobrania parametru std::initializer_list. Działa to analogicznie do powyższego. Poniżej pokażemy przykład, jak to zrobić w rozwiązaniu quizu.<p>Pamiętaj, że jeśli zaimplementujesz konstruktor korzystający z std::initializer_list, powinieneś upewnić się, że wykonałeś co najmniej jedną z następujących czynności:<ol><li>Podaj operator przypisania przeciążonej listy<li>Podaj poprawny operator przypisania kopiowania do głębokiego kopiowania<li>Usuń przypisanie kopii operator</ol><p>Oto dlaczego: rozważ następującą klasę (która nie ma żadnej z tych rzeczy) wraz z instrukcją przypisania listy:<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;algorithm&gt; // for std::copy()
-#include &lt;cassert&gt;   // for assert()
-#include &lt;initializer_list&gt; // for std::initializer_list
+</pre><div class="cpp-note cpp-lightredbackground"><p class="cpp-note-title cpp-bottomline">Ostrzeżenie<p>Dodanie konstruktora listy do istniejącej klasy, która go nie posiadała, może przerwać istniejącą programy.</div><p class="cpp-section cpp-topline" style=clear:both>Przypisanie klasy za pomocą std::initializer_list<p>Możesz także użyć std::initializer_list, aby przypisać nowe wartości do klasy poprzez przeciążenie operatora przypisania w celu pobrania parametru std::initializer_list. Działa to analogicznie do powyższego. Poniżej pokażemy przykład, jak to zrobić w rozwiązaniu quizu.<p>Pamiętaj, że jeśli zaimplementujesz konstruktor korzystający z std::initializer_list, powinieneś upewnić się, że wykonałeś co najmniej jedną z następujących czynności:<ol><li>Podaj operator przypisania przeciążonej listy<li>Podaj poprawny operator przypisania kopiowania do głębokiego kopiowania<li>Usuń przypisanie kopii operator</ol><p>Oto dlaczego: rozważ następującą klasę (która nie ma żadnej z tych rzeczy) wraz z instrukcją przypisania listy:<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;algorithm&gt; // dla std::copy()
+#include &lt;cassert&gt;   // dla Assert()
+#include &lt;initializer_list&gt; // dla std::initializer_list
 #include &lt;iostream&gt;
 
 class IntArray
@@ -222,10 +222,10 @@ public:
 
 	}
 
-	IntArray(std::initializer_list&lt;int&gt; list) // allow IntArray to be initialized via list initialization
-		: IntArray(static_cast&lt;int&gt;(list.size())) // use delegating constructor to set up initial array
+	IntArray(std::initializer_list&lt;int&gt; list) // pozwalają na inicjalizację IntArray poprzez inicjalizację listy
+		: IntArray(static_cast&lt;int&gt;(list.size())) // użyj konstruktora delegującego, aby ustawić tablicę początkową
 	{
-		// Now initialize our array from the list
+		// Teraz zainicjuj naszą tablicę z listy
 		std::copy(list.begin(), list.end(), m_data);
 	}
 
@@ -234,8 +234,8 @@ public:
 		delete[] m_data;
 	}
 
-//	IntArray(const IntArray&amp;) = delete; // to avoid shallow copies
-//	IntArray&amp; operator=(const IntArray&amp; list) = delete; // to avoid shallow copies
+//	IntArray(const IntArray&amp;) = usuń; // aby uniknąć płytkich kopii
+//	IntArray&amp; operator=(const IntArray&amp; list) = usuń; // aby uniknąć płytkich kopii
 
 	int&amp; operator[](int index)
 	{
@@ -249,10 +249,10 @@ public:
 int main()
 {
 	IntArray array{};
-	array = { 1, 3, 5, 7, 9, 11 }; // Here&#39;s our list assignment statement
+	array = { 1, 3, 5, 7, 9, 11 }; // Oto nasza instrukcja przypisania list
 
 	for (int count{ 0 }; count &lt; array.getLength(); ++count)
-		std::cout &lt;&lt; array[count] &lt;&lt; &#39; &#39;; // undefined behavior
+		std::cout &lt;&lt; array[count] &lt;&lt; ' '; // undefined behavior
 
 	return 0;
 }</code></pre><p>Po pierwsze, kompilator zauważy, że funkcja przypisania przyjmująca std::initializer_list nie istnieje. Następnie będzie szukać innych funkcji przypisania, których mógłby użyć, i odkryje podany niejawnie operator przypisania kopiowania. Jednak tej funkcji można użyć tylko wtedy, gdy można przekonwertować listę inicjatorów na tablicę IntArray. Ponieważ { 1, 3, 5, 7, 9, 11 } jest listą std::initializer_list, kompilator użyje konstruktora listy do przekonwertowania listy inicjatorów na tymczasową tablicę IntArray. Następnie wywoła ukryty operator przypisania, który płytko skopiuje tymczasowy IntArray do naszego obiektu tablicowego.<p>W tym momencie zarówno m_data tymczasowej IntArray, jak i array-&gt;m_data wskazują na ten sam adres (ze względu na płytką kopię). Już widać, dokąd to zmierza.<p>Na końcu instrukcji przypisania tymczasowa tablica IntArray zostaje zniszczona. To wywołuje destruktor, który usuwa m_data tymczasowej tablicy IntArray. Pozostawia to array-&gt;m_data jako wiszący wskaźnik. Kiedy spróbujesz użyć array-&gt;m_data w jakimkolwiek celu (na przykład wtedy, gdy tablica wyjdzie poza zakres, a destruktor usunie m_data), otrzymasz niezdefiniowane zachowanie.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Jeśli podasz konstrukcję listy, dobrym pomysłem jest zapewnienie również przypisania listy.</div><p class="cpp-section cpp-topline" style=clear:both>Streszczenie<p>Implementacja konstruktora pobierającego parametr std::initializer_list pozwala nam używać inicjalizacji listy z naszymi niestandardowymi klasami. Możemy również użyć std::initializer_list do zaimplementowania innych funkcji, które muszą używać listy inicjatorów, takich jak operator przypisania.<p class="cpp-section cpp-topline" style=clear:both>Czas quizu<div class=quiz style=clear:both><p class=quiz-header>Pytanie nr 1<p>Korzystając z powyższej klasy IntArray, zaimplementuj przeciążony operator przypisania, który pobiera listę inicjatorów.<p>Należy uruchomić następujący kod:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
@@ -273,9 +273,9 @@ int main()
 	return 0;
 }</code></pre><p>To powinno zostać wydrukowane:<pre>5 4 3 2 1 
 1 3 5 7 9 11
-</pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_0 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;algorithm&gt; // for std::copy()
-#include &lt;cassert&gt;   // for assert()
-#include &lt;initializer_list&gt; // for std::initializer_list
+</pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_0 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;algorithm&gt; // dla std::copy()
+#include &lt;cassert&gt;   // dla Assert()
+#include &lt;initializer_list&gt; // dla std::initializer_list
 #include &lt;iostream&gt;
 
 class IntArray
@@ -294,25 +294,25 @@ public:
 
 	}
 
-	IntArray(std::initializer_list&lt;int&gt; list) : // allow IntArray to be initialized via list initialization
-		IntArray(static_cast&lt;int&gt;(list.size())) // use delegating constructor to set up initial array
+	IntArray(std::initializer_list&lt;int&gt; list) : // pozwalają na inicjalizację IntArray poprzez inicjalizację listy
+		IntArray(static_cast&lt;int&gt;(list.size())) // użyj konstruktora delegującego, aby ustawić tablicę początkową
 	{
-		// Now initialize our array from the list
+		// Teraz zainicjuj naszą tablicę z listy
 		std::copy(list.begin(), list.end(), m_data);
 	}
 
 	~IntArray()
 	{
 		delete[] m_data;
-		// we don&#39;t need to set m_data to null or m_length to 0 here, since the object will be destroyed immediately after this function anyway
+		// nie musimy ustawiać m_data na null lub m_length na 0, ponieważ obiekt i tak zostanie zniszczony natychmiast po wykonaniu tej funkcji
 	}
 
-	IntArray(const IntArray&amp;) = delete; // to avoid shallow copies
-	IntArray&amp; operator=(const IntArray&amp; list) = delete; // to avoid shallow copies
+	IntArray(const IntArray&amp;) = delete; // aby uniknąć płytkich kopii
+	IntArray&amp; operator=(const IntArray&amp; list) = delete; // aby uniknąć płytkich kopii
 
 	IntArray&amp; operator=(std::initializer_list&lt;int&gt; list)
 	{
-		// If the new list is a different size, reallocate it
+		// Jeśli nowa lista ma inny rozmiar, przenieś to
 		int length { static_cast&lt;int&gt;(list.size()) };
 		if (length != m_length)
 		{
@@ -321,7 +321,7 @@ public:
 			m_data = new int[list.size()]{};
 		}
 
-		// Now initialize our array from the list
+		// Teraz zainicjuj naszą tablicę z listy
 		std::copy(list.begin(), list.end(), m_data);
 
 		return *this;
@@ -340,16 +340,16 @@ int main()
 {
 	IntArray array { 5, 4, 3, 2, 1 }; // initializer list
 	for (int count{ 0 }; count &lt; array.getLength(); ++count)
-		std::cout &lt;&lt; array[count] &lt;&lt; &#39; &#39;;
+		std::cout &lt;&lt; array[count] &lt;&lt; ' ';
 
-	std::cout &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; '\n';
 
 	array = { 1, 3, 5, 7, 9, 11 };
 
 	for (int count{ 0 }; count &lt; array.getLength(); ++count)
-		std::cout &lt;&lt; array[count] &lt;&lt; &#39; &#39;;
+		std::cout &lt;&lt; array[count] &lt;&lt; ' ';
 
-	std::cout &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; '\n';
 
 	return 0;
 }</code></pre></div></div><div class=prevnext><div class=prevnext-inline><a class=nav-link href="../chapter-23-summary-and-quiz/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>23.x</span>Podsumowanie rozdziału 23 i quiz</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../container-classes/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>23.6</span>Klasy kontenerów</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/stdinitializer_list/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../stdmove/index.html" rel=prev><span>22.4 — std::move</span></a></div><div class=nav-next><em>Następny post</em><a href="../stdunique_ptr/index.html" rel=next><span>22.5 — std::unique_ptr</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>

@@ -17,21 +17,21 @@
     int arr[3][4] { 
         { 1, 2, 3, 4 },
         { 5, 6, 7, 8 },
-        { 9, 10, 11, 12 }};</code></pre><p>Ale jak wiesz, generalnie chcemy tego unikać Tablice w stylu C (chyba że są używane do przechowywania danych globalnych).<p>W tej lekcji przyjrzymy się, jak działają tablice wielowymiarowe z <code>std::array</code>.<p class="cpp-section cpp-topline" style=clear:both>Nie ma standardowej biblioteki tablic wielowymiarowych. Klasa<p>Zauważ to <code>std::array</code> jest implementowana jako tablica jednowymiarowa. Zatem pierwszym pytaniem, które powinieneś zadać, jest: „Czy istnieje standardowa klasa biblioteczna dla tablic wielowymiarowych?” Odpowiedź brzmi… nie. Szkoda. Womp womp.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Dwuwymiarowy <code>std::array</code><p>Kanoniczny sposób utworzenia dwuwymiarowej tablicy <code>std::array</code> polega na utworzeniu <code>std::array</code> gdzie argumentem typu szablonu jest inny <code>std::array</code>. Prowadzi to do czegoś takiego:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    std::array&lt;std::array&lt;int, 4&gt;, 3&gt; arr {{  // note double braces
+        { 9, 10, 11, 12 }};</code></pre><p>Ale jak wiesz, generalnie chcemy tego unikać Tablice w stylu C (chyba że są używane do przechowywania danych globalnych).<p>W tej lekcji przyjrzymy się, jak działają tablice wielowymiarowe z <code>std::array</code>.<p class="cpp-section cpp-topline" style=clear:both>Nie ma standardowej biblioteki tablic wielowymiarowych. Klasa<p>Zauważ to <code>std::array</code> jest implementowana jako tablica jednowymiarowa. Zatem pierwszym pytaniem, które powinieneś zadać, jest: „Czy istnieje standardowa klasa biblioteczna dla tablic wielowymiarowych?” Odpowiedź brzmi… nie. Szkoda. Womp womp.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Dwuwymiarowy <code>std::array</code><p>Kanoniczny sposób utworzenia dwuwymiarowej tablicy <code>std::array</code> polega na utworzeniu <code>std::array</code> gdzie argumentem typu szablonu jest inny <code>std::array</code>. Prowadzi to do czegoś takiego:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    std::array&lt;std::array&lt;int, 4&gt;, 3&gt; arr {{  // zwróć uwagę na podwójne nawiasy klamrowe
         { 1, 2, 3, 4 },
         { 5, 6, 7, 8 },
-        { 9, 10, 11, 12 }}};</code></pre><p>Jest wiele „interesujących” rzeczy, na które warto zwrócić uwagę:<ul><li>Podczas inicjowania wielowymiarowego <code>std::array</code> musimy użyć podwójnych nawiasów klamrowych (omówimy, dlaczego w lekcji <a href="../stdarray-of-class-types-and-brace-elision/index.html">17.4 -- std::array typów klas i eliminacji nawiasów klamrowych</a>).<li>Składnia jest szczegółowa i trudne do odczytania.<li>Ze względu na sposób zagnieżdżania szablonów wymiary tablicy są zamieniane. Chcemy tablicy z 3 rzędami po 4 elementy, więc <code>arr[3][4]</code> jest to naturalne. <code>std::array&lt;std::array&lt;int, 4>, 3></code> jest odwrotne.</ul><p>Indeksowanie dwuwymiarowego <code>std::array</code> elementu działa podobnie jak indeksowanie dwuwymiarowego elementu w stylu C tablica:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    std::cout &lt;&lt; arr[1][2]; // print the element in row 1, column 2</code></pre><p>Możemy także przekazać funkcję dwuwymiarową <code>std::array</code> do funkcji tak samo jak jednowymiarową <code>std::array</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;array&gt;
+        { 9, 10, 11, 12 }}};</code></pre><p>Jest wiele „interesujących” rzeczy, na które warto zwrócić uwagę:<ul><li>Podczas inicjowania wielowymiarowego <code>std::array</code> musimy użyć podwójnych nawiasów klamrowych (omówimy, dlaczego w lekcji <a href="../stdarray-of-class-types-and-brace-elision/index.html">17.4 -- std::array typów klas i eliminacji nawiasów klamrowych</a>).<li>Składnia jest szczegółowa i trudne do odczytania.<li>Ze względu na sposób zagnieżdżania szablonów wymiary tablicy są zamieniane. Chcemy tablicy z 3 rzędami po 4 elementy, więc <code>arr[3][4]</code> jest to naturalne. <code>std::array&lt;std::array&lt;int, 4>, 3></code> jest odwrotne.</ul><p>Indeksowanie dwuwymiarowego <code>std::array</code> elementu działa podobnie jak indeksowanie dwuwymiarowego elementu w stylu C tablica:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    std::cout &lt;&lt; arr[1][2]; // wydrukuj element w wierszu 1, kolumnie 2</code></pre><p>Możemy także przekazać funkcję dwuwymiarową <code>std::array</code> do funkcji tak samo jak jednowymiarową <code>std::array</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;array&gt;
 #include &lt;iostream&gt;
 
 template &lt;typename T, std::size_t Row, std::size_t Col&gt;
 void printArray(const std::array&lt;std::array&lt;T, Col&gt;, Row&gt; &amp;arr)
 {
-    for (const auto&amp; arow: arr)   // get each array row
+    for (const auto&amp; arow: arr)   // pobierz każdy wiersz tablicy
     {
-        for (const auto&amp; e: arow) // get each element of the row
-            std::cout &lt;&lt; e &lt;&lt; &#39; &#39;;
+        for (const auto&amp; e: arow) // pobierz każdy element wiersz
+            std::cout &lt;&lt; e &lt;&lt; ' ';
 
-        std::cout &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; '\n';
     }
 }
 
@@ -45,31 +45,31 @@ int main()
     printArray(arr);
 
     return 0;
-}</code></pre><p>Fuj. I to jest w przypadku dwuwymiarowej <code>std::array</code>. Trójwymiarowa lub wyższa <code>std::array</code> jest jeszcze bardziej gadatliwa!<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Ułatwianie tworzenia dwuwymiarowych <code>std::array</code> za pomocą szablonów aliasów<p>W lekcji <a href="../typedefs-and-type-aliases/index.html">10.7 -- Typedefs i aliasy typów</a>, wprowadziliśmy aliasy typów i zauważyliśmy, że jednym z zastosowań aliasów typów jest uproszczenie użycia typów złożonych. Jednakże w przypadku aliasów typu normalnego musimy jawnie określić wszystkie argumenty szablonu, np. <pre class="language-cpp line-numbers"><code class="language-cpp match-braces">using Array2dint34 = std::array&lt;std::array&lt;int, 4&gt;, 3&gt;;</code></pre><p>Pozwala nam to używać <code>Array2dint34</code> wszędzie tam, gdzie chcemy dwuwymiarowej std::array 3×4. of <code>int</code>. Ale pamiętaj, że potrzebujemy jednego takiego aliasu dla każdej kombinacji typu elementu i wymiarów, których chcemy użyć!<p>To idealne miejsce na użycie szablonu aliasu, który pozwoli nam określić typ elementu, długość wiersza i długość kolumny dla aliasu typu jako argumenty szablonu!<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// An alias template for a two-dimensional std::array
+}</code></pre><p>Fuj. I to jest w przypadku dwuwymiarowej <code>std::array</code>. Trójwymiarowa lub wyższa <code>std::array</code> jest jeszcze bardziej gadatliwa!<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Ułatwianie tworzenia dwuwymiarowych <code>std::array</code> za pomocą szablonów aliasów<p>W lekcji <a href="../typedefs-and-type-aliases/index.html">10.7 -- Typedefs i aliasy typów</a>, wprowadziliśmy aliasy typów i zauważyliśmy, że jednym z zastosowań aliasów typów jest uproszczenie użycia typów złożonych. Jednakże w przypadku aliasów typu normalnego musimy jawnie określić wszystkie argumenty szablonu, np. <pre class="language-cpp line-numbers"><code class="language-cpp match-braces">using Array2dint34 = std::array&lt;std::array&lt;int, 4&gt;, 3&gt;;</code></pre><p>Pozwala nam to używać <code>Array2dint34</code> wszędzie tam, gdzie chcemy dwuwymiarowej std::array 3×4. of <code>int</code>. Ale pamiętaj, że potrzebujemy jednego takiego aliasu dla każdej kombinacji typu elementu i wymiarów, których chcemy użyć!<p>To idealne miejsce na użycie szablonu aliasu, który pozwoli nam określić typ elementu, długość wiersza i długość kolumny dla aliasu typu jako argumenty szablonu!<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Szablon aliasu dla dwuwymiarowego std::array
 template &lt;typename T, std::size_t Row, std::size_t Col&gt;
 using Array2d = std::array&lt;std::array&lt;T, Col&gt;, Row&gt;;</code></pre><p>Możemy wtedy użyć <code>Array2d&lt;int, 3, 4></code> w dowolnym miejscu dwuwymiarowego 3×4 std::array of <code>int</code>. Jest o wiele lepiej!<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>Oto pełny przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;array&gt;
 #include &lt;iostream&gt;
 
-// An alias template for a two-dimensional std::array
+// Szablon aliasu dla dwuwymiarowego std::array
 template &lt;typename T, std::size_t Row, std::size_t Col&gt;
 using Array2d = std::array&lt;std::array&lt;T, Col&gt;, Row&gt;;
 
-// When using Array2d as a function parameter, we need to respecify the template parameters
+// Gdy używamy Array2d jako parametru funkcji, musimy ponownie określić parametry szablonu
 template &lt;typename T, std::size_t Row, std::size_t Col&gt;
 void printArray(const Array2d&lt;T, Row, Col&gt; &amp;arr)
 {
-    for (const auto&amp; arow: arr)   // get each array row
+    for (const auto&amp; arow: arr)   // pobierz każdy wiersz tablicy
     {
-        for (const auto&amp; e: arow) // get each element of the row
-            std::cout &lt;&lt; e &lt;&lt; &#39; &#39;;
+        for (const auto&amp; e: arow) // pobierz każdy element wiersz
+            std::cout &lt;&lt; e &lt;&lt; ' ';
 
-        std::cout &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; '\n';
     }
 }
 
 int main()
 {
-    // Define a two-dimensional array of int with 3 rows and 4 columns
+    // Zdefiniuj dwuwymiarową tablicę int z 3 wierszami i 4 kolumnami
     Array2d&lt;int, 3, 4&gt; arr {{
         { 1, 2, 3, 4 },
         { 5, 6, 7, 8 },
@@ -78,77 +78,77 @@ int main()
     printArray(arr);
 
     return 0;
-}</code></pre><p>Zauważ, że jest to o wiele bardziej zwięzłe i łatwe w użyciu!<p>Jedną z zalet naszego szablonu aliasów jest to, że możemy zdefiniować parametry szablonu w dowolnej kolejności. Ponieważ <code>std::array</code> określa najpierw typ elementu, a następnie wymiar, trzymamy się tego zgodnie z tą konwencją, ale możemy zdefiniować najpierw  <code>Row</code> lub <code>Col</code>  Ponieważ definicje tablic w stylu C są definiowane w pierwszym wierszu, definiujemy nasz szablon aliasu za pomocą <code>Row</code> przed <code>Col</code>.<p>Ta metoda również ładnie skaluje się do wyższych wymiarów <code>std::array</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// An alias template for a three-dimensional std::array
+}</code></pre><p>Zauważ, że jest to o wiele bardziej zwięzłe i łatwe w użyciu!<p>Jedną z zalet naszego szablonu aliasów jest to, że możemy zdefiniować parametry szablonu w dowolnej kolejności. Ponieważ <code>std::array</code> określa najpierw typ elementu, a następnie wymiar, trzymamy się tego zgodnie z tą konwencją, ale możemy zdefiniować najpierw  <code>Row</code> lub <code>Col</code>  Ponieważ definicje tablic w stylu C są definiowane w pierwszym wierszu, definiujemy nasz szablon aliasu za pomocą <code>Row</code> przed <code>Col</code>.<p>Ta metoda również ładnie skaluje się do wyższych wymiarów <code>std::array</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Szablon aliasu dla trójwymiarowego std::array
 template &lt;typename T, std::size_t Row, std::size_t Col, std::size_t Depth&gt;
 using Array3d = std::array&lt;std::array&lt;std::array&lt;T, Depth&gt;, Col&gt;, Row&gt;;</code></pre><p class="cpp-section cpp-topline" style=clear:both>Uzyskiwanie długości wymiarowych tablicy dwuwymiarowej<p>W przypadku jednowymiarowej <code>std::array</code> możemy użyć  <code>size()</code> funkcję składową (lub <code>std::size()</code>), aby uzyskać długość tablicy. Ale co robimy, gdy mamy dwuwymiarową <code>std::array</code>? W tym przypadku <code>size()</code> zwróci tylko długość pierwszego wymiaru.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>Jedną z pozornie atrakcyjnych (ale potencjalnie niebezpiecznych) opcji jest uzyskanie elementu o żądanym wymiarze, a następnie wywołaj  <code>size()</code> na tym elemencie:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;array&gt;
 #include &lt;iostream&gt;
 
-// An alias template for a two-dimensional std::array
+// Szablon aliasu dla dwuwymiarowego std::array
 template &lt;typename T, std::size_t Row, std::size_t Col&gt;
 using Array2d = std::array&lt;std::array&lt;T, Col&gt;, Row&gt;;
 
 int main()
 {
-    // Define a two-dimensional array of int with 3 rows and 4 columns
+    // Zdefiniuj dwuwymiarową tablicę int z 3 wierszami i 4 kolumnami
     Array2d&lt;int, 3, 4&gt; arr {{
         { 1, 2, 3, 4 },
         { 5, 6, 7, 8 },
         { 9, 10, 11, 12 }}};
 
-    std::cout &lt;&lt; &#34;Rows: &#34; &lt;&lt; arr.size() &lt;&lt; &#39;\n&#39;;    // get length of first dimension (rows)
-    std::cout &lt;&lt; &#34;Cols: &#34; &lt;&lt; arr[0].size() &lt;&lt; &#39;\n&#39;; // get length of second dimension (cols), undefined behavior if length of first dimension is zero!
+    std::cout &lt;&lt; "Rows: " &lt;&lt; arr.size() &lt;&lt; '\n';    // pobierz długość pierwszego wymiaru (wiersze)
+    std::cout &lt;&lt; "Cols: " &lt;&lt; arr[0].size() &lt;&lt; '\n'; // pobierz długość drugiego wymiaru (cols), niezdefiniowane zachowanie, jeśli długość pierwszego wymiaru wynosi zero!
 
     return 0;
 }</code></pre><p>Aby uzyskać długość pierwszego wymiaru, wywołujemy  <code>size()</code> na tablicy. Aby uzyskać długość drugiego wymiaru, najpierw wywołujemy  <code>arr[0]</code> , aby uzyskać pierwszy element, a następnie wywołujemy  <code>size()</code> , aby uzyskać długość trzeciego wymiaru tablicy 3-wymiarowej, wywołujemy  <code>arr[0][0].size()</code>.<p>Powyższy kod ma jednak wady, ponieważ będzie generował niezdefiniowane zachowanie, jeśli dowolny wymiar inny niż ostatni ma długość 0!<p>Lepszą opcją jest użycie szablonu funkcji do zwrócenia długości wymiaru bezpośrednio z powiązanego parametru szablonu innego niż typ:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;array&gt;
 #include &lt;iostream&gt;
 
-// An alias template for a two-dimensional std::array
+// Szablon aliasu dla dwuwymiarowego std::array
 template &lt;typename T, std::size_t Row, std::size_t Col&gt;
 using Array2d = std::array&lt;std::array&lt;T, Col&gt;, Row&gt;;
 
-// Fetch the number of rows from the Row non-type template parameter
+// Pobierz liczbę wierszy z parametru szablonu typu innego niż Row
 template &lt;typename T, std::size_t Row, std::size_t Col&gt;
-constexpr int rowLength(const Array2d&lt;T, Row, Col&gt;&amp;) // you can return std::size_t if you prefer
+constexpr int rowLength(const Array2d&lt;T, Row, Col&gt;&amp;) // możesz zwrócić std::size_t, jeśli wolisz
 {
     return Row;
 }
 
-// Fetch the number of cols from the Col non-type template parameter
+// Pobierz liczbę cols z parametru szablonu typu innego niż Col
 template &lt;typename T, std::size_t Row, std::size_t Col&gt;
-constexpr int colLength(const Array2d&lt;T, Row, Col&gt;&amp;) // you can return std::size_t if you prefer
+constexpr int colLength(const Array2d&lt;T, Row, Col&gt;&amp;) // możesz zwrócić std::size_t, jeśli wolisz
 {
     return Col;
 }
 
 int main()
 {
-    // Define a two-dimensional array of int with 3 rows and 4 columns
+    // Zdefiniuj dwuwymiarową tablicę int z 3 wierszami i 4 kolumnami
     Array2d&lt;int, 3, 4&gt; arr {{
         { 1, 2, 3, 4 },
         { 5, 6, 7, 8 },
         { 9, 10, 11, 12 }}};
 
-    std::cout &lt;&lt; &#34;Rows: &#34; &lt;&lt; rowLength(arr) &lt;&lt; &#39;\n&#39;; // get length of first dimension (rows)
-    std::cout &lt;&lt; &#34;Cols: &#34; &lt;&lt; colLength(arr) &lt;&lt; &#39;\n&#39;; // get length of second dimension (cols)
+    std::cout &lt;&lt; "Rows: " &lt;&lt; rowLength(arr) &lt;&lt; '\n'; // pobierz długość pierwszego wymiaru (wiersze)
+    std::cout &lt;&lt; "Cols: " &lt;&lt; colLength(arr) &lt;&lt; '\n'; // pobierz długość drugiego wymiaru (cols)
 
     return 0;
 }</code></pre><p>Unika to niezdefiniowanego zachowania, jeśli długość dowolnego wymiaru wynosi zero, ponieważ używa tylko informacji o typie tablicy, a nie rzeczywistych danych tablicy. Pozwala nam to również łatwo zwrócić długość jako <code>int</code> jeśli chcemy (nie jest wymagane żadne rzutowanie statyczne, ponieważ konwersja z <code>constexpr std::size_t</code> Do <code>constexpr int</code> nie zawęża, więc konwersja niejawna jest w porządku).<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Spłaszczanie dwuwymiarowej tablicy<p>Tablice z dwoma lub większą liczbą wymiarów wiążą się z pewnymi wyzwaniami:<ul><li>Są bardziej szczegółowe w definiowaniu i działaniu with.<li>Uzyskiwanie długości wymiarów większych niż pierwszy jest niewygodne.<li>Iterowanie po nich jest coraz trudniejsze (wymaga jednej pętli więcej dla każdego wymiaru).</ul><p>Jednym ze sposobów ułatwienia pracy z tablicami wielowymiarowymi jest ich spłaszczenie. <strong>Spłaszczanie</strong> tablica to proces zmniejszania wymiarowości tablicy (często do jednego wymiaru).<p>Na przykład zamiast tworzyć dwuwymiarową tablicę z <code>Row</code> wierszami i  <code>Col</code> kolumny, możemy stworzyć jednowymiarową tablicę zawierającą <code>Row * Col</code> elementy. Daje nam to taką samą ilość pamięci przy użyciu jednego wymiaru.<p>Jednakże, ponieważ nasza jednowymiarowa tablica ma tylko jeden wymiar, nie możemy pracować z nią jako tablicą wielowymiarową. Aby rozwiązać ten problem, możemy zapewnić interfejs imitujący tablicę wielowymiarową. Interfejs ten akceptuje współrzędne dwuwymiarowe, a następnie mapuje je do unikalnej pozycji w tablicy jednowymiarowej.<p>Oto przykład takiego podejścia, które działa w C++11 lub nowszym:<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;array&gt;
 #include &lt;iostream&gt;
 #include &lt;functional&gt;
 
-// An alias template to allow us to define a one-dimensional std::array using two dimensions
+// Szablon aliasu umożliwiający zdefiniowanie jednowymiarowego std::array przy użyciu dwóch wymiarów
 template &lt;typename T, std::size_t Row, std::size_t Col&gt;
 using ArrayFlat2d = std::array&lt;T, Row * Col&gt;;
 
-// A modifiable view that allows us to work with an ArrayFlat2d using two dimensions
-// This is a view, so the ArrayFlat2d being viewed must stay in scope
+// Modyfikowalny widok, który pozwala nam pracować z ArrayFlat2d przy użyciu dwóch wymiarów
+// To jest widok, więc oglądana ArrayFlat2d musi pozostać w zakresie
 template &lt;typename T, std::size_t Row, std::size_t Col&gt;
 class ArrayView2d
 {
 private:
-    // You might be tempted to make m_arr a reference to an ArrayFlat2d,
-    // but this makes the view non-copy-assignable since references can&#39;t be reseated.
-    // Using std::reference_wrapper gives us reference semantics and copy assignability.
+    // Możesz ulec pokusie, aby m_arr stał się odniesieniem do ArrayFlat2d,
+    // ale to sprawia, że widok nie można przypisać do kopiowania, ponieważ nie można ponownie umieścić referencji.
+    // Użycie std::reference_wrapper daje nam semantykę referencji i możliwość przypisania kopii.
     std::reference_wrapper&lt;ArrayFlat2d&lt;T, Row, Col&gt;&gt; m_arr {};
 
 public:
@@ -156,17 +156,17 @@ public:
         : m_arr { arr }
     {}
 
-    // Get element via single subscript (using operator[])
+    // Pobierz element za pomocą pojedynczego indeksu dolnego (używając operatora [])
     T&amp; operator[](int i) { return m_arr.get()[static_cast&lt;std::size_t&gt;(i)]; }
     const T&amp; operator[](int i) const { return m_arr.get()[static_cast&lt;std::size_t&gt;(i)]; }
 
-    // Get element via 2d subscript (using operator(), since operator[] doesn&#39;t support multiple dimensions prior to C++23)
+    // Pobierz element za pomocą indeksu dolnego 2d (używając operatora(), ponieważ operator[] nie obsługuje wielu wymiarów przed C++ 23)
     T&amp; operator()(int row, int col) { return m_arr.get()[static_cast&lt;std::size_t&gt;(row * cols() + col)]; }
     const T&amp; operator()(int row, int col) const { return m_arr.get()[static_cast&lt;std::size_t&gt;(row * cols() + col)]; }
 
-    // in C++23, you can uncomment these since multidimensional operator[] is supported
-//    T&amp; operator[](int row, int col) { return m_arr.get()[static_cast&lt;std::size_t&gt;(row * cols() + col)]; }
-//    const T&amp; operator[](int row, int col) const { return m_arr.get()[static_cast&lt;std::size_t&gt;(row * cols() + col)]; }
+    // w C++23, możesz je odkomentować, ponieważ wielowymiarowy operator[] jest obsługiwany
+//    T&amp; operator[](int wiersz, int col) { return m_arr.get()[static_cast&lt;std::size_t&gt;(row * cols() + col)]; }
+//    const T&amp; operator[](int wiersz, int col) const { return m_arr.get()[static_cast&lt;std::size_t&gt;(wiersz * cols() + col)]; }
 
     int rows() const { return static_cast&lt;int&gt;(Row); }
     int cols() const { return static_cast&lt;int&gt;(Col); }
@@ -175,34 +175,34 @@ public:
 
 int main()
 {
-    // Define a one-dimensional std::array of int (with 3 rows and 4 columns)
+    // Zdefiniuj jednowymiarową std::array of int (z 3 wierszami i 4 kolumnami)
     ArrayFlat2d&lt;int, 3, 4&gt; arr {
         1, 2, 3, 4,
         5, 6, 7, 8,
         9, 10, 11, 12 };
 
-    // Define a two-dimensional view into our one-dimensional array
+    // Zdefiniuj dwuwymiarowy widok w naszej jednowymiarowej tablicy
     ArrayView2d&lt;int, 3, 4&gt; arrView { arr };
 
-    // print array dimensions
-    std::cout &lt;&lt; &#34;Rows: &#34; &lt;&lt; arrView.rows() &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; &#34;Cols: &#34; &lt;&lt; arrView.cols() &lt;&lt; &#39;\n&#39;;
+    // wydrukuj parametry
+    std::cout &lt;&lt; "Rows: " &lt;&lt; arrView.rows() &lt;&lt; '\n';
+    std::cout &lt;&lt; "Cols: " &lt;&lt; arrView.cols() &lt;&lt; '\n';
 
-    // print array using a single dimension
+    // wydrukuj tablicę używając pojedynczego wymiaru
     for (int i=0; i &lt; arrView.length(); ++i)
-        std::cout &lt;&lt; arrView[i] &lt;&lt; &#39; &#39;;
+        std::cout &lt;&lt; arrView[i] &lt;&lt; ' ';
 
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
 
-    // print array using two dimensions
+    // wydrukuj tablicę używając dwóch wymiarów
     for (int row=0; row &lt; arrView.rows(); ++row)
     {
         for (int col=0; col &lt; arrView.cols(); ++col)
-            std::cout &lt;&lt; arrView(row, col) &lt;&lt; &#39; &#39;;
-        std::cout &lt;&lt; &#39;\n&#39;;
+            std::cout &lt;&lt; arrView(row, col) &lt;&lt; ' ';
+        std::cout &lt;&lt; '\n';
     }
 
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Wypisuje:<pre>Rows: 3
@@ -215,46 +215,46 @@ Cols: 4
 #include &lt;iostream&gt;
 #include &lt;mdspan&gt;
 
-// An alias template to allow us to define a one-dimensional std::array using two dimensions
+// Szablon aliasu umożliwiający zdefiniowanie jednowymiarowego std::array przy użyciu dwóch wymiarów
 template &lt;typename T, std::size_t Row, std::size_t Col&gt;
 using ArrayFlat2d = std::array&lt;T, Row * Col&gt;;
 
 int main()
 {
-    // Define a one-dimensional std::array of int (with 3 rows and 4 columns)
+    // Zdefiniuj jednowymiarową std::array of int (z 3 wierszami i 4 kolumnami)
     ArrayFlat2d&lt;int, 3, 4&gt; arr {
         1, 2, 3, 4,
         5, 6, 7, 8,
         9, 10, 11, 12 };
 
-    // Define a two-dimensional span into our one-dimensional array
-    // We must pass std::mdspan a pointer to the sequence of elements
-    // which we can do via the data() member function of std::array or std::vector
+    // Zdefiniuj dwuwymiarowy zakres w naszej jednowymiarowej tablicy
+    // Musimy przekazać std::mdspan wskaźnik do sekwencji elementów
+    // co możemy zrobić za pomocą funkcji składowej data() std::array lub std::vector
     std::mdspan mdView { arr.data(), 3, 4 };
 
-    // print array dimensions
-    // std::mdspan calls these extents
+    // wydrukuj parametry
+    // std::mdspan wywołuje te zakresy
     std::size_t rows { mdView.extents().extent(0) };
     std::size_t cols { mdView.extents().extent(1) };
-    std::cout &lt;&lt; &#34;Rows: &#34; &lt;&lt; rows &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; &#34;Cols: &#34; &lt;&lt; cols &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "Rows: " &lt;&lt; rows &lt;&lt; '\n';
+    std::cout &lt;&lt; "Cols: " &lt;&lt; cols &lt;&lt; '\n';
 
-    // print array in 1d
-    // The data_handle() member gives us a pointer to the sequence of elements
-    // which we can then index
+    // wydrukuj tablicę w 1d
+    // Członek data_handle() daje nam wskaźnik do sekwencji elementów
+    // którą możemy następnie zaindeksować
     for (std::size_t i=0; i &lt; mdView.size(); ++i)
-        std::cout &lt;&lt; mdView.data_handle()[i] &lt;&lt; &#39; &#39;;
-    std::cout &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; mdView.data_handle()[i] &lt;&lt; ' ';
+    std::cout &lt;&lt; '\n';
 
-    // print array in 2d
-    // We use multidimensional [] to access elements
+    // wydrukuj tablicę w 2d
+    // Używamy wielowymiarowego [], aby uzyskać dostęp do elementów
     for (std::size_t row=0; row &lt; rows; ++row)
     {
         for (std::size_t col=0; col &lt; cols; ++col)
-            std::cout &lt;&lt; mdView[row, col] &lt;&lt; &#39; &#39;;
-        std::cout &lt;&lt; &#39;\n&#39;;
+            std::cout &lt;&lt; mdView[row, col] &lt;&lt; ' ';
+        std::cout &lt;&lt; '\n';
     }
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Powinno to być dość proste, ale są kilka rzeczy wartych odnotowania:<ul><li><code>std::mdspan</code> zdefiniujmy widok z dowolną liczbą wymiarów.<li>Pierwszy parametr konstruktora <code>std::mdspan</code> powinien być wskaźnikiem do danych tablicy. Może to być tablica w stylu C z rozkładem lub możemy użyć <code>data()</code> funkcją składową <code>std::array</code> lub <code>std::vector</code> aby uzyskać te dane.<li>Aby zaindeksować <code>std::mdspan</code> w jednym wymiarze musimy pobrać wskaźnik do danych tablicy, co możemy zrobić za pomocą funkcji składowej <code>data_handle()</code> . Możemy to następnie zapisać w indeksie dolnym.<li>W C++23  <code>operator[]</code> akceptuje wiele indeksów, więc używamy <code>[row, col]</code> jako nasz indeks zamiast <code>[row][col]</code>.</ul><p>C++26 będzie zawierał <code>std::mdarray</code>, co zasadniczo łączy <code>std::array</code> i <code>std::mdspan</code> w posiadającą wielowymiarową tablicę!<div class=prevnext><div class=prevnext-inline><a class=nav-link href="../chapter-17-summary-and-quiz/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>17.x</span>Podsumowanie rozdziału 17 i quiz</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../multidimensional-c-style-arrays/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>17.12</span>Wielowymiarowych tablic w stylu C</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/multidimensional-stdarray/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../stdarray-and-enumerations/index.html" rel=prev><span>17.6 — std::array i enumerations</span></a></div><div class=nav-next><em>Następny post</em><a href="../alias-templates/index.html" rel=next><span>13.15 — Szablony aliasów</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>

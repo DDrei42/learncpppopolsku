@@ -13,17 +13,17 @@
 <button class=searchsubmit><span class=screen-reader-text>Szukaj</span><i class=icon-search></i></button>
 <input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=23901></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="13.x — Podsumowanie i quiz rozdziału 13" src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-9429 class="post-9429 post type-post status-publish format-standard hentry category-cpp-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>13.x — Podsumowanie i quiz rozdziału 13</h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Autor></i><a class="url fn n" rel=author href=/www.learncpp.com/author/Alex/ title="Wyświetl wszystkie posty Alexa" itemprop=url><em itemprop=name>Alex</em></a></span>
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2020-01-03T13:20:11-08:00 itemprop=datePublished>3 stycznia 2020, 13:20 czasu PST</time>
-<time class=updated datetime=2024-11-04T12:03:58-08:00 itemprop=dateModified>4 listopada, 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>Gratulacje! Udało Ci się przejść przez kolejny. Zdobyta wiedza na temat struktur przyda się, gdy dotrzemy do najważniejszego tematu C++ – klas!<p class=cpp-section>Szybki przegląd<p>A <strong>typ zdefiniowany przez program</strong> (zwana także <strong>typ zdefiniowany przez użytkownika</strong>) to typ niestandardowy, który możemy utworzyć do użytku w naszych własnych programach. Wymienione typy i typy klas (w tym struktury, klasy i związki) pozwalają na tworzenie typów zdefiniowanych w programie. Typy zdefiniowane w programie muszą zostać zdefiniowane, zanim będzie można ich użyć. Definicja typu zdefiniowanego w programie nazywana jest <strong>definicją typu</strong>. Definicje typów nie podlegają zasadzie jednej definicji.<p>An <strong>wyliczenie</strong> (zwany także <strong>typem wyliczeniowym</strong> lub <strong>wyliczeniem</strong>) to złożony typ danych, w którym każda możliwa wartość jest zdefiniowana jako stała symboliczna (tzw. licznik <strong>licznik</strong>). Wyliczenia są <strong>odrębnymi typami</strong>, co oznacza, że ​​kompilator może odróżnić je od innych typów (w przeciwieństwie do aliasów typów).<p><strong>Wyliczenia bez zakresu</strong> nazywane są takimi, ponieważ umieszczają nazwy modułów wyliczających w tym samym zakresie, co sama definicja wyliczenia (w przeciwieństwie do tworzenia nowego regionu zakresu, jak ma to miejsce w przypadku przestrzeni nazw). Wyliczenia bez zakresu udostępniają również nazwany region zakresu dla swoich modułów wyliczających. Wyliczenia bez zakresu zostaną niejawnie przekonwertowane na wartości całkowite.<p><strong>Wyliczenia o zakresie</strong> działają podobnie do wyliczeń bez zakresu, ale nie będą niejawnie konwertowane na liczby całkowite, a moduły wyliczające są  <em>tylko</em> umieszczane w obszarze zakresu wyliczenia (a nie w regionie zasięgu, w którym znajduje się wyliczenie zdefiniowane).<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>A <strong>struct</strong> (skrót od <strong>structure</strong>) to zdefiniowany przez program typ danych, który pozwala nam połączyć wiele zmiennych w jeden typ. Zmienne będące częścią struktury (lub klasy) nazywane są <strong>elementami danych</strong> (lub <strong>zmiennymi składowymi</strong>). Aby uzyskać dostęp do określonej zmiennej składowej, używamy <strong>operatora wyboru elementu </strong> (<code>operator.</code>) pomiędzy nazwą zmiennej struktury a nazwą elementu składowego (w przypadku normalnych struktur i odniesień do struktur) lub <strong>wyboru elementów za pomocą operatora wskaźnika</strong> (<code>operator-></code>) (w przypadku wskaźników do struktur).<p>W ogólnym programowaniu  <strong>zagregowany typ danych</strong> (zwany także <strong>agregatem</strong>) to dowolny typ, który może zawierać wiele elementów danych. W C++ tablice i struktury zawierające tylko elementy danych są <strong>agregatami</strong>.<p>Agregaty korzystają z formy inicjalizacji zwanej <strong>inicjowaniem agregatu</strong>, która pozwala nam bezpośrednio inicjować elementy agregatów. Aby to zrobić, jako inicjator podajemy <strong>lista inicjatorów</strong> , który jest po prostu listą wartości oddzielonych przecinkami. Inicjalizacja agregatowa wykonuje  <strong>inicjalizację członową</strong>, co oznacza, że ​​każdy element członkowski struktury jest inicjowany w kolejności deklaracji.<p>W C++20 <strong>Wyznaczone inicjatory</strong> pozwalają jawnie zdefiniować, które wartości inicjujące są mapowane na które elementy. Elementy muszą zostać zainicjowane w kolejności, w jakiej zostały zadeklarowane w strukturze, w przeciwnym razie wystąpi błąd.<p>Gdy definiujemy typ struktury (lub klasy), możemy podać domyślną wartość inicjującą dla każdego elementu członkowskiego w ramach definicji typu. Proces ten nazywa się  <strong>niestatyczną inicjalizacją elementu </strong>, a wartość inicjująca nazywa się  <strong>domyślnym inicjatorem elementu</strong>.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Ze względu na wydajność kompilator czasami dodaje luki do struktur (nazywa się to <strong>dopełnianiem</strong>), więc rozmiar struktury może być większy niż suma rozmiarów jej elementów.<p>A <strong>Szablon klasy</strong> to definicja szablonu do tworzenia instancji typów klas (struktur, klas lub unii). <strong>Dedukcja argumentów szablonu klasy (CTAD)</strong> to funkcja C++17, która pozwala kompilatorowi wydedukować argumenty typu szablonu z inicjator.<p class="cpp-section cpp-topline" style=clear:both>Czas quizu<p>Tak!<p class=cpp-quiz-question style=clear:both>Pytanie nr 1<p>Projektując grę, decydujemy, że chcemy mieć potwory, ponieważ każdy lubi walczyć z potworami. Zadeklaruj strukturę reprezentującą twojego potwora. Potwór powinien mieć jeden z następujących typów: ogr, smok, ork, gigantyczny pająk lub śluz.<p>Każdy pojedynczy potwór powinien mieć również nazwę (użyj <code>std::string</code>), a także ilość zdrowia reprezentującą, ile obrażeń może przyjąć, zanim umrze. Napisz funkcję o nazwie printMonster(), która wypisuje wszystkie elementy struktury. Utwórz instancję ogra i szlamu, zainicjuj je przy użyciu listy inicjatorów i przekaż je do printMonster().<p>Twój program powinien wygenerować następujące dane wyjściowe:<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre>This Ogre is named Torg and has 145 health.
+<time class=updated datetime=2024-11-04T12:03:58-08:00 itemprop=dateModified>4 listopada, 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>Gratulacje! Udało Ci się przejść przez kolejny. Zdobyta wiedza na temat struktur przyda się, gdy dotrzemy do najważniejszego tematu C++ – klas!<p class=cpp-section>Szybki przegląd<p><strong>typ zdefiniowany przez program</strong> (zwana także <strong>typ zdefiniowany przez użytkownika</strong>) to typ niestandardowy, który możemy utworzyć do użytku w naszych własnych programach. Wymienione typy i typy klas (w tym struktury, klasy i związki) pozwalają na tworzenie typów zdefiniowanych w programie. Typy zdefiniowane w programie muszą zostać zdefiniowane, zanim będzie można ich użyć. Definicja typu zdefiniowanego w programie nazywana jest <strong>definicją typu</strong>. Definicje typów nie podlegają zasadzie jednej definicji.<p><strong>wyliczenie</strong> (zwany także <strong>typem wyliczeniowym</strong> lub <strong>wyliczeniem</strong>) to złożony typ danych, w którym każda możliwa wartość jest zdefiniowana jako stała symboliczna (tzw. licznik <strong>licznik</strong>). Wyliczenia są <strong>odrębnymi typami</strong>, co oznacza, że ​​kompilator może odróżnić je od innych typów (w przeciwieństwie do aliasów typów).<p><strong>Wyliczenia bez zakresu</strong> nazywane są takimi, ponieważ umieszczają nazwy modułów wyliczających w tym samym zakresie, co sama definicja wyliczenia (w przeciwieństwie do tworzenia nowego regionu zakresu, jak ma to miejsce w przypadku przestrzeni nazw). Wyliczenia bez zakresu udostępniają również nazwany region zakresu dla swoich modułów wyliczających. Wyliczenia bez zakresu zostaną niejawnie przekonwertowane na wartości całkowite.<p><strong>Wyliczenia o zakresie</strong> działają podobnie do wyliczeń bez zakresu, ale nie będą niejawnie konwertowane na liczby całkowite, a moduły wyliczające są  <em>tylko</em> umieszczane w obszarze zakresu wyliczenia (a nie w regionie zasięgu, w którym znajduje się wyliczenie zdefiniowane).<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p><strong>struct</strong> (skrót od <strong>structure</strong>) to zdefiniowany przez program typ danych, który pozwala nam połączyć wiele zmiennych w jeden typ. Zmienne będące częścią struktury (lub klasy) nazywane są <strong>elementami danych</strong> (lub <strong>zmiennymi składowymi</strong>). Aby uzyskać dostęp do określonej zmiennej składowej, używamy <strong>operatora wyboru elementu </strong> (<code>operator.</code>) pomiędzy nazwą zmiennej struktury a nazwą elementu składowego (w przypadku normalnych struktur i odniesień do struktur) lub <strong>wyboru elementów za pomocą operatora wskaźnika</strong> (<code>operator-></code>) (w przypadku wskaźników do struktur).<p>W ogólnym programowaniu  <strong>zagregowany typ danych</strong> (zwany także <strong>agregatem</strong>) to dowolny typ, który może zawierać wiele elementów danych. W C++ tablice i struktury zawierające tylko elementy danych są <strong>agregatami</strong>.<p>Agregaty korzystają z formy inicjalizacji zwanej <strong>inicjowaniem agregatu</strong>, która pozwala nam bezpośrednio inicjować elementy agregatów. Aby to zrobić, jako inicjator podajemy <strong>lista inicjatorów</strong> , który jest po prostu listą wartości oddzielonych przecinkami. Inicjalizacja agregatowa wykonuje  <strong>inicjalizację członową</strong>, co oznacza, że ​​każdy element członkowski struktury jest inicjowany w kolejności deklaracji.<p>W C++20 <strong>Wyznaczone inicjatory</strong> pozwalają jawnie zdefiniować, które wartości inicjujące są mapowane na które elementy. Elementy muszą zostać zainicjowane w kolejności, w jakiej zostały zadeklarowane w strukturze, w przeciwnym razie wystąpi błąd.<p>Gdy definiujemy typ struktury (lub klasy), możemy podać domyślną wartość inicjującą dla każdego elementu członkowskiego w ramach definicji typu. Proces ten nazywa się  <strong>niestatyczną inicjalizacją elementu </strong>, a wartość inicjująca nazywa się  <strong>domyślnym inicjatorem elementu</strong>.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Ze względu na wydajność kompilator czasami dodaje luki do struktur (nazywa się to <strong>dopełnianiem</strong>), więc rozmiar struktury może być większy niż suma rozmiarów jej elementów.<p><strong>Szablon klasy</strong> to definicja szablonu do tworzenia instancji typów klas (struktur, klas lub unii). <strong>Dedukcja argumentów szablonu klasy (CTAD)</strong> to funkcja C++17, która pozwala kompilatorowi wydedukować argumenty typu szablonu z inicjator.<p class="cpp-section cpp-topline" style=clear:both>Czas quizu<p>Tak!<p class=cpp-quiz-question style=clear:both>Pytanie nr 1<p>Projektując grę, decydujemy, że chcemy mieć potwory, ponieważ każdy lubi walczyć z potworami. Zadeklaruj strukturę reprezentującą twojego potwora. Potwór powinien mieć jeden z następujących typów: ogr, smok, ork, gigantyczny pająk lub śluz.<p>Każdy pojedynczy potwór powinien mieć również nazwę (użyj <code>std::string</code>), a także ilość zdrowia reprezentującą, ile obrażeń może przyjąć, zanim umrze. Napisz funkcję o nazwie printMonster(), która wypisuje wszystkie elementy struktury. Utwórz instancję ogra i szlamu, zainicjuj je przy użyciu listy inicjatorów i przekaż je do printMonster().<p>Twój program powinien wygenerować następujące dane wyjściowe:<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre>This Ogre is named Torg and has 145 health.
 This Slime is named Blurp and has 23 health.
 </pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_0 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;string&gt;
 #include &lt;string_view&gt; // C++17
 
-// Our monster struct represents a single monster
+// Nasza struktura potworów reprezentuje pojedynczego potwora
 
 struct Monster
 {
-	// Define our different monster types as an enum
+	// Zdefiniuj różne typy potworów jako wyliczenie
 	enum Type
 	{
 		ogre,
@@ -34,38 +34,38 @@ struct Monster
 	};
 
 	Type type{};
-	std::string name{}; // the Monster should be an owner of its name
+	std::string name{}; // potwór powinien być właścicielem swojej nazwy
 	int health{};
 };
 
-// Return the name of the monster&#39;s type as a string
-// Since this could be used elsewhere, it&#39;s better to make this its own function
+// Zwróć nazwę typu potwora jako ciąg znaków
+// Ponieważ można tego użyć gdzie indziej, lepiej zrobić z tej własnej funkcji
 constexpr std::string_view getMonsterTypeString(Monster::Type type)
 {
 	switch (type)
 	{
-	case Monster::ogre:          return &#34;Ogre&#34;;
-	case Monster::dragon:        return &#34;Dragon&#34;;
-	case Monster::orc:           return &#34;Orc&#34;;
-	case Monster::giant_spider:  return &#34;Giant Spider&#34;;
-	case Monster::slime:         return &#34;Slime&#34;;
+	case Monster::ogre:          return "Ogre";
+	case Monster::dragon:        return "Dragon";
+	case Monster::orc:           return "Orc";
+	case Monster::giant_spider:  return "Giant Spider";
+	case Monster::slime:         return "Slime";
 	}
 
-	return &#34;Unknown&#34;;
+	return "Unknown";
 }
 
-// Print our monster&#39;s stats
+// Wydrukuj statystyki naszego potwora
 void printMonster(const Monster&amp; monster)
 {
-	std::cout &lt;&lt; &#34;This &#34; &lt;&lt; getMonsterTypeString(monster.type) &lt;&lt;
-		&#34; is named &#34; &lt;&lt; monster.name &lt;&lt;
-		&#34; and has &#34; &lt;&lt; monster.health &lt;&lt; &#34; health.\n&#34;;
+	std::cout &lt;&lt; "This " &lt;&lt; getMonsterTypeString(monster.type) &lt;&lt;
+		" is named " &lt;&lt; monster.name &lt;&lt;
+		" and has " &lt;&lt; monster.health &lt;&lt; " health.\n";
 }
 
 int main()
 {
-	Monster ogre{ Monster::ogre, &#34;Torg&#34;, 145 };
-	Monster slime{ Monster::slime, &#34;Blurp&#34;, 23 };
+	Monster ogre{ Monster::ogre, "Torg", 145 };
+	Monster slime{ Monster::slime, "Blurp", 23 };
 
 	printMonster(ogre);
 	printMonster(slime);
@@ -79,13 +79,13 @@ int main()
 };</code></pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_6'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_6 style=display:none><p><code>Position</code> jest typem struktury i należy je przekazywać przez odwołanie do stałej.</div><p>g)<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">struct Player
 {
   int health{};
-  // The Player struct is still under development.  More members will be added.
+  // Struktura odtwarzacza jest wciąż w fazie rozwoju. Zostanie dodanych więcej elementów.
 };</code></pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_7'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_7 style=display:none><p>Chociaż <code>Player</code> zawiera tylko pojedynczy <code>int</code> w swoim bieżącym stanie, co przyspieszyłoby przekazywanie wartości, zostanie dodanych więcej elementów w przyszłości. Nie chcemy aktualizować każdego użycia <code>Player</code> kiedy tak się stanie, więc przekazujemy to poprzez odwołanie do stałej.</div><p>h) <code>int</code> (gdy null jest prawidłowym argumentem)<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_8'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_8 style=display:none><p>Zwykle przekazujemy <code>int</code> przez wartość, ale jeśli chcemy mieć możliwość przekazania również wartości null, dobrym wyborem jest przekazanie adresu, ponieważ możemy przekazać adres <code>int</code> lub <code>nullptr</code>.</div><p>i) <code>std::string_view</code><div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_9'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_9 style=display:none><p><code>std::string_view</code> nie tworzy kopii przeglądanego ciągu, a kopiowanie jest tanie. Przekaż wartość.</div><p class="cpp-quiz-question cpp-topline" style=clear:both>Pytanie nr 3<p>Utwórz szablon klasy o nazwie <code>Triad</code> który ma 3 elementy tego samego typu szablonu. Utwórz także szablon funkcji o nazwie <code>print</code> , który może wydrukować Triadę. Następujący program powinien się skompilować:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
-	Triad t1{ 1, 2, 3 }; // note: uses CTAD to deduce template arguments
+	Triad t1{ 1, 2, 3 }; // uwaga: używa CTAD do wyprowadzania argumentów szablonu
 	print(t1);
 
-	Triad t2{ 1.2, 3.4, 5.6 }; // note: uses CTAD to deduce template arguments
+	Triad t2{ 1.2, 3.4, 5.6 }; // uwaga: używa CTAD do wyprowadzania argumentów szablonu
 	print(t2);
 
 	return 0;
@@ -100,15 +100,15 @@ struct Triad
 	T third {};
 };
 
-// If using C++17, we need to provide a deduction guide (not required in C++20)
-// A Triad with three arguments of the same type should deduce to a Triad&lt;T&gt;
+// Jeśli używamy C++17, musimy podać przewodnik dedukcji (nie jest wymagany w C++20)
+// Triada z trzema argumentami tego samego typu powinna wydedukować Triadę&lt;T&gt;
 template &lt;typename T&gt;
 Triad(T, T, T) -&gt; Triad&lt;T&gt;;
 
 template &lt;typename T&gt;
 void print(const Triad&lt;T&gt;&amp; t)
 {
-	std::cout &lt;&lt; &#39;[&#39; &lt;&lt; t.first &lt;&lt; &#34;, &#34; &lt;&lt; t.second &lt;&lt; &#34;, &#34; &lt;&lt; t.third &lt;&lt; &#39;]&#39;;
+	std::cout &lt;&lt; '[' &lt;&lt; t.first &lt;&lt; ", " &lt;&lt; t.second &lt;&lt; ", " &lt;&lt; t.third &lt;&lt; ']';
 }
 
 int main()

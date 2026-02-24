@@ -21,18 +21,18 @@
   5   6   7   8
   9  10  11  12
  13  14  15   
-</pre><p>Możesz rozegrać kilka rund <a href=https://15puzzle.netlify.app/>na tej stronie</a>. Pomoże Ci to zrozumieć, jak działa ta gra i jak należy ją wdrożyć.<p>W naszej wersji gry w każdej turze użytkownik będzie wprowadzał pojedynczą literę polecenia. Istnieje 5 prawidłowych poleceń:<ul><li>w - przesuń płytkę w górę<li>a - przesuń płytkę w lewo<li>s - przesuń płytkę w dół<li>d - przesuń płytkę w prawo<li>q - wyjdź z gry</ul><p>Ponieważ to będzie dłuższy program, będziemy go rozwijać etapami.<p>Jeszcze jedno rzecz: na każdym kroku przedstawimy dwie rzeczy:  <em>cel</em> i <em>zadania</em>. Cel określa wynik, który ma zostać osiągnięty na danym etapie, wraz z wszelkimi dodatkowymi istotnymi informacjami. Zadania zawierają szczegółowe informacje i wskazówki dotyczące realizacji celu.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Zadania będą początkowo ukryte, aby zachęcić Cię do sprawdzenia, czy możesz ukończyć każdy krok, korzystając wyłącznie z celu i przykładowych wyników lub przykładowego programu. Jeśli nie masz pewności, jak zacząć lub czujesz, że utknąłeś, możesz odkryć zadania. Powinny pomóc Ci w dalszym rozwoju.<p class="cpp-quiz-question cpp-topline" style=clear:both>&gt; Krok #1<p>Ponieważ będzie to większy program, zacznijmy od ćwiczenia projektowego.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nota autora<p>Jeśli nie masz dużego doświadczenia w projektowaniu programów od początku, może to być nieco trudne. Tego można się spodziewać. Mniej ważne jest, abyś zrobił to dobrze, a ważniejsze, abyś brał udział i uczył się.<p>W kolejnych krokach omówimy wszystkie te elementy bardziej szczegółowo, więc jeśli czujesz się całkowicie zagubiony, możesz pominąć ten krok.</div><p>Cel: Udokumentuj kluczowe wymagania tego programu i zaplanuj, jak Twój program będzie zorganizowany na wysokim poziomie. Zrobimy to w trzech częściach.<p>A) Jakie najważniejsze elementy musi wykonać Twój program? Oto kilka wskazówek na początek:<p>Elementy planszy:<ul><li>Wyświetl planszę <li>…</ul><p>Rzeczy użytkownika:<ul><li>Uzyskaj polecenia od użytkownika<li>…</ul><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_0 style=display:none><p>Elementy planszy:<ul><li>Wyświetl planszę <li>Wyświetl pojedynczy kafelek<li>Losuj stan początkowy<li>Przesuń płytki<li>Określ, czy warunek wygranej został osiągnięty</ul><p>Rzeczy użytkownika:<ul><li>Uzyskaj polecenia od użytkownika<li>Obsłuż nieprawidłowe dane wejściowe<li>Pozwól użytkownikowi wyjść przed wygraną</ul></div><p>B) Co podstawowe klas lub przestrzeni nazw będziesz używać do implementowania elementów opisanych w kroku 1? Co też zrobi twoja funkcja main()?<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>Możesz utworzyć diagram lub użyć dwóch takich tabel:<div class=cpp-table-wrapper><table class=cpp-table><tbody><tr><th>Klasa podstawowa/przestrzeń nazw/main<th>Implementuje elementy najwyższego poziomu<th>Członkowie<tr><td>Plansza klasy<td>Wyświetl planszę <br>…<td>…<tr><td>funkcję main<td>Główna pętla logiczna gry<br>…<td>…</table></div><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_1 style=display:none><div class=cpp-table-wrapper><table class=cpp-table><tbody><tr><th>Klasa podstawowa/Przestrzeń nazw/główna<th>Implementuje elementy najwyższego poziomu<th>Członkowie (typ)<tr><td>Plansza klasy<td>Wyświetl planszę <br>Losuj stan początkowy<br>Przesuń płytki<br>Określ, czy warunek wygranej został osiągnięty<td>2d tablica płytek<tr><td>Płytka klasy<td>Wyświetl pojedynczy kafelek<td>int numer wyświetlacza<tr><td>Dane wejściowe użytkownika przestrzeni nazw<td>Uzyskaj polecenia od użytkownika<br>Obsłuż nieprawidłowe dane wejściowe<td>nic<tr><td>funkcja główna()<td>Główna pętla logiczna gry<br>Pozwól użytkownikowi wyjść przed wygraną<td>nic</table></div><p>Oto uzasadnienie powyższych wyborów.<ul><li><code>class Board</code>: Nasza gra to siatka płytek 4×4. Głównym celem tej klasy jest przechowywanie i zarządzanie dwuwymiarową tablicą płytek. Klasa ta odpowiada również za losowanie, przesuwanie płytek, eksponowanie planszy i sprawdzanie, czy nasza plansza jest ułożona.<li><code>class Tile</code>: Ta klasa reprezentuje pojedynczą płytkę na planszy. Użycie tutaj klasy pozwala nam przeciążyć operator wyjścia, aby wyprowadzić kafelek w żądanym formacie. Pozwala nam również mieć dobrze nazwane funkcje członkowskie, które zwiększą czytelność kodu związanego z pojedynczym kafelkiem.<li><code>namespace UserInput</code>: Ta przestrzeń nazw zawiera funkcje umożliwiające uzyskanie danych wejściowych od użytkownika, sprawdzenie, czy dane wprowadzone przez użytkownika są prawidłowe oraz obsługę nieprawidłowych danych wejściowych. Ponieważ nie ma to żadnego stanu, nie potrzebujemy tutaj klasy.<li><code>function main()</code>: Tutaj zostanie napisana główna pętla gry. Zajmie się to konfiguracją planszy do gry, koordynacją pobierania danych wejściowych użytkownika i przetwarzaniem poleceń oraz obsługą warunków wyjścia (kiedy użytkownik wygra lub wprowadzi polecenie zakończenia).</ul><p>Wykorzystamy także dwie klasy pomocnicze. Potrzeba takich zajęć może nie być oczywista na pierwszy rzut oka, więc nie martw się, jeśli nie wpadłeś na nic podobnego. Często potrzeba (lub korzyści) klas pomocniczych nie jest oczywista, gdy posuwasz się dalej w realizację swojego programu.</div><p>C) (dodatkowe punkty) Czy przychodzą Ci do głowy jakieś klasy pomocnicze lub możliwości, dzięki którym wdrożenie powyższego będzie łatwiejsze lub bardziej spójne?<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_2'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_2 style=display:none><div class=cpp-table-wrapper><table class=cpp-table><tbody><tr><th>Klasa pomocnicza/przestrzeń nazw<th>Na co to pomaga?<th>Członkowie (typ)<tr><td>Punkt klasowy<td>Indeksowanie płytek planszy do gry<td>int współrzędne osi X i Y<tr><td>Kierunek klasy<td>Spraw, aby praca z poleceniami kierunkowymi była łatwiejsza i bardziej intuicyjna<td>kierunek wyliczeniowy</table></div><ul><li><code>class Point</code>: Dostęp do konkretnego kafelka w naszej dwuwymiarowej tablicy kafelków będzie wymagał 2 indeksów. Możemy o nich myśleć jak o parach indeksów {oś x, oś y}. Ta klasa Point implementuje taką parę indeksów, aby ułatwić przekazywanie lub zwracanie pary indeksów.<li><code>class Direction</code>: użytkownik będzie wprowadzał na klawiaturze polecenia jednoliterowe (znakowe), aby przesuwać kafelki w kierunkach kardynalnych (np. <code>'w'</code>=w górę, <code>'a'</code>=po lewej). Konwersja tych poleceń char na obiekt Direction (reprezentujący kierunek kardynalny) sprawi, że nasz kod będzie bardziej intuicyjny i zapobiegnie zaśmiecaniu go literałami znaków (<code>Direction::left</code> ma większe znaczenie niż <code>'a'</code>).</ul></div><p>Jeśli miałeś trudności z tym ćwiczeniem, nie ma problemu. Celem było głównie skłonienie Cię do zastanowienia się nad tym, co zamierzasz zrobić, zanim zaczniesz to robić.<p>Teraz czas na wdrożenie!<p class="cpp-quiz-question cpp-topline" style=clear:both>&gt; Krok #2<p>Cel: Być w stanie wyświetlić poszczególne kafelki na ekranie.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>Nasza plansza do gry to siatka płytek 4×4, które można przesuwać. Dlatego przydatne będzie posiadanie <code>Tile</code> klasa reprezentująca jedną z ponumerowanych płytek na siatce 4×4 lub brakującą płytkę. Każda płytka powinna umożliwiać:<ul><li>Otrzymasz numer lub zostaniesz ustawiony jako brakujący kafelek<li>Ustal, czy jest to brakująca płytka.<li>Rysuj do konsoli z zachowaniem odpowiednich odstępów (aby kafelki ułożyły się w jednej linii po wyświetleniu planszy). Zobacz przykładowe dane wyjściowe poniżej, aby zapoznać się z przykładem wskazującym, jak powinny być rozmieszczone płytki.</ul><p><a class=tasks_link_show href=javascript:void(0) onclick="cppTasksToggle(document.getElementById('cpp_tasks_id_0'),this,'Show Tasks','Hide Tasks')">Pokaż zadania</a><div class=wptasks id=cpp_tasks_id_0 style=display:none><p>Nasz <code>Tile</code> klasa powinna mieć tę funkcjonalność:<ul><li>Domyślny konstruktor.<li>Konstruktor pozwalający nam utworzyć Tile z wyświetlaną wartością. Ponieważ nie używamy <code>0</code> jako wartości wyświetlanej, możemy użyć wartości <code>0</code> w celu zidentyfikowania brakującego kafelka.<li>A <code>getNum()</code> funkcja dostępu, która zwraca wartość przechowywaną w kafelku.<li>An <code>isEmpty()</code> funkcja składowa, która zwraca wartość logiczną wskazującą, czy bieżący kafelek jest brakującym kafelkiem.<li>Przeciążony <code>operator&lt;&lt;</code> która wyświetli wartość przechowywaną przez kafelek.</ul></div><p>Następujący kod powinien się skompilować i wygenerować wynik widoczny poniżej:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
+</pre><p>Możesz rozegrać kilka rund <a href=https://15puzzle.netlify.app/>na tej stronie</a>. Pomoże Ci to zrozumieć, jak działa ta gra i jak należy ją wdrożyć.<p>W naszej wersji gry w każdej turze użytkownik będzie wprowadzał pojedynczą literę polecenia. Istnieje 5 prawidłowych poleceń:<ul><li>w - przesuń płytkę w górę<li>a - przesuń płytkę w lewo<li>s - przesuń płytkę w dół<li>d - przesuń płytkę w prawo<li>q - wyjdź z gry</ul><p>Ponieważ to będzie dłuższy program, będziemy go rozwijać etapami.<p>Jeszcze jedno rzecz: na każdym kroku przedstawimy dwie rzeczy:  <em>cel</em> i <em>zadania</em>. Cel określa wynik, który ma zostać osiągnięty na danym etapie, wraz z wszelkimi dodatkowymi istotnymi informacjami. Zadania zawierają szczegółowe informacje i wskazówki dotyczące realizacji celu.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Zadania będą początkowo ukryte, aby zachęcić Cię do sprawdzenia, czy możesz ukończyć każdy krok, korzystając wyłącznie z celu i przykładowych wyników lub przykładowego programu. Jeśli nie masz pewności, jak zacząć lub czujesz, że utknąłeś, możesz odkryć zadania. Powinny pomóc Ci w dalszym rozwoju.<p class="cpp-quiz-question cpp-topline" style=clear:both>&gt; Krok #1<p>Ponieważ będzie to większy program, zacznijmy od ćwiczenia projektowego.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nota autora<p>Jeśli nie masz dużego doświadczenia w projektowaniu programów od początku, może to być nieco trudne. Tego można się spodziewać. Mniej ważne jest, abyś zrobił to dobrze, a ważniejsze, abyś brał udział i uczył się.<p>W kolejnych krokach omówimy wszystkie te elementy bardziej szczegółowo, więc jeśli czujesz się całkowicie zagubiony, możesz pominąć ten krok.</div><p>Cel: Udokumentuj kluczowe wymagania tego programu i zaplanuj, jak Twój program będzie zorganizowany na wysokim poziomie. Zrobimy to w trzech częściach.<p>A) Jakie najważniejsze elementy musi wykonać Twój program? Oto kilka wskazówek na początek:<p>Elementy planszy:<ul><li>Wyświetl planszę <li>…</ul><p>Rzeczy użytkownika:<ul><li>Uzyskaj polecenia od użytkownika<li>…</ul><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_0 style=display:none><p>Elementy planszy:<ul><li>Wyświetl planszę <li>Wyświetl pojedynczy kafelek<li>Losuj stan początkowy<li>Przesuń płytki<li>Określ, czy warunek wygranej został osiągnięty</ul><p>Rzeczy użytkownika:<ul><li>Uzyskaj polecenia od użytkownika<li>Obsłuż nieprawidłowe dane wejściowe<li>Pozwól użytkownikowi wyjść przed wygraną</ul></div><p>B) Co podstawowe klas lub przestrzeni nazw będziesz używać do implementowania elementów opisanych w kroku 1? Co też zrobi twoja funkcja main()?<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>Możesz utworzyć diagram lub użyć dwóch takich tabel:<div class=cpp-table-wrapper><table class=cpp-table><tbody><tr><th>Klasa podstawowa/przestrzeń nazw/main<th>Implementuje elementy najwyższego poziomu<th>Członkowie<tr><td>Plansza klasy<td>Wyświetl planszę <br>…<td>…<tr><td>funkcję main<td>Główna pętla logiczna gry<br>…<td>…</table></div><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_1 style=display:none><div class=cpp-table-wrapper><table class=cpp-table><tbody><tr><th>Klasa podstawowa/Przestrzeń nazw/główna<th>Implementuje elementy najwyższego poziomu<th>Członkowie (typ)<tr><td>Plansza klasy<td>Wyświetl planszę <br>Losuj stan początkowy<br>Przesuń płytki<br>Określ, czy warunek wygranej został osiągnięty<td>2d tablica płytek<tr><td>Płytka klasy<td>Wyświetl pojedynczy kafelek<td>int numer wyświetlacza<tr><td>Dane wejściowe użytkownika przestrzeni nazw<td>Uzyskaj polecenia od użytkownika<br>Obsłuż nieprawidłowe dane wejściowe<td>nic<tr><td>funkcja główna()<td>Główna pętla logiczna gry<br>Pozwól użytkownikowi wyjść przed wygraną<td>nic</table></div><p>Oto uzasadnienie powyższych wyborów.<ul><li><code>class Board</code>: Nasza gra to siatka płytek 4×4. Głównym celem tej klasy jest przechowywanie i zarządzanie dwuwymiarową tablicą płytek. Klasa ta odpowiada również za losowanie, przesuwanie płytek, eksponowanie planszy i sprawdzanie, czy nasza plansza jest ułożona.<li><code>class Tile</code>: Ta klasa reprezentuje pojedynczą płytkę na planszy. Użycie tutaj klasy pozwala nam przeciążyć operator wyjścia, aby wyprowadzić kafelek w żądanym formacie. Pozwala nam również mieć dobrze nazwane funkcje członkowskie, które zwiększą czytelność kodu związanego z pojedynczym kafelkiem.<li><code>namespace UserInput</code>: Ta przestrzeń nazw zawiera funkcje umożliwiające uzyskanie danych wejściowych od użytkownika, sprawdzenie, czy dane wprowadzone przez użytkownika są prawidłowe oraz obsługę nieprawidłowych danych wejściowych. Ponieważ nie ma to żadnego stanu, nie potrzebujemy tutaj klasy.<li><code>function main()</code>: Tutaj zostanie napisana główna pętla gry. Zajmie się to konfiguracją planszy do gry, koordynacją pobierania danych wejściowych użytkownika i przetwarzaniem poleceń oraz obsługą warunków wyjścia (kiedy użytkownik wygra lub wprowadzi polecenie zakończenia).</ul><p>Wykorzystamy także dwie klasy pomocnicze. Potrzeba takich zajęć może nie być oczywista na pierwszy rzut oka, więc nie martw się, jeśli nie wpadłeś na nic podobnego. Często potrzeba (lub korzyści) klas pomocniczych nie jest oczywista, gdy posuwasz się dalej w realizację swojego programu.</div><p>C) (dodatkowe punkty) Czy przychodzą Ci do głowy jakieś klasy pomocnicze lub możliwości, dzięki którym wdrożenie powyższego będzie łatwiejsze lub bardziej spójne?<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_2'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_2 style=display:none><div class=cpp-table-wrapper><table class=cpp-table><tbody><tr><th>Klasa pomocnicza/przestrzeń nazw<th>Na co to pomaga?<th>Członkowie (typ)<tr><td>Punkt klasowy<td>Indeksowanie płytek planszy do gry<td>int współrzędne osi X i Y<tr><td>Kierunek klasy<td>Spraw, aby praca z poleceniami kierunkowymi była łatwiejsza i bardziej intuicyjna<td>kierunek wyliczeniowy</table></div><ul><li><code>class Point</code>: Dostęp do konkretnego kafelka w naszej dwuwymiarowej tablicy kafelków będzie wymagał 2 indeksów. Możemy o nich myśleć jak o parach indeksów {oś x, oś y}. Ta klasa Point implementuje taką parę indeksów, aby ułatwić przekazywanie lub zwracanie pary indeksów.<li><code>class Direction</code>: użytkownik będzie wprowadzał na klawiaturze polecenia jednoliterowe (znakowe), aby przesuwać kafelki w kierunkach kardynalnych (np. <code>'w'</code>=w górę, <code>'a'</code>=po lewej). Konwersja tych poleceń char na obiekt Direction (reprezentujący kierunek kardynalny) sprawi, że nasz kod będzie bardziej intuicyjny i zapobiegnie zaśmiecaniu go literałami znaków (<code>Direction::left</code> ma większe znaczenie niż <code>'a'</code>).</ul></div><p>Jeśli miałeś trudności z tym ćwiczeniem, nie ma problemu. Celem było głównie skłonienie Cię do zastanowienia się nad tym, co zamierzasz zrobić, zanim zaczniesz to robić.<p>Teraz czas na wdrożenie!<p class="cpp-quiz-question cpp-topline" style=clear:both>&gt; Krok #2<p>Cel: Być w stanie wyświetlić poszczególne kafelki na ekranie.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>Nasza plansza do gry to siatka płytek 4×4, które można przesuwać. Dlatego przydatne będzie posiadanie <code>Tile</code> klasa reprezentująca jedną z ponumerowanych płytek na siatce 4×4 lub brakującą płytkę. Każda płytka powinna umożliwiać:<ul><li>Otrzymasz numer lub zostaniesz ustawiony jako brakujący kafelek<li>Ustal, czy jest to brakująca płytka.<li>Rysuj do konsoli z zachowaniem odpowiednich odstępów (aby kafelki ułożyły się w jednej linii po wyświetleniu planszy). Zobacz przykładowe dane wyjściowe poniżej, aby zapoznać się z przykładem wskazującym, jak powinny być rozmieszczone płytki.</ul><p><a class=tasks_link_show href=javascript:void(0) onclick="cppTasksToggle(document.getElementById('cpp_tasks_id_0'),this,'Show Tasks','Hide Tasks')">Pokaż zadania</a><div class=wptasks id=cpp_tasks_id_0 style=display:none><p>Nasz <code>Tile</code> klasa powinna mieć tę funkcjonalność:<ul><li>Domyślny konstruktor.<li>Konstruktor pozwalający nam utworzyć Tile z wyświetlaną wartością. Ponieważ nie używamy <code>0</code> jako wartości wyświetlanej, możemy użyć wartości <code>0</code> w celu zidentyfikowania brakującego kafelka.<li><code>getNum()</code> funkcja dostępu, która zwraca wartość przechowywaną w kafelku.<li><code>isEmpty()</code> funkcja składowa, która zwraca wartość logiczną wskazującą, czy bieżący kafelek jest brakującym kafelkiem.<li>Przeciążony <code>operator&lt;&lt;</code> która wyświetli wartość przechowywaną przez kafelek.</ul></div><p>Następujący kod powinien się skompilować i wygenerować wynik widoczny poniżej:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
     Tile tile1{ 10 };
     Tile tile2{ 8 };
-    Tile tile3{ 0 }; // the missing tile
+    Tile tile3{ 0 }; // brakująca płytka
     Tile tile4{ 1 };
 
-    std::cout &lt;&lt; &#34;0123456789ABCDEF\n&#34;; // to make it easy to see how many spaces are in the next line
-    std::cout &lt;&lt; tile1 &lt;&lt; tile2 &lt;&lt; tile3 &lt;&lt; tile4 &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "0123456789ABCDEF\n"; // aby ułatwić sprawdzenie, ile spacji znajduje się w następnym wierszu
+    std::cout &lt;&lt; tile1 &lt;&lt; tile2 &lt;&lt; tile3 &lt;&lt; tile4 &lt;&lt; '\n';
     
-    std::cout &lt;&lt; std::boolalpha &lt;&lt; tile1.isEmpty() &lt;&lt; &#39; &#39; &lt;&lt; tile3.isEmpty() &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; &#34;Tile 2 has number: &#34; &lt;&lt; tile2.getNum() &lt;&lt; &#34;\nTile 4 has number: &#34; &lt;&lt; tile4.getNum() &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; std::boolalpha &lt;&lt; tile1.isEmpty() &lt;&lt; ' ' &lt;&lt; tile3.isEmpty() &lt;&lt; '\n';
+    std::cout &lt;&lt; "Tile 2 has number: " &lt;&lt; tile2.getNum() &lt;&lt; "\nTile 4 has number: " &lt;&lt; tile4.getNum() &lt;&lt; '\n';
     
     return 0;
 }</code></pre><p>Oczekiwany wynik (zwróć uwagę na białe spacje):<pre>0123456789ABCDEF
@@ -64,12 +64,12 @@ private:
 
 std::ostream&amp; operator&lt;&lt;(std::ostream&amp; stream, Tile tile)
 {
-    if (tile.getNum() &gt; 9) // if two digit number
-        stream &lt;&lt; &#34; &#34; &lt;&lt; tile.getNum() &lt;&lt; &#34; &#34;;
-    else if (tile.getNum() &gt; 0) // if one digit number
-        stream &lt;&lt; &#34;  &#34; &lt;&lt; tile.getNum() &lt;&lt; &#34; &#34;;
-    else if (tile.getNum() == 0) // if empty spot
-        stream &lt;&lt; &#34;    &#34;;
+    if (tile.getNum() &gt; 9) // jeśli liczba dwucyfrowa
+        stream &lt;&lt; " " &lt;&lt; tile.getNum() &lt;&lt; " ";
+    else if (tile.getNum() &gt; 0) // jeśli liczba jednocyfrowa
+        stream &lt;&lt; "  " &lt;&lt; tile.getNum() &lt;&lt; " ";
+    else if (tile.getNum() == 0) // jeśli puste miejsce
+        stream &lt;&lt; "    ";
     return stream;
 }
 
@@ -77,21 +77,21 @@ int main()
 {
     Tile tile1{ 10 };
     Tile tile2{ 8 };
-    Tile tile3{ 0 }; // the missing tile
+    Tile tile3{ 0 }; // brakująca płytka
     Tile tile4{ 1 };
 
-    std::cout &lt;&lt; &#34;0123456789ABCDEF\n&#34;; // to make it easy to see how many spaces are in the next line
-    std::cout &lt;&lt; tile1 &lt;&lt; tile2 &lt;&lt; tile3 &lt;&lt; tile4 &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "0123456789ABCDEF\n"; // aby ułatwić sprawdzenie, ile spacji znajduje się w następnym wierszu
+    std::cout &lt;&lt; tile1 &lt;&lt; tile2 &lt;&lt; tile3 &lt;&lt; tile4 &lt;&lt; '\n';
 
-    std::cout &lt;&lt; std::boolalpha &lt;&lt; tile1.isEmpty() &lt;&lt; &#39; &#39; &lt;&lt; tile3.isEmpty() &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; &#34;Tile 2 has number: &#34; &lt;&lt; tile2.getNum() &lt;&lt; &#34;\nTile 4 has number: &#34; &lt;&lt; tile4.getNum() &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; std::boolalpha &lt;&lt; tile1.isEmpty() &lt;&lt; ' ' &lt;&lt; tile3.isEmpty() &lt;&lt; '\n';
+    std::cout &lt;&lt; "Tile 2 has number: " &lt;&lt; tile2.getNum() &lt;&lt; "\nTile 4 has number: " &lt;&lt; tile4.getNum() &lt;&lt; '\n';
 
     return 0;
-}</code></pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>&gt; Krok #3<p>Cel: Utwórz ułożoną planszę (siatka płytek 4×4) i wyświetl ją na ekranie.<p>Zdefiniuj  <code>Board</code> klasę, która będzie reprezentować siatkę płytek 4×4. Nowo utworzony <code>Board</code> obiekt powinien być w stanie rozwiązanym. Aby wyświetlić tablicę, najpierw wydrukuj <code>g_consoleLines</code> (zdefiniowane we fragmencie kodu poniżej) puste linie, a następnie wydrukuj samą tablicę. Dzięki temu wszelkie wcześniejsze dane wyjściowe zostaną usunięte z pola widzenia i na konsoli będzie widoczna tylko bieżąca płytka.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p>Po co inicjować płytkę w stanie rozwiązanym? Kiedy kupujesz fizyczną wersję tych łamigłówek, zazwyczaj zaczynają się one od ułożonego stanu — musisz je ręcznie wymieszać (przesuwając kafelki), zanim spróbujesz je ułożyć. Będziemy naśladować ten proces w naszym programie (w następnym kroku zajmiemy się mieszaniem). Klasa <p><a class=tasks_link_show href=javascript:void(0) onclick="cppTasksToggle(document.getElementById('cpp_tasks_id_1'),this,'Show Tasks','Hide Tasks')">Pokaż zadania</a><div class=wptasks id=cpp_tasks_id_1 style=display:none><p>Klasa <code>Board</code> powinna posiadać następującą funkcjonalność:<ul><li>A <code>constexpr</code> stała symboliczna, ustawiana na wielkość siatki (można założyć, że siatka jest kwadratowa).<li>Dwuwymiarowa tablica  <code>Tile</code> obiektów, w których będą znajdować się nasze 16 liczb. Powinny one zaczynać się od rozwiązanego stanu.<li>Domyślny konstruktor.<li>Przeciążony <code>operator&lt;&lt;</code> który wypisze N pustych linii (gdzie N = wartość <code>g_consoleLines</code>), a następnie przeciągnie planszę do konsoli.</ul></div><p>Powinien uruchomić się następujący program:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Increase amount of new lines if your board isn&#39;t
-// at the very bottom of the console
+}</code></pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>&gt; Krok #3<p>Cel: Utwórz ułożoną planszę (siatka płytek 4×4) i wyświetl ją na ekranie.<p>Zdefiniuj  <code>Board</code> klasę, która będzie reprezentować siatkę płytek 4×4. Nowo utworzony <code>Board</code> obiekt powinien być w stanie rozwiązanym. Aby wyświetlić tablicę, najpierw wydrukuj <code>g_consoleLines</code> (zdefiniowane we fragmencie kodu poniżej) puste linie, a następnie wydrukuj samą tablicę. Dzięki temu wszelkie wcześniejsze dane wyjściowe zostaną usunięte z pola widzenia i na konsoli będzie widoczna tylko bieżąca płytka.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p>Po co inicjować płytkę w stanie rozwiązanym? Kiedy kupujesz fizyczną wersję tych łamigłówek, zazwyczaj zaczynają się one od ułożonego stanu — musisz je ręcznie wymieszać (przesuwając kafelki), zanim spróbujesz je ułożyć. Będziemy naśladować ten proces w naszym programie (w następnym kroku zajmiemy się mieszaniem). Klasa <p><a class=tasks_link_show href=javascript:void(0) onclick="cppTasksToggle(document.getElementById('cpp_tasks_id_1'),this,'Show Tasks','Hide Tasks')">Pokaż zadania</a><div class=wptasks id=cpp_tasks_id_1 style=display:none><p>Klasa <code>Board</code> powinna posiadać następującą funkcjonalność:<ul><li><code>constexpr</code> stała symboliczna, ustawiana na wielkość siatki (można założyć, że siatka jest kwadratowa).<li>Dwuwymiarowa tablica  <code>Tile</code> obiektów, w których będą znajdować się nasze 16 liczb. Powinny one zaczynać się od rozwiązanego stanu.<li>Domyślny konstruktor.<li>Przeciążony <code>operator&lt;&lt;</code> który wypisze N pustych linii (gdzie N = wartość <code>g_consoleLines</code>), a następnie przeciągnie planszę do konsoli.</ul></div><p>Powinien uruchomić się następujący program:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Zwiększ liczbę nowych linii, jeśli twoja tablica nie jest
+// na samym konsoli
 constexpr int g_consoleLines{ 25 };
 
-// Your code goes here
+// Twój kod będzie tutaj
 
 int main()
 {
@@ -131,8 +131,8 @@ int main()
  13  14  15
 </pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_4'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_4 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-// Increase amount of new lines if your board isn&#39;t
-// at the very bottom of the console
+// Zwiększ liczbę nowych linii, jeśli twoja tablica nie jest
+// na samym konsoli
 constexpr int g_consoleLines{ 25 };
 
 class Tile
@@ -157,12 +157,12 @@ private:
 
 std::ostream&amp; operator&lt;&lt;(std::ostream&amp; stream, Tile tile)
 {
-    if (tile.getNum() &gt; 9) // if two digit number
-        stream &lt;&lt; &#34; &#34; &lt;&lt; tile.getNum() &lt;&lt; &#34; &#34;;
-    else if (tile.getNum() &gt; 0) // if one digit number
-        stream &lt;&lt; &#34;  &#34; &lt;&lt; tile.getNum() &lt;&lt; &#34; &#34;;
-    else if (tile.getNum() == 0) // if empty spot
-        stream &lt;&lt; &#34;    &#34;;
+    if (tile.getNum() &gt; 9) // jeśli liczba dwucyfrowa
+        stream &lt;&lt; " " &lt;&lt; tile.getNum() &lt;&lt; " ";
+    else if (tile.getNum() &gt; 0) // jeśli liczba jednocyfrowa
+        stream &lt;&lt; "  " &lt;&lt; tile.getNum() &lt;&lt; " ";
+    else if (tile.getNum() == 0) // jeśli puste miejsce
+        stream &lt;&lt; "    ";
     return stream;
 }
 
@@ -174,19 +174,19 @@ public:
 
     friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; stream, const Board&amp; board)
     {
-        // Before drawing always print some empty lines
-        // so that only one board appears at a time
-        // and it&#39;s always shown at the bottom of the window
-        // because console window scrolls automatically when there is no
+        // Przed rysowaniem zawsze drukuj puste linie
+        // aby na raz pojawiała się tylko jedna tablica
+        // i jest to zawsze wyświetlane na dole okna
+        // ponieważ okno konsoli przewija się automatycznie, gdy nie ma
         // enough space. 
         for (int i = 0; i &lt; g_consoleLines; ++i)
-            std::cout &lt;&lt; &#39;\n&#39;;
+            std::cout &lt;&lt; '\n';
 
         for (int y = 0; y &lt; s_size; ++y)
         {
             for (int x = 0; x &lt; s_size; ++x)
                 stream &lt;&lt; board.m_tiles[y][x];
-            stream &lt;&lt; &#39;\n&#39;;
+            stream &lt;&lt; '\n';
         }
 
         return stream;
@@ -257,31 +257,31 @@ Bye!
 </pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_5'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_5 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;limits&gt;
 
-// Increase amount of new lines if your board isn&#39;t
-// at the very bottom of the console
+// Zwiększ liczbę nowych linii, jeśli twoja tablica nie jest
+// na samym konsoli
 constexpr int g_consoleLines{ 25 };
 
 namespace UserInput
 {
     bool isValidCommand(char ch)
     {
-        return ch == &#39;w&#39;
-            || ch == &#39;a&#39;
-            || ch == &#39;s&#39;
-            || ch == &#39;d&#39;
-            || ch == &#39;q&#39;;
+        return ch == 'w'
+            || ch == 'a'
+            || ch == 's'
+            || ch == 'd'
+            || ch == 'q';
     }
 
     void ignoreLine()
     {
-        std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), &#39;\n&#39;);
+        std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), '\n');
     }
 
     char getCharacter()
     {
         char operation{};
         std::cin &gt;&gt; operation;
-        ignoreLine(); // remove any extraneous input
+        ignoreLine(); // usuń wszelkie obce dane wejściowe
         return operation;
     }
 
@@ -317,12 +317,12 @@ private:
 
 std::ostream&amp; operator&lt;&lt;(std::ostream&amp; stream, Tile tile)
 {
-    if (tile.getNum() &gt; 9) // if two digit number
-        stream &lt;&lt; &#34; &#34; &lt;&lt; tile.getNum() &lt;&lt; &#34; &#34;;
-    else if (tile.getNum() &gt; 0) // if one digit number
-        stream &lt;&lt; &#34;  &#34; &lt;&lt; tile.getNum() &lt;&lt; &#34; &#34;;
-    else if (tile.getNum() == 0) // if empty spot
-        stream &lt;&lt; &#34;    &#34;;
+    if (tile.getNum() &gt; 9) // jeśli liczba dwucyfrowa
+        stream &lt;&lt; " " &lt;&lt; tile.getNum() &lt;&lt; " ";
+    else if (tile.getNum() &gt; 0) // jeśli liczba jednocyfrowa
+        stream &lt;&lt; "  " &lt;&lt; tile.getNum() &lt;&lt; " ";
+    else if (tile.getNum() == 0) // jeśli puste miejsce
+        stream &lt;&lt; "    ";
     return stream;
 }
 
@@ -334,19 +334,19 @@ public:
 
     friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; stream, const Board&amp; board)
     {
-        // Before drawing always print some empty lines
-        // so that only one board appears at a time
-        // and it&#39;s always shown at the bottom of the window
-        // because console window scrolls automatically when there is no
+        // Przed rysowaniem zawsze drukuj puste linie
+        // aby na raz pojawiała się tylko jedna tablica
+        // i jest to zawsze wyświetlane na dole okna
+        // ponieważ okno konsoli przewija się automatycznie, gdy nie ma
         // enough space. 
         for (int i = 0; i &lt; g_consoleLines; ++i)
-            std::cout &lt;&lt; &#39;\n&#39;;
+            std::cout &lt;&lt; '\n';
 
         for (int y = 0; y &lt; s_size; ++y)
         {
             for (int x = 0; x &lt; s_size; ++x)
                 stream &lt;&lt; board.m_tiles[y][x];
-            stream &lt;&lt; &#39;\n&#39;;
+            stream &lt;&lt; '\n';
         }
 
         return stream;
@@ -370,19 +370,19 @@ int main()
     {
         char ch{ UserInput::getCommandFromUser() };
 
-        // If we reach the line below, &#34;ch&#34; will ALWAYS be a correct command!
-        std::cout &lt;&lt; &#34;Valid command: &#34; &lt;&lt; ch &lt;&lt; &#39;\n&#39;;
+        // Jeśli dotrzemy do poniższej linii, „ch” ZAWSZE będzie poprawnym poleceniem!
+        std::cout &lt;&lt; "Valid command: " &lt;&lt; ch &lt;&lt; '\n';
         
-        // Handle non-direction commands
-        if (ch == &#39;q&#39;)
+        // Obsługuj polecenia inne niż kierunkowe
+        if (ch == 'q')
         {
-            std::cout &lt;&lt; &#34;\n\nBye!\n\n&#34;;
+            std::cout &lt;&lt; "\n\nBye!\n\n";
             return 0;
         }
     }
 
     return 0;
-}</code></pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>&gt; Krok #5<p>Cel: Zaimplementuj klasę pomocniczą, która ułatwi nam obsługę poleceń kierunkowych.<p>Po wykonaniu poprzedniego kroku możemy akceptować polecenia od użytkownika (w postaci znaków „w”, „a”, „s”, „d” i „q”). Znaki te są w zasadzie magicznymi liczbami w naszym kodzie. Chociaż obsługa tych poleceń w naszej <code>UserInput</code> przestrzeni nazw i funkcji <code>main()</code> jest w porządku, nie chcemy propagować ich w całym programie. Na przykład klasa <code>Board</code> nie powinna wiedzieć, co oznacza „s”.<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><p>Zaimplementuj klasę pomocniczą o nazwie <code>Direction</code>, która pozwoli nam tworzyć obiekty reprezentujące kierunki kardynalne (w górę, w lewo, w dół lub w prawo). <code>operator-</code> powinna zwracać kierunek przeciwny i <code>operator&lt;&lt;</code> powinna wypisać kierunek do konsoli. Będziemy także potrzebować funkcji członkowskiej, która zwróci obiekt Direction zawierający losowy kierunek. Na koniec dodaj funkcję do przestrzeni nazw <code>UserInput</code> , która konwertuje kierunkowe polecenie gry („w”, „a”, „s” lub „d”) na obiekt Direction.<p>Im częściej możemy używać <code>Direction</code> zamiast kierunkowych poleceń gry, tym łatwiej będzie odczytać i zrozumieć nasz kod.<p><a class=tasks_link_show href=javascript:void(0) onclick="cppTasksToggle(document.getElementById('cpp_tasks_id_3'),this,'Show Tasks','Hide Tasks')">Pokaż zadania</a><div class=wptasks id=cpp_tasks_id_3 style=display:none><p>Zaimplementuj klasa <code>Direction</code>, która zawiera:<ul><li>Publiczne zagnieżdżone wyliczenie o nazwie <code>Type</code> z modułami wyliczającymi <code>up</code>, <code>down</code>, <code>left</code>, <code>right</code>, I <code>maxDirections</code>.<li>Prywatny element przechowujący rzeczywisty kierunek.<li>Konstruktor z jednym argumentem, który pozwala nam zainicjować <code>Direction</code> z  <code>Type</code> inicjator.<li>Przeciążony <code>operator-</code>, który przyjmuje kierunek i zwraca przeciwny kierunek.<li>Przeciążony <code>operator&lt;&lt;</code>, który wysyła nazwę kierunku do konsoli.<li>Funkcja statyczna, która zwraca kierunek z losową <code>Type</code>. Możesz użyć funkcji  <code>Random::get()</code> z nagłówka  <a href="../global-random-numbers-random-h/index.html">„Random.h”</a> , aby wygenerować liczbę losową.</ul><p>Ponadto w przestrzeni nazw <code>UserInput</code> dodaj następujące polecenie:<ul><li>Funkcja, która przekonwertuje kierunkowe polecenie gry (znak) na Kierunek obiekt.</ul></div><p>Na koniec zmodyfikuj program, który napisałeś w poprzednim kroku, tak aby dane wyjściowe były zgodne z następującymi:<pre>
+}</code></pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>&gt; Krok #5<p>Cel: Zaimplementuj klasę pomocniczą, która ułatwi nam obsługę poleceń kierunkowych.<p>Po wykonaniu poprzedniego kroku możemy akceptować polecenia od użytkownika (w postaci znaków „w”, „a”, „s”, „d” i „q”). Znaki te są w zasadzie magicznymi liczbami w naszym kodzie. Chociaż obsługa tych poleceń w naszej <code>UserInput</code> przestrzeni nazw i funkcji <code>main()</code> jest w porządku, nie chcemy propagować ich w całym programie. Na przykład klasa <code>Board</code> nie powinna wiedzieć, co oznacza „s”.<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><p>Zaimplementuj klasę pomocniczą o nazwie <code>Direction</code>, która pozwoli nam tworzyć obiekty reprezentujące kierunki kardynalne (w górę, w lewo, w dół lub w prawo). <code>operator-</code> powinna zwracać kierunek przeciwny i <code>operator&lt;&lt;</code> powinna wypisać kierunek do konsoli. Będziemy także potrzebować funkcji członkowskiej, która zwróci obiekt Direction zawierający losowy kierunek. Na koniec dodaj funkcję do przestrzeni nazw <code>UserInput</code> , która konwertuje kierunkowe polecenie gry („w”, „a”, „s” lub „d”) na obiekt Direction.<p>Im częściej możemy używać <code>Direction</code> zamiast kierunkowych poleceń gry, tym łatwiej będzie odczytać i zrozumieć nasz kod.<p><a class=tasks_link_show href=javascript:void(0) onclick="cppTasksToggle(document.getElementById('cpp_tasks_id_3'),this,'Show Tasks','Hide Tasks')">Pokaż zadania</a><div class=wptasks id=cpp_tasks_id_3 style=display:none><p>Zaimplementuj klasa <code>Direction</code>, która zawiera:<ul><li>Publiczne zagnieżdżone wyliczenie o nazwie <code>Type</code> z modułami wyliczającymi <code>up</code>, <code>down</code>, <code>left</code>, <code>right</code>, i <code>maxDirections</code>.<li>Prywatny element przechowujący rzeczywisty kierunek.<li>Konstruktor z jednym argumentem, który pozwala nam zainicjować <code>Direction</code> z  <code>Type</code> inicjator.<li>Przeciążony <code>operator-</code>, który przyjmuje kierunek i zwraca przeciwny kierunek.<li>Przeciążony <code>operator&lt;&lt;</code>, który wysyła nazwę kierunku do konsoli.<li>Funkcja statyczna, która zwraca kierunek z losową <code>Type</code>. Możesz użyć funkcji  <code>Random::get()</code> z nagłówka  <a href="../global-random-numbers-random-h/index.html">„Random.h”</a> , aby wygenerować liczbę losową.</ul><p>Ponadto w przestrzeni nazw <code>UserInput</code> dodaj następujące polecenie:<ul><li>Funkcja, która przekonwertuje kierunkowe polecenie gry (znak) na Kierunek obiekt.</ul></div><p>Na koniec zmodyfikuj program, który napisałeś w poprzednim kroku, tak aby dane wyjściowe były zgodne z następującymi:<pre>
 
 
 
@@ -434,10 +434,10 @@ Bye!
 </pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_6'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_6 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cassert&gt;
 #include &lt;iostream&gt;
 #include &lt;limits&gt;
-#include &#34;Random.h&#34;
+#include "Random.h"
 
-// Increase amount of new lines if your board isn&#39;t
-// at the very bottom of the console
+// Zwiększ liczbę nowych linii, jeśli twoja tablica nie jest
+// na samym konsoli
 constexpr int g_consoleLines{ 25 };
 
 class Direction
@@ -473,7 +473,7 @@ public:
         default:    break;
         }
 
-        assert(0 &amp;&amp; &#34;Unsupported direction was passed!&#34;);
+        assert(0 &amp;&amp; "Unsupported direction was passed!");
         return Direction{ up };
     }
  
@@ -491,38 +491,38 @@ std::ostream&amp; operator&lt;&lt;(std::ostream&amp; stream, Direction dir)
 {
     switch (dir.getType())
     {
-    case Direction::up:     return (stream &lt;&lt; &#34;up&#34;);
-    case Direction::down:   return (stream &lt;&lt; &#34;down&#34;);
-    case Direction::left:   return (stream &lt;&lt; &#34;left&#34;);
-    case Direction::right:  return (stream &lt;&lt; &#34;right&#34;);
+    case Direction::up:     return (stream &lt;&lt; "up");
+    case Direction::down:   return (stream &lt;&lt; "down");
+    case Direction::left:   return (stream &lt;&lt; "left");
+    case Direction::right:  return (stream &lt;&lt; "right");
     default:                break;
     }
 
-    assert(0 &amp;&amp; &#34;Unsupported direction was passed!&#34;);
-    return (stream &lt;&lt; &#34;unknown direction&#34;);
+    assert(0 &amp;&amp; "Unsupported direction was passed!");
+    return (stream &lt;&lt; "unknown direction");
 }
 
 namespace UserInput
 {
     bool isValidCommand(char ch)
     {
-        return ch == &#39;w&#39;
-            || ch == &#39;a&#39;
-            || ch == &#39;s&#39;
-            || ch == &#39;d&#39;
-            || ch == &#39;q&#39;;
+        return ch == 'w'
+            || ch == 'a'
+            || ch == 's'
+            || ch == 'd'
+            || ch == 'q';
     }
 
     void ignoreLine()
     {
-        std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), &#39;\n&#39;);
+        std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), '\n');
     }
 
     char getCharacter()
     {
         char operation{};
         std::cin &gt;&gt; operation;
-        ignoreLine(); // remove any extraneous input
+        ignoreLine(); // usuń wszelkie obce dane wejściowe
         return operation;
     }
 
@@ -539,13 +539,13 @@ namespace UserInput
     {
         switch (ch)
         {
-        case &#39;w&#39;: return Direction{ Direction::up };
-        case &#39;s&#39;: return Direction{ Direction::down };
-        case &#39;a&#39;: return Direction{ Direction::left };
-        case &#39;d&#39;: return Direction{ Direction::right };
+        case 'w': return Direction{ Direction::up };
+        case 's': return Direction{ Direction::down };
+        case 'a': return Direction{ Direction::left };
+        case 'd': return Direction{ Direction::right };
         }
 
-        assert(0 &amp;&amp; &#34;Unsupported direction was passed!&#34;);
+        assert(0 &amp;&amp; "Unsupported direction was passed!");
         return Direction{ Direction::up };
     }
 };
@@ -572,12 +572,12 @@ private:
 
 std::ostream&amp; operator&lt;&lt;(std::ostream&amp; stream, Tile tile)
 {
-    if (tile.getNum() &gt; 9) // if two digit number
-        stream &lt;&lt; &#34; &#34; &lt;&lt; tile.getNum() &lt;&lt; &#34; &#34;;
-    else if (tile.getNum() &gt; 0) // if one digit number
-        stream &lt;&lt; &#34;  &#34; &lt;&lt; tile.getNum() &lt;&lt; &#34; &#34;;
-    else if (tile.getNum() == 0) // if empty spot
-        stream &lt;&lt; &#34;    &#34;;
+    if (tile.getNum() &gt; 9) // jeśli liczba dwucyfrowa
+        stream &lt;&lt; " " &lt;&lt; tile.getNum() &lt;&lt; " ";
+    else if (tile.getNum() &gt; 0) // jeśli liczba jednocyfrowa
+        stream &lt;&lt; "  " &lt;&lt; tile.getNum() &lt;&lt; " ";
+    else if (tile.getNum() == 0) // jeśli puste miejsce
+        stream &lt;&lt; "    ";
     return stream;
 }
 
@@ -590,24 +590,24 @@ public:
     static void printEmptyLines(int count)
     {
         for (int i = 0; i &lt; count; ++i)
-            std::cout &lt;&lt; &#39;\n&#39;;
+            std::cout &lt;&lt; '\n';
     }
 
     friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; stream, const Board&amp; board)
     {
-        // Before drawing always print some empty lines
-        // so that only one board appears at a time
-        // and it&#39;s always shown at the bottom of the window
-        // because console window scrolls automatically when there is no
+        // Przed rysowaniem zawsze drukuj puste linie
+        // aby na raz pojawiała się tylko jedna tablica
+        // i jest to zawsze wyświetlane na dole okna
+        // ponieważ okno konsoli przewija się automatycznie, gdy nie ma
         // enough space. 
         for (int i = 0; i &lt; g_consoleLines; ++i)
-            std::cout &lt;&lt; &#39;\n&#39;;
+            std::cout &lt;&lt; '\n';
 
         for (int y = 0; y &lt; s_size; ++y)
         {
             for (int x = 0; x &lt; s_size; ++x)
                 stream &lt;&lt; board.m_tiles[y][x];
-            stream &lt;&lt; &#39;\n&#39;;
+            stream &lt;&lt; '\n';
         }
 
         return stream;
@@ -627,53 +627,53 @@ int main()
     Board board{};
     std::cout &lt;&lt; board;
 
-    std::cout &lt;&lt; &#34;Generating random direction... &#34; &lt;&lt; Direction::getRandomDirection() &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; &#34;Generating random direction... &#34; &lt;&lt; Direction::getRandomDirection() &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; &#34;Generating random direction... &#34; &lt;&lt; Direction::getRandomDirection() &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; &#34;Generating random direction... &#34; &lt;&lt; Direction::getRandomDirection() &lt;&lt; &#34;\n\n&#34;;
+    std::cout &lt;&lt; "Generating random direction... " &lt;&lt; Direction::getRandomDirection() &lt;&lt; '\n';
+    std::cout &lt;&lt; "Generating random direction... " &lt;&lt; Direction::getRandomDirection() &lt;&lt; '\n';
+    std::cout &lt;&lt; "Generating random direction... " &lt;&lt; Direction::getRandomDirection() &lt;&lt; '\n';
+    std::cout &lt;&lt; "Generating random direction... " &lt;&lt; Direction::getRandomDirection() &lt;&lt; "\n\n";
 
-    std::cout &lt;&lt; &#34;Enter a command: &#34;;
+    std::cout &lt;&lt; "Enter a command: ";
     while (true)
     {
         char ch{ UserInput::getCommandFromUser() };
 
-        // Handle non-direction commands
-        if (ch == &#39;q&#39;)
+        // Obsługuj polecenia inne niż kierunkowe
+        if (ch == 'q')
         {
-            std::cout &lt;&lt; &#34;\n\nBye!\n\n&#34;;
+            std::cout &lt;&lt; "\n\nBye!\n\n";
             return 0;
         }
 
-        // Handle direction commands
+        // Obsługuj polecenia kierunku
         Direction dir{ UserInput::charToDirection(ch) };
 
-        std::cout &lt;&lt; &#34;You entered direction: &#34; &lt;&lt; dir &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; "You entered direction: " &lt;&lt; dir &lt;&lt; '\n';
     }
 
     return 0;
-}</code></pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>&gt; Krok 6<p>Cel: Zaimplementuj klasę pomocniczą, która ułatwi nam indeksowanie płytek na naszej planszy.<p>Nasza plansza to siatka 4×4  <code>Tile</code>, którą przechowujemy w dwuwymiarowej tablicy członek <code>m_tiles</code> klasy <code>Board</code> . Do danego kafelka dostaniemy się korzystając z jego współrzędnych {x, y}. Na przykład lewy górny kafelek ma współrzędne {0, 0}. Płytka po prawej stronie ma współrzędne {1, 0} (x staje się 1, y pozostaje 0). Kafelek niżej ma współrzędne {1, 1}.<p>Ponieważ będziemy dużo pracować ze współrzędnymi, utwórz klasę pomocniczą o nazwie <code>Point</code> , która przechowuje parę współrzędnych {x, y}. Powinniśmy być w stanie porównać dwa obiekty Point pod kątem równości i nierówności. Zaimplementuj także funkcję składową o nazwie <code>getAdjacentPoint</code> , która przyjmuje obiekt Direction jako parametr i zwraca Point w tym kierunku. Na przykład <code>Point{1, 1}.getAdjacentPoint(Direction::right)</code> == <code>Point{2, 1}</code>.<p><a class=tasks_link_show href=javascript:void(0) onclick="cppTasksToggle(document.getElementById('cpp_tasks_id_4'),this,'Show Tasks','Hide Tasks')">Pokaż zadania</a><div class=wptasks id=cpp_tasks_id_4 style=display:none><p>Zaimplementuj strukturę o nazwie <code>Point</code>. Powinno to zawierać:<ul><li>Dwa publiczne elementy danych do przechowywania współrzędnych osi x i y.<li>Przeciążony <code>operator==</code> i <code>operator!=</code> do porównywania dwóch zestawów współrzędnych.<li>Funkcja elementu stałego <code>Point getAdjacentPoint(Direction)</code> , która zwraca Punkt w kierunku parametru Kierunek. Nie musimy tutaj przeprowadzać żadnego sprawdzania poprawności.</ul><p>Używamy tutaj struktury zamiast klasy, ponieważ Point to prosty pakiet danych, który niewiele by zyskał na enkapsulacji.</div><p>Zapisz  <code>main()</code> funkcję z poprzedniego kroku, ponieważ będziesz jej potrzebować ponownie w następnym kroku.<p>Następujący kod powinien zostać uruchomiony i wydrukowany <code>true</code> dla każdego przypadek testowy:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Your code goes here
+}</code></pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>&gt; Krok 6<p>Cel: Zaimplementuj klasę pomocniczą, która ułatwi nam indeksowanie płytek na naszej planszy.<p>Nasza plansza to siatka 4×4  <code>Tile</code>, którą przechowujemy w dwuwymiarowej tablicy członek <code>m_tiles</code> klasy <code>Board</code> . Do danego kafelka dostaniemy się korzystając z jego współrzędnych {x, y}. Na przykład lewy górny kafelek ma współrzędne {0, 0}. Płytka po prawej stronie ma współrzędne {1, 0} (x staje się 1, y pozostaje 0). Kafelek niżej ma współrzędne {1, 1}.<p>Ponieważ będziemy dużo pracować ze współrzędnymi, utwórz klasę pomocniczą o nazwie <code>Point</code> , która przechowuje parę współrzędnych {x, y}. Powinniśmy być w stanie porównać dwa obiekty Point pod kątem równości i nierówności. Zaimplementuj także funkcję składową o nazwie <code>getAdjacentPoint</code> , która przyjmuje obiekt Direction jako parametr i zwraca Point w tym kierunku. Na przykład <code>Point{1, 1}.getAdjacentPoint(Direction::right)</code> == <code>Point{2, 1}</code>.<p><a class=tasks_link_show href=javascript:void(0) onclick="cppTasksToggle(document.getElementById('cpp_tasks_id_4'),this,'Show Tasks','Hide Tasks')">Pokaż zadania</a><div class=wptasks id=cpp_tasks_id_4 style=display:none><p>Zaimplementuj strukturę o nazwie <code>Point</code>. Powinno to zawierać:<ul><li>Dwa publiczne elementy danych do przechowywania współrzędnych osi x i y.<li>Przeciążony <code>operator==</code> i <code>operator!=</code> do porównywania dwóch zestawów współrzędnych.<li>Funkcja elementu stałego <code>Point getAdjacentPoint(Direction)</code> , która zwraca Punkt w kierunku parametru Kierunek. Nie musimy tutaj przeprowadzać żadnego sprawdzania poprawności.</ul><p>Używamy tutaj struktury zamiast klasy, ponieważ Point to prosty pakiet danych, który niewiele by zyskał na enkapsulacji.</div><p>Zapisz  <code>main()</code> funkcję z poprzedniego kroku, ponieważ będziesz jej potrzebować ponownie w następnym kroku.<p>Następujący kod powinien zostać uruchomiony i wydrukowany <code>true</code> dla każdego przypadek testowy:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Twój kod będzie tutaj
 
-// Note: save your main() from the prior step, as you&#39;ll need it again in the next step
+// Uwaga: zapisz funkcję main() z poprzedniego kroku, ponieważ będzie ona potrzebna ponownie w następnym kroku
 int main()
 {
     std::cout &lt;&lt; std::boolalpha;
-    std::cout &lt;&lt; (Point{ 1, 1 }.getAdjacentPoint(Direction::up)    == Point{ 1, 0 }) &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; (Point{ 1, 1 }.getAdjacentPoint(Direction::down)  == Point{ 1, 2 }) &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; (Point{ 1, 1 }.getAdjacentPoint(Direction::left)  == Point{ 0, 1 }) &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; (Point{ 1, 1 }.getAdjacentPoint(Direction::right) == Point{ 2, 1 }) &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; (Point{ 1, 1 } != Point{ 2, 1 }) &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; (Point{ 1, 1 } != Point{ 1, 2 }) &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; !(Point{ 1, 1 } != Point{ 1, 1 }) &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; (Point{ 1, 1 }.getAdjacentPoint(Direction::up)    == Point{ 1, 0 }) &lt;&lt; '\n';
+    std::cout &lt;&lt; (Point{ 1, 1 }.getAdjacentPoint(Direction::down)  == Point{ 1, 2 }) &lt;&lt; '\n';
+    std::cout &lt;&lt; (Point{ 1, 1 }.getAdjacentPoint(Direction::left)  == Point{ 0, 1 }) &lt;&lt; '\n';
+    std::cout &lt;&lt; (Point{ 1, 1 }.getAdjacentPoint(Direction::right) == Point{ 2, 1 }) &lt;&lt; '\n';
+    std::cout &lt;&lt; (Point{ 1, 1 } != Point{ 2, 1 }) &lt;&lt; '\n';
+    std::cout &lt;&lt; (Point{ 1, 1 } != Point{ 1, 2 }) &lt;&lt; '\n';
+    std::cout &lt;&lt; !(Point{ 1, 1 } != Point{ 1, 1 }) &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_7'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_7 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;array&gt;
 #include &lt;cassert&gt;
 #include &lt;iostream&gt;
 #include &lt;limits&gt;
-#include &#34;Random.h&#34;
+#include "Random.h"
 
-// Increase amount of new lines if your board isn&#39;t
-// at the very bottom of the console
+// Zwiększ liczbę nowych linii, jeśli twoja tablica nie jest
+// na samym konsoli
 constexpr int g_consoleLines{ 25 };
 
 class Direction
@@ -709,7 +709,7 @@ public:
         default:    break;
         }
 
-        assert(0 &amp;&amp; &#34;Unsupported direction was passed!&#34;);
+        assert(0 &amp;&amp; "Unsupported direction was passed!");
         return Direction{ up };
     }
 
@@ -728,15 +728,15 @@ std::ostream&amp; operator&lt;&lt;(std::ostream&amp; stream, Direction dir)
 {
     switch (dir.getType())
     {
-    case Direction::up:     return (stream &lt;&lt; &#34;up&#34;);
-    case Direction::down:   return (stream &lt;&lt; &#34;down&#34;);
-    case Direction::left:   return (stream &lt;&lt; &#34;left&#34;);
-    case Direction::right:  return (stream &lt;&lt; &#34;right&#34;);
+    case Direction::up:     return (stream &lt;&lt; "up");
+    case Direction::down:   return (stream &lt;&lt; "down");
+    case Direction::left:   return (stream &lt;&lt; "left");
+    case Direction::right:  return (stream &lt;&lt; "right");
     default:                break;
     }
 
-    assert(0 &amp;&amp; &#34;Unsupported direction was passed!&#34;);
-    return (stream &lt;&lt; &#34;unknown direction&#34;);
+    assert(0 &amp;&amp; "Unsupported direction was passed!");
+    return (stream &lt;&lt; "unknown direction");
 }
 
 struct Point
@@ -765,7 +765,7 @@ struct Point
         default:                break;
         }
 
-        assert(0 &amp;&amp; &#34;Unsupported direction was passed!&#34;);
+        assert(0 &amp;&amp; "Unsupported direction was passed!");
         return *this;
     }
 };
@@ -774,23 +774,23 @@ namespace UserInput
 {
     bool isValidCommand(char ch)
     {
-        return ch == &#39;w&#39;
-            || ch == &#39;a&#39;
-            || ch == &#39;s&#39;
-            || ch == &#39;d&#39;
-            || ch == &#39;q&#39;;
+        return ch == 'w'
+            || ch == 'a'
+            || ch == 's'
+            || ch == 'd'
+            || ch == 'q';
     }
 
     void ignoreLine()
     {
-        std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), &#39;\n&#39;);
+        std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), '\n');
     }
 
     char getCharacter()
     {
         char operation{};
         std::cin &gt;&gt; operation;
-        ignoreLine(); // remove any extraneous input
+        ignoreLine(); // usuń wszelkie obce dane wejściowe
         return operation;
     }
 
@@ -807,13 +807,13 @@ namespace UserInput
     {
         switch (ch)
         {
-        case &#39;w&#39;: return Direction{ Direction::up };
-        case &#39;s&#39;: return Direction{ Direction::down };
-        case &#39;a&#39;: return Direction{ Direction::left };
-        case &#39;d&#39;: return Direction{ Direction::right };
+        case 'w': return Direction{ Direction::up };
+        case 's': return Direction{ Direction::down };
+        case 'a': return Direction{ Direction::left };
+        case 'd': return Direction{ Direction::right };
         }
 
-        assert(0 &amp;&amp; &#34;Unsupported direction was passed!&#34;);
+        assert(0 &amp;&amp; "Unsupported direction was passed!");
         return Direction{ Direction::up };
     }
 };
@@ -840,12 +840,12 @@ private:
 
 std::ostream&amp; operator&lt;&lt;(std::ostream&amp; stream, Tile tile)
 {
-    if (tile.getNum() &gt; 9) // if two digit number
-        stream &lt;&lt; &#34; &#34; &lt;&lt; tile.getNum() &lt;&lt; &#34; &#34;;
-    else if (tile.getNum() &gt; 0) // if one digit number
-        stream &lt;&lt; &#34;  &#34; &lt;&lt; tile.getNum() &lt;&lt; &#34; &#34;;
-    else if (tile.getNum() == 0) // if empty spot
-        stream &lt;&lt; &#34;    &#34;;
+    if (tile.getNum() &gt; 9) // jeśli liczba dwucyfrowa
+        stream &lt;&lt; " " &lt;&lt; tile.getNum() &lt;&lt; " ";
+    else if (tile.getNum() &gt; 0) // jeśli liczba jednocyfrowa
+        stream &lt;&lt; "  " &lt;&lt; tile.getNum() &lt;&lt; " ";
+    else if (tile.getNum() == 0) // jeśli puste miejsce
+        stream &lt;&lt; "    ";
     return stream;
 }
 
@@ -858,24 +858,24 @@ public:
     static void printEmptyLines(int count)
     {
         for (int i = 0; i &lt; count; ++i)
-            std::cout &lt;&lt; &#39;\n&#39;;
+            std::cout &lt;&lt; '\n';
     }
 
     friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; stream, const Board&amp; board)
     {
-        // Before drawing always print some empty lines
-        // so that only one board appears at a time
-        // and it&#39;s always shown at the bottom of the window
-        // because console window scrolls automatically when there is no
+        // Przed rysowaniem zawsze drukuj puste linie
+        // aby na raz pojawiała się tylko jedna tablica
+        // i jest to zawsze wyświetlane na dole okna
+        // ponieważ okno konsoli przewija się automatycznie, gdy nie ma
         // enough space. 
         for (int i = 0; i &lt; g_consoleLines; ++i)
-            std::cout &lt;&lt; &#39;\n&#39;;
+            std::cout &lt;&lt; '\n';
 
         for (int y = 0; y &lt; s_size; ++y)
         {
             for (int x = 0; x &lt; s_size; ++x)
                 stream &lt;&lt; board.m_tiles[y][x];
-            stream &lt;&lt; &#39;\n&#39;;
+            stream &lt;&lt; '\n';
         }
 
         return stream;
@@ -893,13 +893,13 @@ private:
 int main()
 {
     std::cout &lt;&lt; std::boolalpha;
-    std::cout &lt;&lt; (Point{ 1, 1 }.getAdjacentPoint(Direction::up)    == Point{ 1, 0 }) &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; (Point{ 1, 1 }.getAdjacentPoint(Direction::down)  == Point{ 1, 2 }) &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; (Point{ 1, 1 }.getAdjacentPoint(Direction::left)  == Point{ 0, 1 }) &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; (Point{ 1, 1 }.getAdjacentPoint(Direction::right) == Point{ 2, 1 }) &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; (Point{ 1, 1 } != Point{ 2, 1 }) &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; (Point{ 1, 1 } != Point{ 1, 2 }) &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; !(Point{ 1, 1 } != Point{ 1, 1 }) &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; (Point{ 1, 1 }.getAdjacentPoint(Direction::up)    == Point{ 1, 0 }) &lt;&lt; '\n';
+    std::cout &lt;&lt; (Point{ 1, 1 }.getAdjacentPoint(Direction::down)  == Point{ 1, 2 }) &lt;&lt; '\n';
+    std::cout &lt;&lt; (Point{ 1, 1 }.getAdjacentPoint(Direction::left)  == Point{ 0, 1 }) &lt;&lt; '\n';
+    std::cout &lt;&lt; (Point{ 1, 1 }.getAdjacentPoint(Direction::right) == Point{ 2, 1 }) &lt;&lt; '\n';
+    std::cout &lt;&lt; (Point{ 1, 1 } != Point{ 2, 1 }) &lt;&lt; '\n';
+    std::cout &lt;&lt; (Point{ 1, 1 } != Point{ 1, 2 }) &lt;&lt; '\n';
+    std::cout &lt;&lt; !(Point{ 1, 1 } != Point{ 1, 1 }) &lt;&lt; '\n';
 
     return 0;
 }</code></pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>&gt; Krok 7<p>Cel: Dodaj możliwość przesuwania płytek po planszy przez graczy.<p>Najpierw powinniśmy przyjrzeć się bliżej, jak faktycznie działa przesuwanie płytek:<p>Biorąc pod uwagę stan układanki wyglądający tak:<pre>     15   1   4
@@ -910,14 +910,14 @@ int main()
       5   9  12
   7   8  11  14
  10  13   6   3
-</pre><p>A więc zasadniczo stało się tak, że zamieniliśmy pustą płytkę na płytkę <code>2</code>.<p>Uogólnijmy tę procedurę. Kiedy użytkownik wprowadzi polecenie kierunkowe, musimy:<ul><li>Zlokalizować pustą płytkę.<li>Z pustej płytki znaleźć sąsiadującą płytkę, która jest w kierunku przeciwnym do kierunku wprowadzonego przez użytkownika.<li>Jeśli sąsiednia płytka jest prawidłowa (nie jest poza siatką), zamień pustą płytkę z sąsiednią płytką.<li>Jeśli sąsiednia płytka jest nieprawidłowa, wykonaj nic.</ul><p>Zaimplementuj to, dodając funkcję składową <code>moveTile(Direction)</code> do klasy <code>Board</code>. Dodaj to do swojej pętli gry z kroku 5. Jeśli użytkownikowi pomyślnie przesuniesz płytkę, gra powinna przerysować zaktualizowaną planszę.<p><a class=tasks_link_show href=javascript:void(0) onclick="cppTasksToggle(document.getElementById('cpp_tasks_id_5'),this,'Show Tasks','Hide Tasks')">Pokaż zadania</a><div class=wptasks id=cpp_tasks_id_5 style=display:none><p>Zaimplementuj następujące funkcje członkowskie w naszej <code>Board</code> klasę:<ul><li>Funkcji, która zwraca wartość bool wskazującą, czy dany Punkt jest ważny (w obrębie naszej tablicy).<li>Funkcja, która znajduje i zwraca pozycję pustej płytki jako a <code>Point</code>. Moglibyśmy po prostu śledzić, gdzie znajduje się pusta płytka, ale wprowadza to niezmiennik klasy, a znalezienie pustej płytki, kiedy tylko jej potrzebujemy, nie jest aż tak drogie.<li>Funkcja, która zamieni dwie płytki ze względu na ich indeksy punktowe.<li>A <code>moveTile(Direction dir)</code> Funkcja, która spróbuje przesunąć płytkę w danym kierunku i zwróci <code>true</code> jeśli się powiedzie. Funkcja ta powinna implementować procedurę opisaną powyżej.</ul><p>Zmodyfikuj <code>main()</code> z kroku 5 tak, aby <code>moveTile()</code> było wywoływane w przypadku wprowadzenia polecenia kierunkowego. Jeśli ruch się udał, przerysuj planszę.</div><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_8'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_8 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;array&gt;
+</pre><p>A więc zasadniczo stało się tak, że zamieniliśmy pustą płytkę na płytkę <code>2</code>.<p>Uogólnijmy tę procedurę. Kiedy użytkownik wprowadzi polecenie kierunkowe, musimy:<ul><li>Zlokalizować pustą płytkę.<li>Z pustej płytki znaleźć sąsiadującą płytkę, która jest w kierunku przeciwnym do kierunku wprowadzonego przez użytkownika.<li>Jeśli sąsiednia płytka jest prawidłowa (nie jest poza siatką), zamień pustą płytkę z sąsiednią płytką.<li>Jeśli sąsiednia płytka jest nieprawidłowa, wykonaj nic.</ul><p>Zaimplementuj to, dodając funkcję składową <code>moveTile(Direction)</code> do klasy <code>Board</code>. Dodaj to do swojej pętli gry z kroku 5. Jeśli użytkownikowi pomyślnie przesuniesz płytkę, gra powinna przerysować zaktualizowaną planszę.<p><a class=tasks_link_show href=javascript:void(0) onclick="cppTasksToggle(document.getElementById('cpp_tasks_id_5'),this,'Show Tasks','Hide Tasks')">Pokaż zadania</a><div class=wptasks id=cpp_tasks_id_5 style=display:none><p>Zaimplementuj następujące funkcje członkowskie w naszej <code>Board</code> klasę:<ul><li>Funkcji, która zwraca wartość bool wskazującą, czy dany Punkt jest ważny (w obrębie naszej tablicy).<li>Funkcja, która znajduje i zwraca pozycję pustej płytki jako <code>Point</code>. Moglibyśmy po prostu śledzić, gdzie znajduje się pusta płytka, ale wprowadza to niezmiennik klasy, a znalezienie pustej płytki, kiedy tylko jej potrzebujemy, nie jest aż tak drogie.<li>Funkcja, która zamieni dwie płytki ze względu na ich indeksy punktowe.<li><code>moveTile(Direction dir)</code> Funkcja, która spróbuje przesunąć płytkę w danym kierunku i zwróci <code>true</code> jeśli się powiedzie. Funkcja ta powinna implementować procedurę opisaną powyżej.</ul><p>Zmodyfikuj <code>main()</code> z kroku 5 tak, aby <code>moveTile()</code> było wywoływane w przypadku wprowadzenia polecenia kierunkowego. Jeśli ruch się udał, przerysuj planszę.</div><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_8'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_8 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;array&gt;
 #include &lt;cassert&gt;
 #include &lt;iostream&gt;
 #include &lt;limits&gt;
-#include &#34;Random.h&#34;
+#include "Random.h"
 
-// Increase amount of new lines if your board isn&#39;t
-// at the very bottom of the console
+// Zwiększ liczbę nowych linii, jeśli twoja tablica nie jest
+// na samym konsoli
 constexpr int g_consoleLines{ 25 };
 
 class Direction
@@ -953,7 +953,7 @@ public:
         default:    break;
         }
 
-        assert(0 &amp;&amp; &#34;Unsupported direction was passed!&#34;);
+        assert(0 &amp;&amp; "Unsupported direction was passed!");
         return Direction{ up };
     }
 
@@ -972,15 +972,15 @@ std::ostream&amp; operator&lt;&lt;(std::ostream&amp; stream, Direction dir)
 {
     switch (dir.getType())
     {
-    case Direction::up:     return (stream &lt;&lt; &#34;up&#34;);
-    case Direction::down:   return (stream &lt;&lt; &#34;down&#34;);
-    case Direction::left:   return (stream &lt;&lt; &#34;left&#34;);
-    case Direction::right:  return (stream &lt;&lt; &#34;right&#34;);
+    case Direction::up:     return (stream &lt;&lt; "up");
+    case Direction::down:   return (stream &lt;&lt; "down");
+    case Direction::left:   return (stream &lt;&lt; "left");
+    case Direction::right:  return (stream &lt;&lt; "right");
     default:                break;
     }
 
-    assert(0 &amp;&amp; &#34;Unsupported direction was passed!&#34;);
-    return (stream &lt;&lt; &#34;unknown direction&#34;);
+    assert(0 &amp;&amp; "Unsupported direction was passed!");
+    return (stream &lt;&lt; "unknown direction");
 }
 
 struct Point
@@ -1009,7 +1009,7 @@ struct Point
         default:                break;
         }
 
-        assert(0 &amp;&amp; &#34;Unsupported direction was passed!&#34;);
+        assert(0 &amp;&amp; "Unsupported direction was passed!");
         return *this;
     }
 };
@@ -1018,23 +1018,23 @@ namespace UserInput
 {
     bool isValidCommand(char ch)
     {
-        return ch == &#39;w&#39;
-            || ch == &#39;a&#39;
-            || ch == &#39;s&#39;
-            || ch == &#39;d&#39;
-            || ch == &#39;q&#39;;
+        return ch == 'w'
+            || ch == 'a'
+            || ch == 's'
+            || ch == 'd'
+            || ch == 'q';
     }
 
     void ignoreLine()
     {
-        std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), &#39;\n&#39;);
+        std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), '\n');
     }
 
     char getCharacter()
     {
         char operation{};
         std::cin &gt;&gt; operation;
-        ignoreLine(); // remove any extraneous input
+        ignoreLine(); // usuń wszelkie obce dane wejściowe
         return operation;
     }
 
@@ -1051,13 +1051,13 @@ namespace UserInput
     {
         switch (ch)
         {
-        case &#39;w&#39;: return Direction{ Direction::up };
-        case &#39;s&#39;: return Direction{ Direction::down };
-        case &#39;a&#39;: return Direction{ Direction::left };
-        case &#39;d&#39;: return Direction{ Direction::right };
+        case 'w': return Direction{ Direction::up };
+        case 's': return Direction{ Direction::down };
+        case 'a': return Direction{ Direction::left };
+        case 'd': return Direction{ Direction::right };
         }
 
-        assert(0 &amp;&amp; &#34;Unsupported direction was passed!&#34;);
+        assert(0 &amp;&amp; "Unsupported direction was passed!");
         return Direction{ Direction::up };
     }
 };
@@ -1084,12 +1084,12 @@ private:
 
 std::ostream&amp; operator&lt;&lt;(std::ostream&amp; stream, Tile tile)
 {
-    if (tile.getNum() &gt; 9) // if two digit number
-        stream &lt;&lt; &#34; &#34; &lt;&lt; tile.getNum() &lt;&lt; &#34; &#34;;
-    else if (tile.getNum() &gt; 0) // if one digit number
-        stream &lt;&lt; &#34;  &#34; &lt;&lt; tile.getNum() &lt;&lt; &#34; &#34;;
-    else if (tile.getNum() == 0) // if empty spot
-        stream &lt;&lt; &#34;    &#34;;
+    if (tile.getNum() &gt; 9) // jeśli liczba dwucyfrowa
+        stream &lt;&lt; " " &lt;&lt; tile.getNum() &lt;&lt; " ";
+    else if (tile.getNum() &gt; 0) // jeśli liczba jednocyfrowa
+        stream &lt;&lt; "  " &lt;&lt; tile.getNum() &lt;&lt; " ";
+    else if (tile.getNum() == 0) // jeśli puste miejsce
+        stream &lt;&lt; "    ";
     return stream;
 }
 
@@ -1102,24 +1102,24 @@ public:
     static void printEmptyLines(int count)
     {
         for (int i = 0; i &lt; count; ++i)
-            std::cout &lt;&lt; &#39;\n&#39;;
+            std::cout &lt;&lt; '\n';
     }
 
     friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; stream, const Board&amp; board)
     {
-        // Before drawing always print some empty lines
-        // so that only one board appears at a time
-        // and it&#39;s always shown at the bottom of the window
-        // because console window scrolls automatically when there is no
+        // Przed rysowaniem zawsze drukuj puste linie
+        // aby na raz pojawiała się tylko jedna tablica
+        // i jest to zawsze wyświetlane na dole okna
+        // ponieważ okno konsoli przewija się automatycznie, gdy nie ma
         // enough space. 
         for (int i = 0; i &lt; g_consoleLines; ++i)
-            std::cout &lt;&lt; &#39;\n&#39;;
+            std::cout &lt;&lt; '\n';
 
         for (int y = 0; y &lt; s_size; ++y)
         {
             for (int x = 0; x &lt; s_size; ++x)
                 stream &lt;&lt; board.m_tiles[y][x];
-            stream &lt;&lt; &#39;\n&#39;;
+            stream &lt;&lt; '\n';
         }
 
         return stream;
@@ -1132,7 +1132,7 @@ public:
                 if (m_tiles[y][x].isEmpty())
                     return { x,y };
 
-        assert(0 &amp;&amp; &#34;There is no empty tile in the board!!!&#34;);
+        assert(0 &amp;&amp; "There is no empty tile in the board!!!");
         return { -1,-1 };
     }
 
@@ -1147,7 +1147,7 @@ public:
         std::swap(m_tiles[pt1.y][pt1.x], m_tiles[pt2.y][pt2.x]);
     }
 
-    // returns true if user moved successfully
+    // zwraca wartość true, jeśli użytkownik przeniósł się pomyślnie
     bool moveTile(Direction dir)
     {
         Point emptyTile{ getEmptyTilePos() };
@@ -1174,19 +1174,19 @@ int main()
     Board board{};
     std::cout &lt;&lt; board;
 
-    std::cout &lt;&lt; &#34;Enter a command: &#34;;
+    std::cout &lt;&lt; "Enter a command: ";
     while (true)
     {
         char ch{ UserInput::getCommandFromUser() };
 
-        // Handle non-direction commands
-        if (ch == &#39;q&#39;)
+        // Obsługuj polecenia inne niż kierunkowe
+        if (ch == 'q')
         {
-            std::cout &lt;&lt; &#34;\n\nBye!\n\n&#34;;
+            std::cout &lt;&lt; "\n\nBye!\n\n";
             return 0;
         }
 
-        // Handle direction commands
+        // Obsługuj polecenia kierunku
         Direction dir{ UserInput::charToDirection(ch) };
 
         bool userMoved { board.moveTile(dir) };
@@ -1203,10 +1203,10 @@ int main()
 #include &lt;cassert&gt;
 #include &lt;iostream&gt;
 #include &lt;limits&gt;
-#include &#34;Random.h&#34;
+#include "Random.h"
 
-// Increase amount of new lines if your board isn&#39;t
-// at the very bottom of the console
+// Zwiększ liczbę nowych linii, jeśli twoja tablica nie jest
+// na samym konsoli
 constexpr int g_consoleLines{ 25 };
 
 class Direction
@@ -1241,7 +1241,7 @@ public:
         default:    break;
         }
 
-        assert(0 &amp;&amp; &#34;Unsupported direction was passed!&#34;);
+        assert(0 &amp;&amp; "Unsupported direction was passed!");
         return Direction{ up };
     }
 
@@ -1259,15 +1259,15 @@ std::ostream&amp; operator&lt;&lt;(std::ostream&amp; stream, Direction dir)
 {
     switch (dir.getType())
     {
-    case Direction::up:     return (stream &lt;&lt; &#34;up&#34;);
-    case Direction::down:   return (stream &lt;&lt; &#34;down&#34;);
-    case Direction::left:   return (stream &lt;&lt; &#34;left&#34;);
-    case Direction::right:  return (stream &lt;&lt; &#34;right&#34;);
+    case Direction::up:     return (stream &lt;&lt; "up");
+    case Direction::down:   return (stream &lt;&lt; "down");
+    case Direction::left:   return (stream &lt;&lt; "left");
+    case Direction::right:  return (stream &lt;&lt; "right");
     default:                break;
     }
 
-    assert(0 &amp;&amp; &#34;Unsupported direction was passed!&#34;);
-    return (stream &lt;&lt; &#34;unknown direction&#34;);
+    assert(0 &amp;&amp; "Unsupported direction was passed!");
+    return (stream &lt;&lt; "unknown direction");
 }
 
 struct Point
@@ -1296,7 +1296,7 @@ struct Point
         default:                break;
         }
 
-        assert(0 &amp;&amp; &#34;Unsupported direction was passed!&#34;);
+        assert(0 &amp;&amp; "Unsupported direction was passed!");
         return *this;
     }
 };
@@ -1305,23 +1305,23 @@ namespace UserInput
 {
     bool isValidCommand(char ch)
     {
-        return ch == &#39;w&#39;
-            || ch == &#39;a&#39;
-            || ch == &#39;s&#39;
-            || ch == &#39;d&#39;
-            || ch == &#39;q&#39;;
+        return ch == 'w'
+            || ch == 'a'
+            || ch == 's'
+            || ch == 'd'
+            || ch == 'q';
     }
 
     void ignoreLine()
     {
-        std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), &#39;\n&#39;);
+        std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), '\n');
     }
 
     char getCharacter()
     {
         char operation{};
         std::cin &gt;&gt; operation;
-        ignoreLine(); // remove any extraneous input
+        ignoreLine(); // usuń wszelkie obce dane wejściowe
         return operation;
     }
 
@@ -1338,13 +1338,13 @@ namespace UserInput
     {
         switch (ch)
         {
-        case &#39;w&#39;: return Direction{ Direction::up };
-        case &#39;s&#39;: return Direction{ Direction::down };
-        case &#39;a&#39;: return Direction{ Direction::left };
-        case &#39;d&#39;: return Direction{ Direction::right };
+        case 'w': return Direction{ Direction::up };
+        case 's': return Direction{ Direction::down };
+        case 'a': return Direction{ Direction::left };
+        case 'd': return Direction{ Direction::right };
         }
 
-        assert(0 &amp;&amp; &#34;Unsupported direction was passed!&#34;);
+        assert(0 &amp;&amp; "Unsupported direction was passed!");
         return Direction{ Direction::up };
     }
 };
@@ -1371,12 +1371,12 @@ private:
 
 std::ostream&amp; operator&lt;&lt;(std::ostream&amp; stream, Tile tile)
 {
-    if (tile.getNum() &gt; 9) // if two digit number
-        stream &lt;&lt; &#34; &#34; &lt;&lt; tile.getNum() &lt;&lt; &#34; &#34;;
-    else if (tile.getNum() &gt; 0) // if one digit number
-        stream &lt;&lt; &#34;  &#34; &lt;&lt; tile.getNum() &lt;&lt; &#34; &#34;;
-    else if (tile.getNum() == 0) // if empty spot
-        stream &lt;&lt; &#34;    &#34;;
+    if (tile.getNum() &gt; 9) // jeśli liczba dwucyfrowa
+        stream &lt;&lt; " " &lt;&lt; tile.getNum() &lt;&lt; " ";
+    else if (tile.getNum() &gt; 0) // jeśli liczba jednocyfrowa
+        stream &lt;&lt; "  " &lt;&lt; tile.getNum() &lt;&lt; " ";
+    else if (tile.getNum() == 0) // jeśli puste miejsce
+        stream &lt;&lt; "    ";
     return stream;
 }
 
@@ -1389,24 +1389,24 @@ public:
     static void printEmptyLines(int count)
     {
         for (int i = 0; i &lt; count; ++i)
-            std::cout &lt;&lt; &#39;\n&#39;;
+            std::cout &lt;&lt; '\n';
     }
 
     friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; stream, const Board&amp; board)
     {
-        // Before drawing always print some empty lines
-        // so that only one board appears at a time
-        // and it&#39;s always shown at the bottom of the window
-        // because console window scrolls automatically when there is no
+        // Przed rysowaniem zawsze drukuj puste linie
+        // aby na raz pojawiała się tylko jedna tablica
+        // i jest to zawsze wyświetlane na dole okna
+        // ponieważ okno konsoli przewija się automatycznie, gdy nie ma
         // enough space. 
         for (int i = 0; i &lt; g_consoleLines; ++i)
-            std::cout &lt;&lt; &#39;\n&#39;;
+            std::cout &lt;&lt; '\n';
 
         for (int y = 0; y &lt; s_size; ++y)
         {
             for (int x = 0; x &lt; s_size; ++x)
                 stream &lt;&lt; board.m_tiles[y][x];
-            stream &lt;&lt; &#39;\n&#39;;
+            stream &lt;&lt; '\n';
         }
 
         return stream;
@@ -1419,7 +1419,7 @@ public:
                 if (m_tiles[y][x].isEmpty())
                     return { x,y };
 
-        assert(0 &amp;&amp; &#34;There is no empty tile in the board!!!&#34;);
+        assert(0 &amp;&amp; "There is no empty tile in the board!!!");
         return { -1,-1 };
     }
 
@@ -1434,7 +1434,7 @@ public:
         std::swap(m_tiles[pt1.y][pt1.x], m_tiles[pt2.y][pt2.x]);
     }
 
-    // Compare two boards to see if they are equal
+    // Porównaj dwie tablice, aby sprawdzić, czy są równe
     friend bool operator==(const Board&amp; f1, const Board&amp; f2)
     {
         for (int y = 0; y &lt; s_size; ++y)
@@ -1445,7 +1445,7 @@ public:
         return true;
     }
 
-    // returns true if user moved successfully
+    // zwraca wartość true, jeśli użytkownik przeniósł się pomyślnie
     bool moveTile(Direction dir)
     {
         Point emptyTile{ getEmptyTilePos() };
@@ -1460,17 +1460,17 @@ public:
 
     bool playerWon() const
     {
-        static Board s_solved{};  // generate a solved board
-        return s_solved == *this; // player wins if current board == solved board
+        static Board s_solved{};  // wygeneruj rozwiązaną planszę
+        return s_solved == *this; // gracz wygrywa, jeśli bieżąca plansza == rozwiązana plansza
     }
 
     void randomize()
     {
-        // Move empty tile randomly 1000 times
-        // (just like you would do in real life)
+        // Przesuń losowo pustą płytkę 1000 razy
+        // (tak jak zrobiłbyś to w prawdziwym życiu)
         for (int i = 0; i &lt; 1000; )
         {
-            // If we are able to successfully move a tile, count this
+            // Jeśli udało nam się pomyślnie przenieść kafelek, policz to
             if (moveTile(Direction::getRandomDirection()))
                 ++i;
         }
@@ -1495,14 +1495,14 @@ int main()
     {
         char ch{ UserInput::getCommandFromUser() };
 
-        // Handle non-direction commands
-        if (ch == &#39;q&#39;)
+        // Obsługuj polecenia inne niż kierunkowe
+        if (ch == 'q')
         {
-            std::cout &lt;&lt; &#34;\n\nBye!\n\n&#34;;
+            std::cout &lt;&lt; "\n\nBye!\n\n";
             return 0;
         }
 
-        // Handle direction commands
+        // Obsługuj polecenia kierunku
         Direction dir{ UserInput::charToDirection(ch) };
 
         bool userMoved{ board.moveTile(dir) };
@@ -1510,7 +1510,7 @@ int main()
             std::cout &lt;&lt; board;
     }
 
-    std::cout &lt;&lt; &#34;\n\nYou won!\n\n&#34;;
+    std::cout &lt;&lt; "\n\nYou won!\n\n";
     return 0;
 }</code></pre></div><div class=prevnext><div class=prevnext-inline><a class=nav-link href="../introduction-to-smart-pointers-move-semantics/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>22.1</span>Wprowadzenie do inteligentnych wskaźników i ruchu semantyka</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../chapter-21-summary-and-quiz/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>21.x</span>Rozdział 21, podsumowanie i quiz</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/chapter-21-project/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../constant-expressions/index.html" rel=prev><span>5.5 -- Wyrażenia stałe</span></a></div><div class=nav-next><em>Następny post</em><a href="../non-type-template-parameters/index.html" rel=next><span>11.9 — Nietypowe parametry szablonu</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>
 <textarea id=wc-textarea-0_0 placeholder="Zostaw komentarz..." aria-label="Zostaw komentarz..." required name=wc_comment class="wc_comment wpd-field"></textarea></div><div class=wpd-editor-buttons-right></div></div></div></div><div class=wpd-form-foot><div class=wpdiscuz-textarea-foot><div class=wpdiscuz-button-actions></div></div><div class=wpd-form-row><div class=wpd-form-col-left><div class="wpdiscuz-item wc_name-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-user"></i></div><input id=wc_name-0_0 required aria-required=true class="wc_name wpd-field" name=wc_name placeholder=Imię* maxlength=50 pattern=.{3,50}>

@@ -13,7 +13,7 @@
 <button class=searchsubmit><span class=screen-reader-text>Szukaj</span><i class=icon-search></i></button>
 <input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=14834></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="15.8 — Funkcje niebędące członkami znajomych" src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-136 class="post-136 post type-post status-publish format-standard hentry category-cpp-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>15.8 -- Funkcje niebędące członkami znajomych</h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Autor></i><a class="url fn n" rel=author href=/www.learncpp.com/author/Alex/ title="Wyświetl wszystkie posty Alexa" itemprop=url><em itemprop=name>Alex</em></a></span>
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2007-09-20T14:04:57-07:00 itemprop=datePublished>20 września 2007, 14:04 czasu PDT</time>
-<time class=updated datetime=2024-05-08T10:47:28-07:00 itemprop=dateModified>8 maja 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>Przez większą część tego i ostatniego rozdziału głosiliśmy zalety dostępu elementy sterujące, które zapewniają mechanizm kontrolowania tego, kto może uzyskać dostęp do różnych członków klasy. Dostęp do członków prywatnych mają tylko inni członkowie klasy, a do członków publicznych mają dostęp wszyscy. W lekcji <a href="../access-functions/index.html">14.6 — Funkcje dostępu</a> omówiliśmy korzyści wynikające z utrzymywania prywatności danych i tworzenia publicznego interfejsu, z którego mogą korzystać osoby niebędące członkami.<p>Są jednak sytuacje, w których taki układ jest niewystarczający lub nie jest idealny.<p>Rozważmy na przykład klasę pamięci masowej, która koncentruje się na zarządzaniu pewnym zestawem danych. Powiedzmy teraz, że chcesz również wyświetlić te dane, ale kod obsługujący wyświetlanie będzie miał wiele opcji i dlatego jest złożony. Można umieścić zarówno funkcje zarządzania pamięcią masową, jak i funkcje zarządzania wyświetlaniem w tej samej klasie, ale spowodowałoby to bałagan i spowodowałoby skomplikowany interfejs. Można je także rozdzielić: klasa pamięci zarządza pamięcią masową, a inna klasa wyświetlania zarządza wszystkimi możliwościami wyświetlania. To tworzy przyjemny podział odpowiedzialności. Jednak klasa wyświetlania nie byłaby wówczas w stanie uzyskać dostępu do prywatnych składowych klasy pamięci i mogłaby nie być w stanie wykonać swojego zadania.<p>Alternatywnie istnieją przypadki, w których składniowo wolelibyśmy użyć funkcji niebędącej składową zamiast funkcji składowej (pokażemy przykład poniżej). Dzieje się tak często w przypadku przeciążania operatorów – temat ten omówimy w przyszłych lekcjach. Ale funkcje niebędące składowymi mają ten sam problem — nie mogą uzyskać dostępu do prywatnych składowych klasy.<p>Jeśli funkcje dostępu (lub inne publiczne funkcje składowe) już istnieją i są wystarczające dla dowolnej możliwości, którą próbujemy zaimplementować, to świetnie — możemy (i powinniśmy) po prostu z nich skorzystać. Ale w niektórych przypadkach te funkcje nie istnieją. Co wtedy?<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Jedną z opcji byłoby dodanie do klasy nowych funkcji składowych, aby umożliwić innym klasom lub funkcjom niebędącym członkami wykonywanie zadań, których w innym przypadku nie byłyby w stanie wykonać. Ale możemy nie chcieć zezwalać na publiczny dostęp do takich rzeczy - być może te rzeczy w dużym stopniu zależą od implementacji lub są podatne na niewłaściwe użycie.<p>Naprawdę potrzebujemy jakiegoś sposobu na obalenie systemu kontroli dostępu w każdym przypadku.<p class="cpp-section cpp-topline" style=clear:both>Przyjaźń to magia<p>Odpowiedzią na nasze wyzwanie jest przyjaźń.<p>W treści klasy  <strong>deklaracja znajomego</strong> (za pomocą słowa kluczowego <code>friend</code> słowo kluczowe) może zostać użyte, aby poinformować kompilator, że jakaś inna klasa lub funkcja jest teraz klasą lub funkcją przyjaciel. W C++ a <strong>przyjaciel</strong> to klasa lub funkcja (członkowa lub niebędąca członkiem), której przyznano pełny dostęp do prywatnych i chronionych elementów innej klasy. W ten sposób klasa może selektywnie przyznać innym klasom lub funkcjom pełny dostęp do swoich członków, nie wpływając na nic innego.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Przyjaźń jest zawsze przyznawana przez klasę, do której członków będzie dostępny (nie przez klasę lub funkcję pragnącą dostępu). Pomiędzy kontrolą dostępu a nadawaniem przyjaźni, klasa zawsze zachowuje możliwość kontrolowania tego, kto może uzyskać dostęp do jej członków.</div><p>Na przykład, jeśli nasza klasa pamięci masowej uczyniła klasę wyświetlającą zaprzyjaźnioną, wówczas klasa wyświetlająca będzie mogła uzyskać bezpośredni dostęp do wszystkich członków klasy pamięci. Klasa wyświetlania może wykorzystać ten bezpośredni dostęp do zaimplementowania wyświetlania klasy pamięci, pozostając jednocześnie strukturalnie odrębna.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Kontrola dostępu nie ma wpływu na deklarację znajomego, więc nie ma znaczenia, gdzie w treści klasy zostanie umieszczona.<p>Teraz, gdy wiemy, czym jest przyjaciel, przyjrzyjmy się konkretnym przykładom, w których przyjaźń jest przyznawana funkcjom niebędącym członkami, funkcjom członkowskim i innym klasom. W tej lekcji omówimy funkcje znajomych niebędących członkami, a następnie w następnej lekcji przyjrzymy się klasom znajomych i funkcjom członków znajomych. <a href="../friend-classes-and-friend-member-functions/index.html">15.9 — Klasy znajomych i funkcje członków znajomych</a>.<p class="cpp-section cpp-topline" style=clear:both>Przyjazne funkcje niebędące członkami<p>A <strong>Funkcja zaprzyjaźniona</strong> to funkcja (członkowa lub niebędąca członkiem), która może uzyskać dostęp do prywatnych i chronionych członków klasy tak, jakby była członkiem tej klasy. Pod każdym innym względem funkcja zaprzyjaźniona jest funkcją normalną.<p>Przyjrzyjmy się przykładowi prostej klasy, która czyni funkcję niebędącą członkiem zaprzyjaźnioną:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+<time class=updated datetime=2024-05-08T10:47:28-07:00 itemprop=dateModified>8 maja 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>Przez większą część tego i ostatniego rozdziału głosiliśmy zalety dostępu elementy sterujące, które zapewniają mechanizm kontrolowania tego, kto może uzyskać dostęp do różnych członków klasy. Dostęp do członków prywatnych mają tylko inni członkowie klasy, a do członków publicznych mają dostęp wszyscy. W lekcji <a href="../access-functions/index.html">14.6 — Funkcje dostępu</a> omówiliśmy korzyści wynikające z utrzymywania prywatności danych i tworzenia publicznego interfejsu, z którego mogą korzystać osoby niebędące członkami.<p>Są jednak sytuacje, w których taki układ jest niewystarczający lub nie jest idealny.<p>Rozważmy na przykład klasę pamięci masowej, która koncentruje się na zarządzaniu pewnym zestawem danych. Powiedzmy teraz, że chcesz również wyświetlić te dane, ale kod obsługujący wyświetlanie będzie miał wiele opcji i dlatego jest złożony. Można umieścić zarówno funkcje zarządzania pamięcią masową, jak i funkcje zarządzania wyświetlaniem w tej samej klasie, ale spowodowałoby to bałagan i spowodowałoby skomplikowany interfejs. Można je także rozdzielić: klasa pamięci zarządza pamięcią masową, a inna klasa wyświetlania zarządza wszystkimi możliwościami wyświetlania. To tworzy przyjemny podział odpowiedzialności. Jednak klasa wyświetlania nie byłaby wówczas w stanie uzyskać dostępu do prywatnych składowych klasy pamięci i mogłaby nie być w stanie wykonać swojego zadania.<p>Alternatywnie istnieją przypadki, w których składniowo wolelibyśmy użyć funkcji niebędącej składową zamiast funkcji składowej (pokażemy przykład poniżej). Dzieje się tak często w przypadku przeciążania operatorów – temat ten omówimy w przyszłych lekcjach. Ale funkcje niebędące składowymi mają ten sam problem — nie mogą uzyskać dostępu do prywatnych składowych klasy.<p>Jeśli funkcje dostępu (lub inne publiczne funkcje składowe) już istnieją i są wystarczające dla dowolnej możliwości, którą próbujemy zaimplementować, to świetnie — możemy (i powinniśmy) po prostu z nich skorzystać. Ale w niektórych przypadkach te funkcje nie istnieją. Co wtedy?<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Jedną z opcji byłoby dodanie do klasy nowych funkcji składowych, aby umożliwić innym klasom lub funkcjom niebędącym członkami wykonywanie zadań, których w innym przypadku nie byłyby w stanie wykonać. Ale możemy nie chcieć zezwalać na publiczny dostęp do takich rzeczy - być może te rzeczy w dużym stopniu zależą od implementacji lub są podatne na niewłaściwe użycie.<p>Naprawdę potrzebujemy jakiegoś sposobu na obalenie systemu kontroli dostępu w każdym przypadku.<p class="cpp-section cpp-topline" style=clear:both>Przyjaźń to magia<p>Odpowiedzią na nasze wyzwanie jest przyjaźń.<p>W treści klasy  <strong>deklaracja znajomego</strong> (za pomocą słowa kluczowego słowo kluczowe <code>friend</code>) może zostać użyte, aby poinformować kompilator, że jakaś inna klasa lub funkcja jest teraz klasą lub funkcją przyjaciel. W C++ <strong>przyjaciel</strong> to klasa lub funkcja (członkowa lub niebędąca członkiem), której przyznano pełny dostęp do prywatnych i chronionych elementów innej klasy. W ten sposób klasa może selektywnie przyznać innym klasom lub funkcjom pełny dostęp do swoich członków, nie wpływając na nic innego.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Przyjaźń jest zawsze przyznawana przez klasę, do której członków będzie dostępny (nie przez klasę lub funkcję pragnącą dostępu). Pomiędzy kontrolą dostępu a nadawaniem przyjaźni, klasa zawsze zachowuje możliwość kontrolowania tego, kto może uzyskać dostęp do jej członków.</div><p>Na przykład, jeśli nasza klasa pamięci masowej uczyniła klasę wyświetlającą zaprzyjaźnioną, wówczas klasa wyświetlająca będzie mogła uzyskać bezpośredni dostęp do wszystkich członków klasy pamięci. Klasa wyświetlania może wykorzystać ten bezpośredni dostęp do zaimplementowania wyświetlania klasy pamięci, pozostając jednocześnie strukturalnie odrębna.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Kontrola dostępu nie ma wpływu na deklarację znajomego, więc nie ma znaczenia, gdzie w treści klasy zostanie umieszczona.<p>Teraz, gdy wiemy, czym jest przyjaciel, przyjrzyjmy się konkretnym przykładom, w których przyjaźń jest przyznawana funkcjom niebędącym członkami, funkcjom członkowskim i innym klasom. W tej lekcji omówimy funkcje znajomych niebędących członkami, a następnie w następnej lekcji przyjrzymy się klasom znajomych i funkcjom członków znajomych. <a href="../friend-classes-and-friend-member-functions/index.html">15.9 — Klasy znajomych i funkcje członków znajomych</a>.<p class="cpp-section cpp-topline" style=clear:both>Przyjazne funkcje niebędące członkami<p><strong>Funkcja zaprzyjaźniona</strong> to funkcja (członkowa lub niebędąca członkiem), która może uzyskać dostęp do prywatnych i chronionych członków klasy tak, jakby była członkiem tej klasy. Pod każdym innym względem funkcja zaprzyjaźniona jest funkcją normalną.<p>Przyjrzyjmy się przykładowi prostej klasy, która czyni funkcję niebędącą członkiem zaprzyjaźnioną:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 class Accumulator
 {
@@ -23,23 +23,23 @@ private:
 public:
     void add(int value) { m_value += value; }
 
-    // Here is the friend declaration that makes non-member function void print(const Accumulator&amp; accumulator) a friend of Accumulator
+    // Oto deklaracja znajomego, która sprawia, że funkcja niebędąca członkiem jest nieważna print(const Akumulator i akumulator) jest przyjacielem akumulatora
     friend void print(const Accumulator&amp; accumulator);
 };
 
 void print(const Accumulator&amp; accumulator)
 {
-    // Because print() is a friend of Accumulator
-    // it can access the private members of Accumulator
+    // Ponieważ print() jest przyjacielem akumulatora
+    // może uzyskać dostęp do prywatnych elementów akumulatora
     std::cout &lt;&lt; accumulator.m_value;
 }
 
 int main()
 {
     Accumulator acc{};
-    acc.add(5); // add 5 to the accumulator
+    acc.add(5); // dodaj 5 do zmęczenia
 
-    print(acc); // call the print() non-member function
+    print(acc); // wywołaj funkcję niebędącą członkiem print().
 
     return 0;
 }</code></pre><p>W tym przykładzie zadeklarowaliśmy funkcję niebędącą członkiem o nazwie <code>print()</code> która przyjmuje obiekt klasy <code>Accumulator</code>. Ponieważ  <code>print()</code> niebędący członkiem klasy Accumulator, normalnie nie miałaby dostępu do prywatnego członek <code>m_value</code>. Jednakże klasa Accumulator zawiera deklarację znajomego tworzącą <code>print(const Accumulator& accumulator)</code> przyjaciela, jest to teraz dozwolone.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>Zauważ, że ponieważ  <code>print()</code> jest funkcją niebędącą składową (a zatem nie ma ukrytego obiektu), musimy jawnie przekazać  <code>Accumulator</code> obiekt do <code>print()</code> , z którym chcemy pracować.<p class="cpp-section cpp-topline" style=clear:both>Definiowanie znajomego niebędącego członkiem wewnątrz klasy<p>Podobnie jak funkcje składowe można definiować wewnątrz klasy, jeśli jest to pożądane, tak samo zaprzyjaźnione funkcje niebędące członkami można również definiować wewnątrz klasy. Poniższy przykład definiuje przyjazną funkcję niebędącą członkiem <code>print()</code> wewnątrz klasy <code>Accumulator</code> klasę:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -52,11 +52,11 @@ private:
 public:
     void add(int value) { m_value += value; }
 
-    // Friend functions defined inside a class are non-member functions
+    // Funkcje zaprzyjaźnione zdefiniowane wewnątrz klasy nie są funkcjami członkowskimi
     friend void print(const Accumulator&amp; accumulator)
     {
-        // Because print() is a friend of Accumulator
-        // it can access the private members of Accumulator
+        // Ponieważ print() jest przyjacielem akumulatora
+        // może uzyskać dostęp do prywatnych elementów akumulatora
         std::cout &lt;&lt; accumulator.m_value;
     }
 };
@@ -64,9 +64,9 @@ public:
 int main()
 {
     Accumulator acc{};
-    acc.add(5); // add 5 to the accumulator
+    acc.add(5); // dodaj 5 do zmęczenia
 
-    print(acc); // call the print() non-member function
+    print(acc); // wywołaj funkcję niebędącą członkiem print().
 
     return 0;
 }</code></pre><p>Chociaż można założyć, że ponieważ <code>print()</code> jest zdefiniowana wewnątrz <code>Accumulator</code>, czyni to <code>print()</code> członkiem <code>Accumulator</code>, ale tak nie jest. Ponieważ  <code>print()</code> jest zdefiniowana jako zaprzyjaźniona, zamiast tego jest traktowana jako funkcja niebędąca składową (tak jakby została zdefiniowana na zewnątrz <code>Accumulator</code>).<p class="cpp-section cpp-topline" style=clear:both>Składniowo preferujemy zaprzyjaźnioną funkcję niebędącą składową<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>We wstępie do tej lekcji wspomnieliśmy, że czasami wolelibyśmy użyć funkcji niebędącej składową niż funkcji składowej. Pokażmy teraz przykład.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -102,9 +102,9 @@ int main()
     std::cout &lt;&lt; isEqualToNonmember(v1, v2) &lt;&lt; &#39;\n&#39;;
 
     return 0;
-}</code></pre><p>W w tym przykładzie zdefiniowaliśmy dwie podobne funkcje, które sprawdzają, czy dwa <code>Value</code> obiekty są równe. <code>isEqualToMember()</code> jest funkcją składową, a <code>isEqualToNonmember()</code> jest funkcją niebędącą składową.Skupmy się na tym, jak te funkcje są zdefiniowane.<p>W <code>isEqualToMember()</code>, przekazujemy jeden obiekt w sposób niejawny, a drugi jawnie który <code>m_value</code> należy do ukrytego obiektu, podczas gdy <code>v.m_value</code> należy do jawnego parametru.<p>W <code>isEqualToNonmember()</code>, oba obiekty są przekazywane jawnie. Prowadzi to do lepszej równoległości w implementacji funkcji, ponieważ element  <code>m_value</code> jest zawsze jawnie poprzedzony jawnym parametrem.<p>Nadal możesz preferować składnię wywołania <code>v1.isEqualToMember(v2)</code> za  <code>isEqualToNonmember(v1, v2)</code>. Ale kiedy omówimy przeciążenie operatorów, ten temat pojawi się ponownie.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Wielu przyjaciół<p>Funkcja może być jednocześnie przyjacielem więcej niż jednej klasy. Rozważmy na przykład następujący przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+}</code></pre><p>W w tym przykładzie zdefiniowaliśmy dwie podobne funkcje, które sprawdzają, czy dwa <code>Value</code> obiekty są równe. <code>isEqualToMember()</code> jest funkcją składową, <code>isEqualToNonmember()</code> jest funkcją niebędącą składową.Skupmy się na tym, jak te funkcje są zdefiniowane.<p>W <code>isEqualToMember()</code>, przekazujemy jeden obiekt w sposób niejawny, a drugi jawnie który <code>m_value</code> należy do ukrytego obiektu, podczas gdy <code>v.m_value</code> należy do jawnego parametru.<p>W <code>isEqualToNonmember()</code>, oba obiekty są przekazywane jawnie. Prowadzi to do lepszej równoległości w implementacji funkcji, ponieważ element  <code>m_value</code> jest zawsze jawnie poprzedzony jawnym parametrem.<p>Nadal możesz preferować składnię wywołania <code>v1.isEqualToMember(v2)</code> za  <code>isEqualToNonmember(v1, v2)</code>. Ale kiedy omówimy przeciążenie operatorów, ten temat pojawi się ponownie.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Wielu przyjaciół<p>Funkcja może być jednocześnie przyjacielem więcej niż jednej klasy. Rozważmy na przykład następujący przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-class Humidity; // forward declaration of Humidity
+class Humidity; // deklaracja wilgotności
 
 class Temperature
 {
@@ -113,7 +113,7 @@ private:
 public:
     explicit Temperature(int temp) : m_temp { temp } { }
 
-    friend void printWeather(const Temperature&amp; temperature, const Humidity&amp; humidity); // forward declaration needed for this line
+    friend void printWeather(const Temperature&amp; temperature, const Humidity&amp; humidity); // deklaracja forward dla tej linii
 };
 
 class Humidity
@@ -128,8 +128,8 @@ public:
 
 void printWeather(const Temperature&amp; temperature, const Humidity&amp; humidity)
 {
-    std::cout &lt;&lt; &#34;The temperature is &#34; &lt;&lt; temperature.m_temp &lt;&lt;
-       &#34; and the humidity is &#34; &lt;&lt; humidity.m_humidity &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "The temperature is " &lt;&lt; temperature.m_temp &lt;&lt;
+       " and the humidity is " &lt;&lt; humidity.m_humidity &lt;&lt; '\n';
 }
 
 int main()
@@ -145,25 +145,25 @@ int main()
 class Accumulator
 {
 private:
-    int m_value { 0 }; // if we rename this
+    int m_value { 0 }; // jeśli zmienimy nazwę tego
 
 public:
-    void add(int value) { m_value += value; } // we need to modify this
+    void add(int value) { m_value += value; } // musimy to zmodyfikować
 
     friend void print(const Accumulator&amp; accumulator);
 };
 
 void print(const Accumulator&amp; accumulator)
 {
-    std::cout &lt;&lt; accumulator.m_value; // and we need to modify this
+    std::cout &lt;&lt; accumulator.m_value; // i musimy to zmodyfikować
 }
 
 int main()
 {
     Accumulator acc{};
-    acc.add(5); // add 5 to the accumulator
+    acc.add(5); // dodaj 5 do zmęczenia
 
-    print(acc); // call the print() non-member function
+    print(acc); // wywołaj funkcję niebędącą członkiem print().
 
     return 0;
 }</code></pre><p>Lepszy pomysł jest następujący:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -175,20 +175,20 @@ private:
 
 public:
     void add(int value) { m_value += value; }
-    int value() const { return m_value; } // added this reasonable access function
+    int value() const { return m_value; } // dodano tę rozsądną funkcję dostępu
 };
 
-void print(const Accumulator&amp; accumulator) // no longer a friend of Accumulator
+void print(const Accumulator&amp; accumulator) // nie jest już przyjacielem akumulatora
 {
-    std::cout &lt;&lt; accumulator.value(); // use access function instead of direct access
+    std::cout &lt;&lt; accumulator.value(); // użyj funkcji dostępu zamiast bezpośredniego dostępu
 }
 
 int main()
 {
     Accumulator acc{};
-    acc.add(5); // add 5 to the accumulator
+    acc.add(5); // dodaj 5 do zmęczenia
 
-    print(acc); // call the print() non-member function
+    print(acc); // wywołaj funkcję niebędącą członkiem print().
 
     return 0;
 }</code></pre><p>W tym przykładzie  <code>print()</code> wykorzystuje dostęp funkcja <code>value()</code> aby uzyskać wartość <code>m_value</code> zamiast bezpośredniego dostępu <code>m_value</code> . Teraz, jeśli implementacja <code>Accumulator</code> ulegnie kiedykolwiek zmianie,  <code>print()</code> nie będzie wymagana aktualizacja.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Wolę zaimplementować funkcję jako nie-przyjaciel, jeśli to możliwe i rozsądne.</div><p>Zachowaj ostrożność podczas dodawania nowych członków do publicznego interfejsu istniejącej klasy, ponieważ każda funkcja (nawet trywialna) dodaje pewien poziom bałaganu i złożoności. W przypadku <code>Accumulator</code> powyżej całkowicie uzasadnione jest posiadanie funkcji dostępu umożliwiającej uzyskanie aktualnej zakumulowanej wartości. W bardziej złożonych przypadkach lepszym rozwiązaniem może być użycie przyjaźni zamiast dodawania wielu nowych funkcji dostępu do interfejsu klasy.<div class=prevnext><div class=prevnext-inline><a class=nav-link href="../friend-classes-and-friend-member-functions/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>15.9</span>Klasy znajomych i funkcje członków znajomych</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../static-member-functions/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>15.7</span>Statyczne funkcje składowe</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/friend-non-member-functions/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../static-member-functions/index.html" rel=prev><span>15.7 -- Statyczne funkcje składowe</span></a></div><div class=nav-next><em>Następny post</em><a href="../introduction-to-operator-overloading/index.html" rel=next><span>21.1 — Wprowadzenie do przeciążania operatorów</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>

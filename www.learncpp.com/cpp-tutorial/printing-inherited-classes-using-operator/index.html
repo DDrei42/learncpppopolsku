@@ -18,20 +18,20 @@
 class Base
 {
 public:
-	virtual void print() const { std::cout &lt;&lt; &#34;Base&#34;;  }
+	virtual void print() const { std::cout &lt;&lt; "Base";  }
 };
 
 class Derived : public Base
 {
 public:
-	void print() const override { std::cout &lt;&lt; &#34;Derived&#34;; }
+	void print() const override { std::cout &lt;&lt; "Derived"; }
 };
 
 int main()
 {
 	Derived d{};
 	Base&amp; b{ d };
-	b.print(); // will call Derived::print()
+	b.print(); // wywoła Derived::print()
 
 	return 0;
 }</code></pre><p>Do tej pory powinieneś już się pogodzić z faktem, że b.print() wywoła Derived::print() (ponieważ b odwołuje się do obiektu klasy Derived, Base::print() jest funkcją wirtualną, a Derived::print() jest przesłonięciem).<p>Chociaż wywoływanie takich funkcji członkowskich w celu wykonania wyników jest w porządku, ten styl funkcji nie pasuje dobrze do std::cout:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -41,9 +41,9 @@ int main()
 	Derived d{};
 	Base&amp; b{ d };
 
-	std::cout &lt;&lt; &#34;b is a &#34;;
-	b.print(); // messy, we have to break our print statement to call this function
-	std::cout &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; "b is a ";
+	b.print(); // nieporządne, musimy przerwać naszą instrukcję print, aby to wywołać funkcja
+	std::cout &lt;&lt; '\n';
 
 	return 0;
 }</code></pre><p>W tej lekcji przyjrzymy się, jak zastąpić operator&lt;&lt; dla klas korzystających z dziedziczenia, abyśmy mogli używać operatora&lt;&lt; zgodnie z oczekiwaniami, w ten sposób:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::cout &lt;&lt; &#34;b is a &#34; &lt;&lt; b &lt;&lt; &#39;\n&#39;; // much better</code></pre><p class="cpp-section cpp-topline" style=clear:both>Wyzwania związane z operatorem&lt;&lt;<p>Zacznijmy od przeciążenia operatora &lt;&lt; w typowy sposób:<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -91,47 +91,47 @@ Derived
     
     return 0;
 }</code></pre><p>Ten program wypisuje:<pre>Base
-</pre><p>Chyba nie tego się spodziewaliśmy. Dzieje się tak, ponieważ nasza wersja operatora&lt;&lt; obsługująca obiekty Base nie jest wirtualna, więc std::cout &lt;&lt; bref wywołuje wersję operatora&lt;&lt;, która obsługuje obiekty Base, a nie obiekty Derived.<p>Na tym polega wyzwanie.<p class="cpp-section cpp-topline" style=clear:both>Czy możemy uczynić operator&lt;&lt; wirtualnym?<p>Jeśli problemem jest to, że operator&lt;&lt; nie jest wirtualny, czy nie możemy go po prostu uczynić wirtualnym?<p>Krótka odpowiedź brzmi: nie. Istnieje wiele powodów.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Po pierwsze, wirtualizować można tylko funkcje składowe — ma to sens, ponieważ tylko klasy mogą dziedziczyć z innych klas i nie ma możliwości przesłonięcia funkcji znajdującej się poza klasą (można przeciążać funkcje niebędące składowymi, ale nie można ich przesłaniać). Ponieważ zazwyczaj implementujemy operator&lt;&lt; jako znajomego, a znajomi nie są uważani za funkcje członkowskie, zaprzyjaźniona wersja operatora&lt;&lt; nie kwalifikuje się do wirtualizacji. (Aby dowiedzieć się, dlaczego wdrażamy operator&lt;&lt; w ten sposób, wróć do lekcji <a href="../overloading-operators-using-member-functions/index.html">21.5 — Przeciążanie operatorów przy użyciu funkcji składowych</a>).<p>Po drugie, nawet gdybyśmy mogli zwirtualizować operator&lt;&lt;, pojawia się problem polegający na tym, że parametry funkcji Base::operator&lt;&lt; i Derived::operator&lt;&lt; różnią się (wersja Base przyjęłaby parametr Base, a wersja Derived parametr Derived). W związku z tym wersja pochodna nie będzie uważana za zastąpienie wersji podstawowej i w związku z tym nie będzie kwalifikować się do rozpoznawania funkcji wirtualnych.<p>Co więc ma zrobić programista?<p class="cpp-section cpp-topline" style=clear:both>Rozwiązanie<p>Odpowiedź, jak się okazuje, jest zaskakująco prosta.<p>Najpierw się ustawiliśmy <code>operator&lt;&lt;</code> jak zwykle jako przyjaciel w naszej klasie podstawowej. Ale zamiast mieć <code>operator&lt;&lt;</code> określić, co wydrukować, zamiast tego wywołamy w ten sposób normalną funkcję składową <em>możesz</em> być zwirtualizowany! Ta wirtualna funkcja zajmie się określeniem, co wydrukować dla każdej klasy.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>W tym pierwszym rozwiązaniu nasza wirtualna funkcja członkowska (którą nazywamy <code>identify()</code>) zwraca a <code>std::string</code>, który jest drukowany przez <code>Base::operator&lt;&lt;</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+</pre><p>Chyba nie tego się spodziewaliśmy. Dzieje się tak, ponieważ nasza wersja operatora&lt;&lt; obsługująca obiekty Base nie jest wirtualna, więc std::cout &lt;&lt; bref wywołuje wersję operatora&lt;&lt;, która obsługuje obiekty Base, a nie obiekty Derived.<p>Na tym polega wyzwanie.<p class="cpp-section cpp-topline" style=clear:both>Czy możemy uczynić operator&lt;&lt; wirtualnym?<p>Jeśli problemem jest to, że operator&lt;&lt; nie jest wirtualny, czy nie możemy go po prostu uczynić wirtualnym?<p>Krótka odpowiedź brzmi: nie. Istnieje wiele powodów.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Po pierwsze, wirtualizować można tylko funkcje składowe — ma to sens, ponieważ tylko klasy mogą dziedziczyć z innych klas i nie ma możliwości przesłonięcia funkcji znajdującej się poza klasą (można przeciążać funkcje niebędące składowymi, ale nie można ich przesłaniać). Ponieważ zazwyczaj implementujemy operator&lt;&lt; jako znajomego, a znajomi nie są uważani za funkcje członkowskie, zaprzyjaźniona wersja operatora&lt;&lt; nie kwalifikuje się do wirtualizacji. (Aby dowiedzieć się, dlaczego wdrażamy operator&lt;&lt; w ten sposób, wróć do lekcji <a href="../overloading-operators-using-member-functions/index.html">21.5 — Przeciążanie operatorów przy użyciu funkcji składowych</a>).<p>Po drugie, nawet gdybyśmy mogli zwirtualizować operator&lt;&lt;, pojawia się problem polegający na tym, że parametry funkcji Base::operator&lt;&lt; i Derived::operator&lt;&lt; różnią się (wersja Base przyjęłaby parametr Base, a wersja Derived parametr Derived). W związku z tym wersja pochodna nie będzie uważana za zastąpienie wersji podstawowej i w związku z tym nie będzie kwalifikować się do rozpoznawania funkcji wirtualnych.<p>Co więc ma zrobić programista?<p class="cpp-section cpp-topline" style=clear:both>Rozwiązanie<p>Odpowiedź, jak się okazuje, jest zaskakująco prosta.<p>Najpierw się ustawiliśmy <code>operator&lt;&lt;</code> jak zwykle jako przyjaciel w naszej klasie podstawowej. Ale zamiast mieć <code>operator&lt;&lt;</code> określić, co wydrukować, zamiast tego wywołamy w ten sposób normalną funkcję składową <em>możesz</em> być zwirtualizowany! Ta wirtualna funkcja zajmie się określeniem, co wydrukować dla każdej klasy.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>W tym pierwszym rozwiązaniu nasza wirtualna funkcja członkowska (którą nazywamy <code>identify()</code>) zwraca <code>std::string</code>, który jest drukowany przez <code>Base::operator&lt;&lt;</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 class Base
 {
 public:
-	// Here&#39;s our overloaded operator&lt;&lt;
+	// Oto nasz przeciążony operator&lt;
 	friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const Base&amp; b)
 	{
-		// Call virtual function identify() to get the string to be printed
+		// Wywołaj funkcję wirtualną identyfikuj(), aby uzyskać ciąg znaków do wydrukowania
 		out &lt;&lt; b.identify();
 		return out;
 	}
 
-	// We&#39;ll rely on member function identify() to return the string to be printed
-	// Because identify() is a normal member function, it can be virtualized
+	// Będziemy polegać na funkcji członkowskiejident(), aby zwrócić ciąg do wydrukowania
+	// Ponieważident() jest normalną funkcją składową, można ją zwirtualizować
 	virtual std::string identify() const
 	{
-		return &#34;Base&#34;;
+		return "Base";
 	}
 };
 
 class Derived : public Base
 {
 public:
-	// Here&#39;s our override identify() function to handle the Derived case
+	// Oto nasza funkcja overrideident() do obsługi przypadku pochodnego
 	std::string identify() const override
 	{
-		return &#34;Derived&#34;;
+		return "Derived";
 	}
 };
 
 int main()
 {
 	Base b{};
-	std::cout &lt;&lt; b &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; b &lt;&lt; '\n';
 
 	Derived d{};
-	std::cout &lt;&lt; d &lt;&lt; &#39;\n&#39;; // note that this works even with no operator&lt;&lt; that explicitly handles Derived objects
+	std::cout &lt;&lt; d &lt;&lt; '\n'; // zauważ, że to działa nawet bez operatora&lt;&lt; który jawnie obsługuje obiekty pochodne
 
 	Base&amp; bref{ d };
-	std::cout &lt;&lt; bref &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; bref &lt;&lt; '\n';
 
 	return 0;
 }</code></pre><p>Spowoduje to wydrukowanie oczekiwanego wyniku:<pre>Base
@@ -142,23 +142,23 @@ Derived
 class Base
 {
 public:
-	// Here&#39;s our overloaded operator&lt;&lt;
+	// Oto nasz przeciążony operator&lt;
 	friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const Base&amp; b)
 	{
-		// Delegate printing responsibility for printing to virtual member function print()
+		// Oddeleguj odpowiedzialność za drukowanie do wirtualnej funkcji składowej print()
 		return b.print(out);
 	}
 
-	// We&#39;ll rely on member function print() to do the actual printing
-	// Because print() is a normal member function, it can be virtualized
+	// Będziemy polegać na funkcji składowej print(), aby wykonać faktyczne drukowanie
+	// Ponieważ print() jest normalną funkcją składową, można ją zwirtualizować
 	virtual std::ostream&amp; print(std::ostream&amp; out) const
 	{
-		out &lt;&lt; &#34;Base&#34;;
+		out &lt;&lt; "Base";
 		return out;
 	}
 };
 
-// Some class or struct with an overloaded operator&lt;&lt;
+// Jakaś klasa lub struktura z przeciążonym operatorem&lt;&lt;
 struct Employee
 {
 	std::string name{};
@@ -166,7 +166,7 @@ struct Employee
 
 	friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const Employee&amp; e)
 	{
-		out &lt;&lt; &#34;Employee(&#34; &lt;&lt; e.name &lt;&lt; &#34;, &#34; &lt;&lt; e.id &lt;&lt; &#34;)&#34;;
+		out &lt;&lt; "Employee(" &lt;&lt; e.name &lt;&lt; ", " &lt;&lt; e.id &lt;&lt; ")";
 		return out;
 	}
 };
@@ -174,7 +174,7 @@ struct Employee
 class Derived : public Base
 {
 private:
-	Employee m_e{}; // Derived now has an Employee member
+	Employee m_e{}; // Derived ma teraz członka Employee
 
 public:
 	Derived(const Employee&amp; e)
@@ -182,12 +182,12 @@ public:
 	{
 	}
 
-	// Here&#39;s our override print() function to handle the Derived case
+	// Oto nasza funkcja zastępująca print() do obsługi przypadku Derived
 	std::ostream&amp; print(std::ostream&amp; out) const override
 	{
-		out &lt;&lt; &#34;Derived: &#34;;
+		out &lt;&lt; "Derived: ";
 
-		// Print the Employee member using the stream object
+		// Wydrukuj członka pracownika za pomocą obiektu strumienia
 		out &lt;&lt; m_e;
 
 		return out;
@@ -197,13 +197,13 @@ public:
 int main()
 {
 	Base b{};
-	std::cout &lt;&lt; b &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; b &lt;&lt; '\n';
 
-	Derived d{ Employee{&#34;Jim&#34;, 4}};
-	std::cout &lt;&lt; d &lt;&lt; &#39;\n&#39;; // note that this works even with no operator&lt;&lt; that explicitly handles Derived objects
+	Derived d{ Employee{"Jim", 4}};
+	std::cout &lt;&lt; d &lt;&lt; '\n'; // zauważ, że to działa nawet bez operatora&lt;&lt; który jawnie obsługuje obiekty pochodne
 
 	Base&amp; bref{ d };
-	std::cout &lt;&lt; bref &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; bref &lt;&lt; '\n';
 
 	return 0;
 }</code></pre><p>To daje:<pre>Base

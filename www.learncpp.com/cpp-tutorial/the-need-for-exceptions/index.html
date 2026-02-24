@@ -17,13 +17,13 @@
 
 int findFirstChar(std::string_view string, char ch)
 {
-    // Step through each character in string
+    // Przejdź przez każdy znak w ciągu
     for (std::size_t index{ 0 }; index &lt; string.length(); ++index)
-        // If the character matches ch, return its index
+        // Jeśli znak pasuje do ch, zwróć jego indeks
         if (string[index] == ch)
             return index;
 
-    // If no match was found, return -1
+    // Jeśli nie znaleziono dopasowania, zwróć -1
     return -1;
 }</code></pre><p>Ta funkcja zwraca indeks pierwszego znaku pasującego do ch w ciągu. Jeśli znaku nie można znaleźć, funkcja zwraca -1 jako wskaźnik, że znaku nie odnaleziono.<p>Podstawową zaletą tego podejścia jest to, że jest niezwykle proste. Jednakże używanie kodów powrotu ma wiele wad, które mogą szybko stać się widoczne w nietrywialnych przypadkach:<p>Po pierwsze, zwracane wartości mogą być tajemnicze — jeśli funkcja zwraca -1, czy próbuje wskazać błąd, czy też jest to w rzeczywistości poprawna wartość zwracana? Często trudno to stwierdzić bez zagłębienia się w głąb funkcji lub zapoznania się z dokumentacją.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Po drugie, funkcje mogą zwracać tylko jedną wartość, więc co się stanie, gdy trzeba zwrócić zarówno wynik funkcji, jak i możliwy kod błędu? Rozważ następującą funkcję:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">double divide(int x, int y)
 {
@@ -44,26 +44,26 @@ double divide(int x, int y, bool&amp; outSuccess)
 
 int main()
 {
-    bool success {}; // we must now pass in a bool value to see if the call was successful
+    bool success {}; // musimy teraz przekazać wartość bool, aby sprawdzić, czy wywołanie się powiodło
     double result { divide(5, 3, success) };
 
-    if (!success) // and check it before we use the result
-        std::cerr &lt;&lt; &#34;An error occurred&#34; &lt;&lt; std::endl;
+    if (!success) // i sprawdź to zanim użyjemy wyniku
+        std::cerr &lt;&lt; "An error occurred" &lt;&lt; std::endl;
     else
-        std::cout &lt;&lt; &#34;The answer is &#34; &lt;&lt; result &lt;&lt; &#39;\n&#39;;
-}</code></pre><p>Po trzecie, w sekwencjach kodu, w których wiele rzeczy może pójść nie tak, należy stale sprawdzać kody błędów. Rozważ następujący fragment kodu, który obejmuje analizowanie pliku tekstowego pod kątem wartości, które powinny się w nim znajdować:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    std::ifstream setupIni { &#34;setup.ini&#34; }; // open setup.ini for reading
-    // If the file couldn&#39;t be opened (e.g. because it was missing) return some error enum
+        std::cout &lt;&lt; "The answer is " &lt;&lt; result &lt;&lt; '\n';
+}</code></pre><p>Po trzecie, w sekwencjach kodu, w których wiele rzeczy może pójść nie tak, należy stale sprawdzać kody błędów. Rozważ następujący fragment kodu, który obejmuje analizowanie pliku tekstowego pod kątem wartości, które powinny się w nim znajdować:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    std::ifstream setupIni { "setup.ini" }; // otwórz plik setup.ini do odczytu
+    // Jeśli plik nie mógł zostać otwarty (np. z powodu jego braku) zwróć jakiś błąd enum
     if (!setupIni)
         return ERROR_OPENING_FILE;
 
-    // Now read a bunch of values from a file
-    if (!readIntegerFromFile(setupIni, m_firstParameter)) // try to read an integer from the file
-        return ERROR_READING_VALUE; // Return enum value indicating value couldn&#39;t be read
+    // Teraz przeczytaj kilka wartości z pliku
+    if (!readIntegerFromFile(setupIni, m_firstParameter)) // spróbuj odczytać liczbę całkowitą z pliku
+        return ERROR_READING_VALUE; // Zwróć wartość wyliczeniową wskazującą, że nie można odczytać wartości
 
-    if (!readDoubleFromFile(setupIni, m_secondParameter)) // try to read a double from the file
+    if (!readDoubleFromFile(setupIni, m_secondParameter)) // spróbuj odczytać liczbę podwójną z pliku
         return ERROR_READING_VALUE;
 
-    if (!readFloatFromFile(setupIni, m_thirdParameter)) // try to read a float from the file
+    if (!readFloatFromFile(setupIni, m_thirdParameter)) // spróbuj odczytać liczbę zmiennoprzecinkową z pliku
         return ERROR_READING_VALUE;</code></pre><p>Nie omówiliśmy jeszcze dostępu do plików, więc nie martw się, jeśli nie rozumiesz, jak działa powyższe - po prostu zwróć uwagę na fakt, że każde wywołanie wymaga sprawdzenia błędów i wróć do osoby dzwoniącej. Teraz wyobraź sobie, że istnieje dwadzieścia parametrów różnych typów — zasadniczo sprawdzasz, czy nie wystąpił błąd i zwracasz ERROR_READING_VALUE dwadzieścia razy! Całe to sprawdzanie błędów i zwracanie wartości sprawia, że ​​określenie  <em>co</em> funkcji jest znacznie trudniejsze do rozpoznania.<p>Po czwarte, kody powrotu nie łączą się zbyt dobrze z konstruktorami. Co się stanie, jeśli tworzysz obiekt i coś wewnątrz konstruktora pójdzie katastrofalnie nie tak? Konstruktory nie mają typu zwracanego, który umożliwiałby przekazanie wskaźnika stanu, a przekazywanie go z powrotem za pomocą parametru referencyjnego jest kłopotliwe i należy je jawnie sprawdzić. Co więcej, nawet jeśli to zrobisz, obiekt i tak zostanie utworzony, a następnie będzie musiał się nim zająć lub się go pozbyć.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>W końcu, gdy do osoby wywołującej zostanie zwrócony kod błędu, osoba wywołująca może nie zawsze być przygotowana do obsługi błędu. Jeśli osoba wywołująca nie chce obsłużyć błędu, musi go zignorować (w takim przypadku zostanie utracony na zawsze) lub zwrócić błąd na stosie do funkcji, która go wywołała. Może to powodować bałagan i prowadzić do wielu problemów opisanych powyżej.<p>Podsumowując, głównym problemem związanym z kodami powrotu jest to, że kod obsługi błędów jest ściśle powiązany z normalnym przepływem kontroli kodu. To z kolei ogranicza zarówno układ kodu, jak i rozsądną obsługę błędów.<p><strong>Wyjątki</strong><p>Obsługa wyjątków zapewnia mechanizm oddzielający obsługę błędów lub innych wyjątkowych okoliczności od typowego przepływu kontroli w kodzie. Zapewnia to większą swobodę obsługi błędów wtedy i w sposób najbardziej przydatny w danej sytuacji, łagodząc większość (jeśli nie całość) bałaganu powodowanego przez kody zwracające.<p>W następnej lekcji przyjrzymy się, jak działają wyjątki w C++.<div class=prevnext><div class=prevnext-inline><a class=nav-link href="../basic-exception-handling/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>27.2</span>Podstawowa obsługa wyjątków</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../chapter-26-summary-and-quiz/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>26.x</span>Rozdział 26, podsumowanie i quiz</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/the-need-for-exceptions/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../partial-template-specialization/index.html" rel=prev><span>26.5 — Częściowa specjalizacja szablonów</span></a></div><div class=nav-next><em>Następny post</em><a href="../basic-exception-handling/index.html" rel=next><span>27.2 — Podstawowa obsługa wyjątków</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>
 <textarea id=wc-textarea-0_0 placeholder="Zostaw komentarz..." aria-label="Zostaw komentarz..." required name=wc_comment class="wc_comment wpd-field"></textarea></div><div class=wpd-editor-buttons-right></div></div></div></div><div class=wpd-form-foot><div class=wpdiscuz-textarea-foot><div class=wpdiscuz-button-actions></div></div><div class=wpd-form-row><div class=wpd-form-col-left><div class="wpdiscuz-item wc_name-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-user"></i></div><input id=wc_name-0_0 required aria-required=true class="wc_name wpd-field" name=wc_name placeholder=Imię* maxlength=50 pattern=.{3,50}>
 <label for=wc_name-0_0 class=wpdlb>Imię*</label></div><div class="wpdiscuz-item wc_email-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-at"></i></div><input id=wc_email-0_0 required aria-required=true class="wc_email wpd-field" type=email name=wc_email placeholder=E-mail*>

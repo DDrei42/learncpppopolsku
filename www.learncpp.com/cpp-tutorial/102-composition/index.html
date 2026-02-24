@@ -48,10 +48,10 @@ public:
     {
     }
 
-    // An overloaded output operator
+    // Przeciążone wyjście operator
     friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const Point2D&amp; point)
     {
-        out &lt;&lt; &#39;(&#39; &lt;&lt; point.m_x &lt;&lt; &#34;, &#34; &lt;&lt; point.m_y &lt;&lt; &#39;)&#39;;
+        out &lt;&lt; '(' &lt;&lt; point.m_x &lt;&lt; ", " &lt;&lt; point.m_y &lt;&lt; ')';
         return out;
     }
 
@@ -97,28 +97,28 @@ public:
 };
 #endif</code></pre><p>To Stwór jest również złożeniem ich części. Imię i lokalizacja tworzenia jednego rodzica, a ich czas życia jest powiązany z istniejącym życiem Istoty, którego jest częścią.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p>I na końcu main.cpp:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;string&gt;
 #include &lt;iostream&gt;
-#include &#34;Creature.h&#34;
-#include &#34;Point2D.h&#34;
+#include "Creature.h"
+#include "Point2D.h"
 
 int main()
 {
-    std::cout &lt;&lt; &#34;Enter a name for your creature: &#34;;
+    std::cout &lt;&lt; "Enter a name for your creature: ";
     std::string name;
     std::cin &gt;&gt; name;
     Creature creature{ name, { 4, 7 } };
 	
     while (true)
     {
-        // print the creature&#39;s name and location
-        std::cout &lt;&lt; creature &lt;&lt; &#39;\n&#39;;
+        // wydrukuj nazwę i lokalizację stworzenia
+        std::cout &lt;&lt; creature &lt;&lt; '\n';
 
-        std::cout &lt;&lt; &#34;Enter new X location for creature (-1 to quit): &#34;;
+        std::cout &lt;&lt; "Enter new X location for creature (-1 to quit): ";
         int x{ 0 };
         std::cin &gt;&gt; x;
         if (x == -1)
             break;
 
-        std::cout &lt;&lt; &#34;Enter new Y location for creature (-1 to quit): &#34;;
+        std::cout &lt;&lt; "Enter new Y location for creature (-1 to quit): ";
         int y{ 0 };
         std::cin &gt;&gt; y;
         if (y == -1)

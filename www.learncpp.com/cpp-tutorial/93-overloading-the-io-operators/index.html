@@ -62,7 +62,7 @@ public:
     point.print();
     std::cout &lt;&lt; &#34; in Cartesian space.\n&#34;;
 }</code></pre><p>Byłoby znacznie łatwiej, gdybyś mógł po prostu wpisać:<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">Point point{5.0, 6.0, 7.0};
-cout &lt;&lt; &#34;My point is: &#34; &lt;&lt; point &lt;&lt; &#34; in Cartesian space.\n&#34;;</code></pre><p>i uzyskać ten sam wynik. Nie byłoby podziału wyników na wiele instrukcji i nie trzeba byłoby pamiętać, jak nazwałeś funkcję print.<p>Na szczęście przeciążając <code>operator&lt;&lt;</code>, możesz!<p class="cpp-section cpp-topline" style=clear:both>Przeciążenie <code>operator&lt;&lt;</code><p>Przeciążenie <code>operator&lt;&lt;</code> jest podobne do przeciążania operator+ (oba są operatorami binarnymi), z tą różnicą, że typy parametrów to inny.<p>Rozważ wyrażenie <code>std::cout &lt;&lt; point</code>. Jeśli operatorem jest <code>&lt;&lt;</code>, jakie są operandy? Lewy operand to obiekt <code>std::cout</code> , a prawy operand to obiekt twojej <code>Point</code> klasy. <code>std::cout</code> jest w rzeczywistości obiektem typu <code>std::ostream</code>. Dlatego nasza przeciążona funkcja będzie wyglądać następująco:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// std::ostream is the type for object std::cout
+cout &lt;&lt; &#34;My point is: &#34; &lt;&lt; point &lt;&lt; &#34; in Cartesian space.\n&#34;;</code></pre><p>i uzyskać ten sam wynik. Nie byłoby podziału wyników na wiele instrukcji i nie trzeba byłoby pamiętać, jak nazwałeś funkcję print.<p>Na szczęście przeciążając <code>operator&lt;&lt;</code>, możesz!<p class="cpp-section cpp-topline" style=clear:both>Przeciążenie <code>operator&lt;&lt;</code><p>Przeciążenie <code>operator&lt;&lt;</code> jest podobne do przeciążania operator+ (oba są operatorami binarnymi), z tą różnicą, że typy parametrów to inny.<p>Rozważ wyrażenie <code>std::cout &lt;&lt; point</code>. Jeśli operatorem jest <code>&lt;&lt;</code>, jakie są operandy? Lewy operand to obiekt <code>std::cout</code> , a prawy operand to obiekt twojej <code>Point</code> klasy. <code>std::cout</code> jest w rzeczywistości obiektem typu <code>std::ostream</code>. Dlatego nasza przeciążona funkcja będzie wyglądać następująco:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// std::ostream jest typem obiektu std::cout
 friend std::ostream&amp; operator&lt;&lt; (std::ostream&amp; out, const Point&amp; point);</code></pre><p>Implementacja <code>operator&lt;&lt;</code> dla naszej <code>Point</code> klasy jest dość prosta — ponieważ C++ już wie, jak wyprowadzać liczby podwójne za pomocą <code>operator&lt;&lt;</code>, a wszystkie nasze elementy są podwójne, możemy po prostu użyć <code>operator&lt;&lt;</code> do wypisywania elementów danych naszej <code>Point</code>. Oto powyższa <code>Point</code> klasa z przeciążoną <code>operator&lt;&lt;</code>.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 class Point
@@ -83,17 +83,17 @@ public:
 
 std::ostream&amp; operator&lt;&lt; (std::ostream&amp; out, const Point&amp; point)
 {
-    // Since operator&lt;&lt; is a friend of the Point class, we can access Point&#39;s members directly.
-    out &lt;&lt; &#34;Point(&#34; &lt;&lt; point.m_x &lt;&lt; &#34;, &#34; &lt;&lt; point.m_y &lt;&lt; &#34;, &#34; &lt;&lt; point.m_z &lt;&lt; &#39;)&#39;; // actual output done here
+    // Ponieważ operator&lt;&lt; jest przyjacielem klasy Point, możemy uzyskać bezpośredni dostęp do elementów Point.
+    out &lt;&lt; "Point(" &lt;&lt; point.m_x &lt;&lt; ", " &lt;&lt; point.m_y &lt;&lt; ", " &lt;&lt; point.m_z &lt;&lt; ')'; // rzeczywiste wyjście wykonane tutaj
 
-    return out; // return std::ostream so we can chain calls to operator&lt;&lt;
+    return out; // return std::ostream, abyśmy mogli łączyć wywołania z operatorem&lt;&lt;
 }
 
 int main()
 {
     const Point point1 { 2.0, 3.0, 4.0 };
 
-    std::cout &lt;&lt; point1 &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; point1 &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>To całkiem proste — zwróć uwagę, jak podobna jest nasza linia wyjściowa do linii w funkcji  <code>print()</code> , którą napisaliśmy wcześniej. Najbardziej zauważalną różnicą jest to, że <code>std::cout</code> stał się parametrem <code>out</code> (który będzie odniesieniem do <code>std::cout</code> kiedy funkcja zostanie wywołana).<p>Najtrudniejszą częścią tutaj jest typ zwracanej wartości. Za pomocą operatorów arytmetycznych obliczyliśmy i zwróciliśmy pojedynczą odpowiedź według wartości (ponieważ tworzyliśmy i zwracaliśmy nowy wynik). Jeśli jednak spróbujesz zwrócić <code>std::ostream</code> według wartości, pojawi się błąd kompilatora. Dzieje się tak, ponieważ <code>std::ostream</code> w szczególności uniemożliwia kopiowanie.<p>W tym przypadku zwracamy lewy parametr jako odniesienie. To nie tylko zapobiega tworzeniu kopii <code>std::ostream</code> , ale także pozwala nam „połączyć” ze sobą polecenia wyjściowe, takie jak <code>std::cout &lt;&lt; point &lt;&lt; '\n'</code>.<p>Zastanawianie się, co by się stało, gdyby zamiast tego zwrócono nasze <code>operator&lt;&lt;</code> zwrócone <code>void</code> . Kiedy kompilator ocenia  <code>std::cout &lt;&lt; point &lt;&lt; '\n'</code>, ze względu na reguły pierwszeństwa/łączności, ocenia to wyrażenie, ponieważ <code>(std::cout &lt;&lt; point) &lt;&lt; '\n';</code>. <code>std::cout &lt;&lt; point</code> wywołałoby naszą przeciążoną  <code>operator&lt;&lt;</code>  zwracającą pustkę funkcję, która zwraca <code>void</code>. Następnie częściowo obliczonym wyrażeniem staje się: <code>void &lt;&lt; '\n';</code>, co nie ma sensu!<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Zwracając zamiast tego parametr <code>out</code> jako typ zwracany, <code>(std::cout &lt;&lt; point)</code> zwraca <code>std::cout</code>. Wtedy nasze częściowo ocenione wyrażenie stanie się: <code>std::cout &lt;&lt; '\n';</code>, które następnie zostanie poddane ocenie!<p>Za każdym razem, gdy chcemy, aby nasze przeciążone operatory binarne można było łączyć w taki sposób, należy zwrócić lewy operand (przez odniesienie). Zwrócenie lewego parametru przez referencję jest w tym przypadku w porządku — ponieważ lewy parametr został przekazany przez funkcję wywołującą, musi nadal istnieć, gdy wywoływana funkcja powraca. Dlatego nie musimy się martwić odniesieniem do czegoś, co wyjdzie poza zakres i zostanie zniszczone, gdy operator powróci.<p>Aby udowodnić, że to działa, rozważ poniższy przykład, w którym zastosowano klasę Point z przeciążoną <code>operator&lt;&lt;</code> napisaną powyżej:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -116,8 +116,8 @@ public:
 
 std::ostream&amp; operator&lt;&lt; (std::ostream&amp; out, const Point&amp; point)
 {
-    // Since operator&lt;&lt; is a friend of the Point class, we can access Point&#39;s members directly.
-    out &lt;&lt; &#34;Point(&#34; &lt;&lt; point.m_x &lt;&lt; &#34;, &#34; &lt;&lt; point.m_y &lt;&lt; &#34;, &#34; &lt;&lt; point.m_z &lt;&lt; &#39;)&#39;;
+    // Ponieważ operator&lt;&lt; jest przyjacielem klasy Point, możemy uzyskać bezpośredni dostęp do elementów Point.
+    out &lt;&lt; "Point(" &lt;&lt; point.m_x &lt;&lt; ", " &lt;&lt; point.m_y &lt;&lt; ", " &lt;&lt; point.m_z &lt;&lt; ')';
 
     return out;
 }
@@ -127,7 +127,7 @@ int main()
     Point point1 { 2.0, 3.5, 4.0 };
     Point point2 { 6.0, 7.5, 8.0 };
 
-    std::cout &lt;&lt; point1 &lt;&lt; &#39; &#39; &lt;&lt; point2 &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; point1 &lt;&lt; ' ' &lt;&lt; point2 &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Daje to następujący wynik:<pre>Point(2, 3.5, 4) Point(6, 7.5, 8)
@@ -152,16 +152,16 @@ public:
 
 std::ostream&amp; operator&lt;&lt; (std::ostream&amp; out, const Point&amp; point)
 {
-    // Since operator&lt;&lt; is a friend of the Point class, we can access Point&#39;s members directly.
-    out &lt;&lt; &#34;Point(&#34; &lt;&lt; point.m_x &lt;&lt; &#34;, &#34; &lt;&lt; point.m_y &lt;&lt; &#34;, &#34; &lt;&lt; point.m_z &lt;&lt; &#39;)&#39;;
+    // Ponieważ operator&lt;&lt; jest przyjacielem klasy Point, możemy uzyskać bezpośredni dostęp do elementów Point.
+    out &lt;&lt; "Point(" &lt;&lt; point.m_x &lt;&lt; ", " &lt;&lt; point.m_y &lt;&lt; ", " &lt;&lt; point.m_z &lt;&lt; ')';
 
     return out;
 }
 
-// note that point must be non-const so we can modify the object
+// zauważ, że punkt nie musi być stałą, abyśmy mogli zmodyfikować obiekt
 std::istream&amp; operator&gt;&gt; (std::istream&amp; in, Point&amp; point)
 {
-    // This version subject to partial extraction issues (see below)
+    // Ta wersja podlega problemom z częściową ekstrakcją (patrz poniżej)
     in &gt;&gt; point.m_x &gt;&gt; point.m_y &gt;&gt; point.m_z;
 
     return in;
@@ -169,30 +169,30 @@ std::istream&amp; operator&gt;&gt; (std::istream&amp; in, Point&amp; point)
 
 int main()
 {
-    std::cout &lt;&lt; &#34;Enter a point: &#34;;
+    std::cout &lt;&lt; "Enter a point: ";
 
-    Point point{ 1.0, 2.0, 3.0 }; // non-zero test data
+    Point point{ 1.0, 2.0, 3.0 }; // niezerowe dane testowe
     std::cin &gt;&gt; point;
 
-    std::cout &lt;&lt; &#34;You entered: &#34; &lt;&lt; point &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "You entered: " &lt;&lt; point &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Zakładając, że użytkownik wprowadzi <code>4.0 5.6 7.26</code> jako dane wejściowe, program wygeneruje następujący wynik:<pre>You entered: Point(4, 5.6, 7.26)
 </pre><p>Zobaczmy teraz, co się stanie, gdy użytkownik wprowadzi <code>4.0b 5.6 7.26</code> jako dane wejściowe (zwróć uwagę na  <code>b</code> po  <code>4.0</code>):<pre>You entered: Point(4, 0, 3)
-</pre><p>Nasz punkt jest teraz dziwną hybrydą składającą się z jednej wartości wprowadzonej przez użytkownika (<code>4.0</code>), jednej wartości, która została zainicjowana zerem (<code>0.0</code>) i jednej wartości, która nie została dotknięta przez funkcję wejściową (<code>3.0</code>. To… niedobrze!<p class="cpp-section cpp-topline" style=clear:both>Ochrona przed częściową ekstrakcją<p>Kiedy będziemy. ekstrakcji pojedynczej wartości istnieją tylko dwa możliwe wyniki: ekstrakcja zakończy się niepowodzeniem lub zakończy się sukcesem. Jednak w przypadku wyodrębnienia więcej niż jednej wartości w ramach operacji wejściowej sytuacja staje się nieco bardziej skomplikowana.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>Powyższa implementacja <code>operator>></code> może skutkować częściową ekstrakcją. I właśnie to widzimy w przypadku input <code>4.0b 5.6 7.26</code>. Ekstrakcja  <code>x_y</code> pomyślnie wyodrębnia <code>4.0</code> z danych wejściowych użytkownika, pozostawiając <code>b 5.6 7.26</code> w strumieniu wejściowym. Ekstrakcja do <code>m_y</code> nie udaje się wyodrębnić <code>b</code>, więc <code>m_y</code> jest przypisana wartość  <code>0.0</code> , a strumień wejściowy przechodzi w tryb awaryjny. Ponieważ nie wyczyściliśmy trybu awarii, ekstrakcja  <code>m_z</code> natychmiast przerywa, a wartość <code>m_z</code> miała przed próbą wyodrębnienia pozostaje (<code>3.0</code>).<p>Nie ma przypadku, w którym byłby to pożądany wynik. W niektórych przypadkach może to nawet być aktywnie niebezpieczne. Wyobraź sobie, że zamiast tego piszemy <code>operator>></code> dla <code>Fraction</code> obiektu. Po pomyślnym wyodrębnieniu licznika, nieudane wyodrębnienie do mianownika spowoduje ustawienie mianownik do <code>0.0</code>, co może później spowodować dzielenie przez zero i spowodować awarię aplikacji.<p>Jak więc możemy tego uniknąć? Jednym ze sposobów jest zapewnienie, aby nasze operacje były transakcyjne. <strong>operacja transakcyjna</strong> musi albo zakończyć się sukcesem, albo całkowicie zakończyć się niepowodzeniem — nie są dozwolone żadne częściowe sukcesy ani niepowodzenia. Jest to czasami określane jako „wszystko albo nic”. transakcji, należy cofnąć wcześniejsze zmiany dokonane tą operacją.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Transakcje zdarzają się w prawdziwym życiu cały czas. Rozważmy przypadek, w którym chcę przelać pieniądze z jednego konta bankowego na drugie. Wymaga to dwóch kroków: Najpierw pieniądze muszą zostać pobrane z jednego konta, a następnie przelane na drugie. W wykonaniu tej operacji istnieją trzy możliwości:<ul><li>Krok odliczenia kończy się niepowodzeniem (np. brak środków). transakcja nie powiedzie się i żadne saldo konta nie odzwierciedla przelewu.<li>Etap kredytowania nie powiódł się (np. z powodu problemu technicznego). W takim przypadku odliczenie (które już się powiodło) należy cofnąć. Transakcja kończy się niepowodzeniem i żadne saldo konta nie odzwierciedla przelewu.<li>Obydwa kroki powiodły się. Transakcja zakończyła się sukcesem i salda obu kont odzwierciedlają transfer.</ul><p>Efekt końcowy jest taki, że istnieją tylko dwa możliwe wyniki: transfer całkowicie się nie powiedzie, a salda kont pozostaną niezmienione, lub transfer się powiedzie, a salda obu kont ulegną zmianie.</div><p>Zaimplementujmy ponownie nasze przeciążone <code>Point</code> <code>operator>></code> jako operację transakcyjną:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// note that point must be non-const so we can modify the object
-// note that this implementation is a non-friend
+</pre><p>Nasz punkt jest teraz dziwną hybrydą składającą się z jednej wartości wprowadzonej przez użytkownika (<code>4.0</code>), jednej wartości, która została zainicjowana zerem (<code>0.0</code>) i jednej wartości, która nie została dotknięta przez funkcję wejściową (<code>3.0</code>. To… niedobrze!<p class="cpp-section cpp-topline" style=clear:both>Ochrona przed częściową ekstrakcją<p>Kiedy będziemy. ekstrakcji pojedynczej wartości istnieją tylko dwa możliwe wyniki: ekstrakcja zakończy się niepowodzeniem lub zakończy się sukcesem. Jednak w przypadku wyodrębnienia więcej niż jednej wartości w ramach operacji wejściowej sytuacja staje się nieco bardziej skomplikowana.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>Powyższa implementacja <code>operator>></code> może skutkować częściową ekstrakcją. I właśnie to widzimy w przypadku input <code>4.0b 5.6 7.26</code>. Ekstrakcja  <code>x_y</code> pomyślnie wyodrębnia <code>4.0</code> z danych wejściowych użytkownika, pozostawiając <code>b 5.6 7.26</code> w strumieniu wejściowym. Ekstrakcja do <code>m_y</code> nie udaje się wyodrębnić <code>b</code>, więc <code>m_y</code> jest przypisana wartość  <code>0.0</code> , a strumień wejściowy przechodzi w tryb awaryjny. Ponieważ nie wyczyściliśmy trybu awarii, ekstrakcja  <code>m_z</code> natychmiast przerywa, a wartość <code>m_z</code> miała przed próbą wyodrębnienia pozostaje (<code>3.0</code>).<p>Nie ma przypadku, w którym byłby to pożądany wynik. W niektórych przypadkach może to nawet być aktywnie niebezpieczne. Wyobraź sobie, że zamiast tego piszemy <code>operator>></code> dla <code>Fraction</code> obiektu. Po pomyślnym wyodrębnieniu licznika, nieudane wyodrębnienie do mianownika spowoduje ustawienie mianownik do <code>0.0</code>, co może później spowodować dzielenie przez zero i spowodować awarię aplikacji.<p>Jak więc możemy tego uniknąć? Jednym ze sposobów jest zapewnienie, aby nasze operacje były transakcyjne. <strong>operacja transakcyjna</strong> musi albo zakończyć się sukcesem, albo całkowicie zakończyć się niepowodzeniem — nie są dozwolone żadne częściowe sukcesy ani niepowodzenia. Jest to czasami określane jako „wszystko albo nic”. transakcji, należy cofnąć wcześniejsze zmiany dokonane tą operacją.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Transakcje zdarzają się w prawdziwym życiu cały czas. Rozważmy przypadek, w którym chcę przelać pieniądze z jednego konta bankowego na drugie. Wymaga to dwóch kroków: Najpierw pieniądze muszą zostać pobrane z jednego konta, a następnie przelane na drugie. W wykonaniu tej operacji istnieją trzy możliwości:<ul><li>Krok odliczenia kończy się niepowodzeniem (np. brak środków). transakcja nie powiedzie się i żadne saldo konta nie odzwierciedla przelewu.<li>Etap kredytowania nie powiódł się (np. z powodu problemu technicznego). W takim przypadku odliczenie (które już się powiodło) należy cofnąć. Transakcja kończy się niepowodzeniem i żadne saldo konta nie odzwierciedla przelewu.<li>Obydwa kroki powiodły się. Transakcja zakończyła się sukcesem i salda obu kont odzwierciedlają transfer.</ul><p>Efekt końcowy jest taki, że istnieją tylko dwa możliwe wyniki: transfer całkowicie się nie powiedzie, a salda kont pozostaną niezmienione, lub transfer się powiedzie, a salda obu kont ulegną zmianie.</div><p>Zaimplementujmy ponownie nasze przeciążone <code>Point</code> <code>operator>></code> jako operację transakcyjną:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// zauważ, że punkt nie musi być stałą, abyśmy mogli zmodyfikować obiekt
+// zauważ, że ta implementacja jest non-friend
 std::istream&amp; operator&gt;&gt; (std::istream&amp; in, Point&amp; point)
 {
     double x{};
     double y{};
     double z{};
     
-    if (in &gt;&gt; x &gt;&gt; y &gt;&gt; z)      // if all extractions succeeded
-        point = Point{x, y, z}; // overwrite our existing point
+    if (in &gt;&gt; x &gt;&gt; y &gt;&gt; z)      // jeśli wszystkie wyodrębnienia powiodły się
+        point = Point{x, y, z}; // nadpisz nasz istniejący punkt
         
     return in;
-}</code></pre><p>W tej implementacji nie nadpisujemy elementów danych bezpośrednio dane wejściowe użytkownika. Zamiast tego wyodrębniamy dane wejściowe użytkownika do zmiennych tymczasowych (<code>x</code>, <code>y</code>, I <code>z</code>). Po zakończeniu wszystkich prób ekstrakcji sprawdzamy, czy wszystkie ekstrakcje powiodły się. Jeśli tak, to wspólnie zaktualizujemy wszystkich członków  <code>Point</code> . W przeciwnym razie nie aktualizujemy żadnego z nich.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p><code>if (in >> x >> y >> z)</code> jest odpowiednikiem <code>in >> x >> y >> z; if (in)</code>. Pamiętaj, że każda ekstrakcja zwraca  <code>in</code> , dzięki czemu można połączyć wiele ekstrakcji ze sobą. Wersja z pojedynczą instrukcją wykorzystuje  <code>in</code> zwróconą z ostatniej ekstrakcji jako warunek instrukcji if, podczas gdy wersja z wieloma instrukcjami wykorzystuje <code>in</code> jawnie.</div><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>Operacje transakcyjne można implementować przy użyciu wielu różnych strategii. Na przykład:<ul><li>Zmień w przypadku powodzenia: Zapisz wynik każdej podoperacji. Jeśli wszystkie podoperacje zakończą się sukcesem, zastąp odpowiednie dane zapisanymi wynikami. To jest strategia, którą zastosowaliśmy w <code>Point</code> przykładzie powyżej.<li>Przywracanie w przypadku niepowodzenia: Skopiuj wszystkie dane, które można zmienić. Jeśli jakakolwiek podoperacja zakończy się niepowodzeniem, zmiany wprowadzone w poprzednich podoperacjach mogą zostać cofnięte przy użyciu danych z kopii.<li>Wycofanie w przypadku niepowodzenia: Jeśli jakakolwiek podoperacja zakończy się niepowodzeniem, każda poprzednia podoperacja zostanie cofnięta (przy użyciu przeciwnej podoperacji). Strategia ta jest często stosowana w bazach danych, gdzie dane są zbyt duże, aby utworzyć kopię zapasową, a wyników podoperacji nie można zapisać.</ul></div><p>Powyższa <code>operator>></code> zapobiega częściowej ekstrakcji, jest jednak niezgodna z działaniem <code>operator>></code> dla typów podstawowych. Kiedy ekstrakcja do obiektu o typie podstawowym nie powiedzie się, obiekt nie pozostaje niezmieniony — jest kopiowany z przypisaną wartością <code>0</code> (dzięki temu obiekt ma pewną stałą wartość w przypadku, gdy nie został zainicjowany przed próbą wyodrębnienia). Dlatego, dla zachowania spójności, możesz chcieć, aby nieudana ekstrakcja resetowała obiekt do stanu domyślnego (przynajmniej w przypadkach, gdy coś takiego istnieje).<p>Oto alternatywna wersja <code>operator>></code> , która resetuje <code>Point</code> do stanu domyślnego, jeśli jakakolwiek ekstrakcja się nie powiedzie:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// note that point must be non-const so we can modify the object
-// note that this implementation is a non-friend
+}</code></pre><p>W tej implementacji nie nadpisujemy elementów danych bezpośrednio dane wejściowe użytkownika. Zamiast tego wyodrębniamy dane wejściowe użytkownika do zmiennych tymczasowych (<code>x</code>, <code>y</code>, i <code>z</code>). Po zakończeniu wszystkich prób ekstrakcji sprawdzamy, czy wszystkie ekstrakcje powiodły się. Jeśli tak, to wspólnie zaktualizujemy wszystkich członków  <code>Point</code> . W przeciwnym razie nie aktualizujemy żadnego z nich.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p><code>if (in >> x >> y >> z)</code> jest odpowiednikiem <code>in >> x >> y >> z; if (in)</code>. Pamiętaj, że każda ekstrakcja zwraca  <code>in</code> , dzięki czemu można połączyć wiele ekstrakcji ze sobą. Wersja z pojedynczą instrukcją wykorzystuje  <code>in</code> zwróconą z ostatniej ekstrakcji jako warunek instrukcji if, podczas gdy wersja z wieloma instrukcjami wykorzystuje <code>in</code> jawnie.</div><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>Operacje transakcyjne można implementować przy użyciu wielu różnych strategii. Na przykład:<ul><li>Zmień w przypadku powodzenia: Zapisz wynik każdej podoperacji. Jeśli wszystkie podoperacje zakończą się sukcesem, zastąp odpowiednie dane zapisanymi wynikami. To jest strategia, którą zastosowaliśmy w <code>Point</code> przykładzie powyżej.<li>Przywracanie w przypadku niepowodzenia: Skopiuj wszystkie dane, które można zmienić. Jeśli jakakolwiek podoperacja zakończy się niepowodzeniem, zmiany wprowadzone w poprzednich podoperacjach mogą zostać cofnięte przy użyciu danych z kopii.<li>Wycofanie w przypadku niepowodzenia: Jeśli jakakolwiek podoperacja zakończy się niepowodzeniem, każda poprzednia podoperacja zostanie cofnięta (przy użyciu przeciwnej podoperacji). Strategia ta jest często stosowana w bazach danych, gdzie dane są zbyt duże, aby utworzyć kopię zapasową, a wyników podoperacji nie można zapisać.</ul></div><p>Powyższa <code>operator>></code> zapobiega częściowej ekstrakcji, jest jednak niezgodna z działaniem <code>operator>></code> dla typów podstawowych. Kiedy ekstrakcja do obiektu o typie podstawowym nie powiedzie się, obiekt nie pozostaje niezmieniony — jest kopiowany z przypisaną wartością <code>0</code> (dzięki temu obiekt ma pewną stałą wartość w przypadku, gdy nie został zainicjowany przed próbą wyodrębnienia). Dlatego, dla zachowania spójności, możesz chcieć, aby nieudana ekstrakcja resetowała obiekt do stanu domyślnego (przynajmniej w przypadkach, gdy coś takiego istnieje).<p>Oto alternatywna wersja <code>operator>></code> , która resetuje <code>Point</code> do stanu domyślnego, jeśli jakakolwiek ekstrakcja się nie powiedzie:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// zauważ, że punkt nie musi być stałą, abyśmy mogli zmodyfikować obiekt
+// zauważ, że ta implementacja jest non-friend
 std::istream&amp; operator&gt;&gt; (std::istream&amp; in, Point&amp; point)
 {
     double x{};
@@ -203,36 +203,36 @@ std::istream&amp; operator&gt;&gt; (std::istream&amp; in, Point&amp; point)
     point = in ? Point{x, y, z} : Point{};
         
     return in;
-}</code></pre><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nota autora<p>Taka operacja nie jest już technicznie transakcyjna (ponieważ awaria nie „nic nie robi”). Nie wydaje się, aby istniał ogólny termin określający operacje gwarantujące brak częściowych rezultatów. Być może „operacja niepodzielna”.</div><p class="cpp-section cpp-topline" style=clear:both>Obsługa semantycznie nieprawidłowych danych wejściowych<p>Wyodrębnianie może zakończyć się niepowodzeniem.<p>W przypadkach, gdy <code>operator>></code> po prostu nie uda się wyodrębnić niczego do zmiennej, <code>std::cin</code> zostanie automatycznie przełączony w tryb awaryjny (co omawiamy w lekcji <a href="../stdcin-and-handling-invalid-input/index.html">9.5 — std::cin i obsługa nieprawidłowych danych wejściowych</a>). Osoba wywołująca tę funkcję może następnie sprawdzić <code>std::cin</code> , czy się nie powiodła, i odpowiednio potraktować ten przypadek.<p>Ale co z przypadkami, w których użytkownik wprowadza wartość, którą można wyodrębnić, ale semantycznie nieprawidłową (np. a <code>Fraction</code> z mianownikiem <code>0</code>)? Ponieważ <code>std::cin</code> coś wyodrębniono, nie przejdzie ono automatycznie w tryb awarii. A wtedy osoba dzwoniąca prawdopodobnie nie zorientuje się, że coś poszło nie tak.<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>Aby rozwiązać ten problem, możemy przeciążyć nasze <code>operator>></code> określ, czy którakolwiek z wyodrębnionych wartości jest semantycznie niepoprawna, a jeśli tak, ręcznie przełącz strumień wejściowy w tryb awaryjny. Można to zrobić, wywołując <code>std::cin.setstate(std::ios_base::failbit);</code>.<p>Oto przykład przeciążonego transakcyjnie <code>operator>></code> for <code>Point</code> , które spowoduje, że strumień wejściowy przejdzie w tryb awarii, jeśli użytkownik wprowadzi wyodrębnialną wartość ujemną:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::istream&amp; operator&gt;&gt; (std::istream&amp; in, Point&amp; point)
+}</code></pre><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nota autora<p>Taka operacja nie jest już technicznie transakcyjna (ponieważ awaria nie „nic nie robi”). Nie wydaje się, aby istniał ogólny termin określający operacje gwarantujące brak częściowych rezultatów. Być może „operacja niepodzielna”.</div><p class="cpp-section cpp-topline" style=clear:both>Obsługa semantycznie nieprawidłowych danych wejściowych<p>Wyodrębnianie może zakończyć się niepowodzeniem.<p>W przypadkach, gdy <code>operator>></code> po prostu nie uda się wyodrębnić niczego do zmiennej, <code>std::cin</code> zostanie automatycznie przełączony w tryb awaryjny (co omawiamy w lekcji <a href="../stdcin-and-handling-invalid-input/index.html">9.5 — std::cin i obsługa nieprawidłowych danych wejściowych</a>). Osoba wywołująca tę funkcję może następnie sprawdzić <code>std::cin</code> , czy się nie powiodła, i odpowiednio potraktować ten przypadek.<p>Ale co z przypadkami, w których użytkownik wprowadza wartość, którą można wyodrębnić, ale semantycznie nieprawidłową (np. <code>Fraction</code> z mianownikiem <code>0</code>)? Ponieważ <code>std::cin</code> coś wyodrębniono, nie przejdzie ono automatycznie w tryb awarii. A wtedy osoba dzwoniąca prawdopodobnie nie zorientuje się, że coś poszło nie tak.<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>Aby rozwiązać ten problem, możemy przeciążyć nasze <code>operator>></code> określ, czy którakolwiek z wyodrębnionych wartości jest semantycznie niepoprawna, a jeśli tak, ręcznie przełącz strumień wejściowy w tryb awaryjny. Można to zrobić, wywołując <code>std::cin.setstate(std::ios_base::failbit);</code>.<p>Oto przykład przeciążonego transakcyjnie <code>operator>></code> for <code>Point</code> , które spowoduje, że strumień wejściowy przejdzie w tryb awarii, jeśli użytkownik wprowadzi wyodrębnialną wartość ujemną:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::istream&amp; operator&gt;&gt; (std::istream&amp; in, Point&amp; point)
 {
     double x{};
     double y{};
     double z{};
     
     in &gt;&gt; x &gt;&gt; y &gt;&gt; z;
-    if (x &lt; 0.0 || y &lt; 0.0 || z &lt; 0.0)       // if any extractable input is negative
-        in.setstate(std::ios_base::failbit); // set failure mode manually
+    if (x &lt; 0.0 || y &lt; 0.0 || z &lt; 0.0)       // jeśli jakiekolwiek możliwe do wyodrębnienia dane wejściowe są ujemne
+        in.setstate(std::ios_base::failbit); // ustaw ręcznie tryb awarii
     point = in ? Point{x, y, z} : Point{};
        
     return in;
 }</code></pre><p class="cpp-section cpp-topline" style=clear:both>Wnioski<p>Przeciążenie <code>operator&lt;&lt;</code> i <code>operator>></code> ułatw wyświetlenie swojej klasy na ekranie i zaakceptuj dane wprowadzone przez użytkownika z konsoli.<p class="cpp-section cpp-topline" style=clear:both>Czas quizu<p class=cpp-quiz-question style=clear:both>Pytanie nr 1<p>Weź poniższą klasę Fraction i dodaj do niego przeciążony <code>operator&lt;&lt;</code> i <code>operator>></code> . Twoje <code>operator>></code> powinno unikać częściowego wyodrębniania i kończyć się niepowodzeniem, jeśli użytkownik wprowadzi mianownik <code>0</code>. Nie powinno resetować frakcji do ustawień domyślnych w przypadku awarii.<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><p>Powinien się skompilować następujący program:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
 	Fraction f1{};
-	std::cout &lt;&lt; &#34;Enter fraction 1: &#34;;
+	std::cout &lt;&lt; "Enter fraction 1: ";
 	std::cin &gt;&gt; f1;
 
 	Fraction f2{};
-	std::cout &lt;&lt; &#34;Enter fraction 2: &#34;;
+	std::cout &lt;&lt; "Enter fraction 2: ";
 	std::cin &gt;&gt; f2;
 
-	std::cout &lt;&lt; f1 &lt;&lt; &#34; * &#34; &lt;&lt; f2 &lt;&lt; &#34; is &#34; &lt;&lt; f1 * f2 &lt;&lt; &#39;\n&#39;; // note: The result of f1 * f2 is an r-value
+	std::cout &lt;&lt; f1 &lt;&lt; " * " &lt;&lt; f2 &lt;&lt; " is " &lt;&lt; f1 * f2 &lt;&lt; '\n'; // uwaga: wynikiem f1 * f2 jest wartość r
 
 	return 0;
 }</code></pre><p>I wygeneruj wynik:<pre>Enter fraction 1: 2/3
 Enter fraction 2: 3/8
 2/3 * 3/8 is 1/4
 </pre><p>Oto klasa Fraction:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
-#include &lt;numeric&gt; // for std::gcd
+#include &lt;numeric&gt; // dla std::gcd
  
 class Fraction
 {
@@ -244,8 +244,8 @@ public:
 	Fraction(int numerator=0, int denominator=1):
 		m_numerator{numerator}, m_denominator{denominator}
 	{
-		// We put reduce() in the constructor to ensure any new fractions we make get reduced!
-		// Any fractions that are overwritten will need to be re-reduced
+		// Umieszczamy redukcję() w konstruktorze, aby zapewnić, że wszystkie nowe ułamki zostaną otrzymane zmniejszona!
+		// Wszelkie nadpisane ułamki będą musiały zostać ponownie zredukowany
 		reduce();
 	}
 
@@ -265,7 +265,7 @@ public:
  
 	void print() const
 	{
-		std::cout &lt;&lt; m_numerator &lt;&lt; &#39;/&#39; &lt;&lt; m_denominator &lt;&lt; &#39;\n&#39;;
+		std::cout &lt;&lt; m_numerator &lt;&lt; '/' &lt;&lt; m_denominator &lt;&lt; '\n';
 	}
 };
  
@@ -288,7 +288,7 @@ int gcd(int a, int b) {
     return (b == 0) ? std::abs(a) : gcd(b, a % b);
 }</code></pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_0 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;limits&gt;
-#include &lt;numeric&gt; // for std::gcd
+#include &lt;numeric&gt; // dla std::gcd
 
 class Fraction
 {
@@ -300,8 +300,8 @@ public:
     Fraction(int numerator=0, int denominator = 1) :
         m_numerator{ numerator }, m_denominator{ denominator }
     {
-        // We put reduce() in the constructor to ensure any new fractions we make get reduced!
-        // Any fractions that are overwritten will need to be re-reduced
+        // Umieszczamy redukcję() w konstruktorze, aby zapewnić, że wszystkie nowe ułamki zostaną otrzymane zmniejszona!
+        // Wszelkie nadpisane ułamki będą musiały zostać ponownie zredukowany
         reduce();
     }
 
@@ -323,7 +323,7 @@ public:
 
     void print() const
     {
-        std::cout &lt;&lt; m_numerator &lt;&lt; &#39;/&#39; &lt;&lt; m_denominator &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; m_numerator &lt;&lt; '/' &lt;&lt; m_denominator &lt;&lt; '\n';
     }
 };
 
@@ -344,7 +344,7 @@ Fraction operator*(int value, const Fraction&amp; f1)
 
 std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const Fraction&amp; f1)
 {
-    out &lt;&lt; f1.m_numerator &lt;&lt; &#39;/&#39; &lt;&lt; f1.m_denominator;
+    out &lt;&lt; f1.m_numerator &lt;&lt; '/' &lt;&lt; f1.m_denominator;
     return out;
 }
 
@@ -355,10 +355,10 @@ std::istream&amp; operator&gt;&gt;(std::istream&amp; in, Fraction&amp; f1)
     int denominator {};
     
     in &gt;&gt; numerator &gt;&gt; ignore &gt;&gt; denominator;
-    if (denominator == 0)                       // if our denominator is semantically invalid
-        in.setstate(std::ios_base::failbit);    // set failure mode manually
-    if (in)                                     // if we&#39;re not in failure mode
-        f1 = Fraction {numerator, denominator}; // update our object to the extracted values
+    if (denominator == 0)                       // jeśli nasz mianownik jest semantycznie nieprawidłowy
+        in.setstate(std::ios_base::failbit);    // ustaw ręcznie tryb awarii
+    if (in)                                     // jeśli nie jesteśmy w trybie awarii
+        f1 = Fraction {numerator, denominator}; // zaktualizuj nasz obiekt do wyodrębnionych wartości
 
     return in;
 }
@@ -366,14 +366,14 @@ std::istream&amp; operator&gt;&gt;(std::istream&amp; in, Fraction&amp; f1)
 int main()
 {
     Fraction f1{};
-    std::cout &lt;&lt; &#34;Enter fraction 1: &#34;;
+    std::cout &lt;&lt; "Enter fraction 1: ";
     std::cin &gt;&gt; f1;
 
     Fraction f2{};
-    std::cout &lt;&lt; &#34;Enter fraction 2: &#34;;
+    std::cout &lt;&lt; "Enter fraction 2: ";
     std::cin &gt;&gt; f2;
 
-    std::cout &lt;&lt; f1 &lt;&lt; &#34; * &#34; &lt;&lt; f2 &lt;&lt; &#34; is &#34; &lt;&lt; f1 * f2 &lt;&lt; &#39;\n&#39;; // note: The result of f1 * f2 is an r-value
+    std::cout &lt;&lt; f1 &lt;&lt; " * " &lt;&lt; f2 &lt;&lt; " is " &lt;&lt; f1 * f2 &lt;&lt; '\n'; // uwaga: wynikiem f1 * f2 jest wartość r
 
     return 0;
 }</code></pre></div><div class=prevnext><div class=prevnext-inline><a class=nav-link href="../overloading-operators-using-member-functions/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>21.5</span>Przeciążanie operatorów przy użyciu funkcji składowych</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../overloading-operators-using-normal-functions/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>21.3</span>Przeciążanie operatorów przy użyciu normalnych funkcji</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/overloading-the-io-operators/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href=/www.learncpp.com/wordpress/wordpress-tiga-22-23-upgrade/ rel=prev><span>WordPress Tiga tematu Aktualizacja 2.2 / 2.3</span></a></div><div class=nav-next><em>Następny post</em><a href="../overloading-the-comparison-operators/index.html" rel=next><span>21.7 — Przeciążenie operatorów porównania</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>

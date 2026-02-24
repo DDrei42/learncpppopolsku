@@ -27,14 +27,14 @@ Pop    (Stack: empty)
 
 void printStack(const std::vector&lt;int&gt;&amp; stack)
 {
-	if (stack.empty()) // if stack.size == 0
-		std::cout &lt;&lt; &#34;Empty&#34;;
+	if (stack.empty()) // jeśli rozmiar stosu == 0
+		std::cout &lt;&lt; "Empty";
 
 	for (auto element : stack)
-		std::cout &lt;&lt; element &lt;&lt; &#39; &#39;;
+		std::cout &lt;&lt; element &lt;&lt; ' ';
 
-	// \t is a tab character, to help align the text
-	std::cout &lt;&lt; &#34;\tCapacity: &#34; &lt;&lt; stack.capacity() &lt;&lt; &#34;  Length &#34; &lt;&lt; stack.size() &lt;&lt; &#34;\n&#34;;
+	// \t jest znakiem tabulacji, aby pomóc wyrównać tekst
+	std::cout &lt;&lt; "\tCapacity: " &lt;&lt; stack.capacity() &lt;&lt; "  Length " &lt;&lt; stack.size() &lt;&lt; "\n";
 }
 
 int main()
@@ -43,7 +43,7 @@ int main()
 
 	printStack(stack);
 
-	stack.push_back(1); // push_back() pushes an element on the stack
+	stack.push_back(1); // push_back() umieści element na stosie
 	printStack(stack);
 
 	stack.push_back(2);
@@ -52,9 +52,9 @@ int main()
 	stack.push_back(3);
 	printStack(stack);
 
-	std::cout &lt;&lt; &#34;Top: &#34; &lt;&lt; stack.back() &lt;&lt; &#39;\n&#39;; // back() returns the last element
+	std::cout &lt;&lt; "Top: " &lt;&lt; stack.back() &lt;&lt; '\n'; // back() zwraca ostatni element
 
-	stack.pop_back(); // pop_back() pops an element off the stack
+	stack.pop_back(); // pop_back() usuwa element ze stosu
 	printStack(stack);
 
 	stack.pop_back();
@@ -72,7 +72,7 @@ Top:3
 1 2     Capacity: 4  Length: 2
 1       Capacity: 4  Length: 1
 Empty   Capacity: 4  Length: 0
-</pre><p>Pamiętaj, długość to liczba elementów wektora, która w tym przypadku jest liczbą elementów na naszym stosie.<p>W przeciwieństwie do operatora indeksu dolnego <code>operator[]</code> lub <code>at()</code> funkcja składowa, <code>push_back()</code> (oraz  <code>emplace_back()</code>) zwiększy długość wektora i spowoduje ponowną alokację, jeśli pojemność nie będzie wystarczająca do wstawienia wartości.<p>W powyższym przykładzie wektor zostanie przeniesiony 3 razy (z pojemności 0 do 1, 1 do 2 i 2 do 4).<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p><code>push_back()</code> i <code>emplace_back()</code> zwiększy długość  <code>std::vector</code> i spowoduje realokację, jeśli pojemność nie będzie wystarczająca do wstawienia wartości.</div><p class="cpp-section cpp-topline" style=clear:both>Dodatkowa wydajność w wyniku wypychania<p>W powyższym wyniku należy zauważyć, że kiedy nastąpiła ostatnia z trzech realokacji, pojemność wzrosła z 2 do 4 (mimo że przesuwaliśmy tylko jeden element). Kiedy naciśnięcie powoduje ponowną alokację,  <code>std::vector</code>  zazwyczaj przydziela pewną dodatkową pojemność, aby umożliwić dodanie dodatkowych elementów bez wyzwalania kolejnej ponownej alokacji przy następnym uruchomieniu elementu. dodano.<p>ile dodatkowej pojemności zostanie przydzielonej, zależy od implementacji  <code>std::vector</code> przez kompilator, a różne kompilatory zazwyczaj robią różne rzeczy: <ul><li>GCC i Clang podwajają bieżącą pojemność. Po wyzwoleniu ostatniej zmiany rozmiaru pojemność zostaje podwojona z 2 do 4.<li>Visual Studio 2022 mnoży bieżącą pojemność przez 1,5. Po wyzwoleniu ostatniej zmiany rozmiaru pojemność zmienia się z 2 na 3.</ul><p>W rezultacie poprzedni program może mieć nieco inny wynik w zależności od używanego kompilatora.<p class="cpp-section cpp-topline" style=clear:both>Zmiana rozmiaru wektora nie działa w przypadku zachowania stosu<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>Ponowna alokacja wektora jest kosztowna obliczeniowo (proporcjonalnie do długości wektora), dlatego chcemy unikać realokacji, gdy jest to uzasadnione więc. W powyższym przykładzie moglibyśmy uniknąć 3-krotnej ponownej alokacji wektora, jeśli na początku programu ręcznie zmienilibyśmy rozmiar wektora do pojemności 3.<p>Spójrzmy, co się stanie, jeśli zmienimy linię 18 w powyższym przykładzie na następującą:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::vector&lt;int&gt; stack(3); // parenthesis init to set vector&#39;s capacity to 3</code></pre><p>Teraz, gdy uruchomimy program ponownie, otrzymamy następujący wynik:<pre>0 0 0 	Capacity: 3  Length 3
+</pre><p>Pamiętaj, długość to liczba elementów wektora, która w tym przypadku jest liczbą elementów na naszym stosie.<p>W przeciwieństwie do operatora indeksu dolnego <code>operator[]</code> lub <code>at()</code> funkcja składowa, <code>push_back()</code> (oraz  <code>emplace_back()</code>) zwiększy długość wektora i spowoduje ponowną alokację, jeśli pojemność nie będzie wystarczająca do wstawienia wartości.<p>W powyższym przykładzie wektor zostanie przeniesiony 3 razy (z pojemności 0 do 1, 1 do 2 i 2 do 4).<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p><code>push_back()</code> i <code>emplace_back()</code> zwiększy długość  <code>std::vector</code> i spowoduje realokację, jeśli pojemność nie będzie wystarczająca do wstawienia wartości.</div><p class="cpp-section cpp-topline" style=clear:both>Dodatkowa wydajność w wyniku wypychania<p>W powyższym wyniku należy zauważyć, że kiedy nastąpiła ostatnia z trzech realokacji, pojemność wzrosła z 2 do 4 (mimo że przesuwaliśmy tylko jeden element). Kiedy naciśnięcie powoduje ponowną alokację,  <code>std::vector</code>  zazwyczaj przydziela pewną dodatkową pojemność, aby umożliwić dodanie dodatkowych elementów bez wyzwalania kolejnej ponownej alokacji przy następnym uruchomieniu elementu. dodano.<p>ile dodatkowej pojemności zostanie przydzielonej, zależy od implementacji  <code>std::vector</code> przez kompilator, a różne kompilatory zazwyczaj robią różne rzeczy: <ul><li>GCC i Clang podwajają bieżącą pojemność. Po wyzwoleniu ostatniej zmiany rozmiaru pojemność zostaje podwojona z 2 do 4.<li>Visual Studio 2022 mnoży bieżącą pojemność przez 1,5. Po wyzwoleniu ostatniej zmiany rozmiaru pojemność zmienia się z 2 na 3.</ul><p>W rezultacie poprzedni program może mieć nieco inny wynik w zależności od używanego kompilatora.<p class="cpp-section cpp-topline" style=clear:both>Zmiana rozmiaru wektora nie działa w przypadku zachowania stosu<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>Ponowna alokacja wektora jest kosztowna obliczeniowo (proporcjonalnie do długości wektora), dlatego chcemy unikać realokacji, gdy jest to uzasadnione więc. W powyższym przykładzie moglibyśmy uniknąć 3-krotnej ponownej alokacji wektora, jeśli na początku programu ręcznie zmienilibyśmy rozmiar wektora do pojemności 3.<p>Spójrzmy, co się stanie, jeśli zmienimy linię 18 w powyższym przykładzie na następującą:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::vector&lt;int&gt; stack(3); // inicjacja nawiasu, aby ustawić pojemność wektora na 3</code></pre><p>Teraz, gdy uruchomimy program ponownie, otrzymamy następujący wynik:<pre>0 0 0 	Capacity: 3  Length 3
 0 0 0 1 	Capacity: 6  Length 4
 0 0 0 1 2 	Capacity: 6  Length 5
 0 0 0 1 2 3 	Capacity: 6  Length 6
@@ -85,14 +85,14 @@ Top: 3
 
 void printStack(const std::vector&lt;int&gt;&amp; stack)
 {
-	if (stack.empty()) // if stack.size == 0
-		std::cout &lt;&lt; &#34;Empty&#34;;
+	if (stack.empty()) // jeśli rozmiar stosu == 0
+		std::cout &lt;&lt; "Empty";
 
 	for (auto element : stack)
-		std::cout &lt;&lt; element &lt;&lt; &#39; &#39;;
+		std::cout &lt;&lt; element &lt;&lt; ' ';
 
-	// \t is a tab character, to help align the text
-	std::cout &lt;&lt; &#34;\tCapacity: &#34; &lt;&lt; stack.capacity() &lt;&lt; &#34;  Length &#34; &lt;&lt; stack.size() &lt;&lt; &#34;\n&#34;;
+	// \t jest znakiem tabulacji, aby pomóc wyrównać tekst
+	std::cout &lt;&lt; "\tCapacity: " &lt;&lt; stack.capacity() &lt;&lt; "  Length " &lt;&lt; stack.size() &lt;&lt; "\n";
 }
 
 int main()
@@ -101,7 +101,7 @@ int main()
 
 	printStack(stack);
 
-	stack.reserve(6); // reserve space for 6 elements (but do not change length)
+	stack.reserve(6); // zarezerwuj miejsce na 6 elementów (ale nie zmieniaj długości)
 	printStack(stack);
 
 	stack.push_back(1);
@@ -113,7 +113,7 @@ int main()
 	stack.push_back(3);
 	printStack(stack);
 
-	std::cout &lt;&lt; &#34;Top: &#34; &lt;&lt; stack.back() &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; "Top: " &lt;&lt; stack.back() &lt;&lt; '\n';
 
 	stack.pop_back();
 	printStack(stack);
@@ -159,17 +159,17 @@ int main()
 {
 	std::vector&lt;Foo&gt; stack{};
 
-	// When we already have an object, push_back and emplace_back are similar in efficiency
-	Foo f{ &#34;a&#34;, 2 };
-	stack.push_back(f);    // prefer this one
+	// Gdy mamy już obiekt, push_back i emplace_back są podobne pod względem wydajności
+	Foo f{ "a", 2 };
+	stack.push_back(f);    // preferuj do jedno
 	stack.emplace_back(f);
 
-	// When we need to create a temporary object to push, emplace_back is more efficient
-	stack.push_back({ &#34;a&#34;, 2 }); // creates a temporary object, and then copies it into the vector
-	stack.emplace_back(&#34;a&#34;, 2);  // forwards the arguments so the object can be created directly in the vector (no copy made)
+	// Kiedy musimy utworzyć tymczasowy obiekt do wypchnięcia, bardziej wydajna jest metoda emplace_back
+	stack.push_back({ "a", 2 }); // tworzy obiekt tymczasowy, a następnie kopiuje go do wektora
+	stack.emplace_back("a", 2);  // przekazuje argumenty, aby obiekt mógł zostać utworzony bezpośrednio w wektorze (bez tworzenia kopii)
 
-	// push_back won&#39;t use explicit constructors, emplace_back will
-	stack.push_back({ 2 }); // compile error: Foo(int) is explicit
+	// push_back nie będzie używać jawnych konstruktorzy, emplace_back
+	stack.push_back({ 2 }); // błąd kompilacji: Foo(int) jest jawny
 	stack.emplace_back(2);  // ok
     
 	return 0;
@@ -183,29 +183,29 @@ int main()
 
 	while (true)
 	{
-		std::cout &lt;&lt; &#34;Enter a score (or -1 to finish): &#34;;
+		std::cout &lt;&lt; "Enter a score (or -1 to finish): ";
 		int x{};
 		std::cin &gt;&gt; x;
 
-		if (!std::cin) // handle bad input
+		if (!std::cin) // poradzić sobie ze złym wejściem
 		{
 			std::cin.clear();
-			std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), &#39;\n&#39;);
+			std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), '\n');
 			continue;
 		}
 
-		// If we&#39;re done, break out of loop
+		// Jeśli jesteśmy gotowe, wyjdź z pętli
 		if (x == -1)
 			break;
 
-		// The user entered a valid element, so let&#39;s push it on the vector
+		// Użytkownik wprowadził poprawny element, więc wepchnijmy go na wektor
 		scoreList.push_back(x);
 	}
 
-	std::cout &lt;&lt; &#34;Your list of scores: \n&#34;;
+	std::cout &lt;&lt; "Your list of scores: \n";
 
 	for (const auto&amp; score : scoreList)
-		std::cout &lt;&lt; score &lt;&lt; &#39; &#39;;
+		std::cout &lt;&lt; score &lt;&lt; ' ';
 
 	return 0;
 }</code></pre><p>Ten program pozwala użytkownikowi wprowadzić wyniki testu, dodając każdy wynik do wektora. Po zakończeniu dodawania punktów przez użytkownika drukowane są wszystkie wartości wektora.<p>Zauważ, że w tym programie nie musimy w ogóle zliczać, indeksować ani zajmować się długościami tablic! Możemy po prostu skupić się na logice tego, co chcemy, aby program zrobił i pozwolić wektorowi zająć się wszystkimi problemami z pamięcią!<p><p class="cpp-section cpp-topline" style=clear:both>Czas quizu<p class=cpp-quiz-question style=clear:both>Pytanie nr 1<p><p>Napisz program, który wypycha i wyświetla wartości oraz wyprowadza następującą sekwencję:<pre>       (Stack: empty)
@@ -222,28 +222,28 @@ Pop    (Stack: empty)
 
 void printStackValues(const std::vector&lt;int&gt;&amp; v)
 {
-    std::cout &lt;&lt; &#34;\t(Stack:&#34;;
+    std::cout &lt;&lt; "\t(Stack:";
     
     for (auto e : v)
-        std::cout &lt;&lt; &#39; &#39; &lt;&lt; e;
+        std::cout &lt;&lt; ' ' &lt;&lt; e;
 
-    if (v.empty()) // if v.size == 0
-        std::cout &lt;&lt; &#34; empty&#34;;
+    if (v.empty()) // jeśli v.size == 0
+        std::cout &lt;&lt; " empty";
 
-    std::cout &lt;&lt; &#34;)\n&#34;;
+    std::cout &lt;&lt; ")\n";
 }
 
 void pushAndPrint(std::vector&lt;int&gt;&amp; v, int val)
 {
     v.push_back(val);
-    std::cout &lt;&lt; &#34;Push &#34; &lt;&lt; val;
+    std::cout &lt;&lt; "Push " &lt;&lt; val;
     printStackValues(v);
 }
 
 void popAndPrint(std::vector&lt;int&gt;&amp; v)
 {
     v.pop_back();
-    std::cout &lt;&lt; &#34;Pop &#34;;
+    std::cout &lt;&lt; "Pop ";
     printStackValues(v);
 }
 

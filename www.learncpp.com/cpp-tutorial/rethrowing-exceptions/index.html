@@ -20,15 +20,15 @@
     try
     {
         d = new Database{};
-        d-&gt;open(filename); // assume this throws an int exception on failure
+        d-&gt;open(filename); // załóżmy, że zgłasza to wyjątek int w przypadku niepowodzenia
         return d;
     }
     catch (int exception)
     {
-        // Database creation failed
+        // Tworzenie bazy danych nie powiodło się
         delete d;
-        // Write an error to some global logfile
-        g_log.logError(&#34;Creation of Database failed&#34;);
+        // Zapisz błąd w jakimś globalnym pliku dziennika
+        g_log.logError("Creation of Database failed");
     }
 
     return nullptr;
@@ -38,15 +38,15 @@
 
     try
     {
-        return d-&gt;getIntValue(table, key); // throws int exception on failure
+        return d-&gt;getIntValue(table, key); // zgłasza wyjątek int w przypadku niepowodzenia
     }
     catch (int exception)
     {
-        // Write an error to some global logfile
-        g_log.logError(&#34;getIntValueFromDatabase failed&#34;);
+        // Zapisz błąd w jakimś globalnym pliku dziennika
+        g_log.logError("getIntValueFromDatabase failed");
 
-        // However, we haven&#39;t actually handled this error
-        // So what do we do here?
+        // Jednak tak naprawdę nie uporaliśmy się z tym błędem
+        // Co więc tutaj zrobimy?
     }
 }</code></pre><p>W przypadku, gdy ta funkcja się powiedzie, zwraca wartość całkowitą — dowolna wartość całkowita może być prawidłową wartością.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Ale co w przypadku, gdy coś pójdzie nie tak z funkcją getIntValue()? W takim przypadku getIntValue() zgłosi wyjątek będący liczbą całkowitą, który zostanie przechwycony przez blok catch w getIntValueFromDatabase(), który zarejestruje błąd. Ale jak w takim razie powiedzieć osobie wywołującej getIntValueFromDatabase(), że coś poszło nie tak? W przeciwieństwie do najwyższego przykładu, nie możemy tu użyć dobrego kodu powrotu (ponieważ dowolna zwracana wartość całkowita może być poprawna).<p><strong>Zgłaszanie nowego wyjątku</strong><p>Jednym z oczywistych rozwiązań jest zgłoszenie nowego wyjątku.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int getIntValueFromDatabase(Database* d, std::string table, std::string key)
 {
@@ -54,15 +54,15 @@
 
     try
     {
-        return d-&gt;getIntValue(table, key); // throws int exception on failure
+        return d-&gt;getIntValue(table, key); // zgłasza wyjątek int w przypadku niepowodzenia
     }
     catch (int exception)
     {
-        // Write an error to some global logfile
-        g_log.logError(&#34;getIntValueFromDatabase failed&#34;);
+        // Zapisz błąd w jakimś globalnym pliku dziennika
+        g_log.logError("getIntValueFromDatabase failed");
 
-        // Throw char exception &#39;q&#39; up the stack to be handled by caller
-        throw &#39;q&#39;; 
+        // Wrzuć wyjątek char „q” w górę stosu, który ma zostać obsłużony przez obiekt wywołujący
+        throw 'q'; 
     }
 }</code></pre><p>W powyższym przykładzie program przechwytuje wyjątek int z metody getIntValue(), rejestruje błąd, a następnie zgłasza nowy wyjątek z wartością znaku „q”. Chociaż zgłaszanie wyjątku z bloku catch może wydawać się dziwne, jest to dozwolone. Pamiętaj, że do przechwycenia kwalifikują się tylko wyjątki zgłoszone w bloku try. Oznacza to, że wyjątek zgłoszony w bloku catch nie zostanie przechwycony przez blok catch, w którym się znajduje. Zamiast tego zostanie propagowany w górę stosu do osoby wywołującej.<p>Wyjątek zgłoszony z bloku catch może być wyjątkiem dowolnego typu — nie musi być tego samego typu, co właśnie przechwycony wyjątek.<p><strong>Ponowne zgłoszenie wyjątku (w niewłaściwy sposób)</strong><div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Inną opcją jest ponowne zgłoszenie ten sam wyjątek. Można to zrobić w następujący sposób:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int getIntValueFromDatabase(Database* d, std::string table, std::string key)
 {
@@ -70,12 +70,12 @@
 
     try
     {
-        return d-&gt;getIntValue(table, key); // throws int exception on failure
+        return d-&gt;getIntValue(table, key); // zgłasza wyjątek int w przypadku niepowodzenia
     }
     catch (int exception)
     {
-        // Write an error to some global logfile
-        g_log.logError(&#34;getIntValueFromDatabase failed&#34;);
+        // Zapisz błąd w jakimś globalnym pliku dziennika
+        g_log.logError("getIntValueFromDatabase failed");
 
         throw exception;
     }
@@ -85,28 +85,28 @@
 
     try
     {
-        return d-&gt;getIntValue(table, key); // throws Derived exception on failure
+        return d-&gt;getIntValue(table, key); // zgłasza wyjątek pochodny w przypadku niepowodzenia
     }
     catch (Base&amp; exception)
     {
-        // Write an error to some global logfile
-        g_log.logError(&#34;getIntValueFromDatabase failed&#34;);
+        // Zapisz błąd w jakimś globalnym pliku dziennika
+        g_log.logError("getIntValueFromDatabase failed");
 
-        throw exception; // Danger: this throws a Base object, not a Derived object
+        throw exception; // Niebezpieczeństwo: powoduje to wyrzucenie obiektu podstawowego, a nie obiektu pochodnego
     }
 }</code></pre><p>W tym przypadku getIntValue() zgłasza obiekt Derived, ale blok catch przechwytuje referencję Base. Nie ma w tym nic złego, ponieważ wiemy, że możemy mieć referencję bazową do obiektu pochodnego. Jednakże, gdy zgłaszamy wyjątek, zgłoszony wyjątek jest inicjowany przez kopiowanie z wyjątku zmiennej. Wyjątek zmiennej ma typ Base, więc wyjątek zainicjowany przez kopiowanie ma również typ Base (nie pochodny!). Innymi słowy, nasz obiekt pochodny został pocięty!<p>Możesz to zobaczyć w następującym programie:<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 class Base
 {
 public:
     Base() {}
-    virtual void print() { std::cout &lt;&lt; &#34;Base&#34;; }
+    virtual void print() { std::cout &lt;&lt; "Base"; }
 };
 
 class Derived: public Base
 {
 public:
     Derived() {}
-    void print() override { std::cout &lt;&lt; &#34;Derived&#34;; }
+    void print() override { std::cout &lt;&lt; "Derived"; }
 };
 
 int main()
@@ -119,17 +119,17 @@ int main()
         }
         catch (Base&amp; b)
         {
-            std::cout &lt;&lt; &#34;Caught Base b, which is actually a &#34;;
+            std::cout &lt;&lt; "Caught Base b, which is actually a ";
             b.print();
-            std::cout &lt;&lt; &#39;\n&#39;;
-            throw b; // the Derived object gets sliced here
+            std::cout &lt;&lt; '\n';
+            throw b; // obiekt pochodny pozostałości tutaj
         }
     }
     catch (Base&amp; b)
     {
-        std::cout &lt;&lt; &#34;Caught Base b, which is actually a &#34;;
+        std::cout &lt;&lt; "Caught Base b, which is actually a ";
         b.print();
-        std::cout &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; '\n';
     }
 
     return 0;
@@ -140,14 +140,14 @@ class Base
 {
 public:
     Base() {}
-    virtual void print() { std::cout &lt;&lt; &#34;Base&#34;; }
+    virtual void print() { std::cout &lt;&lt; "Base"; }
 };
 
 class Derived: public Base
 {
 public:
     Derived() {}
-    void print() override { std::cout &lt;&lt; &#34;Derived&#34;; }
+    void print() override { std::cout &lt;&lt; "Derived"; }
 };
 
 int main()
@@ -160,17 +160,17 @@ int main()
         }
         catch (Base&amp; b)
         {
-            std::cout &lt;&lt; &#34;Caught Base b, which is actually a &#34;;
+            std::cout &lt;&lt; "Caught Base b, which is actually a ";
             b.print();
-            std::cout &lt;&lt; &#39;\n&#39;;
-            throw; // note: We&#39;re now rethrowing the object here
+            std::cout &lt;&lt; '\n';
+            throw; // uwaga: teraz ponownie wrzucamy obiekt tutaj
         }
     }
     catch (Base&amp; b)
     {
-        std::cout &lt;&lt; &#34;Caught Base b, which is actually a &#34;;
+        std::cout &lt;&lt; "Caught Base b, which is actually a ";
         b.print();
-        std::cout &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; '\n';
     }
 
     return 0;

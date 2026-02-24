@@ -19,23 +19,23 @@
 template &lt;typename T&gt;
 void mySwapCopy(T&amp; a, T&amp; b) 
 { 
-	T tmp { a }; // invokes copy constructor
-	a = b; // invokes copy assignment
-	b = tmp; // invokes copy assignment
+	T tmp { a }; // wywołuje konstruktor kopiujący
+	a = b; // wywołuje przypisanie kopii
+	b = tmp; // wywołuje przypisanie kopii
 }
 
 int main()
 {
-	std::string x{ &#34;abc&#34; };
-	std::string y{ &#34;de&#34; };
+	std::string x{ "abc" };
+	std::string y{ "de" };
 
-	std::cout &lt;&lt; &#34;x: &#34; &lt;&lt; x &lt;&lt; &#39;\n&#39;;
-	std::cout &lt;&lt; &#34;y: &#34; &lt;&lt; y &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; "x: " &lt;&lt; x &lt;&lt; '\n';
+	std::cout &lt;&lt; "y: " &lt;&lt; y &lt;&lt; '\n';
 
 	mySwapCopy(x, y);
 
-	std::cout &lt;&lt; &#34;x: &#34; &lt;&lt; x &lt;&lt; &#39;\n&#39;;
-	std::cout &lt;&lt; &#34;y: &#34; &lt;&lt; y &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; "x: " &lt;&lt; x &lt;&lt; '\n';
+	std::cout &lt;&lt; "y: " &lt;&lt; y &lt;&lt; '\n';
 
 	return 0;
 }</code></pre><p>Przekazana w dwóch obiektach typu T (w tym przypadku std::string) ta funkcja zamienia ich wartości, tworząc trzy kopie. W rezultacie ten program drukuje:<pre>x: abc
@@ -44,28 +44,28 @@ x: de
 y: abc
 </pre><p>Jak pokazaliśmy na ostatniej lekcji, tworzenie kopii może być nieefektywne. Ta wersja swapu tworzy 3 kopie. Prowadzi to do nadmiernego tworzenia i niszczenia ciągów, co jest powolne.<p>Jednak wykonywanie kopii nie jest tutaj konieczne. Jedyne, co tak naprawdę staramy się zrobić, to zamienić wartości a i b, co równie dobrze można osiągnąć za pomocą 3 ruchów! Jeśli więc przejdziemy z semantyki kopiowania na semantykę przeniesienia, możemy zwiększyć wydajność naszego kodu.<p>Ale jak? Problem polega na tym, że parametry a i b są referencjami do l-wartości, a nie do wartości r, zatem nie mamy możliwości wywołania konstruktora przenoszenia i operatora przypisania przeniesienia zamiast konstruktora kopiującego i przypisania kopiującego. Domyślnie otrzymujemy konstruktor kopiujący i zachowania przypisania kopiowania. Co mamy zrobić?<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p class="cpp-section cpp-topline" style=clear:both>std::move<p>W C++11 std::move jest standardową funkcją biblioteczną, która rzutuje (przy użyciu static_cast) swój argument na odwołanie do wartości r, dzięki czemu można wywołać semantykę przenoszenia. Zatem możemy użyć std::move, aby rzutować wartość l na typ, który będzie wolał być przenoszony niż kopiowany. std::move jest zdefiniowane w nagłówku narzędzia.<p>Oto ten sam program, co powyżej, ale z funkcją mySwapMove(), która używa std::move do konwersji naszych l-wartości na wartości r, abyśmy mogli wywołać semantykę przenoszenia:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;string&gt;
-#include &lt;utility&gt; // for std::move
+#include &lt;utility&gt; // dla std::move
 
 template &lt;typename T&gt;
 void mySwapMove(T&amp; a, T&amp; b) 
 { 
-	T tmp { std::move(a) }; // invokes move constructor
-	a = std::move(b); // invokes move assignment
-	b = std::move(tmp); // invokes move assignment
+	T tmp { std::move(a) }; // wywołuje konstruktor przenoszenia
+	a = std::move(b); // wywołuje przypisanie ruchu
+	b = std::move(tmp); // wywołuje przypisanie ruchu
 }
 
 int main()
 {
-	std::string x{ &#34;abc&#34; };
-	std::string y{ &#34;de&#34; };
+	std::string x{ "abc" };
+	std::string y{ "de" };
 
-	std::cout &lt;&lt; &#34;x: &#34; &lt;&lt; x &lt;&lt; &#39;\n&#39;;
-	std::cout &lt;&lt; &#34;y: &#34; &lt;&lt; y &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; "x: " &lt;&lt; x &lt;&lt; '\n';
+	std::cout &lt;&lt; "y: " &lt;&lt; y &lt;&lt; '\n';
 
 	mySwapMove(x, y);
 
-	std::cout &lt;&lt; &#34;x: &#34; &lt;&lt; x &lt;&lt; &#39;\n&#39;;
-	std::cout &lt;&lt; &#34;y: &#34; &lt;&lt; y &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; "x: " &lt;&lt; x &lt;&lt; '\n';
+	std::cout &lt;&lt; "y: " &lt;&lt; y &lt;&lt; '\n';
 
 	return 0;
 }</code></pre><p>To wypisuje ten sam wynik, co powyżej:<pre>x: abc
@@ -74,28 +74,28 @@ x: de
 y: abc
 </pre><p>Ale jest to znacznie wydajniejsze. Kiedy inicjowany jest tmp, zamiast tworzyć kopię x, używamy std::move, aby przekonwertować zmienną x o wartości l na wartość r. Ponieważ parametr jest wartością r, wywoływana jest semantyka przenoszenia, a x jest przenoszone do tmp.<p>Po kilku kolejnych zamianach wartość zmiennej x została przeniesiona do y, a wartość y została przeniesiona do x.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Kolejny przykład<p>Możemy również użyć std::move podczas wypełniania elementów kontenera, takich jak std::vector, za pomocą l-wartości.<p>W poniższym programie najpierw dodajemy element do wektora, stosując semantykę kopiowania. Następnie dodajemy element do wektora za pomocą semantyki przenoszenia.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;string&gt;
-#include &lt;utility&gt; // for std::move
+#include &lt;utility&gt; // dla std::move
 #include &lt;vector&gt;
 
 int main()
 {
 	std::vector&lt;std::string&gt; v;
 
-	// We use std::string because it is movable (std::string_view is not)
-	std::string str { &#34;Knock&#34; };
+	// Używamy std::string, ponieważ jest ruchomy (std::string_view nie jest)
+	std::string str { "Knock" };
 
-	std::cout &lt;&lt; &#34;Copying str\n&#34;;
-	v.push_back(str); // calls l-value version of push_back, which copies str into the array element
+	std::cout &lt;&lt; "Copying str\n";
+	v.push_back(str); // wywołuje wersję push_back o wartości l, która kopiuje str do elementu tablicy
 	
-	std::cout &lt;&lt; &#34;str: &#34; &lt;&lt; str &lt;&lt; &#39;\n&#39;;
-	std::cout &lt;&lt; &#34;vector: &#34; &lt;&lt; v[0] &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; "str: " &lt;&lt; str &lt;&lt; '\n';
+	std::cout &lt;&lt; "vector: " &lt;&lt; v[0] &lt;&lt; '\n';
 
-	std::cout &lt;&lt; &#34;\nMoving str\n&#34;;
+	std::cout &lt;&lt; "\nMoving str\n";
 
-	v.push_back(std::move(str)); // calls r-value version of push_back, which moves str into the array element
+	v.push_back(std::move(str)); // wywołuje wersję push_back z wartością r, która przenosi str do elementu tablicy
 	
-	std::cout &lt;&lt; &#34;str: &#34; &lt;&lt; str &lt;&lt; &#39;\n&#39;; // The result of this is indeterminate
-	std::cout &lt;&lt; &#34;vector:&#34; &lt;&lt; v[0] &lt;&lt; &#39; &#39; &lt;&lt; v[1] &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; "str: " &lt;&lt; str &lt;&lt; '\n'; // Wynik x jest to nieokreślone
+	std::cout &lt;&lt; "vector:" &lt;&lt; v[0] &lt;&lt; ' ' &lt;&lt; v[1] &lt;&lt; '\n';
 
 	return 0;
 }</code></pre><p>Na maszynie autora program ten wypisuje:<pre>Copying str

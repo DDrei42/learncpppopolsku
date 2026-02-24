@@ -13,8 +13,8 @@
 <button class=searchsubmit><span class=screen-reader-text>Szukaj</span><i class=icon-search></i></button>
 <input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=45259></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="15.5 — Szablony klas z funkcjami składowymi" src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-15361 class="post-15361 post type-post status-publish format-standard hentry category-cpp-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>15.5 — Szablony klas z funkcjami składowymi</h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Autor></i><a class="url fn n" rel=author href=/www.learncpp.com/author/Alex/ title="Wyświetl wszystkie posty Alexa" itemprop=url><em itemprop=name>Alex</em></a></span>
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2023-09-11T12:59:10-07:00 itemprop=datePublished>11 września 2023, 12:59 PDT</time>
-<time class=updated datetime=2024-08-06T16:57:17-07:00 itemprop=dateModified>6 sierpnia 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>W lekcji <a href="../function-templates/index.html">11.6 -- Szablony funkcji</a>, przyjrzeliśmy się szablonom funkcji:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">template &lt;typename T&gt; // this is the template parameter declaration
-T max(T x, T y) // this is the function template definition for max&lt;T&gt;
+<time class=updated datetime=2024-08-06T16:57:17-07:00 itemprop=dateModified>6 sierpnia 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>W lekcji <a href="../function-templates/index.html">11.6 -- Szablony funkcji</a>, przyjrzeliśmy się szablonom funkcji:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">template &lt;typename T&gt; // to jest deklaracja parametru szablonu
+T max(T x, T y) // to jest definicja szablonu funkcji dla max&lt;T&gt;
 {
     return (x &lt; y) ? y : x;
 }</code></pre><p>Za pomocą szablonu funkcji możemy zdefiniować parametry szablonu typu (np.  <code>typename T</code>), a następnie użyć ich jako typu naszych parametrów funkcji (<code>T x, T y</code>).<p>W lekcji <a href="../class-templates/index.html">13.13 — Szablony klas</a>, omówiliśmy szablony klas, które pozwalają nam używać parametrów szablonów typów dla typu naszych składowych danych typów klas (struktura, klasy i związki):<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -26,24 +26,24 @@ struct Pair
     T second{};
 };
 
-// Here&#39;s a deduction guide for our Pair (required in C++17 or older)
-// Pair objects initialized with arguments of type T and T should deduce to Pair&lt;T&gt;
+// Oto przewodnik dedukcji dla naszej pary (wymagany w C++17 lub starszym)
+// Obiekty par zainicjowane argumentami typu T i T powinny wydedukować Pair&lt;T&gt;
 template &lt;typename T&gt;
 Pair(T, T) -&gt; Pair&lt;T&gt;;
 
 int main()
 {
-    Pair&lt;int&gt; p1{ 5, 6 };        // instantiates Pair&lt;int&gt; and creates object p1
-    std::cout &lt;&lt; p1.first &lt;&lt; &#39; &#39; &lt;&lt; p1.second &lt;&lt; &#39;\n&#39;;
+    Pair&lt;int&gt; p1{ 5, 6 };        // tworzy instancję Pair&lt;int&gt; i tworzy obiekt p1
+    std::cout &lt;&lt; p1.first &lt;&lt; ' ' &lt;&lt; p1.second &lt;&lt; '\n';
 
-    Pair&lt;double&gt; p2{ 1.2, 3.4 }; // instantiates Pair&lt;double&gt; and creates object p2
-    std::cout &lt;&lt; p2.first &lt;&lt; &#39; &#39; &lt;&lt; p2.second &lt;&lt; &#39;\n&#39;;
+    Pair&lt;double&gt; p2{ 1.2, 3.4 }; // tworzy instancję Pair&lt;double&gt; i tworzy obiekt p2
+    std::cout &lt;&lt; p2.first &lt;&lt; ' ' &lt;&lt; p2.second &lt;&lt; '\n';
 
-    Pair&lt;double&gt; p3{ 7.8, 9.0 }; // creates object p3 using prior definition for Pair&lt;double&gt;
-    std::cout &lt;&lt; p3.first &lt;&lt; &#39; &#39; &lt;&lt; p3.second &lt;&lt; &#39;\n&#39;;
+    Pair&lt;double&gt; p3{ 7.8, 9.0 }; // tworzy obiekt p3 korzystając z wcześniejszej definicji pary&lt;double&gt;
+    std::cout &lt;&lt; p3.first &lt;&lt; ' ' &lt;&lt; p3.second &lt;&lt; '\n';
 
     return 0;
-}</code></pre><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Powiązana treść<p>Omawiamy wskazówki dotyczące dedukcji na lekcji <a href="../class-template-argument-deduction-ctad-and-deduction-guides/index.html#DeductionGuide">13.14 -- Przewodniki dedukcji i dedukcji szablonu klasy (CTAD)</a>.</div><p>W tej lekcji połączymy elementy zarówno szablonów funkcji, jak i szablonów klas, gdy przyjrzymy się bliżej szablonom klas, które mają funkcje składowe.<p class="cpp-section cpp-topline" style=clear:both>Parametry szablonu typu w funkcjach składowych<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Parametry szablonu typów zdefiniowane jako część deklaracji parametrów szablonu klasy mogą być używane zarówno jako typ elementów danych, jak i jako typ parametrów funkcji składowej.<p>W poniższym przykładzie przepisujemy powyższy <code>Pair</code> szablon klasy, konwertując go ze struktury do klasy:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;ios&gt;       // for std::boolalpha
+}</code></pre><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Powiązana treść<p>Omawiamy wskazówki dotyczące dedukcji na lekcji <a href="../class-template-argument-deduction-ctad-and-deduction-guides/index.html#DeductionGuide">13.14 -- Przewodniki dedukcji i dedukcji szablonu klasy (CTAD)</a>.</div><p>W tej lekcji połączymy elementy zarówno szablonów funkcji, jak i szablonów klas, gdy przyjrzymy się bliżej szablonom klas, które mają funkcje składowe.<p class="cpp-section cpp-topline" style=clear:both>Parametry szablonu typu w funkcjach składowych<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Parametry szablonu typów zdefiniowane jako część deklaracji parametrów szablonu klasy mogą być używane zarówno jako typ elementów danych, jak i jako typ parametrów funkcji składowej.<p>W poniższym przykładzie przepisujemy powyższy <code>Pair</code> szablon klasy, konwertując go ze struktury do klasy:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;ios&gt;       // dla std::boolalpha
 #include &lt;iostream&gt;
 
 template &lt;typename T&gt;
@@ -54,8 +54,8 @@ private:
     T m_second{};
 
 public:
-    // When we define a member function inside the class definition,
-    // the template parameter declaration belonging to the class applies
+    // Kiedy definiujemy funkcję składową w definicji klasy,
+    // obowiązuje szablonowa deklaracja parametrów należących do klasy
     Pair(const T&amp; first, const T&amp; second)
         : m_first{ first }
         , m_second{ second }
@@ -65,8 +65,8 @@ public:
     bool isEqual(const Pair&lt;T&gt;&amp; pair);
 };
 
-// When we define a member function outside the class definition,
-// we need to resupply a template parameter declaration
+// Kiedy definiujemy funkcję składową poza klasą definicja,
+// musimy ponownie dostarczyć deklarację parametrów szablonu
 template &lt;typename T&gt;
 bool Pair&lt;T&gt;::isEqual(const Pair&lt;T&gt;&amp; pair)
 {
@@ -75,9 +75,9 @@ bool Pair&lt;T&gt;::isEqual(const Pair&lt;T&gt;&amp; pair)
 
 int main()
 {
-    Pair p1{ 5, 6 }; // uses CTAD to infer type Pair&lt;int&gt;
-    std::cout &lt;&lt; std::boolalpha &lt;&lt; &#34;isEqual(5, 6): &#34; &lt;&lt; p1.isEqual( Pair{5, 6} ) &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; std::boolalpha &lt;&lt; &#34;isEqual(5, 7): &#34; &lt;&lt; p1.isEqual( Pair{5, 7} ) &lt;&lt; &#39;\n&#39;;
+    Pair p1{ 5, 6 }; // używa CTAD do wywnioskowania typu Pair&lt;int&gt;
+    std::cout &lt;&lt; std::boolalpha &lt;&lt; "isEqual(5, 6): " &lt;&lt; p1.isEqual( Pair{5, 6} ) &lt;&lt; '\n';
+    std::cout &lt;&lt; std::boolalpha &lt;&lt; "isEqual(5, 7): " &lt;&lt; p1.isEqual( Pair{5, 7} ) &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Powyższe powinno być dość proste, ale jest kilka rzeczy, na które warto zwrócić uwagę.<p>Po pierwsze, ponieważ nasza klasa ma prywatne elementy, nie jest agregacją i dlatego nie może używać inicjalizacji agregowanej. Zamiast tego musimy inicjować obiekty naszej klasy za pomocą konstruktora.<p>Ponieważ elementy danych naszej klasy są typu <code>T</code>, tworzymy parametry naszego konstruktora <code>const T&</code>, dzięki czemu użytkownik może podać wartości inicjujące tego samego typu. Ponieważ <code>T</code> kopiowanie może być kosztowne, bezpieczniej jest przekazywać referencje do stałych niż przez wartość.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Zauważ, że kiedy definiujemy funkcję składową w definicji szablonu klasy, nie musimy udostępniać szablonowej deklaracji parametrów dla funkcji składowej. Takie funkcje składowe domyślnie korzystają z deklaracji parametrów szablonu klasy.<p>Po drugie, nie potrzebujemy przewodników po dedukcjach, z którymi CTAD będzie mógł pracować. klasy nieagregacyjne. Dopasowujący konstruktor dostarcza kompilatorowi informacji potrzebnych do wydedukowania parametrów szablonu z inicjatorów.<p>Po trzecie, przyjrzyjmy się bliżej przypadkowi, w którym definiujemy funkcję składową dla szablonu klasy poza definicją szablonu klasy:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">template &lt;typename T&gt;
@@ -85,7 +85,7 @@ bool Pair&lt;T&gt;::isEqual(const Pair&lt;T&gt;&amp; pair)
 {
     return m_first == pair.m_first &amp;&amp; m_second == pair.m_second;
 }</code></pre><p>Ponieważ ta definicja funkcji składowej jest oddzielona od definicji szablonu klasy, musimy ponownie dostarczyć deklarację parametrów szablonu (<code>template &lt;typename T></code>), aby kompilator wiedział, czym  <code>T</code> jest.<p>Ponadto, gdy definiujemy funkcję składową poza klasą, musimy zakwalifikować nazwę funkcji składowej za pomocą w pełni szablonowej nazwy szablonu klasy (<code>Pair&lt;T>::isEqual</code>, nie <code>Pair::isEqual</code>).<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Wstrzykiwane nazwy klas<p>W poprzedniej lekcji zauważyliśmy, że nazwa konstruktora musi odpowiadać nazwie klasy. Ale w naszej szablon klasy dla <code>Pair&lt;T></code> powyżej nazwaliśmy naszego konstruktora <code>Pair</code>, nie <code>Pair&lt;T></code>. W jakiś sposób to nadal działa, nawet jeśli nazwy nie są zgodne.<p>W zakresie klasy niekwalifikowana nazwa klasy nazywana jest <strong>wstrzykiwaną nazwą klasy</strong>. W szablonie klasy wstrzyknięta nazwa klasy służy jako skrót dla pełnego nazwa szablonu.<p>Ponieważ <code>Pair</code> jest wstrzykniętą nazwą klasy <code>Pair&lt;T></code>, w zakresie naszego szablonu klasy <code>Pair&lt;T></code> każde użycie <code>Pair</code> będzie traktowane tak, jakbyśmy zamiast tego napisali <code>Pair&lt;T></code>  Dlatego chociaż nazwaliśmy konstruktor <code>Pair</code>, kompilator traktuje to tak, jakbyśmy to zrobili zamiast tego napisano <code>Pair&lt;T></code> Nazwy są teraz zgodne!<p>Oznacza to, że możemy również zdefiniować naszą <code>isEqual()</code> funkcję składową w ten sposób:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">template &lt;typename T&gt;
-bool Pair&lt;T&gt;::isEqual(const Pair&amp; pair) // note the parameter has type Pair, not Pair&lt;T&gt;
+bool Pair&lt;T&gt;::isEqual(const Pair&amp; pair) // zauważ, że parametr jest typu Pair, a nie Pair&lt;T&gt;
 {
     return m_first == pair.m_first &amp;&amp; m_second == pair.m_second;
 }</code></pre><p>Ponieważ jest to definicja funkcji składowej <code>Pair&lt;T></code>, jesteśmy w zakresie szablonu klasy <code>Pair&lt;T></code> . Dlatego każde użycie <code>Pair</code> jest skrótem od <code>Pair&lt;T></code>!<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>W lekcji <a href="../class-template-argument-deduction-ctad-and-deduction-guides/index.html">13.14 -- Przewodniki dedukcji i dedukcji szablonu klasy (CTAD)</a>. Zauważyliśmy, że CTAD nie działa z parametrami funkcji (ponieważ jest to dedukcja argumentów, a nie dedukcja parametrów). Jednakże użycie wstrzykniętej nazwy klasy jako parametru funkcji jest w porządku, ponieważ jest to skrót oznaczający pełną nazwę wzorowaną na szablonie, a nie użycie CTAD.</div><p class="cpp-section cpp-topline" style=clear:both>Gdzie zdefiniować funkcje składowe dla szablonów klas poza klasą<p>W przypadku funkcji składowych dla szablonów klas kompilator musi zobaczyć zarówno definicję klasy (aby mieć pewność, że szablon funkcji składowej jest zadeklarowany jako część klasy), jak i definicję funkcji składowej szablonu (aby wiedzieć, jak utworzyć instancję szablonu). Dlatego zazwyczaj chcemy zdefiniować zarówno klasę, jak i jej szablony funkcji składowych w tym samym miejscu.<p>Gdy szablon funkcji składowej jest zdefiniowany <em>wewnątrz</em> definicja klasy, szablonowa definicja funkcji składowej jest częścią definicji klasy, zatem wszędzie tam, gdzie widać definicję klasy, można zobaczyć również definicję szablonu funkcji składowej. Ułatwia to sprawę (kosztem zaśmiecania definicji klasy).<p>Gdy szablon funkcji składowej jest zdefiniowany <em>poza</em> definicją klasy, zazwyczaj powinien być zdefiniowany bezpośrednio pod definicją klasy. W ten sposób wszędzie tam, gdzie widać definicję klasy, widoczne będą również definicje szablonów funkcji składowych bezpośrednio pod definicją klasy.<p>W typowym przypadku, gdy klasa jest zdefiniowana w pliku nagłówkowym, oznacza to, że wszelkie szablony funkcji składowych zdefiniowane poza klasą powinny być również zdefiniowane w tym samym pliku nagłówkowym, poniżej definicji klasy.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>W lekcji <a href="../function-template-instantiation/index.html">11.7 -- Szablon funkcji instancja</a> zauważyliśmy, że funkcje utworzone niejawnie na podstawie szablonów są domyślnie wbudowane. Dotyczy to zarówno szablonów funkcji nieczłonkowskich, jak i członkowskich. Dlatego nie ma problemu z włączaniem szablonów funkcji składowych zdefiniowanych w plikach nagłówkowych do wielu plików kodu, ponieważ funkcje utworzone na podstawie tych szablonów będą domyślnie wbudowane (a linker usunie ich duplikaty).</div><div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Wszystkie szablony funkcji składowych zdefiniowane poza definicją klasy powinny być zdefiniowane tuż pod definicją klasy (w tym samym pliku).</div><p class="cpp-section cpp-topline" style=clear:both>Czas quizu<p class=cpp-quiz-question style=clear:both>Pytanie nr 1<p>Napisz szablon klasy o nazwie Triad, który ma 3 prywatne elementy danych z niezależnymi parametrami szablonu typu. Klasa powinna mieć konstruktor, funkcje dostępu i <code>print()</code> funkcję składową zdefiniowaną poza klasą.<p>Następujący program powinien się skompilować i uruchomić:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;

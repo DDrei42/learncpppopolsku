@@ -13,9 +13,9 @@
 <button class=searchsubmit><span class=screen-reader-text>Szukaj</span><i class=icon-search></i></button>
 <input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=25199></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="16.x — Podsumowanie rozdziału 16 i quiz" src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-15417 class="post-15417 post type-post status-publish format-standard hentry category-cpp-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>16.x — Podsumowanie rozdziału 16 i quiz</h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Autor></i><a class="url fn n" rel=author href=/www.learncpp.com/author/Alex/ title="Wyświetl wszystkie posty Alexa" itemprop=url><em itemprop=name>Alex</em></a></span>
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2023-09-11T14:56:33-07:00 itemprop=datePublished>11 września 2023, 14:56 czasu PDT</time>
-<time class=updated datetime=2025-02-04T21:23:18-08:00 itemprop=dateModified>4 lutego 2025</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p class="cpp-section cpp-topline" style=clear:both>Słowa zachęty<p>Ten rozdział nie jest łatwy. Omówiliśmy mnóstwo materiału i odkryliśmy kilka wad C++. Gratulujemy sukcesu!<p>Tablice to jeden z kluczy odblokowujących ogromne możliwości programów w języku C++.<p class=cpp-section>Przegląd rozdziału<p>A <strong>kontener</strong> to typ danych, który zapewnia przechowywanie kolekcji nienazwanych obiektów (zwanych <strong>elementami</strong>). Zwykle używamy kontenerów, gdy musimy pracować z zestawem powiązanych wartości.<p>Liczba elementów w kontenerze jest często nazywana <strong>długość</strong> (lub czasami <strong>liczbą</strong>). W C++ termin <strong>rozmiar</strong> jest również powszechnie używany do określenia liczby elementów w kontenerze. W większości języków programowania (w tym C++) kontenery są <strong>jednorodne</strong>, co oznacza, że ​​elementy kontenera muszą być tego samego typu.<p>Klasa <strong>Biblioteka kontenerów</strong> jest częścią standardowej biblioteki C++, która zawiera różne typy klas, które implementują niektóre popularne typy kontenerów. Typ klasy implementujący kontener jest czasami nazywany <strong>klasą kontenera</strong>.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>An <strong>array</strong> to typ danych kontenera, który przechowuje sekwencję wartości <strong>w sposób ciągły</strong> (co oznacza, że ​​każdy element jest umieszczony w sąsiedniej lokalizacji pamięci, bez przerw). Tablice umożliwiają szybki, bezpośredni dostęp do dowolnego elementu.<p>C++ zawiera trzy podstawowe typy tablic: tablice (w stylu C),  <code>std::vector</code> klasę kontenera i  <code>std::array</code> klasę kontenera.<p><code>std::vector</code> jest jedną z klas kontenerów w standardowej bibliotece kontenerów C++, która implementuje tablicę. <code>std::vector</code> jest zdefiniowana w nagłówku &lt;vector&gt; jako szablon klasy z parametrem typu szablonu, który definiuje typ elementów. Zatem <code>std::vector&lt;int></code> deklaruje <code>std::vector</code> którego elementy są typu <code>int</code>.<p>Kontenery zazwyczaj mają specjalny konstruktor zwany <strong>konstruktorem listy</strong> który pozwala nam skonstruować instancję kontenera przy użyciu listy inicjującej. Użyj inicjalizacji listy z inicjalizującą listą wartości, aby skonstruować kontener z wartościami tych elementów.<p>W C++ najczęstszym sposobem uzyskiwania dostępu do elementów tablicy jest użycie nazwy tablicy wraz z operatorem indeksu dolnego (<code>operator[]</code>). Aby wybrać konkretny element, w nawiasach kwadratowych operatora indeksu dolnego podajemy wartość całkowitą, która określa, który element chcemy wybrać. Ta wartość całkowa nazywana jest <strong>indeksem dolnym</strong> (lub nieformalnie <strong>indeksem</strong>). Dostęp do pierwszego elementu uzyskuje się przy użyciu indeksu 0, drugi przy użyciu indeksu 1 itd. Ponieważ indeksowanie zaczyna się od 0, a nie od 1, mówimy, że tablice w C++ są <strong>liczą się zerami</strong>.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p><code>operator[]</code> nie wykonują żadnego  <strong>sprawdzania granic</strong>, co oznacza, że nie sprawdzają, czy indeks mieści się w granicach od 0 do N-1 (włącznie). Przekazanie nieprawidłowego indeksu do <code>operator[]</code> spowoduje niezdefiniowane zachowanie.<p>Tablice to jeden z niewielu typów kontenerów, które umożliwiają <strong>losowy dostęp</strong>, co oznacza, że do każdego elementu w kontenerze można uzyskać bezpośredni dostęp z taką samą szybkością, niezależnie od liczby elementów w kontenerze.<p>Podczas konstruowania obiektu typu klasy wybierany jest pasujący konstruktor listowy zamiast innych pasujące konstruktory. Konstruując kontener (lub dowolny typ posiadający konstruktor listowy) z inicjatorami, które nie są wartościami elementów, użyj bezpośredniej inicjalizacji.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::vector v1 { 5 }; // defines a 1 element vector containing value `5`.
-std::vector v2 ( 5 ); // defines a 5 element vector where elements are value-initialized.</code></pre><p><code>std::vector</code> można ustawić jako const, ale nie constexpr.<p>Każda ze standardowych klas kontenerów bibliotek definiuje zagnieżdżony element typedef o nazwie <code>size_type</code> (czasami zapisywane jako <code>T::size_type</code>), który jest aliasem typu używanego dla długości (i indeksów, jeśli są obsługiwane) kontenera. <code>size_type</code> jest prawie zawsze aliasem <code>std::size_t</code>, ale można go zastąpić (w rzadkich przypadkach), aby użyć innego typu. Możemy rozsądnie założyć <code>size_type</code> jest pseudonimem dla <code>std::size_t</code>.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>Podczas uzyskiwania dostępu do <code>size_type</code> członkiem klasy kontenera, musimy zakwalifikować go zakresem za pomocą w pełni szablonowej nazwy klasy kontenera. Na przykład, <code>std::vector&lt;int>::size_type</code>.<p>Możemy zapytać obiekt klasy kontenera o jego długość za pomocą metody <code>size()</code> funkcja członkowska, która zwraca długość bez znaku <code>size_type</code>. W C++ 17 możemy również użyć <code>std::size()</code> funkcja niebędąca członkiem.<p>W C++20, <code>std::ssize()</code> funkcja niebędąca członkiem, która zwraca długość jako dużą <em>podpisany</em> typ integralny (zwykle <code>std::ptrdiff_t</code>, który jest typem zwykle używanym jako podpisany odpowiednik <code>std::size_t</code>).<p>Dostęp do elementów tablicy za pomocą metody <code>at()</code> funkcja członkowska sprawdza granice środowiska wykonawczego (i zgłasza wyjątek typu <code>std::out_of_range</code> jeśli granice są poza zakresem). Jeśli wyjątek nie zostanie przechwycony, aplikacja zostanie zakończona.<p>Oba <code>operator[]</code> i <code>at()</code> Funkcja członkowska obsługuje indeksowanie za pomocą indeksów innych niż stałe. Jednak obaj oczekują, że indeks będzie typu <code>size_type</code>, który jest typem całkowitym bez znaku. Powoduje to problemy z konwersją znaków, gdy indeksy nie są constexpr.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>Obiekt typu <code>std::vector</code> można przekazać do funkcji, tak jak każdy inny obiekt. Oznacza to, że jeśli miniemy a <code>std::vector</code> według wartości zostanie wykonana kosztowna kopia. Dlatego zazwyczaj przechodzimy <code>std::vector</code> przez (const) odniesienie, aby uniknąć takich kopii.<p>Możemy użyć szablonu funkcji, aby móc przekazać a <code>std::vector</code> z dowolnym typem elementu w funkcję. Możesz użyć <code>assert()</code> aby upewnić się, że przekazany wektor ma prawidłową długość.<p>Termin <strong>kopiuj semantykę</strong> odnosi się do zasad określających sposób tworzenia kopii obiektów. Kiedy mówimy, że wywoływana jest semantyka kopiowania, oznacza to, że zrobiliśmy coś, co utworzy kopię obiektu.<p>Kiedy własność danych zostaje przeniesiona z jednego obiektu na drugi, mówimy, że dane zostały przeniesione <strong>wzruszony</strong>.<p><strong>Przesuń semantykę</strong> odnosi się do reguł określających sposób przenoszenia danych z jednego obiektu do innego obiektu. Po wywołaniu semantyki przenoszenia każdy element danych, który można przenieść, zostanie przeniesiony, a każdy element danych, którego nie można przenieść, zostanie skopiowany. Możliwość przenoszenia danych zamiast ich kopiowania może sprawić, że semantyka przenoszenia będzie bardziej wydajna niż semantyka kopiowania, zwłaszcza gdy możemy zastąpić kosztowną kopię niedrogim przeniesieniem.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p>Zwykle, gdy obiekt jest inicjowany lub przypisany do obiektu tego samego typu, zostanie zastosowana semantyka kopiowania (zakładając, że kopia nie zostanie pominięta). Zamiast tego semantyka przenoszenia zostanie automatycznie użyta, jeśli typ obiektu obsługuje semantykę przenoszenia, a inicjator lub obiekt, z którego przypisywany jest obiekt, jest wartością.<p>Możemy zwracać typy umożliwiające przenoszenie (np <code>std::vector</code> i <code>std::string</code>) według wartości. Takie typy niedrogo przeniosą swoje wartości, zamiast tworzyć kosztowną kopię.<p>Dostęp do każdego elementu kontenera w określonej kolejności nazywany jest <strong>przechodzeniem</strong> lub <strong>przechodzeniem</strong> pojemnik. Czasami nazywane jest także przemierzaniem <strong>iteracją po</strong> lub <strong>iteracją po</strong> kontenerze.<p>Pętle są często używane do przechodzenia przez tablicę, a zmienna pętli jest używana jako indeks. Uważaj na błędy typu „off-by-one”, gdy ciało pętli wykonuje się o jeden raz za dużo lub o jeden za mało.<p>A <strong>pętla for oparta na zakresie</strong> (czasami nazywany także a <strong>dla każdej pętli</strong>) umożliwia przechodzenie przez kontener bez konieczności wykonywania jawnego indeksowania. Preferuj pętle for oparte na zakresie zamiast zwykłych pętli for podczas przechodzenia przez kontenery.<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>Użyj odliczenia typu (<code>auto</code>) z pętlami for opartymi na zakresie, aby kompilator wydedukował typ elementu tablicy. Deklaracja elementu powinna używać odniesienia (const) zawsze, gdy normalnie przekazujesz ten typ elementu przez odwołanie (const). Rozważ użycie  <code>const auto&</code> , chyba że musisz pracować z kopiami. Dzięki temu kopie nie zostaną utworzone, nawet jeśli typ elementu zostanie później zmieniony.<p>Wyliczenia bez zakresu mogą być używane jako indeksy i pomagają w dostarczaniu wszelkich informacji o znaczeniu indeksu.<p>Dodanie dodatkowego modułu wyliczającego „count” jest przydatne, gdy potrzebujemy modułu wyliczającego reprezentującego długość tablicy. Można stwierdzić lub static_assert, że długość tablicy jest równa licznikowi count, aby zapewnić inicjalizację tablicy z oczekiwaną liczbą inicjatorów.<p>Tablice, w których długość tablicy musi być zdefiniowana w momencie utworzenia instancji i nie można jej zmienić, nazywane są <strong>tablicami o stałym rozmiarze</strong> lub <strong>tablicami o stałej długości</strong>. A <strong>dynamicznymi array</strong> (zwana także <strong>resizable array</strong>) to tablica, której rozmiar można zmienić po utworzeniu instancji. Ta możliwość zmiany rozmiaru sprawia, że <code>std::vector</code> jest wyjątkowa.<p>A <code>std::vector</code> można zmienić rozmiar po utworzeniu instancji, wywołując  <code>resize()</code> funkcję składową z nową żądaną długością.<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><p>W kontekście instrukcji <code>std::vector</code>, <strong>pojemność</strong> to liczba elementów, dla których <code>std::vector</code> przydzielono pamięć, i <strong>długość</strong> to liczba aktualnie używanych elementów. Możemy zapytać <code>std::vector</code> o jego pojemność poprzez <code>capacity()</code> funkcja składowa.<p>Kiedy <code>std::vector</code> zmienia ilość zarządzanej pamięci, proces ten nazywa się <strong>realokacją</strong>. Ponieważ ponowna alokacja zazwyczaj wymaga skopiowania każdego elementu tablicy, ponowna alokacja jest kosztownym procesem. W rezultacie chcemy uniknąć realokacji w jak największym stopniu.<p>Poprawne indeksy dla operatora indeksu dolnego (<code>operator[]</code>) i <code>at()</code> funkcja składowa opiera się na długości wektora, a nie na jego pojemności.<p><code>std::vector</code> posiada funkcję składową zwaną <code>shrink_to_fit()</code> która żąda, aby wektor zmniejszył swoją pojemność w celu dopasowania do swojej długości. To żądanie nie jest wiążące.<p>Kolejność w którym elementy są dodawane i usuwane ze stosu, można opisać jako <strong>ostatni na wejściu, pierwszy na wyjściu (LIFO)</strong>. Ostatnia płyta dodana do stosu będzie pierwszą płytą, która zostanie usunięta. W programowaniu <strong>stos</strong> jest typem danych kontenera, w którym wstawianie i usuwanie elementów odbywa się w sposób LIFO o nazwie <strong>push</strong> i <strong>pop</strong>.<p>Klasa <code>std::vector</code> funkcjami składowymi <code>push_back()</code> i <code>emplace_back()</code> zwiększy długość  <code>std::vector</code> i spowoduje ponowną alokację, jeśli pojemność nie jest wystarczająca do wstawienia wartości. Gdy naciśnięcie wyzwala ponowną alokację,  <code>std::vector</code>  zazwyczaj przydziela pewną dodatkową pojemność, aby umożliwić dodanie dodatkowych elementów bez wyzwalania kolejnej ponownej alokacji przy następnym uruchomieniu elementu. dodano.<p>Klasa <code>resize()</code> Funkcja składowa zmienia długość wektora i pojemność (jeśli to konieczne).<br>Klasa <code>reserve()</code> Funkcja składowa zmienia tylko pojemność (jeśli to konieczne)<p>Aby zwiększyć liczbę elementów w  <code>std::vector</code>:<ul><li>Użyj <code>resize()</code> podczas uzyskiwania dostępu do wektora poprzez indeksowanie. Zmienia to długość wektora, dzięki czemu indeksy będą ważne.<li>Użyj <code>reserve()</code> podczas uzyskiwania dostępu do wektora za pomocą stosu. Operacje te zwiększają pojemność bez zmiany długości wektora.</ul><p>Oba <code>push_back()</code> i <code>emplace_back()</code> wpychają element na stos. Jeśli obiekt, który ma zostać wypchnięty, <code>push_back()</code> i <code>emplace_back()</code> są równoważne. Jednakże w przypadku, gdy tworzymy obiekt tymczasowy w celu umieszczenia go na wektorze, <code>emplace_back()</code> może być bardziej efektywne kiedy potrzebujesz dostępu do jawnego konstruktora, w przeciwnym razie wybierz push_back().<p>Istnieje specjalna implementacja dla <code>std::vector&lt;bool></code> który może oszczędzać miejsce w przypadku wartości logicznych poprzez podobne kompaktowanie 8 wartości logicznych w bajt.<p><code>std::vector&lt;bool></code> nie jest wektorem (nie musi być ciągły w pamięci), ani nie przechowuje <code>bool</code> wartości (przechowuje zbiór bitów), ani nie spełnia definicji kontenera C++. Chociaż <code>std::vector&lt;bool></code> zachowuje się jak wektor w większości przypadków, nie jest w pełni kompatybilny z resztą standardowej biblioteki. Kod, który działa z innymi typami elementów, może nie działać z  <code>std::vector&lt;bool></code>. W rezultacie należy ogólnie unikać <code>std::vector&lt;bool></code> .<p class="cpp-section cpp-topline" style=clear:both>Czas quizu<p class=cpp-quiz-question style=clear:both>Pytanie nr 1<p>Napisz definicje poniższych. Jeśli to możliwe, używaj CTAD (<a href="../class-template-argument-deduction-ctad-and-deduction-guides/index.html">13.14 -- Przewodniki dedukcji i dedukcji szablonu klasy (CTAD)</a>).<p>a) A <code>std::vector</code> zainicjowana pierwszymi 6 liczbami parzystymi.<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_0 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::vector evens { 2, 4, 6, 8, 10, 12 };</code></pre></div><p>b) Stała <code>std::vector</code> zainicjowana wartościami <code>1.2</code>, <code>3.4</code>, <code>5.6</code>, I <code>7.8</code>.<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_1 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">const std::vector d { 1.2, 3.4, 5.6, 7.8 }; // reminder: std::vector can&#39;t be constexpr</code></pre></div><p>c) Stała <code>std::vector</code> z <code>std::string_view</code> zainicjowana nazwami „Alex”, „Brad”, „Charles” i „Dave”.<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_2'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_2 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">using namespace std::literals::string_view_literals; // for sv suffix
-const std::vector names { &#34;Alex&#34;sv, &#34;Brad&#34;sv, &#34;Charles&#34;sv, &#34;Dave&#34;sv }; // sv suffix needed for CTAD to infer std::string_view</code></pre></div><p>d) A <code>std::vector</code> z wartością pojedynczego elementu <code>12</code>.<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_3'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_3 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::vector v { 12 };</code></pre><p>Podczas inicjalizacji <code>std::vector</code> z wartościami elementów powinniśmy zastosować inicjalizację listy.</div><p>e) A <code>std::vector</code> z 12 elementami int, zainicjowanymi do wartości domyślnych.<p><a class=hint_link_show href=javascript:void(0) onclick="cppHintToggle(document.getElementById('cpp_hint_id_0'),this,'Show Hint','')">Pokaż wskazówkę</a><div class=wphint id=cpp_hint_id_0 style=display:none;margin-bottom:1em>Wskazówka: Zastanów się, czy CTAD jest w tym przypadku użyteczny.</div><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_4'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_4 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::vector&lt;int&gt; v( 12 );</code></pre><p>Podczas inicjalizacji <code>std::vector</code> z początkową długością musimy zastosować inicjalizację bezpośrednią. Musimy także jawnie określić argument szablonu typu, ponieważ nie ma inicjatorów, z których można wywnioskować typ elementu.</div><p class="cpp-quiz-question cpp-topline" style=clear:both>Pytanie nr 2<p>Załóżmy, że piszesz grę, w której gracz może przechowywać 3 rodzaje przedmiotów: mikstury zdrowia, pochodnie i strzały.<p class="cpp-quiz-question cpp-topline" style=clear:both>&gt; Krok #1<p>Zdefiniuj wyliczenie bez zakresu w przestrzeni nazw, aby zidentyfikować różne typy przedmiotów. Zdefiniuj <code>std::vector</code> do przechowywania liczby każdego typu przedmiotu, który nosi gracz. Gracz powinien zacząć z 1 miksturą zdrowia, 5 pochodniami i 10 strzałami. Assert, aby upewnić się, że tablica ma poprawną liczbę inicjatorów.<p>Wskazówka: Zdefiniuj moduł wyliczający licznik i użyj go wewnątrz potwierdzenia.<p>Program powinien wypisać co następuje:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">You have 16 total items</code></pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_5'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_5 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cassert&gt;
+<time class=updated datetime=2025-02-04T21:23:18-08:00 itemprop=dateModified>4 lutego 2025</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p class="cpp-section cpp-topline" style=clear:both>Słowa zachęty<p>Ten rozdział nie jest łatwy. Omówiliśmy mnóstwo materiału i odkryliśmy kilka wad C++. Gratulujemy sukcesu!<p>Tablice to jeden z kluczy odblokowujących ogromne możliwości programów w języku C++.<p class=cpp-section>Przegląd rozdziału<p><strong>kontener</strong> to typ danych, który zapewnia przechowywanie kolekcji nienazwanych obiektów (zwanych <strong>elementami</strong>). Zwykle używamy kontenerów, gdy musimy pracować z zestawem powiązanych wartości.<p>Liczba elementów w kontenerze jest często nazywana <strong>dłuwywołujący</strong> (lub czasami <strong>liczbą</strong>). W C++ termin <strong>rozmiar</strong> jest również powszechnie używany do określenia liczby elementów w kontenerze. W większości języków programowania (w tym C++) kontenery są <strong>jednorodne</strong>, co oznacza, że ​​elementy kontenera muszą być tego samego typu.<p>Klasa <strong>Biblioteka kontenerów</strong> jest częścią standardowej biblioteki C++, która zawiera różne typy klas, które implementują niektóre popularne typy kontenerów. Typ klasy implementujący kontener jest czasami nazywany <strong>klasą kontenera</strong>.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p><strong>array</strong> to typ danych kontenera, który przechowuje sekwencję wartości <strong>w sposób ciągły</strong> (co oznacza, że ​​każdy element jest umieszczony w sąsiedniej lokalizacji pamięci, bez przerw). Tablice umożliwiają szybki, bezpośredni dostęp do dowolnego elementu.<p>C++ zawiera trzy podstawowe typy tablic: tablice (w stylu C),  <code>std::vector</code> klasę kontenera i  <code>std::array</code> klasę kontenera.<p><code>std::vector</code> jest jedną z klas kontenerów w standardowej bibliotece kontenerów C++, która implementuje tablicę. <code>std::vector</code> jest zdefiniowana w nagłówku &lt;vector&gt; jako szablon klasy z parametrem typu szablonu, który definiuje typ elementów. Zatem <code>std::vector&lt;int></code> deklaruje <code>std::vector</code> którego elementy są typu <code>int</code>.<p>Kontenery zazwyczaj mają specjalny konstruktor zwany <strong>konstruktorem listy</strong> który pozwala nam skonstruować instancję kontenera przy użyciu listy inicjującej. Użyj inicjalizacji listy z inicjalizującą listą wartości, aby skonstruować kontener z wartościami tych elementów.<p>W C++ najczęstszym sposobem uzyskiwania dostępu do elementów tablicy jest użycie nazwy tablicy wraz z operatorem indeksu dolnego (<code>operator[]</code>). Aby wybrać konkretny element, w nawiasach kwadratowych operatora indeksu dolnego podajemy wartość całkowitą, która określa, który element chcemy wybrać. Ta wartość całkowa nazywana jest <strong>indeksem dolnym</strong> (lub nieformalnie <strong>indeksem</strong>). Dostęp do pierwszego elementu uzyskuje się przy użyciu indeksu 0, drugi przy użyciu indeksu 1 itd. Ponieważ indeksowanie zaczyna się od 0, a nie od 1, mówimy, że tablice w C++ są <strong>liczą się zerami</strong>.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p><code>operator[]</code> nie wykonują żadnego  <strong>sprawdzania granic</strong>, co oznacza, że nie sprawdzają, czy indeks mieści się w granicach od 0 do N-1 (włącznie). Przekazanie nieprawidłowego indeksu do <code>operator[]</code> spowoduje niezdefiniowane zachowanie.<p>Tablice to jeden z niewielu typów kontenerów, które umożliwiają <strong>losowy dostęp</strong>, co oznacza, że do każdego elementu w kontenerze można uzyskać bezpośredni dostęp z taką samą szybkością, niezależnie od liczby elementów w kontenerze.<p>Podczas konstruowania obiektu typu klasy wybierany jest pasujący konstruktor listowy zamiast innych pasujące konstruktory. Konstruując kontener (lub dowolny typ posiadający konstruktor listowy) z inicjatorami, które nie są wartościami elementów, użyj bezpośredniej inicjalizacji.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::vector v1 { 5 }; // definiuje 1-elementowy wektor zawierający wartość `5`.
+std::vector v2 ( 5 ); // definiuje 5-elementowy wektor gdzie elementy są inicjowane przez wartość.</code></pre><p><code>std::vector</code> można ustawić jako const, ale nie constexpr.<p>Każda ze standardowych klas kontenerów bibliotek definiuje zagnieżdżony element typedef o nazwie <code>size_type</code> (czasami zapisywane jako <code>T::size_type</code>), który jest aliasem typu używanego dla długości (i indeksów, jeśli są obsługiwane) kontenera. <code>size_type</code> jest prawie zawsze aliasem <code>std::size_t</code>, ale można go zastąpić (w rzadkich przypadkach), aby użyć innego typu. Możemy rozsądnie założyć <code>size_type</code> jest pseudonimem dla <code>std::size_t</code>.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>Podczas uzyskiwania dostępu do <code>size_type</code> członkiem klasy kontenera, musimy zakwalifikować go zakresem za pomocą w pełni szablonowej nazwy klasy kontenera. Na przykład, <code>std::vector&lt;int>::size_type</code>.<p>Możemy zapytać obiekt klasy kontenera o jego długość za pomocą metody <code>size()</code> funkcja członkowska, która zwraca długość bez znaku <code>size_type</code>. W C++ 17 możemy również użyć <code>std::size()</code> funkcja niebędąca członkiem.<p>W C++20, <code>std::ssize()</code> funkcja niebędąca członkiem, która zwraca długość jako dużą <em>podpisany</em> typ integralny (zwykle <code>std::ptrdiff_t</code>, który jest typem zwykle używanym jako podpisany odpowiednik <code>std::size_t</code>).<p>Dostęp do elementów tablicy za pomocą metody <code>at()</code> funkcja członkowska sprawdza granice środowiska wykonawczego (i zgłasza wyjątek typu <code>std::out_of_range</code> jeśli granice są poza zakresem). Jeśli wyjątek nie zostanie przechwycony, aplikacja zostanie zakończona.<p>Oba <code>operator[]</code> i <code>at()</code> Funkcja członkowska obsługuje indeksowanie za pomocą indeksów innych niż stałe. Jednak obaj oczekują, że indeks będzie typu <code>size_type</code>, który jest typem całkowitym bez znaku. Powoduje to problemy z konwersją znaków, gdy indeksy nie są constexpr.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>Obiekt typu <code>std::vector</code> można przekazać do funkcji, tak jak każdy inny obiekt. Oznacza to, że jeśli miniemy <code>std::vector</code> według wartości zostanie wykonana kosztowna kopia. Dlatego zazwyczaj przechodzimy <code>std::vector</code> przez (const) odniesienie, aby uniknąć takich kopii.<p>Możemy użyć szablonu funkcji, aby móc przekazać <code>std::vector</code> z dowolnym typem elementu w funkcję. Możesz użyć <code>assert()</code> aby upewnić się, że przekazany wektor ma prawidłową długość.<p>Termin <strong>kopiuj semantykę</strong> odnosi się do zasad określających sposób tworzenia kopii obiektów. Kiedy mówimy, że wywoływana jest semantyka kopiowania, oznacza to, że zrobiliśmy coś, co utworzy kopię obiektu.<p>Kiedy własność danych zostaje przeniesiona z jednego obiektu na drugi, mówimy, że dane zostały przeniesione <strong>wzruszony</strong>.<p><strong>Przesuń semantykę</strong> odnosi się do reguł określających sposób przenoszenia danych z jednego obiektu do innego obiektu. Po wywołaniu semantyki przenoszenia każdy element danych, który można przenieść, zostanie przeniesiony, a każdy element danych, którego nie można przenieść, zostanie skopiowany. Możliwość przenoszenia danych zamiast ich kopiowania może sprawić, że semantyka przenoszenia będzie bardziej wydajna niż semantyka kopiowania, zwłaszcza gdy możemy zastąpić kosztowną kopię niedrogim przeniesieniem.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p>Zwykle, gdy obiekt jest inicjowany lub przypisany do obiektu tego samego typu, zostanie zastosowana semantyka kopiowania (zakładając, że kopia nie zostanie pominięta). Zamiast tego semantyka przenoszenia zostanie automatycznie użyta, jeśli typ obiektu obsługuje semantykę przenoszenia, a inicjator lub obiekt, z którego przypisywany jest obiekt, jest wartością.<p>Możemy zwracać typy umożliwiające przenoszenie (np <code>std::vector</code> i <code>std::string</code>) według wartości. Takie typy niedrogo przeniosą swoje wartości, zamiast tworzyć kosztowną kopię.<p>Dostęp do każdego elementu kontenera w określonej kolejności nazywany jest <strong>przechodzeniem</strong> lub <strong>przechodzeniem</strong> pojemnik. Czasami nazywane jest także przemierzaniem <strong>iteracją po</strong> lub <strong>iteracją po</strong> kontenerze.<p>Pętle są często używane do przechodzenia przez tablicę, a zmienna pętli jest używana jako indeks. Uważaj na błędy typu „off-by-one”, gdy ciało pętli wykonuje się o jeden raz za dużo lub o jeden za mało.<p><strong>pętla for oparta na zakresie</strong> (czasami nazywany także <strong>dla każdej pętli</strong>) umożliwia przechodzenie przez kontener bez konieczności wykonywania jawnego indeksowania. Preferuj pętle for oparte na zakresie zamiast zwykłych pętli for podczas przechodzenia przez kontenery.<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>Użyj odliczenia typu (<code>auto</code>) z pętlami for opartymi na zakresie, aby kompilator wydedukował typ elementu tablicy. Deklaracja elementu powinna używać odniesienia (const) zawsze, gdy normalnie przekazujesz ten typ elementu przez odwołanie (const). Rozważ użycie  <code>const auto&</code> , chyba że musisz pracować z kopiami. Dzięki temu kopie nie zostaną utworzone, nawet jeśli typ elementu zostanie później zmieniony.<p>Wyliczenia bez zakresu mogą być używane jako indeksy i pomagają w dostarczaniu wszelkich informacji o znaczeniu indeksu.<p>Dodanie dodatkowego modułu wyliczającego „count” jest przydatne, gdy potrzebujemy modułu wyliczającego reprezentującego długość tablicy. Można stwierdzić lub static_assert, że długość tablicy jest równa licznikowi count, aby zapewnić inicjalizację tablicy z oczekiwaną liczbą inicjatorów.<p>Tablice, w których długość tablicy musi być zdefiniowana w momencie utworzenia instancji i nie można jej zmienić, nazywane są <strong>tablicami o stałym rozmiarze</strong> lub <strong>tablicami o stałej długości</strong>. <strong>dynamicznymi array</strong> (zwana także <strong>resizable array</strong>) to tablica, której rozmiar można zmienić po utworzeniu instancji. Ta możliwość zmiany rozmiaru sprawia, że <code>std::vector</code> jest wyjątkowa.<p><code>std::vector</code> można zmienić rozmiar po utworzeniu instancji, wywołując  <code>resize()</code> funkcję składową z nową żądaną długością.<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><p>W kontekście instrukcji <code>std::vector</code>, <strong>pojemność</strong> to liczba elementów, dla których <code>std::vector</code> przydzielono pamięć, i <strong>dłuwywołujący</strong> to liczba aktualnie używanych elementów. Możemy zapytać <code>std::vector</code> o jego pojemność poprzez <code>capacity()</code> funkcja składowa.<p>Kiedy <code>std::vector</code> zmienia ilość zarządzanej pamięci, proces ten nazywa się <strong>realokacją</strong>. Ponieważ ponowna alokacja zazwyczaj wymaga skopiowania każdego elementu tablicy, ponowna alokacja jest kosztownym procesem. W rezultacie chcemy uniknąć realokacji w jak największym stopniu.<p>Poprawne indeksy dla operatora indeksu dolnego (<code>operator[]</code>) i <code>at()</code> funkcja składowa opiera się na długości wektora, a nie na jego pojemności.<p><code>std::vector</code> posiada funkcję składową zwaną <code>shrink_to_fit()</code> która żąda, aby wektor zmniejszył swoją pojemność w celu dopasowania do swojej długości. To żądanie nie jest wiążące.<p>Kolejność w którym elementy są dodawane i usuwane ze stosu, można opisać jako <strong>ostatni na wejściu, pierwszy na wyjściu (LIFO)</strong>. Ostatnia płyta dodana do stosu będzie pierwszą płytą, która zostanie usunięta. W programowaniu <strong>stos</strong> jest typem danych kontenera, w którym wstawianie i usuwanie elementów odbywa się w sposób LIFO o nazwie <strong>push</strong> i <strong>pop</strong>.<p>Klasa <code>std::vector</code> funkcjami składowymi <code>push_back()</code> i <code>emplace_back()</code> zwiększy długość  <code>std::vector</code> i spowoduje ponowną alokację, jeśli pojemność nie jest wystarczająca do wstawienia wartości. Gdy naciśnięcie wyzwala ponowną alokację,  <code>std::vector</code>  zazwyczaj przydziela pewną dodatkową pojemność, aby umożliwić dodanie dodatkowych elementów bez wyzwalania kolejnej ponownej alokacji przy następnym uruchomieniu elementu. dodano.<p>Klasa <code>resize()</code> Funkcja składowa zmienia długość wektora i pojemność (jeśli to konieczne).<br>Klasa <code>reserve()</code> Funkcja składowa zmienia tylko pojemność (jeśli to konieczne)<p>Aby zwiększyć liczbę elementów w  <code>std::vector</code>:<ul><li>Użyj <code>resize()</code> podczas uzyskiwania dostępu do wektora poprzez indeksowanie. Zmienia to długość wektora, dzięki czemu indeksy będą ważne.<li>Użyj <code>reserve()</code> podczas uzyskiwania dostępu do wektora za pomocą stosu. Operacje te zwiększają pojemność bez zmiany długości wektora.</ul><p>Oba <code>push_back()</code> i <code>emplace_back()</code> wpychają element na stos. Jeśli obiekt, który ma zostać wypchnięty, <code>push_back()</code> i <code>emplace_back()</code> są równoważne. Jednakże w przypadku, gdy tworzymy obiekt tymczasowy w celu umieszczenia go na wektorze, <code>emplace_back()</code> może być bardziej efektywne kiedy potrzebujesz dostępu do jawnego konstruktora, w przeciwnym razie wybierz push_back().<p>Istnieje specjalna implementacja dla <code>std::vector&lt;bool></code> który może oszczędzać miejsce w przypadku wartości logicznych poprzez podobne kompaktowanie 8 wartości logicznych w bajt.<p><code>std::vector&lt;bool></code> nie jest wektorem (nie musi być ciągły w pamięci), ani nie przechowuje <code>bool</code> wartości (przechowuje zbiór bitów), ani nie spełnia definicji kontenera C++. Chociaż <code>std::vector&lt;bool></code> zachowuje się jak wektor w większości przypadków, nie jest w pełni kompatybilny z resztą standardowej biblioteki. Kod, który działa z innymi typami elementów, może nie działać z  <code>std::vector&lt;bool></code>. W rezultacie należy ogólnie unikać <code>std::vector&lt;bool></code> .<p class="cpp-section cpp-topline" style=clear:both>Czas quizu<p class=cpp-quiz-question style=clear:both>Pytanie nr 1<p>Napisz definicje poniższych. Jeśli to możliwe, używaj CTAD (<a href="../class-template-argument-deduction-ctad-and-deduction-guides/index.html">13.14 -- Przewodniki dedukcji i dedukcji szablonu klasy (CTAD)</a>).<p>a) <code>std::vector</code> zainicjowana pierwszymi 6 liczbami parzystymi.<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_0 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::vector evens { 2, 4, 6, 8, 10, 12 };</code></pre></div><p>b) Stała <code>std::vector</code> zainicjowana wartościami <code>1.2</code>, <code>3.4</code>, <code>5.6</code>, i <code>7.8</code>.<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_1 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">const std::vector d { 1.2, 3.4, 5.6, 7.8 }; // przypomnienie: std::vector nie może być constexpr</code></pre></div><p>c) Stała <code>std::vector</code> z <code>std::string_view</code> zainicjowana nazwami „Alex”, „Brad”, „Charles” i „Dave”.<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_2'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_2 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">using namespace std::literals::string_view_literals; // dla sufiksu sv
+const std::vector names { "Alex"sv, "Brad"sv, "Charles"sv, "Dave"sv }; // sufiks sv wyników CTAD do wywnioskowania std::string_view</code></pre></div><p>d) <code>std::vector</code> z wartością pojedynczego elementu <code>12</code>.<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_3'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_3 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::vector v { 12 };</code></pre><p>Podczas inicjalizacji <code>std::vector</code> z wartościami elementów powinniśmy zastosować inicjalizację listy.</div><p>e) <code>std::vector</code> z 12 elementami int, zainicjowanymi do wartości domyślnych.<p><a class=hint_link_show href=javascript:void(0) onclick="cppHintToggle(document.getElementById('cpp_hint_id_0'),this,'Show Hint','')">Pokaż wskazówkę</a><div class=wphint id=cpp_hint_id_0 style=display:none;margin-bottom:1em>Wskazówka: Zastanów się, czy CTAD jest w tym przypadku użyteczny.</div><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_4'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_4 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::vector&lt;int&gt; v( 12 );</code></pre><p>Podczas inicjalizacji <code>std::vector</code> z początkową długością musimy zastosować inicjalizację bezpośrednią. Musimy także jawnie określić argument szablonu typu, ponieważ nie ma inicjatorów, z których można wywnioskować typ elementu.</div><p class="cpp-quiz-question cpp-topline" style=clear:both>Pytanie nr 2<p>Załóżmy, że piszesz grę, w której gracz może przechowywać 3 rodzaje przedmiotów: mikstury zdrowia, pochodnie i strzały.<p class="cpp-quiz-question cpp-topline" style=clear:both>&gt; Krok #1<p>Zdefiniuj wyliczenie bez zakresu w przestrzeni nazw, aby zidentyfikować różne typy przedmiotów. Zdefiniuj <code>std::vector</code> do przechowywania liczby każdego typu przedmiotu, który nosi gracz. Gracz powinien zacząć z 1 miksturą zdrowia, 5 pochodniami i 10 strzałami. Assert, aby upewnić się, że tablica ma poprawną liczbę inicjatorów.<p>Wskazówka: Zdefiniuj moduł wyliczający licznik i użyj go wewnątrz potwierdzenia.<p>Program powinien wypisać co następuje:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">You have 16 total items</code></pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_5'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_5 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cassert&gt;
 #include &lt;iostream&gt;
 #include &lt;vector&gt;
 
@@ -30,7 +30,7 @@ namespace Items
     };
 }
 
-// Inventory items should have integral quantities, so we don&#39;t need a function template here
+// Elementy zapasów powinny mieć ilości całkowite, więc nie potrzebujemy tutaj szablonu funkcji
 int countTotalItems(const std::vector&lt;int&gt;&amp; inventory)
 {
     int sum { 0 };
@@ -42,9 +42,9 @@ int countTotalItems(const std::vector&lt;int&gt;&amp; inventory)
 int main()
 {
     std::vector inventory { 1, 5, 10 };
-    assert(std::size(inventory) == Items::max_items); // make sure our inventory has the correct number of initializers
+    assert(std::size(inventory) == Items::max_items); // upewnij się, że w naszym inwentarzu jest poprawna liczba inicjatorów
 
-    std::cout &lt;&lt; &#34;You have &#34; &lt;&lt; countTotalItems(inventory) &lt;&lt; &#34; total items\n&#34;;
+    std::cout &lt;&lt; "You have " &lt;&lt; countTotalItems(inventory) &lt;&lt; " total items\n";
     
     return 0;
 }</code></pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>&gt; Krok #2<p>Zmodyfikuj program z poprzedniego kroku, aby teraz wyświetlał:<pre>You have 1 health potion
@@ -54,7 +54,7 @@ You have 16 total items
 </pre><p>Użyj pętli, aby wydrukować liczbę elementów i nazwy elementów dla każdego elementu zapasów. Obsługuj prawidłową liczbę mnogą nazw.<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_6'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_6 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cassert&gt;
 #include &lt;iostream&gt;
 #include &lt;string_view&gt;
-#include &lt;type_traits&gt; // for std::is_integral and std::is_enum
+#include &lt;type_traits&gt; // dla std::is_integral i std::is_enum
 #include &lt;vector&gt;
 
 namespace Items
@@ -72,11 +72,11 @@ std::string_view getItemNamePlural(Items::Type type)
 {
     switch (type)
     {
-        case Items::health_potion:  return &#34;health potions&#34;;
-        case Items::torch:          return &#34;torches&#34;;
-        case Items::arrow:          return &#34;arrows&#34;;
+        case Items::health_potion:  return "health potions";
+        case Items::torch:          return "torches";
+        case Items::arrow:          return "arrows";
 
-        default:                    return &#34;???&#34;;
+        default:                    return "???";
     }
 }
 
@@ -84,20 +84,20 @@ std::string_view getItemNameSingular(Items::Type type)
 {
     switch (type)
     {
-        case Items::health_potion:  return &#34;health potion&#34;;
-        case Items::torch:          return &#34;torch&#34;;
-        case Items::arrow:          return &#34;arrow&#34;;
+        case Items::health_potion:  return "health potion";
+        case Items::torch:          return "torch";
+        case Items::arrow:          return "arrow";
 
-        default:                    return &#34;???&#34;;
+        default:                    return "???";
     }
 }
 
-// Helper function to convert `value` into an object of type std::size_t
-// UZ is the suffix for literals of type std::size_t.
+// Funkcja pomocnicza konwertująca „wartość” na obiekt typu std::size_t
+// UZ to przyrostek literałów typu std::size_t.
 template &lt;typename T&gt;
 constexpr std::size_t toUZ(T value)
 {
-    // make sure T is an integral type
+    // upewnij się, że T jest typem całkowitym
     static_assert(std::is_integral&lt;T&gt;() || std::is_enum&lt;T&gt;());
     
     return static_cast&lt;std::size_t&gt;(value);
@@ -107,11 +107,11 @@ constexpr std::size_t toUZ(T value)
 void printInventoryItem(const std::vector&lt;int&gt;&amp; inventory, Items::Type type)
 {
     bool plural { inventory[toUZ(type)] != 1 };
-    std::cout &lt;&lt; &#34;You have &#34; &lt;&lt; inventory[toUZ(type)] &lt;&lt; &#39; &#39;;
-    std::cout &lt;&lt; (plural ? getItemNamePlural(type) : getItemNameSingular(type)) &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "You have " &lt;&lt; inventory[toUZ(type)] &lt;&lt; ' ';
+    std::cout &lt;&lt; (plural ? getItemNamePlural(type) : getItemNameSingular(type)) &lt;&lt; '\n';
 }
 
-// Inventory items should have integral quantities, so we don&#39;t need a function template here
+// Elementy zapasów powinny mieć ilości całkowite, więc nie potrzebujemy tutaj szablonu funkcji
 int countTotalItems(const std::vector&lt;int&gt;&amp; inventory)
 {
     int sum { 0 };
@@ -123,19 +123,19 @@ int countTotalItems(const std::vector&lt;int&gt;&amp; inventory)
 int main()
 {
     std::vector inventory { 1, 5, 10 };
-    assert(std::size(inventory) == Items::max_items); // make sure our inventory has the correct number of initializers
+    assert(std::size(inventory) == Items::max_items); // upewnij się, że w naszym inwentarzu jest poprawna liczba inicjatorów
 
-    // Since we can&#39;t iterate over an enumerated type using a ranged-for, we&#39;ll need to use a traditional for-loop here
+    // Ponieważ nie możemy iterować po typie wyliczeniowym przy użyciu funkcji Ranged-for, będziemy musieli użyć tutaj tradycyjnej pętli for
     for (int i=0; i &lt; Items::max_items; ++i)
     {
         auto item { static_cast&lt;Items::Type&gt;(i) };
         printInventoryItem(inventory, item);
     }
 
-    std::cout &lt;&lt; &#34;You have &#34; &lt;&lt; countTotalItems(inventory) &lt;&lt; &#34; total items\n&#34;;
+    std::cout &lt;&lt; "You have " &lt;&lt; countTotalItems(inventory) &lt;&lt; " total items\n";
 
     return 0;
-}</code></pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>Pytanie nr 3<p>Napisz funkcję, która przyjmuje a <code>std::vector</code> i zwraca a <code>std::pair</code> zawierające indeksy elementów z wartościami min i max w tablicy. Dokumentację  <code>std::pair</code> można znaleźć <a href=https://en.cppreference.com/w/cpp/utility/pair>tutaj</a>. Wywołaj funkcję na dwóch wektorach:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    std::vector v1 { 3, 8, 2, 5, 7, 8, 3 };
+}</code></pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>Pytanie nr 3<p>Napisz funkcję, która przyjmuje <code>std::vector</code> i zwraca <code>std::pair</code> zawierające indeksy elementów z wartościami min i max w tablicy. Dokumentację  <code>std::pair</code> można znaleźć <a href=https://en.cppreference.com/w/cpp/utility/pair>tutaj</a>. Wywołaj funkcję na dwóch wektorach:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    std::vector v1 { 3, 8, 2, 5, 7, 8, 3 };
     std::vector v2 { 5.5, 2.7, 3.3, 7.6, 1.2, 8.8, 6.6 };</code></pre><p>Program powinien wypisać co następuje:<pre>With array ( 3, 8, 2, 5, 7, 8, 3 ):
 The min element has index 2 and value 2
 The max element has index 1 and value 8
@@ -149,11 +149,11 @@ The max element has index 5 and value 8.8
 template &lt;typename T&gt;
 std::pair&lt;std::size_t, std::size_t&gt; findMinMaxIndices(const std::vector&lt;T&gt;&amp; v)
 {
-    // Assume element 0 is the minimum and the maximum
+    // Załóż element 0 to minimum i maksimum
     std::size_t minIndex { 0 };
     std::size_t maxIndex { 0 };
 
-    // Look through the remaining elements to see if we can find a smaller or larger element
+    // Przejrzyj pozostałe elementy, aby zobaczyć, czy możemy znajdź mniejszy lub większy element
     for (std::size_t index { 1 }; index &lt; v.size(); ++index)
     {
         if (v[index] &lt; v[minIndex])
@@ -169,16 +169,16 @@ template &lt;typename T&gt;
 void printArray(const std::vector&lt;T&gt;&amp; v)
 {
     bool comma { false };
-    std::cout &lt;&lt; &#34;With array ( &#34;;
+    std::cout &lt;&lt; "With array ( ";
     for (const auto&amp; e: v)
     {
         if (comma)
-            std::cout &lt;&lt; &#34;, &#34;;
+            std::cout &lt;&lt; ", ";
 
         std::cout &lt;&lt; e;
         comma = true;
     }
-    std::cout &lt;&lt; &#34; ):\n&#34;;
+    std::cout &lt;&lt; " ):\n";
 }
 
 int main()
@@ -187,17 +187,17 @@ int main()
     printArray(v1);
     
     auto m1 { findMinMaxIndices(v1) };
-    std::cout &lt;&lt; &#34;The min element has index &#34; &lt;&lt; m1.first &lt;&lt; &#34; and value &#34; &lt;&lt; v1[m1.first] &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; &#34;The max element has index &#34; &lt;&lt; m1.second &lt;&lt; &#34; and value &#34; &lt;&lt; v1[m1.second] &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "The min element has index " &lt;&lt; m1.first &lt;&lt; " and value " &lt;&lt; v1[m1.first] &lt;&lt; '\n';
+    std::cout &lt;&lt; "The max element has index " &lt;&lt; m1.second &lt;&lt; " and value " &lt;&lt; v1[m1.second] &lt;&lt; '\n';
 
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
     
     std::vector v2 { 5.5, 2.7, 3.3, 7.6, 1.2, 8.8, 6.6 };
     printArray(v2);
 
     auto m2 { findMinMaxIndices(v2) };
-    std::cout &lt;&lt; &#34;The min element has index &#34; &lt;&lt; m2.first &lt;&lt; &#34; and value &#34; &lt;&lt; v2[m2.first] &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; &#34;The max element has index &#34; &lt;&lt; m2.second &lt;&lt; &#34; and value &#34; &lt;&lt; v2[m2.second] &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "The min element has index " &lt;&lt; m2.first &lt;&lt; " and value " &lt;&lt; v2[m2.first] &lt;&lt; '\n';
+    std::cout &lt;&lt; "The max element has index " &lt;&lt; m2.second &lt;&lt; " and value " &lt;&lt; v2[m2.second] &lt;&lt; '\n';
 
     return 0;
 }</code></pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>Pytanie nr 4<p>Zmodyfikuj poprzedni program tak, aby użytkownik mógł wprowadzić dowolną liczbę liczb całkowitych. Przestań akceptować dane wejściowe, gdy użytkownik wprowadzi <code>-1</code>.<p>Wydrukuj wektor i znajdź elementy min i max.<p>Po uruchomieniu z danymi wejściowymi <code>3 8 5 2 3 7 -1</code> program powinien wygenerować następujące dane wyjściowe:<pre>Enter numbers to add (use -1 to stop): 3 8 5 2 3 7 -1
@@ -211,11 +211,11 @@ The max element has index 1 and value 8
 template &lt;typename T&gt;
 std::pair&lt;std::size_t, std::size_t&gt; findMinMaxIndices(const std::vector&lt;T&gt;&amp; v)
 {
-    // Assume element 0 is the minimum and the maximum
+    // Załóż element 0 to minimum i maksimum
     std::size_t minIndex { 0 };
     std::size_t maxIndex { 0 };
 
-    // Look through the remaining elements to see if we can find a smaller or larger element
+    // Przejrzyj pozostałe elementy, aby zobaczyć, czy możemy znajdź mniejszy lub większy element
     for (std::size_t index { 1 }; index &lt; v.size(); ++index)
     {
         if (v[index] &lt; v[minIndex])
@@ -231,22 +231,22 @@ template &lt;typename T&gt;
 void printArray(const std::vector&lt;T&gt;&amp; v)
 {
     bool comma { false };
-    std::cout &lt;&lt; &#34;With array ( &#34;;
+    std::cout &lt;&lt; "With array ( ";
     for (const auto&amp; e: v)
     {
         if (comma)
-            std::cout &lt;&lt; &#34;, &#34;;
+            std::cout &lt;&lt; ", ";
 
         std::cout &lt;&lt; e;
         comma = true;
     }
-    std::cout &lt;&lt; &#34; ):\n&#34;;
+    std::cout &lt;&lt; " ):\n";
 }
 
 int main()
 {
     std::vector&lt;int&gt; v1 { };
-    std::cout &lt;&lt; &#34;Enter numbers to add (use -1 to stop): &#34;;
+    std::cout &lt;&lt; "Enter numbers to add (use -1 to stop): ";
 
     while (true)
     {
@@ -255,28 +255,28 @@ int main()
         if (input == -1)
             break;
 
-        if (!std::cin) // if the previous extraction failed
+        if (!std::cin) // jeśli poprzednie wyodrębnienie nie powiodło się
         {
-            std::cin.clear(); // put us back in &#39;normal&#39; operation mode
-            std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), &#39;\n&#39;); // and remove the bad input
+            std::cin.clear(); // wprowadziliśmy nas z powrotem do „normalnego” trybunału pracy
+            std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), '\n'); // i usunąć błędne wejście
             continue;
         }
 
         v1.push_back(input);
     }
 
-    // If the array is empty
+    // Jeśli tablica jest pusta
     if (v1.size() == 0)
     {
-        std::cout &lt;&lt; &#34;The array has no elements\n&#34;;
+        std::cout &lt;&lt; "The array has no elements\n";
     }
     else
     {
         printArray(v1);
 
         auto m1 { findMinMaxIndices(v1) };
-        std::cout &lt;&lt; &#34;The min element has index &#34; &lt;&lt; m1.first &lt;&lt; &#34; and value &#34; &lt;&lt; v1[m1.first] &lt;&lt; &#39;\n&#39;;
-        std::cout &lt;&lt; &#34;The max element has index &#34; &lt;&lt; m1.second &lt;&lt; &#34; and value &#34; &lt;&lt; v1[m1.second] &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; "The min element has index " &lt;&lt; m1.first &lt;&lt; " and value " &lt;&lt; v1[m1.first] &lt;&lt; '\n';
+        std::cout &lt;&lt; "The max element has index " &lt;&lt; m1.second &lt;&lt; " and value " &lt;&lt; v1[m1.second] &lt;&lt; '\n';
     }
 
     return 0;
@@ -331,12 +331,12 @@ To win: guess the word.  To lose: run out of pluses.
 The word is: broccoli
 </pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_9'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_9 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;vector&gt;
-#include &#34;Random.h&#34;
+#include "Random.h"
 
 namespace WordList
 {
-    // Define your list of words here
-    std::vector&lt;std::string_view&gt; words { &#34;mystery&#34;, &#34;broccoli&#34; , &#34;account&#34;, &#34;almost&#34;, &#34;spaghetti&#34;, &#34;opinion&#34;, &#34;beautiful&#34;, &#34;distance&#34;, &#34;luggage&#34; };
+    // Zdefiniuj tutaj swoją listę słów
+    std::vector&lt;std::string_view&gt; words { "mystery", "broccoli" , "account", "almost", "spaghetti", "opinion", "beautiful", "distance", "luggage" };
 
     std::string_view getRandomWord()
     {
@@ -346,10 +346,10 @@ namespace WordList
 
 int main()
 {
-    std::cout &lt;&lt; &#34;Welcome to C++man (a variant of Hangman)\n&#34;;
-    std::cout &lt;&lt; &#34;To win: guess the word.  To lose: run out of pluses.\n&#34;;
+    std::cout &lt;&lt; "Welcome to C++man (a variant of Hangman)\n";
+    std::cout &lt;&lt; "To win: guess the word.  To lose: run out of pluses.\n";
 
-    std::cout &lt;&lt; &#34;The word is: &#34; &lt;&lt; WordList::getRandomWord();
+    std::cout &lt;&lt; "The word is: " &lt;&lt; WordList::getRandomWord();
   
     return 0;
 }</code></pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>&gt; Krok #2<p>Gdy tworzymy złożone programy, chcemy pracować stopniowo, dodając jedną lub dwie rzeczy na raz, a następnie upewniając się, że działają. Co ma sens dodać dalej?<p>Cele:<ul><li>Umieć narysować podstawowy stan gry, pokazując słowo jako podkreślenie.<li>Zaakceptować wprowadzony tekst przez użytkownika, z podstawową walidacją błędów.</ul><p>Na tym etapie nie będziemy jeszcze śledzić, jakie litery wprowadził użytkownik.<p>Oto przykładowy wynik tego wyniku krok:<pre>Welcome to C++man (a variant of Hangman)
@@ -363,12 +363,12 @@ You entered: a
 </pre><p>Zadania:<ul><li>Utwórz klasę o nazwie <code>Session</code> , która będzie używana do przechowywania wszystkich danych, których gra potrzebuje do zarządzania w sesji gry. Na razie musimy tylko wiedzieć, jakie jest losowe słowo.<li>Utwórz funkcję wyświetlającą podstawowy stan gry, w której słowo jest wyświetlane w postaci podkreślenia.<li>Utwórz funkcję akceptowającą list wejściowy od użytkownika. Przeprowadź podstawową weryfikację danych wejściowych, aby odfiltrować dane inne niż litery lub obce.</ul><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_10'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_10 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;string_view&gt;
 #include &lt;vector&gt;
-#include &#34;Random.h&#34;
+#include "Random.h"
 
 namespace WordList
 {
-    // Define your list of words here
-    std::vector&lt;std::string_view&gt; words { &#34;mystery&#34;, &#34;broccoli&#34; , &#34;account&#34;, &#34;almost&#34;, &#34;spaghetti&#34;, &#34;opinion&#34;, &#34;beautiful&#34;, &#34;distance&#34;, &#34;luggage&#34; };
+    // Zdefiniuj tutaj swoją listę słów
+    std::vector&lt;std::string_view&gt; words { "mystery", "broccoli" , "account", "almost", "spaghetti", "opinion", "beautiful", "distance", "luggage" };
 
     std::string_view getRandomWord()
     {
@@ -379,7 +379,7 @@ namespace WordList
 class Session
 {
 private:
-    // Game session data
+    // Dane sesji gry
     std::string_view m_word { WordList::getRandomWord() };
 
 public:
@@ -388,43 +388,43 @@ public:
 
 void draw(const Session&amp; s)
 {
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
 
-    std::cout &lt;&lt; &#34;The word: &#34;;
-    for ([[maybe_unused]] auto c: s.getWord()) // step through each letter of word
+    std::cout &lt;&lt; "The word: ";
+    for ([[maybe_unused]] auto c: s.getWord()) // przejdź przez każdą literę słowa
     {
-        std::cout &lt;&lt; &#39;_&#39;;
+        std::cout &lt;&lt; '_';
     }
 
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
 }
 
 char getGuess()
 {
     while (true)
     {
-        std::cout &lt;&lt; &#34;Enter your next letter: &#34;;
+        std::cout &lt;&lt; "Enter your next letter: ";
 
         char c{};
         std::cin &gt;&gt; c;
 
-        // If user did something bad, try again
+        // Jeśli użytkownik zrobił coś złego, spróbuj ponownie
         if (!std::cin)
         {
-            // Fix it
+            // Napraw do
             std::cin.clear();
-            std::cout &lt;&lt; &#34;That wasn&#39;t a valid input.  Try again.\n&#34;;
-            std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), &#39;\n&#39;);
+            std::cout &lt;&lt; "That wasn't a valid input.  Try again.\n";
+            std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), '\n');
             continue;
         }
         
-        // Clear out any extraneous input
-        std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), &#39;\n&#39;);
+        // Usuń wszelkie niepotrzebne dane wejściowe
+        std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), '\n');
 
-        // If the user entered an invalid char, try again
-        if (c &lt; &#39;a&#39; || c &gt; &#39;z&#39;)
+        // Jeśli użytkownik wprowadził nieprawidłowy znak, spróbuj ponownie
+        if (c &lt; 'a' || c &gt; 'z')
         {
-            std::cout &lt;&lt; &#34;That wasn&#39;t a valid input.  Try again.\n&#34;;
+            std::cout &lt;&lt; "That wasn't a valid input.  Try again.\n";
             continue;
         }
 
@@ -434,14 +434,14 @@ char getGuess()
 
 int main()
 {
-    std::cout &lt;&lt; &#34;Welcome to C++man (a variant of Hangman)\n&#34;;
-    std::cout &lt;&lt; &#34;To win: guess the word.  To lose: run out of pluses.\n&#34;;
+    std::cout &lt;&lt; "Welcome to C++man (a variant of Hangman)\n";
+    std::cout &lt;&lt; "To win: guess the word.  To lose: run out of pluses.\n";
 
     Session s{};
 
     draw(s);
     char c { getGuess() };
-    std::cout &lt;&lt; &#34;You guessed: &#34; &lt;&lt; c &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "You guessed: " &lt;&lt; c &lt;&lt; '\n';
     
     return 0;
 }</code></pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>&gt; Krok #3<p>Teraz, gdy możemy wyświetlić stan gry i uzyskać informacje od użytkownika, zintegrujmy dane wejściowe użytkownika z grą.<p>Cele:<ul><li>Śledź, które litery odgadł użytkownik.<li>Wyświetlaj poprawnie odgadnięte litery.<li>Zaimplementuj podstawowa pętla gry.</ul><p>Zadania:<ul><li>Zaktualizuj klasę Session, aby śledzić, które litery zostały do tej pory odgadnięte.<li>Zmodyfikuj funkcję stanu gry, aby wyświetlała zarówno podkreślenia, jak i poprawnie odgadnięte litery.<li>Zaktualizuj procedurę wejściową, aby odrzucać już odgadnięte litery.<li>Napisz pętlę, która wykona się 6 razy przed zakończeniem (tak możemy przetestować powyższe).</ul><p>W tym kroku nie powiemy użytkownikowi, czy odgadnięta litera znajduje się w słowie (ale pokażemy to w ramach wyświetlania stanu gry).<p>Trudną częścią tego kroku jest podjęcie decyzji, w jaki sposób przechowywać informacje o tym, które litery odgadł użytkownik. Można to zrobić na kilka różnych, realnych sposobów. Wskazówka: liczba liter jest stała i będziesz to robić często.<p><a class=hint_link_show href=javascript:void(0) onclick="cppHintToggle(document.getElementById('cpp_hint_id_1'),this,'Show Hint','')">Pokaż wskazówkę</a><div class=wphint id=cpp_hint_id_1 style=display:none;margin-bottom:1em>Wskazówka: łatwiej i szybciej jest użyć  <code>bool</code> dla każdej litery, niż prowadzić listę liter i przeszukiwać tę listę, aby ustalić, czy dana litera istnieje.</div><p><a class=hint_link_show href=javascript:void(0) onclick="cppHintToggle(document.getElementById('cpp_hint_id_2'),this,'Show Hint','')">Pokaż wskazówkę</a><div class=wphint id=cpp_hint_id_2 style=display:none;margin-bottom:1em>Wskazówka: można użyć  <code>std::vector&lt;bool></code> tutaj, ponieważ nie będziemy używać żadnej innej funkcjonalność biblioteki standardowej.</div><p><a class=hint_link_show href=javascript:void(0) onclick="cppHintToggle(document.getElementById('cpp_hint_id_3'),this,'Show Hint','')">Pokaż wskazówkę</a><div class=wphint id=cpp_hint_id_3 style=display:none;margin-bottom:1em>Wskazówka: Listę można przekonwertować na indeks tablicy poprzez  <code>(letter % 32)-1</code>. Działa to zarówno z małymi, jak i wielkimi literami.</div><p>Oto przykładowy wynik tego kroku:<pre>Welcome to C++man (a variant of Hangman)
@@ -472,12 +472,12 @@ Enter your next letter: g
 </pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_11'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_11 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;string_view&gt;
 #include &lt;vector&gt;
-#include &#34;Random.h&#34;
+#include "Random.h"
 
 namespace WordList
 {
-    // Define your list of words here
-    std::vector&lt;std::string_view&gt; words { &#34;mystery&#34;, &#34;broccoli&#34; , &#34;account&#34;, &#34;almost&#34;, &#34;spaghetti&#34;, &#34;opinion&#34;, &#34;beautiful&#34;, &#34;distance&#34;, &#34;luggage&#34; };
+    // Zdefiniuj tutaj swoją listę słów
+    std::vector&lt;std::string_view&gt; words { "mystery", "broccoli" , "account", "almost", "spaghetti", "opinion", "beautiful", "distance", "luggage" };
 
     std::string_view getRandomWord()
     {
@@ -488,7 +488,7 @@ namespace WordList
 class Session
 {
 private:
-    // Game session data
+    // Dane sesji gry
     std::string_view m_word { WordList::getRandomWord() };
     std::vector&lt;bool&gt; m_letterGuessed { std::vector&lt;bool&gt;(26) };
 
@@ -503,65 +503,65 @@ public:
 
 void draw(const Session&amp; s)
 {
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
 
-    std::cout &lt;&lt; &#34;The word: &#34;;
-    for (auto c: s.getWord()) // step through each letter of word
+    std::cout &lt;&lt; "The word: ";
+    for (auto c: s.getWord()) // przejdź przez każdą literę słowa
     {
         if (s.isLetterGuessed(c))
             std::cout &lt;&lt; c;
         else
-            std::cout &lt;&lt; &#39;_&#39;;
+            std::cout &lt;&lt; '_';
     }
 
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
 }
 
 char getGuess(const Session&amp; s)
 {
     while (true)
     {
-        std::cout &lt;&lt; &#34;Enter your next letter: &#34;;
+        std::cout &lt;&lt; "Enter your next letter: ";
 
         char c{};
         std::cin &gt;&gt; c;
 
-        // If user did something bad, try again
+        // Jeśli użytkownik zrobił coś złego, spróbuj ponownie
         if (!std::cin)
         {
-            // Fix it
+            // Napraw do
             std::cin.clear();
-            std::cout &lt;&lt; &#34;That wasn&#39;t a valid input.  Try again.\n&#34;;
-            std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), &#39;\n&#39;);
+            std::cout &lt;&lt; "That wasn't a valid input.  Try again.\n";
+            std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), '\n');
             continue;
         }
         
-        // Clear out any extraneous input
-        std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), &#39;\n&#39;);
+        // Usuń wszelkie niepotrzebne dane wejściowe
+        std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), '\n');
 
-        // If the user entered an invalid char, try again
-        if (c &lt; &#39;a&#39; || c &gt; &#39;z&#39;)
+        // Jeśli użytkownik wprowadził nieprawidłowy znak, spróbuj ponownie
+        if (c &lt; 'a' || c &gt; 'z')
         {
-            std::cout &lt;&lt; &#34;That wasn&#39;t a valid input.  Try again.\n&#34;;
+            std::cout &lt;&lt; "That wasn't a valid input.  Try again.\n";
             continue;
         }
 
-        // If the letter was already guessed, try again
+        // Jeśli litera została już odgadnięta, spróbuj ponownie
         if (s.isLetterGuessed(c))
         {
-            std::cout &lt;&lt; &#34;You already guessed that.  Try again.\n&#34;;
+            std::cout &lt;&lt; "You already guessed that.  Try again.\n";
             continue;
         }
 
-        // If we got here, this must be a valid guess
+        // Jeśli tu dotarliśmy, musi to być prawidłowe przypuszczenie
         return c;
     }
 }
 
 int main()
 {
-    std::cout &lt;&lt; &#34;Welcome to C++man (a variant of Hangman)\n&#34;;
-    std::cout &lt;&lt; &#34;To win: guess the word.  To lose: run out of pluses.\n&#34;;
+    std::cout &lt;&lt; "Welcome to C++man (a variant of Hangman)\n";
+    std::cout &lt;&lt; "To win: guess the word.  To lose: run out of pluses.\n";
 
     Session s {};
 
@@ -573,14 +573,14 @@ int main()
         s.setLetterGuessed(c);
     }
 
-    // Draw the final state of the game
+    // Narysuj końcowy stan gra
     draw(s);
     
     return 0;
 }</code></pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>&gt; Krok 4<p>Cel: Zakończ grę.<p>Zadania:<ul><li>Dodaj do wyświetlenia całkowitą liczbę pozostałych błędnych odpowiedzi<li>Dodaj do wyświetlania błędnych liter zgadłem<li>Dodaj warunek wygranej/przegranej i tekst wygranej/przegranej.</ul><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_12'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_12 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;string_view&gt;
 #include &lt;vector&gt;
-#include &#34;Random.h&#34;
+#include "Random.h"
 
 namespace Settings
 {
@@ -589,8 +589,8 @@ namespace Settings
 
 namespace WordList
 {
-    // Define your list of words here
-    std::vector&lt;std::string_view&gt; words { &#34;mystery&#34;, &#34;broccoli&#34; , &#34;account&#34;, &#34;almost&#34;, &#34;spaghetti&#34;, &#34;opinion&#34;, &#34;beautiful&#34;, &#34;distance&#34;, &#34;luggage&#34; };
+    // Zdefiniuj tutaj swoją listę słów
+    std::vector&lt;std::string_view&gt; words { "mystery", "broccoli" , "account", "almost", "spaghetti", "opinion", "beautiful", "distance", "luggage" };
 
     std::string_view getRandomWord()
     {
@@ -601,7 +601,7 @@ namespace WordList
 class Session
 {
 private:
-    // Game session data
+    // Dane sesji gry
     std::string_view m_word { WordList::getRandomWord() };
     int m_wrongGuessesLeft { Settings::wrongGuessesAllowed };
     std::vector&lt;bool&gt; m_letterGuessed { std::vector&lt;bool&gt;(26) };
@@ -619,7 +619,7 @@ public:
 
     bool isLetterInWord(char c) const
     {
-        for (auto ch: m_word) // step through each letter of word
+        for (auto ch: m_word) // przejdź przez każdą literę słowa
         {
             if (ch == c)
                 return true;
@@ -630,7 +630,7 @@ public:
 
     bool won()
     {
-        for (auto c: m_word) // step through each letter of word
+        for (auto c: m_word) // przejdź przez każdą literę słowa
         {
             if (!isLetterGuessed(c))
                 return false;
@@ -642,66 +642,66 @@ public:
 
 void draw(const Session&amp; s)
 {
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
 
-    std::cout &lt;&lt; &#34;The word: &#34;;
-    for (auto c: s.getWord()) // step through each letter of word
+    std::cout &lt;&lt; "The word: ";
+    for (auto c: s.getWord()) // przejdź przez każdą literę słowa
     {
         if (s.isLetterGuessed(c))
             std::cout &lt;&lt; c;
         else
-            std::cout &lt;&lt; &#39;_&#39;;
+            std::cout &lt;&lt; '_';
     }
 
-    std::cout &lt;&lt; &#34;   Wrong guesses: &#34;;
+    std::cout &lt;&lt; "   Wrong guesses: ";
     for (int i=0; i &lt; s.wrongGuessesLeft(); ++i)
-        std::cout &lt;&lt; &#39;+&#39;;
+        std::cout &lt;&lt; '+';
 
 
-    for (char c=&#39;a&#39;; c &lt;= &#39;z&#39;; ++c)
+    for (char c='a'; c &lt;= 'z'; ++c)
         if (s.isLetterGuessed(c) &amp;&amp; !s.isLetterInWord(c))
             std::cout &lt;&lt; c;
 
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
 }
 
 char getGuess(const Session&amp; s)
 {
     while (true)
     {
-        std::cout &lt;&lt; &#34;Enter your next letter: &#34;;
+        std::cout &lt;&lt; "Enter your next letter: ";
 
         char c{};
         std::cin &gt;&gt; c;
 
-        // If user did something bad, try again
+        // Jeśli użytkownik zrobił coś złego, spróbuj ponownie
         if (!std::cin)
         {
-            // Fix it
+            // Napraw do
             std::cin.clear();
-            std::cout &lt;&lt; &#34;That wasn&#39;t a valid input.  Try again.\n&#34;;
-            std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), &#39;\n&#39;);
+            std::cout &lt;&lt; "That wasn't a valid input.  Try again.\n";
+            std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), '\n');
             continue;
         }
         
-        // Clear out any extraneous input
-        std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), &#39;\n&#39;);
+        // Usuń wszelkie niepotrzebne dane wejściowe
+        std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), '\n');
 
-        // If the user entered an invalid char, try again
-        if (c &lt; &#39;a&#39; || c &gt; &#39;z&#39;)
+        // Jeśli użytkownik wprowadził nieprawidłowy znak, spróbuj ponownie
+        if (c &lt; 'a' || c &gt; 'z')
         {
-            std::cout &lt;&lt; &#34;That wasn&#39;t a valid input.  Try again.\n&#34;;
+            std::cout &lt;&lt; "That wasn't a valid input.  Try again.\n";
             continue;
         }
 
-        // If the letter was already guessed, try again
+        // Jeśli litera została już odgadnięta, spróbuj ponownie
         if (s.isLetterGuessed(c))
         {
-            std::cout &lt;&lt; &#34;You already guessed that.  Try again.\n&#34;;
+            std::cout &lt;&lt; "You already guessed that.  Try again.\n";
             continue;
         }
 
-        // If we got here, this must be a valid guess
+        // Jeśli tu dotarliśmy, musi to być prawidłowe przypuszczenie
         return c;
     }
 }
@@ -712,18 +712,18 @@ void handleGuess(Session &amp;s, char c)
     
     if (s.isLetterInWord(c))
     {
-        std::cout &lt;&lt; &#34;Yes, &#39;&#34; &lt;&lt; c &lt;&lt; &#34;&#39; is in the word!\n&#34;;
+        std::cout &lt;&lt; "Yes, '" &lt;&lt; c &lt;&lt; "' is in the word!\n";
         return;
     }
     
-    std::cout &lt;&lt; &#34;No, &#39;&#34; &lt;&lt; c &lt;&lt; &#34;&#39; is not in the word!\n&#34;;
+    std::cout &lt;&lt; "No, '" &lt;&lt; c &lt;&lt; "' is not in the word!\n";
     s.removeGuess();
 }
 
 int main()
 {
-    std::cout &lt;&lt; &#34;Welcome to C++man (a variant of Hangman)\n&#34;;
-    std::cout &lt;&lt; &#34;To win: guess the word.  To lose: run out of pluses.\n&#34;;
+    std::cout &lt;&lt; "Welcome to C++man (a variant of Hangman)\n";
+    std::cout &lt;&lt; "To win: guess the word.  To lose: run out of pluses.\n";
 
     Session s{};
 
@@ -734,13 +734,13 @@ int main()
         handleGuess(s, c);
     }
 
-    // Draw the final state of the game
+    // Narysuj końcowy stan gra
     draw(s);
 
     if (!s.wrongGuessesLeft())
-        std::cout &lt;&lt; &#34;You lost!  The word was: &#34; &lt;&lt; s.getWord() &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; "You lost!  The word was: " &lt;&lt; s.getWord() &lt;&lt; '\n';
     else
-        std::cout &lt;&lt; &#34;You won!\n&#34;;
+        std::cout &lt;&lt; "You won!\n";
     
     return 0;
 }</code></pre></div><div class=prevnext><div class=prevnext-inline><a class=nav-link href="../introduction-to-stdarray/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>17.1</span>Wprowadzenie do std::array</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../stdvector-bool/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>16.12</span>std::vector&lt;bool&gt;</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/chapter-16-summary-and-quiz/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../stdvector-bool/index.html" rel=prev><span>16.12 — std::vector&lt;bool&gt;</span></a></div><div class=nav-next><em>Następny post</em><a href="../stdarray-length-and-indexing/index.html" rel=next><span>17.2 — std::array długość i indeksowanie</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>

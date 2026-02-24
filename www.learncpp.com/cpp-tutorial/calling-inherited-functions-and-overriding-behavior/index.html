@@ -76,7 +76,7 @@ class Base
 private:
 	void print() const 
 	{
-		std::cout &lt;&lt; &#34;Base&#34;;
+		std::cout &lt;&lt; "Base";
 	}
 };
  
@@ -85,7 +85,7 @@ class Derived : public Base
 public:
 	void print() const 
 	{
-		std::cout &lt;&lt; &#34;Derived &#34;;
+		std::cout &lt;&lt; "Derived ";
 	}
 };
  
@@ -93,7 +93,7 @@ public:
 int main()
 {
 	Derived derived {};
-	derived.print(); // calls derived::print(), which is public
+	derived.print(); // wywołania pochodne::print(), które są publiczne
 	return 0;
 }</code></pre><p class="cpp-section cpp-topline" style=clear:both>Dodawanie do istniejącej funkcjonalności<p>Czasami nie chcemy całkowicie zastąpić funkcji klasy bazowej, ale zamiast tego chcemy dodać do niej dodatkową funkcjonalność, gdy zostanie wywołana z obiektem pochodnym. W powyższym przykładzie zwróć uwagę, że <code>Derived::identify()</code> całkowicie ukrywa <code>Base::identify()</code>! To może nie być to, czego chcemy. Możliwe jest, że nasza funkcja pochodna wywoła podstawową wersję funkcji o tej samej nazwie (w celu ponownego użycia kodu), a następnie dodała do niej dodatkową funkcjonalność.<p>Aby funkcja pochodna wywołała funkcję bazową o tej samej nazwie, po prostu wykonaj normalne wywołanie funkcji, ale poprzedź ją kwalifikatorem zasięgu klasy bazowej. Na przykład: <div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
@@ -102,7 +102,7 @@ class Base
 public:
     Base() { }
 
-    void identify() const { std::cout &lt;&lt; &#34;Base::identify()\n&#34;; }
+    void identify() const { std::cout &lt;&lt; "Base::identify()\n"; }
 };
 
 class Derived: public Base
@@ -112,8 +112,8 @@ public:
 
     void identify() const
     {
-        std::cout &lt;&lt; &#34;Derived::identify()\n&#34;;
-        Base::identify(); // note call to Base::identify() here
+        std::cout &lt;&lt; "Derived::identify()\n";
+        Base::identify(); // zwróć uwagę na wywołanie Base::identify() tutaj
     }
 };
 
@@ -136,7 +136,7 @@ class Base
 public:
     Base() { }
 
-    void identify() const { std::cout &lt;&lt; &#34;Base::identify()\n&#34;; }
+    void identify() const { std::cout &lt;&lt; "Base::identify()\n"; }
 };
 
 class Derived: public Base
@@ -146,8 +146,8 @@ public:
 
     void identify() const
     {
-        std::cout &lt;&lt; &#34;Derived::identify()\n&#34;;
-        identify(); // no scope resolution results in self-call and infinite recursion
+        std::cout &lt;&lt; "Derived::identify()\n";
+        identify(); // brak rozdzielczości zakresu skutkuje samodzielnym wywołaniem i nieskończoną rekursją
     }
 };
 
@@ -169,7 +169,7 @@ public:
 
 	friend std::ostream&amp; operator&lt;&lt; (std::ostream&amp; out, const Base&amp;)
 	{
-		out &lt;&lt; &#34;In Base\n&#34;;
+		out &lt;&lt; "In Base\n";
 		return out;
 	}
 };
@@ -181,8 +181,8 @@ public:
 
  	friend std::ostream&amp; operator&lt;&lt; (std::ostream&amp; out, const Derived&amp; d)
 	{
-		out &lt;&lt; &#34;In Derived\n&#34;;
-		// static_cast Derived to a Base object, so we call the right version of operator&lt;&lt;
+		out &lt;&lt; "In Derived\n";
+		// static_cast Pochodzi z obiektu Base, więc wywołujemy właściwą wersję operatora&lt;&lt;
 		out &lt;&lt; static_cast&lt;const Base&amp;&gt;(d); 
 		return out;
     }
@@ -192,7 +192,7 @@ int main()
 {
     Derived derived {};
 
-    std::cout &lt;&lt; derived &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; derived &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Ponieważ <code>Derived</code> jest-Bazą, możemy <code>static_cast</code> nasz <code>Derived</code> obiekt przekształcić w <code>Base</code> odniesienie, dzięki czemu zostanie wywołana odpowiednia wersja <code>operator&lt;&lt;</code> która używa <code>Base</code> .<p>Wypisuje:<pre>In Derived
@@ -202,8 +202,8 @@ In Base
 class Base
 {
 public:
-    void print(int)    { std::cout &lt;&lt; &#34;Base::print(int)\n&#34;; }
-    void print(double) { std::cout &lt;&lt; &#34;Base::print(double)\n&#34;; }
+    void print(int)    { std::cout &lt;&lt; "Base::print(int)\n"; }
+    void print(double) { std::cout &lt;&lt; "Base::print(double)\n"; }
 };
 
 class Derived: public Base
@@ -215,7 +215,7 @@ public:
 int main()
 {
     Derived d{};
-    d.print(5); // calls Base::print(int)
+    d.print(5); // wywołuje Base::print(int)
 
     return 0;
 }</code></pre><p>W przypadku wywołania <code>d.print(5)</code> kompilator nie znalazł funkcji o nazwie <code>print()</code> w <code>Derived</code>, więc sprawdza <code>Base</code> gdzie znajduje dwie funkcje o tej nazwie. Używa procesu rozpoznawania przeciążenia funkcji, aby określić, czy  <code>Base::print(int)</code> jest lepszym dopasowaniem niż  <code>Base::print(double)</code>. Dlatego  <code>Base::print(int)</code> zostaje wywołany, tak jak byśmy się tego spodziewali.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p>Przyjrzyjmy się teraz przypadkowi, który nie zachowuje się tak, jak byśmy się tego spodziewali:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -223,43 +223,43 @@ int main()
 class Base
 {
 public:
-    void print(int)    { std::cout &lt;&lt; &#34;Base::print(int)\n&#34;; }
-    void print(double) { std::cout &lt;&lt; &#34;Base::print(double)\n&#34;; }
+    void print(int)    { std::cout &lt;&lt; "Base::print(int)\n"; }
+    void print(double) { std::cout &lt;&lt; "Base::print(double)\n"; }
 };
 
 class Derived: public Base
 {
 public:
-    void print(double) { std::cout &lt;&lt; &#34;Derived::print(double)&#34;; } // this function added
+    void print(double) { std::cout &lt;&lt; "Derived::print(double)"; } // ta funkcja została dodana
 };
 
 
 int main()
 {
     Derived d{};
-    d.print(5); // calls Derived::print(double), not Base::print(int)
+    d.print(5); // wywołuje Derived::print(double), a nie Base::print(int)
 
     return 0;
-}</code></pre><p>W przypadku wywołania <code>d.print(5)</code>, kompilator znajduje jedną funkcję o nazwie <code>print()</code> w <code>Derived</code>, dlatego będzie brał pod uwagę tylko funkcje w <code>Derived</code> przy próbie określenia, do której funkcji należy rozwiązać. Ta funkcja jest również najlepiej pasującą funkcją w <code>Derived</code> dla tego wywołania funkcji. Dlatego to wywołuje <code>Derived::print(double)</code>.<p>Ponieważ <code>Base::print(int)</code> ma parametr, który lepiej pasuje do argumentu int <code>5</code> niż <code>Derived::print(double)</code>, mogłeś się spodziewać, że to wywołanie funkcji zostanie rozwiązane na  <code>Base::print(int)</code>. Ale ponieważ <code>d</code> jest <code>Derived</code>, istnieje co najmniej jedna <code>print()</code> funkcja w <code>Derived</code>, I <code>Derived</code> jest bardziej pochodna niż <code>Base</code>, funkcje w <code>Base</code> nie są nawet brane pod uwagę.<p>A co jeśli faktycznie chcemy <code>d.print(5)</code> rozwiązać  <code>Base::print(int)</code>? Jednym z niezbyt dobrych sposobów jest zdefiniowanie <code>Derived::print(int)</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+}</code></pre><p>W przypadku wywołania <code>d.print(5)</code>, kompilator znajduje jedną funkcję o nazwie <code>print()</code> w <code>Derived</code>, dlatego będzie brał pod uwagę tylko funkcje w <code>Derived</code> przy próbie określenia, do której funkcji należy rozwiązać. Ta funkcja jest również najlepiej pasującą funkcją w <code>Derived</code> dla tego wywołania funkcji. Dlatego to wywołuje <code>Derived::print(double)</code>.<p>Ponieważ <code>Base::print(int)</code> ma parametr, który lepiej pasuje do argumentu int <code>5</code> niż <code>Derived::print(double)</code>, mogłeś się spodziewać, że to wywołanie funkcji zostanie rozwiązane na  <code>Base::print(int)</code>. Ale ponieważ <code>d</code> jest <code>Derived</code>, istnieje co najmniej jedna <code>print()</code> funkcja w <code>Derived</code>, i <code>Derived</code> jest bardziej pochodna niż <code>Base</code>, funkcje w <code>Base</code> nie są nawet brane pod uwagę.<p>A co jeśli faktycznie chcemy <code>d.print(5)</code> rozwiązać  <code>Base::print(int)</code>? Jednym z niezbyt dobrych sposobów jest zdefiniowanie <code>Derived::print(int)</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 class Base
 {
 public:
-    void print(int)    { std::cout &lt;&lt; &#34;Base::print(int)\n&#34;; }
-    void print(double) { std::cout &lt;&lt; &#34;Base::print(double)\n&#34;; }
+    void print(int)    { std::cout &lt;&lt; "Base::print(int)\n"; }
+    void print(double) { std::cout &lt;&lt; "Base::print(double)\n"; }
 };
 
 class Derived: public Base
 {
 public:
-    void print(int n) { Base::print(n); } // works but not great, as we have to define 
-    void print(double) { std::cout &lt;&lt; &#34;Derived::print(double)&#34;; }
+    void print(int n) { Base::print(n); } // działa, ale nie świetnie, jak musimy zdefiniować 
+    void print(double) { std::cout &lt;&lt; "Derived::print(double)"; }
 };
 
 int main()
 {
     Derived d{};
-    d.print(5); // calls Derived::print(int), which calls Base::print(int)
+    d.print(5); // wywołuje Derived::print(int), który wywołuje Base::print(int)
 
     return 0;
 }</code></pre><p>Chociaż to działa, nie jest to świetne rozwiązanie, ponieważ musimy dodać funkcję <code>Derived</code> dla każdego przeciążenia, w które chcemy wpaść <code>Base</code>. Może to być wiele dodatkowych funkcji, które w zasadzie kierują wywołania do <code>Base</code>.<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>Lepszą opcją jest użycie deklaracji using w <code>Derived</code> aby wszystkie <code>Base</code> funkcje o określonej nazwie były widoczne od wewnątrz <code>Derived</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -267,22 +267,22 @@ int main()
 class Base
 {
 public:
-    void print(int)    { std::cout &lt;&lt; &#34;Base::print(int)\n&#34;; }
-    void print(double) { std::cout &lt;&lt; &#34;Base::print(double)\n&#34;; }
+    void print(int)    { std::cout &lt;&lt; "Base::print(int)\n"; }
+    void print(double) { std::cout &lt;&lt; "Base::print(double)\n"; }
 };
 
 class Derived: public Base
 {
 public:
-    using Base::print; // make all Base::print() functions eligible for overload resolution
-    void print(double) { std::cout &lt;&lt; &#34;Derived::print(double)&#34;; }
+    using Base::print; // uprawnij wszystkie funkcje Base::print() do rozpoznawania przeciążenia
+    void print(double) { std::cout &lt;&lt; "Derived::print(double)"; }
 };
 
 
 int main()
 {
     Derived d{};
-    d.print(5); // calls Base::print(int), which is the best matching function visible in Derived
+    d.print(5); // wywołuje Base::print(int), która jest najlepiej pasującą funkcją widoczną w Derived
 
     return 0;
 }</code></pre><p>Umieszczając deklarację using <code>using Base::print;</code> wewnątrz <code>Derived</code>, mówimy kompilatorowi, że wszystkie <code>Base</code> funkcje o nazwie <code>print</code> powinny być widoczne w <code>Derived</code>, co spowoduje, że będą kwalifikować się do rozwiązania problemu przeciążenia. W efekcie  <code>Base::print(int)</code> wybrano  <code>Derived::print(double)</code>.<div class=prevnext><div class=prevnext-inline><a class=nav-link href="../hiding-inherited-functionality/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>24.8</span>Ukrywanie odziedziczonej funkcjonalności</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../adding-new-functionality-to-a-derived-class/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>24.6</span>Dodawanie nowej funkcjonalności do klasy pochodnej</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/calling-inherited-functions-and-overriding-behavior/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../hiding-inherited-functionality/index.html" rel=prev><span>24.8 — Ukrywanie odziedziczonej funkcjonalności</span></a></div><div class=nav-next><em>Następny post</em><a href="../introduction-to-c14/index.html" rel=next><span>B.2 — Wprowadzenie do C++14</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>

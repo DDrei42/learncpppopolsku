@@ -15,17 +15,17 @@
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2015-02-08T17:06:18-08:00 itemprop=datePublished>8 lutego 2015, 17:06 czasu PST</time>
 <time class=updated datetime=2025-01-01T22:21:21-08:00 itemprop=dateModified>1 stycznia 2025</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p class=cpp-section>Zmienne lokalne<p>Zmienne zdefiniowane wewnątrz treści funkcji nazywane są <strong>zmienne lokalne</strong> (w przeciwieństwie do <em>zmiennymi globalnymi</em>, które omówimy w następnym rozdziale):<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int add(int x, int y)
 {
-    int z{ x + y }; // z is a local variable
+    int z{ x + y }; // z jest zmienną lokalną
 
     return z;
-}</code></pre><p>Parametry funkcji są również ogólnie uważane za zmienne lokalne i uwzględnimy je jako takie:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int add(int x, int y) // function parameters x and y are local variables
+}</code></pre><p>Parametry funkcji są również ogólnie uważane za zmienne lokalne i uwzględnimy je jako takie:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int add(int x, int y) // parametry funkcji x i y są zmiennymi lokalnymi
 {
     int z{ x + y };
 
     return z;
-}</code></pre><p>W tej lekcji przyjrzymy się bardziej szczegółowo niektórym właściwościom zmiennych lokalnych.<p class="cpp-section cpp-topline" style=clear:both>Czas życia zmiennej lokalnej<p>W lekcji <a href="../introduction-to-objects-and-variables/index.html">1.3 -- Wprowadzenie do obiektów i zmiennych</a>, omówiliśmy, w jaki sposób definicja zmiennej, taka jak <code>int x;</code> powoduje utworzenie instancji zmiennej podczas wykonywania tej instrukcji. Parametry funkcji są tworzone i inicjowane podczas wprowadzania funkcji, a zmienne w treści funkcji są tworzone i inicjowane w momencie definicji.<p>Na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int add(int x, int y) // x and y created and initialized here
+}</code></pre><p>W tej lekcji przyjrzymy się bardziej szczegółowo niektórym właściwościom zmiennych lokalnych.<p class="cpp-section cpp-topline" style=clear:both>Czas życia zmiennej lokalnej<p>W lekcji <a href="../introduction-to-objects-and-variables/index.html">1.3 -- Wprowadzenie do obiektów i zmiennych</a>, omówiliśmy, w jaki sposób definicja zmiennej, taka jak <code>int x;</code> powoduje utworzenie instancji zmiennej podczas wykonywania tej instrukcji. Parametry funkcji są tworzone i inicjowane podczas wprowadzania funkcji, a zmienne w treści funkcji są tworzone i inicjowane w momencie definicji.<p>Na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int add(int x, int y) // x i y utworzone i przechowywane tutaj
 { 
-    int z{ x + y };   // z created and initialized here
+    int z{ x + y };   // z utworzonego i dostępnego tutaj
 
     return z;
 }</code></pre><p>Naturalne pytanie uzupełniające brzmi: „więc kiedy utworzona zmienna zostaje zniszczona?”. Zmienne lokalne są niszczone w odwrotnej kolejności na końcu zestawu nawiasów klamrowych, w których są zdefiniowane (lub w przypadku parametru funkcji, na końcu funkcji).<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int add(int x, int y)
@@ -33,109 +33,109 @@
     int z{ x + y };
 
     return z;
-} // z, y, and x destroyed here</code></pre><p>Podobnie jak życie człowieka definiuje się jako czas pomiędzy jego narodzinami a śmiercią, <strong>życie</strong> obiektu definiuje się jako czas pomiędzy jego utworzeniem a zniszczeniem. Należy pamiętać, że tworzenie i niszczenie zmiennych ma miejsce podczas działania programu (tzw. czasie wykonywania), a nie w czasie kompilacji. Dlatego czas życia jest właściwością środowiska wykonawczego.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Dla zaawansowanych czytelników<p>Powyższe zasady dotyczące tworzenia, inicjalizacji i niszczenia są gwarancją. Oznacza to, że obiekty muszą zostać utworzone i zainicjowane nie później niż w momencie definicji i zniszczone nie wcześniej niż na końcu zestawu nawiasów klamrowych, w których są zdefiniowane (lub, w przypadku parametrów funkcji, na końcu funkcji).<p>W rzeczywistości specyfikacja C++ daje kompilatorom dużą elastyczność w określaniu, kiedy zmienne lokalne są tworzone i niszczone. Obiekty mogą być tworzone wcześniej lub niszczone później w celach optymalizacji. Najczęściej zmienne lokalne są tworzone w momencie wejścia do funkcji i niszczone w odwrotnej kolejności tworzenia w momencie wyjścia z funkcji. Omówimy to bardziej szczegółowo w przyszłej lekcji, kiedy będziemy mówić o stosie wywołań.</div><p>Oto nieco bardziej złożony program demonstrujący czas życia zmiennej o nazwie <code>x</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+} // z, y i x zniszczone tutaj</code></pre><p>Podobnie jak życie człowieka definiuje się jako czas pomiędzy jego narodzinami a śmiercią, <strong>życie</strong> obiektu definiuje się jako czas pomiędzy jego utworzeniem a zniszczeniem. Należy pamiętać, że tworzenie i niszczenie zmiennych ma miejsce podczas działania programu (tzw. czasie wykonywania), a nie w czasie kompilacji. Dlatego czas życia jest właściwością środowiska wykonawczego.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Dla zaawansowanych czytelników<p>Powyższe zasady dotyczące tworzenia, inicjalizacji i niszczenia są gwarancją. Oznacza to, że obiekty muszą zostać utworzone i zainicjowane nie później niż w momencie definicji i zniszczone nie wcześniej niż na końcu zestawu nawiasów klamrowych, w których są zdefiniowane (lub, w przypadku parametrów funkcji, na końcu funkcji).<p>W rzeczywistości specyfikacja C++ daje kompilatorom dużą elastyczność w określaniu, kiedy zmienne lokalne są tworzone i niszczone. Obiekty mogą być tworzone wcześniej lub niszczone później w celach optymalizacji. Najczęściej zmienne lokalne są tworzone w momencie wejścia do funkcji i niszczone w odwrotnej kolejności tworzenia w momencie wyjścia z funkcji. Omówimy to bardziej szczegółowo w przyszłej lekcji, kiedy będziemy mówić o stosie wywołań.</div><p>Oto nieco bardziej złożony program demonstrujący czas życia zmiennej o nazwie <code>x</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 void doSomething()
 {
-    std::cout &lt;&lt; &#34;Hello!\n&#34;;
+    std::cout &lt;&lt; "Hello!\n";
 }
 
 int main()
 {
-    int x{ 0 };    // x&#39;s lifetime begins here
+    int x{ 0 };    // czas życia x zaczyna się tutaj
 
-    doSomething(); // x is still alive during this function call
+    doSomething(); // x jest wciąż aktywny podczas wywołania tej funkcji
 
     return 0;
-} // x&#39;s lifetime ends here</code></pre><p>W powyższym programie czas życia <code>x</code> biegnie od punktu definicji do końca funkcji <code>main</code>. Obejmuje to czas spędzony podczas wykonywania funkcji <code>doSomething</code>.<p class="cpp-section cpp-topline" style=clear:both>Co się dzieje, gdy obiekt zostanie zniszczony?<p>W większości przypadków nic. Zniszczony obiekt po prostu staje się nieważny.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Dla zaawansowanych czytelników<p>Jeśli obiekt jest obiektem klasowym, przed zniszczeniem wywoływana jest specjalna funkcja zwana destruktorem. W wielu przypadkach destruktor nic nie robi i w takim przypadku nie są ponoszone żadne koszty. Destruktory wprowadzamy na lekcji <a href="../introduction-to-destructors/index.html">15.4 -- Wprowadzenie do destruktorów</a>.</div><p>Każde użycie obiektu po jego zniszczeniu będzie skutkować niezdefiniowanym zachowaniem.<p>W pewnym momencie po zniszczeniu pamięć używana przez obiekt zostanie <strong>zwolniona</strong> (zwolniona na ponowne użycie).<p class="cpp-section cpp-topline" style=clear:both>Zakres lokalny (zakres blokowy)<p>Identyfikator <strong>zakres</strong> określa, gdzie identyfikator może być zobaczony i użyty w kodzie źródłowym. Kiedy identyfikator można zobaczyć i wykorzystać, mówimy, że jest to  <strong>w zakresie</strong>. Gdy identyfikatora nie widać, nie możemy go użyć i mówimy, że jest to <strong>poza zakresem</strong>. Zasięg jest właściwością czasu kompilacji i próba użycia identyfikatora, gdy nie znajduje się on w zakresie, zakończy się błędem kompilacji.<p>Identyfikator zmiennej lokalnej ma zasięg lokalny. Identyfikator o <strong>zasięgu lokalnym</strong> (technicznie nazywanych <strong>zakres bloku</strong>) można stosować od punktu definicji do końca najbardziej wewnętrznej pary nawiasów klamrowych zawierających identyfikator (lub w przypadku parametrów funkcji na końcu funkcji). Dzięki temu zmienne lokalne nie mogą być użyte przed momentem definicji (nawet jeśli kompilator zdecyduje się je utworzyć wcześniej) lub po ich zniszczeniu. Zmienne lokalne zdefiniowane w jednej funkcji nie wchodzą w zakres innych wywoływanych funkcji.<p>Oto program demonstrujący zasięg zmiennej o nazwie <code>x</code>:<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+} // czas życia x kończy się tutaj</code></pre><p>W powyższym programie czas życia <code>x</code> biegnie od punktu definicji do końca funkcji <code>main</code>. Obejmuje to czas spędzony podczas wykonywania funkcji <code>doSomething</code>.<p class="cpp-section cpp-topline" style=clear:both>Co się dzieje, gdy obiekt zostanie zniszczony?<p>W większości przypadków nic. Zniszczony obiekt po prostu staje się nieważny.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Dla zaawansowanych czytelników<p>Jeśli obiekt jest obiektem klasowym, przed zniszczeniem wywoływana jest specjalna funkcja zwana destruktorem. W wielu przypadkach destruktor nic nie robi i w takim przypadku nie są ponoszone żadne koszty. Destruktory wprowadzamy na lekcji <a href="../introduction-to-destructors/index.html">15.4 -- Wprowadzenie do destruktorów</a>.</div><p>Każde użycie obiektu po jego zniszczeniu będzie skutkować niezdefiniowanym zachowaniem.<p>W pewnym momencie po zniszczeniu pamięć używana przez obiekt zostanie <strong>zwolniona</strong> (zwolniona na ponowne użycie).<p class="cpp-section cpp-topline" style=clear:both>Zakres lokalny (zakres blokowy)<p>Identyfikator <strong>zakres</strong> określa, gdzie identyfikator może być zobaczony i użyty w kodzie źródłowym. Kiedy identyfikator można zobaczyć i wykorzystać, mówimy, że jest to  <strong>w zakresie</strong>. Gdy identyfikatora nie widać, nie możemy go użyć i mówimy, że jest to <strong>poza zakresem</strong>. Zasięg jest właściwością czasu kompilacji i próba użycia identyfikatora, gdy nie znajduje się on w zakresie, zakończy się błędem kompilacji.<p>Identyfikator zmiennej lokalnej ma zasięg lokalny. Identyfikator o <strong>zasięgu lokalnym</strong> (technicznie nazywanych <strong>zakres bloku</strong>) można stosować od punktu definicji do końca najbardziej wewnętrznej pary nawiasów klamrowych zawierających identyfikator (lub w przypadku parametrów funkcji na końcu funkcji). Dzięki temu zmienne lokalne nie mogą być użyte przed momentem definicji (nawet jeśli kompilator zdecyduje się je utworzyć wcześniej) lub po ich zniszczeniu. Zmienne lokalne zdefiniowane w jednej funkcji nie wchodzą w zakres innych wywoływanych funkcji.<p>Oto program demonstrujący zasięg zmiennej o nazwie <code>x</code>:<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-// x is not in scope anywhere in this function
+// x nie wchodzi w zakres tej funkcji
 void doSomething()
 {
-    std::cout &lt;&lt; &#34;Hello!\n&#34;;
+    std::cout &lt;&lt; "Hello!\n";
 }
 
 int main()
 {
-    // x can not be used here because it&#39;s not in scope yet
+    // x nie można tutaj użyć, ponieważ nie jest jeszcze objęty zakresem
 
-    int x{ 0 }; // x enters scope here and can now be used within this function
+    int x{ 0 }; // x wchodzi tutaj w zakres i może być teraz używane w ramach tej funkcji
 
     doSomething();
 
     return 0;
-} // x goes out of scope here and can no longer be used</code></pre><p>W powyższym programie zmienna <code>x</code> wchodzi w zakres w momencie definicji. <code>x</code> wychodzi poza zakres na końcu najbardziej wewnętrznej pary nawiasów klamrowych zawierających identyfikator, który jest zamykającym nawiasem klamrowym funkcja <code>main()</code>. Należy zauważyć, że zmienna <code>x</code> nie znajduje się w zasięgu nigdzie wewnątrz funkcji <code>doSomething</code>. Fakt, że funkcja <code>main</code> wywołuje funkcję <code>doSomething</code> jest nieistotna w tym kontekście.<p class="cpp-section cpp-topline" style=clear:both>„Poza zakresem” vs „wyjście poza zakres”<p>Terminy „poza zakres” i „wyjście poza zakres” mogą być mylące dla nowych programistów.<p>Identyfikator jest poza zakresem wszędzie tam, gdzie nie można uzyskać do niego dostępu w kodzie. W powyższym przykładzie identyfikator <code>x</code> ma zakres od punktu definicji do końca funkcji <code>main</code> . Identyfikator <code>x</code> jest poza zakresem poza tym obszarem kodu.<p>Termin „wyjście poza zakres” jest zwykle stosowany do obiektów, a nie do identyfikatorów. Mówimy, że obiekt wychodzi poza zakres na końcu zakresu (końcowy nawias klamrowy), w którym obiekt został utworzony. W powyższym przykładzie obiekt o nazwie <code>x</code> wychodzi poza zakres na końcu funkcji <code>main</code>.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>Życie zmiennej lokalnej kończy się w momencie, w którym wychodzi ona poza zakres, więc zmienne lokalne są w tym momencie niszczone.<p>Zauważ, że nie wszystkie typy zmiennych ulegają zniszczeniu, gdy wyjdą poza zakres. Zobaczymy tego przykłady na przyszłych lekcjach.<p class="cpp-section cpp-topline" style=clear:both>Kolejny przykład<p>Oto nieco bardziej złożony przykład. Pamiętaj, czas życia jest właściwością środowiska wykonawczego, a zakres jest właściwością czasu kompilacji, więc chociaż mówimy o obu w tym samym programie, są one wymuszane w różnych momentach.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+} // x wykracza tutaj poza zakres i nie można go już używać</code></pre><p>W powyższym programie zmienna <code>x</code> wchodzi w zakres w momencie definicji. <code>x</code> wychodzi poza zakres na końcu najbardziej wewnętrznej pary nawiasów klamrowych zawierających identyfikator, który jest zamykającym nawiasem klamrowym funkcja <code>main()</code>. Należy zauważyć, że zmienna <code>x</code> nie znajduje się w zasięgu nigdzie wewnątrz funkcji <code>doSomething</code>. Fakt, że funkcja <code>main</code> wywołuje funkcję <code>doSomething</code> jest nieistotna w tym kontekście.<p class="cpp-section cpp-topline" style=clear:both>„Poza zakresem” vs „wyjście poza zakres”<p>Terminy „poza zakres” i „wyjście poza zakres” mogą być mylące dla nowych programistów.<p>Identyfikator jest poza zakresem wszędzie tam, gdzie nie można uzyskać do niego dostępu w kodzie. W powyższym przykładzie identyfikator <code>x</code> ma zakres od punktu definicji do końca funkcji <code>main</code> . Identyfikator <code>x</code> jest poza zakresem poza tym obszarem kodu.<p>Termin „wyjście poza zakres” jest zwykle stosowany do obiektów, a nie do identyfikatorów. Mówimy, że obiekt wychodzi poza zakres na końcu zakresu (końcowy nawias klamrowy), w którym obiekt został utworzony. W powyższym przykładzie obiekt o nazwie <code>x</code> wychodzi poza zakres na końcu funkcji <code>main</code>.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>Życie zmiennej lokalnej kończy się w momencie, w którym wychodzi ona poza zakres, więc zmienne lokalne są w tym momencie niszczone.<p>Zauważ, że nie wszystkie typy zmiennych ulegają zniszczeniu, gdy wyjdą poza zakres. Zobaczymy tego przykłady na przyszłych lekcjach.<p class="cpp-section cpp-topline" style=clear:both>Kolejny przykład<p>Oto nieco bardziej złożony przykład. Pamiętaj, czas życia jest właściwością środowiska wykonawczego, a zakres jest właściwością czasu kompilacji, więc chociaż mówimy o obu w tym samym programie, są one wymuszane w różnych momentach.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-int add(int x, int y) // x and y are created and enter scope here
+int add(int x, int y) // Tworzone są x i y i wprowadź tutaj zakres
 {
-    // x and y are usable only within add()
+    // x i y można używać tylko w ramach add()
     return x + y;
-} // y and x go out of scope and are destroyed here
+} // y i x wychodzą poza zakres i są tutaj niszczone
 
 int main()
 {
-    int a{ 5 }; // a is created, initialized, and enters scope here
-    int b{ 6 }; // b is created, initialized, and enters scope here
+    int a{ 5 }; // a jest miejscem, inicjowane i wchodzi tutaj w zakres
+    int b{ 6 }; // b jest tworzony, inicjowany i wchodzi tutaj w zakres
 
-    // a and b are usable only within main()
+    // a i b można używać tylko w main()
 
-    std::cout &lt;&lt; add(a, b) &lt;&lt; &#39;\n&#39;; // calls add(5, 6), where x=5 and y=6
+    std::cout &lt;&lt; add(a, b) &lt;&lt; '\n'; // wywołuje add(5, 6), gdzie x=5 i y=6
 
     return 0;
-} // b and a go out of scope and are destroyed here</code></pre><p>Parametry <code>x</code> i <code>y</code> są tworzone podczas wywoływania <code>add</code> funkcji, można je zobaczyć/użyć tylko w obrębie funkcji <code>add</code> i są niszczone na końcu <code>add</code>. Zmienne <code>a</code> i <code>b</code> są tworzone wewnątrz funkcji <code>main</code>, można je oglądać/używać tylko w ramach funkcji <code>main</code> i są niszczone na końcu <code>main</code>.<p>Aby lepiej zrozumieć, jak to wszystko do siebie pasuje, prześledźmy ten program bardziej szczegółowo. Dzieje się tak w następującej kolejności: <div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><ul><li>Wykonanie rozpoczyna się od góry <code>main</code>.<li><code>main</code> zmienną <code>a</code> i dana jest wartość <code>5</code>.<li><code>main</code> zmienną <code>b</code> i dana jest wartość <code>6</code>.<li>Funkcja <code>add</code> wywoływana jest z wartościami argumentów <code>5</code> i <code>6</code>.<li><code>add</code> parametry <code>x</code> i <code>y</code> są tworzone i inicjowane odpowiednio wartościami <code>5</code> i <code>6</code> .<li>Wyrażenie <code>x + y</code> jest oceniany w celu uzyskania wartości <code>11</code>.<li><code>add</code> kopiuje wartość <code>11</code> z powrotem do wywołującego <code>main</code>.<li><code>add</code> parametry <code>y</code> i <code>x</code> są zniszczone.<li><code>main</code> wypisuje <code>11</code> do konsoli.<li><code>main</code> zwraca <code>0</code> do systemu operacyjnego.<li><code>main</code> zmienne <code>b</code> i <code>a</code> są zniszczone.</ul><p>I gotowe.<p>Zauważ, że gdyby funkcja <code>add</code> miała być wywołane dwukrotnie, parametry <code>x</code> i <code>y</code> zostaną utworzone i zniszczone dwukrotnie — raz na każde wywołanie. W programie z dużą liczbą funkcji i wywołań funkcji zmienne są często tworzone i niszczone.<p class="cpp-section cpp-topline" style=clear:both>Separacja funkcjonalna<p>W powyższym przykładzie łatwo zobaczyć, że zmienne <code>a</code> i <code>b</code> są różnymi zmiennymi od <code>x</code> i <code>y</code>.<p>Rozważmy teraz następujące podobne program:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+} // b i a wychodzą poza zakres i zostają tutaj zniszczone</code></pre><p>Parametry <code>x</code> i <code>y</code> są tworzone podczas wywoływania <code>add</code> funkcji, można je zobaczyć/użyć tylko w obrębie funkcji <code>add</code> i są niszczone na końcu <code>add</code>. Zmienne <code>a</code> i <code>b</code> są tworzone wewnątrz funkcji <code>main</code>, można je oglądać/używać tylko w ramach funkcji <code>main</code> i są niszczone na końcu <code>main</code>.<p>Aby lepiej zrozumieć, jak to wszystko do siebie pasuje, prześledźmy ten program bardziej szczegółowo. Dzieje się tak w następującej kolejności: <div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><ul><li>Wykonanie rozpoczyna się od góry <code>main</code>.<li><code>main</code> zmienną <code>a</code> i dana jest wartość <code>5</code>.<li><code>main</code> zmienną <code>b</code> i dana jest wartość <code>6</code>.<li>Funkcja <code>add</code> wywoływana jest z wartościami argumentów <code>5</code> i <code>6</code>.<li><code>add</code> parametry <code>x</code> i <code>y</code> są tworzone i inicjowane odpowiednio wartościami <code>5</code> i <code>6</code> .<li>Wyrażenie <code>x + y</code> jest oceniany w celu uzyskania wartości <code>11</code>.<li><code>add</code> kopiuje wartość <code>11</code> z powrotem do wywołującego <code>main</code>.<li><code>add</code> parametry <code>y</code> i <code>x</code> są zniszczone.<li><code>main</code> wypisuje <code>11</code> do konsoli.<li><code>main</code> zwraca <code>0</code> do systemu operacyjnego.<li><code>main</code> zmienne <code>b</code> i <code>a</code> są zniszczone.</ul><p>I gotowe.<p>Zauważ, że gdyby funkcja <code>add</code> miała być wywołane dwukrotnie, parametry <code>x</code> i <code>y</code> zostaną utworzone i zniszczone dwukrotnie — raz na każde wywołanie. W programie z dużą liczbą funkcji i wywołań funkcji zmienne są często tworzone i niszczone.<p class="cpp-section cpp-topline" style=clear:both>Separacja funkcjonalna<p>W powyższym przykładzie łatwo zobaczyć, że zmienne <code>a</code> i <code>b</code> są różnymi zmiennymi od <code>x</code> i <code>y</code>.<p>Rozważmy teraz następujące podobne program:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-int add(int x, int y) // add&#39;s x and y are created and enter scope here
+int add(int x, int y) // zostaną utworzone x i y dodatku i wprowadź tutaj zakres
 {
-    // add&#39;s x and y are visible/usable within this function only
+    // x i y dodatku są widoczne/używane tylko w tej funkcji
     return x + y;
-} // add&#39;s y and x go out of scope and are destroyed here
+} // y i x dodatku dodają poza zakresem i są tutaj niszczone
 
 int main()
 {
-    int x{ 5 }; // main&#39;s x is created, initialized, and enters scope here
-    int y{ 6 }; // main&#39;s y is created, initialized, and enters scope here
+    int x{ 5 }; // x maina jest miejscem, inicjowane i wchodzi tutaj w zakres
+    int y{ 6 }; // y maina są tworzone, inicjowane i wchodzą w zakres tutaj
 
-    // main&#39;s x and y are usable within this function only
-    std::cout &lt;&lt; add(x, y) &lt;&lt; &#39;\n&#39;; // calls function add() with x=5 and y=6
+    // x i y maina można używać tylko w tej funkcji
+    std::cout &lt;&lt; add(x, y) &lt;&lt; '\n'; // wywołuje funkcję add() z x=5 i y=6
 
     return 0;
-} // main&#39;s y and x go out of scope and are destroyed here</code></pre><p>W tym przykładzie jedyne, co zrobiliśmy, to zmieniliśmy nazwy zmiennych <code>a</code> i <code>b</code> wewnątrz funkcja <code>main</code> Do <code>x</code> i <code>y</code>. Ten program kompiluje się i działa identycznie, chociaż funkcje <code>main</code> i <code>add</code> obie mają zmienne o nazwach <code>x</code> i <code>y</code>. Dlaczego to działa?<p>Po pierwsze musimy zauważyć, że chociaż funkcje <code>main</code> i <code>add</code> obie mają zmienne o nazwach <code>x</code> i <code>y</code>, zmienne te są różne.  <code>x</code> i <code>y</code> w funkcji <code>main</code> nie mają nic wspólnego z  <code>x</code> i <code>y</code> w funkcji <code>add</code> -- tak się składa, że ​​mają te same nazwy.<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>Po drugie, gdy znajdują się wewnątrz funkcji <code>main</code>, nazwy <code>x</code> i <code>y</code> odwołują się do zmiennych o zasięgu lokalnym  <code>x</code> i <code>y</code>. Te zmienne można zobaczyć (i używać) tylko wewnątrz  <code>main</code>. Podobnie, gdy znajdujemy się wewnątrz funkcji <code>add</code>, nazwy <code>x</code> i <code>y</code> odwołują się do parametrów funkcji <code>x</code> i <code>y</code>, które można zobaczyć (i wykorzystać) tylko wewnątrz  <code>add</code>.<p>Krótko mówiąc, ani <code>add</code> ani <code>main</code> nie wiedzą, że druga funkcja ma zmienne o tych samych nazwach. Ponieważ zakresy nie nakładają się na siebie, dla kompilatora zawsze jest jasne,  <code>x</code> i <code>y</code> do którego &lt;&lt;&lt;M12&gt;&gt;&gt;odwołuje się w dowolnym momencie.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Nazwy użyte dla parametrów funkcji lub zmiennych zadeklarowanych w treści funkcji są widoczne tylko w funkcji, która je deklaruje. Oznacza to, że zmienne lokalne w ramach funkcji mogą być nazywane bez względu na nazwy zmiennych w innych funkcjach. Pomaga to zachować niezależność funkcji.</div><p>W następnym rozdziale porozmawiamy więcej o zasięgu lokalnym i innych rodzajach zasięgu.<p class="cpp-section cpp-topline" style=clear:both>Gdzie definiować zmienne lokalne<p>We współczesnym C++ najlepszą praktyką jest to, że zmienne lokalne wewnątrz treści funkcji powinny być definiowane możliwie najbliżej ich pierwszego użycia:<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+} // y i x maina wychodzą poza zakres i są tutaj niszczone</code></pre><p>W tym przykładzie jedyne, co zrobiliśmy, to zmieniliśmy nazwy zmiennych <code>a</code> i <code>b</code> wewnątrz funkcja <code>main</code> Do <code>x</code> i <code>y</code>. Ten program kompiluje się i działa identycznie, chociaż funkcje <code>main</code> i <code>add</code> obie mają zmienne o nazwach <code>x</code> i <code>y</code>. Dlaczego to działa?<p>Po pierwsze musimy zauważyć, że chociaż funkcje <code>main</code> i <code>add</code> obie mają zmienne o nazwach <code>x</code> i <code>y</code>, zmienne te są różne.  <code>x</code> i <code>y</code> w funkcji <code>main</code> nie mają nic wspólnego z  <code>x</code> i <code>y</code> w funkcji <code>add</code> -- tak się składa, że ​​mają te same nazwy.<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>Po drugie, gdy znajdują się wewnątrz funkcji <code>main</code>, nazwy <code>x</code> i <code>y</code> odwołują się do zmiennych o zasięgu lokalnym  <code>x</code> i <code>y</code>. Te zmienne można zobaczyć (i używać) tylko wewnątrz  <code>main</code>. Podobnie, gdy znajdujemy się wewnątrz funkcji <code>add</code>, nazwy <code>x</code> i <code>y</code> odwołują się do parametrów funkcji <code>x</code> i <code>y</code>, które można zobaczyć (i wykorzystać) tylko wewnątrz  <code>add</code>.<p>Krótko mówiąc, ani <code>add</code> ani <code>main</code> nie wiedzą, że druga funkcja ma zmienne o tych samych nazwach. Ponieważ zakresy nie nakładają się na siebie, dla kompilatora zawsze jest jasne,  <code>x</code> i <code>y</code> do którego &lt;&lt;&lt;M12&gt;&gt;&gt;odwołuje się w dowolnym momencie.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Nazwy użyte dla parametrów funkcji lub zmiennych zadeklarowanych w treści funkcji są widoczne tylko w funkcji, która je deklaruje. Oznacza to, że zmienne lokalne w ramach funkcji mogą być nazywane bez względu na nazwy zmiennych w innych funkcjach. Pomaga to zachować niezależność funkcji.</div><p>W następnym rozdziale porozmawiamy więcej o zasięgu lokalnym i innych rodzajach zasięgu.<p class="cpp-section cpp-topline" style=clear:both>Gdzie definiować zmienne lokalne<p>We współczesnym C++ najlepszą praktyką jest to, że zmienne lokalne wewnątrz treści funkcji powinny być definiowane możliwie najbliżej ich pierwszego użycia:<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 int main()
 {
-	std::cout &lt;&lt; &#34;Enter an integer: &#34;;
-	int x{};       // x defined here
-	std::cin &gt;&gt; x; // and used here
+	std::cout &lt;&lt; "Enter an integer: ";
+	int x{};       // x zdefiniowano tutaj
+	std::cin &gt;&gt; x; // i użyty tutaj
 
-	std::cout &lt;&lt; &#34;Enter another integer: &#34;;
-	int y{};       // y defined here
-	std::cin &gt;&gt; y; // and used here
+	std::cout &lt;&lt; "Enter another integer: ";
+	int y{};       // y zdefiniowany tutaj
+	std::cin &gt;&gt; y; // i użyty tutaj
 
-	int sum{ x + y }; // sum can be initialized with intended value
-	std::cout &lt;&lt; &#34;The sum is: &#34; &lt;&lt; sum &lt;&lt; &#39;\n&#39;;
+	int sum{ x + y }; // suma może być zainicjowany zamierzoną wartością
+	std::cout &lt;&lt; "The sum is: " &lt;&lt; sum &lt;&lt; '\n';
 
 	return 0;
 }</code></pre><p>W powyższym przykładzie każda zmienna jest definiowana tuż przed jej pierwszym użyciem. Nie ma co do tego rygorystycznych zasad — jeśli wolisz zamienić linie 5 i 6, nie ma problemu.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Zdefiniuj zmienne lokalne tak blisko ich pierwszego użycia, jak to jest rozsądne.</div><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Na marginesie…<p>Ze względu na ograniczenia starszych, bardziej prymitywnych kompilatorów, język C wymagał, aby wszystkie zmienne lokalne były definiowane na górze funkcji. Równoważny program w C++ korzystający z tego stylu wyglądałby następująco:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 int main()
 {
-	int x{}, y{}, sum{}; // how are these used?
+	int x{}, y{}, sum{}; // jak to jest używane?
 
-	std::cout &lt;&lt; &#34;Enter an integer: &#34;;
+	std::cout &lt;&lt; "Enter an integer: ";
 	std::cin &gt;&gt; x;
 
-	std::cout &lt;&lt; &#34;Enter another integer: &#34;;
+	std::cout &lt;&lt; "Enter another integer: ";
 	std::cin &gt;&gt; y;
 
 	sum = x + y;
-	std::cout &lt;&lt; &#34;The sum is: &#34; &lt;&lt; sum &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; "The sum is: " &lt;&lt; sum &lt;&lt; '\n';
 
 	return 0;
 }</code></pre><p>Ten styl jest nieoptymalny z kilku powodów:<ul><li>Zamierzone użycie tych zmiennych nie jest oczywiste w momencie definicji. Należy przeszukać całą funkcję, aby określić, gdzie i jak używana jest każda zmienna.<li>Zamierzona wartość inicjująca może nie być dostępna na górze funkcji (np. nie możemy zainicjować <code>sum</code> do zamierzonej wartości, ponieważ nie znamy jeszcze wartości <code>x</code> i <code>y</code> ).<li>Pomiędzy inicjatorem zmiennej a jej pierwszym użyciem może znajdować się wiele linii. Jeśli nie pamiętamy, jaką wartością została zainicjowana, będziemy musieli przewinąć z powrotem na początek funkcji, co rozprasza.</ul><p>To ograniczenie zostało zniesione w standardzie języka C99.</div><p class="cpp-section cpp-topline" style=clear:both>Kiedy używać parametrów funkcji, a zmiennych lokalnych<p>Ponieważ zarówno parametry funkcji, jak i zmienna lokalna mogą być używane w treści funkcji, nowi programiści czasami mają trudności ze zrozumieniem, kiedy należy użyć każdego z nich. Parametru funkcji należy używać, gdy obiekt wywołujący przekaże wartość inicjującą jako argument. W przeciwnym razie należy użyć zmiennej lokalnej.<p>Użycie parametru funkcji, gdy należy użyć zmiennej lokalnej, prowadzi do kodu wyglądającego tak:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-int getValueFromUser(int val) // val is a function parameter
+int getValueFromUser(int val) // Val jest funkcją parametryczną
 {
-    std::cout &lt;&lt; &#34;Enter a value: &#34;;
+    std::cout &lt;&lt; "Enter a value: ";
     std::cin &gt;&gt; val;
     return val;
 }
@@ -143,42 +143,42 @@ int getValueFromUser(int val) // val is a function parameter
 int main()
 {
     int x {};
-    int num { getValueFromUser(x) }; // main must pass x as an argument
+    int num { getValueFromUser(x) }; // main musi przekazać x jako argument
 
-    std::cout &lt;&lt; &#34;You entered &#34; &lt;&lt; num &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "You entered " &lt;&lt; num &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>W powyższym przykładzie <code>getValueFromUser()</code> zdefiniowano <code>val</code> jako parametr funkcji. Z tego powodu <code>main()</code> musi zdefiniować <code>x</code> tak, aby mieć coś do przekazania jako argument. Jednak rzeczywista wartość  <code>x</code>  nigdy nie jest używana, a wartość, z którą  <code>val</code>  została zainicjowana, nigdy nie jest używana. Zmuszenie wywołującego do zdefiniowania i przekazania zmiennej, która nigdy nie jest używana, zwiększa niepotrzebną złożoność.<p>Właściwy sposób zapisania tej sytuacji byłby następujący:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 int getValueFromUser()
 {
-    int val {}; // val is a local variable
-    std::cout &lt;&lt; &#34;Enter a value: &#34;;
+    int val {}; // val jest zmienną lokalną
+    std::cout &lt;&lt; "Enter a value: ";
     std::cin &gt;&gt; val;
     return val;
 }
 
 int main()
 {
-    int num { getValueFromUser() }; // main does not need to pass anything
+    int num { getValueFromUser() }; // main nie musi przejść wszystko
 
-    std::cout &lt;&lt; &#34;You entered &#34; &lt;&lt; num &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "You entered " &lt;&lt; num &lt;&lt; '\n';
 
     return 0;
-}</code></pre><p>W tym przykładzie  <code>val</code> jest teraz zmienną lokalną. <code>main()</code> jest teraz prostsze, ponieważ nie ma potrzeby definiowania ani przekazywania zmiennej do wywołania <code>getValueFromUser()</code>.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Gdy zmienna jest potrzebna w funkcji:<ul><li>Użyj parametru funkcji, gdy wywołujący to zrobi jako argument podaj wartość inicjalizacyjną zmiennej.<li>W przeciwnym razie użyj zmiennej lokalnej.</ul></div><p class="cpp-section cpp-topline" style=clear:both><a name=temporaries></a>Wprowadzenie do obiektów tymczasowych <a href="index.html#temporaries"><i class="fa fa-link" style=font-size:.8em></i></a><p>A <strong>obiekt tymczasowy</strong> (czasami nazywany <strong>obiektem anonimowym</strong>) to nienazwany obiekt używany do przechowywania wartości potrzebnej tylko przez krótki okres czasu. Obiekty tymczasowe są generowane przez kompilator, gdy są potrzebne.<p>Istnieje wiele różnych sposobów tworzenia wartości tymczasowych, ale oto typowy sposób:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+}</code></pre><p>W tym przykładzie  <code>val</code> jest teraz zmienną lokalną. <code>main()</code> jest teraz prostsze, ponieważ nie ma potrzeby definiowania ani przekazywania zmiennej do wywołania <code>getValueFromUser()</code>.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Gdy zmienna jest potrzebna w funkcji:<ul><li>Użyj parametru funkcji, gdy wywołujący to zrobi jako argument podaj wartość inicjalizacyjną zmiennej.<li>W przeciwnym razie użyj zmiennej lokalnej.</ul></div><p class="cpp-section cpp-topline" style=clear:both><a name=temporaries></a>Wprowadzenie do obiektów tymczasowych <a href="index.html#temporaries"><i class="fa fa-link" style=font-size:.8em></i></a><p><strong>obiekt tymczasowy</strong> (czasami nazywany <strong>obiektem anonimowym</strong>) to nienazwany obiekt używany do przechowywania wartości potrzebnej tylko przez krótki okres czasu. Obiekty tymczasowe są generowane przez kompilator, gdy są potrzebne.<p>Istnieje wiele różnych sposobów tworzenia wartości tymczasowych, ale oto typowy sposób:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 int getValueFromUser()
 {
- 	std::cout &lt;&lt; &#34;Enter an integer: &#34;;
+ 	std::cout &lt;&lt; "Enter an integer: ";
 	int input{};
 	std::cin &gt;&gt; input;
 
-	return input; // return the value of input back to the caller
+	return input; // zwróć wartość wprowadzoną z powrotem do wywołującego
 }
 
 int main()
 {
-	std::cout &lt;&lt; getValueFromUser() &lt;&lt; &#39;\n&#39;; // where does the returned value get stored?
+	std::cout &lt;&lt; getValueFromUser() &lt;&lt; '\n'; // gdzie przechowywana jest zwrócona wartość?
 
 	return 0;
 }</code></pre><p>W powyższym programie funkcja <code>getValueFromUser()</code> zwraca wartość zapisaną w zmiennej lokalnej <code>input</code> z powrotem do rozmówcy. Ponieważ <code>input</code> zostanie zniszczony na końcu funkcji, wywołujący otrzyma kopię wartości, dzięki czemu będzie miała wartość, której będzie mógł użyć nawet po <code>input</code> jest zniszczony.<p>Ale gdzie jest przechowywana wartość kopiowana z powrotem do osoby wywołującej? Nie zdefiniowaliśmy żadnych zmiennych w <code>main()</code>. Odpowiedź jest taka, że ​​zwracana wartość jest przechowywana w obiekcie tymczasowym. Ten obiekt tymczasowy jest następnie przekazywany do <code>std::cout</code> do wydrukowania.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Funkcja Return by value zwraca obiekt tymczasowy (który przechowuje kopię wartości zwracanej) do osoby wywołującej.</div><p>Obiekty tymczasowe w ogóle nie mają zasięgu (ma to sens, ponieważ zakres jest właściwością identyfikatora, a obiekty tymczasowe nie mają identyfikatora).<p>Obiekty tymczasowe są niszczone na końcu pełnego wyrażenia, w którym zostały utworzone. Oznacza to, że obiekty tymczasowe są zawsze niszczone przed wykonaniem następnej instrukcji.<p>W powyższym przykładzie obiekt tymczasowy utworzony w celu przechowywania zwracanej wartości <code>getValueFromUser()</code> zostaje zniszczony po <code>std::cout &lt;&lt; getValueFromUser() &lt;&lt; '\n'</code> wykonuje się.<p>W przypadku, gdy do inicjalizacji zmiennej używany jest obiekt tymczasowy, inicjalizacja następuje przed zniszczeniem obiektu tymczasowego.<p>We współczesnym C++ (zwłaszcza od C++ 17) kompilator ma wiele sztuczek, aby uniknąć generowania tymczasowych elementów tam, gdzie wcześniej było to konieczne. Na przykład, gdy używamy wartości zwracanej do inicjalizacji zmiennej, zwykle skutkuje to utworzeniem tymczasowej wartości zwracanej, a następnie użyciem tymczasowej wartości do inicjalizacji zmiennej. Jednak we współczesnym C++ kompilator często pomija tworzenie pliku tymczasowego i po prostu inicjuje zmienną bezpośrednio wartością zwracaną.<p>Podobnie w powyższym przykładzie, ponieważ zwracana wartość <code>getValueFromUser()</code> jest natychmiast wyprowadzany, kompilator może pominąć tworzenie i niszczenie tymczasowego pliku in <code>main()</code>i użyj wartości zwracanej przez <code>getValueFromUser()</code> bezpośrednio zainicjować parametr <code>operator&lt;&lt;</code>.<p class="cpp-section cpp-topline" style=clear:both>Czas quizu<div class=quiz style=clear:both><p class=quiz-header>Pytanie nr 1<p>Co wypisuje poniższy program?<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;

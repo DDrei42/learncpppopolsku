@@ -19,11 +19,11 @@ std::string sThree{&#34; three&#34;};
 sString.append(sThree);
 
 std::cout &lt;&lt; sString &lt;&lt; &#39;\n&#39;;</code></pre><p>Wyjście:<pre>one two three
-</pre></table></div><p>Istnieje również wersja append(), która może dołącz podciąg:<div class=cpp-table-wrapper><p><p><table class=cpp-table><tbody><tr><td><b>string&amp; string::append (const string&amp; str, size_type indeks, size_type num)</b><p><ul><li>Ta funkcja dołącza num znaków z str, zaczynając od indeksu, do łańcucha.<li>Zwraca *to, aby można było je „połączyć”.<li>Wyrzuca out_of_range, jeśli indeks jest poza zakresem<li>Zgłasza wyjąteklength_error, jeśli wynik przekracza maksymalną liczbę znaków.</ul><p>Przykładowy kod:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::string sString{&#34;one &#34;};
+</pre></table></div><p>Istnieje również wersja append(), która może dołącz podciąg:<div class=cpp-table-wrapper><p><p><table class=cpp-table><tbody><tr><td><b>string&amp; string::append (const string&amp; str, size_type indeks, size_type num)</b><p><ul><li>Ta funkcja dołącza num znaków z str, zaczynając od indeksu, do łańcucha.<li>Zwraca *to, aby można było je „połączyć”.<li>Wyrzuca out_of_range, jeśli indeks jest poza zakresem<li>Zgłasza wyjąteklength_error, jeśli wynik przekracza maksymalną liczbę znaków.</ul><p>Przykładowy kod:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::string sString{"one "};
 
-const std::string sTemp{&#34;twothreefour&#34;};
-sString.append(sTemp, 3, 5); // append substring of sTemp starting at index 3 of length 5
-std::cout &lt;&lt; sString &lt;&lt; &#39;\n&#39;;</code></pre><p>Wyjście:<pre>one three
+const std::string sTemp{"twothreefour"};
+sString.append(sTemp, 3, 5); // dołącz podciąg sTemp zaczynając od indeksu 3 o długości 5
+std::cout &lt;&lt; sString &lt;&lt; '\n';</code></pre><p>Wyjście:<pre>one three
 </pre></table></div><p>Operator+= i append() również mają wersje, które działają na ciągach w stylu C:<div class=cpp-table-wrapper><p><p><table class=cpp-table><tbody><tr><td><b>string&amp; string::operator+= (const char* str)</b><br><b>string&amp; string::append (const char* str)</b><br><p><ul><li>Obie funkcje dołączają znaki str do łańcucha.<li>Obie funkcje zwracają *to, aby można było je „połączyć”.<li>Obie funkcje zgłaszają wyjątek dotyczący długości_błędu, jeśli wynik przekracza maksymalną liczbę znaków.<li>str nie powinno być NULL.</ul><p>Przykładowy kod:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::string sString{&#34;one&#34;};
 
 sString += &#34; two&#34;;

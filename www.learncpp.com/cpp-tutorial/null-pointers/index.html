@@ -18,48 +18,48 @@
 int main()
 {
     int x{ 5 };
-    std::cout &lt;&lt; x &lt;&lt; &#39;\n&#39;; // print the value of variable x
+    std::cout &lt;&lt; x &lt;&lt; '\n'; // wydrukuj wartość zmiennej x
 
-    int* ptr{ &amp;x }; // ptr holds the address of x
-    std::cout &lt;&lt; *ptr &lt;&lt; &#39;\n&#39;; // use dereference operator to print the value of the object at the address that ptr is holding (which is x&#39;s address)
+    int* ptr{ &amp;x }; // ptr przechowuje adres x
+    std::cout &lt;&lt; *ptr &lt;&lt; '\n'; // użyj operatora dereferencji, aby wydrukować wartość obiektu pod adresem trzymanym przez ptr (który jest adresem x) adres)
 
     return 0;
 }</code></pre><p>Powyższy przykład wypisuje:<pre>5
 5
-</pre><p>W poprzedniej lekcji zauważyliśmy również, że wskaźniki nie muszą na nic wskazywać. W tej lekcji przyjrzymy się bliżej takim wskaźnikom (i różnym konsekwencjom wskazywania niczego).<p class="cpp-section cpp-topline" style=clear:both>Wskaźniki zerowe<p>Oprócz adresu pamięci, istnieje jeszcze jedna dodatkowa wartość, którą wskaźnik może przechowywać: wartość null. A <strong>wartość null</strong> (często skracana do <strong>null</strong>) to wartość specjalna, która oznacza, że ​​coś nie ma wartości. Gdy wskaźnik przechowuje wartość null, oznacza to, że wskaźnik na nic nie wskazuje. Taki wskaźnik nazywany jest <strong>wskaźnikiem zerowym</strong>.<p>Najłatwiejszym sposobem utworzenia wskaźnika zerowego jest użycie inicjalizacji wartości:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
+</pre><p>W poprzedniej lekcji zauważyliśmy również, że wskaźniki nie muszą na nic wskazywać. W tej lekcji przyjrzymy się bliżej takim wskaźnikom (i różnym konsekwencjom wskazywania niczego).<p class="cpp-section cpp-topline" style=clear:both>Wskaźniki zerowe<p>Oprócz adresu pamięci, istnieje jeszcze jedna dodatkowa wartość, którą wskaźnik może przechowywać: wartość null. <strong>wartość null</strong> (często skracana do <strong>null</strong>) to wartość specjalna, która oznacza, że ​​coś nie ma wartości. Gdy wskaźnik przechowuje wartość null, oznacza to, że wskaźnik na nic nie wskazuje. Taki wskaźnik nazywany jest <strong>wskaźnikiem zerowym</strong>.<p>Najłatwiejszym sposobem utworzenia wskaźnika zerowego jest użycie inicjalizacji wartości:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
-    int* ptr {}; // ptr is now a null pointer, and is not holding an address
+    int* ptr {}; // ptr jest teraz wskaźnikiem zerowym i nie jest trzymający adres
  
     return 0;
 }</code></pre><div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Wartość inicjuje wskaźniki (aby były wskaźnikami zerowymi), jeśli nie inicjujesz ich adresem prawidłowego obiektu.</div><p>Ponieważ możemy użyć przypisania, aby zmienić to, na co wskazuje wskaźnik, wskaźnik, który początkowo ustawione na null, można później zmienić tak, aby wskazywało prawidłowy obiekt:<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 int main()
 {
-    int* ptr {}; // ptr is a null pointer, and is not holding an address
+    int* ptr {}; // ptr jest wskaźnikiem zerowym i nie przechowuje adresu
 
     int x { 5 };
-    ptr = &amp;x; // ptr now pointing at object x (no longer a null pointer)
+    ptr = &amp;x; // ptr wskazuje teraz na obiekt x (nie jest już wskaźnikiem zerowym)
 
-    std::cout &lt;&lt; *ptr &lt;&lt; &#39;\n&#39;; // print value of x through dereferenced ptr
+    std::cout &lt;&lt; *ptr &lt;&lt; '\n'; // wypisz wartość x przez wyłuskany ptr
  
     return 0;
 }</code></pre><p class="cpp-section cpp-topline" style=clear:both>Słowo kluczowe nullptr<p>Podobnie jak słowa kluczowe <code>true</code> i <code>false</code> reprezentują wartości literału logicznego, <strong>nullptr</strong>  reprezentuje literał wskaźnika zerowego. Możemy użyć <code>nullptr</code> do jawnej inicjalizacji lub przypisania wskaźnikowi wartości null.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
-    int* ptr { nullptr }; // can use nullptr to initialize a pointer to be a null pointer
+    int* ptr { nullptr }; // może użyć nullptr do zainicjowania wskaźnika jako wskaźnik zerowy
 
     int value { 5 };
-    int* ptr2 { &amp;value }; // ptr2 is a valid pointer
-    ptr2 = nullptr; // Can assign nullptr to make the pointer a null pointer
+    int* ptr2 { &amp;value }; // ptr2 jest prawidłowym wskaźnikiem
+    ptr2 = nullptr; // Można przypisać nullptr, aby wskaźnik był wskaźnikiem zerowym
 
-    someFunction(nullptr); // we can also pass nullptr to a function that has a pointer parameter
+    someFunction(nullptr); // możemy także przekazać nullptr do funkcji, która ma parametr wskaźnika
 
     return 0;
 }</code></pre><p>W powyższym przykładzie używamy przypisania do ustawienia wartości <code>ptr2</code> Do <code>nullptr</code>, tworząc <code>ptr2</code> wartość null wskaźnik.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Użyj <code>nullptr</code> kiedy potrzebujesz literału wskaźnika zerowego do inicjalizacji, przypisania lub przekazania wskaźnika zerowego do funkcji.</div><p class="cpp-section cpp-topline" style=clear:both>Wyłuskiwanie wskaźnika zerowego powoduje niezdefiniowane zachowanie<p>Podobnie jak wyłuskiwanie wskaźnika wiszącego (lub dzikiego) prowadzi do niezdefiniowanego zachowania, wyłuskiwanie wskaźnika zerowego również prowadzi do niezdefiniowanego zachowania. W większości przypadków spowoduje to awarię aplikacji.<p>Poniższy program ilustruje to i prawdopodobnie spowoduje awarię lub nienormalne zamknięcie aplikacji po jej uruchomieniu (śmiało, spróbuj, nie zaszkodzisz swojej maszynie):<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 int main()
 {
-    int* ptr {}; // Create a null pointer
-    std::cout &lt;&lt; *ptr &lt;&lt; &#39;\n&#39;; // Dereference the null pointer
+    int* ptr {}; // Utwórz wskaźnik zerowy
+    std::cout &lt;&lt; *ptr &lt;&lt; '\n'; // Usuń wskaźnik zerowy
 
     return 0;
 }</code></pre><p>Pod względem koncepcyjnym ma to sens. Dereferencja wskaźnika oznacza „przejdź do adresu, na który wskazuje wskaźnik i uzyskaj dostęp do znajdującej się tam wartości”. Wskaźnik zerowy przechowuje wartość zerową, co semantycznie oznacza, że ​​wskaźnik na nic nie wskazuje. Zatem do jakiej wartości miałby dostęp?<p>Przypadkowe wyłuskiwanie wskaźników zerowych i wiszących jest jednym z najczęstszych błędów popełnianych przez programistów C++ i prawdopodobnie najczęstszą przyczyną awarii programów w C++ w praktyce.<div class="cpp-note cpp-lightredbackground"><p class="cpp-note-title cpp-bottomline">Ostrzeżenie<p>Za każdym razem, gdy używasz wskaźników, musisz zachować szczególną ostrożność, aby Twój kod nie wyłuskiwał wskaźników zerowych lub wiszących, ponieważ spowoduje to niezdefiniowane zachowanie (prawdopodobnie aplikacja awaria).</div><p class="cpp-section cpp-topline" style=clear:both>Sprawdzanie wskaźników zerowych<p>Podobnie jak możemy użyć warunku do przetestowania wartości logicznych dla <code>true</code> lub <code>false</code>, możemy użyć warunku do sprawdzenia, czy wskaźnik ma wartość <code>nullptr</code> czy nie:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -69,13 +69,13 @@ int main()
     int x { 5 };
     int* ptr { &amp;x };
 
-    if (ptr == nullptr) // explicit test for equivalence
-        std::cout &lt;&lt; &#34;ptr is null\n&#34;;
+    if (ptr == nullptr) // jawna test równoważności
+        std::cout &lt;&lt; "ptr is null\n";
     else
-        std::cout &lt;&lt; &#34;ptr is non-null\n&#34;;
+        std::cout &lt;&lt; "ptr is non-null\n";
 
     int* nullPtr {};
-    std::cout &lt;&lt; &#34;nullPtr is &#34; &lt;&lt; (nullPtr==nullptr ? &#34;null\n&#34; : &#34;non-null\n&#34;); // explicit test for equivalence
+    std::cout &lt;&lt; "nullPtr is " &lt;&lt; (nullPtr==nullptr ? "null\n" : "non-null\n"); // jawna test równoważności
 
     return 0;
 }</code></pre><p>Powyższy program wypisuje:<pre>ptr is non-null
@@ -87,36 +87,36 @@ int main()
     int x { 5 };
     int* ptr { &amp;x };
 
-    // pointers convert to Boolean false if they are null, and Boolean true if they are non-null
-    if (ptr) // implicit conversion to Boolean
-        std::cout &lt;&lt; &#34;ptr is non-null\n&#34;;
+    // wskaźniki są konwertowane na wartość Boolean false, jeśli mają wartość null, i wartość Boolean true, jeśli są różne od wartości null
+    if (ptr) // ukryta konwersja na wartość logiczną
+        std::cout &lt;&lt; "ptr is non-null\n";
     else
-        std::cout &lt;&lt; &#34;ptr is null\n&#34;;
+        std::cout &lt;&lt; "ptr is null\n";
 
     int* nullPtr {};
-    std::cout &lt;&lt; &#34;nullPtr is &#34; &lt;&lt; (nullPtr ? &#34;non-null\n&#34; : &#34;null\n&#34;); // implicit conversion to Boolean
+    std::cout &lt;&lt; "nullPtr is " &lt;&lt; (nullPtr ? "non-null\n" : "null\n"); // ukryta konwersja na wartość logiczną
 
     return 0;
-}</code></pre><div class="cpp-note cpp-lightredbackground"><p class="cpp-note-title cpp-bottomline">Ostrzeżenie<p>Warunków warunkowych można używać tylko do odróżniania wskaźników zerowych od wskaźników innych niż null. Nie ma wygodnego sposobu na określenie, czy wskaźnik inny niż null wskazuje na prawidłowy obiekt, czy jest zwisający (wskazuje nieprawidłowy obiekt).</div><p class="cpp-section cpp-topline" style=clear:both>Użyj nullptr, aby uniknąć zwisających wskaźników<p>Powyżej wspomnieliśmy, że wyłuskiwanie wskaźnika, który ma wartość null lub jest zwisający, spowoduje niezdefiniowane zachowanie. Dlatego musimy się upewnić, że nasz kod nie wykonuje żadnej z tych rzeczy.<p>Możemy łatwo uniknąć wyłuskiwania wskaźnika zerowego, używając warunku, aby upewnić się, że wskaźnik nie ma wartości null przed próbą wyłuskania:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Assume ptr is some pointer that may or may not be a null pointer
-if (ptr) // if ptr is not a null pointer
-    std::cout &lt;&lt; *ptr &lt;&lt; &#39;\n&#39;; // okay to dereference
+}</code></pre><div class="cpp-note cpp-lightredbackground"><p class="cpp-note-title cpp-bottomline">Ostrzeżenie<p>Warunków warunkowych można używać tylko do odróżniania wskaźników zerowych od wskaźników innych niż null. Nie ma wygodnego sposobu na określenie, czy wskaźnik inny niż null wskazuje na prawidłowy obiekt, czy jest zwisający (wskazuje nieprawidłowy obiekt).</div><p class="cpp-section cpp-topline" style=clear:both>Użyj nullptr, aby uniknąć zwisających wskaźników<p>Powyżej wspomnieliśmy, że wyłuskiwanie wskaźnika, który ma wartość null lub jest zwisający, spowoduje niezdefiniowane zachowanie. Dlatego musimy się upewnić, że nasz kod nie wykonuje żadnej z tych rzeczy.<p>Możemy łatwo uniknąć wyłuskiwania wskaźnika zerowego, używając warunku, aby upewnić się, że wskaźnik nie ma wartości null przed próbą wyłuskania:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Załóż, że ptr jest wskaźnikiem, który może być wskaźnikiem zerowym lub nie
+if (ptr) // jeśli ptr nie jest wskaźnikiem zerowym
+    std::cout &lt;&lt; *ptr &lt;&lt; '\n'; // w porządku wyłuskanie
 else
-    // do something else that doesn&#39;t involve dereferencing ptr (print an error message, do nothing at all, etc...)</code></pre><p>Ale co ze zwisającymi wskaźnikami? Ponieważ nie ma możliwości wykrycia, czy wskaźnik jest wiszący, musimy przede wszystkim unikać umieszczania w naszym programie jakichkolwiek wskaźników wiszących. Robimy to poprzez upewnienie się, że każdy wskaźnik, który nie wskazuje na prawidłowy obiekt, ma ustawioną wartość <code>nullptr</code>.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>W ten sposób przed wyłuskaniem wskaźnika musimy jedynie sprawdzić, czy ma on wartość null — jeśli nie jest null, zakładamy, że wskaźnik nie wisi.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Wskaźnik powinien albo zawierać adres prawidłowego obiektu, albo mieć ustawioną wartość nullptr. W ten sposób musimy jedynie przetestować wskaźniki pod kątem wartości null i możemy założyć, że każdy wskaźnik inny niż null jest prawidłowy.</div><p>Niestety unikanie zwisających wskaźników nie zawsze jest łatwe: gdy obiekt zostanie zniszczony, wszelkie wskaźniki do tego obiektu pozostaną w zawieszeniu. Takie wskaźniki są <em>nie</em> automatycznie kasowane! Obowiązkiem programisty jest upewnienie się, że wszystkie wskaźniki do obiektu, który właśnie został zniszczony, są prawidłowo ustawione na <code>nullptr</code>.<div class="cpp-note cpp-lightredbackground"><p class="cpp-note-title cpp-bottomline">Ostrzeżenie<p>Gdy obiekt zostanie zniszczony, wszelkie wskaźniki do zniszczonego obiektu pozostaną w zawieszeniu (nie zostaną automatycznie ustawione na <code>nullptr</code>). Twoim obowiązkiem jest wykrycie takich przypadków i upewnienie się, że te wskaźniki zostaną następnie ustawione na <code>nullptr</code>.</div><p class="cpp-section cpp-topline" style=clear:both>Starsze literały wskaźników zerowych: 0 i NULL<p>W starszym kodzie możesz zobaczyć dwie inne wartości literałów zamiast <code>nullptr</code>.<p>Pierwsza to literał <code>0</code>. W kontekście wskaźnika literał <code>0</code> jest specjalnie zdefiniowany jako oznaczający wartość null i jest to jedyny przypadek, w którym można przypisać do wskaźnika literał całkowity.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
+    // zrób coś innego, co nie wymaga wyłuskiwania ptr (drukuj komunikat o błędzie, w ogóle nic nie rób itp...)</code></pre><p>Ale co ze zwisającymi wskaźnikami? Ponieważ nie ma możliwości wykrycia, czy wskaźnik jest wiszący, musimy przede wszystkim unikać umieszczania w naszym programie jakichkolwiek wskaźników wiszących. Robimy to poprzez upewnienie się, że każdy wskaźnik, który nie wskazuje na prawidłowy obiekt, ma ustawioną wartość <code>nullptr</code>.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>W ten sposób przed wyłuskaniem wskaźnika musimy jedynie sprawdzić, czy ma on wartość null — jeśli nie jest null, zakładamy, że wskaźnik nie wisi.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Wskaźnik powinien albo zawierać adres prawidłowego obiektu, albo mieć ustawioną wartość nullptr. W ten sposób musimy jedynie przetestować wskaźniki pod kątem wartości null i możemy założyć, że każdy wskaźnik inny niż null jest prawidłowy.</div><p>Niestety unikanie zwisających wskaźników nie zawsze jest łatwe: gdy obiekt zostanie zniszczony, wszelkie wskaźniki do tego obiektu pozostaną w zawieszeniu. Takie wskaźniki są <em>nie</em> automatycznie kasowane! Obowiązkiem programisty jest upewnienie się, że wszystkie wskaźniki do obiektu, który właśnie został zniszczony, są prawidłowo ustawione na <code>nullptr</code>.<div class="cpp-note cpp-lightredbackground"><p class="cpp-note-title cpp-bottomline">Ostrzeżenie<p>Gdy obiekt zostanie zniszczony, wszelkie wskaźniki do zniszczonego obiektu pozostaną w zawieszeniu (nie zostaną automatycznie ustawione na <code>nullptr</code>). Twoim obowiązkiem jest wykrycie takich przypadków i upewnienie się, że te wskaźniki zostaną następnie ustawione na <code>nullptr</code>.</div><p class="cpp-section cpp-topline" style=clear:both>Starsze literały wskaźników zerowych: 0 i NULL<p>W starszym kodzie możesz zobaczyć dwie inne wartości literałów zamiast <code>nullptr</code>.<p>Pierwsza to literał <code>0</code>. W kontekście wskaźnika literał <code>0</code> jest specjalnie zdefiniowany jako oznaczający wartość null i jest to jedyny przypadek, w którym można przypisać do wskaźnika literał całkowity.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
-    float* ptr { 0 };  // ptr is now a null pointer (for example only, don&#39;t do this)
+    float* ptr { 0 };  // ptr jest teraz wskaźnikiem zerowym (tylko na przykład, nie rób tego)
 
-    float* ptr2; // ptr2 is uninitialized
-    ptr2 = 0; // ptr2 is now a null pointer (for example only, don&#39;t do this)
+    float* ptr2; // ptr2 jest niezainicjowany
+    ptr2 = 0; // ptr2 jest teraz wskaźnikiem zerowym (tylko na przykład, nie rób tego this)
 
     return 0;
-}</code></pre><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Na marginesie…<p>W nowoczesnych architekturach adres <code>0</code> jest zwykle używany do reprezentowania wskaźnika zerowego. Jednak ta wartość nie jest gwarantowana przez standard C++, a niektóre architektury używają innych wartości. Literal <code>0</code>, użyty w kontekście wskaźnika zerowego, zostanie przetłumaczony na dowolny adres używany przez architekturę do reprezentowania wskaźnika zerowego.</div><p>Dodatkowo istnieje makro preprocesora o nazwie <code>NULL</code> (zdefiniowane w nagłówku &lt;cstddef&gt;). To makro jest dziedziczone z C, gdzie jest powszechnie używane do wskazywania wskaźnika zerowego.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cstddef&gt; // for NULL
+}</code></pre><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Na marginesie…<p>W nowoczesnych architekturach adres <code>0</code> jest zwykle używany do reprezentowania wskaźnika zerowego. Jednak ta wartość nie jest gwarantowana przez standard C++, a niektóre architektury używają innych wartości. Literal <code>0</code>, użyty w kontekście wskaźnika zerowego, zostanie przetłumaczony na dowolny adres używany przez architekturę do reprezentowania wskaźnika zerowego.</div><p>Dodatkowo istnieje makro preprocesora o nazwie <code>NULL</code> (zdefiniowane w nagłówku &lt;cstddef&gt;). To makro jest dziedziczone z C, gdzie jest powszechnie używane do wskazywania wskaźnika zerowego.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cstddef&gt; // dla NULL
 
 int main()
 {
-    double* ptr { NULL }; // ptr is a null pointer
+    double* ptr { NULL }; // ptr jest wskaźnikiem zerowym
 
-    double* ptr2; // ptr2 is uninitialized
-    ptr2 = NULL; // ptr2 is now a null pointer
+    double* ptr2; // ptr2 jest niezainicjowany
+    ptr2 = NULL; // ptr2 jest teraz wskaźnikiem zerowym
 
     return 0;
 }</code></pre><p>Oba <code>0</code> i <code>NULL</code> należy unikać we współczesnym C++ (zamiast tego użyj  <code>nullptr</code> ). Omawiamy to na lekcji <a href="../pass-by-address-part-2/index.html">12.11 — Przekazywanie adresu (część 2)</a>.<p class="cpp-section cpp-topline" style=clear:both>Jeśli to możliwe, preferuj referencje zamiast wskaźników<p>Zarówno wskaźniki, jak i referencje dają nam możliwość pośredniego dostępu do innych obiektów.<p>Wskaźniki mają dodatkową możliwość zmiany tego, na co wskazują, i wskazywania na wartość null. Jednak te możliwości wskaźników są również z natury niebezpieczne: wskaźnik zerowy wiąże się z ryzykiem wyłuskania, a możliwość zmiany tego, na co wskazuje wskaźnik, może ułatwić tworzenie wskaźników wiszących:<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
@@ -125,10 +125,10 @@ int main()
     
     {
         int x{ 5 };
-        ptr = &amp;x; // assign the pointer to an object that will be destroyed (not possible with a reference)
-    } // ptr is now dangling and pointing to invalid object
+        ptr = &amp;x; // przypisz wskaźnik do obiektu, który zostanie zniszczony (nie jest to możliwe w przypadku referencji)
+    } // ptr zwisa teraz i wskazuje na nieprawidłowy obiekt
 
-    if (ptr) // condition evaluates to true because ptr is not nullptr
+    if (ptr) // warunek ma wartość true, ponieważ ptr nie ma wartości nullptr
         std::cout &lt;&lt; *ptr; // undefined behavior
 
     return 0;

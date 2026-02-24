@@ -30,12 +30,12 @@ public:
 		assert(denominator != 0);
 	}
 
-	// Copy constructor
+	// Kopiuj konstruktor
 	Fraction(const Fraction&amp; copy)
 		: m_numerator { copy.m_numerator }, m_denominator { copy.m_denominator }
 	{
-		// no need to check for a denominator of 0 here since copy must already be a valid Fraction
-		std::cout &lt;&lt; &#34;Copy constructor called\n&#34;; // just to prove it works
+		// nie ma potrzeby sprawdzania tutaj mianownika 0, ponieważ kopia musi już być prawidłowym ułamkiem
+		std::cout &lt;&lt; "Copy constructor called\n"; // tylko żeby udowodnić, że to działa
 	}
 
 	// Overloaded assignment
@@ -47,18 +47,18 @@ public:
 
 std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const Fraction&amp; f1)
 {
-	out &lt;&lt; f1.m_numerator &lt;&lt; &#39;/&#39; &lt;&lt; f1.m_denominator;
+	out &lt;&lt; f1.m_numerator &lt;&lt; '/' &lt;&lt; f1.m_denominator;
 	return out;
 }
 
-// A simplistic implementation of operator= (see better implementation below)
+// Uproszczona implementacja operatora= (patrz lepsza implementacja poniżej)
 Fraction&amp; Fraction::operator= (const Fraction&amp; fraction)
 {
-    // do the copy
+    // zrób kopię
     m_numerator = fraction.m_numerator;
     m_denominator = fraction.m_denominator;
 
-    // return the existing object so we can chain this operator
+    // zwróć istniejący obiekt, abyśmy mogli połączyć ten operator
     return *this;
 }
 
@@ -66,7 +66,7 @@ int main()
 {
     Fraction fiveThirds { 5, 3 };
     Fraction f;
-    f = fiveThirds; // calls overloaded assignment
+    f = fiveThirds; // wywołania przeciążonego przypisania
     std::cout &lt;&lt; f;
 
     return 0;
@@ -86,7 +86,7 @@ int main()
     f1 = f1; // self assignment
 
     return 0;
-}</code></pre><p>Wywoła to f1.operator=(f1) i zgodnie z uproszczoną implementacją powyżej wszyscy członkowie zostaną przypisani do siebie. W tym konkretnym przykładzie samoprzypisanie powoduje, że każdy członek zostaje przypisany do siebie, co nie ma żadnego ogólnego wpływu poza stratą czasu. W większości przypadków samodzielne przypisanie nie musi w ogóle nic robić!<p>Jednak w przypadkach, gdy operator przypisania musi dynamicznie przypisywać pamięć, samodzielne przypisanie może być w rzeczywistości niebezpieczne:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;algorithm&gt; // for std::max and std::copy_n
+}</code></pre><p>Wywoła to f1.operator=(f1) i zgodnie z uproszczoną implementacją powyżej wszyscy członkowie zostaną przypisani do siebie. W tym konkretnym przykładzie samoprzypisanie powoduje, że każdy członek zostaje przypisany do siebie, co nie ma żadnego ogólnego wpływu poza stratą czasu. W większości przypadków samodzielne przypisanie nie musi w ogóle nic robić!<p>Jednak w przypadkach, gdy operator przypisania musi dynamicznie przypisywać pamięć, samodzielne przypisanie może być w rzeczywistości niebezpieczne:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;algorithm&gt; // dla std::max i std::copy_n
 #include &lt;iostream&gt;
 
 class MyString
@@ -102,7 +102,7 @@ public:
 		if (length)
 		{
 			m_data = new char[static_cast&lt;std::size_t&gt;(length)];
-			std::copy_n(data, length, m_data); // copy length elements of data into m_data
+			std::copy_n(data, length, m_data); // skopiuj elementy długości danych do m_data
 		}
 	}
 	~MyString()
@@ -110,7 +110,7 @@ public:
 		delete[] m_data;
 	}
 
-	MyString(const MyString&amp;) = default; // some compilers (gcc) warn if you have pointer members but no declared copy constructor
+	MyString(const MyString&amp;) = default; // niektóre kompilatory (gcc) ostrzegają, jeśli masz elementy wskaźnikowe, ale nie zadeklarowano konstruktora kopiującego
 
 	// Overloaded assignment
 	MyString&amp; operator= (const MyString&amp; str);
@@ -124,72 +124,72 @@ std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const MyString&amp; s)
 	return out;
 }
 
-// A simplistic implementation of operator= (do not use)
+// Prosta implementacja operatora= (nie używać)
 MyString&amp; MyString::operator= (const MyString&amp; str)
 {
-	// if data exists in the current string, delete it
+	// jeśli w bieżącym ciągu istnieją dane, usuń je
 	if (m_data) delete[] m_data;
 
 	m_length = str.m_length;
 	m_data = nullptr;
 
-	// allocate a new array of the appropriate length
+	// przydziel nową tablicę o odpowiedniej długości
 	if (m_length)
 		m_data = new char[static_cast&lt;std::size_t&gt;(str.m_length)];
 
-	std::copy_n(str.m_data, m_length, m_data); // copies m_length elements of str.m_data into m_data
+	std::copy_n(str.m_data, m_length, m_data); // kopiuje m_length elementy str.m_data do m_data
 
-	// return the existing object so we can chain this operator
+	// zwróć istniejący obiekt, abyśmy mogli połączyć ten operator
 	return *this;
 }
 
 int main()
 {
-	MyString alex(&#34;Alex&#34;, 5); // Meet Alex
+	MyString alex("Alex", 5); // Meet Alex
 	MyString employee;
-	employee = alex; // Alex is our newest employee
-	std::cout &lt;&lt; employee; // Say your name, employee
+	employee = alex; // Alex jest naszym obecnym pracownikiem
+	std::cout &lt;&lt; employee; // Powiedz swoje imię, pracowniku
 
 	return 0;
 }</code></pre><p>Najpierw uruchom program w niezmienionej postaci. Zobaczysz, że program wypisuje „Alex” tak, jak powinien.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Teraz uruchom następujący program:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
-    MyString alex { &#34;Alex&#34;, 5 }; // Meet Alex
-    alex = alex; // Alex is himself
-    std::cout &lt;&lt; alex; // Say your name, Alex
+    MyString alex { "Alex", 5 }; // Meet Alex
+    alex = alex; // Alex jest sobą
+    std::cout &lt;&lt; alex; // Powiedz swoje imię, Alex
 
     return 0;
 }</code></pre><p>Prawdopodobnie otrzymasz wynik śmieciowy. Co się stało?<p>Zastanów się, co dzieje się w przeciążonym operator=, gdy zarówno ukryty obiekt ORAZ przekazany parametr (str) są zmiennymi alex. W tym przypadku m_data jest tym samym, co str.m_data. Pierwszą rzeczą, która się dzieje, jest to, że funkcja sprawdza, czy ukryty obiekt ma już ciąg znaków. Jeśli tak, musi go usunąć, aby nie doszło do wycieku pamięci. W tym przypadku przydzielane jest m_data, więc funkcja usuwa m_data. Ale ponieważ str jest tym samym co *this, ciąg, który chcieliśmy skopiować, został usunięty, a m_data (i str.m_data) pozostają w zawieszeniu.<p>Później przydzielamy nową pamięć do m_data (i str.m_data). Zatem kiedy później kopiujemy dane z str.m_data do m_data, kopiujemy śmieci, ponieważ str.m_data nigdy nie zostało zainicjowane.<p class="cpp-section cpp-topline" style=clear:both>Wykrywanie i obsługa samodzielnego przypisania<p>Na szczęście możemy wykryć, kiedy następuje samoprzypisanie. Oto zaktualizowana implementacja naszego przeciążonego operatora= dla klasy MyString:<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">MyString&amp; MyString::operator= (const MyString&amp; str)
 {
-	// self-assignment check
+	// sprawdzenie samodzielnego przypisania
 	if (this == &amp;str)
 		return *this;
 
-	// if data exists in the current string, delete it
+	// jeśli w bieżącym ciągu istnieją dane, usuń je
 	if (m_data) delete[] m_data;
 
 	m_length = str.m_length;
 	m_data = nullptr;
 
-	// allocate a new array of the appropriate length
+	// przydziel nową tablicę o odpowiedniej długości
 	if (m_length)
 		m_data = new char[static_cast&lt;std::size_t&gt;(str.m_length)];
 
-	std::copy_n(str.m_data, m_length, m_data); // copies m_length elements of str.m_data into m_data
+	std::copy_n(str.m_data, m_length, m_data); // kopiuje m_length elementy str.m_data do m_data
 
-	// return the existing object so we can chain this operator
+	// zwróć istniejący obiekt, abyśmy mogli połączyć ten operator
 	return *this;
-}</code></pre><p>Dzięki sprawdzeniu, czy adres naszego ukrytego obiektu jest taki sam, jak adres obiektu przekazywanego jako parametr, możemy sprawić, że nasz operator przypisania po prostu zwróci natychmiast, nie wykonując żadnej innej pracy.<p>Ponieważ jest to tylko porównanie wskaźników, powinno być szybkie i nie wymaga przeciążenia operatora==.<p class="cpp-section cpp-topline" style=clear:both>Jeśli nie do obsługi samodzielnego przypisania<p>Zazwyczaj sprawdzanie samodzielnego przypisania jest pomijane w przypadku konstruktorów kopiujących. Ponieważ kopiowany obiekt jest nowo utworzony, jedynym przypadkiem, w którym nowo utworzony obiekt może być równy kopiowanemu obiektowi, jest próba zainicjowania nowo zdefiniowanego obiektu samym sobą:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">someClass c { c };</code></pre><p>W takich przypadkach kompilator powinien Cię ostrzec, że <code>c</code> jest niezainicjowaną zmienną.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>Po drugie, sprawdzenie samodzielnego przydziału można pominąć w klasach, które w naturalny sposób radzą sobie z samodzielnym przydziałem. Rozważmy ten operator przypisania klasy Ułamek, który ma zabezpieczenie przed samodzielnym przypisaniem:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// A better implementation of operator=
+}</code></pre><p>Dzięki sprawdzeniu, czy adres naszego ukrytego obiektu jest taki sam, jak adres obiektu przekazywanego jako parametr, możemy sprawić, że nasz operator przypisania po prostu zwróci natychmiast, nie wykonując żadnej innej pracy.<p>Ponieważ jest to tylko porównanie wskaźników, powinno być szybkie i nie wymaga przeciążenia operatora==.<p class="cpp-section cpp-topline" style=clear:both>Jeśli nie do obsługi samodzielnego przypisania<p>Zazwyczaj sprawdzanie samodzielnego przypisania jest pomijane w przypadku konstruktorów kopiujących. Ponieważ kopiowany obiekt jest nowo utworzony, jedynym przypadkiem, w którym nowo utworzony obiekt może być równy kopiowanemu obiektowi, jest próba zainicjowania nowo zdefiniowanego obiektu samym sobą:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">someClass c { c };</code></pre><p>W takich przypadkach kompilator powinien Cię ostrzec, że <code>c</code> jest niezainicjowaną zmienną.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>Po drugie, sprawdzenie samodzielnego przydziału można pominąć w klasach, które w naturalny sposób radzą sobie z samodzielnym przydziałem. Rozważmy ten operator przypisania klasy Ułamek, który ma zabezpieczenie przed samodzielnym przypisaniem:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Lepsza implementacja operatora=
 Fraction&amp; Fraction::operator= (const Fraction&amp; fraction)
 {
-    // self-assignment guard
+    // ochroniarz z własnym przydziałem
     if (this == &amp;fraction)
         return *this;
 
-    // do the copy
-    m_numerator = fraction.m_numerator; // can handle self-assignment
-    m_denominator = fraction.m_denominator; // can handle self-assignment
+    // zrób kopię
+    m_numerator = fraction.m_numerator; // potrafi poradzić sobie z samodzielnym przydziałem
+    m_denominator = fraction.m_denominator; // potrafi poradzić sobie z samodzielnym przydziałem
 
-    // return the existing object so we can chain this operator
+    // zwróć istniejący obiekt, abyśmy mogli połączyć ten operator
     return *this;
 }</code></pre><p>Gdyby zabezpieczenie przed samoprzypisaniem nie istniało, ta funkcja nadal działałaby poprawnie podczas samodzielnego przydziału (ponieważ wszystkie operacje wykonywane przez tę funkcję mogą poprawnie obsłużyć samodzielne przypisanie).<p>Ponieważ samodzielne przypisanie jest rzadkim zdarzeniem, niektórzy wybitni guru C++ zalecają pomijanie tego zabezpieczenia nawet w klasach, które odniosłyby z tego korzyści. Nie zalecamy tego, ponieważ uważamy, że lepszą praktyką jest kodowanie defensywne, a później selektywna optymalizacja.<p class="cpp-section cpp-topline" style=clear:both>Idiom kopiowania i zamiany<p>Lepszym sposobem radzenia sobie z problemami związanymi z samodzielnym przypisaniem jest tak zwany idiom kopiowania i zamiany. Istnieje świetny opis działania tego idiomu <a href=https://stackoverflow.com/questions/3279543/what-is-the-copy-and-swap-idiom>w przypadku przepełnienia stosu</a>.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p class="cpp-section cpp-topline" style=clear:both>niejawny operator przypisania kopiowania<p>W przeciwieństwie do innych operatorów, kompilator zapewni niejawny publiczny operator przypisania kopii dla twojej klasy, jeśli nie podasz operatora zdefiniowanego przez użytkownika. Ten operator przypisania dokonuje przypisania członkowskiego (co jest zasadniczo takie samo jak inicjalizacja członkowa wykonywana przez domyślne konstruktory kopiujące).<p>Podobnie jak inne konstruktory i operatory, możesz zapobiec wykonywaniu przypisań, ustawiając operator przypisania kopiowania jako prywatny lub używając słowa kluczowego usuwania:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cassert&gt;
 #include &lt;iostream&gt;
@@ -208,11 +208,11 @@ public:
         assert(denominator != 0);
     }
 
-	// Copy constructor
+	// Kopiuj konstruktor
 	Fraction(const Fraction &amp;copy) = delete;
 
 	// Overloaded assignment
-	Fraction&amp; operator= (const Fraction&amp; fraction) = delete; // no copies through assignment!
+	Fraction&amp; operator= (const Fraction&amp; fraction) = delete; // brak odpowiedzi poprzez przypisanie!
 
 	friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const Fraction&amp; f1);
         
@@ -220,7 +220,7 @@ public:
 
 std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const Fraction&amp; f1)
 {
-	out &lt;&lt; f1.m_numerator &lt;&lt; &#39;/&#39; &lt;&lt; f1.m_denominator;
+	out &lt;&lt; f1.m_numerator &lt;&lt; '/' &lt;&lt; f1.m_denominator;
 	return out;
 }
 
@@ -228,7 +228,7 @@ int main()
 {
     Fraction fiveThirds { 5, 3 };
     Fraction f;
-    f = fiveThirds; // compile error, operator= has been deleted
+    f = fiveThirds; // błąd kompilacji, operator= został usunięty
     std::cout &lt;&lt; f;
 
     return 0;

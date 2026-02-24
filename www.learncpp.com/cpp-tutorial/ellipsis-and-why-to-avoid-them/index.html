@@ -15,32 +15,32 @@
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2008-02-22T16:08:52-08:00 itemprop=datePublished>22 lutego 2008, 16:08 czasu PST</time>
 <time class=updated datetime=2023-09-11T16:44:06-07:00 itemprop=dateModified>Wrzesień 11, 2023</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>We wszystkich funkcji, które widzieliśmy do tej pory, liczba parametrów, które funkcja będzie przyjmować, musi być znana z góry (nawet jeśli mają one wartości domyślne). Istnieją jednak pewne przypadki, w których przydatna może być możliwość przekazania do funkcji zmiennej liczby parametrów. C++ udostępnia specjalny specyfikator zwany elipsą (znany również jako „…”), który pozwala nam to dokładnie zrobić.<p>Ponieważ elipsa jest rzadko używana, jest potencjalnie niebezpieczna i zalecamy unikanie jej stosowania, tę sekcję można uznać za lekturę opcjonalną.<p>Funkcje korzystające z wielokropka mają postać:<pre>return_type function_name(argument_list, ...)
 </pre><p>Klasa <em>lista_argumentów</em> to jeden lub więcej normalnych parametrów funkcji. Należy pamiętać, że funkcje korzystające z wielokropka muszą mieć co najmniej jeden parametr inny niż wielokropek. Wszelkie argumenty przekazywane do funkcji muszą najpierw odpowiadać parametrom listy_argumentów.<p>Wielokropek (reprezentowany jako trzy kropki z rzędu) musi zawsze być ostatnim parametrem funkcji. Wielokropek przechwytuje wszelkie dodatkowe argumenty (jeśli takie istnieją). Chociaż nie jest to całkiem dokładne, koncepcyjnie przydatne jest myślenie o elipsie jako o tablicy zawierającej wszelkie dodatkowe parametry poza tymi z listy argumentów.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p><strong>Przykład elipsy</strong><p>Najlepszym sposobem poznania wielokropka jest przykład. Napiszmy więc prosty program wykorzystujący elipsę. Załóżmy, że chcemy napisać funkcję obliczającą średnią zbioru liczb całkowitych. Zrobilibyśmy to w ten sposób:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
-#include &lt;cstdarg&gt; // needed to use ellipsis
+#include &lt;cstdarg&gt; // potrzebną do użycia wielokropka
 
-// The ellipsis must be the last parameter
-// count is how many additional arguments we&#39;re passing
+// Wielokropek musi być ostatnim parametrem
+// liczba oznacza, ile dodatkowych argumentów przekazujemy
 double findAverage(int count, ...)
 {
     int sum{ 0 };
 
-    // We access the ellipsis through a va_list, so let&#39;s declare one
+    // Dostęp do elipsy poprzez va_list, więc zadeklarujmy ją
     std::va_list list;
 
-    // We initialize the va_list using va_start.  The first argument is
-    // the list to initialize.  The second argument is the last non-ellipsis
+    // Inicjujemy listę va_list za pomocą va_start. Pierwszy argument to
+    // lista do pobrania. Drugi argument do ostatniej nieelipsy
     // parameter.
     va_start(list, count);
 
-    // Loop through all the ellipsis values
+    // Przejdź przez wszystkie wartości wielokropka
     for (int arg{ 0 }; arg &lt; count; ++arg)
     {
-         // We use va_arg to get values out of our ellipsis
-         // The first argument is the va_list we&#39;re using
-         // The second argument is the type of the value
+         // Używamy va_arg, aby uzyskać wartości z naszego wielokropka
+         // Pierwszym argumentem jest va_list, której używamy
+         // Drugi argument to typ wartości
          sum += va_arg(list, int);
     }
 
-    // Cleanup the va_list when we&#39;re done.
+    // Wyczyść listę va_list, gdy skończyliśmy.
     va_end(list);
 
     return static_cast&lt;double&gt;(sum) / count;
@@ -48,8 +48,8 @@ double findAverage(int count, ...)
 
 int main()
 {
-    std::cout &lt;&lt; findAverage(5, 1, 2, 3, 4, 5) &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; findAverage(6, 1, 2, 3, 4, 5, 6) &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; findAverage(5, 1, 2, 3, 4, 5) &lt;&lt; '\n';
+    std::cout &lt;&lt; findAverage(6, 1, 2, 3, 4, 5, 6) &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Ten kod wypisuje:<pre>3
@@ -58,33 +58,33 @@ int main()
 </pre><p>co jest NAPRAWDĘ dużą liczbą. Jak do tego doszło?<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>Jak nauczyłeś się na poprzednich lekcjach, komputer przechowuje wszystkie dane w postaci sekwencji bitów. Typ zmiennej mówi komputerowi, jak przetłumaczyć tę sekwencję bitów na znaczącą wartość. Jednak właśnie się dowiedziałeś, że wielokropek odrzuca typ zmiennej! W związku z tym jedynym sposobem uzyskania znaczącej wartości z wielokropka jest ręczne przekazanie va_arg() oczekiwanego typu następnego parametru. To właśnie robi drugi parametr va_arg(). Jeśli rzeczywisty typ parametru nie odpowiada oczekiwanemu typowi parametru, zwykle wydarzy się coś złego.<p>W powyższym programie findAverage powiedzieliśmy va_arg(), że oczekuje się, że wszystkie nasze zmienne będą mieć typ int. W rezultacie każde wywołanie va_arg() zwróci następną sekwencję bitów przetłumaczoną jako liczbę całkowitą.<p>W tym przypadku problem polega na tym, że wartość double, którą przekazaliśmy jako pierwszy argument wielokropka, wynosi 8 bajtów, podczas gdy va_arg(list, int) zwróci tylko 4 bajty danych przy każdym wywołaniu. W rezultacie pierwsze wywołanie va_arg odczyta tylko pierwsze 4 bajty double (tworząc wynik śmieciowy), a drugie wywołanie va_arg odczyta drugie 4 bajty double (tworząc kolejny śmieciowy wynik). Zatem nasz ogólny wynik to bzdura.<p>Ponieważ sprawdzanie typów jest zawieszone, kompilator nawet nie będzie narzekał, jeśli zrobimy coś zupełnie absurdalnego, na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    int value{ 7 };
     std::cout &lt;&lt; findAverage(6, 1.0, 2, &#34;Hello, world!&#34;, &#39;G&#39;, &amp;value, &amp;findAverage) &lt;&lt; &#39;\n&#39;;</code></pre><p>Wierz lub nie, ale to właściwie kompiluje się dobrze i daje następujący wynik na komputerze autora:<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><pre>1.79766e+008
 </pre><p>Ten wynik jest uosobieniem frazy „Śmieci w środku, śmieci na zewnątrz”, które jest popularnym wyrażeniem w informatyce „używanym głównie w celu zwrócenia uwagi na fakt, że komputery, w przeciwieństwie do ludzi, bez wątpienia przetworzą najbardziej bezsensowne dane wejściowe i wygenerują bezsensowny wynik” (<a href="https://en.wikipedia.org/wiki/Garbage_in,_garbage_out">Wikipedia</a>).<p>Podsumowując, sprawdzanie typów parametrów jest zawieszone i musimy ufać wywołującemu, że przekaże odpowiednie parametry. Jeśli tego nie zrobi, kompilator nie będzie narzekał - nasz program po prostu wygeneruje śmieci (a może awaria).<p><strong>Dlaczego elipsa jest niebezpieczna: elipsa nie wie, ile parametrów zostało przekazanych</strong><p>Elipsa nie tylko odrzuca  <em>typ</em> parametrów, ale także wyrzuca  <em>liczbę</em> parametrów w wielokropku opracować własne rozwiązanie do śledzenia liczby parametrów przekazywanych do wielokropka. Zwykle robi się to na jeden z trzech sposobów.<p><strong>Metoda 1: Przekazanie parametru długości</strong><div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>Metoda nr 1 polega na tym, że jeden ze stałych parametrów reprezentuje liczbę przekazanych parametrów opcjonalnych. To jest rozwiązanie, którego używamy w powyższym przykładzie findAverage().<p>Jednak nawet tutaj napotykamy problemy. Rozważmy na przykład następujące wywołanie:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    std::cout &lt;&lt; findAverage(6, 1, 2, 3, 4, 5) &lt;&lt; &#39;\n&#39;;</code></pre><p>Na komputerze autora w momencie pisania tego tekstu dało to wynik:<pre>699773
-</pre><p>Co się stało? Powiedzieliśmy funkcji findAverage(), że udostępnimy 6 dodatkowych wartości, ale podaliśmy tylko 5. W rezultacie pierwsze pięć wartości zwracanych przez funkcję va_arg() to te, które przekazaliśmy. Szósta wartość, którą zwraca, jest wartością śmieci znajdującą się gdzieś na stosie. W rezultacie otrzymaliśmy bzdurną odpowiedź.<p>Bardziej podstępny przypadek:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    std::cout &lt;&lt; findAverage(6, 1, 2, 3, 4, 5, 6, 7) &lt;&lt; &#39;\n&#39;;</code></pre><p> Daje to odpowiedź 3,5, która na pierwszy rzut oka może wyglądać na poprawną, ale pomija ostatnią liczbę w średniej, ponieważ tylko powiedzieliśmy, że podamy 6 dodatkowych wartości (a następnie faktycznie podaliśmy 7). Tego rodzaju błędy mogą być bardzo trudne do wyłapania.<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><p><strong>Metoda 2: Użyj wartości wskaźnikowej</strong><p>Metoda nr 2 polega na użyciu wartości wskaźnikowej. A <strong>wartownik</strong> to specjalna wartość używana do zakończenia pętli w przypadku jej napotkania. Na przykład w przypadku łańcuchów terminator zerowy jest używany jako wartość sygnalizująca koniec łańcucha. W przypadku wielokropka wartość wartownicza jest zwykle przekazywana jako ostatni parametr. Oto przykład funkcji findAverage() przepisanej tak, aby używała wartości wskaźnikowej -1:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
-#include &lt;cstdarg&gt; // needed to use ellipsis
+</pre><p>Co się stało? Powiedzieliśmy funkcji findAverage(), że udostępnimy 6 dodatkowych wartości, ale podaliśmy tylko 5. W rezultacie pierwsze pięć wartości zwracanych przez funkcję va_arg() to te, które przekazaliśmy. Szósta wartość, którą zwraca, jest wartością śmieci znajdującą się gdzieś na stosie. W rezultacie otrzymaliśmy bzdurną odpowiedź.<p>Bardziej podstępny przypadek:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    std::cout &lt;&lt; findAverage(6, 1, 2, 3, 4, 5, 6, 7) &lt;&lt; &#39;\n&#39;;</code></pre><p> Daje to odpowiedź 3,5, która na pierwszy rzut oka może wyglądać na poprawną, ale pomija ostatnią liczbę w średniej, ponieważ tylko powiedzieliśmy, że podamy 6 dodatkowych wartości (a następnie faktycznie podaliśmy 7). Tego rodzaju błędy mogą być bardzo trudne do wyłapania.<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><p><strong>Metoda 2: Użyj wartości wskaźnikowej</strong><p>Metoda nr 2 polega na użyciu wartości wskaźnikowej. <strong>wartownik</strong> to specjalna wartość używana do zakończenia pętli w przypadku jej napotkania. Na przykład w przypadku łańcuchów terminator zerowy jest używany jako wartość sygnalizująca koniec łańcucha. W przypadku wielokropka wartość wartownicza jest zwykle przekazywana jako ostatni parametr. Oto przykład funkcji findAverage() przepisanej tak, aby używała wartości wskaźnikowej -1:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+#include &lt;cstdarg&gt; // potrzebną do użycia wielokropka
 
-// The ellipsis must be the last parameter
+// Wielokropek musi być ostatnim parametrem
 double findAverage(int first, ...)
 {
-	// We have to deal with the first number specially
+	// Musimy zająć się specjalnie pierwszą liczbą
 	int sum{ first };
 
-	// We access the ellipsis through a va_list, so let&#39;s declare one
+	// Dostęp do elipsy poprzez va_list, więc zadeklarujmy ją
 	std::va_list list;
 
-	// We initialize the va_list using va_start.  The first argument is
-	// the list to initialize.  The second argument is the last non-ellipsis
+	// Inicjujemy listę va_list za pomocą va_start. Pierwszy argument to
+	// lista do pobrania. Drugi argument do ostatniej nieelipsy
 	// parameter.
 	va_start(list, first);
 
 	int count{ 1 };
-	// Loop indefinitely
+	// Pętla w nieskończoność
 	while (true)
 	{
-		// We use va_arg to get values out of our ellipsis
-		// The first argument is the va_list we&#39;re using
-		// The second argument is the type of the value
+		// Używamy va_arg, aby uzyskać wartości z naszego wielokropka
+		// Pierwszym argumentem jest va_list, której używamy
+		// Drugi argument to typ wartości
 		int arg{ va_arg(list, int) };
 
-		// If this parameter is our sentinel value, stop looping
+		// Jeśli ten parametr jest naszą wartością wskaźnikową, przestań zapętlać
 		if (arg == -1)
 			break;
 
@@ -92,7 +92,7 @@ double findAverage(int first, ...)
 		++count;
 	}
 
-	// Cleanup the va_list when we&#39;re done.
+	// Wyczyść listę va_list, gdy skończyliśmy.
 	va_end(list);
 
 	return static_cast&lt;double&gt;(sum) / count;
@@ -100,24 +100,24 @@ double findAverage(int first, ...)
 
 int main()
 {
-	std::cout &lt;&lt; findAverage(1, 2, 3, 4, 5, -1) &lt;&lt; &#39;\n&#39;;
-	std::cout &lt;&lt; findAverage(1, 2, 3, 4, 5, 6, -1) &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; findAverage(1, 2, 3, 4, 5, -1) &lt;&lt; '\n';
+	std::cout &lt;&lt; findAverage(1, 2, 3, 4, 5, 6, -1) &lt;&lt; '\n';
 
 	return 0;
 }</code></pre><p>Zauważ, że nie musimy już przekazywać jawnej długości jako pierwszego parametru. Zamiast tego jako ostatni parametr przekazujemy wartość wskaźnikową.<p>Istnieje jednak kilka wyzwań. Po pierwsze, C++ wymaga przekazania co najmniej jednego stałego parametru. W poprzednim przykładzie była to nasza zmienna licznikowa. W tym przykładzie pierwsza wartość jest w rzeczywistości częścią liczb, które mają zostać uśrednione. Zamiast więc traktować pierwszą wartość, która ma być uśredniona, jako część parametrów wielokropka, jawnie deklarujemy ją jako parametr normalny. Następnie potrzebujemy specjalnej obsługi tej funkcji w funkcji (w tym przypadku na początek ustawiamy sumę na pierwszą zamiast na 0).<p>Po drugie, wymaga to od użytkownika przekazania wartości wartowniczej jako ostatniej wartości. Jeśli użytkownik zapomni przekazać wartość wartowniczą (lub przekaże niewłaściwą wartość), funkcja będzie wykonywać pętlę w sposób ciągły, aż napotka śmieci pasujące do wartości wartowniczej (lub ulegnie awarii).<p>Na koniec zauważ, że jako naszą wartość wartowniczą wybraliśmy -1. Nie ma w tym nic złego, gdybyśmy chcieli znaleźć tylko średnią liczb dodatnich, ale co by było, gdybyśmy chcieli uwzględnić liczby ujemne? Wartości Sentinel działają dobrze tylko wtedy, gdy istnieje wartość, która wykracza poza prawidłowy zestaw wartości dla problemu, który próbujesz rozwiązać.<p><strong>Metoda 3: Użyj ciągu dekodera</strong><p>Metoda nr 3 polega na przekazaniu „ciągu dekodera”, który mówi programowi, jak interpretować parametry.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;string_view&gt;
-#include &lt;cstdarg&gt; // needed to use ellipsis
+#include &lt;cstdarg&gt; // potrzebną do użycia wielokropka
 
-// The ellipsis must be the last parameter
+// Wielokropek musi być ostatnim parametrem
 double findAverage(std::string_view decoder, ...)
 {
 	double sum{ 0 };
 
-	// We access the ellipsis through a va_list, so let&#39;s declare one
+	// Dostęp do elipsy poprzez va_list, więc zadeklarujmy ją
 	std::va_list list;
 
-	// We initialize the va_list using va_start.  The first argument is
-	// the list to initialize.  The second argument is the last non-ellipsis
+	// Inicjujemy listę va_list za pomocą va_start. Pierwszy argument to
+	// lista do pobrania. Drugi argument do ostatniej nieelipsy
 	// parameter.
 	va_start(list, decoder);
 
@@ -125,17 +125,17 @@ double findAverage(std::string_view decoder, ...)
 	{
 		switch (codetype)
 		{
-		case &#39;i&#39;:
+		case 'i':
 			sum += va_arg(list, int);
 			break;
 
-		case &#39;d&#39;:
+		case 'd':
 			sum += va_arg(list, double);
 			break;
 		}
 	}
 
-	// Cleanup the va_list when we&#39;re done.
+	// Wyczyść listę va_list, gdy skończyliśmy.
 	va_end(list);
 
 	return sum / std::size(decoder);
@@ -143,9 +143,9 @@ double findAverage(std::string_view decoder, ...)
 
 int main()
 {
-	std::cout &lt;&lt; findAverage(&#34;iiiii&#34;, 1, 2, 3, 4, 5) &lt;&lt; &#39;\n&#39;;
-	std::cout &lt;&lt; findAverage(&#34;iiiiii&#34;, 1, 2, 3, 4, 5, 6) &lt;&lt; &#39;\n&#39;;
-	std::cout &lt;&lt; findAverage(&#34;iiddi&#34;, 1, 2, 3.5, 4.5, 5) &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; findAverage("iiiii", 1, 2, 3, 4, 5) &lt;&lt; '\n';
+	std::cout &lt;&lt; findAverage("iiiiii", 1, 2, 3, 4, 5, 6) &lt;&lt; '\n';
+	std::cout &lt;&lt; findAverage("iiddi", 1, 2, 3.5, 4.5, 5) &lt;&lt; '\n';
 
 	return 0;
 }</code></pre><p>W tym przykładzie przekazujemy ciąg znaków, który koduje zarówno liczbę opcjonalnych zmiennych, jak i ich typy. Fajne jest to, że pozwala nam to radzić sobie z parametrami różnych typów. Jednak ta metoda ma również wady: ciąg dekodera może być nieco tajemniczy i jeśli liczba lub typy parametrów opcjonalnych nie odpowiadają dokładnie ciągowi dekodera, mogą wydarzyć się złe rzeczy.<p>Dla tych z Was, którzy zaczynają od C, właśnie to robi printf!<p><strong>Zalecenia dotyczące bezpieczniejszego używania wielokropka</strong><p>Po pierwsze, jeśli to możliwe, nie używaj w ogóle elipsa! Często dostępne są inne rozsądne rozwiązania, nawet jeśli wymagają nieco więcej pracy. Na przykład w naszym programie findAverage() mogliśmy zamiast tego przekazać tablicę liczb całkowitych o dynamicznie zmienianym rozmiarze. Zapewniłoby to zarówno silne sprawdzanie typów (aby upewnić się, że wywołujący nie próbuje zrobić czegoś bezsensownego), jak i zachowanie możliwości przekazywania zmiennej liczby całkowitej do uśrednienia.<p>Po drugie, jeśli używasz wielokropka, lepiej, jeśli wszystkie wartości przekazywane do parametru elipsy są tego samego typu (np. all <code>int</code> lub all <code>double</code>, a nie mieszanka każdego z nich). Mieszanie różnych typów znacznie zwiększa ryzyko, że osoba wywołująca niechcący przekaże dane niewłaściwego typu, a funkcja va_arg() zwróci wynik bezużyteczny.<p>Po trzecie, użycie parametru count lub parametru ciągu dekodera jest ogólnie bezpieczniejsze niż użycie wartości wskaźnikowej. Zmusza to użytkownika do wybrania odpowiedniej wartości parametru zliczanie/dekoder, co gwarantuje, że pętla wielokropka zakończy się po rozsądnej liczbie iteracji, nawet jeśli wygeneruje wartość śmieciową.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Dla zaawansowanych czytelników<p>Aby ulepszyć funkcjonalność podobną do elips, wprowadzono do C++ 11 <code>parameter packs</code> i <code>variadic templates</code>, który oferuje funkcjonalność podobną do elips, ale z silnym sprawdzaniem typów. Jednak znaczące wyzwania związane z użytecznością utrudniały przyjęcie tej funkcji.<p>W języku C++ 17 <a href=https://en.cppreference.com/w/cpp/language/fold>dodano wyrażenia składane</a> , co znacznie poprawia użyteczność pakietów parametrów do tego stopnia, że są one teraz realną opcją.<p>Mamy nadzieję wprowadzić lekcje na ten temat w przyszłej aktualizacji witryny.</div><div class=prevnext><div class=prevnext-inline><a class=nav-link href="../introduction-to-lambdas-anonymous-functions/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>20.6</span>Wprowadzenie do lambd (anonimowe funkcje)</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../command-line-arguments/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>20.4</span>Argumenty wiersza poleceń</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/ellipsis-and-why-to-avoid-them/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../command-line-arguments/index.html" rel=prev><span>20.4 — Argumenty wiersza poleceń</span></a></div><div class=nav-next><em>Następny post</em><a href="../return-by-reference-and-return-by-address/index.html" rel=next><span>12.12 — Powrót przez odniesienie i powrót przez adres</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>

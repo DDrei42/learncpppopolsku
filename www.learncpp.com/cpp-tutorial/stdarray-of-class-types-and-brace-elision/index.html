@@ -13,12 +13,12 @@
 <button class=searchsubmit><span class=screen-reader-text>Szukaj</span><i class=icon-search></i></button>
 <input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=97054></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="17.4 — std::array typów klas i eliminacja nawiasów " src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-15425 class="post-15425 post type-post status-publish format-standard hentry category-cpp-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>17.4 — std::array typów klas i eliminacja nawiasów </h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Autor></i><a class="url fn n" rel=author href=/www.learncpp.com/author/Alex/ title="Wyświetl wszystkie posty Alexa" itemprop=url><em itemprop=name>Alex</em></a></span>
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2023-09-11T15:48:39-07:00 itemprop=datePublished>11 września 2023, 15:48 PDT</time>
-<time class=updated datetime=2024-09-29T18:17:05-07:00 itemprop=dateModified>29 września 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>A <code>std::array</code> nie ogranicza się do elementów typów podstawowych. Zamiast tego elementy a <code>std::array</code> mogą być obiektami dowolnego typu, łącznie z typami złożonymi. Oznacza to, że możesz utworzyć <code>std::array</code> wskaźniki lub <code>std::array</code> struktury (lub klasy)<p>Jednak inicjowanie <code>std::array</code> struktur lub klas zwykle wprawia w zakłopotanie nowych programistów, dlatego poświęcimy lekcję szczegółowo omawiającą ten temat.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nota autora<p>Użyjemy struktur, aby zilustrować nasze uwagi w tej lekcji. Materiał odnosi się równie dobrze do klas.</div><p class="cpp-section cpp-topline" style=clear:both>Definiowanie i przypisywanie <code>std::array</code> z structs<p>Zacznijmy od prostej struktury:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">struct House
+<time class=updated datetime=2024-09-29T18:17:05-07:00 itemprop=dateModified>29 września 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p><code>std::array</code> nie ogranicza się do elementów typów podstawowych. Zamiast tego elementy <code>std::array</code> mogą być obiektami dowolnego typu, łącznie z typami złożonymi. Oznacza to, że możesz utworzyć <code>std::array</code> wskaźniki lub <code>std::array</code> struktury (lub klasy)<p>Jednak inicjowanie <code>std::array</code> struktur lub klas zwykle wprawia w zakłopotanie nowych programistów, dlatego poświęcimy lekcję szczegółowo omawiającą ten temat.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nota autora<p>Użyjemy struktur, aby zilustrować nasze uwagi w tej lekcji. Materiał odnosi się równie dobrze do klas.</div><p class="cpp-section cpp-topline" style=clear:both>Definiowanie i przypisywanie <code>std::array</code> z structs<p>Zacznijmy od prostej struktury:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">struct House
 {
     int number{};
     int stories{};
     int roomsPerStory{};
-};</code></pre><p>Defining a <code>std::array</code> z <code>House</code> a przypisywanie elementów działa tak, jak można się spodziewać:<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;array&gt;
+};</code></pre><p>Defining <code>std::array</code> z <code>House</code> a przypisywanie elementów działa tak, jak można się spodziewać:<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;array&gt;
 #include &lt;iostream&gt;
 
 struct House
@@ -59,7 +59,7 @@ struct House
 
 int main()
 {
-    constexpr std::array houses { // use CTAD to deduce template arguments &lt;House, 3&gt;
+    constexpr std::array houses { // użyj CTAD, aby wydedukować argumenty szablonu &lt;House, 3&gt;
             House{ 13, 1, 7 },
             House{ 14, 2, 5 },
             House{ 15, 2, 4 }
@@ -67,40 +67,40 @@ int main()
 
     for (const auto&amp; house : houses)
     {
-        std::cout &lt;&lt; &#34;House number &#34; &lt;&lt; house.number
-            &lt;&lt; &#34; has &#34; &lt;&lt; (house.stories * house.roomsPerStory)
-            &lt;&lt; &#34; rooms.\n&#34;;
+        std::cout &lt;&lt; "House number " &lt;&lt; house.number
+            &lt;&lt; " has " &lt;&lt; (house.stories * house.roomsPerStory)
+            &lt;&lt; " rooms.\n";
     }
 
     return 0;
 }</code></pre><p>W powyższym przykładzie używamy CTAD do wydedukowania typu <code>std::array</code> jak <code>std::array&lt;House, 3></code>. Następnie udostępniamy 3 <code>House</code> obiekty jako inicjatory, co działa całkiem nieźle.<p class="cpp-section cpp-topline" style=clear:both>Inicjalizacja bez jawnego określenia typu elementu dla każdego inicjatora<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>W powyższym przykładzie można zauważyć, że każdy inicjator wymaga od nas podania typu elementu:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    constexpr std::array houses {
-            House{ 13, 1, 7 }, // we mention House here
-            House{ 14, 2, 5 }, // and here
-            House{ 15, 2, 4 }  // and here
-        };</code></pre><p>Ale nie musieliśmy robić tego samego w przypadku przypisania:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    // The compiler knows that each element of houses is a House
-    // so it will implicitly convert the right hand side of each assignment to a House
+            House{ 13, 1, 7 }, // tutaj wspominamy o House
+            House{ 14, 2, 5 }, // i tutaj
+            House{ 15, 2, 4 }  // i tutaj
+        };</code></pre><p>Ale nie musieliśmy robić tego samego w przypadku przypisania:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    // Kompilator wie, że każdy element domu jest domem
+    // więc niejawnie konwertuje prawą stronę każdego przypisania na House
     houses[0] = { 13, 1, 7 };
     houses[1] = { 14, 2, 5 };
-    houses[2] = { 15, 2, 4 };</code></pre><p>Możesz więc pomyśl o wypróbowaniu czegoś takiego:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    // doesn&#39;t work
-    constexpr std::array&lt;House, 3&gt; houses { // we&#39;re telling the compiler that each element is a House
-            { 13, 1, 7 }, // but not mentioning it here
+    houses[2] = { 15, 2, 4 };</code></pre><p>Możesz więc pomyśl o wypróbowaniu czegoś takiego:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    // doesn't work
+    constexpr std::array&lt;House, 3&gt; houses { // mówimy kompilatorowi, że każdy element jest domem
+            { 13, 1, 7 }, // ale nie wspominając o tym tutaj
             { 14, 2, 5 },
             { 15, 2, 4 } 
-        };</code></pre><p>Być może, co zaskakujące, to nie działa. Przyjrzyjmy się dlaczego.<p>A <code>std::array</code> jest zdefiniowany jako struktura zawierająca pojedynczy element tablicy w stylu C (którego nazwa jest zdefiniowana w implementacji), w następujący sposób:<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">template&lt;typename T, std::size_t N&gt;
+        };</code></pre><p>Być może, co zaskakujące, to nie działa. Przyjrzyjmy się dlaczego.<p><code>std::array</code> jest zdefiniowany jako struktura zawierająca pojedynczy element tablicy w stylu C (którego nazwa jest zdefiniowana w implementacji), w następujący sposób:<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">template&lt;typename T, std::size_t N&gt;
 struct array
 {
-    T implementation_defined_name[N]; // a C-style array with N elements of type T
-}</code></pre><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nota autora<p>Nie omawialiśmy jeszcze tablic w stylu C, ale na potrzeby tej lekcji wszystko, co musisz wiedzieć to to, że <code>T implementation_defined_name[N];</code> jest tablicą o stałym rozmiarze N elementów typu T (podobnie jak  <code>std::array&lt;T, N> implementation_defined_name;</code>).<p>Omówimy tablicę w stylu C arrays w nadchodzącej lekcji <a href="../introduction-to-c-style-arrays/index.html">17.7 -- Wprowadzenie do tablic w stylu C</a>.</div><p>Więc gdy spróbujemy zainicjować <code>houses</code> zgodnie z powyższym, kompilator interpretuje inicjalizację w następujący sposób:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Doesn&#39;t work
-constexpr std::array&lt;House, 3&gt; houses { // initializer for houses
-    { 13, 1, 7 }, // initializer for C-style array member with implementation_defined_name
+    T implementation_defined_name[N]; // tablica w stylu C z N elementów typu T
+}</code></pre><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nota autora<p>Nie omawialiśmy jeszcze tablic w stylu C, ale na potrzeby tej lekcji wszystko, co musisz wiedzieć to to, że <code>T implementation_defined_name[N];</code> jest tablicą o stałym rozmiarze N elementów typu T (podobnie jak  <code>std::array&lt;T, N> implementation_defined_name;</code>).<p>Omówimy tablicę w stylu C arrays w nadchodzącej lekcji <a href="../introduction-to-c-style-arrays/index.html">17.7 -- Wprowadzenie do tablic w stylu C</a>.</div><p>Więc gdy spróbujemy zainicjować <code>houses</code> zgodnie z powyższym, kompilator interpretuje inicjalizację w następujący sposób:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Doesn't work
+constexpr std::array&lt;House, 3&gt; houses { // inicjator dla domów
+    { 13, 1, 7 }, // inicjator elementu tablicy w stylu C z nazwą_definiowaną_implementacją
     { 14, 2, 5 }, // ?
     { 15, 2, 4 }  // ?
-};</code></pre><p>Kompilator zinterpretuje <code>{ 13, 1, 7 }</code> jako inicjator dla pierwszego elementu  <code>houses</code>, czyli tablicy w stylu C z nazwą zdefiniowaną w implementacji. Spowoduje to zainicjowanie elementu tablicy w stylu C 0 with <code>{ 13, 1, 7 }</code> , a pozostałe elementy zostaną zainicjowane zerem. Następnie kompilator odkryje, że udostępniliśmy dwie dodatkowe wartości inicjujące (<code>{ 14, 2, 7 }</code> i <code>{ 15, 2, 5 }</code>) i zwróci błąd kompilacji informujący nas, że podaliśmy zbyt wiele wartości inicjujących.<p>Właściwy sposób zainicjowania powyższego polega na dodaniu dodatkowego zestawu nawiasów klamrowych w następujący sposób:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// This works as expected
-constexpr std::array&lt;House, 3&gt; houses { // initializer for houses
-    { // extra set of braces to initialize the C-style array member with implementation_defined_name
-        { 13, 4, 30 }, // initializer for array element 0
-        { 14, 3, 10 }, // initializer for array element 1
-        { 15, 3, 40 }, // initializer for array element 2
+};</code></pre><p>Kompilator zinterpretuje <code>{ 13, 1, 7 }</code> jako inicjator dla pierwszego elementu  <code>houses</code>, czyli tablicy w stylu C z nazwą zdefiniowaną w implementacji. Spowoduje to zainicjowanie elementu tablicy w stylu C 0 with <code>{ 13, 1, 7 }</code> , a pozostałe elementy zostaną zainicjowane zerem. Następnie kompilator odkryje, że udostępniliśmy dwie dodatkowe wartości inicjujące (<code>{ 14, 2, 7 }</code> i <code>{ 15, 2, 5 }</code>) i zwróci błąd kompilacji informujący nas, że podaliśmy zbyt wiele wartości inicjujących.<p>Właściwy sposób zainicjowania powyższego polega na dodaniu dodatkowego zestawu nawiasów klamrowych w następujący sposób:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Działa zgodnie z oczekiwaniami
+constexpr std::array&lt;House, 3&gt; houses { // inicjator dla domów
+    { // dodatkowy zestaw nawiasów klamrowych do inicjalizacji elementu tablicy w stylu C z nazwą_definiowaną_implementacji
+        { 13, 4, 30 }, // inicjator elementu tablicy 0
+        { 14, 3, 10 }, // inicjator elementu tablicy 1
+        { 15, 3, 40 }, // inicjator elementu tablicy 2
      }
 };</code></pre><p>Zwróć uwagę na wymagany dodatkowy zestaw nawiasów klamrowych. (aby rozpocząć inicjalizację elementu tablicy w stylu C wewnątrz struktury <code>std::array </code>). W tych nawiasach możemy następnie zainicjować każdy element indywidualnie, każdy wewnątrz własnego zestawu nawiasów.<p>Dlatego zobaczysz  <code>std::array</code> inicjatory z dodatkowym zestawem nawiasów klamrowych, gdy typ elementu wymaga listy wartości i nie podajemy jawnie typu elementu jako części inicjatora.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Podczas inicjalizacji <code>std::array</code> ze strukturą, klasą lub tablicą i bez podawania typu elementu przy każdym inicjatorze, będziesz potrzebować dodatkowej pary nawiasów klamrowych, aby kompilator prawidłowo zinterpretował to, co należy inicjować.<p>Jest to artefakt inicjalizacji agregowanej, a inne standardowe typy kontenerów bibliotek (które używają konstruktorów list) nie wymagają w takich przypadkach podwójnych nawiasów klamrowych.</div><p>Oto pełny przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;array&gt;
 #include &lt;iostream&gt;
@@ -114,7 +114,7 @@ struct House
 
 int main()
 {
-    constexpr std::array&lt;House, 3&gt; houses {{ // note double braces
+    constexpr std::array&lt;House, 3&gt; houses {{ // zwróć uwagę na podwójne nawiasy klamrowe
         { 13, 1, 7 },
         { 14, 2, 5 },
         { 15, 2, 4 }
@@ -122,9 +122,9 @@ int main()
 
     for (const auto&amp; house : houses)
     {
-        std::cout &lt;&lt; &#34;House number &#34; &lt;&lt; house.number
-                  &lt;&lt; &#34; has &#34; &lt;&lt; (house.stories * house.roomsPerStory)
-                  &lt;&lt; &#34; rooms.\n&#34;;
+        std::cout &lt;&lt; "House number " &lt;&lt; house.number
+                  &lt;&lt; " has " &lt;&lt; (house.stories * house.roomsPerStory)
+                  &lt;&lt; " rooms.\n";
     }
 
     return 0;
@@ -154,38 +154,38 @@ int main()
 #include &lt;iostream&gt;
 #include &lt;string_view&gt;
 
-// Each student has an id and a name
+// Każdy uczeń ma identyfikator i nazwę
 struct Student
 {
 	int id{};
 	std::string_view name{};
 };
 
-// Our array of 3 students (single braced since we mention Student with each initializer)
-constexpr std::array students{ Student{0, &#34;Alex&#34;}, Student{ 1, &#34;Joe&#34; }, Student{ 2, &#34;Bob&#34; } };
+// Nasza tablica 3 studentów (pojedyncze nawiasy klamrowe, ponieważ wspominamy o Studentach przy każdym inicjatorze)
+constexpr std::array students{ Student{0, "Alex"}, Student{ 1, "Joe" }, Student{ 2, "Bob" } };
 
 const Student* findStudentById(int id)
 {
-	// Look through all the students
+	// Przejrzyj wszystkich uczniów
 	for (auto&amp; s : students)
 	{
-		// Return student with matching id
+		// Zwróć ucznia z pasującym identyfikatorem
 		if (s.id == id) return &amp;s;
 	}
 
-	// No matching id found
+	// Nie znaleziono pasującego identyfikatora
 	return nullptr;
 }
 
 int main()
 {
-	constexpr std::string_view nobody { &#34;nobody&#34; };
+	constexpr std::string_view nobody { "nobody" };
 
 	const Student* s1 { findStudentById(1) };
-	std::cout &lt;&lt; &#34;You found: &#34; &lt;&lt; (s1 ? s1-&gt;name : nobody) &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; "You found: " &lt;&lt; (s1 ? s1-&gt;name : nobody) &lt;&lt; '\n';
 
 	const Student* s2 { findStudentById(3) };
-	std::cout &lt;&lt; &#34;You found: &#34; &lt;&lt; (s2 ? s2-&gt;name : nobody) &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; "You found: " &lt;&lt; (s2 ? s2-&gt;name : nobody) &lt;&lt; '\n';
 
 	return 0;
 }</code></pre><p>Wypisuje:<pre>You found: Joe
@@ -209,17 +209,17 @@ void printStore(const std::array&lt;Item, N&gt;&amp; arr)
 {
     for (const auto&amp; item: arr)
     {
-        std::cout &lt;&lt; &#34;A &#34; &lt;&lt; item.name &lt;&lt; &#34; costs &#34; &lt;&lt; item.gold &lt;&lt; &#34; gold.\n&#34;;
+        std::cout &lt;&lt; "A " &lt;&lt; item.name &lt;&lt; " costs " &lt;&lt; item.gold &lt;&lt; " gold.\n";
     }
 }
 
 int main()
 {
-    constexpr std::array store { // CTAD, single braces due to brace elision
-        Item { &#34;sword&#34;,    5 },
-        Item { &#34;dagger&#34;,   3 },
-        Item { &#34;club&#34;,     2 },
-        Item { &#34;spear&#34;,    7 } };
+    constexpr std::array store { // CTAD, pojedyncze nawiasy z powodu elizji nawiasów
+        Item { "sword",    5 },
+        Item { "dagger",   3 },
+        Item { "club",     2 },
+        Item { "spear",    7 } };
     printStore(store);
     
     return 0;
@@ -238,17 +238,17 @@ void printStore(const std::array&lt;Item, N&gt;&amp; arr)
 {
     for (const auto&amp; item: arr)
     {
-        std::cout &lt;&lt; &#34;A &#34; &lt;&lt; item.name &lt;&lt; &#34; costs &#34; &lt;&lt; item.gold &lt;&lt; &#34; gold.\n&#34;;
+        std::cout &lt;&lt; "A " &lt;&lt; item.name &lt;&lt; " costs " &lt;&lt; item.gold &lt;&lt; " gold.\n";
     }
 }
 
 int main()
 {
-    constexpr std::array&lt;Item, 4&gt; store {{ // No CTAD, must use double braces
-        { &#34;sword&#34;,    5 },
-        { &#34;dagger&#34;,   3 },
-        { &#34;club&#34;,     2 },
-        { &#34;spear&#34;,    7 }
+    constexpr std::array&lt;Item, 4&gt; store {{ // Brak CTAD, należy używać podwójnych nawiasów klamrowych
+        { "sword",    5 },
+        { "dagger",   3 },
+        { "club",     2 },
+        { "spear",    7 }
     }};
     printStore(store);
     

@@ -61,7 +61,7 @@ template &lt;typename T&gt;
 inline bool FromString(const std::string&amp; sString, T&amp; tX)
 {
     std::istringstream iStream(sString);
-    return !(iStream &gt;&gt; tX).fail(); // extract value into tX, return success or not
+    return !(iStream &gt;&gt; tX).fail(); // wyodrębnij wartość do tX, zwróć sukces lub nie
 }</code></pre><p>Oto przykładowy kod do przetestowania:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
     double dX;

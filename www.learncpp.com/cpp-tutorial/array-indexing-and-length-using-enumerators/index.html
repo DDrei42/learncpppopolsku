@@ -19,8 +19,8 @@ int main()
 {
     std::vector testScores { 78, 94, 66, 77, 14 };
 
-    testScores[2] = 76; // who does this represent?
-}</code></pre><p>Kim jest uczeń reprezentowany przez <code>testScores[2]</code>? Nie jest to jasne.<p class="cpp-section cpp-topline" style=clear:both>Używając modułów wyliczających bez zakresu do indeksowania<p>W lekcji <a href="../stdvector-and-the-unsigned-length-and-subscript-problem/index.html">16.3 -- std::vector oraz problemu długości bez znaku i indeksu dolnego</a>, spędziliśmy dużo czasu omawiając, w jaki sposób indeks <code>std::vector&lt;T>::operator[]</code> (i innych klas kontenerów C++, które mogą być indeksowane) ma typ <code>size_type</code>, czyli ogólnie alias dla <code>std::size_t</code>. W związku z tym nasze indeksy muszą być typu <code>std::size_t</code> lub typu, który konwertuje na <code>std::size_t</code>.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Ponieważ wyliczenia bez zakresu zostaną niejawnie skonwertowane na a <code>std::size_t</code>, oznacza to, że możemy używać wyliczeń bez zakresu jako indeksów tablicy, aby pomóc udokumentować znaczenie indeksu:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;vector&gt;
+    testScores[2] = 76; // kogo postawić?
+}</code></pre><p>Kim jest uczeń reprezentowany przez <code>testScores[2]</code>? Nie jest to jasne.<p class="cpp-section cpp-topline" style=clear:both>Używając modułów wyliczających bez zakresu do indeksowania<p>W lekcji <a href="../stdvector-and-the-unsigned-length-and-subscript-problem/index.html">16.3 -- std::vector oraz problemu długości bez znaku i indeksu dolnego</a>, spędziliśmy dużo czasu omawiając, w jaki sposób indeks <code>std::vector&lt;T>::operator[]</code> (i innych klas kontenerów C++, które mogą być indeksowane) ma typ <code>size_type</code>, czyli ogólnie alias dla <code>std::size_t</code>. W związku z tym nasze indeksy muszą być typu <code>std::size_t</code> lub typu, który konwertuje na <code>std::size_t</code>.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Ponieważ wyliczenia bez zakresu zostaną niejawnie skonwertowane na <code>std::size_t</code>, oznacza to, że możemy używać wyliczeń bez zakresu jako indeksów tablicy, aby pomóc udokumentować znaczenie indeksu:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;vector&gt;
 
 namespace Students
 {
@@ -39,7 +39,7 @@ int main()
 {
     std::vector testScores { 78, 94, 66, 77, 14 };
 
-    testScores[Students::stan] = 76; // we are now updating the test score belonging to stan
+    testScores[Students::stan] = 76; // aktualnie aktualizujemy wynik testu należący do stan
 
     return 0;
 }</code></pre><p>W ten sposób znacznie jaśniejsze jest, co każdy z elementów tablicy reprezentuje.<p>Ponieważ moduły wyliczające są domyślnie constexpr, konwersja modułu wyliczającego na typ całkowity bez znaku nie jest uważana za konwersję zawężającą, co pozwala uniknąć problemów z indeksowaniem ze znakiem/bez znaku.<p class="cpp-section cpp-topline" style=clear:both>Używanie do indeksowania wyliczenia bez zakresu innego niż constexpr<p>Podstawowy typ wyliczenia bez zakresu jest zdefiniowany w implementacji (a zatem może być albo znakiem, albo typ całkowity bez znaku). Ponieważ moduły wyliczające są w sposób dorozumiany constexpr, tak długo jak będziemy trzymać się indeksowania z modułami wyliczającymi bez zakresu, nie napotkamy problemów z konwersją znaków.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Jeśli jednak zdefiniujemy zmienną typu wyliczeniowego inną niż constexpr, a następnie spróbujemy zaindeksować nasze <code>std::vector</code> za pomocą tego, możemy otrzymać ostrzeżenia o konwersji znaku na dowolnej platformie, która domyślnie ustawia wyliczenia bez zakresu na znak type:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;vector&gt;
@@ -62,14 +62,14 @@ int main()
     std::vector testScores { 78, 94, 66, 77, 14 };
     Students::Names name { Students::stan }; // non-constexpr
 
-    testScores[name] = 76; // may trigger a sign conversion warning if Student::Names defaults to a signed underlying type
+    testScores[name] = 76; // może wywołać ostrzeżenie o konwersji znaku, jeśli Student::Names domyślnie wybiera podstawowy typ ze znakiem
 
     return 0;
 }</code></pre><p>W tym konkretnym przypadku moglibyśmy wykonać <code>name</code> constexpr (tak, aby konwersja z typu całkowitego ze znakiem constexpr na  <code>std::size_t</code> nie była zawężająca). Jednak to nie zadziała, jeśli nasz inicjator nie jest wyrażeniem stałym.<p>Alternatywną opcją jest jawne określenie typu bazowego wyliczenia jako unsigned int:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;vector&gt;
 
 namespace Students
 {
-    enum Names : unsigned int // explicitly specifies the underlying type is unsigned int
+    enum Names : unsigned int // jawnie określa podstawowy typ to unsigned int
     {
         kenny, // 0
         kyle, // 1
@@ -85,7 +85,7 @@ int main()
     std::vector testScores { 78, 94, 66, 77, 14 };
     Students::Names name { Students::stan }; // non-constexpr
 
-    testScores[name] = 76; // not a sign conversion since name is unsigned
+    testScores[name] = 76; // nie konwersja znaku, ponieważ nazwa jest bez znaku
 
     return 0;
 }</code></pre><p>W powyższym przykładzie, ponieważ <code>name</code> jest teraz gwarantowane jako <code>unsigned int</code>, można go przekonwertować na <code>std::size_t</code> bez konwersji znaku problemy.<p class="cpp-section cpp-topline" style=clear:both>Korzystanie z modułu wyliczającego zliczanie<p>Zauważ, że na końcu listy modułów wyliczających zdefiniowaliśmy dodatkowy moduł wyliczający o nazwie <code>max_students</code>. Jeśli wszystkie poprzednie moduły wyliczające używają wartości domyślnych (co jest zalecane), ten moduł wyliczający będzie miał wartość domyślną odpowiadającą liczbie poprzednich modułów wyliczających. W powyższym przykładzie <code>max_students</code> ma wartość <code>5</code>, ponieważ wcześniej zdefiniowanych jest 5 modułów wyliczających. Nieformalnie nazwiemy to  <strong>licznikiem wyliczającym</strong>, ponieważ jego wartość reprezentuje liczbę wcześniej zdefiniowanych modułów wyliczających.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>Tego modułu wyliczającego można następnie użyć wszędzie tam, gdzie potrzebujemy zliczenia poprzednich modułów wyliczających. Na przykład: <pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -100,18 +100,18 @@ namespace Students
         stan, // 2
         butters, // 3
         cartman, // 4
-        // add future enumerators here
+        // dodaj tutaj przyszłe moduły wyliczające
         max_students // 5
     };
 }
 
 int main()
 {
-    std::vector&lt;int&gt; testScores(Students::max_students); // Create a vector with 5 elements
+    std::vector&lt;int&gt; testScores(Students::max_students); // Utwórz wektor z 5 elementami
 
-    testScores[Students::stan] = 76; // we are now updating the test score belonging to stan
+    testScores[Students::stan] = 76; // aktualnie aktualizujemy wynik testu należący do stan
 
-    std::cout &lt;&lt; &#34;The class has &#34; &lt;&lt; Students::max_students &lt;&lt; &#34; students\n&#34;;
+    std::cout &lt;&lt; "The class has " &lt;&lt; Students::max_students &lt;&lt; " students\n";
 
     return 0;
 }</code></pre><p>Używamy <code>max_students</code> w dwóch miejscach: najpierw tworzymy <code>std::vector</code> o długości <code>max_students</code>, więc wektor będzie miał jeden element na ucznia. Używamy również <code>max_students</code> do wydrukowania liczby uczniów.<p>Ta technika jest również dobra, ponieważ jeśli później dodany zostanie kolejny moduł wyliczający (tuż przed <code>max_students</code>), wówczas <code>max_students</code> automatycznie stanie się o jeden większy, a wszystkie nasze tablice używające <code>max_students</code> zostaną zaktualizowane, aby używać nowej długości bez dalszych modyfikacji.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;vector&gt;
@@ -127,18 +127,18 @@ namespace Students
         butters, // 3
         cartman, // 4
         wendy, // 5 (added)
-        // add future enumerators here
-        max_students // now 6
+        // dodaj tutaj przyszłe moduły wyliczające
+        max_students // teraz 6
     };
 }
 
 int main()
 {
-    std::vector&lt;int&gt; testScores(Students::max_students); // will now allocate 6 elements
+    std::vector&lt;int&gt; testScores(Students::max_students); // przydzieli teraz 6 elementów
 
-    testScores[Students::stan] = 76; // still works
+    testScores[Students::stan] = 76; // nadal działa
 
-    std::cout &lt;&lt; &#34;The class has &#34; &lt;&lt; Students::max_students &lt;&lt; &#34; students\n&#34;;
+    std::cout &lt;&lt; "The class has " &lt;&lt; Students::max_students &lt;&lt; " students\n";
 
     return 0;
 }</code></pre><p class="cpp-section cpp-topline" style=clear:both>Stwierdzanie długości tablicy za pomocą liczby moduł wyliczający<p>Częściej tworzymy tablicę, korzystając z inicjującej listy wartości, z zamiarem indeksowania tej tablicy za pomocą modułów wyliczających. W takich przypadkach przydatne może być stwierdzenie, że rozmiar kontenera jest równy naszemu modułowi wyliczającemu. Jeśli to potwierdzenie zostanie uruchomione, oznacza to, że albo nasza lista modułów wyliczających jest w jakiś sposób niepoprawna, albo udostępniliśmy niewłaściwą liczbę inicjatorów. Może się to łatwo zdarzyć, gdy do wyliczenia zostanie dodany nowy moduł wyliczający, ale do tablicy nie zostanie dodana nowa wartość inicjująca.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>Na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cassert&gt;
@@ -159,14 +159,14 @@ int main()
 {
     std::vector testScores { 78, 94, 66, 77, 14 };
 
-    // Ensure the number of test scores is the same as the number of students
+    // Upewnij się, że liczba wyników testu jest taka sama jak liczba uczniów
     assert(std::size(testScores) == max_students);
 
     return 0;
 }</code></pre><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>Jeśli tablicą jest constexpr, powinieneś zamiast tego <code>static_assert</code> . <code>std::vector</code> nie obsługuje constexpr, ale <code>std::array</code> (i tablice w stylu C) tak.<p>Omawiamy to szerzej w lekcja <a href="../passing-and-returning-stdarray/index.html">17.3 — Przekazywanie i zwracanie std::array</a>.</div><div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Użyj <code>static_assert</code> aby upewnić się, że długość tablicy constexpr odpowiada modułowi wyliczającemu count.<br>Użyj  <code>assert</code> aby upewnić się, że długość tablicy niebędącej constexpr odpowiada modułowi wyliczającemu count.</div><p class="cpp-section cpp-topline" style=clear:both>Tablice i wyliczenie klasy<p>Ponieważ wyliczenia bez zakresu zanieczyszczają przestrzeń nazw, w której są zdefiniowane, za pomocą swoich modułów wyliczających, lepiej jest używać klas wyliczeniowych w przypadkach, gdy wyliczenie nie jest już zawarte w innym obszarze zasięgu (np. przestrzeni nazw lub klasie).<p>Jednak ponieważ klasy wyliczeniowe nie mają ukrytej konwersji na typy całkowite, pojawia się problem, gdy próbujemy użyć ich wyliczeń jako tablicy indeksy:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;vector&gt;
 
-enum class StudentNames // now an enum class
+enum class StudentNames // teraz klasa wyliczeniowa
 {
     kenny, // 0
     kyle, // 1
@@ -178,14 +178,14 @@ enum class StudentNames // now an enum class
 
 int main()
 {
-    // compile error: no conversion from StudentNames to std::size_t
+    // błąd kompilacji: brak konwersji z StudentNames na std::size_t
     std::vector&lt;int&gt; testScores(StudentNames::max_students);
 
-    // compile error: no conversion from StudentNames to std::size_t
+    // błąd kompilacji: brak konwersji z StudentNames na std::size_t
     testScores[StudentNames::stan] = 76;
 
-    // compile error: no conversion from StudentNames to any type that operator&lt;&lt; can output
-    std::cout &lt;&lt; &#34;The class has &#34; &lt;&lt; StudentNames::max_students &lt;&lt; &#34; students\n&#34;;
+    // błąd kompilacji: brak konwersji z StudentNames na dowolny typ, który operator&lt;&lt; może wyprowadzić
+    std::cout &lt;&lt; "The class has " &lt;&lt; StudentNames::max_students &lt;&lt; " students\n";
 
     return 0;
 }</code></pre><p>Istnieje kilka sposobów rozwiązania tego problemu. Najwyraźniej możemy <code>static_cast</code> zamienić moduł wyliczający na liczbę całkowitą:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -211,7 +211,7 @@ int main()
 
     return 0;
 }</code></pre><p>Jednak jest to nie tylko kłopotliwe w pisaniu, ale także znacznie zaśmieca nasz kod.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p>Lepszą opcją jest użycie funkcji pomocniczej, którą przedstawiliśmy w lekcji <a href="../scoped-enumerations-enum-classes/index.html#operatorplus">13.6 -- Wyliczenia o ograniczonym zakresie (klasy wyliczeniowe)</a>, które pozwalają nam przekonwertuj moduły wyliczające klas wyliczeniowych na wartości całkowite za pomocą jednoargumentowego <code>operator+</code>.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
-#include &lt;type_traits&gt; // for std::underlying_type_t
+#include &lt;type_traits&gt; // dla std::underlying_type_t
 #include &lt;vector&gt;
 
 enum class StudentNames
@@ -224,7 +224,7 @@ enum class StudentNames
     max_students // 5
 };
 
-// Overload the unary + operator to convert StudentNames to the underlying type
+// Przeciąż operator unary +, aby przekonwertować StudentNames na typ podstawowy
 constexpr auto operator+(StudentNames a) noexcept
 {
     return static_cast&lt;std::underlying_type_t&lt;StudentNames&gt;&gt;(a);
@@ -236,7 +236,7 @@ int main()
 
     testScores[+StudentNames::stan] = 76;
 
-    std::cout &lt;&lt; &#34;The class has &#34; &lt;&lt; +StudentNames::max_students &lt;&lt; &#34; students\n&#34;;
+    std::cout &lt;&lt; "The class has " &lt;&lt; +StudentNames::max_students &lt;&lt; " students\n";
 
     return 0;
 }</code></pre><p>Jeśli jednak zamierzasz wykonywać wiele konwersji wyliczeniowych na całkowe, prawdopodobnie lepiej będzie po prostu użyć standardowego wyliczenia w przestrzeni nazw (lub klasie).<p class="cpp-section cpp-topline" style=clear:both>Czas quizu<p class=cpp-quiz-question style=clear:both>Pytanie nr 1<p>Utwórz wyliczenie zdefiniowane przez program (wewnątrz przestrzeni nazw) zawierające nazwy następujących zwierząt: kurczak, pies, kot, słoń, kaczka i wąż. Zdefiniuj tablicę z elementem dla każdego z tych zwierząt i użyj listy inicjującej, aby zainicjować każdy element w celu przechowywania liczby nóg zwierzęcia. Sprawdź, czy tablica ma poprawną liczbę inicjatorów.<p>Napisz funkcję main(), która wypisuje liczbę nóg słonia za pomocą modułu wyliczającego.<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_0 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cassert&gt;
@@ -261,10 +261,10 @@ namespace Animals
 
 int main()
 {
-    // Ensure the number of legs is the same as the number of animals
+    // Upewnij się, że liczba nóg jest taka sama jak liczba zwierząt
     assert(std::size(Animals::legs) == Animals::max_animals);
 
-    std::cout &lt;&lt; &#34;An elephant has &#34; &lt;&lt; Animals::legs[Animals::elephant] &lt;&lt; &#34; legs.\n&#34;;
+    std::cout &lt;&lt; "An elephant has " &lt;&lt; Animals::legs[Animals::elephant] &lt;&lt; " legs.\n";
 
     return 0;
 }</code></pre></div><div class=prevnext><div class=prevnext-inline><a class=nav-link href="../stdvector-resizing-and-capacity/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>16.10</span>std::vector zmiana rozmiaru i pojemności</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../range-based-for-loops-for-each/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>16.8</span>Na podstawie zakresu dla pętli (dla każdej)</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/array-indexing-and-length-using-enumerators/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../arrays-loops-and-sign-challenge-solutions/index.html" rel=prev><span>16,7 — Tablice, pętle i wyzwanie dotyczące znaku rozwiązania</span></a></div><div class=nav-next><em>Następny post</em><a href="../stdvector-and-stack-behavior/index.html" rel=next><span>16.11 — std::vector i zachowanie stosu</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>

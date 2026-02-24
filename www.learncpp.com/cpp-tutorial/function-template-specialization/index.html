@@ -50,19 +50,19 @@ int main()
 6.700000e+000
 </pre><p>Jedną miłą rzeczą w definiowaniu funkcji w ten sposób jest to, że funkcja niebędąca szablonem nie musi mieć tego samego podpisu co szablon funkcji. Należy zauważyć, że  <code>print(const T&)</code> używa przekazywania przez stałą referencję, podczas gdy <code>print(double)</code> używa przekazywania przez wartość.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Generalnie wolę definiować funkcję inną niż szablon, jeśli taka opcja jest dostępna.<p class="cpp-section cpp-topline" style=clear:both>Specjalizacja szablonu funkcji<p>Innym sposobem osiągnięcia podobnego rezultatu jest użycie jawnej specjalizacji szablonu. <strong>Jawna specjalizacja szablonu</strong> (często skracana do <strong>szablon specjalizacja</strong>) to funkcja, która pozwala nam jawnie zdefiniować różne implementacje szablonu dla określonych typów lub wartości. Kiedy wszystkie parametry szablonu są wyspecjalizowane, nazywa się to <strong>pełną specjalizacją</strong>. Gdy tylko niektóre parametry szablonu są wyspecjalizowane, nazywa się to <strong>specjalizacją częściową</strong>.<p>Stwórzmy specjalizację <code>print&lt;T></code> gdy <code>T</code> jest <code>double</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-// Here&#39;s our primary template (must come first)
+// Oto nasz podstawowy szablon (musi być pierwszy)
 template &lt;typename T&gt;
 void print(const T&amp; t)
 {
-    std::cout &lt;&lt; t &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; t &lt;&lt; '\n';
 }
 
-// A full specialization of primary template print&lt;T&gt; for type double
-// Full specializations are not implicitly inline, so make this inline if put in header file
-template&lt;&gt;                          // template parameter declaration containing no template parameters 
-void print&lt;double&gt;(const double&amp; d) // specialized for type double
+// Pełna specjalizacja podstawowego wydruku szablonu&lt;T&gt; dla typu double
+// Pełne specjalizacje nie są domyślnie wbudowane, więc wstaw je, jeśli zostaną umieszczone w pliku nagłówkowym
+template&lt;&gt;                          // deklaracja parametrów szablonu nie zawierająca parametrów szablonu 
+void print&lt;double&gt;(const double&amp; d) // specjalizacja dla typu double
 {
-    std::cout &lt;&lt; std::scientific &lt;&lt; d &lt;&lt; &#39;\n&#39;; 
+    std::cout &lt;&lt; std::scientific &lt;&lt; d &lt;&lt; '\n'; 
 }
 
 int main()
@@ -71,8 +71,8 @@ int main()
     print(6.7);
     
     return 0;
-}</code></pre><p>Aby wyspecjalizować szablon, kompilator musi najpierw zobaczyć deklarację szablonu podstawowego. Podstawowym szablonem w powyższym przykładzie jest <code>print&lt;T>(const T&)</code>.<p>Przyjrzyjmy się teraz bliżej naszej specjalizacji szablonów funkcji:<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">template&lt;&gt;                          // template parameter declaration containing no template parameters 
-void print&lt;double&gt;(const double&amp; d) // specialized for type double</code></pre><p>Po pierwsze potrzebujemy deklaracji parametrów szablonu, aby kompilator wiedział, że robimy coś związanego z szablonami. Jednak w tym przypadku tak naprawdę nie potrzebujemy żadnych parametrów szablonu, więc używamy pustej pary nawiasów ostrych. Ponieważ w specjalizacji nie mamy parametrów szablonu, jest to specjalizacja pełna.<p>W następnym wierszu <code>print&lt;double></code> informuje kompilator, że specjalizujemy <code>print</code> podstawową funkcję szablonu dla typu <code>double</code>. Specjalizacja musi mieć ten sam podpis co szablon podstawowy (z wyjątkiem substytutów specjalizacji <code>double</code> wszędzie tam, gdzie używany jest szablon podstawowy <code>T</code>). Ponieważ szablon podstawowy ma parametr typu <code>const T&</code>, specjalizacja musi mieć parametr typu <code>const double&</code>. Specjalizacja nie może używać przekazywania przez wartość, gdy podstawowy szablon korzysta z przekazywania przez odwołanie (lub odwrotnie).<p>W tym przykładzie zostanie wyświetlony taki sam wynik jak powyżej.<p>Zauważ, że jeśli istnieją pasujące funkcje nieszablonowy i pasujące specjalizacje funkcji szablonu, funkcja nieszablonowa będzie miała pierwszeństwo. Ponadto pełne specjalizacje nie są domyślnie wbudowane, więc jeśli zdefiniujesz je w pliku nagłówkowym, upewnij się, <code>inline</code> że to robisz, aby uniknąć naruszeń ODR.<div class="cpp-note cpp-lightredbackground"><p class="cpp-note-title cpp-bottomline">Ostrzeżenie<p>Pełne specjalizacje nie są domyślnie wbudowane (specjalizacje częściowe są domyślnie wbudowane). Jeżeli w pliku nagłówkowym umieścisz pełną specjalizację, należy ją oznaczyć jako <code>inline</code> , aby nie powodowała naruszeń ODR przy włączeniu do wielu jednostek tłumaczeniowych.</div><p>Podobnie jak normalne funkcje, specjalizacje szablonów funkcji można usunąć (za pomocą  <code>= delete</code>), jeśli chcesz, aby wywołania funkcji, które odnoszą się do specjalizacji, powodowały błąd kompilacji.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>Ogólnie rzecz biorąc, jeśli to możliwe, powinieneś unikać specjalizacji szablonów funkcji na rzecz funkcji innych niż szablony.<p class="cpp-section cpp-topline" style=clear:both>Specjalizacja szablonów funkcji dla funkcji składowych?<p>Rozważmy teraz następujący szablon klasy:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+}</code></pre><p>Aby wyspecjalizować szablon, kompilator musi najpierw zobaczyć deklarację szablonu podstawowego. Podstawowym szablonem w powyższym przykładzie jest <code>print&lt;T>(const T&)</code>.<p>Przyjrzyjmy się teraz bliżej naszej specjalizacji szablonów funkcji:<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">template&lt;&gt;                          // deklaracja parametrów szablonu nie zawierająca parametrów szablonu 
+void print&lt;double&gt;(const double&amp; d) // specjalizacja dla typu double</code></pre><p>Po pierwsze potrzebujemy deklaracji parametrów szablonu, aby kompilator wiedział, że robimy coś związanego z szablonami. Jednak w tym przypadku tak naprawdę nie potrzebujemy żadnych parametrów szablonu, więc używamy pustej pary nawiasów ostrych. Ponieważ w specjalizacji nie mamy parametrów szablonu, jest to specjalizacja pełna.<p>W następnym wierszu <code>print&lt;double></code> informuje kompilator, że specjalizujemy <code>print</code> podstawową funkcję szablonu dla typu <code>double</code>. Specjalizacja musi mieć ten sam podpis co szablon podstawowy (z wyjątkiem substytutów specjalizacji <code>double</code> wszędzie tam, gdzie używany jest szablon podstawowy <code>T</code>). Ponieważ szablon podstawowy ma parametr typu <code>const T&</code>, specjalizacja musi mieć parametr typu <code>const double&</code>. Specjalizacja nie może używać przekazywania przez wartość, gdy podstawowy szablon korzysta z przekazywania przez odwołanie (lub odwrotnie).<p>W tym przykładzie zostanie wyświetlony taki sam wynik jak powyżej.<p>Zauważ, że jeśli istnieją pasujące funkcje nieszablonowy i pasujące specjalizacje funkcji szablonu, funkcja nieszablonowa będzie miała pierwszeństwo. Ponadto pełne specjalizacje nie są domyślnie wbudowane, więc jeśli zdefiniujesz je w pliku nagłówkowym, upewnij się, <code>inline</code> że to robisz, aby uniknąć naruszeń ODR.<div class="cpp-note cpp-lightredbackground"><p class="cpp-note-title cpp-bottomline">Ostrzeżenie<p>Pełne specjalizacje nie są domyślnie wbudowane (specjalizacje częściowe są domyślnie wbudowane). Jeżeli w pliku nagłówkowym umieścisz pełną specjalizację, należy ją oznaczyć jako <code>inline</code> , aby nie powodowała naruszeń ODR przy włączeniu do wielu jednostek tłumaczeniowych.</div><p>Podobnie jak normalne funkcje, specjalizacje szablonów funkcji można usunąć (za pomocą  <code>= delete</code>), jeśli chcesz, aby wywołania funkcji, które odnoszą się do specjalizacji, powodowały błąd kompilacji.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>Ogólnie rzecz biorąc, jeśli to możliwe, powinieneś unikać specjalizacji szablonów funkcji na rzecz funkcji innych niż szablony.<p class="cpp-section cpp-topline" style=clear:both>Specjalizacja szablonów funkcji dla funkcji składowych?<p>Rozważmy teraz następujący szablon klasy:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 template &lt;typename T&gt;
 class Storage
@@ -87,17 +87,17 @@ public:
 
     void print()
     {
-        std::cout &lt;&lt; m_value &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; m_value &lt;&lt; '\n';
     }
 };
 
 int main()
 {
-    // Define some storage units
+    // Zdefiniuj niektóre jednostki przechowywania
     Storage i { 5 };
     Storage d { 6.7 };
 
-    // Print out some values
+    // Wydrukuj niektóre wartości
     i.print();
     d.print();
 }</code></pre><p>Wypisuje:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">5

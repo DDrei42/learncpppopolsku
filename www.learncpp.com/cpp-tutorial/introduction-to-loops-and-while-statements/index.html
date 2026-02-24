@@ -22,7 +22,7 @@ int main()
     return 0;
 }</code></pre><p>Chociaż jest to wykonalne, staje się coraz mniejsze, gdy chcesz wydrukować więcej liczb: co jeśli chcesz wydrukować wszystkie liczby od 1 do 1000? To byłoby sporo pisania! Ale taki program da się w ten sposób zapisać, ponieważ w czasie kompilacji wiemy, ile liczb chcemy wydrukować.<p>Teraz zmieńmy trochę parametry. Co by było, gdybyśmy chcieli poprosić użytkownika o wprowadzenie liczby, a następnie wydrukować wszystkie liczby z zakresu od 1 do liczby wprowadzonej przez użytkownika? Liczba, którą wprowadzi użytkownik, nie jest znana w czasie kompilacji. Jak więc możemy rozwiązać ten problem?<p class="cpp-section cpp-topline" style=clear:both>Instrukcje while<p>Klasa <strong>inhile instrukcja</strong> (zwana także <strong>while pętla</strong>) jest najprostszym z trzech typów pętli dostępnych w C++ i ma definicję bardzo podobną do instrukcji if:<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><pre>while (condition)
     statement;
-</pre><p>A <code>while statement</code> jest deklarowana przy użyciu słowo kluczowe <strong>podczas</strong> . Kiedy wykonywana jest instrukcja while, oceniane jest wyrażenie <em>warunek</em> . Jeżeli warunek ma wartość <code>true</code>, powiązany <em>stwierdzenie</em> wykonuje się.<p>Jednak w przeciwieństwie do instrukcji if, po zakończeniu wykonywania instrukcji sterowanie powraca na początek instrukcji while i proces jest powtarzany. Oznacza to, że instrukcja while będzie działać w pętli tak długo, jak długo warunek będzie oceniany <code>true</code>.<p>Przyjrzyjmy się prostej pętli while, która wypisuje wszystkie liczby od 1 do 10:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+</pre><p><code>while statement</code> jest deklarowana przy użyciu słowo kluczowe <strong>podczas</strong> . Kiedy wykonywana jest instrukcja while, oceniane jest wyrażenie <em>warunek</em> . Jeżeli warunek ma wartość <code>true</code>, powiązany <em>stwierdzenie</em> wykonuje się.<p>Jednak w przeciwieństwie do instrukcji if, po zakończeniu wykonywania instrukcji sterowanie powraca na początek instrukcji while i proces jest powtarzany. Oznacza to, że instrukcja while będzie działać w pętli tak długo, jak długo warunek będzie oceniany <code>true</code>.<p>Przyjrzyjmy się prostej pętli while, która wypisuje wszystkie liczby od 1 do 10:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 int main()
 {
@@ -56,29 +56,29 @@ int main()
 int main()
 {
     int count{ 1 };
-    while (count &lt;= 10) // this condition will never be false
+    while (count &lt;= 10) // ten warunek nigdy nie będzie fałszywy
     {
-        std::cout &lt;&lt; count &lt;&lt; &#39; &#39;; // so this line will repeatedly execute
+        std::cout &lt;&lt; count &lt;&lt; ' '; // więc ta linia będzie wielokrotnie wykonywana
     }
 
-    std::cout &lt;&lt; &#39;\n&#39;; // this line will never execute
+    std::cout &lt;&lt; '\n'; // ta linia nigdy nie będzie wykonaj
 
-    return 0; // this line will never execute
+    return 0; // ta linia nigdy nie będzie wykonaj
 }</code></pre><p>Ponieważ <code>count</code> nie jest inkrementowana w tym programie,  <code>count &lt;= 10</code> zawsze będzie prawdziwa. W rezultacie pętla nigdy się nie zakończy, a program będzie drukował <code>1 1 1 1 1</code>... w nieskończoność.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Zamierzone pętle nieskończone<p>Możemy zadeklarować celową nieskończoną pętlę w następujący sposób:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">while (true)
 {
-  // this loop will execute forever
+  // ta pętla będzie wykonywana w nieskończoność
 }</code></pre><p>Jedynym sposobem na wyjście z nieskończonej pętli jest instrukcja return, instrukcja break, instrukcja wyjścia, instrukcja goto, zgłoszenie wyjątku lub zabicie przez użytkownika programu.<p>Oto głupi przykład ilustrujący to:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 int main()
 {
 
-    while (true) // infinite loop
+    while (true) // nieskończona pętla
     {
-        std::cout &lt;&lt; &#34;Loop again (y/n)? &#34;;
+        std::cout &lt;&lt; "Loop again (y/n)? ";
         char c{};
         std::cin &gt;&gt; c;
 
-        if (c == &#39;n&#39;)
+        if (c == 'n')
             return 0;
     }
 
@@ -88,13 +88,13 @@ int main()
 int main()
 {
     int count{ 1 };
-    while (count &lt;= 10); // note the semicolon here
+    while (count &lt;= 10); // zwróć uwagę na średnik w tym miejscu
     {
-        std::cout &lt;&lt; count &lt;&lt; &#39; &#39;;
+        std::cout &lt;&lt; count &lt;&lt; ' ';
         ++count;
     }
 
-    std::cout &lt;&lt; &#34;done!\n&#34;;
+    std::cout &lt;&lt; "done!\n";
 
     return 0;
 }</code></pre><p>Program wykonuje się tak, jakbyśmy napisali to:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -102,63 +102,63 @@ int main()
 int main()
 {
     int count{ 1 };
-    while (count &lt;= 10) // this is an infinite loop
-        ;               // whose body is a null statement
+    while (count &lt;= 10) // to jest nieskończona pętla
+        ;               // którego ciało jest instrukcją zerową
 
-    { // this is no longer associated with the while loop
-        std::cout &lt;&lt; count &lt;&lt; &#39; &#39;;
+    { // to nie jest już powiązane z pętlą while
+        std::cout &lt;&lt; count &lt;&lt; ' ';
         ++count;
     }
 
-    std::cout &lt;&lt; &#34;done!\n&#34;;
+    std::cout &lt;&lt; "done!\n";
 
     return 0;
-}</code></pre><p>Ponieważ warunek pętli ma wartość <code>true</code>, wykonywane jest ciało pętli. Ale ciało pętli jest instrukcją zerową, która nic nie robi. Następnie warunek pętli jest ponownie oceniany. Od <code>count</code> nigdy nie jest zwiększana, warunek nigdy nie może osiągnąć wartości <code>false</code>, więc pętla będzie działać w nieskończoność, nie robiąc nic. Nasz program będzie wyglądał jakby był zawieszony.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p>W przeciwieństwie do instrukcji if, gdzie średnik po warunku jest zawsze błędem, czasami można spotkać instrukcje while, które robią to celowo. Na przykład, jeśli chcemy w sposób ciągły wywoływać funkcję, aż do jej powrotu <code>false</code>, możemy to zwięźle zapisać w następujący sposób:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">while (keepRunning()); // will keep calling this function until it returns false</code></pre><p>Oczywiście, jeśli funkcja nigdy nie powróci <code>false</code>, otrzymasz nieskończoną pętlę.<div class="cpp-note cpp-lightredbackground"><p class="cpp-note-title cpp-bottomline">Ostrzeżenie<p>Uważaj, umieszczając średnik po warunku instrukcji while, ponieważ spowoduje to nieskończoną pętlę, chyba że warunek zostanie w jakiś sposób obliczony <code>false</code>.</div><p class="cpp-section cpp-topline" style=clear:both>Zmienne pętli i nazewnictwo<p>A <strong>zmienna pętli</strong> to zmienna używana do kontrolowania liczby wykonań pętli. Na przykład dane <code>while (count &lt;= 10)</code>, <code>count</code> jest zmienną pętli. Chociaż większość zmiennych pętli ma typ <code>int</code>, czasami zobaczysz inne typy (np. <code>char</code>).<p>Zmienne pętli często otrzymują proste nazwy, np <code>i</code>, <code>j</code>, I <code>k</code> jest najczęstszy.<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Na marginesie…<p>Użycie <code>i</code>, <code>j</code>, I <code>k</code> Nazwy zmiennych pętli for powstały, ponieważ są to pierwsze trzy najkrótsze nazwy zmiennych całkowitych w języku programowania Fortran. Od tego czasu konwencja trwa.</div><p>Jeśli jednak chcesz wiedzieć gdzie w Twoim programie jest używana zmienna pętli i korzystasz z funkcji wyszukiwania on <code>i</code>, <code>j</code> lub <code>k</code>, funkcja wyszukiwania zwróci połowę linii w twoim programie! Z tego powodu niektórzy programiści preferują nazwy zmiennych pętli, takie jak <code>iii</code>, <code>jjj</code> lub <code>kkk</code>. Ponieważ te nazwy są bardziej unikalne, znacznie ułatwia to wyszukiwanie zmiennych pętli i pomaga im wyróżnić się jako zmienne pętli. Jeszcze lepszym pomysłem jest użycie „prawdziwych” nazw zmiennych, takich jak <code>count</code>, <code>index</code>lub nazwę zawierającą więcej szczegółów na temat tego, co liczysz (np. <code>userCount</code>).<p>Najpopularniejszym typem zmiennej pętli jest a <strong>licznik</strong>, która jest zmienną pętli, która zlicza, ile razy pętla została wykonana. W powyższych przykładach zmienna <code>count</code> jest licznik.<p class="cpp-section cpp-topline" style=clear:both>Zmienne pętli całkowej powinny być podpisane<p>Zmienne pętli całkowej powinny prawie zawsze być podpisane, ponieważ liczby całkowite bez znaku mogą prowadzić do nieoczekiwanych problemów. Rozważ następujący kod:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+}</code></pre><p>Ponieważ warunek pętli ma wartość <code>true</code>, wykonywane jest ciało pętli. Ale ciało pętli jest instrukcją zerową, która nic nie robi. Następnie warunek pętli jest ponownie oceniany. Od <code>count</code> nigdy nie jest zwiększana, warunek nigdy nie może osiągnąć wartości <code>false</code>, więc pętla będzie działać w nieskończoność, nie robiąc nic. Nasz program będzie wyglądał jakby był zawieszony.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p>W przeciwieństwie do instrukcji if, gdzie średnik po warunku jest zawsze błędem, czasami można spotkać instrukcje while, które robią to celowo. Na przykład, jeśli chcemy w sposób ciągły wywoływać funkcję, aż do jej powrotu <code>false</code>, możemy to zwięźle zapisać w następujący sposób:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">while (keepRunning()); // będzie wywoływał tę funkcję, dopóki nie zwróci wartości false</code></pre><p>Oczywiście, jeśli funkcja nigdy nie powróci <code>false</code>, otrzymasz nieskończoną pętlę.<div class="cpp-note cpp-lightredbackground"><p class="cpp-note-title cpp-bottomline">Ostrzeżenie<p>Uważaj, umieszczając średnik po warunku instrukcji while, ponieważ spowoduje to nieskończoną pętlę, chyba że warunek zostanie w jakiś sposób obliczony <code>false</code>.</div><p class="cpp-section cpp-topline" style=clear:both>Zmienne pętli i nazewnictwo<p><strong>zmienna pętli</strong> to zmienna używana do kontrolowania liczby wykonań pętli. Na przykład dane <code>while (count &lt;= 10)</code>, <code>count</code> jest zmienną pętli. Chociaż większość zmiennych pętli ma typ <code>int</code>, czasami zobaczysz inne typy (np. <code>char</code>).<p>Zmienne pętli często otrzymują proste nazwy, np <code>i</code>, <code>j</code>, i <code>k</code> jest najczęstszy.<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Na marginesie…<p>Użycie <code>i</code>, <code>j</code>, i <code>k</code> Nazwy zmiennych pętli for powstały, ponieważ są to pierwsze trzy najkrótsze nazwy zmiennych całkowitych w języku programowania Fortran. Od tego czasu konwencja trwa.</div><p>Jeśli jednak chcesz wiedzieć gdzie w Twoim programie jest używana zmienna pętli i korzystasz z funkcji wyszukiwania on <code>i</code>, <code>j</code> lub <code>k</code>, funkcja wyszukiwania zwróci połowę linii w twoim programie! Z tego powodu niektórzy programiści preferują nazwy zmiennych pętli, takie jak <code>iii</code>, <code>jjj</code> lub <code>kkk</code>. Ponieważ te nazwy są bardziej unikalne, znacznie ułatwia to wyszukiwanie zmiennych pętli i pomaga im wyróżnić się jako zmienne pętli. Jeszcze lepszym pomysłem jest użycie „prawdziwych” nazw zmiennych, takich jak <code>count</code>, <code>index</code>lub nazwę zawierającą więcej szczegółów na temat tego, co liczysz (np. <code>userCount</code>).<p>Najpopularniejszym typem zmiennej pętli jest <strong>licznik</strong>, która jest zmienną pętli, która zlicza, ile razy pętla została wykonana. W powyższych przykładach zmienna <code>count</code> jest licznik.<p class="cpp-section cpp-topline" style=clear:both>Zmienne pętli całkowej powinny być podpisane<p>Zmienne pętli całkowej powinny prawie zawsze być podpisane, ponieważ liczby całkowite bez znaku mogą prowadzić do nieoczekiwanych problemów. Rozważ następujący kod:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 int main()
 {
     unsigned int count{ 10 }; // note: unsigned
 
-    // count from 10 down to 0
+    // licz od 10 do 0
     while (count &gt;= 0)
     {
         if (count == 0)
         {
-            std::cout &lt;&lt; &#34;blastoff!&#34;;
+            std::cout &lt;&lt; "blastoff!";
         }
         else
         {
-            std::cout &lt;&lt; count &lt;&lt; &#39; &#39;;
+            std::cout &lt;&lt; count &lt;&lt; ' ';
         }
         --count;
     }
 
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Spójrz na powyższy przykład i sprawdź, czy potrafisz dostrzec błąd. Nie jest to zbyt oczywiste, jeśli nie widziałeś tego wcześniej.<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><p>Okazuje się, że ten program jest nieskończoną pętlą. Zaczyna się od druku <code>10 9 8 7 6 5 4 3 2 1 blastoff!</code> zgodnie z potrzebami, ale następnie zmienna pętli <code>count</code> przepełnia się i zaczyna odliczanie <code>4294967295</code> (przy założeniu 32-bitowych liczb całkowitych). Dlaczego? Ponieważ warunek pętli <code>count >= 0</code> nigdy nie będzie fałszywe! Kiedy jest liczenie <code>0</code>, <code>0 >= 0</code> jest prawdą. Następnie <code>--count</code> jest wykonywany, a liczba jest zawijana z powrotem do <code>4294967295</code>. I od <code>4294967295 >= 0</code> Jest <code>true</code>, program jest kontynuowany. Ponieważ <code>count</code> jest bez znaku, nigdy nie może być ujemna, a ponieważ nigdy nie może być ujemna, pętla się nie zakończy.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Zmienne pętli całkowej powinny ogólnie być typu całkowego ze znakiem.</div><p class="cpp-section cpp-topline" style=clear:both>Wykonywanie czegoś co N iteracji<p>Za każdym razem, gdy wykonywana jest pętla, nazywa się to <strong>iteracją</strong>.<p>Często chcemy zrobić coś co drugą, trzecią lub czwartą iterację, na przykład wydrukować znak nowej linii. Można to łatwo zrobić za pomocą operatora reszty na naszym liczniku:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-// Iterate through every number between 1 and 50
+// Przejdź przez każdą liczbę od 1 do 50
 int main()
 {
     int count{ 1 };
     while (count &lt;= 50)
     {
-        // print the number (pad numbers under 10 with a leading 0 for formatting purposes)
+        // wydrukuj liczbę (numery padów poniżej 10 z 0 na początku dla celów formatowania)
         if (count &lt; 10)
         {
-            std::cout &lt;&lt; &#39;0&#39;;
+            std::cout &lt;&lt; '0';
         }
 
-        std::cout &lt;&lt; count &lt;&lt; &#39; &#39;;
+        std::cout &lt;&lt; count &lt;&lt; ' ';
 
-        // if the loop variable is divisible by 10, print a newline
+        // jeśli zmienna pętli jest podzielna przez 10, wydrukuj znak nowej linii
         if (count % 10 == 0)
         {
-            std::cout &lt;&lt; &#39;\n&#39;;
+            std::cout &lt;&lt; '\n';
         }
             
-        // increment the loop counter
+        // zwiększ licznik pętli
         ++count;
     }
 
@@ -172,34 +172,34 @@ int main()
 
 void printUpto(int outer)
 {
-    // loop between 1 and outer
-    // note: inner will be created and destroyed at the end of the block
+    // pętla między 1 a zewnętrzną
+    // uwaga: wartość wewnętrzna zostanie utworzona i zniszczona na końcu bloku
     int inner{ 1 };
     while (inner &lt;= outer)
     {
-        std::cout &lt;&lt; inner &lt;&lt; &#39; &#39;;
+        std::cout &lt;&lt; inner &lt;&lt; ' ';
         ++inner;
     }
-} // inner destroyed here
+} // zniszczona wewnętrznie tutaj
 
 int main()
 {
-    // outer loops between 1 and 5
+    // zewnętrzna pętla między 1 a 5
     int outer{ 1 };
     while (outer &lt;= 5)
     {
-        // For each iteration of the outer loop, the code in the body of the loop executes once
+        // Dla każdej iteracji zewnętrznej pętli kod znajdujący się w treści pętli jest wykonywany raz
 
-        // This function prints numbers between 1 and outer
+        // Ta funkcja wypisuje liczby od 1 do zewnętrznej
         printUpto(outer);
 
-        // print a newline at the end of each row
-        std::cout &lt;&lt; &#39;\n&#39;;
+        // wydrukuj znak nowej linii na końcu każdego wiersza
+        std::cout &lt;&lt; '\n';
         ++outer;
     }
 
     return 0;
-}</code></pre><p>W tym przykładzie mamy zewnętrzną pętlę z licznikiem o nazwie  <code>outer</code> , który liczy od 1 do 5. Przy każdej iteracji pętli treść pętli wywołuje <code>printUpto()</code> używając zmiennej pętli zewnętrznej jako argumentu, wypisuje znak nowej linii i zwiększa również funkcję  <code>outer</code>. Słowo kluczowe <code>printUpto()</code>  posiada pętlę, która wypisuje wszystkie liczby pomiędzy 1 a przekazaną wartością.<p>Dlatego, gdy <code>outer</code> wynosi 1, treść pętli wywołuje  <code>printUpto(1)</code>, która wypisuje liczbę <code>1</code>. Następnie treść pętli wypisuje znak nowej linii i zwiększa  <code>outer</code>. Teraz  <code>outer</code> wynosi 2. Treść pętli wykonuje się ponownie, wywołując  <code>printUpto(2)</code>, która drukuje <code>1 2</code>. Treść pętli wypisuje kolejny znak nowej linii i zwiększa  <code>outer</code>. Kolejne iteracje wywołują <code>printUpto(3)</code>, <code>printUpto(4)</code>, I <code>printUpto(5)</code>.<p>Dlatego ten program wypisuje:<pre>1
+}</code></pre><p>W tym przykładzie mamy zewnętrzną pętlę z licznikiem o nazwie  <code>outer</code> , który liczy od 1 do 5. Przy każdej iteracji pętli treść pętli wywołuje <code>printUpto()</code> używając zmiennej pętli zewnętrznej jako argumentu, wypisuje znak nowej linii i zwiększa również funkcję  <code>outer</code>. Słowo kluczowe <code>printUpto()</code>  posiada pętlę, która wypisuje wszystkie liczby pomiędzy 1 a przekazaną wartością.<p>Dlatego, gdy <code>outer</code> wynosi 1, treść pętli wywołuje  <code>printUpto(1)</code>, która wypisuje liczbę <code>1</code>. Następnie treść pętli wypisuje znak nowej linii i zwiększa  <code>outer</code>. Teraz  <code>outer</code> wynosi 2. Treść pętli wykonuje się ponownie, wywołując  <code>printUpto(2)</code>, która drukuje <code>1 2</code>. Treść pętli wypisuje kolejny znak nowej linii i zwiększa  <code>outer</code>. Kolejne iteracje wywołują <code>printUpto(3)</code>, <code>printUpto(4)</code>, i <code>printUpto(5)</code>.<p>Dlatego ten program wypisuje:<pre>1
 1 2
 1 2 3
 1 2 3 4
@@ -208,25 +208,25 @@ int main()
 
 int main()
 {
-    // outer loops between 1 and 5
+    // zewnętrzna pętla między 1 a 5
     int outer{ 1 };
     while (outer &lt;= 5)
     {
-        // For each iteration of the outer loop, the code in the body of the loop executes once
+        // Dla każdej iteracji zewnętrznej pętli kod znajdujący się w treści pętli jest wykonywany raz
 
-        // inner loops between 1 and outer
-        // note: inner will be created and destroyed at the end of the block
+        // wewnętrzne pętle między 1 a zewnętrzną
+        // uwaga: wartość wewnętrzna zostanie utworzona i zniszczona na końcu bloku
         int inner{ 1 };
         while (inner &lt;= outer)
         {
-            std::cout &lt;&lt; inner &lt;&lt; &#39; &#39;;
+            std::cout &lt;&lt; inner &lt;&lt; ' ';
             ++inner;
         }
 
-        // print a newline at the end of each row
-        std::cout &lt;&lt; &#39;\n&#39;;
+        // wydrukuj znak nowej linii na końcu każdego wiersza
+        std::cout &lt;&lt; '\n';
         ++outer;
-    } // inner destroyed here
+    } // zniszczona wewnętrznie tutaj
 
     return 0;
 }</code></pre><p>Ten program ma dokładnie takie same dane wyjściowe:<pre>1
@@ -234,7 +234,7 @@ int main()
 1 2 3
 1 2 3 4
 1 2 3 4 5
-</pre><p>Ponieważ mamy pętlę while zagnieżdżoną bezpośrednio w innej pętli while, wygląda to nieco bardziej zagmatwanie. Jednak jedyne, co zrobiliśmy, to umieściliśmy kod, który znajdował się wewnątrz funkcji <code>printUpto()</code> bezpośrednio w ciele zewnętrznej pętli.<p>Przyjrzyjmy się, jak to działa bardziej szczegółowo.<p>Najpierw mamy zewnętrzną pętlę (ze zmienną pętli <code>outer</code>), która wykona 5 pętli (z <code>outer</code> posiadaniem wartości <code>1</code>, <code>2</code>, <code>3</code>, <code>4</code>, I <code>5</code> sumiennie).<p>W pierwszej iteracji pętla zewnętrzna, <code>outer</code> ma wartość <code>1</code>, a następnie wykonywany jest korpus pętli zewnętrznej. Wewnątrz korpusu pętli zewnętrznej mamy kolejną pętlę ze zmienną pętli <code>inner</code>. Wewnętrzna pętla wykonuje iterację od <code>1</code> Do <code>outer</code> (która ma wartość <code>1</code>), zatem ta wewnętrzna pętla wykona się raz, wypisując wartość <code>1</code>. Następnie drukujemy znak nowej linii i inkrementujemy <code>outer</code> Do <code>2</code>.<p>W drugiej iteracji zewnętrznej pętli,  <code>outer</code> ma wartość <code>2</code>, po czym wykonywany jest korpus pętli zewnętrznej. Wewnątrz ciała zewnętrznej pętli <code>inner</code> ponownie iteruje od <code>1</code> Do <code>outer</code> (która ma teraz wartość <code>2</code>), więc ta wewnętrzna pętla wykona się dwukrotnie, wypisując wartości <code>1</code> i <code>2</code>. Następnie drukujemy znak nowej linii i inkrementujemy <code>outer</code> Do <code>3</code>.<p>Proces ten jest kontynuowany, a wewnętrzna pętla drukuje <code>1 2 3</code>, <code>1 2 3 4</code>, I <code>1 2 3 4 5</code> w kolejnych przejściach. Ostatecznie  <code>outer</code> zwiększy się do <code>6</code> i ponieważ warunek pętli zewnętrznej (<code>outer &lt;= 5</code>) jest wtedy fałszywy, pętla zewnętrzna jest zakończona. Następnie program się kończy.<p>Jeśli nadal jest to dla Ciebie zagmatwane, dobrym sposobem na lepsze zrozumienie tego, co się dzieje, jest przechodzenie przez program linia po linii w debugerze i obserwowanie wartości <code>inner</code> i <code>outer</code> , aby lepiej zrozumieć, co się dzieje.<p class="cpp-section cpp-topline" style=clear:both>Czas quizu<div class=quiz style=clear:both><p class=quiz-header>Pytanie nr 1<p>Dlaczego w powyższym programie zmienna <code>inner</code>  jest deklarowana w bloku while, a nie bezpośrednio po deklaracji of <code>outer</code>?<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_0 style=display:none><p>Zmienna wewnętrzna jest deklarowana wewnątrz bloku while, dzięki czemu jest odtwarzana (i ponownie inicjowana do wartości 1) za każdym razem, gdy wykonywana jest pętla zewnętrzna. Gdyby zmienna wewnętrzna została zadeklarowana przed zewnętrzną pętlą while, jej wartość nigdy nie zostałaby zresetowana do 1 lub musielibyśmy to zrobić za pomocą instrukcji przypisania. Co więcej, ponieważ zmienna wewnętrzna jest używana tylko wewnątrz zewnętrznego bloku pętli while, sensowne jest jej zadeklarowanie w tym miejscu. Pamiętaj, zadeklaruj zmienne w możliwie najmniejszym zakresie!</div><p></div><div class=quiz style=clear:both><p class=quiz-header>Pytanie nr 2<p>Napisz program, który wypisze litery od a do z wraz z ich kodami ASCII. Użyj zmiennej pętli typu  <code>char</code>.<p><a class=hint_link_show href=javascript:void(0) onclick="cppHintToggle(document.getElementById('cpp_hint_id_0'),this,'Show Hint','')">Pokaż wskazówkę</a><div class=wphint id=cpp_hint_id_0 style=display:none;margin-bottom:1em>Wskazówka: Aby wydrukować znaki jako liczby całkowite, musisz użyć metody static_cast.</div><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_1 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+</pre><p>Ponieważ mamy pętlę while zagnieżdżoną bezpośrednio w innej pętli while, wygląda to nieco bardziej zagmatwanie. Jednak jedyne, co zrobiliśmy, to umieściliśmy kod, który znajdował się wewnątrz funkcji <code>printUpto()</code> bezpośrednio w ciele zewnętrznej pętli.<p>Przyjrzyjmy się, jak to działa bardziej szczegółowo.<p>Najpierw mamy zewnętrzną pętlę (ze zmienną pętli <code>outer</code>), która wykona 5 pętli (z <code>outer</code> posiadaniem wartości <code>1</code>, <code>2</code>, <code>3</code>, <code>4</code>, i <code>5</code> sumiennie).<p>W pierwszej iteracji pętla zewnętrzna, <code>outer</code> ma wartość <code>1</code>, a następnie wykonywany jest korpus pętli zewnętrznej. Wewnątrz korpusu pętli zewnętrznej mamy kolejną pętlę ze zmienną pętli <code>inner</code>. Wewnętrzna pętla wykonuje iterację od <code>1</code> Do <code>outer</code> (która ma wartość <code>1</code>), zatem ta wewnętrzna pętla wykona się raz, wypisując wartość <code>1</code>. Następnie drukujemy znak nowej linii i inkrementujemy <code>outer</code> Do <code>2</code>.<p>W drugiej iteracji zewnętrznej pętli,  <code>outer</code> ma wartość <code>2</code>, po czym wykonywany jest korpus pętli zewnętrznej. Wewnątrz ciała zewnętrznej pętli <code>inner</code> ponownie iteruje od <code>1</code> Do <code>outer</code> (która ma teraz wartość <code>2</code>), więc ta wewnętrzna pętla wykona się dwukrotnie, wypisując wartości <code>1</code> i <code>2</code>. Następnie drukujemy znak nowej linii i inkrementujemy <code>outer</code> Do <code>3</code>.<p>Proces ten jest kontynuowany, a wewnętrzna pętla drukuje <code>1 2 3</code>, <code>1 2 3 4</code>, i <code>1 2 3 4 5</code> w kolejnych przejściach. Ostatecznie  <code>outer</code> zwiększy się do <code>6</code> i ponieważ warunek pętli zewnętrznej (<code>outer &lt;= 5</code>) jest wtedy fałszywy, pętla zewnętrzna jest zakończona. Następnie program się kończy.<p>Jeśli nadal jest to dla Ciebie zagmatwane, dobrym sposobem na lepsze zrozumienie tego, co się dzieje, jest przechodzenie przez program linia po linii w debugerze i obserwowanie wartości <code>inner</code> i <code>outer</code> , aby lepiej zrozumieć, co się dzieje.<p class="cpp-section cpp-topline" style=clear:both>Czas quizu<div class=quiz style=clear:both><p class=quiz-header>Pytanie nr 1<p>Dlaczego w powyższym programie zmienna <code>inner</code>  jest deklarowana w bloku while, a nie bezpośrednio po deklaracji of <code>outer</code>?<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_0 style=display:none><p>Zmienna wewnętrzna jest deklarowana wewnątrz bloku while, dzięki czemu jest odtwarzana (i ponownie inicjowana do wartości 1) za każdym razem, gdy wykonywana jest pętla zewnętrzna. Gdyby zmienna wewnętrzna została zadeklarowana przed zewnętrzną pętlą while, jej wartość nigdy nie zostałaby zresetowana do 1 lub musielibyśmy to zrobić za pomocą instrukcji przypisania. Co więcej, ponieważ zmienna wewnętrzna jest używana tylko wewnątrz zewnętrznego bloku pętli while, sensowne jest jej zadeklarowanie w tym miejscu. Pamiętaj, zadeklaruj zmienne w możliwie najmniejszym zakresie!</div><p></div><div class=quiz style=clear:both><p class=quiz-header>Pytanie nr 2<p>Napisz program, który wypisze litery od a do z wraz z ich kodami ASCII. Użyj zmiennej pętli typu  <code>char</code>.<p><a class=hint_link_show href=javascript:void(0) onclick="cppHintToggle(document.getElementById('cpp_hint_id_0'),this,'Show Hint','')">Pokaż wskazówkę</a><div class=wphint id=cpp_hint_id_0 style=display:none;margin-bottom:1em>Wskazówka: Aby wydrukować znaki jako liczby całkowite, musisz użyć metody static_cast.</div><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_1 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 int main()
 {
@@ -253,21 +253,21 @@ int main()
 1
 </pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_2'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_2 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-// Loop between 5 and 1
+// Pętla między 5 a 1
 int main()
 {
 	int outer{ 5 };
 	while (outer &gt;= 1)
 	{
-		// loop between outer and 1
+		// pętla między zewnętrzną a 1
 		int inner{ outer };
 		while (inner &gt;= 1)
         {
-			std::cout &lt;&lt; inner-- &lt;&lt; &#39; &#39;;
+			std::cout &lt;&lt; inner-- &lt;&lt; ' ';
         }
 
-		// print a newline at the end of each row
-		std::cout &lt;&lt; &#39;\n&#39;;
+		// wydrukuj znak nowej linii na końcu każdego wiersza
+		std::cout &lt;&lt; '\n';
 		--outer;
 	}
 
@@ -282,33 +282,33 @@ X X X 2 1
 X X 3 2 1
 X 4 3 2 1
 5 4 3 2 1
-</pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_3'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_3 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Thanks to Shiva for this solution
+</pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_3'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_3 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Dzięki Shivie za to rozwiązanie
 #include &lt;iostream&gt;
 
 int main()
 {
-	// There are 5 rows, we can loop from 1 to 5
+	// Jest 5 wierszy, możemy wykonać pętlę od 1 do 5
 	int outer{ 1 };
 
 	while (outer &lt;= 5)
 	{
-		// Row elements appear in descending order, so start from 5 and loop through to 1
+		// Elementy rzędu pojawiają się w kolejności malejącej, więc zacznij od 5 i kieruj się do 1
 		int inner{ 5 };
 
 		while (inner &gt;= 1)
 		{
-			// The first number in any row is the same as the row number
-			// So number should be printed only if it is &lt;= the row number, space otherwise
+			// Pierwsza liczba w wierszu jest taka sama jak numer wiersza
+			// Więc liczba powinna być wypisana tylko wtedy, gdy jest to &lt;= numer wiersza, w przeciwnym razie spacja
 			if (inner &lt;= outer)
-				std::cout &lt;&lt; inner &lt;&lt; &#39; &#39;; // print the number and a single space
+				std::cout &lt;&lt; inner &lt;&lt; ' '; // wydrukuj liczbę i pojedynczą spację
 			else
-				std::cout &lt;&lt; &#34;  &#34;; // don&#39;t print a number, but print two spaces
+				std::cout &lt;&lt; "  "; // nie drukuj liczby, ale wydrukuj dwie spacje
 
 			--inner;
 		}
 
-		// A row has been printed, move to the next row
-		std::cout &lt;&lt; &#39;\n&#39;;
+		// Wydrukowano wiersz, przejdź do następnego wiersza
+		std::cout &lt;&lt; '\n';
 
 		++outer;
 	}

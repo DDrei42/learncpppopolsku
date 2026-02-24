@@ -13,18 +13,18 @@
 <button class=searchsubmit><span class=screen-reader-text>Szukaj</span><i class=icon-search></i></button>
 <input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=61907></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="14.7 — Funkcje członkowskie zwracające odniesienia do elementów danych" src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-15851 class="post-15851 post type-post status-publish format-standard hentry category-cpp-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>14.7 — Funkcje członkowskie zwracające odniesienia do elementów danych</h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Autor></i><a class="url fn n" rel=author href=/www.learncpp.com/author/Alex/ title="Wyświetl wszystkie posty Alexa" itemprop=url><em itemprop=name>Alex</em></a></span>
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2023-10-05T12:55:56-07:00 itemprop=datePublished>5 października 2023, 12:55 czasu PDT</time>
-<time class=updated datetime=2024-03-29T16:50:43-07:00 itemprop=dateModified>29 marca 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>W lekcji <a href="../return-by-reference-and-return-by-address/index.html">12.12 -- Powrót przez referencję i powrót przez adres</a>, omówiliśmy zwrot przez odniesienie. W szczególności zauważyliśmy: „Obiekt zwracany przez referencję musi istnieć po powrocie funkcji”. Oznacza to, że nie powinniśmy zwracać zmiennych lokalnych przez referencję, ponieważ referencja pozostanie nieaktualna po zniszczeniu zmiennej lokalnej. Jednak generalnie dobrze jest zwracać przez referencję albo parametry funkcji przekazane przez referencję, albo zmienne o statycznym czasie trwania (statyczne zmienne lokalne lub zmienne globalne), ponieważ zazwyczaj nie zostaną one zniszczone po zwróceniu funkcji. <p>Na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Takes two std::string objects, returns the one that comes first alphabetically
+<time class=updated datetime=2024-03-29T16:50:43-07:00 itemprop=dateModified>29 marca 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>W lekcji <a href="../return-by-reference-and-return-by-address/index.html">12.12 -- Powrót przez referencję i powrót przez adres</a>, omówiliśmy zwrot przez odniesienie. W szczególności zauważyliśmy: „Obiekt zwracany przez referencję musi istnieć po powrocie funkcji”. Oznacza to, że nie powinniśmy zwracać zmiennych lokalnych przez referencję, ponieważ referencja pozostanie nieaktualna po zniszczeniu zmiennej lokalnej. Jednak generalnie dobrze jest zwracać przez referencję albo parametry funkcji przekazane przez referencję, albo zmienne o statycznym czasie trwania (statyczne zmienne lokalne lub zmienne globalne), ponieważ zazwyczaj nie zostaną one zniszczone po zwróceniu funkcji. <p>Na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Pobiera dwa obiekty std::string, zwraca alfabetycznie ten, który jest pierwszy
 const std::string&amp; firstAlphabetical(const std::string&amp; a, const std::string&amp; b)
 {
-	return (a &lt; b) ? a : b; // We can use operator&lt; on std::string to determine which comes first alphabetically
+	return (a &lt; b) ? a : b; // Możemy użyj operatora&lt; na std::string, aby określić, co jest pierwsze w kolejności alfabetycznej
 }
 
 int main()
 {
-	std::string hello { &#34;Hello&#34; };
-	std::string world { &#34;World&#34; };
+	std::string hello { "Hello" };
+	std::string world { "World" };
 
-	std::cout &lt;&lt; firstAlphabetical(hello, world); // either hello or world will be returned by reference
+	std::cout &lt;&lt; firstAlphabetical(hello, world); // albo hello, albo świat zostanie zwrócony przez odwołanie
 
 	return 0;
 }</code></pre><p>Funkcje składowe mogą również zwracać przez referencję i podlegają tym samym zasadom określającym, kiedy można bezpiecznie zwrócić przez referencję, jak funkcje niebędące składowymi. Jednakże funkcje składowe mają jeszcze jeden przypadek, który musimy omówić: funkcje składowe, które zwracają elementy danych przez referencję.<p>Jest to najczęściej spotykane w przypadku funkcji dostępu pobierających, dlatego zilustrujemy ten temat za pomocą funkcji składowych pobierających. Należy jednak pamiętać, że ten temat dotyczy dowolnej funkcji składowej zwracającej odwołanie do elementu danych.<p class="cpp-section cpp-topline" style=clear:both>Zwracanie elementów danych według wartości może być kosztowne<p>Rozważ następujący przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -36,13 +36,13 @@ class Employee
 
 public:
 	void setName(std::string_view name) { m_name = name; }
-	std::string getName() const { return m_name; } //  getter returns by value
+	std::string getName() const { return m_name; } //  getter zwraca według wartość
 };
 
 int main()
 {
 	Employee joe{};
-	joe.setName(&#34;Joe&#34;);
+	joe.setName("Joe");
 	std::cout &lt;&lt; joe.getName();
 
 	return 0;
@@ -55,15 +55,15 @@ class Employee
 
 public:
 	void setName(std::string_view name) { m_name = name; }
-	const std::string&amp; getName() const { return m_name; } //  getter returns by const reference
+	const std::string&amp; getName() const { return m_name; } //  getter zwraca według stałej referencji
 };
 
 int main()
 {
-	Employee joe{}; // joe exists until end of function
-	joe.setName(&#34;Joe&#34;);
+	Employee joe{}; // joe istnieje do końca funkcji
+	joe.setName("Joe");
 
-	std::cout &lt;&lt; joe.getName(); // returns joe.m_name by reference
+	std::cout &lt;&lt; joe.getName(); // uwaga joe.m_name przez odniesienie
 
 	return 0;
 }</code></pre><p>Teraz gdy  <code>joe.getName()</code> zostanie wywołane, <code>joe.m_name</code> jest zwracane przez odniesienie do osoby wywołującej, co pozwala uniknąć konieczności wykonywania kopii. Następnie wywołujący używa tego odniesienia do print <code>joe.m_name</code> do konsoli.<p>Ponieważ <code>joe</code> istniejącego w zakresie wywołującego aż do końca <code>main()</code> funkcji, odwołanie do <code>joe.m_name</code> jest również ważne przez ten sam czas trwania.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Zwrócenie (stałej) wartości odniesienia do elementu danych jest w porządku. Niejawny obiekt (zawierający element danych) nadal istnieje w zasięgu obiektu wywołującego po powrocie funkcji, więc wszelkie zwrócone referencje będą prawidłowe.</div><p class="cpp-section cpp-topline" style=clear:both>Typ zwracany przez funkcję składową zwracającą odwołanie do elementu danych powinien odpowiadać typowi elementu danych.<p>Ogólnie rzecz biorąc, typ zwracany przez funkcję składową zwracaną przez referencję powinien odpowiadać typowi zwracanego elementu danych. W powyższym przykładzie <code>m_name</code> jest typu <code>std::string</code>, więc <code>getName()</code> zwraca <code>const std::string&</code>.<p>Zwrócenie <code>std::string_view</code> wymagałoby utworzenia tymczasowego <code>std::string_view</code> i zwrócenia go przy każdym wywołaniu funkcji. To niepotrzebnie nieefektywne. Jeśli wywołujący chce <code>std::string_view</code>, może sam dokonać konwersji.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Funkcja członkowska zwracająca referencję powinna zwrócić referencję tego samego typu, co zwracany element danych, aby uniknąć niepotrzebnych konwersji.</div><p>W przypadku getterów użycie  <code>auto</code> , aby kompilator wydedukował typ zwracany na podstawie zwracanego elementu członkowskiego, jest użytecznym sposobem zapewnienia, że nie nastąpi żadna konwersja wystąpić:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -75,18 +75,18 @@ class Employee
 
 public:
 	void setName(std::string_view name) { m_name = name; }
-	const auto&amp; getName() const { return m_name; } // uses `auto` to deduce return type from m_name
+	const auto&amp; getName() const { return m_name; } // używa `auto` do wydedukowania typu zwracanego z m_name
 };
 
 int main()
 {
-	Employee joe{}; // joe exists until end of function
-	joe.setName(&#34;Joe&#34;);
+	Employee joe{}; // joe istnieje do końca funkcji
+	joe.setName("Joe");
 
-	std::cout &lt;&lt; joe.getName(); // returns joe.m_name by reference
+	std::cout &lt;&lt; joe.getName(); // uwaga joe.m_name przez odniesienie
 
 	return 0;
-}</code></pre><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Powiązana treść<p>Omawiamy <code>auto</code> typy zwracane w lekcji <a href="../type-deduction-for-functions/index.html">10.9 -- Dedukcja typu dla funkcji</a>.</div><p>Jednak użycie  <code>auto</code> typu zwracanego przesłania typ zwracany przez moduł pobierający z punktu widzenia dokumentacji. Na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">	const auto&amp; getName() const { return m_name; } // uses `auto` to deduce return type from m_name</code></pre><p>Nie jest jasne, jaki rodzaj łańcucha faktycznie zwraca ta funkcja (może to być <code>std::string</code>, <code>std::string_view</code>, <code>C-style string</code> lub coś zupełnie innego!).<p>Z tego powodu generalnie preferujemy jawne typy zwracanych wartości.<p class="cpp-section cpp-topline" style=clear:both>Rwartościuj obiekty ukryte i zwracaj przez referencję<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>Jest jeden przypadek, w którym musimy zachować trochę ostrożności. W powyższym przykładzie  <code>joe</code> jest obiektem wartościowym, który istnieje do końca funkcji. Dlatego referencja zwrócona przez <code>joe.getName()</code> będzie również ważna do końca funkcji.<p>Ale co, jeśli naszym ukrytym obiektem jest zamiast tego wartość (taka jak wartość zwracana przez jakąś funkcję, która zwraca wartość)? Obiekty Rvalue są niszczone na końcu pełnego wyrażenia, w którym zostały utworzone. Kiedy obiekt rvalue zostanie zniszczony, wszelkie odniesienia do elementów tego obiektu rvalue zostaną unieważnione i pozostawione w zawieszeniu, a użycie takich odniesień spowoduje niezdefiniowane zachowanie.<p>Dlatego też odwołanie do elementu członkowskiego obiektu rvalue może być bezpiecznie użyte tylko w pełnym wyrażeniu, w którym obiekt rvalue został utworzony.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>Co to jest pełne wyrażenie, omówiliśmy w lekcji <a href="../introduction-to-expressions/index.html">1.10 -- Wprowadzenie do wyrażeń</a>.</div><div class="cpp-note cpp-lightredbackground"><p class="cpp-note-title cpp-bottomline">Ostrzeżenie<p>Obiekt rvalue jest niszczony na końcu pełnego wyrażenia w jakim jest stworzony. Wszelkie odniesienia do elementów obiektu rvalue pozostają w tym momencie nieaktualne.<p>Odwołanie do elementu obiektu rvalue może być bezpiecznie użyte tylko w pełnym wyrażeniu, w którym tworzony jest obiekt rvalue.</div><p>Przyjrzyjmy się kilku powiązanym z tym przypadkom: <pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+}</code></pre><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Powiązana treść<p>Omawiamy <code>auto</code> typy zwracane w lekcji <a href="../type-deduction-for-functions/index.html">10.9 -- Dedukcja typu dla funkcji</a>.</div><p>Jednak użycie  <code>auto</code> typu zwracanego przesłania typ zwracany przez moduł pobierający z punktu widzenia dokumentacji. Na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">	const auto&amp; getName() const { return m_name; } // używa `auto` do wydedukowania typu zwracanego z m_name</code></pre><p>Nie jest jasne, jaki rodzaj łańcucha faktycznie zwraca ta funkcja (może to być <code>std::string</code>, <code>std::string_view</code>, <code>C-style string</code> lub coś zupełnie innego!).<p>Z tego powodu generalnie preferujemy jawne typy zwracanych wartości.<p class="cpp-section cpp-topline" style=clear:both>Rwartościuj obiekty ukryte i zwracaj przez referencję<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>Jest jeden przypadek, w którym musimy zachować trochę ostrożności. W powyższym przykładzie  <code>joe</code> jest obiektem wartościowym, który istnieje do końca funkcji. Dlatego referencja zwrócona przez <code>joe.getName()</code> będzie również ważna do końca funkcji.<p>Ale co, jeśli naszym ukrytym obiektem jest zamiast tego wartość (taka jak wartość zwracana przez jakąś funkcję, która zwraca wartość)? Obiekty Rvalue są niszczone na końcu pełnego wyrażenia, w którym zostały utworzone. Kiedy obiekt rvalue zostanie zniszczony, wszelkie odniesienia do elementów tego obiektu rvalue zostaną unieważnione i pozostawione w zawieszeniu, a użycie takich odniesień spowoduje niezdefiniowane zachowanie.<p>Dlatego też odwołanie do elementu członkowskiego obiektu rvalue może być bezpiecznie użyte tylko w pełnym wyrażeniu, w którym obiekt rvalue został utworzony.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>Co to jest pełne wyrażenie, omówiliśmy w lekcji <a href="../introduction-to-expressions/index.html">1.10 -- Wprowadzenie do wyrażeń</a>.</div><div class="cpp-note cpp-lightredbackground"><p class="cpp-note-title cpp-bottomline">Ostrzeżenie<p>Obiekt rvalue jest niszczony na końcu pełnego wyrażenia w jakim jest stworzony. Wszelkie odniesienia do elementów obiektu rvalue pozostają w tym momencie nieaktualne.<p>Odwołanie do elementu obiektu rvalue może być bezpiecznie użyte tylko w pełnym wyrażeniu, w którym tworzony jest obiekt rvalue.</div><p>Przyjrzyjmy się kilku powiązanym z tym przypadkom: <pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;string&gt;
 #include &lt;string_view&gt;
 
@@ -96,10 +96,10 @@ class Employee
 
 public:
 	void setName(std::string_view name) { m_name = name; }
-	const std::string&amp; getName() const { return m_name; } //  getter returns by const reference
+	const std::string&amp; getName() const { return m_name; } //  getter zwraca według stałej referencji
 };
 
-// createEmployee() returns an Employee by value (which means the returned value is an rvalue)
+// createEmployee() zwraca pracownika według wartości (co oznacza, że zwrócona wartość jest wartością)
 Employee createEmployee(std::string_view name)
 {
 	Employee e;
@@ -109,16 +109,16 @@ Employee createEmployee(std::string_view name)
 
 int main()
 {
-	// Case 1: okay: use returned reference to member of rvalue class object in same expression
-	std::cout &lt;&lt; createEmployee(&#34;Frank&#34;).getName();
+	// Przypadek 1: OK: użyj zwróconej referencji do członka obiektu klasy rvalue w tym samym wyrażeniu
+	std::cout &lt;&lt; createEmployee("Frank").getName();
 
-	// Case 2: bad: save returned reference to member of rvalue class object for use later
-	const std::string&amp; ref { createEmployee(&#34;Garbo&#34;).getName() }; // reference becomes dangling when return value of createEmployee() is destroyed
+	// Przypadek 2: źle: zapisz zwrócone odwołanie do członka obiektu klasy rvalue do późniejszego wykorzystania
+	const std::string&amp; ref { createEmployee("Garbo").getName() }; // referencja zawiesza się, gdy wartość zwracana przez createEmployee() zostaje zniszczona
 	std::cout &lt;&lt; ref; // undefined behavior
 
-	// Case 3: okay: copy referenced value to local variable for use later
-	std::string val { createEmployee(&#34;Hans&#34;).getName() }; // makes copy of referenced member
-	std::cout &lt;&lt; val; // okay: val is independent of referenced member
+	// Przypadek 3: OK: skopiuj wartość odniesienia do zmiennej lokalnej do późniejszego wykorzystania
+	std::string val { createEmployee("Hans").getName() }; // tworzy kopię elementu, do którego się odwołuje
+	std::cout &lt;&lt; val; // OK: val jest niezależna od elementu, do którego się odwołuje
 
 	return 0;
 }</code></pre><p>Po wywołaniu <code>createEmployee()</code> jest wywoływane, zwraca  <code>Employee</code> obiekt według wartości. Ten zwrócony obiekt <code>Employee</code> jest wartością, która będzie istnieć do końca pełnego wyrażenia zawierającego wywołanie  <code>createEmployee()</code>. Kiedy obiekt wartości zostanie zniszczony, wszelkie odniesienia do elementów tego obiektu staną się nieaktualne.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p>W przypadku 1 wywołujemy obiekt <code>createEmployee("Frank")</code>, który zwraca obiekt wartości <code>Employee</code> . Następnie wywołujemy  <code>getName()</code> ten obiekt wartości, który zwraca referencję do <code>m_name</code>. To odwołanie jest następnie natychmiast wykorzystywane do wydrukowania nazwy na konsoli. W tym momencie pełne wyrażenie zawierające wywołanie  <code>createEmployee("Frank")</code>  kończy się, a obiekt rvalue i jego elementy zostają zniszczone. Ponieważ ani obiekt rvalue, ani jego elementy nie są używane poza tym punktem, ten przypadek jest w porządku.<p>W przypadku 2 napotykamy problemy. Najpierw <code>createEmployee("Garbo")</code> zwraca obiekt wartości. Następnie wywołujemy  <code>getName()</code> , aby uzyskać odwołanie do  <code>m_name</code> elementu tej wartości. Ten <code>m_name</code> element jest następnie używany do inicjalizacji <code>ref</code>. W tym momencie pełne wyrażenie zawierające wywołanie  <code>createEmployee("Garbo")</code>  kończy się, a obiekt rvalue i jego elementy zostają zniszczone. To pozostawia <code>ref</code> wisające. Zatem, gdy używamy <code>ref</code> w kolejnej instrukcji, uzyskujemy dostęp do wiszącego odniesienia i niezdefiniowanych wyników zachowania.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Ocena pełnego wyrażenia kończy <em>po</em> jakiekolwiek użycie tego pełnego wyrażenia jako inicjatora. Pozwala to na inicjowanie obiektów wartością tego samego typu (ponieważ wartość nie zostanie zniszczona do czasu inicjalizacji).</div><p>Ale co, jeśli chcemy zapisać wartość z funkcji, która zwraca element członkowski przez odwołanie do późniejszego wykorzystania? Zamiast używać zwróconego odniesienia do inicjalizacji lokalnej zmiennej odniesienia, możemy zamiast tego użyć zwróconego odniesienia do inicjalizacji zmiennej lokalnej niebędącej referencją.<p>W przypadku 3 używamy zwróconego odniesienia do inicjalizacji zmiennej lokalnej niebędącej referencją <code>val</code>. Spowoduje to skopiowanie pręta, do którego się odwołujemy, do  <code>val</code>. Po inicjalizacji <code>val</code> istnieje niezależnie od odniesienia. Zatem kiedy obiekt rvalue zostanie następnie zniszczony,  <code>val</code> nie ma to na to wpływu. Zatem  <code>val</code> można bez problemu wyprowadzić w przyszłych instrukcjach.<p class="cpp-section cpp-topline" style=clear:both>Korzystanie z funkcji składowych, które bezpiecznie zwracają przez referencję<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>Pomimo potencjalnego zagrożenia związanego z obiektami ukrytymi o wartości rvalue, metody pobierające zwykle zwracają typy, których kopiowanie jest kosztowne, poprzez odwołanie do stałej, a nie przez wartość.<p>Biorąc to pod uwagę, porozmawiajmy o tym, jak możemy bezpiecznie wykorzystać wartości zwracane przez takie funkcje. Trzy przypadki w powyższym przykładzie ilustrują trzy kluczowe punkty:<ul><li>Wolę używać wartości zwracanej przez funkcję składową, która natychmiast zwraca przez referencję (zilustrowane w przypadku 1). Ponieważ działa to zarówno z obiektami lvalue, jak i rvalue, jeśli zawsze będziesz to robić, unikniesz problemów.<li>Nie „zapisuj” zwróconej referencji do późniejszego wykorzystania (jak pokazano w przypadku 2), chyba że jesteś pewien, że ukryty obiekt jest wartością. Jeśli zrobisz to z ukrytym obiektem rvalue, podczas korzystania z zawieszonego odniesienia spowoduje to niezdefiniowane zachowanie.<li>Jeśli musisz utrwalić zwrócone odwołanie do późniejszego wykorzystania i nie masz pewności, czy ukryty obiekt jest wartością, użyj zwróconego odniesienia jako inicjatora dla zmiennej lokalnej niebędącej referencją, co spowoduje utworzenie kopii elementu członkowskiego, do którego odwołuje się odwołanie, do zmiennej lokalnej (zilustrowane w przypadku 3).</ul><div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Wolę użyć zwrotu wartość funkcji składowej, która natychmiast zwraca przez referencję, aby uniknąć problemów z zawieszonymi referencjami, gdy ukryty obiekt jest wartością.</div><p class="cpp-section cpp-topline" style=clear:both>Nie zwracaj odwołań innych niż stałe do prywatnych elementów danych<p>Ponieważ odwołanie działa tak samo jak obiekt, do którego się odwołuje, funkcja członkowska, która zwraca odwołanie inne niż stałe, zapewnia bezpośredni dostęp do tego elementu członkowskiego (nawet jeśli element jest prywatny).<p>Na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -129,13 +129,13 @@ private:
     int m_value{ 4 }; // private member
 
 public:
-    int&amp; value() { return m_value; } // returns a non-const reference (don&#39;t do this)
+    int&amp; value() { return m_value; } // zwraca odwołanie inne niż stałe (nie rób tego)
 };
 
 int main()
 {
-    Foo f{};                // f.m_value is initialized to default value 4
-    f.value() = 5;          // The equivalent of m_value = 5
+    Foo f{};                // f.m_wartość jest inicjowana do wartości domyślnej 4
+    f.value() = 5;          // Odpowiednik m_value = 5
     std::cout &lt;&lt; f.value(); // prints 5
 
     return 0;

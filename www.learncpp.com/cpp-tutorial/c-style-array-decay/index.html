@@ -30,43 +30,43 @@ int main()
 
 void printElementZero(int arr[1000])
 {
-    std::cout &lt;&lt; arr[0]; // print the value of the first element
+    std::cout &lt;&lt; arr[0]; // wydrukuj wartość pierwszego elementu
 }
 
 int main()
 {
-    int x[1000] { 5 };   // define an array with 1000 elements, x[0] is initialized to 5
+    int x[1000] { 5 };   // zdefiniuj tablicę za pomocą 1000 elementów, x[0] jest inicjowane do 5
     printElementZero(x);
 
     return 0;
 }</code></pre><p>Ten program kompiluje również i wypisuje oczekiwaną wartość (<code>5</code>) na konsolę.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Chociaż kod w tym przykładzie jest podobny do kodu w poprzednim przykładzie, mechanicznie działa on nieco inaczej, niż można by się spodziewać (wyjaśnimy to poniżej). Dzieje się tak dzięki rozwiązaniu, które projektanci języka C wpadli na dwa główne wyzwania.<p>Po pierwsze, kopiowanie tablicy zawierającej 1000 elementów przy każdym wywołaniu funkcji jest kosztowne (a tym bardziej, jeśli kopiowanie elementów jest kosztowne), więc chcemy tego uniknąć. Ale jak? C nie ma referencji, więc użycie przekazywania przez referencję w celu uniknięcia tworzenia kopii argumentów funkcji nie wchodziło w grę.<p>Po drugie, chcemy móc napisać pojedynczą funkcję, która będzie akceptować argumenty tablicowe o różnej długości. W idealnym przypadku nasza funkcja  <code>printElementZero()</code>  z powyższego przykładu powinna być wywoływana z argumentami tablicowymi o dowolnej długości (ponieważ na pewno istnieje element 0). Nie chcemy pisać innej funkcji dla każdej możliwej długości tablicy, której chcemy użyć jako argumentu. Ale jak? C nie ma składni umożliwiającej określenie tablic o „dowolnej długości”, nie obsługuje szablonów ani nie można konwertować tablic o jednej długości na tablice o innej długości (prawdopodobnie dlatego, że wiązałoby się to z wykonaniem kosztownej kopii). <p> Projektanci języka C wpadli na sprytne rozwiązanie (odziedziczone przez C++ ze względu na kompatybilność), które rozwiązuje oba te problemy:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-void printElementZero(int arr[1000]) // doesn&#39;t make a copy
+void printElementZero(int arr[1000]) // nie tworzy kopii
 {
-    std::cout &lt;&lt; arr[0]; // print the value of the first element
+    std::cout &lt;&lt; arr[0]; // wydrukuj wartość pierwszego elementu
 }
 
 int main()
 {
-    int x[7] { 5 };      // define an array with 7 elements
+    int x[7] { 5 };      // zdefiniuj tablicę z 7 elementami
     printElementZero(x); // somehow works!
 
     return 0;
-}</code></pre><p>W jakiś sposób powyższy przykład przekazuje 7-elementową tablicę do funkcji oczekującej tablicę składającą się z 1000 elementów, bez tworzenia żadnych kopii. Podczas tej lekcji sprawdzimy, jak to działa.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Przyjrzymy się także, dlaczego rozwiązanie wybrane przez projektantów C jest niebezpieczne i niezbyt nadaje się do użycia we współczesnym C++.<p>Ale najpierw musimy omówić dwa podtematy.<p class="cpp-section cpp-topline" style=clear:both>Konwersja tablicy na wskaźnik (zanik tablicy)<p>W większości przypadków, gdy w wyrażeniu używana jest tablica w stylu C, tablica zostanie niejawnie przekonwertowana na wskaźnik do typu elementu, zainicjowany adresem pierwszego elementu (z indeksem 0). Potocznie nazywa się to  <strong>rozpadem tablicy</strong> (lub po prostu <strong>rozpadem</strong> w skrócie).<p>Możesz to zobaczyć w następującym programie:<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iomanip&gt; // for std::boolalpha
+}</code></pre><p>W jakiś sposób powyższy przykład przekazuje 7-elementową tablicę do funkcji oczekującej tablicę składającą się z 1000 elementów, bez tworzenia żadnych kopii. Podczas tej lekcji sprawdzimy, jak to działa.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Przyjrzymy się także, dlaczego rozwiązanie wybrane przez projektantów C jest niebezpieczne i niezbyt nadaje się do użycia we współczesnym C++.<p>Ale najpierw musimy omówić dwa podtematy.<p class="cpp-section cpp-topline" style=clear:both>Konwersja tablicy na wskaźnik (zanik tablicy)<p>W większości przypadków, gdy w wyrażeniu używana jest tablica w stylu C, tablica zostanie niejawnie przekonwertowana na wskaźnik do typu elementu, zainicjowany adresem pierwszego elementu (z indeksem 0). Potocznie nazywa się to  <strong>rozpadem tablicy</strong> (lub po prostu <strong>rozpadem</strong> w skrócie).<p>Możesz to zobaczyć w następującym programie:<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iomanip&gt; // dla std::boolalpha
 #include &lt;iostream&gt;
 
 int main()
 {
-    int arr[5]{ 9, 7, 5, 3, 1 }; // our array has elements of type int
+    int arr[5]{ 9, 7, 5, 3, 1 }; // nasza tablica elementy zawiera typu int
 
-    // First, let&#39;s prove that arr decays into an int* pointer
+    // Najpierw udowodnijmy, że arr rozpada się na wskaźnik int*
 
-    auto ptr{ arr }; // evaluation causes arr to decay, type deduction should deduce type int*
-    std::cout &lt;&lt; std::boolalpha &lt;&lt; (typeid(ptr) == typeid(int*)) &lt;&lt; &#39;\n&#39;; // Prints true if the type of ptr is int*
+    auto ptr{ arr }; // ocena powoduje zanik arr, typ dedukcji powinien wywnioskować, wpisz int*
+    std::cout &lt;&lt; std::boolalpha &lt;&lt; (typeid(ptr) == typeid(int*)) &lt;&lt; '\n'; // Wypisuje wartość true, jeśli typ ptr to int*
 
-    // Now let&#39;s prove that the pointer holds the address of the first element of the array
+    // Teraz udowodnijmy, że wskaźnik zawiera adres pierwszego elementu tablicy
 
-    std::cout &lt;&lt; std::boolalpha &lt;&lt; (&amp;arr[0] == ptr) &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; std::boolalpha &lt;&lt; (&amp;arr[0] == ptr) &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Na maszynie autora wydrukowało to:<pre>true
@@ -76,7 +76,7 @@ true
 int main()
 {
     const int arr[] { 9, 7, 5, 3, 1 };
-    std::cout &lt;&lt; arr[2]; // subscript decayed array to get element 2, prints 5
+    std::cout &lt;&lt; arr[2]; // tablica z indeksem dolnym, aby uzyskać element 2, wypisuje 5
 
     return 0;
 }</code></pre><p>Możemy również skorzystać <code>operator[]</code> bezpośrednio na wskaźniku. Jeśli ten wskaźnik przechowuje adres pierwszego elementu, wynik będzie identyczny:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -85,13 +85,13 @@ int main()
 {
     const int arr[] { 9, 7, 5, 3, 1 };
     
-    const int* ptr{ arr };  // arr decays into a pointer
-    std::cout &lt;&lt; ptr[2];    // subscript ptr to get element 2, prints 5
+    const int* ptr{ arr };  // arr rozpada się na wskaźnik
+    std::cout &lt;&lt; ptr[2];    // ptr z indeksem dolnym, aby uzyskać element 2, wypisuje 5
 
     return 0;
 }</code></pre><p>Za chwilę zobaczymy, gdzie jest to wygodne, a w następnej lekcji przyjrzymy się bliżej, jak to faktycznie działa (a także co się dzieje, gdy wskaźnik trzyma coś innego niż adres pierwszego elementu) <a href="../pointer-arithmetic-and-subscripting/index.html">17,9 -- Arytmetyka wskaźników i indeksy dolne</a>.<p class="cpp-section cpp-topline" style=clear:both>Zanik tablicy rozwiązuje nasz problem z przekazywaniem tablicy w stylu C<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p>Rozpad tablicy rozwiązuje oba problemy, które napotkaliśmy na początku lekcji.<p>Podczas przekazywania tablicy w stylu C jako argumentu tablica rozpada się na wskaźnik, a wskaźnik przechowujący adres pierwszego elementu tablicy jest przekazywany do funkcji. Zatem chociaż wygląda na to, że przekazujemy tablicę w stylu C według wartości, w rzeczywistości przekazujemy ją według adresu! W ten sposób unika się tworzenia kopii argumentu tablicowego w stylu C.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Tablice w stylu C są przekazywane przez adres, nawet jeśli wygląda na to, że są przekazywane przez wartość.</div><p>Rozważmy teraz dwie różne tablice tego samego typu elementu, ale o różnych długościach (np. <code>int[5]</code> i <code>int[7]</code>). Są to odrębne typy, niezgodne ze sobą. Jednak oba ulegną rozpadowi na ten sam typ wskaźnika (np. <code>int*</code>). Ich zepsute wersje są wymienne! Usunięcie informacji o długości z typu pozwala nam przekazywać tablice o różnych długościach bez niezgodności typów.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Dwie tablice w stylu C z tym samym typem elementu, ale o różnej długości, zostaną podzielone na ten sam typ wskaźnika.</div><p>W poniższym przykładzie zilustrujemy dwie rzeczy:<ul><li>Że możemy przekazywać tablice o różnej długości do pojedynczej funkcji (ponieważ obie rozpadają się na ten sam typ wskaźnika).<li>Że nasz parametr funkcji odbierający tablicę może być (stałym) wskaźnikiem typu elementu tablicy.</ul><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-void printElementZero(const int* arr) // pass by const address
+void printElementZero(const int* arr) // przekazać stały adres
 {
     std::cout &lt;&lt; arr[0];
 }
@@ -101,15 +101,15 @@ int main()
     const int prime[] { 2, 3, 5, 7, 11 };
     const int squares[] { 1, 4, 9, 25, 36, 49, 64, 81 };
 
-    printElementZero(prime);   // prime decays to an const int* pointer
-    printElementZero(squares); // squares decays to an const int* pointer
+    printElementZero(prime);   // prime rozpada się na const int* wskaźnik
+    printElementZero(squares); // kwadraty zanikają do stałej int* wskaźnik
 
     return 0;
 }</code></pre><p>Ten przykład działa dobrze i drukuje:<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><pre>2
 1
 </pre><p>W <code>main()</code>, kiedy dzwonimy <code>printElementZero(prime)</code>, instrukcja <code>prime</code> array rozpada się z tablicy typu <code>const int[5]</code> do wskaźnika typu <code>const int*</code> który przechowuje adres pierwszego elementu <code>prime</code>. Podobnie, gdy dzwonimy <code>printElementZero(squares)</code>, <code>squares</code> rozpada się z tablicy typu <code>const int[8]</code> do wskaźnika typu <code>const int*</code> który przechowuje adres pierwszego elementu <code>squares</code>. Te wskaźniki typu <code>const int*</code> są tym, co faktycznie jest przekazywane do funkcji jako argument.<p>Ponieważ przekazujemy wskaźniki typu <code>const int*</code>, nasz <code>printElementZero()</code> funkcja musi mieć parametr tego samego typu wskaźnika (<code>const int*</code>).<p>W ramach tej funkcji indeksujemy wskaźnik, aby uzyskać dostęp do wybranego elementu tablicy.<p>Ponieważ tablica w stylu C jest przekazywana przez adres, funkcja ma bezpośredni dostęp do przekazanej tablicy (a nie do kopii) i może modyfikować jej elementy. Z tego powodu dobrym pomysłem jest upewnienie się, że parametr funkcji ma wartość const, jeśli funkcja nie zamierza modyfikować elementów tablicy.<p class="cpp-section cpp-topline" style=clear:both>Składnia parametrów funkcji tablicowej w stylu C<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><p>Jeden problem z deklaracją parametru funkcji jako <code>int* arr</code> jest to, że nie jest to oczywiste <code>arr</code> ma być wskaźnikiem do tablicy wartości, a nie wskaźnikiem do pojedynczej liczby całkowitej. Z tego powodu przekazując tablicę w stylu C, lepiej jest użyć alternatywnej formy deklaracji <code>int arr[]</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-void printElementZero(const int arr[]) // treated the same as const int*
+void printElementZero(const int arr[]) // zachowanie tak samo jak const int*
 {
     std::cout &lt;&lt; arr[0];
 }
@@ -119,22 +119,22 @@ int main()
     const int prime[] { 2, 3, 5, 7, 11 };
     const int squares[] { 1, 4, 9, 25, 36, 49, 64, 81 };
 
-    printElementZero(prime);  // prime decays to a pointer
-    printElementZero(squares); // squares decays to a pointer
+    printElementZero(prime);  // prime rozpada się na wskaźnik
+    printElementZero(squares); // kwadraty zanikają do wskaźnika
 
     return 0;
 }</code></pre><p>Program ten zachowuje się identycznie jak poprzedni, gdyż kompilator zinterpretuje parametr funkcji <code>const int arr[]</code> taki sam jak <code>const int*</code>. Ma to jednak tę zaletę, że przekazuje wywołującemu informację, że <code>arr</code> oczekuje się, że będzie to tablica w stylu C, która ma być przestarzałą, a nie wskaźnik do pojedynczej wartości. Należy pamiętać, że w nawiasach kwadratowych nie jest wymagana żadna informacja o długości (ponieważ i tak nie jest ona używana). Jeśli podana zostanie długość, zostanie ona zignorowana.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Parametr funkcji oczekujący typu tablicy w stylu C powinien używać składni tablicy (np.  <code>int arr[]</code>), a nie składni wskaźnika (np.  <code>int *arr</code>).</div><p>Wadą stosowania tej składni jest to, że sprawia, że mniej oczywiste jest, że  <code>arr</code>  zanikł (podczas gdy jest to całkiem jasne ze składnią wskaźnika), więc będziesz potrzebować zachować szczególną ostrożność, aby nie zrobić niczego, co nie działa zgodnie z oczekiwaniami w przypadku zniszczonej tablicy (niektóre z nich omówimy za chwilę).<p class="cpp-section cpp-topline" style=clear:both>Problemy z rozpadem tablicy<p>Chociaż rozpad tablicy był sprytnym rozwiązaniem zapewniającym, że tablice w stylu C o różnych długościach będą mogły być przekazywane do funkcji bez tworzenia kosztownych kopii, utrata informacji o długości tablicy ułatwia popełnienie kilku rodzajów błędów.<p>Najpierw <code>sizeof()</code> zwróci różne wartości dla tablic i zniszczone tablice:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 void printArraySize(int arr[])
 {
-    std::cout &lt;&lt; sizeof(arr) &lt;&lt; &#39;\n&#39;; // prints 4 (assuming 32-bit addresses)
+    std::cout &lt;&lt; sizeof(arr) &lt;&lt; '\n'; // drukuje 4 (zakładając adresy 32-bitowe)
 }
 
 int main()
 {
     int arr[]{ 3, 2, 1 };
 
-    std::cout &lt;&lt; sizeof(arr) &lt;&lt; &#39;\n&#39;; // prints 12 (assuming 4 byte ints)
+    std::cout &lt;&lt; sizeof(arr) &lt;&lt; '\n'; // drukuje 12 (zakładając, że int ma 4 bajty)
 
     printArraySize(arr);
 
@@ -143,14 +143,14 @@ int main()
 
 int printArrayLength(int arr[])
 {
-    std::cout &lt;&lt; std::size(arr) &lt;&lt; &#39;\n&#39;; // compile error: std::size() won&#39;t work on a pointer
+    std::cout &lt;&lt; std::size(arr) &lt;&lt; '\n'; // błąd kompilacji: std::size() nie będzie działać na wskaźnik
 }
 
 int main()
 {
     int arr[]{ 3, 2, 1 };
 
-    std::cout &lt;&lt; std::size(arr) &lt;&lt; &#39;\n&#39;; // prints 3
+    std::cout &lt;&lt; std::size(arr) &lt;&lt; '\n'; // prints 3
 
     printArrayLength(arr);
 
@@ -159,8 +159,8 @@ int main()
 
 void printElement2(int arr[])
 {
-    // How do we ensure that arr has at least three elements?
-    std::cout &lt;&lt; arr[2] &lt;&lt; &#39;\n&#39;;
+    // Jak zapewnić, że arr ma co najmniej trzy elementy?
+    std::cout &lt;&lt; arr[2] &lt;&lt; '\n';
 }
 
 int main()
@@ -169,10 +169,10 @@ int main()
     printElement2(a);  // ok
 
     int b[]{ 7, 6 };
-    printElement2(b);  // compiles but produces undefined behavior
+    printElement2(b);  // kompiluje, ale daje niezdefiniowane zachowanie
 
     int c{ 9 };
-    printElement2(&amp;c); // compiles but produces undefined behavior
+    printElement2(&amp;c); // kompiluje, ale daje niezdefiniowane zachowanie
 
     return 0;
 }</code></pre><p>Brak długości tablicy stwarza również wyzwania podczas przechodzenia przez tablicę — skąd mamy wiedzieć, że dotarliśmy do końca?<p>Istnieją rozwiązania tych problemów, ale rozwiązania te zwiększają zarówno złożoność, jak i kruchość tablicy. program.<p class="cpp-section cpp-topline" style=clear:both>Obejście problemów z długością tablicy<p>W przeszłości programiści rozwiązywali problem braku informacji o długości tablicy za pomocą jednej z dwóch metod.<p>Po pierwsze, możemy przekazać zarówno tablicę, jak i długość tablicy jako osobne argumenty:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cassert&gt;
@@ -180,9 +180,9 @@ int main()
 
 void printElement2(const int arr[], int length)
 {
-    assert(length &gt; 2 &amp;&amp; &#34;printElement2: Array too short&#34;); // can&#39;t static_assert on length
+    assert(length &gt; 2 &amp;&amp; "printElement2: Array too short"); // nie może static_assert on długość
 
-    std::cout &lt;&lt; arr[2] &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; arr[2] &lt;&lt; '\n';
 }
 
 int main()
@@ -191,7 +191,7 @@ int main()
     printElement2(a, static_cast&lt;int&gt;(std::size(a)));  // ok
 
     constexpr int b[]{ 7, 6 };
-    printElement2(b, static_cast&lt;int&gt;(std::size(b)));  // will trigger assert
+    printElement2(b, static_cast&lt;int&gt;(std::size(b)));  // wywoła asercję
 
     return 0;
 }</code></pre><p>Jednak nadal wiąże się to z wieloma problemami:<ul><li> Osoba wywołująca musi się upewnić, że tablica i długości tablicy są sparowane — jeśli zostanie przekazana niewłaściwa wartość długości, funkcja nadal będzie działać nieprawidłowo.<li>Istnieją potencjalne problemy z konwersją znaków, jeśli używasz <code>std::size()</code> lub funkcji zwracającej długość jako <code>std::size_t</code>.<li>Środowisko wykonawcze potwierdza wyzwalanie tylko wtedy, gdy zostanie napotkane w czasie wykonywania. Jeśli nasza ścieżka testowa nie obejmuje wszystkich wywołań funkcji, istnieje ryzyko wysłania do klienta programu, który potwierdzi, gdy zrobi coś, czego my nie zrobiliśmy. jawnie przetestować. We współczesnym C++ chcielibyśmy użyć <code>static_assert</code> do sprawdzania długości tablicy constexpr w czasie kompilacji, ale nie ma na to łatwego sposobu (ponieważ parametry funkcji nie mogą być constexpr, nawet w funkcjach constexpr ani constexpr!).<li>Ta metoda działa tylko wtedy, gdy wykonujemy jawne wywołanie funkcji. Jeśli wywołanie funkcji jest niejawne (np. wywołujemy operator z tablicą jako operandem), nie ma możliwości przekazania długości.</ul><p>Po drugie, jeśli istnieje wartość elementu, która nie jest semantycznie poprawna (np. wynik testu <code>-1</code>), możemy zamiast tego oznaczyć koniec tablicy za pomocą elementu o tej wartości. W ten sposób długość tablicy można obliczyć, licząc, ile elementów istnieje między początkiem tablicy a elementem kończącym. Tablicę można również przeglądać, iterując od początku, aż trafimy na element kończący. Zaletą tej metody jest to, że działa ona nawet z niejawnymi wywołaniami funkcji.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Ciągi w stylu C (które są tablicami w stylu C) używają terminatora zerowego do oznaczenia końca łańcucha, dzięki czemu można je przechodzić, nawet jeśli uległy zniszczeniu.</div><p>Ale ta metoda ma również wiele problemów:<ul><li>Jeśli element kończący nie istnieje, przechodzenie będzie przebiegać tuż obok końca tablicy, powodując niezdefiniowane zachowanie.<li>Funkcje przechodzące przez tablicę wymagają specjalnej obsługi elementu kończącego (np. funkcja drukująca ciąg znaków w stylu C musi wiedzieć, aby nie drukować elementu kończącego).<li>Występuje niezgodność pomiędzy rzeczywistą długością tablicy a liczbą semantycznie poprawnych elementów. Jeśli zostanie użyta niewłaściwa długość, semantycznie nieprawidłowy element kończący może zostać „przetworzony”.<li>To podejście działa tylko wtedy, gdy istnieje semantycznie niepoprawna wartość, co często nie ma miejsca.</ul><p class="cpp-section cpp-topline" style=clear:both>W większości przypadków należy unikać tablic w stylu C<p>Ze względu na niestandardową semantykę przekazywania (zamiast przekazywania wartości używany jest adres przejścia) i ryzyko związane z utratą długości uszkodzonych tablic informacji, tablice w stylu C generalnie wypadły z łask. Zalecamy ich unikać w miarę możliwości.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Unikaj tablic w stylu C, jeśli jest to praktyczne.<ul><li>Preferuj <code>std::string_view</code> łańcuchy tylko do odczytu (ciągowe stałe symboliczne dosłowne i parametry łańcuchów).<li>Preferuj <code>std::string</code> łańcuchy modyfikowalne.<li>Preferuj <code>std::array</code> dla nieglobalne tablice constexpr.<li>Preferuj <code>std::vector</code> tablice inne niż constexpr.</ul><p>Do globalnych tablic constexpr można używać tablic w stylu C. Omówimy to za chwilę.</div><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Na marginesie…<p>W C++ tablice można przekazywać przez referencję, w którym to przypadku argument tablicy nie ulegnie zmniejszeniu po przekazaniu do funkcji (ale odwołanie do tablicy nadal ulegnie zmniejszeniu podczas oceny). Łatwo jednak zapomnieć o konsekwentnym stosowaniu tej zasady, a jedno pominięte odniesienie doprowadzi do upadku argumentów. Ponadto parametry odniesienia do tablicy muszą mieć stałą długość, co oznacza, że ​​funkcja może obsługiwać tylko tablice o jednej określonej długości. Jeśli chcemy funkcji, która poradzi sobie z tablicami o różnej długości, musimy również użyć szablonów funkcji. Ale jeśli masz zamiar zrobić obie te rzeczy, aby „naprawić” tablice w stylu C, równie dobrze możesz po prostu użyć <code>std::array</code>!</div><p class="cpp-section cpp-topline" style=clear:both>A więc kiedy tablice w stylu C są używane we współczesnym C++?<p>We współczesnym C++ tablice w stylu C są zwykle używane w dwóch przypadkach:<ol start=1><li>Do przechowywania globalnych (lub constexpr lokalnych) danych programu. Ponieważ dostęp do takich tablic można uzyskać bezpośrednio z dowolnego miejsca w programie, nie musimy przekazywać tablicy, co pozwala uniknąć problemów związanych z zanikaniem. Składnia definiowania tablic w stylu C może być nieco mniej skomplikowana niż  <code>std::array</code>. Co ważniejsze, indeksowanie takich tablic nie powoduje problemów z konwersją znaków, jak w przypadku klas kontenerów standardowej biblioteki.<li>Jako parametry funkcji lub klas, które chcą bezpośrednio obsługiwać argumenty łańcuchowe w stylu C inne niż constexpr (zamiast wymagać konwersji do <code>std::string_view</code>). Są ku temu dwie możliwe przyczyny: Po pierwsze, konwersja ciągu znaków w stylu C innego niż constexpr na  <code>std::string_view</code> wymaga przejścia przez ciąg znaków w stylu C w celu określenia jego długości. Jeśli funkcja znajduje się w sekcji kodu krytycznej dla wydajności i długość nie jest potrzebna (np. ponieważ funkcja i tak będzie przechodzić przez ciąg znaków), przydatne może być uniknięcie konwersji. Po drugie, jeśli funkcja (lub klasa) wywołuje inne funkcje, które oczekują ciągów w stylu C, konwersja na  <code>std::string_view</code> tylko w celu konwersji z powrotem może być nieoptymalna (chyba że masz inne powody, dla których chcesz  <code>std::string_view</code>).</ol><p><p class="cpp-section cpp-topline" style=clear:both>Czas quizu<p class=cpp-quiz-question style=clear:both>Pytanie nr 1<p><p>Co to jest zanikanie tablicy i dlaczego stanowi problem?<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_0 style=display:none><p>Gdy oceniana jest tablica w stylu C, w większości kontekstów zostanie ona niejawnie przekonwertowana na wskaźnik do elementu tablicy typu.<p>Rozpadające się tablice tracą informacje o długości, co ułatwia wprowadzenie do programu błędów związanych z długością.</div><p class="cpp-quiz-question cpp-topline" style=clear:both>Pytanie nr 2<p>Dlaczego ciągi w stylu C (które są tablicami w stylu C) używają terminatora zerowego?<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_1 style=display:none><p>Gdy tablica w stylu C jest przekazywana do funkcji, ulega ona rozpadowi i traci informacje o długości. Jeśli ciąg w stylu C nie miałby terminatora zerowego, funkcja by to zrobiła nie jesteśmy w stanie określić, jak długi był ciąg.</div><p class="cpp-quiz-question cpp-topline" style=clear:both>Pytanie nr 3<p>Dodatkowa zasługa: Dlaczego ciągi w stylu C używają terminatora zerowego zamiast wymagać przekazania do funkcji zarówno uszkodzonego ciągu w stylu C, jak i jawnej informacji o długości?<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_2'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_2 style=display:none><p>Prawdopodobnie jest wiele odpowiedzi na to pytanie, ale oto kilka:<ul><li>Ergonomia byłaby okropna, ponieważ wszędzie mielibyśmy dodatkowe parametry i magiczne liczby (np. <code>printString("Hello", 5)</code>).<li>Bardzo łatwo byłoby, gdyby ciąg znaków i podana długość łańcucha nie pasowały prawidłowo. Długość łańcucha jest zasadniczo niezmiennikiem samego ciągu. Poleganie na tym, że użytkownik utrzymuje ten niezmiennik, niezmiennie będzie prowadzić do błędów (np.  <code>printString("Hello", 6)</code>).</ul></div><p>Dodatkowy kredyt nr 2: Nawet gdyby C++ chciał zaimplementować konieczność przekazywania jawnych informacji o długości, dlaczego to nie zadziałałoby?<p><a class=hint_link_show href=javascript:void(0) onclick="cppHintToggle(document.getElementById('cpp_hint_id_0'),this,'Show Hint','')">Pokaż wskazówkę</a><div class=wphint id=cpp_hint_id_0 style=display:none;margin-bottom:1em>Wskazówka: Rozważmy przypadek, w którym drukujemy ciąg znaków przy użyciu <code>std::cout</code>.</div><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_3'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_3 style=display:none><p>Przekazywanie zarówno łańcucha w stylu C, jak i jawnej informacji o długości jest możliwe tylko wtedy, gdy funkcja jest wywoływana jawnie. Jeśli funkcja jest wywoływana niejawnie, nie ma możliwości przekazania informacji o długości.<p>Rozważmy instrukcję taką jak <code>std::cout &lt;&lt; cstr</code> Binary <code>operator&lt;&lt;</code> może przyjmować tylko dwa operandy: <code>std::cout</code> i <code>cstr</code> nie ma możliwości przekazania innego argumentu reprezentującego informację o długości. W podejściu z terminatorem zerowym nie występuje ten problem.</div><div class=prevnext><div class=prevnext-inline><a class=nav-link href="../pointer-arithmetic-and-subscripting/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>17.9</span>Arytmetyka wskaźników i indeksowanie dolne</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../introduction-to-c-style-arrays/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>17.7</span>Wprowadzenie do tablic w stylu C</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/c-style-array-decay/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../introduction-to-pointers/index.html" rel=prev><span>12.7 -- Wprowadzenie do wskaźników</span></a></div><div class=nav-next><em>Następny post</em><a href="../dynamic-memory-allocation-with-new-and-delete/index.html" rel=next><span>19.1 — Dynamiczna alokacja pamięci za pomocą nowych i usuwania</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>

@@ -14,20 +14,20 @@
 <input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=17558></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="8.14 — Generowanie liczb losowych za pomocą Mersenne Twister" src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-218 class="post-218 post type-post status-publish format-standard hentry category-cpp-tutorial tag-c tag-prng tag-programming tag-rand tag-random tag-rng tag-srand tag-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>8.14 — Generowanie liczb losowych za pomocą Mersenne Twister</h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Autor></i><a class="url fn n" rel=author href=/www.learncpp.com/author/Alex/ title="Wyświetl wszystkie posty Alexa" itemprop=url><em itemprop=name>Alex</em></a></span>
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2008-12-07T14:43:10-08:00 itemprop=datePublished>7 grudnia 2008, 14:43 czasu PST</time>
 <time class=updated datetime=2025-02-02T21:35:38-08:00 itemprop=dateModified>2 lutego, 2025</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>W poprzednim lekcja <a href="../introduction-to-random-number-generation/index.html">8.13 — Wprowadzenie do generowania liczb losowych</a>, przedstawiliśmy koncepcję generowania liczb losowych i omówiliśmy, w jaki sposób algorytmy PRNG są zwykle używane do symulacji losowości programów.<p>W tej lekcji przyjrzymy się, jak generować liczby losowe w programach. Aby uzyskać dostęp do jakichkolwiek funkcji randomizacji w C++, dołączamy <code>&lt;random></code> nagłówek standardowej biblioteki.<p class="cpp-section cpp-topline" style=clear:both>Generowanie liczb losowych w C++ za pomocą Mersenne Twister<p>Mersenne Twister PRNG, oprócz świetnej nazwy, jest prawdopodobnie najpopularniejszym PRNG we wszystkich językach programowania. Chociaż jest nieco stary jak na dzisiejsze standardy, generalnie zapewnia wysokiej jakości wyniki i ma przyzwoitą wydajność. Biblioteka losowa obsługuje dwa typy Mersenne Twister:<ul><li><code>mt19937</code> to Mersenne Twister generujący 32-bitowe liczby całkowite bez znaku<li><code>mt19937_64</code> to Mersenne Twister generujące 64-bitowe liczby całkowite bez znaku</ul><p>Korzystanie z Mersenne Twister jest proste:<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
-#include &lt;random&gt; // for std::mt19937
+#include &lt;random&gt; // dla std::mt19937
 
 int main()
 {
-	std::mt19937 mt{}; // Instantiate a 32-bit Mersenne Twister
+	std::mt19937 mt{}; // Utwórz instancję 32-bitowego Mersenne Twister
 
-	// Print a bunch of random numbers
+	// Wydrukuj kilka losowych liczb
 	for (int count{ 1 }; count &lt;= 40; ++count)
 	{
-		std::cout &lt;&lt; mt() &lt;&lt; &#39;\t&#39;; // generate a random number
+		std::cout &lt;&lt; mt() &lt;&lt; '\t'; // wygenerować liczbę losową
 
-		// If we&#39;ve printed 5 numbers, start a new row
+		// Jeśli wydrukowaliśmy 5 liczb, rozpocznij nowy wiersz
 		if (count % 5 == 0)
-			std::cout &lt;&lt; &#39;\n&#39;;
+			std::cout &lt;&lt; '\n';
 	}
 
 	return 0;
@@ -39,24 +39,24 @@ int main()
 471852626       2084672536      3427838553      3437178460      1275731771
 609397212       20544909        1811450929      483031418       3933054126
 2747762695      3402504553      3772830893      4120988587      2163214728
-</pre><p>Najpierw dołączamy nagłówek &lt;random&gt;, ponieważ tam właśnie znajdują się wszystkie możliwości liczb losowych. Następnie tworzymy instancję 32-bitowego silnika Mersenne Twister za pomocą instrukcji <code>std::mt19937 mt</code>. Następnie za każdym razem, gdy chcemy wygenerować losową 32-bitową liczbę całkowitą bez znaku, wywołujemy  <code>mt()</code>.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Na marginesie…<p>Ponieważ <code>mt</code> jest zmienną, możesz zastanawiać się, co <code>mt()</code> oznacza.<p>W lekcji <a href="../introduction-to-stdstring/index.html">5.7 — Wprowadzenie do std::string</a> pokazaliśmy przykład, w którym wywołaliśmy funkcję <code>name.length()</code>, która wywołała funkcję <code>length()</code> na <code>std::string</code> zmienną <code>name</code>.<p><code>mt()</code> jest zwięzłą składnią wywołanie funkcji <code>mt.operator()</code>, która dla tych typów PRNG została zdefiniowana tak, aby zwracała kolejny losowy wynik w sekwencji. Zaletą używania <code>operator()</code> zamiast nazwanej funkcji jest to, że nie musimy zapamiętywać nazwy funkcji, a zwięzła składnia wymaga mniej pisania.</div><p class="cpp-section cpp-topline" style=clear:both>Rzut kostką za pomocą Mersenne Twister<p>32-bitowy PRNG wygeneruje losowe liczby od 0 do 4 294 967 295, ale nie zawsze chcemy w tym przypadku liczb zasięg. Jeśli nasz program symulował grę planszową lub grę w kości, prawdopodobnie chcielibyśmy symulować rzut 6-ścienną kostką, generując losowe liczby od 1 do 6. Jeśli nasz program był przygodą w lochach, a gracz miał miecz, który zadał potworom od 7 do 11 obrażeń, to chcielibyśmy generować losowe liczby od 7 do 11 za każdym razem, gdy gracz uderzył potwora.<p>Niestety, PRNGs nie mogę tego zrobić. Mogą generować tylko liczby wykorzystujące pełny zakres. Potrzebujemy sposobu na przekształcenie liczby wyprowadzanej z naszego PRNG na wartość z mniejszego zakresu, jaki chcemy (z równym prawdopodobieństwem wystąpienia każdej wartości). Chociaż moglibyśmy sami napisać funkcję, która by to robiła, zrobienie tego w sposób zapewniający nieobciążone wyniki nie jest trywialne.<p>Na szczęście biblioteka losowa może nam w tym pomóc w postaci rozkładów liczb losowych. A <strong>losowym rozkładem liczb</strong> konwertuje wynik PRNG na inny rozkład liczb.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Na marginesie…<p>Dla maniaków statystyki: losowy rozkład liczb to po prostu rozkład prawdopodobieństwa zaprojektowany tak, aby przyjmować wartości PRNG jako dane wejściowe.</div><p>Biblioteka losowa zawiera wiele losowych rozkładów liczb, z których większości nigdy nie użyjesz, chyba że przeprowadzisz jakąś analizę statystyczną. Istnieje jednak jeden losowy rozkład liczb, który jest niezwykle przydatny: a <strong>równomierny rozkład</strong> to losowy rozkład liczb, który daje wyniki pomiędzy dwiema liczbami X i Y (włącznie) z równym prawdopodobieństwem.<p>Oto program podobny do powyższego, wykorzystujący rozkład równomierny do symulacji rzutu 6-ścienną kostką:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
-#include &lt;random&gt; // for std::mt19937 and std::uniform_int_distribution
+</pre><p>Najpierw dołączamy nagłówek &lt;random&gt;, ponieważ tam właśnie znajdują się wszystkie możliwości liczb losowych. Następnie tworzymy instancję 32-bitowego silnika Mersenne Twister za pomocą instrukcji <code>std::mt19937 mt</code>. Następnie za każdym razem, gdy chcemy wygenerować losową 32-bitową liczbę całkowitą bez znaku, wywołujemy  <code>mt()</code>.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Na marginesie…<p>Ponieważ <code>mt</code> jest zmienną, możesz zastanawiać się, co <code>mt()</code> oznacza.<p>W lekcji <a href="../introduction-to-stdstring/index.html">5.7 — Wprowadzenie do std::string</a> pokazaliśmy przykład, w którym wywołaliśmy funkcję <code>name.length()</code>, która wywołała funkcję <code>length()</code> na <code>std::string</code> zmienną <code>name</code>.<p><code>mt()</code> jest zwięzłą składnią wywołanie funkcji <code>mt.operator()</code>, która dla tych typów PRNG została zdefiniowana tak, aby zwracała kolejny losowy wynik w sekwencji. Zaletą używania <code>operator()</code> zamiast nazwanej funkcji jest to, że nie musimy zapamiętywać nazwy funkcji, a zwięzła składnia wymaga mniej pisania.</div><p class="cpp-section cpp-topline" style=clear:both>Rzut kostką za pomocą Mersenne Twister<p>32-bitowy PRNG wygeneruje losowe liczby od 0 do 4 294 967 295, ale nie zawsze chcemy w tym przypadku liczb zasięg. Jeśli nasz program symulował grę planszową lub grę w kości, prawdopodobnie chcielibyśmy symulować rzut 6-ścienną kostką, generując losowe liczby od 1 do 6. Jeśli nasz program był przygodą w lochach, a gracz miał miecz, który zadał potworom od 7 do 11 obrażeń, to chcielibyśmy generować losowe liczby od 7 do 11 za każdym razem, gdy gracz uderzył potwora.<p>Niestety, PRNGs nie mogę tego zrobić. Mogą generować tylko liczby wykorzystujące pełny zakres. Potrzebujemy sposobu na przekształcenie liczby wyprowadzanej z naszego PRNG na wartość z mniejszego zakresu, jaki chcemy (z równym prawdopodobieństwem wystąpienia każdej wartości). Chociaż moglibyśmy sami napisać funkcję, która by to robiła, zrobienie tego w sposób zapewniający nieobciążone wyniki nie jest trywialne.<p>Na szczęście biblioteka losowa może nam w tym pomóc w postaci rozkładów liczb losowych. <strong>losowym rozkładem liczb</strong> konwertuje wynik PRNG na inny rozkład liczb.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Na marginesie…<p>Dla maniaków statystyki: losowy rozkład liczb to po prostu rozkład prawdopodobieństwa zaprojektowany tak, aby przyjmować wartości PRNG jako dane wejściowe.</div><p>Biblioteka losowa zawiera wiele losowych rozkładów liczb, z których większości nigdy nie użyjesz, chyba że przeprowadzisz jakąś analizę statystyczną. Istnieje jednak jeden losowy rozkład liczb, który jest niezwykle przydatny: <strong>równomierny rozkład</strong> to losowy rozkład liczb, który daje wyniki pomiędzy dwiema liczbami X i Y (włącznie) z równym prawdopodobieństwem.<p>Oto program podobny do powyższego, wykorzystujący rozkład równomierny do symulacji rzutu 6-ścienną kostką:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+#include &lt;random&gt; // dla std::mt19937 i std::uniform_int_distribution
 
 int main()
 {
 	std::mt19937 mt{};
 
-	// Create a reusable random number generator that generates uniform numbers between 1 and 6
-	std::uniform_int_distribution die6{ 1, 6 }; // for C++14, use std::uniform_int_distribution&lt;&gt; die6{ 1, 6 };
+	// Utwórz generator liczb losowych wielokrotnego użytku, który generuje liczby jednolite od 1 do 6
+	std::uniform_int_distribution die6{ 1, 6 }; // dla C++14 użyj std::uniform_int_distribution&lt;&gt; die6{ 1, 6 };
 
-	// Print a bunch of random numbers
+	// Wydrukuj kilka losowych liczb
 	for (int count{ 1 }; count &lt;= 40; ++count)
 	{
-		std::cout &lt;&lt; die6(mt) &lt;&lt; &#39;\t&#39;; // generate a roll of the die here
+		std::cout &lt;&lt; die6(mt) &lt;&lt; '\t'; // wygeneruj tutaj rzut kostką
 
-		// If we&#39;ve printed 10 numbers, start a new row
+		// Jeśli wydrukowaliśmy 10 liczb, rozpocznij nowy wiersz
 		if (count % 10 == 0)
-			std::cout &lt;&lt; &#39;\n&#39;;
+			std::cout &lt;&lt; '\n';
 	}
 
 	return 0;
@@ -65,68 +65,68 @@ int main()
 6       2       6       2       1       3       5       4       5       6
 1       4       2       3       1       2       2       6       2       1
 </pre><p>W tym przykładzie są tylko dwie godne uwagi różnice w porównaniu z poprzednim. Po pierwsze, stworzyliśmy zmienną o rozkładzie równomiernym (nazwaną  <code>die6</code>) do generowania liczb od 1 do 6. Po drugie, zamiast wywoływać  <code>mt()</code>  w celu wygenerowania 32-bitowych liczb losowych w postaci liczb całkowitych bez znaku, teraz wywołujemy  <code>die6(mt)</code>  w celu wygenerowania wartości z zakresu od 1 do 6.<p class="cpp-section cpp-topline" style=clear:both>Powyższy program nie jest tak losowy, jak się wydaje<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>Chociaż wyniki naszego powyższego przykładu rzucania kośćmi są dość losowe, program ma poważną wadę. Uruchom program 3 razy i sprawdź, czy potrafisz zrozumieć, co to jest. Śmiało, poczekamy.<p><em>Jeopardy music</em><p>Jeśli uruchomisz program kilka razy, zauważysz, że za każdym razem wypisuje te same liczby! Chociaż każda liczba w sekwencji jest losowa w stosunku do poprzedniej, cała sekwencja wcale nie jest losowa! Każde uruchomienie naszego programu daje dokładnie ten sam wynik.<p>Wyobraźmy sobie, że piszesz grę hi-lo, w której użytkownik ma 10 prób odgadnięcia losowo wybranej liczby, a komputer informuje użytkownika, czy jego wynik jest za wysoki, czy za niski. Jeśli komputer za każdym razem wybierze tę samą liczbę losową, gra nie będzie interesująca po pierwszym uruchomieniu. Przyjrzyjmy się zatem bliżej, dlaczego tak się dzieje i jak możemy temu zaradzić.<p>W poprzedniej lekcji (<a href="../introduction-to-random-number-generation/index.html">8.13 — Wprowadzenie do generowania liczb losowych</a>), omówiliśmy, że każda liczba w sekwencji PRNG jest deterministyczna. I że stan PRNG jest inicjowany na podstawie wartości początkowej. Tak więc, biorąc pod uwagę dowolny początkowy numer początkowy, PRNG zawsze wygeneruje w rezultacie tę samą sekwencję liczb z tego ziarna.<p>Ponieważ inicjujemy wartość naszego Mersenne Twister, jest on inicjowany tym samym ziarnem za każdym razem, gdy program jest uruchamiany. A ponieważ ziarno jest takie samo, generowane liczby losowe również są takie same.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>Aby cała nasza sekwencja była losowo losowana przy każdym uruchomieniu programu, musimy wybrać ziarno, które nie jest stałą liczbą. Pierwszą odpowiedzią, która prawdopodobnie przychodzi na myśl, jest to, że potrzebujemy losowej liczby dla naszego materiału siewnego! To dobry pomysł, ale jeśli potrzebujemy liczby losowej do wygenerowania liczb losowych, to mamy do czynienia z paragrafem 22. Okazuje się, że tak naprawdę nie potrzebujemy, aby nasze ziarno było liczbą losową — wystarczy, że wybierzemy coś, co będzie się zmieniać przy każdym uruchomieniu programu. Następnie możemy użyć naszego PRNG do wygenerowania z tego ziarna unikalnej sekwencji liczb pseudolosowych.<p>Są w tym celu powszechnie stosowane dwie metody:<ul><li>Użyj zegara systemowego<li>Użyj losowego urządzenia systemowego</ul><p class="cpp-section cpp-topline" style=clear:both>Zainicjowanie za pomocą zegara systemowego<p>Jaka jest jedna rzecz, która różni się za każdym razem, gdy uruchamiasz program? Jeśli nie uda ci się uruchomić programu dwa razy dokładnie w tym samym momencie, odpowiedź jest taka, że ​​bieżący czas jest inny. Dlatego też, jeśli jako wartość początkową wykorzystamy bieżący czas, wówczas nasz program przy każdym uruchomieniu będzie generował inny zestaw liczb losowych. C i C++ mają długą historię inicjowania PRNG przy użyciu bieżącego czasu (przy użyciu funkcji <code>std::time()</code> ), więc prawdopodobnie zobaczysz to w wielu istniejących kodach.<p>Na szczęście C++ posiada bibliotekę chrono zawierającą różne zegary, których możemy użyć do wygenerowania wartości początkowej. Aby zminimalizować ryzyko, że dwie wartości czasu będą identyczne, jeśli program będzie wykonywany szybko po sobie, chcemy zastosować miarę czasu, która zmienia się tak szybko, jak to możliwe. W tym celu zapytamy zegar, ile czasu minęło od najwcześniejszego momentu, jaki może zmierzyć. Czas ten mierzony jest w „taktach”, czyli bardzo małej jednostce czasu (zwykle nanosekundach, ale może to być milisekunda).<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
-#include &lt;random&gt; // for std::mt19937
-#include &lt;chrono&gt; // for std::chrono
+#include &lt;random&gt; // dla std::mt19937
+#include &lt;chrono&gt; // dla std::chrono
 
 int main()
 {
-	// Seed our Mersenne Twister using steady_clock
+	// Zasiej nasz Mersenne Twister za pomocą stable_clock
 	std::mt19937 mt{ static_cast&lt;std::mt19937::result_type&gt;(
 		std::chrono::steady_clock::now().time_since_epoch().count()
 		) };
 
-	// Create a reusable random number generator that generates uniform numbers between 1 and 6
-	std::uniform_int_distribution die6{ 1, 6 }; // for C++14, use std::uniform_int_distribution&lt;&gt; die6{ 1, 6 };
+	// Utwórz generator liczb losowych wielokrotnego użytku, który generuje liczby jednolite od 1 do 6
+	std::uniform_int_distribution die6{ 1, 6 }; // dla C++14 użyj std::uniform_int_distribution&lt;&gt; die6{ 1, 6 };
 
-	// Print a bunch of random numbers
+	// Wydrukuj kilka losowych liczb
 	for (int count{ 1 }; count &lt;= 40; ++count)
 	{
-		std::cout &lt;&lt; die6(mt) &lt;&lt; &#39;\t&#39;; // generate a roll of the die here
+		std::cout &lt;&lt; die6(mt) &lt;&lt; '\t'; // wygeneruj tutaj rzut kostką
 
-		// If we&#39;ve printed 10 numbers, start a new row
+		// Jeśli wydrukowaliśmy 10 liczb, rozpocznij nowy wiersz
 		if (count % 10 == 0)
-			std::cout &lt;&lt; &#39;\n&#39;;
+			std::cout &lt;&lt; '\n';
 	}
 
 	return 0;
 }</code></pre><p>Powyższy program zawiera tylko dwie zmiany w stosunku do poprzedniego. Po pierwsze, dołączamy &lt;chrono&gt;, który daje nam dostęp do zegara. Po drugie, używamy bieżącego czasu zegara jako wartości początkowej dla naszego Mersenne Twister.<p>Wyniki generowane przez ten program powinny teraz być inne przy każdym uruchomieniu, co można zweryfikować eksperymentalnie, uruchamiając go kilka razy.<p>Wadą tego podejścia jest to, że jeśli program zostanie uruchomiony kilka razy z rzędu w krótkich odstępach czasu, nasiona wygenerowane dla każdego uruchomienia nie będą się zbytnio różnić, co może mieć wpływ na jakość losowych wyników ze statystycznego punktu widzenia. W przypadku normalnych programów nie ma to znaczenia, ale w przypadku programów wymagających wysokiej jakości niezależnych wyników ta metoda inicjowania może być niewystarczająca.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p><code>std::chrono::high_resolution_clock</code> jest popularnym wyborem zamiast <code>std::chrono::steady_clock</code>. <code>std::chrono::high_resolution_clock</code> jest zegarem, który używa najbardziej szczegółowej jednostki czasu, ale może używać zegara systemowego dla bieżącego czasu, który może zostać zmieniony lub wycofany przez użytkowników. <code>std::chrono::steady_clock</code> może mieć mniej szczegółowy czas taktowania, ale jest jedynym zegarem z gwarancją, której użytkownicy nie mogą dostosować it.</div><p class="cpp-section cpp-topline" style=clear:both>Zainicjowanie losowym urządzeniem<p>Biblioteka losowa zawiera typ o nazwie <code>std::random_device</code> który jest PRNG zdefiniowanym w implementacji. Zwykle unikamy możliwości zdefiniowanych w ramach implementacji, ponieważ nie dają one gwarancji jakości ani przenośności, ale jest to jeden z wyjątków. Zwykle <code>std::random_device</code> poprosi system operacyjny o liczbę pseudolosową (sposób, w jaki to zrobi, zależy od systemu operacyjnego).<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
-#include &lt;random&gt; // for std::mt19937 and std::random_device
+#include &lt;random&gt; // dla std::mt19937 i std::random_device
 
 int main()
 {
 	std::mt19937 mt{ std::random_device{}() };
 
-	// Create a reusable random number generator that generates uniform numbers between 1 and 6
-	std::uniform_int_distribution die6{ 1, 6 }; // for C++14, use std::uniform_int_distribution&lt;&gt; die6{ 1, 6 };
+	// Utwórz generator liczb losowych wielokrotnego użytku, który generuje liczby jednolite od 1 do 6
+	std::uniform_int_distribution die6{ 1, 6 }; // dla C++14 użyj std::uniform_int_distribution&lt;&gt; die6{ 1, 6 };
 
-	// Print a bunch of random numbers
+	// Wydrukuj kilka losowych liczb
 	for (int count{ 1 }; count &lt;= 40; ++count)
 	{
-		std::cout &lt;&lt; die6(mt) &lt;&lt; &#39;\t&#39;; // generate a roll of the die here
+		std::cout &lt;&lt; die6(mt) &lt;&lt; '\t'; // wygeneruj tutaj rzut kostką
 
-		// If we&#39;ve printed 10 numbers, start a new row
+		// Jeśli wydrukowaliśmy 10 liczb, rozpocznij nowy wiersz
 		if (count % 10 == 0)
-			std::cout &lt;&lt; &#39;\n&#39;;
+			std::cout &lt;&lt; '\n';
 	}
 
 	return 0;
 }</code></pre><p>W powyższym programie zaszczepiamy naszego Mersenne Twister jedną losową liczbą wygenerowaną z tymczasowej instancji <code>std::random_device</code>. Jeśli uruchomisz ten program wiele razy, powinien on również dawać za każdym razem inne wyniki.<p>Jeden potencjalny problem z <code>std::random_device</code>: nie jest wymagane, aby był on niedeterministyczny, co oznacza, <em>może</em>w niektórych systemach generować tę samą sekwencję przy każdym uruchomieniu programu, a właśnie tego staramy się uniknąć. Wystąpił  <a href="https://gcc.gnu.org/bugzilla/show_bug.cgi?id=85494">błąd w MinGW</a> (naprawiony w GCC 9.2), który mógł zrobić dokładnie to, czyniąc <code>std::random_device</code> bezużytecznym.<p>Jednak najnowsze wersje najpopularniejszych kompilatorów (GCC/MinGW, Clang, Visual Studio) obsługują prawidłowe implementacje <code>std::random_device</code>.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Użyj <code>std::random_device</code> w celu zaszczepienia PRNG (chyba że nie jest on poprawnie zaimplementowany w docelowym kompilatorze/architekturze).</div><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">P: Co <code>std::random_device{}()</code> oznacza?<p><code>std::random_device{}</code> tworzy obiekt tymczasowy typu  <code>std::random_device</code>. Słowo kluczowe <code>()</code> z inicjacją wartości, następnie wywołuje <code>operator()</code> ten obiekt tymczasowy, który zwraca losową wartość (której używamy jako inicjatora dla naszego Mersenne'a Twister)<p>Jest to odpowiednik wywołania następującej funkcji, która wykorzystuje składnię, którą powinieneś lepiej znać:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">unsigned int getRandomDeviceValue()
 {
-   std::random_device rd{}; // create a value initialized std::random_device object
-   return rd(); // return the result of operator() to the caller
+   std::random_device rd{}; // utworzy wartość zainicjalizowaną obiekt std::random_device
+   return rd(); // zwróć wynik operatora() do obiektu wywołującego
 }</code></pre><p>Użycie <code>std::random_device{}()</code> pozwala nam uzyskać ten sam wynik bez tworzenia nazwanej funkcji lub nazwanej zmiennej, więc jest znacznie bardziej zwięzły.</div><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">P: Jeśli std::random_device samo w sobie jest losowe, dlaczego po prostu nie użyjemy tego zamiast Mersenne'a Twister?<p>Ponieważ std::random_device jest zdefiniowaną implementacją, nie możemy zbyt wiele zakładać na ten temat. Dostęp do niego może być kosztowny lub może spowodować wstrzymanie naszego programu w oczekiwaniu na udostępnienie większej liczby losowych liczb. Pula liczb, z których pobiera dane, może również szybko się wyczerpać, co będzie miało wpływ na losowe wyniki innych aplikacji żądających liczb losowych w ten sam sposób. Z tego powodu std::random_device lepiej nadaje się do inicjowania innych PRNG niż jako samego PRNG.</div><p class="cpp-section cpp-topline" style=clear:both>Wysyłaj PRNG tylko raz<p>Wiele PRNG można ponownie inicjować po początkowym inicjowaniu. Zasadniczo powoduje to ponowną inicjalizację stanu generatora liczb losowych, powodując generowanie wyników począwszy od nowego stanu początkowego. Generalnie należy unikać ponownego wysyłania, chyba że masz ku temu konkretny powód, ponieważ może to spowodować, że wyniki będą mniej losowe lub w ogóle nie będą losowe.<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Wypełniaj dany generator liczb pseudolosowych tylko raz i nie rób go ponownie.</div><p>Oto przykład typowego błędu popełnianego przez nowych programistów: <pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;random&gt;
 
 int getCard()
 {
-    std::mt19937 mt{ std::random_device{}() }; // this gets created and seeded every time the function is called
+    std::mt19937 mt{ std::random_device{}() }; // jest ona tworzona i zaszczepiana przy każdym wywołaniu funkcji
     std::uniform_int_distribution card{ 1, 52 };
     return card(mt);
 }
 
 int main()
 {
-    std::cout &lt;&lt; getCard() &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; getCard() &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>W <code>getCard()</code> funkcja, generator liczb losowych jest tworzony i uruchamiany za każdym razem, gdy funkcja jest wywoływana. Jest to w najlepszym przypadku nieefektywne i prawdopodobnie spowoduje słabe losowe wyniki.<p class="cpp-section cpp-topline" style=clear:both>Problemy z Mersenne Twister i niedosiewem<p>Stan wewnętrzny Mersenne Twister wymaga 19937 bitów (2493 bajtów), co stanowi 624 wartości 32-bitowe lub 312 wartości 64-bitowych. W rezultacie <code>std::mt19937</code> przydziela 624 liczby całkowite, podczas gdy <code>std::mt19937_64</code> przydziela 312 liczb całkowitych.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Na marginesie…<p>Liczby całkowite przydzielane przez <code>std::mt19937</code> są zdefiniowane jako typu <code>std::uint_fast32_t</code>, który może być 32-bitowy lub 64-bitowy w zależności od architektury. Jeśli <code>std::uint_fast32_t</code> rozwiąże się na 64-bitową liczbę całkowitą, <code>std::mt19937</code> użyje 624 64-bitowych liczb całkowitych, co oznacza, że ​​będzie ona dwukrotnie większa niż powinna.</div><p>W powyższych przykładach, gdzie zaszczepiamy nasze <code>std::mt19937</code> z zegara lub std::random_device, naszym ziarnem jest tylko pojedyncza liczba całkowita. Oznacza to, że zasadniczo inicjujemy 624 liczby całkowite przy użyciu pojedynczej liczby całkowitej, co znacznie osłabia działanie Mersenne Twister PRNG. Biblioteka Random robi wszystko, co w jej mocy, aby wypełnić pozostałe 623 wartości „losowymi” danymi… ale nie może zdziałać cuda. Niedostatecznie obsadzony PRNG może generować wyniki, które są nieoptymalne w przypadku zastosowań wymagających najwyższej jakości wyników. Na przykład, dodanie <code>std::mt19937</code> pojedynczej wartości 32-bitowej nigdy nie wygeneruje liczby <code>42</code> jako pierwszego wyniku.<p>Jak więc to naprawić? Począwszy od C++ 20, nie ma łatwego sposobu. Mamy jednak pewne sugestie.<p>Najpierw porozmawiajmy o <code>std::seed_seq</code> (co oznacza „sekwencję nasion”). Na poprzedniej lekcji wspomnieliśmy, że idealnie byłoby, gdyby nasze dane początkowe miały tyle bitów, ile jest stan naszego PRNG, w przeciwnym razie nasz PRNG byłby niedostateczny. Jednak w wielu przypadkach (zwłaszcza gdy nasz PRNG ma duży stan) nie będziemy mieli tak wielu bitów losowych danych początkowych. <p><code>std::seed_seq</code> to typ, który został zaprojektowany, aby w tym pomóc. Możemy przekazać mu tyle losowych wartości, ile mamy, a następnie wygeneruje tyle dodatkowych, obiektywnych wartości początkowych, ile potrzeba do zainicjowania stanu PRNG. Jeśli zainicjujesz <code>std::seed_seq</code> pojedynczą wartością (np. z <code>std::random_device</code>), a następnie zainicjujesz Mersenne Twister obiektem <code>std::seed_seq</code> , <code>std::seed_seq</code> wygeneruje 623 wartości dodatkowych danych początkowych. Nie doda to losowości, ale da nam lepszą mieszankę bitów 0 i 1. Im jednak więcej losowych danych będziemy w stanie dostarczyć <code>std::seed_seq</code>, tym lepszą robotę dla nas wykona. Zatem najłatwiejszym pomysłem jest po prostu użycie <code>std::random_device</code> w celu uzyskania <code>std::seed_seq</code> więcej danych do pracy. Jeśli zainicjujemy <code>std::seed_seq</code> 8 wartościami z  <code>std::random_device</code> zamiast 1, wówczas pozostałe wartości wygenerowane przez <code>std::seed_seq</code> powinny być znacznie lepsze:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -135,20 +135,20 @@ int main()
 int main()
 {
 	std::random_device rd{};
-	std::seed_seq ss{ rd(), rd(), rd(), rd(), rd(), rd(), rd(), rd() }; // get 8 integers of random numbers from std::random_device for our seed
-	std::mt19937 mt{ ss }; // initialize our Mersenne Twister with the std::seed_seq
+	std::seed_seq ss{ rd(), rd(), rd(), rd(), rd(), rd(), rd(), rd() }; // pobierz 8 losowych liczb całkowitych liczby z std::random_device dla naszego nasionka
+	std::mt19937 mt{ ss }; // zainicjuj nasz Mersenne Twister za pomocą std::seed_seq
 
-	// Create a reusable random number generator that generates uniform numbers between 1 and 6
-	std::uniform_int_distribution die6{ 1, 6 }; // for C++14, use std::uniform_int_distribution&lt;&gt; die6{ 1, 6 };
+	// Utwórz generator liczb losowych wielokrotnego użytku, który generuje liczby jednolite od 1 do 6
+	std::uniform_int_distribution die6{ 1, 6 }; // dla C++14 użyj std::uniform_int_distribution&lt;&gt; die6{ 1, 6 };
 
-	// Print a bunch of random numbers
+	// Wydrukuj kilka losowych liczb
 	for (int count{ 1 }; count &lt;= 40; ++count)
 	{
-		std::cout &lt;&lt; die6(mt) &lt;&lt; &#39;\t&#39;; // generate a roll of the die here
+		std::cout &lt;&lt; die6(mt) &lt;&lt; '\t'; // wygeneruj tutaj rzut kostką
 
-		// If we&#39;ve printed 10 numbers, start a new row
+		// Jeśli wydrukowaliśmy 10 liczb, rozpocznij nowy wiersz
 		if (count % 10 == 0)
-			std::cout &lt;&lt; &#39;\n&#39;;
+			std::cout &lt;&lt; '\n';
 	}
 
 	return 0;

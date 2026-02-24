@@ -28,8 +28,8 @@ bool isValidName(std::string_view name)
     return std::isalpha(ch) || std::isspace(ch);
   });
 
-  // Before C++20, without ranges
-  // return std::all_of(name.begin(), name.end(), [](char ch) {
+  // Przed C++20, bez zakresów
+  // return std::all_of(nazwa.begin(), nazwa.end(), [](char ch) {
   //    return std::isalpha(ch) || std::isspace(ch);
   // });
 }
@@ -40,11 +40,11 @@ int main()
 
   do
   {
-    std::cout &lt;&lt; &#34;Enter your name: &#34;;
-    std::getline(std::cin, name); // get the entire line, including spaces
+    std::cout &lt;&lt; "Enter your name: ";
+    std::getline(std::cin, name); // pobierz całą linię ze spacjami
   } while (!isValidName(name));
 
-  std::cout &lt;&lt; &#34;Hello &#34; &lt;&lt; name &lt;&lt; &#34;!\n&#34;;
+  std::cout &lt;&lt; "Hello " &lt;&lt; name &lt;&lt; "!\n";
 }</code></pre><p>Zauważ, że ten kod nie jest doskonały: użytkownik może powiedzieć, że jego imię to „asf w jweo s di we ao” lub jakiś inny bełkot, lub co gorsza, po prostu kilka spacji. Moglibyśmy rozwiązać ten problem, doprecyzowując nasze kryteria walidacji, aby akceptowały tylko ciągi znaków zawierające co najmniej jeden znak i co najwyżej jedną spację.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nota autora<p>Czytelnik „Waldo” udostępnia rozwiązanie C++20 (używając std::ranges), które eliminuje te niedociągnięcia. <a href="index.html#comment-571052">tutaj</a></div><p>Przyjrzyjmy się teraz innemu przykładowi, w którym poprosimy użytkownika o podanie numeru telefonu. W przeciwieństwie do nazwy użytkownika, która ma zmienną długość i gdzie kryteria sprawdzania poprawności są takie same dla każdego znaku, numer telefonu ma stałą długość, ale kryteria sprawdzania różnią się w zależności od pozycji znaku. W związku z tym zastosujemy inne podejście do sprawdzania poprawności wprowadzonego numeru telefonu. W tym przypadku napiszemy funkcję, która sprawdzi, czy dane wprowadzone przez użytkownika pasują do wcześniej ustalonego szablonu. Szablon będzie działał w następujący sposób:<p>A # dopasuje dowolną cyfrę wprowadzoną przez użytkownika.<br>A @ dopasuje dowolny znak alfabetu wpisany przez użytkownika.<br>A _ dopasuje dowolne białe znaki.<br>A ? będzie pasować do czegokolwiek.<br>W przeciwnym razie znaki wprowadzone przez użytkownika i szablon muszą dokładnie pasować.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>Jeśli więc poprosimy funkcję o dopasowanie do szablonu „(###) ###-####”, oznacza to, że oczekujemy, że użytkownik wprowadzi znak „(”, trzy cyfry, znak „)”, spację, trzy cyfry, myślnik i jeszcze cztery cyfry. Jeśli którykolwiek z tych elementów nie pasuje, dane wejściowe zostaną odrzucone.<p>Oto kod:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;algorithm&gt; // std::equal
 #include &lt;cctype&gt; // std::isdigit, std::isspace, std::isalpha
 #include &lt;iostream&gt;
@@ -60,17 +60,17 @@ bool inputMatches(std::string_view input, std::string_view pattern)
         return false;
     }
 
-    // This table defines all special symbols that can match a range of user input
-    // Each symbol is mapped to a function that determines whether the input is valid for that symbol
+    // Ta tabela definiuje wszystkie symbole specjalne, które mogą pasować do zakresu wprowadzonego przez użytkownika
+    // Każdy symbol jest mapowany na funkcję, która określa, czy dane wejściowe są dla niego prawidłowe symbol
     static const std::map&lt;char, int (*)(int)&gt; validators{
-      { &#39;#&#39;, &amp;std::isdigit },
-      { &#39;_&#39;, &amp;std::isspace },
-      { &#39;@&#39;, &amp;std::isalpha },
-      { &#39;?&#39;, [](int) { return 1; } }
+      { '#', &amp;std::isdigit },
+      { '_', &amp;std::isspace },
+      { '@', &amp;std::isalpha },
+      { '?', [](int) { return 1; } }
     };
 
-    // Before C++20, use
-    // return std::equal(input.begin(), input.end(), pattern.begin(), [](char ch, char mask) -&gt; bool {
+    // Przed C++20, użyj
+    // return std::equal(input.begin(), input.end(), wzór.begin(), [](char ch, char mask) -&gt; bool {
     // ...
 
     return std::ranges::equal(input, pattern, [](char ch, char mask) -&gt; bool {
@@ -78,15 +78,15 @@ bool inputMatches(std::string_view input, std::string_view pattern)
         
         if (found != validators.end())
         {
-            // The pattern&#39;s current element was found in the validators. Call the
-            // corresponding function.
+            // W walidatorach znaleziono bieżący element wzoru. Wywołaj
+            // .
             return (*found-&gt;second)(ch);
         }
 
-        // The pattern&#39;s current element was not found in the validators. The
-        // characters have to be an exact match.
+        // Bieżący element wzorca nie został znaleziony w walidatorach.
+        // znaki muszą być dokładnie zgodne.
         return ch == mask;
-        }); // end of lambda
+        }); // koniec lambdy
 }
 
 int main()
@@ -95,11 +95,11 @@ int main()
 
     do
     {
-        std::cout &lt;&lt; &#34;Enter a phone number (###) ###-####: &#34;;
+        std::cout &lt;&lt; "Enter a phone number (###) ###-####: ";
         std::getline(std::cin, phoneNumber);
-    } while (!inputMatches(phoneNumber, &#34;(###) ###-####&#34;));
+    } while (!inputMatches(phoneNumber, "(###) ###-####"));
 
-    std::cout &lt;&lt; &#34;You entered: &#34; &lt;&lt; phoneNumber &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "You entered: " &lt;&lt; phoneNumber &lt;&lt; '\n';
 }</code></pre><p>Korzystając z tej funkcji, możemy zmusić użytkownika do dokładnego dopasowania naszego konkretnego formatu. Jednak ta funkcja nadal podlega kilku ograniczeniom: jeśli #, @, _ i ? są prawidłowymi znakami wprowadzonymi przez użytkownika, ta funkcja nie będzie działać, ponieważ tym symbolom nadano specjalne znaczenie. Ponadto, w przeciwieństwie do wyrażeń regularnych, nie ma tam symbolu szablonu, który oznacza, że ​​„można wprowadzić zmienną liczbę znaków”. Tym samym takiego szablonu nie można zastosować do zapewnienia, że ​​użytkownik wprowadzi dwa słowa oddzielone spacją, ponieważ nie radzi sobie z faktem, że słowa mają zmienną długość. W przypadku takich problemów ogólnie bardziej odpowiednie jest podejście inne niż szablonowe.<p class="cpp-section cpp-topline" style=clear:both>Weryfikacja numeryczna<p>W przypadku wprowadzania danych liczbowych oczywistym sposobem postępowania jest użycie operatora wyodrębniania w celu wyodrębnienia danych wejściowych do typu liczbowego. Sprawdzając bit błędu, możemy stwierdzić, czy użytkownik wprowadził liczbę, czy nie.<p>Wypróbujmy to podejście:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;limits&gt;
 
@@ -109,23 +109,23 @@ int main()
 
     while (true)
     {
-        std::cout &lt;&lt; &#34;Enter your age: &#34;;
+        std::cout &lt;&lt; "Enter your age: ";
         std::cin &gt;&gt; age;
 
-        if (std::cin.fail()) // no extraction took place
+        if (std::cin.fail()) // nie doszło do ekstrakcji
         {
-            std::cin.clear(); // reset the state bits back to goodbit so we can use ignore()
-            std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), &#39;\n&#39;); // clear out the bad input from the stream
+            std::cin.clear(); // zresetuj bity stanu do dobrego, więc możemy można użyć funkcji ignorowania()
+            std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), '\n'); // usuń nieprawidłowe dane wejściowe ze strumienia
             continue; // try again
         }
 
-        if (age &lt;= 0) // make sure age is positive
+        if (age &lt;= 0) // upewnij się, że wiek jest dodatni
             continue;
 
         break;
     }
 
-    std::cout &lt;&lt; &#34;You entered: &#34; &lt;&lt; age &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "You entered: " &lt;&lt; age &lt;&lt; '\n';
 }</code></pre><p>Jeśli użytkownik wprowadzi liczbę całkowitą, ekstrakcja zakończy się pomyślnie. std::cin.fail() zwróci wartość false, pomijając warunek, i (zakładając, że użytkownik wprowadził liczbę dodatnią), wykonamy instrukcję break, opuszczając pętlę.<p>Jeśli zamiast tego użytkownik wprowadzi dane wejściowe rozpoczynające się od litery, wyodrębnianie zakończy się niepowodzeniem. std::cin.fail() zwróci wartość true i przejdziemy do trybu warunkowego. Na końcu bloku warunkowego wciśniemy instrukcjęcontinue, która przeskoczy z powrotem na początek pętli while, a użytkownik zostanie poproszony o ponowne wprowadzenie danych.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>Jest jednak jeszcze jeden przypadek, którego nie testowaliśmy, a mianowicie, gdy użytkownik wprowadza ciąg znaków zaczynający się od cyfr, ale następnie zawierający litery (np. „34abcd56”). W tym przypadku liczby początkowe (34) zostaną wyodrębnione do wieku, pozostała część łańcucha („abcd56”) pozostanie w strumieniu wejściowym, a bit błędu NIE zostanie ustawiony. Powoduje to dwa potencjalne problemy:<ol start=1><li>Jeśli chcesz, żeby to były prawidłowe dane wejściowe, w Twoim strumieniu znajdują się teraz śmieci.<li>Jeśli nie chcesz, aby to były prawidłowe dane wejściowe, nie są one odrzucane (i masz śmieci w swoim strumieniu).</ol><p>Rozwiążmy pierwszy problem. To proste: <pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;limits&gt;
 
@@ -135,25 +135,25 @@ int main()
 
     while (true)
     {
-        std::cout &lt;&lt; &#34;Enter your age: &#34;;
+        std::cout &lt;&lt; "Enter your age: ";
         std::cin &gt;&gt; age;
 
-        if (std::cin.fail()) // no extraction took place
+        if (std::cin.fail()) // nie doszło do ekstrakcji
         {
-            std::cin.clear(); // reset the state bits back to goodbit so we can use ignore()
-            std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), &#39;\n&#39;); // clear out the bad input from the stream
+            std::cin.clear(); // zresetuj bity stanu do dobrego, więc możemy można użyć funkcji ignorowania()
+            std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), '\n'); // usuń nieprawidłowe dane wejściowe ze strumienia
             continue; // try again
         }
 
-        std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), &#39;\n&#39;); // clear out any additional input from the stream
+        std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), '\n'); // usuń wszelkie dodatkowe dane wejściowe ze strumienia
 
-        if (age &lt;= 0) // make sure age is positive
+        if (age &lt;= 0) // upewnij się, że wiek jest dodatni
             continue;
 
       break;
     }
 
-    std::cout &lt;&lt; &#34;You entered: &#34; &lt;&lt; age &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "You entered: " &lt;&lt; age &lt;&lt; '\n';
 }</code></pre><p>Jeśli nie chcesz, aby takie dane wejściowe były prawidłowe, będziemy musieli wykonać trochę dodatkowej pracy. Na szczęście poprzednie rozwiązanie prowadzi nas w połowie drogi. Możemy użyć funkcji gcount(), aby określić, ile znaków zostało zignorowanych. Jeśli nasze dane wejściowe były prawidłowe, gcount() powinna zwrócić 1 (znak nowej linii, który został odrzucony). Jeśli zwróci więcej niż 1, użytkownik wprowadził coś, co nie zostało poprawnie wyodrębnione i powinniśmy poprosić go o nowe dane. Oto przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;limits&gt;
 
@@ -163,23 +163,23 @@ int main()
 
     while (true)
     {
-        std::cout &lt;&lt; &#34;Enter your age: &#34;;
+        std::cout &lt;&lt; "Enter your age: ";
         std::cin &gt;&gt; age;
 
-        if (std::cin.fail()) // no extraction took place
+        if (std::cin.fail()) // nie doszło do ekstrakcji
         {
-            std::cin.clear(); // reset the state bits back to goodbit so we can use ignore()
-            std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), &#39;\n&#39;); // clear out the bad input from the stream
+            std::cin.clear(); // zresetuj bity stanu do dobrego, więc możemy można użyć funkcji ignorowania()
+            std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), '\n'); // usuń nieprawidłowe dane wejściowe ze strumienia
             continue; // try again
         }
 
-        std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), &#39;\n&#39;); // clear out any additional input from the stream
-        if (std::cin.gcount() &gt; 1) // if we cleared out more than one additional character
+        std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), '\n'); // usuń wszelkie dodatkowe dane wejściowe ze strumienia
+        if (std::cin.gcount() &gt; 1) // jeśli wykasowaliśmy więcej niż jedno dodatkowe znak
         {
-            continue; // we&#39;ll consider this input to be invalid
+            continue; // uznamy to wejście za nieprawidłowe
         }
 
-        if (age &lt;= 0) // make sure age is positive
+        if (age &lt;= 0) // upewnij się, że wiek jest dodatni
         {
             continue;
         }
@@ -187,7 +187,7 @@ int main()
         break;
     }
 
-    std::cout &lt;&lt; &#34;You entered: &#34; &lt;&lt; age &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "You entered: " &lt;&lt; age &lt;&lt; '\n';
 }</code></pre><p class="cpp-section cpp-topline" style=clear:both>Weryfikacja liczb jako ciąg znaków<p>Powyższy przykład wymagał sporo pracy, aby uzyskać prostą wartość! Innym sposobem przetwarzania danych liczbowych jest wczytanie ich jako ciągu znaków, a następnie próba przekonwertowania ich na typ numeryczny. Poniższy program korzysta z tej metodologii:<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;charconv&gt; // std::from_chars
 #include &lt;iostream&gt;
 #include &lt;limits&gt;
@@ -195,25 +195,25 @@ int main()
 #include &lt;string&gt;
 #include &lt;string_view&gt;
 
-// std::optional&lt;int&gt; returns either an int or nothing
+// std::opcjonalne&lt;int&gt; zwraca wartość typu int lub nic
 std::optional&lt;int&gt; extractAge(std::string_view age)
 {
     int result{};
-    const auto end{ age.data() + age.length() }; // get end iterator of underlying C-style string
+    const auto end{ age.data() + age.length() }; // pobierz iterator końcowy bazowego ciągu w stylu C
 
-    // Try to parse an int from age
-    // If we got an error of some kind...
+    // Spróbuj przeanalizować liczbę int z age
+    // Jeśli wystąpił jakiś błąd...
     if (std::from_chars(age.data(), end, result).ec != std::errc{})
     {
         return {}; // return nothing
     }
 
-    if (result &lt;= 0) // make sure age is positive
+    if (result &lt;= 0) // upewnij się, że wiek jest dodatni
     {
         return {}; // return nothing
     }
 
-    return result; // return an int value
+    return result; // zwróć wartość int
 }
 
 int main()
@@ -222,30 +222,30 @@ int main()
 
     while (true)
     {
-        std::cout &lt;&lt; &#34;Enter your age: &#34;;
+        std::cout &lt;&lt; "Enter your age: ";
         std::string strAge{};
 
-        // Try to get a line of input
+        // Spróbuj uzyskać wiersz wejściowy
         if (!std::getline(std::cin &gt;&gt; std::ws, strAge))
         {
-            // If we failed, clean up and try again
+            // Jeśli się nie udało, oczyść i spróbuj ponownie
             std::cin.clear();
-            std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), &#39;\n&#39;);    
+            std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), '\n');    
             continue;
         }
 
-        // Try to extract the age
+        // Spróbuj wyodrębnić wiek
         auto extracted{ extractAge(strAge) };
 
-        // If we failed, try again
+        // Jeśli się nie udało, spróbuj ponownie
         if (!extracted)
             continue;
 
-        age = *extracted; // get the value
+        age = *extracted; // pobierz wartość
         break;
     }
 
-  std::cout &lt;&lt; &#34;You entered: &#34; &lt;&lt; age &lt;&lt; &#39;\n&#39;;
+  std::cout &lt;&lt; "You entered: " &lt;&lt; age &lt;&lt; '\n';
 }</code></pre><p>To, czy to podejście wymaga więcej, czy mniej pracy niż prosta ekstrakcja liczbowa, zależy od parametrów i ograniczeń walidacji.<p>Jak widać, sprawdzanie poprawności danych wejściowych w C++ wymaga dużo pracy. Na szczęście wiele takich zadań (np. sprawdzanie poprawności numerycznej w postaci ciągu znaków) można łatwo przekształcić w funkcje, które można ponownie wykorzystać w różnorodnych sytuacjach.<div class=prevnext><div class=prevnext-inline><a class=nav-link href="../basic-file-io/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>28.6</span>Podstawowe we/wy pliku</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../stream-classes-for-strings/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>28.4</span>Klasy strumieniowe dla ciągów znaków</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/stream-states-and-input-validation/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../stream-classes-for-strings/index.html" rel=prev><span>28.4 — Klasy strumieniowe dla ciągów znaków</span></a></div><div class=nav-next><em>Następny post</em><a href=/www.learncpp.com/wordpress/tiga-and-wordpress-25/ rel=next><span>Tiga i WordPress 2.5</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>
 <textarea id=wc-textarea-0_0 placeholder="Zostaw komentarz..." aria-label="Zostaw komentarz..." required name=wc_comment class="wc_comment wpd-field"></textarea></div><div class=wpd-editor-buttons-right></div></div></div></div><div class=wpd-form-foot><div class=wpdiscuz-textarea-foot><div class=wpdiscuz-button-actions></div></div><div class=wpd-form-row><div class=wpd-form-col-left><div class="wpdiscuz-item wc_name-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-user"></i></div><input id=wc_name-0_0 required aria-required=true class="wc_name wpd-field" name=wc_name placeholder=Imię* maxlength=50 pattern=.{3,50}>
 <label for=wc_name-0_0 class=wpdlb>Imię*</label></div><div class="wpdiscuz-item wc_email-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-at"></i></div><input id=wc_email-0_0 required aria-required=true class="wc_email wpd-field" type=email name=wc_email placeholder=E-mail*>

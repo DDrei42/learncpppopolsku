@@ -14,23 +14,23 @@
 <input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=18077></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="22.7 — Problemy z zależnościami cyklicznymi ze std::shared_ptr i std::weak_ptr" src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-5635 class="post-5635 post type-post status-publish format-standard hentry category-cpp-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>22.7 — Problemy z zależnościami cyklicznymi ze std::shared_ptr i std::weak_ptr</h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Autor></i><a class="url fn n" rel=author href=/www.learncpp.com/author/Alex/ title="Wyświetl wszystkie posty Alexa" itemprop=url><em itemprop=name>Alex</em></a></span>
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2017-03-21T17:44:43-07:00 itemprop=datePublished>21 marca 2017, 17:44 PDT</time>
 <time class=updated datetime=2024-07-22T14:20:57-07:00 itemprop=dateModified>22 lipca 2024 r.</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>W poprzedniej lekcji widzieliśmy, jak std::shared_ptr pozwoliło nam mieć wiele inteligentnych wskaźników będących współwłaścicielami tego samego zasobu. Jednak w niektórych przypadkach może to stać się problematyczne. Rozważmy następujący przypadek, w którym wspólne wskaźniki w dwóch oddzielnych obiektach wskazują każdy inny obiekt:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
-#include &lt;memory&gt; // for std::shared_ptr
+#include &lt;memory&gt; // dla std::shared_ptr
 #include &lt;string&gt;
 
 class Person
 {
 	std::string m_name;
-	std::shared_ptr&lt;Person&gt; m_partner; // initially created empty
+	std::shared_ptr&lt;Person&gt; m_partner; // początkowo utworzony pusty
 
 public:
 		
 	Person(const std::string &amp;name): m_name(name)
 	{ 
-		std::cout &lt;&lt; m_name &lt;&lt; &#34; created\n&#34;;
+		std::cout &lt;&lt; m_name &lt;&lt; " created\n";
 	}
 	~Person()
 	{
-		std::cout &lt;&lt; m_name &lt;&lt; &#34; destroyed\n&#34;;
+		std::cout &lt;&lt; m_name &lt;&lt; " destroyed\n";
 	}
 
 	friend bool partnerUp(std::shared_ptr&lt;Person&gt; &amp;p1, std::shared_ptr&lt;Person&gt; &amp;p2)
@@ -41,7 +41,7 @@ public:
 		p1-&gt;m_partner = p2;
 		p2-&gt;m_partner = p1;
 
-		std::cout &lt;&lt; p1-&gt;m_name &lt;&lt; &#34; is now partnered with &#34; &lt;&lt; p2-&gt;m_name &lt;&lt; &#39;\n&#39;;
+		std::cout &lt;&lt; p1-&gt;m_name &lt;&lt; " is now partnered with " &lt;&lt; p2-&gt;m_name &lt;&lt; '\n';
 
 		return true;
 	}
@@ -49,53 +49,53 @@ public:
 
 int main()
 {
-	auto lucy { std::make_shared&lt;Person&gt;(&#34;Lucy&#34;) }; // create a Person named &#34;Lucy&#34;
-	auto ricky { std::make_shared&lt;Person&gt;(&#34;Ricky&#34;) }; // create a Person named &#34;Ricky&#34;
+	auto lucy { std::make_shared&lt;Person&gt;("Lucy") }; // utwórz osobę o imieniu "Lucy"
+	auto ricky { std::make_shared&lt;Person&gt;("Ricky") }; // utwórz osobę o imieniu "Ricky"
 
-	partnerUp(lucy, ricky); // Make &#34;Lucy&#34; point to &#34;Ricky&#34; and vice-versa
+	partnerUp(lucy, ricky); // Ustaw „Lucy” na „Ricky” i podłącz
 
 	return 0;
 }</code></pre><p>W powyższym przykładzie dynamicznie przydzielamy dwie Osoby, „Lucy” i „Ricky”, za pomocą make_shared() (aby mieć pewność, że Lucy i Ricky zostaną zniszczone na końcu main()). Następnie nawiązujemy z nimi współpracę. To ustawia std::shared_ptr wewnątrz „Lucy” na „Ricky”, a std::shared_ptr wewnątrz „Ricky” na „Lucy”. Wskaźniki współdzielone mają być współdzielone, więc nie ma nic złego w tym, że zarówno wspólny wskaźnik Lucy, jak i wskaźnik współdzielony m_partner Ricka wskazują na „Lucy” (i odwrotnie).<p>Jednak ten program nie działa zgodnie z oczekiwaniami:<pre>Lucy created
 Ricky created
 Lucy is now partnered with Ricky
-</pre><p>I to wszystko. Nie doszło do żadnych dealokacji. Uch, och. Co się stało?<p>Po wywołaniu partnerUp() istnieją dwa wspólne wskaźniki wskazujące na „Ricky” (Ricky i m_partner Lucy) oraz dwa wspólne wskaźniki wskazujące na „Lucy” (Lucy i m_partner Ricky'ego).<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Na końcu main() Ricky wspólny wskaźnik najpierw wychodzi poza zakres. Kiedy tak się dzieje, Ricky sprawdza, czy istnieją inne wspólne wskazówki, które są współwłaścicielami Osoby „Ricky”. Są (m_partner Lucy). Z tego powodu nie zwalnia „Ricky” (gdyby tak było, m_partner Lucy skończyłby jako wiszący wskaźnik). W tym momencie mamy teraz jeden wspólny wskaźnik do „Ricky” (m_partner Lucy) i dwa wspólne wskaźniki do „Lucy” (Lucy i m_partner Ricky'ego).<p>Następnie wspólny wskaźnik Lucy wykracza poza zakres i dzieje się to samo. Udostępniony wskaźnik Lucy sprawdza, czy istnieją inne wspólne wskaźniki będące współwłaścicielami Osoby „Lucy”. Istnieją (m_partner Ricky'ego), więc „Lucy” nie jest zwalniana. W tym momencie istnieje jeden wspólny wskaźnik do „Lucy” (m_partner Ricky’ego) i jeden wspólny wskaźnik do „Ricky” (m_partner Lucy).<p>Następnie program się kończy — i żadna Osoba „Lucy” ani „Ricky” nie została zwolniona! Zasadniczo „Lucy” chroni „Ricky’ego” przed zniszczeniem, a „Ricky” chroni „Lucy” przed zniszczeniem.<p>Okazuje się, że może się to zdarzyć za każdym razem, gdy wspólne wskaźniki tworzą odniesienie cykliczne.<p class="cpp-section cpp-topline" style=clear:both>Odniesienia cykliczne<p>A <strong>Odwołanie cykliczne</strong> (zwana także <strong>cykliczne referencja</strong> lub a <strong>cykl</strong>) to seria odniesień, w której każdy obiekt odwołuje się do następnego, a ostatni obiekt odwołuje się z powrotem do pierwszego, powodując pętlę referencyjną. Referencje nie muszą być rzeczywistymi referencjami w C++ — mogą to być wskaźniki, unikalne identyfikatory lub inne sposoby identyfikowania konkretnych obiektów.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>W kontekście wspólnych wskaźników referencje będą wskaźnikami.<p>Dokładnie to widzimy w powyższym przypadku: „Lucy” wskazuje na „Ricky”, a „Ricky” wskazuje na „Lucy”. Za pomocą trzech wskaźników uzyskasz to samo, gdy A wskazuje na B, B wskazuje na C, a C wskazuje na A. Praktyczny efekt posiadania wspólnych wskaźników w cyklu jest taki, że każdy obiekt w końcu utrzymuje przy życiu następny obiekt — przy czym ostatni obiekt utrzymuje przy życiu pierwszy obiekt. Zatem żaden obiekt w serii nie może zostać zwolniony, ponieważ wszyscy myślą, że jakiś inny obiekt nadal tego potrzebuje!<p class="cpp-section cpp-topline" style=clear:both>Przypadek redukcyjny<p>Okazuje się, że ten problem cyklicznego odniesienia może wystąpić nawet w przypadku pojedynczego std::shared_ptr -- std::shared_ptr odwołującego się do obiektu, który go zawiera, nadal jest cyklem (tylko redukcyjnym). Chociaż jest to dość mało prawdopodobne, aby coś takiego kiedykolwiek miało miejsce w praktyce, pokażemy Ci dla dodatkowego zrozumienia:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
-#include &lt;memory&gt; // for std::shared_ptr
+</pre><p>I to wszystko. Nie doszło do żadnych dealokacji. Uch, och. Co się stało?<p>Po wywołaniu partnerUp() istnieją dwa wspólne wskaźniki wskazujące na „Ricky” (Ricky i m_partner Lucy) oraz dwa wspólne wskaźniki wskazujące na „Lucy” (Lucy i m_partner Ricky'ego).<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Na końcu main() Ricky wspólny wskaźnik najpierw wychodzi poza zakres. Kiedy tak się dzieje, Ricky sprawdza, czy istnieją inne wspólne wskazówki, które są współwłaścicielami Osoby „Ricky”. Są (m_partner Lucy). Z tego powodu nie zwalnia „Ricky” (gdyby tak było, m_partner Lucy skończyłby jako wiszący wskaźnik). W tym momencie mamy teraz jeden wspólny wskaźnik do „Ricky” (m_partner Lucy) i dwa wspólne wskaźniki do „Lucy” (Lucy i m_partner Ricky'ego).<p>Następnie wspólny wskaźnik Lucy wykracza poza zakres i dzieje się to samo. Udostępniony wskaźnik Lucy sprawdza, czy istnieją inne wspólne wskaźniki będące współwłaścicielami Osoby „Lucy”. Istnieją (m_partner Ricky'ego), więc „Lucy” nie jest zwalniana. W tym momencie istnieje jeden wspólny wskaźnik do „Lucy” (m_partner Ricky’ego) i jeden wspólny wskaźnik do „Ricky” (m_partner Lucy).<p>Następnie program się kończy — i żadna Osoba „Lucy” ani „Ricky” nie została zwolniona! Zasadniczo „Lucy” chroni „Ricky’ego” przed zniszczeniem, a „Ricky” chroni „Lucy” przed zniszczeniem.<p>Okazuje się, że może się to zdarzyć za każdym razem, gdy wspólne wskaźniki tworzą odniesienie cykliczne.<p class="cpp-section cpp-topline" style=clear:both>Odniesienia cykliczne<p><strong>Odwołanie cykliczne</strong> (zwana także <strong>cykliczne referencja</strong> lub <strong>cykl</strong>) to seria odniesień, w której każdy obiekt odwołuje się do następnego, a ostatni obiekt odwołuje się z powrotem do pierwszego, powodując pętlę referencyjną. Referencje nie muszą być rzeczywistymi referencjami w C++ — mogą to być wskaźniki, unikalne identyfikatory lub inne sposoby identyfikowania konkretnych obiektów.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>W kontekście wspólnych wskaźników referencje będą wskaźnikami.<p>Dokładnie to widzimy w powyższym przypadku: „Lucy” wskazuje na „Ricky”, a „Ricky” wskazuje na „Lucy”. Za pomocą trzech wskaźników uzyskasz to samo, gdy A wskazuje na B, B wskazuje na C, a C wskazuje na A. Praktyczny efekt posiadania wspólnych wskaźników w cyklu jest taki, że każdy obiekt w końcu utrzymuje przy życiu następny obiekt — przy czym ostatni obiekt utrzymuje przy życiu pierwszy obiekt. Zatem żaden obiekt w serii nie może zostać zwolniony, ponieważ wszyscy myślą, że jakiś inny obiekt nadal tego potrzebuje!<p class="cpp-section cpp-topline" style=clear:both>Przypadek redukcyjny<p>Okazuje się, że ten problem cyklicznego odniesienia może wystąpić nawet w przypadku pojedynczego std::shared_ptr -- std::shared_ptr odwołującego się do obiektu, który go zawiera, nadal jest cyklem (tylko redukcyjnym). Chociaż jest to dość mało prawdopodobne, aby coś takiego kiedykolwiek miało miejsce w praktyce, pokażemy Ci dla dodatkowego zrozumienia:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+#include &lt;memory&gt; // dla std::shared_ptr
 
 class Resource
 {
 public:
-	std::shared_ptr&lt;Resource&gt; m_ptr {}; // initially created empty
+	std::shared_ptr&lt;Resource&gt; m_ptr {}; // początkowo utworzony pusty
 	
-	Resource() { std::cout &lt;&lt; &#34;Resource acquired\n&#34;; }
-	~Resource() { std::cout &lt;&lt; &#34;Resource destroyed\n&#34;; }
+	Resource() { std::cout &lt;&lt; "Resource acquired\n"; }
+	~Resource() { std::cout &lt;&lt; "Resource destroyed\n"; }
 };
 
 int main()
 {
 	auto ptr1 { std::make_shared&lt;Resource&gt;() };
 
-	ptr1-&gt;m_ptr = ptr1; // m_ptr is now sharing the Resource that contains it
+	ptr1-&gt;m_ptr = ptr1; // m_ptr udostępnia teraz zasób, który go zawiera
 
 	return 0;
 }</code></pre><p>W powyższym przykładzie, gdy ptr1 wykracza poza zakres, zasób nie zostaje zwolniony, ponieważ m_ptr zasobu współdzieli zasób. W tym momencie jedynym sposobem na uwolnienie zasobu byłoby ustawienie m_ptr na coś innego (aby nic już nie dzieliło zasobu). Ale nie możemy uzyskać dostępu do m_ptr, ponieważ ptr1 jest poza zakresem, więc nie mamy już sposobu, aby to zrobić. Zasób spowodował wyciek pamięci.<p>W ten sposób program wypisuje:<pre>Resource acquired
 </pre><p>i to wszystko.<p class="cpp-section cpp-topline" style=clear:both>Więc do czego w ogóle służy std::weak_ptr?<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>std::weak_ptr został zaprojektowany, aby rozwiązać opisany powyżej problem „własności cyklicznej”. Std::weak_ptr jest obserwatorem — może obserwować i uzyskiwać dostęp do tego samego obiektu co std::shared_ptr (lub inny std::weak_ptrs), ale nie jest uważany za właściciela. Pamiętaj, że gdy wskaźnik std::shared wykracza poza zakres, uwzględniane jest tylko to, czy inne std::shared_ptr są współwłaścicielami obiektu. std::weak_ptr się nie liczy!<p>Rozwiążmy nasz problem osobisty za pomocą std::weak_ptr:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
-#include &lt;memory&gt; // for std::shared_ptr and std::weak_ptr
+#include &lt;memory&gt; // dla std::shared_ptr i std::weak_ptr
 #include &lt;string&gt;
 
 class Person
 {
 	std::string m_name;
-	std::weak_ptr&lt;Person&gt; m_partner; // note: This is now a std::weak_ptr
+	std::weak_ptr&lt;Person&gt; m_partner; // uwaga: teraz żartuję std::weak_ptr
 
 public:
 		
 	Person(const std::string &amp;name): m_name(name)
 	{ 
-		std::cout &lt;&lt; m_name &lt;&lt; &#34; created\n&#34;;
+		std::cout &lt;&lt; m_name &lt;&lt; " created\n";
 	}
 	~Person()
 	{
-		std::cout &lt;&lt; m_name &lt;&lt; &#34; destroyed\n&#34;;
+		std::cout &lt;&lt; m_name &lt;&lt; " destroyed\n";
 	}
 
 	friend bool partnerUp(std::shared_ptr&lt;Person&gt; &amp;p1, std::shared_ptr&lt;Person&gt; &amp;p2)
@@ -106,7 +106,7 @@ public:
 		p1-&gt;m_partner = p2;
 		p2-&gt;m_partner = p1;
 
-		std::cout &lt;&lt; p1-&gt;m_name &lt;&lt; &#34; is now partnered with &#34; &lt;&lt; p2-&gt;m_name &lt;&lt; &#39;\n&#39;;
+		std::cout &lt;&lt; p1-&gt;m_name &lt;&lt; " is now partnered with " &lt;&lt; p2-&gt;m_name &lt;&lt; '\n';
 
 		return true;
 	}
@@ -114,8 +114,8 @@ public:
 
 int main()
 {
-	auto lucy { std::make_shared&lt;Person&gt;(&#34;Lucy&#34;) };
-	auto ricky { std::make_shared&lt;Person&gt;(&#34;Ricky&#34;) };
+	auto lucy { std::make_shared&lt;Person&gt;("Lucy") };
+	auto ricky { std::make_shared&lt;Person&gt;("Ricky") };
 
 	partnerUp(lucy, ricky);
 
@@ -126,23 +126,23 @@ Lucy is now partnered with Ricky
 Ricky destroyed
 Lucy destroyed
 </pre><p>Funkcjonalnie działa prawie identycznie jak problematyczny przykład. Jednak teraz, gdy Ricky wykracza poza zakres, widzi, że nie ma innych std::shared_ptr wskazujących na „Ricky” (std::weak_ptr z „Lucy” się nie liczy). Dlatego zwolni „Ricky”. To samo dotyczy Lucy.<p class="cpp-section cpp-topline" style=clear:both>Używanie std::weak_ptr<p>Jedną wadą std::weak_ptr jest to, że std::weak_ptr nie można bezpośrednio wykorzystać (nie mają operatora-&gt;). Aby użyć std::weak_ptr, musisz najpierw przekonwertować go na std::shared_ptr. Następnie możesz użyć std::shared_ptr. Aby przekonwertować std::weak_ptr na std::shared_ptr, możesz użyć funkcji członkowskiej lock(). Oto powyższy przykład, zaktualizowany, aby to pokazać:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
-#include &lt;memory&gt; // for std::shared_ptr and std::weak_ptr
+#include &lt;memory&gt; // dla std::shared_ptr i std::weak_ptr
 #include &lt;string&gt;
 
 class Person
 {
 	std::string m_name;
-	std::weak_ptr&lt;Person&gt; m_partner; // note: This is now a std::weak_ptr
+	std::weak_ptr&lt;Person&gt; m_partner; // uwaga: teraz żartuję std::weak_ptr
 
 public:
 
 	Person(const std::string &amp;name) : m_name(name)
 	{
-		std::cout &lt;&lt; m_name &lt;&lt; &#34; created\n&#34;;
+		std::cout &lt;&lt; m_name &lt;&lt; " created\n";
 	}
 	~Person()
 	{
-		std::cout &lt;&lt; m_name &lt;&lt; &#34; destroyed\n&#34;;
+		std::cout &lt;&lt; m_name &lt;&lt; " destroyed\n";
 	}
 
 	friend bool partnerUp(std::shared_ptr&lt;Person&gt; &amp;p1, std::shared_ptr&lt;Person&gt; &amp;p2)
@@ -153,24 +153,24 @@ public:
 		p1-&gt;m_partner = p2;
 		p2-&gt;m_partner = p1;
 
-		std::cout &lt;&lt; p1-&gt;m_name &lt;&lt; &#34; is now partnered with &#34; &lt;&lt; p2-&gt;m_name &lt;&lt; &#39;\n&#39;;
+		std::cout &lt;&lt; p1-&gt;m_name &lt;&lt; " is now partnered with " &lt;&lt; p2-&gt;m_name &lt;&lt; '\n';
 
 		return true;
 	}
 
-	std::shared_ptr&lt;Person&gt; getPartner() const { return m_partner.lock(); } // use lock() to convert weak_ptr to shared_ptr
+	std::shared_ptr&lt;Person&gt; getPartner() const { return m_partner.lock(); } // użyj lock() do konwersji słabe_ptr na wspólna_ptr
 	const std::string&amp; getName() const { return m_name; }
 };
 
 int main()
 {
-	auto lucy { std::make_shared&lt;Person&gt;(&#34;Lucy&#34;) };
-	auto ricky { std::make_shared&lt;Person&gt;(&#34;Ricky&#34;) };
+	auto lucy { std::make_shared&lt;Person&gt;("Lucy") };
+	auto ricky { std::make_shared&lt;Person&gt;("Ricky") };
 
 	partnerUp(lucy, ricky);
 
-	auto partner = ricky-&gt;getPartner(); // get shared_ptr to Ricky&#39;s partner
-	std::cout &lt;&lt; ricky-&gt;getName() &lt;&lt; &#34;&#39;s partner is: &#34; &lt;&lt; partner-&gt;getName() &lt;&lt; &#39;\n&#39;;
+	auto partner = ricky-&gt;getPartner(); // pobierz wspólna_ptr do partnera Ricky'ego
+	std::cout &lt;&lt; ricky-&gt;getName() &lt;&lt; "'s partner is: " &lt;&lt; partner-&gt;getName() &lt;&lt; '\n';
 
 	return 0;
 }</code></pre><p>Wypisuje:<pre>Lucy created
@@ -179,38 +179,38 @@ Lucy is now partnered with Ricky
 Ricky&#39;s partner is: Lucy
 Ricky destroyed
 Lucy destroyed
-</pre><p>Nie musimy się martwić zależnościami cyklicznymi ze zmienną std::shared_ptr „partner”, ponieważ jest to po prostu zmienna lokalna wewnątrz funkcji. Ostatecznie na końcu funkcji wyjdzie poza zakres, a liczba referencji zostanie zmniejszona o 1.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Unikanie zwisających wskaźników za pomocą std::weak_ptr<p>Rozważmy przypadek, w którym normalny „głupi” wskaźnik przechowuje adres jakiegoś obiektu, a następnie obiekt ten ulega zniszczeniu. Taki wskaźnik zwisa, a wyłuskanie wskaźnika doprowadzi do niezdefiniowanego zachowania. I niestety nie możemy określić, czy wskaźnik zawierający adres inny niż null jest zwisający, czy nie. To w dużej mierze powód, dla którego głupie wskaźniki są niebezpieczne.<p>Ponieważ std::weak_ptr nie utrzyma przy życiu posiadanego zasobu, podobnie możliwe jest, że std::weak_ptr pozostanie wskazujący zasób, który został zwolniony przez std::shared_ptr. Jednak std::weak_ptr ma fajnego asa w rękawie — ponieważ ma dostęp do liczby referencji dla obiektu, może określić, czy wskazuje na prawidłowy obiekt, czy nie! Jeśli liczba odwołań jest różna od zera, zasób jest nadal ważny. Jeśli licznik referencji wynosi zero, oznacza to, że zasób został zniszczony.<p>Najłatwiejszym sposobem sprawdzenia, czy std::weak_ptr jest poprawny, jest użycie <code>expired()</code> funkcji członkowskiej, która zwraca <code>true</code> jeśli std::weak_ptr wskazuje na nieprawidłowy obiekt i <code>false</code> w przeciwnym razie.<p>Oto prosty przykład pokazujący ta różnica w zachowaniu:<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// h/t to reader Waldo for an early version of this example
+</pre><p>Nie musimy się martwić zależnościami cyklicznymi ze zmienną std::shared_ptr „partner”, ponieważ jest to po prostu zmienna lokalna wewnątrz funkcji. Ostatecznie na końcu funkcji wyjdzie poza zakres, a liczba referencji zostanie zmniejszona o 1.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Unikanie zwisających wskaźników za pomocą std::weak_ptr<p>Rozważmy przypadek, w którym normalny „głupi” wskaźnik przechowuje adres jakiegoś obiektu, a następnie obiekt ten ulega zniszczeniu. Taki wskaźnik zwisa, a wyłuskanie wskaźnika doprowadzi do niezdefiniowanego zachowania. I niestety nie możemy określić, czy wskaźnik zawierający adres inny niż null jest zwisający, czy nie. To w dużej mierze powód, dla którego głupie wskaźniki są niebezpieczne.<p>Ponieważ std::weak_ptr nie utrzyma przy życiu posiadanego zasobu, podobnie możliwe jest, że std::weak_ptr pozostanie wskazujący zasób, który został zwolniony przez std::shared_ptr. Jednak std::weak_ptr ma fajnego asa w rękawie — ponieważ ma dostęp do liczby referencji dla obiektu, może określić, czy wskazuje na prawidłowy obiekt, czy nie! Jeśli liczba odwołań jest różna od zera, zasób jest nadal ważny. Jeśli licznik referencji wynosi zero, oznacza to, że zasób został zniszczony.<p>Najłatwiejszym sposobem sprawdzenia, czy std::weak_ptr jest poprawny, jest użycie <code>expired()</code> funkcji członkowskiej, która zwraca <code>true</code> jeśli std::weak_ptr wskazuje na nieprawidłowy obiekt i <code>false</code> w przeciwnym razie.<p>Oto prosty przykład pokazujący ta różnica w zachowaniu:<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// h/t czytelnikowi Waldo za wczesną wersję tego przykładu
 #include &lt;iostream&gt;
 #include &lt;memory&gt;
 
 class Resource
 {
 public:
-	Resource() { std::cerr &lt;&lt; &#34;Resource acquired\n&#34;; }
-	~Resource() { std::cerr &lt;&lt; &#34;Resource destroyed\n&#34;; }
+	Resource() { std::cerr &lt;&lt; "Resource acquired\n"; }
+	~Resource() { std::cerr &lt;&lt; "Resource destroyed\n"; }
 };
 
-// Returns a std::weak_ptr to an invalid object
+// Zwraca std::weak_ptr do nieprawidłowego obiektu
 std::weak_ptr&lt;Resource&gt; getWeakPtr()
 {
 	auto ptr{ std::make_shared&lt;Resource&gt;() };
 	return std::weak_ptr&lt;Resource&gt;{ ptr };
-} // ptr goes out of scope, Resource destroyed
+} // ptr wykracza poza zakres, zasób zniszczony
 
-// Returns a dumb pointer to an invalid object
+// Zwraca głupią wskaźnik do nieprawidłowego obiektu
 Resource* getDumbPtr()
 {
 	auto ptr{ std::make_unique&lt;Resource&gt;() };
 	return ptr.get();
-} // ptr goes out of scope, Resource destroyed
+} // ptr wykracza poza zakres, zasób zniszczony
 
 int main()
 {
 	auto dumb{ getDumbPtr() };
-	std::cout &lt;&lt; &#34;Our dumb ptr is: &#34; &lt;&lt; ((dumb == nullptr) ? &#34;nullptr\n&#34; : &#34;non-null\n&#34;);
+	std::cout &lt;&lt; "Our dumb ptr is: " &lt;&lt; ((dumb == nullptr) ? "nullptr\n" : "non-null\n");
 
 	auto weak{ getWeakPtr() };
-	std::cout &lt;&lt; &#34;Our weak ptr is: &#34; &lt;&lt; ((weak.expired()) ? &#34;expired\n&#34; : &#34;valid\n&#34;);
+	std::cout &lt;&lt; "Our weak ptr is: " &lt;&lt; ((weak.expired()) ? "expired\n" : "valid\n");
 
 	return 0;
 }</code></pre><p>Wypisuje:<pre>Resource acquired
@@ -220,41 +220,41 @@ Resource acquired
 Resource destroyed
 Our weak ptr is: expired
 </pre><p>Oba <code>getDumbPtr()</code> i <code>getWeakPtr()</code> użyj inteligentnego wskaźnika do alokacji zasobu — ten inteligentny wskaźnik gwarantuje, że przydzielony zasób zostanie zniszczony na końcu funkcji. Kiedy <code>getDumbPtr()</code> zwraca zasób*, zwraca wiszący wskaźnik (ponieważ std::unique_ptr zniszczył zasób na końcu funkcji). Kiedy <code>getWeakPtr()</code> zwraca std::weak_ptr, std::weak_ptr podobnie wskazuje na nieprawidłowy obiekt (ponieważ std::shared_ptr zniszczył zasób na końcu funkcji).<p>Wewnątrz funkcji main() najpierw sprawdzamy, czy zwrócony głupi wskaźnik to <code>nullptr</code>. Ponieważ głupi wskaźnik nadal przechowuje adres zwolnionego zasobu, test ten kończy się niepowodzeniem. Nie ma możliwości <code>main()</code> stwierdzenia, czy ten wskaźnik zwisa, czy nie. W tym przypadku, ponieważ jest to wskaźnik wiszący, gdybyśmy usunęli referencję do tego wskaźnika, spowodowałoby to niezdefiniowane zachowanie.<p>Następnie sprawdzamy, czy <code>weak.expired()</code> Jest <code>true</code>. Ponieważ liczba referencji dla obiektu wskazywanego przez <code>weak</code> Jest <code>0</code> (ponieważ wskazywany obiekt został już zniszczony), jest to  <code>true</code>. Kod w <code>main()</code> może zatem stwierdzić, że <code>weak</code> wskazuje nieprawidłowy obiekt i możemy odpowiednio warunkować nasz kod!<p>Zauważ, że jeśli std::weak_ptr wygasł, to nie powinniśmy go wywoływać <code>lock()</code> , ponieważ wskazywany obiekt został już zniszczony, więc nie ma obiektu do udostępnienia. Jeśli wywołasz  <code>lock()</code> na wygasłym std::weak_ptr, zwróci std::shared_ptr do  <code>nullptr</code>.<p class="cpp-section cpp-topline" style=clear:both>Wnioski<p>std::shared_ptr. Można go użyć, gdy potrzebujesz wielu inteligentnych wskaźników, które mogą być współwłaścicielami zasobu. Zasób zostanie zwolniony, gdy ostatni std::shared_ptr wyjdzie poza zakres. std::weak_ptr może być użyte, gdy potrzebujesz inteligentnego wskaźnika, który może zobaczyć i używać udostępnionego zasobu, ale nie uczestniczy w posiadaniu tego zasobu.<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p><p class="cpp-section cpp-topline" style=clear:both>Czas quizu<p class=cpp-quiz-question style=clear:both>Pytanie nr 1<p><ol start=1><li>Napraw program przedstawiony w sekcji „Przypadek redukcyjny”, tak aby zasób został prawidłowo zwolniony. Nie zmieniaj kodu w <code>main()</code>.</ol><p>Oto ponownie program dla ułatwienia odniesienia:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
-#include &lt;memory&gt; // for std::shared_ptr
+#include &lt;memory&gt; // dla std::shared_ptr
 
 class Resource
 {
 public:
-	std::shared_ptr&lt;Resource&gt; m_ptr {}; // initially created empty
+	std::shared_ptr&lt;Resource&gt; m_ptr {}; // początkowo utworzony pusty
 	
-	Resource() { std::cout &lt;&lt; &#34;Resource acquired\n&#34;; }
-	~Resource() { std::cout &lt;&lt; &#34;Resource destroyed\n&#34;; }
+	Resource() { std::cout &lt;&lt; "Resource acquired\n"; }
+	~Resource() { std::cout &lt;&lt; "Resource destroyed\n"; }
 };
 
 int main()
 {
 	auto ptr1 { std::make_shared&lt;Resource&gt;() };
 
-	ptr1-&gt;m_ptr = ptr1; // m_ptr is now sharing the Resource that contains it
+	ptr1-&gt;m_ptr = ptr1; // m_ptr udostępnia teraz zasób, który go zawiera
 
 	return 0;
 }</code></pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_0 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
-#include &lt;memory&gt; // for std::shared_ptr and std::weak_ptr
+#include &lt;memory&gt; // dla std::shared_ptr i std::weak_ptr
 
 class Resource
 {
 public:
-	std::weak_ptr&lt;Resource&gt; m_ptr {}; // use std::weak_ptr so m_ptr doesn&#39;t keep the Resource alive
+	std::weak_ptr&lt;Resource&gt; m_ptr {}; // użyj std::weak_ptr, aby m_ptr nie zachowywał zasobu żywy
 	
-	Resource() { std::cout &lt;&lt; &#34;Resource acquired\n&#34;; }
-	~Resource() { std::cout &lt;&lt; &#34;Resource destroyed\n&#34;; }
+	Resource() { std::cout &lt;&lt; "Resource acquired\n"; }
+	~Resource() { std::cout &lt;&lt; "Resource destroyed\n"; }
 };
 
 int main()
 {
 	auto ptr1 { std::make_shared&lt;Resource&gt;() };
 
-	ptr1-&gt;m_ptr = ptr1; // m_ptr is now sharing the Resource that contains it
+	ptr1-&gt;m_ptr = ptr1; // m_ptr udostępnia teraz zasób, który go zawiera
 
 	return 0;
 }</code></pre></div><div class=prevnext><div class=prevnext-inline><a class=nav-link href="../chapter-22-summary-and-quiz/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>22.x</span>Rozdział 22, podsumowanie i quiz</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../stdshared_ptr/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>22.6</span>std::shared_ptr</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/circular-dependency-issues-with-stdshared_ptr-and-stdweak_ptr/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../stdshared_ptr/index.html" rel=prev><span>22.6 — std::shared_ptr</span></a></div><div class=nav-next><em>Następny post</em><a href="../chapter-22-summary-and-quiz/index.html" rel=next><span>22.x — Rozdział 22, podsumowanie i quiz</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>

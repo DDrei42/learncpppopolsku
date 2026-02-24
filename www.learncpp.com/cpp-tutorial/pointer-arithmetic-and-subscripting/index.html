@@ -13,14 +13,14 @@
 <button class=searchsubmit><span class=screen-reader-text>Szukaj</span><i class=icon-search></i></button>
 <input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=68326></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="17.9 — Arytmetyka wskaźników i indeks dolny" src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-2334 class="post-2334 post type-post status-publish format-standard hentry category-cpp-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>17.9 — Arytmetyka wskaźników i indeks dolny</h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Autor></i><a class="url fn n" rel=author href=/www.learncpp.com/author/Alex/ title="Wyświetl wszystkie posty Alexa" itemprop=url><em itemprop=name>Alex</em></a></span>
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2015-08-15T16:31:41-07:00 itemprop=datePublished>15 sierpnia 2015, 16:31 PDT</time>
-<time class=updated datetime=2024-08-10T16:19:16-07:00 itemprop=dateModified>10 sierpnia 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>W lekcji <a href="../introduction-to-containers-and-arrays/index.html">16.1 — Wprowadzenie do kontenerów i tablic</a>, wspomnieliśmy, że tablice są przechowywane sekwencyjnie w pamięci. Podczas tej lekcji przyjrzymy się bliżej, jak działa matematyka indeksująca tablice.<p>Chociaż nie będziemy używać matematyki indeksującej na przyszłych lekcjach, tematy poruszane w tej lekcji dadzą ci wgląd w to, jak w rzeczywistości działają pętle for oparte na zakresach, i przydadzą się później, gdy omówimy iteratory.<p class="cpp-section cpp-topline" style=clear:both>Co to jest arytmetyka wskaźników?<p><strong>Arytmetyka wskaźników</strong> to funkcja, która pozwala nam zastosować pewne operatory arytmetyczne na liczbach całkowitych (dodawanie, odejmowanie, zwiększanie lub zmniejszanie) do wskaźnika w celu utworzenia nowego adresu pamięci.<p>Przy danym wskaźniku <code>ptr</code>, <code>ptr + 1</code> zwraca adres <em>następny obiekt</em> w pamięci (w zależności od typu, na który wskazuje). Zatem jeśli <code>ptr</code> jest <code>int*</code>, a <code>int</code> ma 4 bajty, <code>ptr + 1</code> zwróci adres pamięci znajdujący się 4 bajty po <code>ptr</code>, I <code>ptr + 2</code> zwróci adres pamięci, który jest 8 bajtów po <code>ptr</code>.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+<time class=updated datetime=2024-08-10T16:19:16-07:00 itemprop=dateModified>10 sierpnia 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>W lekcji <a href="../introduction-to-containers-and-arrays/index.html">16.1 — Wprowadzenie do kontenerów i tablic</a>, wspomnieliśmy, że tablice są przechowywane sekwencyjnie w pamięci. Podczas tej lekcji przyjrzymy się bliżej, jak działa matematyka indeksująca tablice.<p>Chociaż nie będziemy używać matematyki indeksującej na przyszłych lekcjach, tematy poruszane w tej lekcji dadzą ci wgląd w to, jak w rzeczywistości działają pętle for oparte na zakresach, i przydadzą się później, gdy omówimy iteratory.<p class="cpp-section cpp-topline" style=clear:both>Co to jest arytmetyka wskaźników?<p><strong>Arytmetyka wskaźników</strong> to funkcja, która pozwala nam zastosować pewne operatory arytmetyczne na liczbach całkowitych (dodawanie, odejmowanie, zwiększanie lub zmniejszanie) do wskaźnika w celu utworzenia nowego adresu pamięci.<p>Przy danym wskaźniku <code>ptr</code>, <code>ptr + 1</code> zwraca adres <em>następny obiekt</em> w pamięci (w zależności od typu, na który wskazuje). Zatem jeśli <code>ptr</code> jest <code>int*</code>, <code>int</code> ma 4 bajty, <code>ptr + 1</code> zwróci adres pamięci znajdujący się 4 bajty po <code>ptr</code>, i <code>ptr + 2</code> zwróci adres pamięci, który jest 8 bajtów po <code>ptr</code>.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 int main()
 {
     int x {};
-    const int* ptr{ &amp;x }; // assume 4 byte ints
+    const int* ptr{ &amp;x }; // załóż 4-bajtowe int
 
-    std::cout &lt;&lt; ptr &lt;&lt; &#39; &#39; &lt;&lt; (ptr + 1) &lt;&lt; &#39; &#39; &lt;&lt; (ptr + 2) &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; ptr &lt;&lt; ' ' &lt;&lt; (ptr + 1) &lt;&lt; ' ' &lt;&lt; (ptr + 2) &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Na maszynie autora wydrukowało to:<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><pre>00AFFD80 00AFFD84 00AFFD88
@@ -29,9 +29,9 @@ int main()
 int main()
 {
     int x {};
-    const int* ptr{ &amp;x }; // assume 4 byte ints
+    const int* ptr{ &amp;x }; // załóż 4-bajtowe int
 
-    std::cout &lt;&lt; ptr &lt;&lt; &#39; &#39; &lt;&lt; (ptr - 1) &lt;&lt; &#39; &#39; &lt;&lt; (ptr - 2) &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; ptr &lt;&lt; ' ' &lt;&lt; (ptr - 1) &lt;&lt; ' ' &lt;&lt; (ptr - 2) &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Na maszynie autora wydrukowało to:<pre>00AFFD80 00AFFD7C 00AFFD78
@@ -40,15 +40,15 @@ int main()
 int main()
 {
     int x {};
-    const int* ptr{ &amp;x }; // assume 4 byte ints
+    const int* ptr{ &amp;x }; // załóż 4-bajtowe int
 
-    std::cout &lt;&lt; ptr &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; ptr &lt;&lt; '\n';
 
     ++ptr; // ptr = ptr + 1
-    std::cout &lt;&lt; ptr &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; ptr &lt;&lt; '\n';
 
     --ptr; // ptr = ptr - 1
-    std::cout &lt;&lt; ptr &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; ptr &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Na maszynie autora wydrukowało to:<pre>00AFFD80 00AFFD84 00AFFD80
@@ -58,8 +58,8 @@ int main()
 {
     const int arr[] { 9, 7, 5, 3, 1 };
     
-    const int* ptr{ arr }; // a normal pointer holding the address of element 0
-    std::cout &lt;&lt; ptr[2];   // subscript ptr to get element 2, prints 5
+    const int* ptr{ arr }; // normalny wskaźnik przechowujący adres elementu 0
+    std::cout &lt;&lt; ptr[2];   // ptr z indeksem dolnym, aby uzyskać element 2, wypisuje 5
 
     return 0;
 }</code></pre><p>Przyjrzyjmy się bliżej, co się dzieje tutaj.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>Okazuje się, że operacja indeksu dolnego <code>ptr[n]</code> jest zwięzłą składnią odpowiadającą bardziej szczegółowemu wyrażeniu <code>*((ptr) + (n))</code>. Zauważysz, że jest to po prostu arytmetyka wskaźników, z dodatkowymi nawiasami, aby zapewnić, że wszystko zostanie obliczone we właściwej kolejności, oraz ukrytym wyłuskiwaniem, aby uzyskać obiekt pod tym adresem.<p>Najpierw inicjujemy <code>ptr</code> z <code>arr</code>. Podczas oceny <code>arr</code> jest używany jako inicjator, rozpada się na wskaźnik przechowujący adres elementu z indeksem 0. Zatem <code>ptr</code> przechowuje teraz adres elementu 0.<p>Następnie wypisujemy <code>ptr[2]</code>. <code>ptr[2]</code> jest odpowiednikiem <code>*((ptr) + (2))</code>, co jest równoznaczne z <code>*(ptr + 2)</code>. <code>ptr + 2</code> zwraca adres obiektu znajdującego się dwa obiekty dalej <code>ptr</code>, czyli element o indeksie 2. Obiekt pod tym adresem jest następnie zwracany do wywołującego.<p>Przyjrzyjmy się innemu przykładowi:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -68,13 +68,13 @@ int main()
 {
     const int arr[] { 3, 2, 1 };
 
-    // First, let&#39;s use subscripting to get the address and values of our array elements
-    std::cout &lt;&lt; &amp;arr[0] &lt;&lt; &#39; &#39; &lt;&lt; &amp;arr[1] &lt;&lt; &#39; &#39; &lt;&lt; &amp;arr[2] &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; arr[0] &lt;&lt; &#39; &#39; &lt;&lt; arr[1] &lt;&lt; &#39; &#39; &lt;&lt; arr[2] &lt;&lt; &#39;\n&#39;;
+    // Najpierw użyjmy indeksu dolnego, aby uzyskać adres i wartości elementów naszej tablicy
+    std::cout &lt;&lt; &amp;arr[0] &lt;&lt; ' ' &lt;&lt; &amp;arr[1] &lt;&lt; ' ' &lt;&lt; &amp;arr[2] &lt;&lt; '\n';
+    std::cout &lt;&lt; arr[0] &lt;&lt; ' ' &lt;&lt; arr[1] &lt;&lt; ' ' &lt;&lt; arr[2] &lt;&lt; '\n';
 
-    // Now let&#39;s do the equivalent using pointer arithmetic
-    std::cout &lt;&lt; arr&lt;&lt; &#39; &#39; &lt;&lt; (arr+ 1) &lt;&lt; &#39; &#39; &lt;&lt; (arr+ 2) &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; *arr&lt;&lt; &#39; &#39; &lt;&lt; *(arr+ 1) &lt;&lt; &#39; &#39; &lt;&lt; *(arr+ 2) &lt;&lt; &#39;\n&#39;;
+    // Teraz zróbmy to samo za pomocą wskaźnika arytmetyka
+    std::cout &lt;&lt; arr&lt;&lt; ' ' &lt;&lt; (arr+ 1) &lt;&lt; ' ' &lt;&lt; (arr+ 2) &lt;&lt; '\n';
+    std::cout &lt;&lt; *arr&lt;&lt; ' ' &lt;&lt; *(arr+ 1) &lt;&lt; ' ' &lt;&lt; *(arr+ 2) &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Na maszynie autora wydrukowało to:<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><pre>00AFFD80 00AFFD84 00AFFD88
@@ -87,20 +87,20 @@ int main()
 int main()
 {
     const int arr[] { 9, 8, 7, 6, 5 };
-    const int *ptr { arr }; // arr decays into a pointer to element 0
+    const int *ptr { arr }; // arr rozpada się na wskaźnik do elementu 0
 
-    // Prove that we&#39;re pointing at element 0
-    std::cout &lt;&lt; *ptr &lt;&lt; ptr[0] &lt;&lt; &#39;\n&#39;; // prints 99
-    // Prove that ptr[1] is element 1
-    std::cout &lt;&lt; *(ptr+1) &lt;&lt; ptr[1] &lt;&lt; &#39;\n&#39;; // prints 88
+    // Udowodnij, że wskazujemy na element 0
+    std::cout &lt;&lt; *ptr &lt;&lt; ptr[0] &lt;&lt; '\n'; // prints 99
+    // Udowodnij, że ptr[1] jest elementem 1
+    std::cout &lt;&lt; *(ptr+1) &lt;&lt; ptr[1] &lt;&lt; '\n'; // prints 88
 
-    // Now set ptr to point at element 3
+    // Teraz pt ustawr na element 3
     ptr = &amp;arr[3];
 
-    // Prove that we&#39;re pointing at element 3
-    std::cout &lt;&lt; *ptr &lt;&lt; ptr[0] &lt;&lt; &#39;\n&#39;; // prints 66
-    // Prove that ptr[1] is element 4!
-    std::cout &lt;&lt; *(ptr+1) &lt;&lt; ptr[1] &lt;&lt; &#39;\n&#39;; // prints 55
+    // Udowodnij, że wskazujemy na element 3
+    std::cout &lt;&lt; *ptr &lt;&lt; ptr[0] &lt;&lt; '\n'; // prints 66
+    // Udowodnij, że ptr[1] jest elementem 4!
+    std::cout &lt;&lt; *(ptr+1) &lt;&lt; ptr[1] &lt;&lt; '\n'; // prints 55
  
     return 0;
 }</code></pre><p>Zauważysz jednak, że nasz program jest znacznie bardziej zagmatwany, jeśli nie można założyć, że <code>ptr[1]</code> jest zawsze elementem o indeksie 1. Z tego powodu zalecamy stosowanie indeksu dolnego tylko przy indeksowaniu od początku tablicy (element 0). Arytmetyki wskaźników używaj tylko podczas pozycjonowania względnego.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Preferuj indeksowanie dolne podczas indeksowania od początku tablicy (element 0), tak aby indeksy tablicy pokrywały się z elementem.<p>Preferuj arytmetykę wskaźników podczas pozycjonowania względnego od danego elementu.</div><p class="cpp-section cpp-topline" style=clear:both>Indeksy ujemne<p>W ostatniej lekcji wspominaliśmy o tym (w przeciwieństwie do standardowych klas kontenerów bibliotek) indeks tablicy w stylu C może być liczbą całkowitą bez znaku lub liczbą całkowitą ze znakiem. Nie zrobiono tego tylko dla wygody — w rzeczywistości możliwe jest indeksowanie tablicy w stylu C z ujemnym indeksem dolnym. Brzmi zabawnie, ale ma sens.<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>Właśnie omówiliśmy, że <code>*(ptr+1)</code> zwraca <em>następny obiekt</em> w pamięci.  <code>ptr[1]</code> to po prostu wygodna składnia pozwalająca zrobić to samo.<p>Na początku tej lekcji zauważyliśmy, że <code>*(ptr-1)</code> zwraca <em>poprzedni obiekt</em> w pamięci. Chcesz zgadnąć, jaki jest odpowiednik indeksu dolnego? Tak, <code>ptr[-1]</code>.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;array&gt;
@@ -110,13 +110,13 @@ int main()
 {
     const int arr[] { 9, 8, 7, 6, 5 };
 
-    // Set ptr to point at element 3
+    // Ustaw ptr na element 3
     const int* ptr { &amp;arr[3] };
 
-    // Prove that we&#39;re pointing at element 3
-    std::cout &lt;&lt; *ptr &lt;&lt; ptr[0] &lt;&lt; &#39;\n&#39;; // prints 66
-    // Prove that ptr[-1] is element 2!
-    std::cout &lt;&lt; *(ptr-1) &lt;&lt; ptr[-1] &lt;&lt; &#39;\n&#39;; // prints 77
+    // Udowodnij, że wskazujemy na element 3
+    std::cout &lt;&lt; *ptr &lt;&lt; ptr[0] &lt;&lt; '\n'; // prints 66
+    // Udowodnij, że ptr[-1] jest elementem 2!
+    std::cout &lt;&lt; *(ptr-1) &lt;&lt; ptr[-1] &lt;&lt; '\n'; // prints 77
  
     return 0;
 }</code></pre><p class="cpp-section cpp-topline" style=clear:both>Arytmetyka wskaźników może być używana do poruszania się po tablicy<p>Jednym z najczęstszych zastosowań arytmetyki wskaźników jest iteracja po tablicy w stylu C bez jawnego indeksowania. Poniższy przykład ilustruje, jak to się robi:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -125,12 +125,12 @@ int main()
 {
 	constexpr int arr[]{ 9, 7, 5, 3, 1 };
 
-	const int* begin{ arr };                // begin points to start element
-	const int* end{ arr + std::size(arr) }; // end points to one-past-the-end element
+	const int* begin{ arr };                // punkty początkowe do elementu początkowego
+	const int* end{ arr + std::size(arr) }; // punkt końcowy elementu znajdującego się za końcem
 
-	for (; begin != end; ++begin)           // iterate from begin up to (but excluding) end
+	for (; begin != end; ++begin)           // iteruj od początku do (ale z wyłączeniem) końca
 	{
-		std::cout &lt;&lt; *begin &lt;&lt; &#39; &#39;;     // dereference our loop variable to get the current element
+		std::cout &lt;&lt; *begin &lt;&lt; ' ';     // usuń odwołanie do naszej pętli zmienna, aby uzyskać bieżący element
 	}
 
 	return 0;
@@ -139,20 +139,20 @@ int main()
 
 void printArray(const int* begin, const int* end)
 {
-	for (; begin != end; ++begin)   // iterate from begin up to (but excluding) end
+	for (; begin != end; ++begin)   // iteruj od początku do (ale z wyłączeniem) końca
 	{
-		std::cout &lt;&lt; *begin &lt;&lt; &#39; &#39;; // dereference our loop variable to get the current element
+		std::cout &lt;&lt; *begin &lt;&lt; ' '; // usuń odwołanie do naszej pętli zmienna, aby uzyskać bieżący element
 	}
     
-	std::cout &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; '\n';
 }
 
 int main()
 {
 	constexpr int arr[]{ 9, 7, 5, 3, 1 };
 
-	const int* begin{ arr };                // begin points to start element
-	const int* end{ arr + std::size(arr) }; // end points to one-past-the-end element
+	const int* begin{ arr };                // punkty początkowe do elementu początkowego
+	const int* end{ arr + std::size(arr) }; // punkt końcowy elementu znajdującego się za końcem
 
 	printArray(begin, end);
 
@@ -163,9 +163,9 @@ int main()
 {
 	constexpr int arr[]{ 9, 7, 5, 3, 1 };
 
-	for (auto e : arr)         // iterate from `begin` up to (but excluding) `end`
+	for (auto e : arr)         // iteruj od `początku` do (ale z wyłączeniem) `końca`
 	{
-		std::cout &lt;&lt; e &lt;&lt; &#39; &#39;; // dereference our loop variable to get the current element
+		std::cout &lt;&lt; e &lt;&lt; ' '; // usuń odwołanie do naszej pętli zmienna, aby uzyskać bieżący element
 	}
 
 	return 0;
@@ -185,13 +185,13 @@ int main()
 {
 	constexpr int arr[]{ 9, 7, 5, 3, 1 };
 
-	auto __begin = arr;                // arr is our begin-expr
-	auto __end = arr + std::size(arr); // arr + std::size(arr) is our end-expr
+	auto __begin = arr;                // arr jest naszym wyrażeniem początkowym
+	auto __end = arr + std::size(arr); // arr + std::size(arr) to nasze wyrażenie końcowe
 
 	for ( ; __begin != __end; ++__begin)
 	{
-		auto e = *__begin;         // e is our range-declaration
-		std::cout &lt;&lt; e &lt;&lt; &#39; &#39;;     // here is our loop-statement
+		auto e = *__begin;         // e to nasza deklaracja zakresu
+		std::cout &lt;&lt; e &lt;&lt; ' ';     // tutaj jest nasza instrukcja pętli
 	}
 
 	return 0;

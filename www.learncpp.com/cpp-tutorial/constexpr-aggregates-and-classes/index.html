@@ -22,10 +22,10 @@ constexpr int greater(int x, int y)
 
 int main()
 {
-    std::cout &lt;&lt; greater(5, 6) &lt;&lt; &#39;\n&#39;; // greater(5, 6) may be evaluated at compile-time or runtime
+    std::cout &lt;&lt; greater(5, 6) &lt;&lt; '\n'; // większy(5, 6) może zostać oceniony w czasie kompilacji lub w czasie wykonywania
 
-    constexpr int g { greater(5, 6) };  // greater(5, 6) must be evaluated at compile-time
-    std::cout &lt;&lt; g &lt;&lt; &#39;\n&#39;;             // prints 6
+    constexpr int g { greater(5, 6) };  // większy(5, 6) musi zostać oceniony w czasie kompilacji
+    std::cout &lt;&lt; g &lt;&lt; '\n';             // prints 6
 
     return 0;
 }</code></pre><p>W tym przykładzie  <code>greater()</code> jest funkcją constexpr i <code>greater(5, 6)</code> jest wyrażeniem stałym, które może być oceniane w czasie kompilacji lub w czasie wykonywania. Ponieważ <code>std::cout &lt;&lt; greater(5, 6)</code> wywołania <code>greater(5, 6)</code> w kontekście innym niż constexpr, kompilator może wybrać, czy ma być oceniany <code>greater(5, 6</code>) w czasie kompilacji, czy w czasie wykonywania. Kiedy <code>greater(5, 6)</code> służy do inicjowania zmiennej constexpr <code>g</code>, <code>greater(5, 6)</code> jest wywoływany w kontekście constexpr i musi zostać oceniony w czasie kompilacji.<p>Rozważmy teraz następujący podobny przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -43,21 +43,21 @@ struct Pair
 
 int main()
 {
-    Pair p { 5, 6 };                  // inputs are constexpr values
-    std::cout &lt;&lt; p.greater() &lt;&lt; &#39;\n&#39;; // p.greater() evaluates at runtime
+    Pair p { 5, 6 };                  // wejścia to constexpr wartości
+    std::cout &lt;&lt; p.greater() &lt;&lt; '\n'; // p.greater() evaluates at runtime
 
-    constexpr int g { p.greater() };  // compile error: greater() not constexpr
-    std::cout &lt;&lt; g &lt;&lt; &#39;\n&#39;;
+    constexpr int g { p.greater() };  // błąd kompilacji: większa() nie constexpr
+    std::cout &lt;&lt; g &lt;&lt; '\n';
 
     return 0;
-}</code></pre><p>W tej wersji mamy zagregowaną strukturę o nazwie <code>Pair</code>, I <code>greater()</code> jest teraz funkcją składową. Ponieważ jednak funkcja składowa <code>greater()</code> nie jest constexpr, <code>p.greater()</code> nie jest wyrażeniem stałym. Kiedy <code>std::cout &lt;&lt; p.greater()</code> wywołania <code>p.greater()</code> (w kontekście innym niż constexpr), <code>p.greater()</code> będą oceniane w czasie wykonywania. Jednakże, gdy próbujemy użyć <code>p.greater()</code> do inicjacji zmiennej constexpr <code>g</code>, pojawia się błąd kompilacji, ponieważ <code>p.greater()</code> nie można ocenić w czasie kompilacji.<p>Ponieważ dane wejściowe do <code>p</code> są wartościami constexpr (<code>5</code> i <code>6</code>), wydaje się, że <code>p.greater()</code> powinno być w stanie oceniane w czasie kompilacji. Ale jak to zrobić?<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Funkcje członkowskie Constexpr<p>Podobnie jak funkcje niebędące składowymi, funkcje składowe można utworzyć constexpr za pomocą <code>constexpr</code> słowa kluczowego. Funkcje składowe Constexpr można oceniać w czasie kompilacji lub w czasie wykonywania.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+}</code></pre><p>W tej wersji mamy zagregowaną strukturę o nazwie <code>Pair</code>, i <code>greater()</code> jest teraz funkcją składową. Ponieważ jednak funkcja składowa <code>greater()</code> nie jest constexpr, <code>p.greater()</code> nie jest wyrażeniem stałym. Kiedy <code>std::cout &lt;&lt; p.greater()</code> wywołania <code>p.greater()</code> (w kontekście innym niż constexpr), <code>p.greater()</code> będą oceniane w czasie wykonywania. Jednakże, gdy próbujemy użyć <code>p.greater()</code> do inicjacji zmiennej constexpr <code>g</code>, pojawia się błąd kompilacji, ponieważ <code>p.greater()</code> nie można ocenić w czasie kompilacji.<p>Ponieważ dane wejściowe do <code>p</code> są wartościami constexpr (<code>5</code> i <code>6</code>), wydaje się, że <code>p.greater()</code> powinno być w stanie oceniane w czasie kompilacji. Ale jak to zrobić?<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Funkcje członkowskie Constexpr<p>Podobnie jak funkcje niebędące składowymi, funkcje składowe można utworzyć constexpr za pomocą słowa kluczowego <code>constexpr</code>. Funkcje składowe Constexpr można oceniać w czasie kompilacji lub w czasie wykonywania.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 struct Pair
 {
     int m_x {};
     int m_y {};
 
-    constexpr int greater() const // can evaluate at either compile-time or runtime
+    constexpr int greater() const // można ocenić w czasie kompilacji lub w czasie wykonywania
     {
         return (m_x &gt; m_y  ? m_x : m_y);
     }
@@ -66,15 +66,15 @@ struct Pair
 int main()
 {
     Pair p { 5, 6 };
-    std::cout &lt;&lt; p.greater() &lt;&lt; &#39;\n&#39;; // okay: p.greater() evaluates at runtime
+    std::cout &lt;&lt; p.greater() &lt;&lt; '\n'; // okay: p.greater() evaluates at runtime
 
-    constexpr int g { p.greater() };  // compile error: p not constexpr
-    std::cout &lt;&lt; g &lt;&lt; &#39;\n&#39;;
+    constexpr int g { p.greater() };  // błąd kompilacji: p nie constexpr
+    std::cout &lt;&lt; g &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>W tym przykładzie utworzyliśmy <code>greater()</code> funkcję constexpr, więc kompilator może ją ocenić w czasie wykonywania lub kompilacji.<p>Kiedy wywołujemy  <code>p.greater()</code> w wyrażeniu środowiska wykonawczego <code>std::cout &lt;&lt; p.greater()</code>, ocenia ona runtime.<p>Jednakże, gdy <code>p.greater()</code> służy do inicjowania zmiennej constexpr <code>g</code>, pojawia się błąd kompilatora. Chociaż <code>greater()</code> jest teraz constexpr, <code>p</code> w dalszym ciągu nie jest constexpr, zatem <code>p.greater()</code> nie jest wyrażeniem stałym.<p class="cpp-section cpp-topline" style=clear:both>Constexpr agreguje<p>OK, więc jeśli potrzebujemy <code>p</code> być constexpr, zróbmy to constexpr:<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-struct Pair // Pair is an aggregate
+struct Pair // Para jest agregatem
 {
     int m_x {};
     int m_y {};
@@ -87,16 +87,16 @@ struct Pair // Pair is an aggregate
 
 int main()
 {
-    constexpr Pair p { 5, 6 };        // now constexpr
-    std::cout &lt;&lt; p.greater() &lt;&lt; &#39;\n&#39;; // p.greater() evaluates at runtime or compile-time
+    constexpr Pair p { 5, 6 };        // teraz constexpr
+    std::cout &lt;&lt; p.greater() &lt;&lt; '\n'; // p.greater() ocenia w czasie wykonywania lub czas kompilacji
 
     constexpr int g { p.greater() };  // p.greater() must evaluate at compile-time
-    std::cout &lt;&lt; g &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; g &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Ponieważ <code>Pair</code> jest agregat, a agregaty domyślnie obsługują constexpr, to koniec. To działa! Ponieważ  <code>p</code> jest typem constexpr i <code>greater()</code> jest funkcją składową constexpr, <code>p.greater()</code> jest wyrażeniem stałym i może być używane w miejscach, gdzie dozwolone są tylko wyrażenia stałe.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Powiązana treść<p>Omówiliśmy agregacje w lekcji <a href="../struct-aggregate-initialization/index.html">13.8 -- Inicjowanie agregatu Struct</a>.</div><p class="cpp-section cpp-topline" style=clear:both>Obiekty klasy Constexpr i constexpr konstruktory<p>Teraz uczyńmy nasz <code>Pair</code> nieagregatem:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-class Pair // Pair is no longer an aggregate
+class Pair // Para nie jest już agregatem
 {
 private:
     int m_x {};
@@ -113,11 +113,11 @@ public:
 
 int main()
 {
-    constexpr Pair p { 5, 6 };       // compile error: p is not a literal type
-    std::cout &lt;&lt; p.greater() &lt;&lt; &#39;\n&#39;;
+    constexpr Pair p { 5, 6 };       // błąd kompilacji: p nie jest typem dosłownym
+    std::cout &lt;&lt; p.greater() &lt;&lt; '\n';
 
     constexpr int g { p.greater() };
-    std::cout &lt;&lt; g &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; g &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Ten przykład jest prawie identyczny z poprzednim, z tą różnicą, że <code>Pair</code> nie jest już agregatem (ze względu na posiadanie prywatnych elementów danych i konstruktora).<p>Kiedy kompilujemy ten program, pojawia się błąd kompilatora dotyczący <code>Pair</code> nie bycia „literałem typ”. Powiedz co?<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>W C++ instrukcja  <strong>typ literału</strong> to dowolny typ, dla którego możliwe jest utworzenie obiektu w wyrażeniu stałym. Innymi słowy, obiekt nie może być constexpr, chyba że typ kwalifikuje się jako typ dosłowny. A nasz nieagregat <code>Pair</code> nie kwalifikuje się.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nomenklatura<p>Typ dosłowny i typ dosłowny to różne (ale powiązane) rzeczy. Literał to wartość constexpr wstawiana do kodu źródłowego. Typ literału to typ, którego można użyć jako typu wartości constexpr. Literał zawsze ma typ dosłowny. Jednakże wartość lub obiekt typu literałowego nie musi być literałem.</div><p>Definicja typu literału jest złożona, a podsumowanie można znaleźć na <a href=https://en.cppreference.com/w/cpp/named_req/LiteralType>cppreference</a>. Warto jednak zauważyć, że typy literałowe obejmują:<ul><li>Typy skalarne (te przechowujące pojedynczą wartość, takie jak typy podstawowe i wskaźniki)<li>Typy referencyjne<li>Większość agregatów<li>Klasy posiadające konstruktor constexpr</ul><p>A teraz widzimy, dlaczego nasz <code>Pair</code> nie jest typem dosłownym. Po utworzeniu instancji obiektu klasy kompilator wywoła funkcję konstruktora w celu zainicjowania obiektu. A funkcja konstruktora w naszej klasie  <code>Pair</code>  nie jest constexpr, więc nie można jej wywołać w czasie kompilacji. Dlatego <code>Pair</code> obiekty nie mogą być constexpr.<p>Poprawka tego jest prosta: po prostu tworzymy również nasz konstruktor <code>constexpr</code> :<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -129,7 +129,7 @@ private:
     int m_y {};
 
 public:
-    constexpr Pair(int x, int y): m_x { x }, m_y { y } {} // now constexpr
+    constexpr Pair(int x, int y): m_x { x }, m_y { y } {} // teraz constexpr
 
     constexpr int greater() const
     {
@@ -140,10 +140,10 @@ public:
 int main()
 {
     constexpr Pair p { 5, 6 };
-    std::cout &lt;&lt; p.greater() &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; p.greater() &lt;&lt; '\n';
 
     constexpr int g { p.greater() };
-    std::cout &lt;&lt; g &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; g &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Działa to zgodnie z oczekiwaniami, podobnie jak nasza zagregowana wersja <code>Pair</code>  zrobił.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Jeśli chcesz, aby Twoja klasa mogła być oceniana w czasie kompilacji, utwórz funkcje składowe i konstruktor constexpr.</div><p>Niejawnie zdefiniowane konstruktory są constexpr, jeśli można je jako takie zdefiniować. Konstruktory z domyślnymi ustawieniami muszą być jawnie zdefiniowane jako constexpr.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>Constexpr jest częścią interfejsu klasy i usunięcie go później spowoduje przerwanie funkcji wywołujących wywołujących funkcję w stałym kontekście.</div><p class="cpp-section cpp-topline" style=clear:both>Członkowie Constexpr mogą być potrzebni w przypadku obiektów innych niż constexpr/non-const<p>W powyższym przykładzie, ponieważ inicjator constexpr zmienna <code>g</code> musi być wyrażeniem stałym, jasne jest, że <code>p.greater()</code> musi być wyrażeniem stałym, a zatem <code>p</code>, instrukcja <code>Pair</code> konstruktorem i <code>greater()</code> muszą wszystkie być constexpr.<p>Jeśli jednak zastąpimy <code>p.greater()</code> funkcją constexpr, sytuacja się trochę pogorszy oczywiste:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -165,14 +165,14 @@ public:
 
 constexpr int init()
 {
-    Pair p { 5, 6 };    // requires constructor to be constexpr when evaluated at compile-time
-    return p.greater(); // requires greater() to be constexpr when evaluated at compile-time
+    Pair p { 5, 6 };    // wymaga, aby konstruktor był constexpr podczas oceny w czasie kompilacji
+    return p.greater(); // wymaga, aby funkcja Great() była constexpr podczas oceny w czasie kompilacji
 }
 
 int main()
 {
-    constexpr int g { init() }; // init() evaluated in compile-time context
-    std::cout &lt;&lt; g &lt;&lt; &#39;\n&#39;;
+    constexpr int g { init() }; // init() oceniana w kontekście czasu kompilacji
+    std::cout &lt;&lt; g &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Pamiętaj, że funkcja constexpr może być obliczana zarówno w czasie wykonywania, jak i w czasie kompilacji. A kiedy funkcja constexpr ocenia w czasie kompilacji, może wywoływać tylko funkcje zdolne do oceny w czasie kompilacji. W przypadku typu klasy oznacza to funkcje składowe constexpr.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p>Ponieważ <code>g</code> jest constexpr, <code>init()</code> należy ocenić w czasie kompilacji. W ramach funkcji <code>init()</code> definiujemy <code>p</code> jako non-constexpr/non-const (ponieważ możemy, a nie dlatego, że powinniśmy). Mimo że  <code>p</code> nie jest zdefiniowany jako constexpr, <code>p</code> nadal musi zostać utworzony w czasie kompilacji i dlatego wymaga konstruktora constexpr <code>Pair</code> . Podobnie, aby <code>p.greater()</code> było oceniane w czasie kompilacji, <code>greater()</code> musi być funkcją składową constexpr. Jeśli  <code>Pair</code> konstruktor lub <code>greater()</code> nie był constexpr, kompilator wystąpiłby błąd.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Gdy funkcja constexpr wykonuje ocenę w kontekście czasu kompilacji, można wywoływać tylko funkcje constexpr.</div><p class="cpp-section cpp-topline" style=clear:both>Funkcje składowe Constexpr mogą być stałe lub niestałe <span class="cpp-section-pill cpp-section-standard">C++14</span><p>W C++11 niestatyczne Funkcje składowe constexpr są domyślnie stałe (z wyjątkiem konstruktorów).<p>Jednak od wersji C++ 14 funkcje składowe constexpr nie są już domyślnie stałe. Oznacza to, że jeśli chcesz, aby funkcja constexpr była funkcją stałą, musisz jawnie oznaczyć ją jako taką.<p class="cpp-section cpp-topline" style=clear:both>Funkcje członkowskie Constexpr inne niż constex mogą zmieniać elementy danych <span class="cpp-section-pill cpp-section-optional">Opcjonalne</span><div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>Funkcja składowa constexpr niebędąca stałymi może zmieniać elementy danych klasy, o ile obiekt niejawny nie jest stały. Dzieje się tak nawet wtedy, gdy funkcja wykonuje ocenę w czasie kompilacji.<p>Oto wymyślony przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -186,43 +186,43 @@ private:
 public:
     constexpr Pair(int x, int y): m_x { x }, m_y { y } {}
 
-    constexpr int greater() const // constexpr and const
+    constexpr int greater() const // constexpr i const
     {
         return (m_x &gt; m_y  ? m_x : m_y);
     }
 
-    constexpr void reset() // constexpr but non-const
+    constexpr void reset() // constexpr ale non-const
     {
-        m_x = m_y = 0; // non-const member function can change members
+        m_x = m_y = 0; // funkcja składowa niebędąca stałą może zmieniać elementy
     }
 
     constexpr const int&amp; getX() const { return m_x; }
 };
 
-// This function is constexpr
+// Funkcja ta constexpr
 constexpr Pair zero()
 {
-    Pair p { 1, 2 }; // p is non-const
-    p.reset();       // okay to call non-const member function on non-const object
+    Pair p { 1, 2 }; // p nie jest stałą
+    p.reset();       // w porządku, aby wywołać funkcję składową inną niż stała na obiekcie niestałym
     return p;
 }
 
 int main()
 {
     Pair p1 { 3, 4 };
-    p1.reset();                     // okay to call non-const member function on non-const object
-    std::cout &lt;&lt; p1.getX() &lt;&lt; &#39;\n&#39;; // prints 0
+    p1.reset();                     // w porządku, aby wywołać funkcję składową inną niż stała na obiekcie niestałym
+    std::cout &lt;&lt; p1.getX() &lt;&lt; '\n'; // prints 0
     
-    Pair p2 { zero() };             // zero() will be evaluated at runtime
-    p2.reset();                     // okay to call non-const member function on non-const object
-    std::cout &lt;&lt; p2.getX() &lt;&lt; &#39;\n&#39;; // prints 0
+    Pair p2 { zero() };             // zero() zostanie obliczona w czasie wykonania
+    p2.reset();                     // w porządku, aby wywołać funkcję składową inną niż stała na obiekcie niestałym
+    std::cout &lt;&lt; p2.getX() &lt;&lt; '\n'; // prints 0
 
-    constexpr Pair p3 { zero() };   // zero() will be evaluated at compile-time
-//    p3.reset();                   // Compile error: can&#39;t call non-const member function on const object
-    std::cout &lt;&lt; p3.getX() &lt;&lt; &#39;\n&#39;; // prints 0
+    constexpr Pair p3 { zero() };   // zero() zostanie obliczona w czasie kompilacji
+//    p3.reset(); // Błąd kompilacji: nie można wywołać funkcji składowej innej niż stała na obiekcie const
+    std::cout &lt;&lt; p3.getX() &lt;&lt; '\n'; // prints 0
 
     return 0;
-}</code></pre><p>Pracując nad tym przykładem, pamiętaj:<ul><li>Funkcja członkowska inna niż stała może modyfikować składowe obiektów innych niż stałe.<li>Funkcję składową constexpr można wywołać zarówno w kontekście wykonawczym, jak i w czasie kompilacji kontekstach.</ul><p>Te dwie rzeczy działają niezależnie.<p>W przypadku <code>p1</code>, <code>p1</code> nie jest stałą. Dlatego możemy wywołać funkcję składową inną niż stała <code>p1.reset()</code> w celu modyfikacji <code>p1</code>. Fakt, że <code>reset()</code> jest constexpr, nie ma tu znaczenia, ponieważ nic, co robimy, nie wymaga oceny w czasie kompilacji.<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><p>Klasa <code>p2</code> Przypadek jest podobny. W tym przypadku inicjatorem  <code>p2</code> jest wywołanie funkcji  <code>zero()</code>. Mimo że <code>zero()</code> jest funkcją constexpr, w tym przypadku jest ona wywoływana w kontekście wykonawczym i działa jak normalna funkcja. W <code>zero()</code> tworzymy instancję inną niż stała <code>p</code>, wywołujemy na niej funkcję składową niebędącą stałą <code>p.reset()</code> , a następnie zwracamy <code>p</code>. Zwrócony <code>Pair</code> jest używany jako inicjator dla <code>p2</code>. Fakt, że <code>zero()</code> i <code>reset()</code> są constexpr, nie ma w tym przypadku znaczenia, ponieważ nic, co robimy, nie wymaga oceny w czasie kompilacji.<p>Klasa <code>p3</code> przypadek jest interesujący. Ponieważ <code>p3</code> jest constexpr, musi mieć stały inicjator wyrażenia. Dlatego to wywołanie  <code>zero()</code>  musi zostać ocenione w czasie kompilacji. A ponieważ oceniamy w kontekście czasu kompilacji, możemy wywoływać tylko funkcje constexpr. Inside <code>zero()</code>, <code>p</code> nie jest stałą (co jest dozwolone, nawet jeśli oceniamy w czasie kompilacji). Ponieważ jednak znajdujemy się w kontekście czasu kompilacji, konstruktor użyty do utworzenia <code>p</code> musi być constexpr. I podobnie jak w przypadku  <code>p2</code> , możemy wywołać funkcję składową niebędącą stałą <code>p.reset()</code> na obiekcie innym niż stała <code>p</code>. Ponieważ jednak znajdujemy się w kontekście czasu kompilacji,  <code>reset()</code> funkcja składowa musi mieć wartość constexpr. Funkcja następnie zwraca <code>p</code>, który jest używany do inicjalizacji <code>p3</code>.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nota autora<p>Tak, do inicjalizacji obiektu constexpr użyliśmy obiektu innego niż const. Jeśli to psuje ci mózg, prawdopodobnie dzieje się tak dlatego, że nie oddzieliłeś w pełni constexpr od constexpr.<p>Nie ma wymogu, aby zmienna constexpr była inicjowana wartością constexpr. Może się tak wydawać, ponieważ w większości przypadków inicjujemy zmienną constexpr przy użyciu literałów (które są const) lub innych zmiennych constexpr (które domyślnie są constexpr) i ponieważ terminy <code>const</code> i <code>constexpr</code> mają podobne nazwy.<p>W rzeczywistości wymaganiem jest, aby zmienna constexpr była inicjowana wyrażeniem stałym. W przypadku funkcji (i operatorów) constexpr nie implikuje stałej, a funkcje constexpr (i operatory) mogą korzystać z obiektów innych niż stałe, a nawet je zwracać.<p>Ważną rzeczą nie jest stała, ale to, że kompilator może określić wartość obiektu w czasie kompilacji. A w przypadku funkcji constexpr jest to możliwe nawet wtedy, gdy zwracają obiekt inny niż stały!</div><p class="cpp-section cpp-topline" style=clear:both>Funkcje Constexpr, które zwracają referencje (lub wskaźniki) do stałych <span class="cpp-section-pill cpp-section-optional">Opcjonalne</span><p>Zwykle nie zobaczysz <code>constexpr</code> i <code>const</code> używanych bezpośrednio obok siebie, ale zdarza się to tylko wtedy, gdy masz funkcję członkowską constexpr, która zwraca odwołanie do stałej (lub (stała)) pointer-to-const).<p>W naszej <code>Pair</code> klasie powyżej, <code>getX()</code> jest funkcją składową constexpr, która zwraca odwołanie do stałej:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    constexpr const int&amp; getX() const { return m_x; }</code></pre><p>To dużo stałych!<p>Klasa <code>constexpr</code> wskazuje, że funkcja składowa może zostać oceniona w czasie kompilacji.  <code>const int&</code> jest typem zwracanym przez funkcję. Skrajna strona <code>const</code> oznacza, że ​​sama funkcja składowa jest const, więc można ją wywołać na obiektach const.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Na marginesie…<p>Funkcja składowa, która zamiast tego zwróciła wskaźnik const do const, mogłaby wyglądać mniej więcej tak:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">constexpr const int* const getXPtr() const { return &amp;m_x; }</code></pre><p>Czyż nie jest piękna? NIE? OK, w porządku.</div><div class=prevnext><div class=prevnext-inline><a class=nav-link href="../chapter-14-summary-and-quiz/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>14.x</span>Rozdział 14, podsumowanie i quiz</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../converting-constructors-and-the-explicit-keyword/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>14.16</span>Konwersja konstruktorów i jawne słowo kluczowe</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/constexpr-aggregates-and-classes/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../what-language-standard-is-my-compiler-using/index.html" rel=prev><span>0.13 — Jakiego standardu językowego używa mój kompilator?</span></a></div><div class=nav-next><em>Następny post</em><a href="../using-function-templates-in-multiple-files/index.html" rel=next><span>11.10 — Używanie szablonów funkcji w wielu plikach</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>
+}</code></pre><p>Pracując nad tym przykładem, pamiętaj:<ul><li>Funkcja członkowska inna niż stała może modyfikować składowe obiektów innych niż stałe.<li>Funkcję składową constexpr można wywołać zarówno w kontekście wykonawczym, jak i w czasie kompilacji kontekstach.</ul><p>Te dwie rzeczy działają niezależnie.<p>W przypadku <code>p1</code>, <code>p1</code> nie jest stałą. Dlatego możemy wywołać funkcję składową inną niż stała <code>p1.reset()</code> w celu modyfikacji <code>p1</code>. Fakt, że <code>reset()</code> jest constexpr, nie ma tu znaczenia, ponieważ nic, co robimy, nie wymaga oceny w czasie kompilacji.<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><p>Klasa <code>p2</code> Przypadek jest podobny. W tym przypadku inicjatorem  <code>p2</code> jest wywołanie funkcji  <code>zero()</code>. Mimo że <code>zero()</code> jest funkcją constexpr, w tym przypadku jest ona wywoływana w kontekście wykonawczym i działa jak normalna funkcja. W <code>zero()</code> tworzymy instancję inną niż stała <code>p</code>, wywołujemy na niej funkcję składową niebędącą stałą <code>p.reset()</code> , a następnie zwracamy <code>p</code>. Zwrócony <code>Pair</code> jest używany jako inicjator dla <code>p2</code>. Fakt, że <code>zero()</code> i <code>reset()</code> są constexpr, nie ma w tym przypadku znaczenia, ponieważ nic, co robimy, nie wymaga oceny w czasie kompilacji.<p>Klasa <code>p3</code> przypadek jest interesujący. Ponieważ <code>p3</code> jest constexpr, musi mieć stały inicjator wyrażenia. Dlatego to wywołanie  <code>zero()</code>  musi zostać ocenione w czasie kompilacji. A ponieważ oceniamy w kontekście czasu kompilacji, możemy wywoływać tylko funkcje constexpr. Wewnątrz <code>zero()</code>, <code>p</code> nie jest stałą (co jest dozwolone, nawet jeśli oceniamy w czasie kompilacji). Ponieważ jednak znajdujemy się w kontekście czasu kompilacji, konstruktor użyty do utworzenia <code>p</code> musi być constexpr. I podobnie jak w przypadku  <code>p2</code> , możemy wywołać funkcję składową niebędącą stałą <code>p.reset()</code> na obiekcie innym niż stała <code>p</code>. Ponieważ jednak znajdujemy się w kontekście czasu kompilacji,  <code>reset()</code> funkcja składowa musi mieć wartość constexpr. Funkcja następnie zwraca <code>p</code>, który jest używany do inicjalizacji <code>p3</code>.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nota autora<p>Tak, do inicjalizacji obiektu constexpr użyliśmy obiektu innego niż const. Jeśli to psuje ci mózg, prawdopodobnie dzieje się tak dlatego, że nie oddzieliłeś w pełni constexpr od constexpr.<p>Nie ma wymogu, aby zmienna constexpr była inicjowana wartością constexpr. Może się tak wydawać, ponieważ w większości przypadków inicjujemy zmienną constexpr przy użyciu literałów (które są const) lub innych zmiennych constexpr (które domyślnie są constexpr) i ponieważ terminy <code>const</code> i <code>constexpr</code> mają podobne nazwy.<p>W rzeczywistości wymaganiem jest, aby zmienna constexpr była inicjowana wyrażeniem stałym. W przypadku funkcji (i operatorów) constexpr nie implikuje stałej, a funkcje constexpr (i operatory) mogą korzystać z obiektów innych niż stałe, a nawet je zwracać.<p>Ważną rzeczą nie jest stała, ale to, że kompilator może określić wartość obiektu w czasie kompilacji. A w przypadku funkcji constexpr jest to możliwe nawet wtedy, gdy zwracają obiekt inny niż stały!</div><p class="cpp-section cpp-topline" style=clear:both>Funkcje Constexpr, które zwracają referencje (lub wskaźniki) do stałych <span class="cpp-section-pill cpp-section-optional">Opcjonalne</span><p>Zwykle nie zobaczysz <code>constexpr</code> i <code>const</code> używanych bezpośrednio obok siebie, ale zdarza się to tylko wtedy, gdy masz funkcję członkowską constexpr, która zwraca odwołanie do stałej (lub (stała)) pointer-to-const).<p>W naszej <code>Pair</code> klasie powyżej, <code>getX()</code> jest funkcją składową constexpr, która zwraca odwołanie do stałej:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    constexpr const int&amp; getX() const { return m_x; }</code></pre><p>To dużo stałych!<p>Klasa <code>constexpr</code> wskazuje, że funkcja składowa może zostać oceniona w czasie kompilacji.  <code>const int&</code> jest typem zwracanym przez funkcję. Skrajna strona <code>const</code> oznacza, że ​​sama funkcja składowa jest const, więc można ją wywołać na obiektach const.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Na marginesie…<p>Funkcja składowa, która zamiast tego zwróciła wskaźnik const do const, mogłaby wyglądać mniej więcej tak:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">constexpr const int* const getXPtr() const { return &amp;m_x; }</code></pre><p>Czyż nie jest piękna? NIE? OK, w porządku.</div><div class=prevnext><div class=prevnext-inline><a class=nav-link href="../chapter-14-summary-and-quiz/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>14.x</span>Rozdział 14, podsumowanie i quiz</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../converting-constructors-and-the-explicit-keyword/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>14.16</span>Konwersja konstruktorów i jawne słowo kluczowe</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/constexpr-aggregates-and-classes/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../what-language-standard-is-my-compiler-using/index.html" rel=prev><span>0.13 — Jakiego standardu językowego używa mój kompilator?</span></a></div><div class=nav-next><em>Następny post</em><a href="../using-function-templates-in-multiple-files/index.html" rel=next><span>11.10 — Używanie szablonów funkcji w wielu plikach</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>
 <textarea id=wc-textarea-0_0 placeholder="Zostaw komentarz..." aria-label="Zostaw komentarz..." required name=wc_comment class="wc_comment wpd-field"></textarea></div><div class=wpd-editor-buttons-right></div></div></div></div><div class=wpd-form-foot><div class=wpdiscuz-textarea-foot><div class=wpdiscuz-button-actions></div></div><div class=wpd-form-row><div class=wpd-form-col-left><div class="wpdiscuz-item wc_name-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-user"></i></div><input id=wc_name-0_0 required aria-required=true class="wc_name wpd-field" name=wc_name placeholder=Imię* maxlength=50 pattern=.{3,50}>
 <label for=wc_name-0_0 class=wpdlb>Imię*</label></div><div class="wpdiscuz-item wc_email-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-at"></i></div><input id=wc_email-0_0 required aria-required=true class="wc_email wpd-field" type=email name=wc_email placeholder=E-mail*>
 <label for=wc_email-0_0 class=wpdlb>E-mail*</label><div class=wpd-field-desc><i class="far fa-question-circle"></i><span>Twój adres e-mail nie zostanie wyświetlony</span></div></div><div class=cpp_correction_div style=padding-bottom:4px><div class=wpd-field-icon style=display:inline-block;width:20px><i style=opacity:.6 class="fas fa-regular fa-bug"></i></div>Znalazłeś błąd? Zostaw komentarz powyżej!<div class=wpd-field-desc><i class="far fa-question-circle"></i><span>Komentarze związane z poprawkami zostaną usunięte po przetworzeniu, aby pomóc zmniejszyć bałagan. Dziękujemy za pomoc w ulepszaniu witryny dla wszystkich!</span></div></div><div class=cpp_avatar_div style=padding-bottom:4px><div class=wpd-field-icon style=display:inline-block;width:20px><i style=opacity:.6 class="fas fa-user"></i></div>Awatary z <a target=_blank rel="noopener noreferrer" href=https://gravatar.com/>https://gravatar.com/</a> są połączone z podanym adresem e-mail.</div></div><div class=wpd-form-col-right><div class=wc-field-submit><span style=margin-top:6px>Powiadamiaj mnie o odpowiedziach:  </span>

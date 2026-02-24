@@ -31,8 +31,8 @@ private:
 #endif</code></pre><p>Teraz musimy dodać kilka konstruktorów, które pozwolą nam utworzyć IntArrays. Dodamy dwa konstruktory: jeden konstruujący pustą tablicę i taki, który pozwoli nam skonstruować tablicę o określonym rozmiarze.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#ifndef INTARRAY_H
 #define INTARRAY_H
 
-#include &lt;cassert&gt; // for assert()
-#include &lt;cstddef&gt; // for std::size_t
+#include &lt;cassert&gt; // dla Assert()
+#include &lt;cstddef&gt; // dla std::size_t
 
 class IntArray
 {
@@ -56,22 +56,22 @@ public:
 #endif</code></pre><p>Będziemy potrzebować także pewnych funkcji, które pomogą nam oczyścić IntArrays. Najpierw napiszemy destruktor, który po prostu zwalnia wszystkie dynamicznie przydzielane dane. Po drugie, napiszemy funkcję o nazwie Erase(), która wymaże tablicę i ustawi jej długość na 0.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    ~IntArray()
     {
         delete[] m_data;
-        // we don&#39;t need to set m_data to null or m_length to 0 here, since the object will be destroyed immediately after this function anyway
+        // nie musimy ustawiać m_data na null lub m_length na 0, ponieważ obiekt i tak zostanie zniszczony natychmiast po wykonaniu tej funkcji
     }
 
     void erase()
     {
         delete[] m_data;
 
-        // We need to make sure we set m_data to nullptr here, otherwise it will
-        // be left pointing at deallocated memory!
+        // Będziemy musimy się upewnić, że ustawiliśmy tutaj m_data na nullptr, w przeciwnym razie
+        // pozostaje wskazując na zwolnioną pamięć!
         m_data = nullptr;
         m_length = 0;
     }</code></pre><p>Teraz przeciążmy operator [], abyśmy mogli uzyskać dostęp do elementów tablicy. Powinniśmy upewnić się, że parametr indeksu ma prawidłową wartość, co możemy zrobić za pomocą funkcji Assert(). Dodamy także funkcję dostępu zwracającą długość tablicy. Oto wszystko jak dotąd:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#ifndef INTARRAY_H
 #define INTARRAY_H
 
-#include &lt;cassert&gt; // for assert()
-#include &lt;cstddef&gt; // for std::size_t
+#include &lt;cassert&gt; // dla Assert()
+#include &lt;cstddef&gt; // dla std::size_t
 
 class IntArray
 {
@@ -94,14 +94,14 @@ public:
     ~IntArray()
     {
         delete[] m_data;
-        // we don&#39;t need to set m_data to null or m_length to 0 here, since the object will be destroyed immediately after this function anyway
+        // nie musimy ustawiać m_data na null lub m_length na 0, ponieważ obiekt i tak zostanie zniszczony natychmiast po wykonaniu tej funkcji
     }
 
     void erase()
     {
         delete[] m_data;
-        // We need to make sure we set m_data to nullptr here, otherwise it will
-        // be left pointing at deallocated memory!
+        // Będziemy musimy się upewnić, że ustawiliśmy tutaj m_data na nullptr, w przeciwnym razie
+        // pozostaje wskazując na zwolnioną pamięć!
         m_data = nullptr;
         m_length = 0;
     }
@@ -115,97 +115,97 @@ public:
     int getLength() const { return m_length; }
 };
 
-#endif</code></pre><p>W tym momencie mamy już klasę IntArray, której możemy użyć. Możemy przydzielać obiekty IntArray o zadanym rozmiarze i możemy używać operatora [] do pobierania lub zmiany wartości elementów.<p>Jednak nadal jest kilka rzeczy, których nie możemy zrobić za pomocą naszej tablicy IntArray. Nadal nie możemy zmienić jego rozmiaru, nadal nie możemy wstawiać ani usuwać elementów, nadal nie możemy go sortować. Kopiowanie tablicy również spowoduje problemy, ponieważ spowoduje to płytkie skopiowanie wskaźnika danych.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>Najpierw napiszmy kod, który pozwoli nam zmienić rozmiar tablicy. W tym celu napiszemy dwie różne funkcje. Pierwsza funkcja, reallocate(), zniszczy wszystkie istniejące elementy tablicy po zmianie jej rozmiaru, ale będzie to szybkie. Druga funkcja, resize(), zachowa wszystkie istniejące elementy tablicy podczas zmiany jej rozmiaru, ale będzie to powolne.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;algorithm&gt; // for std::copy_n
+#endif</code></pre><p>W tym momencie mamy już klasę IntArray, której możemy użyć. Możemy przydzielać obiekty IntArray o zadanym rozmiarze i możemy używać operatora [] do pobierania lub zmiany wartości elementów.<p>Jednak nadal jest kilka rzeczy, których nie możemy zrobić za pomocą naszej tablicy IntArray. Nadal nie możemy zmienić jego rozmiaru, nadal nie możemy wstawiać ani usuwać elementów, nadal nie możemy go sortować. Kopiowanie tablicy również spowoduje problemy, ponieważ spowoduje to płytkie skopiowanie wskaźnika danych.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>Najpierw napiszmy kod, który pozwoli nam zmienić rozmiar tablicy. W tym celu napiszemy dwie różne funkcje. Pierwsza funkcja, reallocate(), zniszczy wszystkie istniejące elementy tablicy po zmianie jej rozmiaru, ale będzie to szybkie. Druga funkcja, resize(), zachowa wszystkie istniejące elementy tablicy podczas zmiany jej rozmiaru, ale będzie to powolne.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;algorithm&gt; // dla std::copy_n
 
-    // reallocate resizes the array.  Any existing elements will be destroyed.  This function operates quickly.
+    // reallocate zmienia rozmiar tablicy. Wszelkie istniejące elementy zostaną zniszczone. Funkcja ta działa szybko.
     void reallocate(int newLength)
     {
-        // First we delete any existing elements
+        // Najpierw usuwamy istniejące elementy
         erase();
 
-        // If our array is going to be empty now, return here
+        // Jeśli nasza tablica będzie teraz pusta, wróć tutaj
         if (newLength &lt;= 0)
             return;
 
-        // Then we have to allocate new elements
+        // Następnie musimy przydzielić nowe elementy
         m_data = new int[static_cast&lt;std::size_t&gt;(newLength)];
         m_length = newLength;
     }
 
-    // resize resizes the array.  Any existing elements will be kept.  This function operates slowly.
+    // resize zmienia rozmiar tablicy. Wszelkie istniejące elementy zostaną zachowane. Ta funkcja działa powoli.
     void resize(int newLength)
     {
-        // if the array is already the right length, we&#39;re done
+        // jeśli tablica ma już odpowiednią długość, koniec
         if (newLength == m_length)
             return;
 
-        // If we are resizing to an empty array, do that and return
+        // Jeśli zmieniamy rozmiar na pustą tablicę, zrób to i wróć
         if (newLength &lt;= 0)
         {
             erase();
             return;
         }
 
-        // Now we can assume newLength is at least 1 element.  This algorithm
-        // works as follows: First we are going to allocate a new array.  Then we
-        // are going to copy elements from the existing array to the new array.
-        // Once that is done, we can destroy the old array, and make m_data
-        // point to the new array.
+        // Teraz możemy założyć, że newLength ma co najmniej 1 element. Ten algorytm
+        // działa w następujący sposób: Najpierw przydzielimy nową tablicę. Potem my
+        // zamierzamy skopiować elementy z istniejącej tablicy do nowej tablicy.
+        // Gdy to zrobimy, możemy zniszczyć starą tablicę i utworzyć m_data
+        // wskaż na nową tablica.
 
-        // First we have to allocate a new array
+        // Najpierw musimy przydzielić nową tablicę
         int* data{ new int[static_cast&lt;std::size_t&gt;(newLength)] };
 
-        // Then we have to figure out how many elements to copy from the existing
-        // array to the new array.  We want to copy as many elements as there are
-        // in the smaller of the two arrays.
+        // Następnie musimy dowiedzieć się, ile elementów skopiować z istniejącego
+        // array do nowej tablicy. Chcemy skopiować tyle elementów, ile jest
+        // w mniejszym z dwóch tablice.
         if (m_length &gt; 0)
         {
             int elementsToCopy{ (newLength &gt; m_length) ? m_length : newLength };
-            std::copy_n(m_data, elementsToCopy, data); // copy the elements
+            std::copy_n(m_data, elementsToCopy, data); // skopiuj elementy
         }
  
-        // Now we can delete the old array because we don&#39;t need it any more
+        // Teraz możemy usunąć starą tablicę, ponieważ już jej nie potrzebujemy
         delete[] m_data;
 
-        // And use the new array instead!  Note that this simply makes m_data point
-        // to the same address as the new array we dynamically allocated.  Because
-        // data was dynamically allocated, it won&#39;t be destroyed when it goes out of scope.
+        // I zamiast tego użyj nowej tablicy! Zauważ, że to po prostu powoduje, że punkt m_data
+        // pod tym samym adresem, co nowa tablica, którą dynamicznie przydzieliliśmy. Ponieważ
+        // dane zostały przydzielone dynamicznie, nie zostaną zniszczone, gdy wyjdą poza zakres.
         m_data = data;
         m_length = newLength;
-    }</code></pre><p>Uff! To było trochę skomplikowane!<p>Dodajmy także konstruktor kopiujący i operator przypisania, abyśmy mogli skopiować tablicę.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    IntArray(const IntArray&amp; a): IntArray(a.getLength()) // use normal constructor to set size of array appropriately
+    }</code></pre><p>Uff! To było trochę skomplikowane!<p>Dodajmy także konstruktor kopiujący i operator przypisania, abyśmy mogli skopiować tablicę.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    IntArray(const IntArray&amp; a): IntArray(a.getLength()) // użyj normalnego konstruktora, aby odpowiednio ustawić rozmiar tablicy
     {
-        std::copy_n(a.m_data, m_length, m_data); // copy the elements
+        std::copy_n(a.m_data, m_length, m_data); // skopiuj elementy
     }
 
     IntArray&amp; operator=(const IntArray&amp; a)
     {
-        // Self-assignment check
+        // Kontrola samodzielnego przypisania
         if (&amp;a == this)
             return *this;
 
-        // Set the size of the new array appropriately
+        // Ustaw odpowiednio rozmiar nowej tablicy
         reallocate(a.getLength());
-        std::copy_n(a.m_data, m_length, m_data); // copy the elements
+        std::copy_n(a.m_data, m_length, m_data); // skopiuj elementy
 
         return *this;
     }</code></pre><p>Wiele klas kontenerów tablic zatrzymałoby się w tym miejscu. Jeśli jednak chcesz zobaczyć, jak zaimplementowana zostanie funkcja wstawiania i usuwania, napiszemy je również. Oba te algorytmy są bardzo podobne do resize().<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">   void insertBefore(int value, int index)
     {
-        // Sanity check our index value
+        // Sprawdź poprawność naszego indeksu
         assert(index &gt;= 0 &amp;&amp; index &lt;= m_length);
 
-        // First create a new array one element larger than the old array
+        // Najpierw utwórz nową tablicę o jeden element większą niż stara tablica
         int* data{ new int[static_cast&lt;std::size_t&gt;(m_length+1)] };
 
-        // Copy all of the elements up to the index
+        // Kopiuj wszystkie elementy aż do indeksu
         std::copy_n(m_data, index, data); 
 
-        // Insert our new element into the new array
+        // Wstaw nowy element do nowej tablicy
         data[index] = value;
 
-        // Copy all of the values after the inserted element
+        // Kopiuj wszystkie wartości po wstawionym elemencie
         std::copy_n(m_data + index, m_length - index, data + index + 1);
 
-        // Finally, delete the old array, and use the new array instead
+        // Na koniec usuń starą tablicę i zamiast tego użyj nowej tablicy
         delete[] m_data;
         m_data = data;
         ++m_length;
@@ -213,35 +213,35 @@ public:
 
     void remove(int index)
     {
-        // Sanity check our index value
+        // Sprawdź poprawność naszego indeksu
         assert(index &gt;= 0 &amp;&amp; index &lt; m_length);
 
-        // If this is the last remaining element in the array, set the array to empty and bail out
+        // Jeśli jest to ostatni pozostały element w tablicy, ustaw tablicę na pustą i wyjdź
         if (m_length == 1)
         {
             erase();
             return;
         }
 
-        // First create a new array one element smaller than the old array
+        // Najpierw utwórz nową tablicę o jeden element mniejszą niż stara tablica
         int* data{ new int[static_cast&lt;std::size_t&gt;(m_length-1)] };
 
-        // Copy all of the elements up to the index
+        // Kopiuj wszystkie elementy aż do indeksu
         std::copy_n(m_data, index, data); 
 
-        // Copy all of the values after the removed element
+        // Kopiuj wszystkie wartości po usuniętym element
         std::copy_n(m_data + index + 1, m_length - index - 1, data + index); 
 
-        // Finally, delete the old array, and use the new array instead
+        // Na koniec usuń starą tablicę i zamiast tego użyj nowej tablicy
         delete[] m_data;
         m_data = data;
         --m_length;
     }</code></pre><p>Oto cała nasza klasa kontenerowa IntArray.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>IntArray.h:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#ifndef INTARRAY_H
 #define INTARRAY_H
 
-#include &lt;algorithm&gt; // for std::copy_n
-#include &lt;cassert&gt; // for assert()
-#include &lt;cstddef&gt; // for std::size_t
+#include &lt;algorithm&gt; // dla std::copy_n
+#include &lt;cassert&gt; // dla Assert()
+#include &lt;cstddef&gt; // dla std::size_t
 
 class IntArray
 {
@@ -264,23 +264,23 @@ public:
     ~IntArray()
     {
         delete[] m_data;
-        // we don&#39;t need to set m_data to null or m_length to 0 here, since the object will be destroyed immediately after this function anyway
+        // nie musimy ustawiać m_data na null lub m_length na 0, ponieważ obiekt i tak zostanie zniszczony natychmiast po wykonaniu tej funkcji
     }
 
-    IntArray(const IntArray&amp; a): IntArray(a.getLength()) // use normal constructor to set size of array appropriately
+    IntArray(const IntArray&amp; a): IntArray(a.getLength()) // użyj normalnego konstruktora, aby odpowiednio ustawić rozmiar tablicy
     {
-        std::copy_n(a.m_data, m_length, m_data); // copy the elements
+        std::copy_n(a.m_data, m_length, m_data); // skopiuj elementy
     }
 
     IntArray&amp; operator=(const IntArray&amp; a)
     {
-        // Self-assignment check
+        // Kontrola samodzielnego przypisania
         if (&amp;a == this)
             return *this;
 
-        // Set the size of the new array appropriately
+        // Ustaw odpowiednio rozmiar nowej tablicy
         reallocate(a.getLength());
-        std::copy_n(a.m_data, m_length, m_data); // copy the elements
+        std::copy_n(a.m_data, m_length, m_data); // skopiuj elementy
 
         return *this;
     }
@@ -288,8 +288,8 @@ public:
     void erase()
     {
         delete[] m_data;
-        // We need to make sure we set m_data to nullptr here, otherwise it will
-        // be left pointing at deallocated memory!
+        // Będziemy musimy się upewnić, że ustawiliśmy tutaj m_data na nullptr, w przeciwnym razie
+        // pozostaje wskazując na zwolnioną pamięć!
         m_data = nullptr;
         m_length = 0;
     }
@@ -301,81 +301,81 @@ public:
     }
 
 
-    // reallocate resizes the array.  Any existing elements will be destroyed.  This function operates quickly.
+    // reallocate zmienia rozmiar tablicy. Wszelkie istniejące elementy zostaną zniszczone. Funkcja ta działa szybko.
     void reallocate(int newLength)
     {
-        // First we delete any existing elements
+        // Najpierw usuwamy istniejące elementy
         erase();
 
-        // If our array is going to be empty now, return here
+        // Jeśli nasza tablica będzie teraz pusta, wróć tutaj
         if (newLength &lt;= 0)
             return;
 
-        // Then we have to allocate new elements
+        // Następnie musimy przydzielić nowe elementy
         m_data = new int[static_cast&lt;std::size_t&gt;(newLength)];
         m_length = newLength;
     }
 
-    // resize resizes the array.  Any existing elements will be kept.  This function operates slowly.
+    // resize zmienia rozmiar tablicy. Wszelkie istniejące elementy zostaną zachowane. Ta funkcja działa powoli.
     void resize(int newLength)
     {
-        // if the array is already the right length, we&#39;re done
+        // jeśli tablica ma już odpowiednią długość, koniec
         if (newLength == m_length)
             return;
 
-        // If we are resizing to an empty array, do that and return
+        // Jeśli zmieniamy rozmiar na pustą tablicę, zrób to i wróć
         if (newLength &lt;= 0)
         {
             erase();
             return;
         }
 
-        // Now we can assume newLength is at least 1 element.  This algorithm
-        // works as follows: First we are going to allocate a new array.  Then we
-        // are going to copy elements from the existing array to the new array.
-        // Once that is done, we can destroy the old array, and make m_data
-        // point to the new array.
+        // Teraz możemy założyć, że newLength ma co najmniej 1 element. Ten algorytm
+        // działa w następujący sposób: Najpierw przydzielimy nową tablicę. Potem my
+        // zamierzamy skopiować elementy z istniejącej tablicy do nowej tablicy.
+        // Gdy to zrobimy, możemy zniszczyć starą tablicę i utworzyć m_data
+        // wskaż na nową tablica.
 
-        // First we have to allocate a new array
+        // Najpierw musimy przydzielić nową tablicę
         int* data{ new int[static_cast&lt;std::size_t&gt;(newLength)] };
 
-        // Then we have to figure out how many elements to copy from the existing
-        // array to the new array.  We want to copy as many elements as there are
-        // in the smaller of the two arrays.
+        // Następnie musimy dowiedzieć się, ile elementów skopiować z istniejącego
+        // array do nowej tablicy. Chcemy skopiować tyle elementów, ile jest
+        // w mniejszym z dwóch tablice.
         if (m_length &gt; 0)
         {
             int elementsToCopy{ (newLength &gt; m_length) ? m_length : newLength };
-            std::copy_n(m_data, elementsToCopy, data); // copy the elements
+            std::copy_n(m_data, elementsToCopy, data); // skopiuj elementy
         }
  
-        // Now we can delete the old array because we don&#39;t need it any more
+        // Teraz możemy usunąć starą tablicę, ponieważ już jej nie potrzebujemy
         delete[] m_data;
 
-        // And use the new array instead!  Note that this simply makes m_data point
-        // to the same address as the new array we dynamically allocated.  Because
-        // data was dynamically allocated, it won&#39;t be destroyed when it goes out of scope.
+        // I zamiast tego użyj nowej tablicy! Zauważ, że to po prostu powoduje, że punkt m_data
+        // pod tym samym adresem, co nowa tablica, którą dynamicznie przydzieliliśmy. Ponieważ
+        // dane zostały przydzielone dynamicznie, nie zostaną zniszczone, gdy wyjdą poza zakres.
         m_data = data;
         m_length = newLength;
     }
 
     void insertBefore(int value, int index)
     {
-        // Sanity check our index value
+        // Sprawdź poprawność naszego indeksu
         assert(index &gt;= 0 &amp;&amp; index &lt;= m_length);
 
-        // First create a new array one element larger than the old array
+        // Najpierw utwórz nową tablicę o jeden element większą niż stara tablica
         int* data{ new int[static_cast&lt;std::size_t&gt;(m_length+1)] };
 
-        // Copy all of the elements up to the index
+        // Kopiuj wszystkie elementy aż do indeksu
         std::copy_n(m_data, index, data); 
 
-        // Insert our new element into the new array
+        // Wstaw nowy element do nowej tablicy
         data[index] = value;
 
-        // Copy all of the values after the inserted element
+        // Kopiuj wszystkie wartości po wstawionym elemencie
         std::copy_n(m_data + index, m_length - index, data + index + 1);
 
-        // Finally, delete the old array, and use the new array instead
+        // Na koniec usuń starą tablicę i zamiast tego użyj nowej tablicy
         delete[] m_data;
         m_data = data;
         ++m_length;
@@ -383,32 +383,32 @@ public:
 
     void remove(int index)
     {
-        // Sanity check our index value
+        // Sprawdź poprawność naszego indeksu
         assert(index &gt;= 0 &amp;&amp; index &lt; m_length);
 
-        // If this is the last remaining element in the array, set the array to empty and bail out
+        // Jeśli jest to ostatni pozostały element w tablicy, ustaw tablicę na pustą i wyjdź
         if (m_length == 1)
         {
             erase();
             return;
         }
 
-        // First create a new array one element smaller than the old array
+        // Najpierw utwórz nową tablicę o jeden element mniejszą niż stara tablica
         int* data{ new int[static_cast&lt;std::size_t&gt;(m_length-1)] };
 
-        // Copy all of the elements up to the index
+        // Kopiuj wszystkie elementy aż do indeksu
         std::copy_n(m_data, index, data); 
 
-        // Copy all of the values after the removed element
+        // Kopiuj wszystkie wartości po usuniętym element
         std::copy_n(m_data + index + 1, m_length - index - 1, data + index); 
 
-        // Finally, delete the old array, and use the new array instead
+        // Na koniec usuń starą tablicę i zamiast tego użyj nowej tablicy
         delete[] m_data;
         m_data = data;
         --m_length;
     }
 
-    // A couple of additional functions just for convenience
+    // Kilka dodatkowych funkcji tylko dla kobiet
     void insertAtBeginning(int value) { insertBefore(value, 0); }
     void insertAtEnd(int value) { insertBefore(value, m_length); }
 
@@ -416,32 +416,32 @@ public:
 };
 
 #endif</code></pre><p>Teraz przetestujmy to, żeby udowodnić, że działa:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
-#include &#34;IntArray.h&#34;
+#include "IntArray.h"
 
 int main()
 {
-    // Declare an array with 10 elements
+    // Zadeklaruj tablicę z 10 elementami
     IntArray array(10);
 
-    // Fill the array with numbers 1 through 10
+    // Wypełnij tablicę liczbami od 1 do 10
     for (int i{ 0 }; i&lt;10; ++i)
         array[i] = i+1;
 
-    // Resize the array to 8 elements
+    // Zmień rozmiar tablicy do 8 elementów
     array.resize(8);
 
-    // Insert the number 20 before element with index 5
+    // Wstaw liczbę 20 przed elementem o indeksie 5
     array.insertBefore(20, 5);
 
-    // Remove the element with index 3
+    // Usuń element o indeksie 3
     array.remove(3);
 
-    // Add 30 and 40 to the end and beginning
+    // Dodaj 30 i 40 na końcu i początku
     array.insertAtEnd(30);
     array.insertAtBeginning(40);
 
-    // A few more tests to ensure copy constructing / assigning arrays
-    // doesn&#39;t break things
+    // Kilka dodatkowych testów zapewniających konstruowanie/przypisywanie kopii arrays
+    // nie psuje rzeczy
     {
         IntArray b{ array };
         b = array;
@@ -449,11 +449,11 @@ int main()
         array = array;
     }
 
-    // Print out all the numbers
+    // Wydrukuj całą liczbę
     for (int i{ 0 }; i&lt;array.getLength(); ++i)
-        std::cout &lt;&lt; array[i] &lt;&lt; &#39; &#39;;
+        std::cout &lt;&lt; array[i] &lt;&lt; ' ';
 
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Daje to wynik:<pre>40 1 2 3 5 20 6 7 8 30

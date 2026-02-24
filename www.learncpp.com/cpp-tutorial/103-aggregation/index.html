@@ -34,7 +34,7 @@ public:
 class Department
 {
 private:
-  const Teacher&amp; m_teacher; // This dept holds only one teacher for simplicity, but it could hold many teachers
+  const Teacher&amp; m_teacher; // W tym dziale pracuje tylko jeden nauczyciel dla uproszczenia, ale może pracować wielu nauczycieli
 
 public:
   Department(const Teacher&amp; teacher)
@@ -45,19 +45,19 @@ public:
 
 int main()
 {
-  // Create a teacher outside the scope of the Department
-  Teacher bob{ &#34;Bob&#34; }; // create a teacher
+  // Utwórz nauczyciela poza zakresem Dział
+  Teacher bob{ "Bob" }; // utwórz nauczyciela
 
   {
-    // Create a department and use the constructor parameter to pass
-    // the teacher to it.
+    // Utwórz oddział i użyj parametru konstruktora do przekazania
+    // nauczyciel, zrób to.
     Department department{ bob };
 
-  } // department goes out of scope here and is destroyed
+  } // dział wykracza poza zakres tutaj i zostaje zniszczony
 
-  // bob still exists here, but the department doesn&#39;t
+  // bob nadal tu istnieje, ale dział nie
 
-  std::cout &lt;&lt; bob.getName() &lt;&lt; &#34; still exists!\n&#34;;
+  std::cout &lt;&lt; bob.getName() &lt;&lt; " still exists!\n";
 
   return 0;
 }</code></pre><p>W tym przypadku <code>bob</code> jest stworzony produkt od <code>department</code>, a następnie przekazywany do konstruktora <code>department</code>. Kiedy <code>department</code> jest zniszczone, <code>m_teacher</code> od zniszczenia zniszczonego, ale sam nauczyciel nie uległ zniszczeniu, więc nadal istnieje, zostanie nie wysłany później w  <code>main()</code>.<p class="cpp-section cpp-topline" style=clear:both>Wybierz przesłanie dla tego, co modelujesz<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>Chociaż w wydanym wydaniu może zostać wysłane na całe oprogramowanie, że nie jest znane, które zostało przekazane przez użytkownika, aby być zarejestrowanym w programie. Kiedy ustalasz, jaki związek z uruchomieniem, najprostszy rodzaj urządzenia, który odpowiada potrzebom, a nie tę, który wydaje się najlepszym pasować w rzeczywistym kontekście.<p>Na przykład, jeśli istnieje symulator warsztatu blacharskiego, możesz zaimplementować samochód i silnik jako sumę, aby silnik mógł zostać usunięty i odłożony na półkę na później. Jeśli tylko to działanie jest skutkiem zaimplementowania samochodu i silnika jako kompozycji, ponieważ w tym przypadku silnik nigdy nie będzie działać poza sytuacją.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Zaimplementuj typowy typ relacji, który zapewnia zastosowanie programu, a nie, co jest uznawane za uzasadnione w działaniu.</div><p class="cpp-section cpp-topline" style=clear:both>Podsumowanie i agregacja<p>Kompozycja:<ul><li>Zazwyczaj używanych normalnych wartości składowych<li>Może wspólne wartości, jeśli klasa sama obsługuje alokację/delokację obiektów<li>Odpowiedzialny za tworzenie/enie części</ul><p>Agregacje:<ul><li>Za używanie znaku lub uwagi referencyjnej, poza zakresem klasy agregatu lub odwoływania się do nich<li>Nie odpowiada za tworzenie/niszczenie części</ul><p>Warto podkreślić, że koncepcjae merytoryczne i agregacji można swobodnie zrozumieć w ramach tej samej klasy. Całkiem możliwe jest napisanie klasy odpowiedzialnej za tworzenie/zniszczenie niektórych części, ale nie innych. Na przykład nasza klasa Działu może mieć imię i nauczyciel. Nazwa prawdopodobnie zostałaby dodana do Departamentu w drodze składu oraz została stworzona przez utworzona i zniszczona wraz z Departamentem. Z drugiej strony nauczyciel został dodany do działu poprzez agregację i urządzenie sterujące/zniszczone.<p>Chociaż agregacje mogą być ultrawysokie, są również dodatkowe dodatkowe, boczne agregacje, które nie radzą sobie z dezalokacją swoich części. Dealokacja tworzenia się strony rozszerzonej. Jeśli strona zewnętrzna nie ma już związku z porzuceniem części, lub jeśli po prostu zapomniano (zakładając, że klasa sobie z tym zadziała), nastąpiło zdarzenie pamięci.<p>Z tego powodu konsekwencje być preferowane zamiast agregacji.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Kilkażeń/errata<p>Z powodu wystąpienia głównych komunikatów, w przypadku powiadomienia, agregacji nie jest napisane — powiadomienia o wystąpieniu, że inne materiały referencyjne definiują ją inaczej niż my. W porządku, po prostu bądź tego świadomy.<p>I ostatnia uwaga: w lekcji <a href="../introduction-to-structs-members-and-member-selection/index.html">13.7 — Wprowadzenie do struktur, elementów i wybranych elementów</a> zdefiniowaliśmy zagregowane typy danych (takie jak struktury i klasy) jako typy danych, które grupują razem wiele zmiennych. W swoich podróżach po C++ można także natknąć się na termin  <def>klasa zagregowana</def> , która jest organizacją lub klasą, która nie ma wspólnych konstruktorów, destruktorów ani przeciążonych przypisań, ma wszystkie elementy zewnętrzne i nie korzystają z zwiedzeń — jest to wspólne struktury danych. pomimo podobieństwa w nazewnictwie, agregaty i agregacja są różne i nie należy ich mylić.<p class="cpp-section cpp-topline" style=clear:both>std::reference_wrapper<p>W <code>Department</code>/<code>Teacher</code> przykład powyżej użyliśmy odniesienia w <code>Department</code> do przechowywania <code>Teacher</code>. Działa to dobrze, jeśli jest tylko jeden <code>Teacher</code>, ale co, jeśli wydział ma wielu nauczycieli? Chcielibyśmy tych nauczycieli na liście (np.  <code>std::vector</code>), ale stałe tablice i różne standardowe listy bibliotek nie mogą być odniesione (ponieważ elementy listy muszą być przypisywalne, a odniesione nie można ponownie przypisać).<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::vector&lt;const Teacher&amp;&gt; m_teachers{}; // Illegal</code></pre><p>Zamiast odniesionych moglibyśmy być przekazani, ale do przesłanego przez Ciebie przekazania lub przekazania kontroli zerowych. W  <code>Department</code>/<code>Teacher</code> nie chcemy zezwalać na wskaźniki zerowe. Aby mieć dziesięć problemów, istnieje <code>std::reference_wrapper</code>.<p>Zasadniczo <code>std::reference_wrapper</code> to klasa, która działa jak referencja, ale umożliwia także przypisywanie i kopiowanie, więc jest kompatybilny z listami języka jak <code>std::vector</code>.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p>Dobra jest taka, że ​​​​tak nie akceptuje, jak to działa, aby z niedozwolonym. Wszystko, co musisz wiedzieć, do trzech rzeczy:<ol start=1><li><code>std::reference_wrapper</code> znajduje się w nagłówku &lt;funkcjonalny&gt;.<li>Kiedy tworzywosz  <code>std::reference_wrapper</code> obiekt opakowany, obiekt nie może być obiektem anonimowym (ponieważ obiekty anonimowe mają zakres terytorialny, a do pozostawienia naprawionego w zawieszeniu).<li>jeśli chcesz mieć obiekt z  <code>std::reference_wrapper</code>,   <code>get()</code> funkcja składowa.</ol><p>Oto przykład użycia <code>std::reference_wrapper</code> w <code>std::vector</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;functional&gt; // std::reference_wrapper
@@ -67,39 +67,39 @@ int main()
 
 int main()
 {
-  std::string tom{ &#34;Tom&#34; };
-  std::string berta{ &#34;Berta&#34; };
+  std::string tom{ "Tom" };
+  std::string berta{ "Berta" };
 
-  std::vector&lt;std::reference_wrapper&lt;std::string&gt;&gt; names{ tom, berta }; // these strings are stored by reference, not value
+  std::vector&lt;std::reference_wrapper&lt;std::string&gt;&gt; names{ tom, berta }; // te ciągi znaków są przechowywane przez odniesienie, a nie wartość
 
-  std::string jim{ &#34;Jim&#34; };
+  std::string jim{ "Jim" };
 
   names.emplace_back(jim);
 
   for (auto name : names)
   {
-    // Use the get() member function to get the referenced string.
-    name.get() += &#34; Beam&#34;;
+    // Użyj funkcji członkowskiej get(), aby uzyskać odwołanie string.
+    name.get() += " Beam";
   }
 
-  std::cout &lt;&lt; jim &lt;&lt; &#39;\n&#39;; // prints Jim Beam
+  std::cout &lt;&lt; jim &lt;&lt; '\n'; // drukuje Jim Beam
 
   return 0;
-}</code></pre><p>Aby wyprowadzić zestaw powszechny odniesień, wystąpilibyśmy const przed <code>std::string</code> w dziesięć sposobów<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Vector of const references to std::string
+}</code></pre><p>Aby wyprowadzić zestaw powszechny odniesień, wystąpilibyśmy const przed <code>std::string</code> w dziesięć sposobów<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Wektor stałych odwołań do std::string
 std::vector&lt;std::reference_wrapper&lt;const std::string&gt;&gt; names{ tom, berta };</code></pre><p class="cpp-section cpp-topline" style=clear:both>Czas quizu<div class=quiz style=clear:both><p class=quiz-header>Pytanie nr 1<p>Czy chciałbyś to zrobić bardziej szczegółowe, że dodatkowe elementy jako kompozycja lub połączenie?<br>a) Kolorowa piłka<br>b) Pracodawca zatrudniający wiele osób<br>c) Wydziały na uniwersytecie<br>d) Twój wiek<br>e) Worek kulek<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_0 style=display:none><p>a) Skład: Kolor jest objęty wpływami.<br>b) Agregacja: Pracodawca nie rozpoczyna się od wszelkich pracowników i miejmy, że nie zniszczyli wszyscy pracownicy w przypadku bankructwa.<br>c) Skład: Wydziały nie mogą być wykluczone bez uniwersytetu.<br>d) Skład: Twój wiek jest objęty uprawnieniami ty.<br>e) Agregacja: Torba i wychodzi niej kulki wyjścia.</div><p></div><div class=quiz style=clear:both><p class=quiz-header>Pytanie nr 2<p>Z aktualizacja <code>Department</code>/<code>Teacher</code> przykład tak, aby <code>Department</code> mogł obsłużyć wielu nauczycieli. Musi zostać dostarczone kod:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 // ...
 
 int main()
 {
-  // Create a teacher outside the scope of the Department
-  Teacher t1{ &#34;Bob&#34; };
-  Teacher t2{ &#34;Frank&#34; };
-  Teacher t3{ &#34;Beth&#34; };
+  // Utwórz nauczyciela poza zakresem Dział
+  Teacher t1{ "Bob" };
+  Teacher t2{ "Frank" };
+  Teacher t3{ "Beth" };
 
   {
-    // Create a department and add some Teachers to it
-    Department department{}; // create an empty Department
+    // Utwórz oddział i dodaj do niego kilku Nauczycieli
+    Department department{}; // utwórz pusty Dział
 
     department.add(t1);
     department.add(t2);
@@ -107,11 +107,11 @@ int main()
 
     std::cout &lt;&lt; department;
 
-  } // department goes out of scope here and is destroyed
+  } // dział wykracza poza zakres tutaj i zostaje zniszczony
 
-  std::cout &lt;&lt; t1.getName() &lt;&lt; &#34; still exists!\n&#34;;
-  std::cout &lt;&lt; t2.getName() &lt;&lt; &#34; still exists!\n&#34;;
-  std::cout &lt;&lt; t3.getName() &lt;&lt; &#34; still exists!\n&#34;;
+  std::cout &lt;&lt; t1.getName() &lt;&lt; " still exists!\n";
+  std::cout &lt;&lt; t2.getName() &lt;&lt; " still exists!\n";
+  std::cout &lt;&lt; t3.getName() &lt;&lt; " still exists!\n";
 
   return 0;
 }</code></pre><p>To powinno zostać wydrukowane:<pre>Department: Bob Frank Beth
@@ -146,8 +146,8 @@ private:
 public:
   Department() = default;
 
-  // Pass by regular reference. The user of the Department class shouldn&#39;t care
-  // about how it&#39;s implemented.
+  // Przejdź przez regularne odniesienia. Użytkownika klasy Department nie powinno to obchodzić
+  // o tym, jak to jest zaimplementowane.
   void add(const Teacher&amp; teacher)
   {
     m_teachers.emplace_back(teacher);
@@ -155,14 +155,14 @@ public:
 
   friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const Department&amp; department)
   {
-    out &lt;&lt; &#34;Department: &#34;;
+    out &lt;&lt; "Department: ";
 
     for (const auto&amp; teacher : department.m_teachers)
     {
-      out &lt;&lt; teacher.get().getName() &lt;&lt; &#39; &#39;;
+      out &lt;&lt; teacher.get().getName() &lt;&lt; ' ';
     }
 
-    out &lt;&lt; &#39;\n&#39;;
+    out &lt;&lt; '\n';
 
     return out;
   }
@@ -170,14 +170,14 @@ public:
 
 int main()
 {
-  // Create a teacher outside the scope of the Department
-  Teacher t1{ &#34;Bob&#34; };
-  Teacher t2{ &#34;Frank&#34; };
-  Teacher t3{ &#34;Beth&#34; };
+  // Utwórz nauczyciela poza zakresem Dział
+  Teacher t1{ "Bob" };
+  Teacher t2{ "Frank" };
+  Teacher t3{ "Beth" };
 
   {
-    // Create a department and add some Teachers to it
-    Department department{}; // create an empty Department
+    // Utwórz oddział i dodaj do niego kilku Nauczycieli
+    Department department{}; // utwórz pusty Dział
 
     department.add(t1);
     department.add(t2);
@@ -185,11 +185,11 @@ int main()
 
     std::cout &lt;&lt; department;
 
-  } // department goes out of scope here and is destroyed
+  } // dział wykracza poza zakres tutaj i zostaje zniszczony
 
-  std::cout &lt;&lt; t1.getName() &lt;&lt; &#34; still exists!\n&#34;;
-  std::cout &lt;&lt; t2.getName() &lt;&lt; &#34; still exists!\n&#34;;
-  std::cout &lt;&lt; t3.getName() &lt;&lt; &#34; still exists!\n&#34;;
+  std::cout &lt;&lt; t1.getName() &lt;&lt; " still exists!\n";
+  std::cout &lt;&lt; t2.getName() &lt;&lt; " still exists!\n";
+  std::cout &lt;&lt; t3.getName() &lt;&lt; " still exists!\n";
 
   return 0;
 }</code></pre></div></div><div class=prevnext><div class=prevnext-inline><a class=nav-link href="../association/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>23.4</span>Stowarzyszenie</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../102-composition/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>23.2</span>Kompozycja</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/aggregation/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../102-composition/index.html" rel=prev><span>23.2 — Skład</span></a></div><div class=nav-next><em>Następny post</em><a href="../container-classes/index.html" rel=next><span>23.6 — Klasy kontenerowe</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>

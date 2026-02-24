@@ -55,21 +55,21 @@ The remainder is: 2
 6 is not evenly divisible by -4
 </pre><p>W obu przypadkach widać, że reszta przyjmuje znak pierwszego operandu.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nomenklatura<p>Standard C++ tak naprawdę nie podaje nazwy dla <code>operator%</code> Jednak standard C++20 mówi, że „binarny operator % daje resztę z dzielenia pierwszego wyrażenia przez sekunda”.<p>Chociaż <code>operator%</code> jest często nazywany operatorem „modulo” lub „modulus”, może to być mylące, ponieważ modulo w matematyce jest często definiowane w sposób, który daje inny wynik niż ten, który <code>operator%</code> w C++ daje, gdy jeden (i tylko jeden) z operandów jest ujemny.<p>Na przykład w matematyce:<br>-21 modulo 4 = 3<br>-21 reszta 4 = -1<p>Z tego powodu uważamy, że nazwa „reszta” jest bardziej dokładną nazwą dla <code>operator%</code> niż „modulo”.</div><p>W przypadkach, gdy pierwszy operand może być ujemny, należy pamiętać, że reszta może być również ujemna. Można na przykład pomyśleć o napisaniu funkcji, która zwraca, czy liczba jest nieparzysta to:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">bool isOdd(int x)
 {
-    return (x % 2) == 1; // fails when x is -5
+    return (x % 2) == 1; // nie powiedzie się, gdy x wynosi -5
 }</code></pre><p>To jednak nie powiedzie się, gdy x jest ujemną liczbą nieparzystą, na przykład <code>-5</code>, ponieważ <code>-5 % 2</code> jest -1 i -1 != 1.<p>Z tego powodu, jeśli zamierzasz porównać wynik operacji reszty, lepiej porównać z 0, które nie ma problemów z liczbami dodatnimi/ujemnymi:<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">bool isOdd(int x)
 {
     return (x % 2) != 0; // could also write return (x % 2)
 }</code></pre><div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Wolę porównać wynik reszty operator (<code>operator%</code>) względem 0, jeśli to możliwe.</div><p class="cpp-section cpp-topline" style=clear:both>Gdzie jest operator wykładnika?<p>Zauważysz, że operator <em>^</em> (powszechnie używany do oznaczania potęgowania w matematyce) to <em>Bitowego XOR</em> operacja w C++ (opisana w lekcji <a href="../bit-manipulation-with-bitwise-operators-and-bit-masks/index.html">O.3 -- Manipulacja bitami za pomocą operatorów bitowych i bitów masks</a>). C++ nie zawiera operatora wykładnika.<p>Aby wykonać wykładniki w C++, #dołącz nagłówek &lt;cmath&gt; i użyj funkcji pow():<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cmath&gt;
 
-double x{ std::pow(3.0, 4.0) }; // 3 to the 4th power</code></pre><p>Zauważ, że parametry (i zwracana wartość) funkcji pow() są typu double Ze względu na błędy zaokrąglania liczb zmiennoprzecinkowych wyniki pow() mogą nie być dokładne (nawet jeśli przekażesz je jako liczby całkowite). lub liczby całkowite).<p>Jeśli chcesz dokonać potęgowania liczb całkowitych, najlepiej użyj do tego własnej funkcji. Następująca funkcja implementuje potęgowanie liczb całkowitych (w celu zwiększenia wydajności wykorzystuje nieintuicyjny algorytm „potęgowania przez podniesienie”):<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cassert&gt; // for assert
-#include &lt;cstdint&gt; // for std::int64_t
+double x{ std::pow(3.0, 4.0) }; // 3 do potęgi czwartej</code></pre><p>Zauważ, że parametry (i zwracana wartość) funkcji pow() są typu double Ze względu na błędy zaokrąglania liczb zmiennoprzecinkowych wyniki pow() mogą nie być dokładne (nawet jeśli przekażesz je jako liczby całkowite). lub liczby całkowite).<p>Jeśli chcesz dokonać potęgowania liczb całkowitych, najlepiej użyj do tego własnej funkcji. Następująca funkcja implementuje potęgowanie liczb całkowitych (w celu zwiększenia wydajności wykorzystuje nieintuicyjny algorytm „potęgowania przez podniesienie”):<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cassert&gt; // dla potwierdzenia
+#include &lt;cstdint&gt; // dla std::int64_t
 #include &lt;iostream&gt;
 
-// note: exp must be non-negative
-// note: does not perform range/overflow checking, use with caution
+// uwaga: exp musi być nieujemna
+// uwaga: nie sprawdza zakresu/przepełnienia, używaj ostrożnie
 constexpr std::int64_t powint(std::int64_t base, int exp)
 {
-	assert(exp &gt;= 0 &amp;&amp; &#34;powint: exp parameter has negative value&#34;);
+	assert(exp &gt;= 0 &amp;&amp; "powint: exp parameter has negative value");
 
 	// Handle 0 case
 	if (base == 0)
@@ -78,7 +78,7 @@ constexpr std::int64_t powint(std::int64_t base, int exp)
 	std::int64_t result{ 1 };
 	while (exp &gt; 0)
 	{
-		if (exp &amp; 1)  // if exp is odd
+		if (exp &amp; 1)  // jeśli exp jest nieparzysty
 			result *= base;
 		exp /= 2;
 		base *= base;
@@ -89,21 +89,21 @@ constexpr std::int64_t powint(std::int64_t base, int exp)
 
 int main()
 {
-	std::cout &lt;&lt; powint(7, 12) &lt;&lt; &#39;\n&#39;; // 7 to the 12th power
+	std::cout &lt;&lt; powint(7, 12) &lt;&lt; '\n'; // 7 do potęgi 12
 
 	return 0;
 }</code></pre><p>Produkuje:<pre>13841287201
-</pre><p>Nie martw się, jeśli nie rozumiesz, jak działa ta funkcja – nie musisz jej rozumieć w języku aby go wywołać.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Powiązana treść<p>Afirmacje omówimy na lekcji <a href="../assert-and-static_assert/index.html">9.6 — Assert i static_assert</a>, a funkcje constexpr na lekcji <a href="../constexpr-functions/index.html">F.1 -- Funkcje Constexpr</a>.</div><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Dla zaawansowanych czytelników<p>Klasa <code>constexpr</code> umożliwia ocenę funkcji w czasie kompilacji, jeśli jest używana w wyrażeniu stałym; w przeciwnym razie zachowuje się jak zwykła funkcja i jest oceniana w czasie wykonywania.</div><div class="cpp-note cpp-lightredbackground"><p class="cpp-note-title cpp-bottomline">Ostrzeżenie<p>W zdecydowanej większości przypadków potęgowanie liczb całkowitych przepełni typ całkowity. Prawdopodobnie z tego właśnie powodu taka funkcja nie została uwzględniona w bibliotece standardowej.</div><p>Oto bezpieczniejsza wersja powyższej funkcji potęgowania, która sprawdza przepełnienie:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cassert&gt; // for assert
-#include &lt;cstdint&gt; // for std::int64_t
+</pre><p>Nie martw się, jeśli nie rozumiesz, jak działa ta funkcja – nie musisz jej rozumieć w języku aby go wywołać.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Powiązana treść<p>Afirmacje omówimy na lekcji <a href="../assert-and-static_assert/index.html">9.6 — Assert i static_assert</a>, a funkcje constexpr na lekcji <a href="../constexpr-functions/index.html">F.1 -- Funkcje Constexpr</a>.</div><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Dla zaawansowanych czytelników<p>Klasa <code>constexpr</code> umożliwia ocenę funkcji w czasie kompilacji, jeśli jest używana w wyrażeniu stałym; w przeciwnym razie zachowuje się jak zwykła funkcja i jest oceniana w czasie wykonywania.</div><div class="cpp-note cpp-lightredbackground"><p class="cpp-note-title cpp-bottomline">Ostrzeżenie<p>W zdecydowanej większości przypadków potęgowanie liczb całkowitych przepełni typ całkowity. Prawdopodobnie z tego właśnie powodu taka funkcja nie została uwzględniona w bibliotece standardowej.</div><p>Oto bezpieczniejsza wersja powyższej funkcji potęgowania, która sprawdza przepełnienie:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cassert&gt; // dla potwierdzenia
+#include &lt;cstdint&gt; // dla std::int64_t
 #include &lt;iostream&gt;
-#include &lt;limits&gt; // for std::numeric_limits
+#include &lt;limits&gt; // dla std::numeric_limits
 
-// A safer (but slower) version of powint() that checks for overflow
-// note: exp must be non-negative
-// Returns std::numeric_limits&lt;std::int64_t&gt;::max() if overflow occurs
+// Bezpieczniejsza (ale wolniejsza) wersja powint(), która sprawdza przepełnienie
+// uwaga: exp musi być nieujemna
+// Zwraca std::numeric_limits&lt;std::int64_t&gt;::max() w przypadku przepełnienia występuje
 constexpr std::int64_t powint_safe(std::int64_t base, int exp)
 {
-    assert(exp &gt;= 0 &amp;&amp; &#34;powint_safe: exp parameter has negative value&#34;);
+    assert(exp &gt;= 0 &amp;&amp; "powint_safe: exp parameter has negative value");
 
     // Handle 0 case
     if (base == 0)
@@ -111,8 +111,8 @@ constexpr std::int64_t powint_safe(std::int64_t base, int exp)
 
     std::int64_t result { 1 };
 
-    // To make the range checks easier, we&#39;ll ensure base is positive
-    // We&#39;ll flip the result at the end if needed
+    // Aby ułatwić sprawdzanie zakresu, upewnimy się, że podstawa jest dodatnia
+    // W razie potrzeby odwrócimy wynik na końcu
     bool negativeResult{ false };
 
     if (base &lt; 0)
@@ -123,12 +123,12 @@ constexpr std::int64_t powint_safe(std::int64_t base, int exp)
 
     while (exp &gt; 0)
     {
-        if (exp &amp; 1) // if exp is odd
+        if (exp &amp; 1) // jeśli exp jest nieparzysty
         {
-            // Check if result will overflow when multiplied by base
+            // Sprawdź, czy wynik będzie przepełniony przy pomnożeniu przez podstawę
             if (result &gt; std::numeric_limits&lt;std::int64_t&gt;::max() / base)
             {
-                std::cerr &lt;&lt; &#34;powint_safe(): result overflowed\n&#34;;
+                std::cerr &lt;&lt; "powint_safe(): result overflowed\n";
                 return std::numeric_limits&lt;std::int64_t&gt;::max();
             }
 
@@ -137,16 +137,16 @@ constexpr std::int64_t powint_safe(std::int64_t base, int exp)
 
         exp /= 2;
 
-        // If we&#39;re done, get out here
+        // Jeśli skończyliśmy, wyjdź tutaj
         if (exp &lt;= 0)
             break;
 
-        // The following only needs to execute if we&#39;re going to iterate again
+        // Wymagane są tylko poniższe wiersze do wykonania, jeśli mamy zamiar powtórzyć iterację
 
-        // Check if base will overflow when multiplied by base
+        // Sprawdź, czy baza tak przepełnienie przy mnożeniu przez podstawę
         if (base &gt; std::numeric_limits&lt;std::int64_t&gt;::max() / base)
         {
-            std::cerr &lt;&lt; &#34;powint_safe(): base overflowed\n&#34;;
+            std::cerr &lt;&lt; "powint_safe(): base overflowed\n";
             return std::numeric_limits&lt;std::int64_t&gt;::max();
         }
 
@@ -161,8 +161,8 @@ constexpr std::int64_t powint_safe(std::int64_t base, int exp)
 
 int main()
 {
-	std::cout &lt;&lt; powint_safe(7, 12) &lt;&lt; &#39;\n&#39;; // 7 to the 12th power
-	std::cout &lt;&lt; powint_safe(70, 12) &lt;&lt; &#39;\n&#39;; // 70 to the 12th power (will return the max 64-bit int value)
+	std::cout &lt;&lt; powint_safe(7, 12) &lt;&lt; '\n'; // 7 do potęgi 12
+	std::cout &lt;&lt; powint_safe(70, 12) &lt;&lt; '\n'; // 70 do potęgi 12 (zwróci maksymalną 64-bitową wartość int)
 
 	return 0;
 }</code></pre><p class="cpp-section cpp-topline" style=clear:both>Czas quizu<div class=quiz style=clear:both><p class=quiz-header>Pytanie nr 1<p>Co oznacza poniższe wyrażenie? <code>6 + 5 * 4 % 3</code><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_0 style=display:none>Ponieważ * i % mają wyższy priorytet niż +, znak + zostanie obliczony jako ostatni. Możemy przepisać nasze wyrażenie jako 6 + (5 * 4% 3). Operatory * i % mają ten sam priorytet, więc aby je rozwiązać, musimy przyjrzeć się skojarzeniom. Łączność operatorów * i % przebiega od lewej do prawej, dlatego najpierw rozwiązujemy operator lewy. Możemy przepisać nasze wyrażenie w następujący sposób: 6 + ((5 * 4) % 3).<p><p>6 + ((5 * 4) % 3) = 6 + (20 % 3) = 6 + 2 = 8</div><p></div><div class=quiz style=clear:both><p class=quiz-header>Pytanie nr 2<p>Napisz program, który poprosi użytkownika o wprowadzenie liczby całkowitej i poinformuje użytkownika, czy liczba ta jest parzysta czy nieparzysta. Napisz funkcję constexpr o nazwie <code>isEven()</code> , która zwraca wartość true, jeśli przekazana do niej liczba całkowita jest parzysta, lub false w przeciwnym razie. Użyj operatora reszty, aby sprawdzić, czy parametr całkowity jest parzysty. Upewnij się, że <code>isEven()</code> działa zarówno z liczbami dodatnimi, jak i ujemnymi.<p><a class=hint_link_show href=javascript:void(0) onclick="cppHintToggle(document.getElementById('cpp_hint_id_0'),this,'Show Hint','')">Pokaż wskazówkę</a><div class=wphint id=cpp_hint_id_0 style=display:none;margin-bottom:1em>Wskazówka: w tym programie może być konieczne użycie instrukcji if i operatora porównania (==). Zobacz lekcję <a href="../boolean-values/index.html">4.9 -- Wartości logiczne</a> , jeśli potrzebujesz odświeżenia wiedzy, jak to zrobić.</div><p>Twój program powinien odpowiadać następującym wynikom:<pre>Enter an integer: 5
@@ -171,20 +171,20 @@ int main()
 
 constexpr bool isEven(int x)
 {
-    // if x % 2 == 0, 2 divides evenly into our number, which means it must be an even number
+    // jeśli x % 2 == 0, 2 dzieli się równo przez naszą liczbę, co oznacza, że musi to być liczba parzysta
     return (x % 2) == 0;
 }
 
 int main()
 {
-    std::cout &lt;&lt; &#34;Enter an integer: &#34;;
+    std::cout &lt;&lt; "Enter an integer: ";
     int x{};
     std::cin &gt;&gt; x;
 
     if (isEven(x))
-        std::cout &lt;&lt; x &lt;&lt; &#34; is even\n&#34;;
+        std::cout &lt;&lt; x &lt;&lt; " is even\n";
     else
-        std::cout &lt;&lt; x &lt;&lt; &#34; is odd\n&#34;;
+        std::cout &lt;&lt; x &lt;&lt; " is odd\n";
 
     return 0;
 }</code></pre><p>Uwaga: Być może poczułeś pokusę napisania funkcji isEven() w ten sposób:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">constexpr bool isEven(int x)
@@ -196,9 +196,9 @@ int main()
 }</code></pre><p>Chociaż to działa, jest bardziej skomplikowane, niż powinno. Przyjrzyjmy się, jak możemy to uprościć. Najpierw wyciągnijmy warunek instrukcji if i przypiszmy ją do osobnej wartości logicznej:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">constexpr bool isEven(int x)
 {
     bool isEven = (x % 2) == 0;
-    if (isEven) // isEven is true
+    if (isEven) // isEven ma wartość true
         return true;
-    else // isEven is false
+    else // jestNawet fałszywe
         return false;
 }</code></pre><p>Teraz zauważ, że powyższa instrukcja if zasadniczo mówi: „jeśli isEven jest prawdą, zwróć prawdę, w przeciwnym razie, jeśli isEven jest fałszywe, zwróć fałsz”. W takim przypadku możemy po prostu zwrócić isEven:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">constexpr bool isEven(int x)
 {

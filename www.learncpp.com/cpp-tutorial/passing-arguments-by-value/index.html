@@ -35,17 +35,17 @@ int main()
 
 int getValueFromUser()
 {
- 	std::cout &lt;&lt; &#34;Enter an integer: &#34;;
+ 	std::cout &lt;&lt; "Enter an integer: ";
 	int input{};
 	std::cin &gt;&gt; input;  
 
 	return input;
 }
 
-// This function won&#39;t compile
+// Ta funkcja nie zostanie skompilowana
 void printDouble()
 {
-	std::cout &lt;&lt; num &lt;&lt; &#34; doubled is: &#34; &lt;&lt; num * 2 &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; num &lt;&lt; " doubled is: " &lt;&lt; num * 2 &lt;&lt; '\n';
 }
 
 int main()
@@ -57,42 +57,42 @@ int main()
 	return 0;
 }</code></pre><p>To się nie skompiluje, ponieważ funkcja <em>printDouble</em> nie wie, jaki identyfikator <em>num</em> jest. Możesz spróbować zdefiniować num jako zmienną wewnątrz funkcji printDouble():<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">void printDouble()
 {
-	int num{}; // we added this line
-	std::cout &lt;&lt; num &lt;&lt; &#34; doubled is: &#34; &lt;&lt; num * 2 &lt;&lt; &#39;\n&#39;;
-}</code></pre><p>Chociaż rozwiązuje to błąd kompilatora i umożliwia kompilację programu, program nadal nie działa poprawnie (zawsze wypisuje „0 podwojone to: 0”). Sednem problemu jest to, że funkcja <em>printDouble</em> nie ma możliwości dostępu do wartości wprowadzonej przez użytkownika.<p>Musimy w jakiś sposób przekazać wartość zmiennej <em>num</em> do funkcji <em>printDouble</em> tak, że <em>printDouble</em> możemy użyć tej wartości w treść funkcji.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Parametry i argumenty funkcji<p>W wielu przypadkach przydatna jest możliwość przekazania informacji <em>Do</em> o wywoływanej funkcji, aby funkcja miała dane do pracy. Na przykład, jeśli chcemy napisać funkcję dodającą dwie liczby, potrzebujemy sposobu, aby powiedzieć funkcji, które dwie liczby mają zostać dodane, gdy ją wywołamy. W przeciwnym razie skąd funkcja wiedziałaby, co dodać? Robimy to poprzez parametry i argumenty funkcji.<p>A <strong>parametr funkcji</strong> to zmienna używana w nagłówku funkcji. Parametry funkcji działają niemal identycznie jak zmienne zdefiniowane wewnątrz funkcji, z jedną różnicą: są inicjowane wartością podaną przez osobę wywołującą funkcję.<p>Parametry funkcji definiuje się w nagłówku funkcji poprzez umieszczenie ich pomiędzy nawiasami po nazwie funkcji, przy czym poszczególne parametry oddziela się przecinkami.<p>Oto kilka przykładów funkcji z różną liczbą parametrów:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// This function takes no parameters
-// It does not rely on the caller for anything
+	int num{}; // dodaliśmy to linia
+	std::cout &lt;&lt; num &lt;&lt; " doubled is: " &lt;&lt; num * 2 &lt;&lt; '\n';
+}</code></pre><p>Chociaż rozwiązuje to błąd kompilatora i umożliwia kompilację programu, program nadal nie działa poprawnie (zawsze wypisuje „0 podwojone to: 0”). Sednem problemu jest to, że funkcja <em>printDouble</em> nie ma możliwości dostępu do wartości wprowadzonej przez użytkownika.<p>Musimy w jakiś sposób przekazać wartość zmiennej <em>num</em> do funkcji <em>printDouble</em> tak, że <em>printDouble</em> możemy użyć tej wartości w treść funkcji.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Parametry i argumenty funkcji<p>W wielu przypadkach przydatna jest możliwość przekazania informacji <em>Do</em> o wywoływanej funkcji, aby funkcja miała dane do pracy. Na przykład, jeśli chcemy napisać funkcję dodającą dwie liczby, potrzebujemy sposobu, aby powiedzieć funkcji, które dwie liczby mają zostać dodane, gdy ją wywołamy. W przeciwnym razie skąd funkcja wiedziałaby, co dodać? Robimy to poprzez parametry i argumenty funkcji.<p><strong>parametr funkcji</strong> to zmienna używana w nagłówku funkcji. Parametry funkcji działają niemal identycznie jak zmienne zdefiniowane wewnątrz funkcji, z jedną różnicą: są inicjowane wartością podaną przez osobę wywołującą funkcję.<p>Parametry funkcji definiuje się w nagłówku funkcji poprzez umieszczenie ich pomiędzy nawiasami po nazwie funkcji, przy czym poszczególne parametry oddziela się przecinkami.<p>Oto kilka przykładów funkcji z różną liczbą parametrów:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Ta funkcja nie przyjmuje parametrów
+// Nie jest w niczym zależny od wywołującego
 void doPrint()
 {
-    std::cout &lt;&lt; &#34;In doPrint()\n&#34;;
+    std::cout &lt;&lt; "In doPrint()\n";
 }
 
-// This function takes one integer parameter named x
-// The caller will supply the value of x
+// Ta funkcja przyjmuje jeden parametr całkowity o nazwie x
+// Wywołujący dostarczy wartość x
 void printValue(int x)
 {
-    std::cout &lt;&lt; x &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; x &lt;&lt; '\n';
 }
 
-// This function has two integer parameters, one named x, and one named y
-// The caller will supply the value of both x and y
+// Ta funkcja ma dwa parametry całkowite, jeden o nazwie x i jeden o nazwie y
+// Wywołujący dostarczy wartość zarówno x, jak i y
 int add(int x, int y)
 {
     return x + y;
-}</code></pre><p>An <strong>argument</strong> to wartość, która jest przekazał <em>z</em> osobę wywołującą <em>Do</em> funkcję podczas wywołania funkcji:<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">doPrint(); // this call has no arguments
-printValue(6); // 6 is the argument passed to function printValue()
-add(2, 3); // 2 and 3 are the arguments passed to function add()</code></pre><p>Zauważ, że wiele argumentów jest również oddzielanych przecinkami.<p class="cpp-section cpp-topline" style=clear:both>Jak parametry i argumenty współpracują ze sobą<p>Podczas wywoływania funkcji wszystkie parametry funkcji są tworzone jako zmienne, a wartość każdego z argumentów jest <em>kopiowany</em> do pasującego parametru (przy użyciu inicjalizacji kopiowania). Proces ten nazywa się <strong>przekazać wartość</strong>. Parametry funkcji wykorzystujące przekazywanie wartości nazywane są <strong>parametrami wartości</strong>.<p>Na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+}</code></pre><p><strong>argument</strong> to wartość, która jest przekazał <em>z</em> osobę wywołującą <em>Do</em> funkcję podczas wywołania funkcji:<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">doPrint(); // to wywołanie nie ma argumentów
+printValue(6); // 6 do argumentu przekazanego do funkcji printValue()
+add(2, 3); // 2 i 3 są argumentami przekazywanymi do funkcji add()</code></pre><p>Zauważ, że wiele argumentów jest również oddzielanych przecinkami.<p class="cpp-section cpp-topline" style=clear:both>Jak parametry i argumenty współpracują ze sobą<p>Podczas wywoływania funkcji wszystkie parametry funkcji są tworzone jako zmienne, a wartość każdego z argumentów jest <em>kopiowany</em> do pasującego parametru (przy użyciu inicjalizacji kopiowania). Proces ten nazywa się <strong>przekazać wartość</strong>. Parametry funkcji wykorzystujące przekazywanie wartości nazywane są <strong>parametrami wartości</strong>.<p>Na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-// This function has two integer parameters, one named x, and one named y
-// The values of x and y are passed in by the caller
+// Ta funkcja ma dwa parametry całkowite, jeden o nazwie x i jeden o nazwie y
+// Wartości x i y są przekazywane przez obiekt wywołujący
 void printValues(int x, int y)
 {
-    std::cout &lt;&lt; x &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; y &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; x &lt;&lt; '\n';
+    std::cout &lt;&lt; y &lt;&lt; '\n';
 }
 
 int main()
 {
-    printValues(6, 7); // This function call has two arguments, 6 and 7
+    printValues(6, 7); // To wywołanie funkcji ma dwa argumenty, 6 i 7
 
     return 0;
 }</code></pre><p>Gdy funkcja <em>printValues</em> jest wywoływana z argumentami <em>6</em> i <em>7</em>, <em>printValues</em>parametru <em>x</em> jest tworzony i inicjowany wartością <em>6</em>, I <em>printValues</em>parametru <em>y</em> jest tworzony i inicjowany wartością <em>7</em>.<p>To daje wynik:<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre>6
@@ -101,16 +101,16 @@ int main()
 
 int getValueFromUser()
 {
- 	std::cout &lt;&lt; &#34;Enter an integer: &#34;;
+ 	std::cout &lt;&lt; "Enter an integer: ";
 	int input{};
 	std::cin &gt;&gt; input;  
 
 	return input;
 }
 
-void printDouble(int value) // This function now has an integer parameter
+void printDouble(int value) // Ta funkcja ma teraz parametr całkowity
 {
-	std::cout &lt;&lt; value &lt;&lt; &#34; doubled is: &#34; &lt;&lt; value * 2 &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; value &lt;&lt; " doubled is: " &lt;&lt; value * 2 &lt;&lt; '\n';
 }
 
 int main()
@@ -143,19 +143,19 @@ int main()
 	return 0;
 }</code></pre><p>Teraz używamy wartości zwracanej przez funkcję <em>getValueFromUser</em> bezpośrednio jako argumentu funkcji <em>printDouble</em>!<p>Chociaż ten program jest bardziej zwięzły (i sprawia, że jasne, że wartość odczytana przez użytkownika nie będzie używana do niczego innego), ta „zwarta składnia” może również okazać się nieco trudna do odczytania. Jeśli wolisz pozostać przy wersji, która zamiast tego używa zmiennej, nie ma problemu.<p class="cpp-section cpp-topline" style=clear:both>Jak parametry współpracują ze sobą i zwracane wartości<p>Używając zarówno parametrów, jak i wartości zwracanej, możemy utworzyć funkcje, które przyjmują dane jako dane wejściowe, wykonują na nich pewne obliczenia i zwracają wartość wywołującemu.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p>Oto przykład bardzo prostej funkcji, która dodaje dwie liczby do siebie i zwraca wynik do funkcji wywołujący:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-// add() takes two integers as parameters, and returns the result of their sum
-// The values of x and y are determined by the function that calls add()
+// add() przyjmuje dwie liczby całkowite jako parametry i zwraca wynik ich sumy
+// Wartości x i y są określane przez funkcję wywołującą add()
 int add(int x, int y)
 {
     return x + y;
 }
 
-// main takes no parameters
+// main nie przyjmuje żadnych parametrów
 int main()
 {
-    std::cout &lt;&lt; add(4, 5) &lt;&lt; &#39;\n&#39;; // Arguments 4 and 5 are passed to function add()
+    std::cout &lt;&lt; add(4, 5) &lt;&lt; '\n'; // Argumenty 4 i 5 są przekazywane do funkcji add()
     return 0;
-}</code></pre><p>Wykonanie rozpoczyna się od góry <em>głównego</em>. Podczas oceny <code>add(4, 5)</code> wywoływana jest funkcja <em>add</em> , której parametr <em>x</em> jest inicjowany wartością <em>4</em>, a parametr <em>y</em> jest inicjowany wartością <em>5</em>.<p>Klasa <em>oświadczenie zwrotne</em> w funkcji <em>add</em> ocenia <em>x + y</em> w celu wygenerowania wartości <em>9</em>, która jest następnie wrócił do <em>głównego</em>. Ta wartość <em>9</em> jest następnie wysyłana do <em>std::cout</em> w celu wydrukowania na konsoli.<p>Wyjście:<pre>9
+}</code></pre><p>Wykonanie rozpoczyna się od góry <em>głównego</em>. Podczas oceny <code>add(4, 5)</code> wywoływana jest funkcja <em>add</em> , której parametr <em>x</em> jest inicjowany wartością <em>4</em>, a parametr <em>y</em> jest inicjowany wartością <em>5</em>.<p>Klasa <em>instrukcja return</em> w funkcji <em>add</em> ocenia <em>x + y</em> w celu wygenerowania wartości <em>9</em>, która jest następnie wrócił do <em>głównego</em>. Ta wartość <em>9</em> jest następnie wysyłana do <em>std::cout</em> w celu wydrukowania na konsoli.<p>Wyjście:<pre>9
 </pre><p>W formacie obrazkowym:<div class=cpp-image-wrapper><img src="../../images/CppTutorial/Chapter2/ParametersReturn.png" alt></div><p class="cpp-section cpp-topline" style=clear:both>Więcej przykładów<p>Przyjrzyjmy się kilku innym wywołaniom funkcji:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 int add(int x, int y)
@@ -186,9 +186,9 @@ int main()
 7
 6
 </pre><p>Pierwsza instrukcja jest prosta.<p>W drugiej instrukcji argumenty są wyrażenia, które są oceniane przed przekazaniem. W tym przypadku <em>1 + 2</em> wyniesie  <em>3</em>, więc <em>3</em> jest kopiowany do parametru <em>x</em>. <em>3 * 4</em> wyniesie  <em>12</em>, więc <em>12</em> jest kopiowany do parametru <em>y</em>. <em>add(3, 12)</em> rozwiązuje się do <em>15</em>.<p>Następna para instrukcji jest również stosunkowo prosta:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    int a{ 5 };
-    std::cout &lt;&lt; add(a, a) &lt;&lt; &#39;\n&#39;; // evaluates (5 + 5)</code></pre><p>W tym przypadku <em>add()</em> jest wywoływana, gdy wartość <em>a</em> jest kopiowana do obu parametry <em>x</em> i <em>y</em>. Ponieważ <em>a</em> ma wartość <em>5</em>, <em>add(a, a)</em> = <em>add(5, 5)</em>, co przekłada się na wartość <em>10</em>.<p>Przyjrzyjmy się pierwszej trudnej instrukcji w grupie:<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    std::cout &lt;&lt; add(1, multiply(2, 3)) &lt;&lt; &#39;\n&#39;; // evaluates 1 + (2 * 3)</code></pre><p>Gdy funkcja <em>add</em> jest wykonywana, program musi określić, jakie wartości parametry <em>x</em> i <em>y</em> są. <em>x</em> jest proste, ponieważ właśnie przekazaliśmy mu liczbę całkowitą <em>1</em>. Aby otrzymać wartość parametru <em>y</em>, należy najpierw obliczyć <em>mnożenie(2, 3)</em> . Program wywołuje  <em>mnożenie</em> i inicjuje <em>z</em> = <em>2</em> i <em>w</em> = <em>3</em>, więc <em>mnożenie(2, 3)</em> zwraca wartość całkowitą <em>6</em>. Ta zwracana wartość <em>6</em> może być teraz użyta do inicjalizacji <em>y</em> parametru <em>add</em> . <em>add(1, 6)</em> zwraca liczbę całkowitą <em>7</em>, która jest następnie przekazywana do std::cout w celu wydrukowania.<p>Put less szczegółowo:<br><em>add(1, multiply(2, 3))</em> wyniesie  <em>add(1, 6)</em> wyniesie  <em>7</em><p>Poniższa instrukcja wygląda na skomplikowaną, ponieważ jeden z argumentów podanych do  <em>add</em> jest kolejnym wywołaniem  <em>add</em>.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    std::cout &lt;&lt; add(1, add(2, 3)) &lt;&lt; &#39;\n&#39;; // evaluates 1 + (2 + 3)</code></pre><p>Ale w tym przypadku działa dokładnie tak samo jak poprzedni przypadek. add(2, 3) jest rozwiązywane jako pierwsze, co daje wartość zwracaną <em>5</em>. Teraz może rozwiązać funkcję add(1, 5), której wynikiem jest wartość <em>6</em>, która jest przekazywana do std::cout w celu wydrukowania.<p>Mniej szczegółowo:<br><em>add(1, add(2, 3))</em> wyniesie  <em>add(1, 5)</em> =&gt; ocenia do <em>6</em><p class="cpp-section cpp-topline" style=clear:both>Parametry bez odniesień i parametry bez nazw<p>W niektórych przypadkach można spotkać funkcje posiadające parametry, które nie są używane w treści funkcji. Są to tak zwane  <strong>parametry bez odniesień</strong>.<p>Jako trywialny przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">void doSomething(int count) // warning: unreferenced parameter count
+    std::cout &lt;&lt; add(a, a) &lt;&lt; &#39;\n&#39;; // evaluates (5 + 5)</code></pre><p>W tym przypadku <em>add()</em> jest wywoływana, gdy wartość <em>a</em> jest kopiowana do obu parametry <em>x</em> i <em>y</em>. Ponieważ <em>a</em> ma wartość <em>5</em>, <em>add(a, a)</em> = <em>add(5, 5)</em>, co przekłada się na wartość <em>10</em>.<p>Przyjrzyjmy się pierwszej trudnej instrukcji w grupie:<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    std::cout &lt;&lt; add(1, multiply(2, 3)) &lt;&lt; &#39;\n&#39;; // evaluates 1 + (2 * 3)</code></pre><p>Gdy funkcja <em>add</em> jest wykonywana, program musi określić, jakie wartości parametry <em>x</em> i <em>y</em> są. <em>x</em> jest proste, ponieważ właśnie przekazaliśmy mu liczbę całkowitą <em>1</em>. Aby otrzymać wartość parametru <em>y</em>, należy najpierw obliczyć <em>mnożenie(2, 3)</em> . Program wywołuje  <em>mnożenie</em> i inicjuje <em>z</em> = <em>2</em> i <em>w</em> = <em>3</em>, więc <em>mnożenie(2, 3)</em> zwraca wartość całkowitą <em>6</em>. Ta zwracana wartość <em>6</em> może być teraz użyta do inicjalizacji <em>y</em> parametru <em>add</em> . <em>add(1, 6)</em> zwraca liczbę całkowitą <em>7</em>, która jest następnie przekazywana do std::cout w celu wydrukowania.<p>Put less szczegółowo:<br><em>add(1, multiply(2, 3))</em> wyniesie  <em>add(1, 6)</em> wyniesie  <em>7</em><p>Poniższa instrukcja wygląda na skomplikowaną, ponieważ jeden z argumentów podanych do  <em>add</em> jest kolejnym wywołaniem  <em>add</em>.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    std::cout &lt;&lt; add(1, add(2, 3)) &lt;&lt; &#39;\n&#39;; // evaluates 1 + (2 + 3)</code></pre><p>Ale w tym przypadku działa dokładnie tak samo jak poprzedni przypadek. add(2, 3) jest rozwiązywane jako pierwsze, co daje wartość zwracaną <em>5</em>. Teraz może rozwiązać funkcję add(1, 5), której wynikiem jest wartość <em>6</em>, która jest przekazywana do std::cout w celu wydrukowania.<p>Mniej szczegółowo:<br><em>add(1, add(2, 3))</em> wyniesie  <em>add(1, 5)</em> =&gt; ocenia do <em>6</em><p class="cpp-section cpp-topline" style=clear:both>Parametry bez odniesień i parametry bez nazw<p>W niektórych przypadkach można spotkać funkcje posiadające parametry, które nie są używane w treści funkcji. Są to tak zwane  <strong>parametry bez odniesień</strong>.<p>Jako trywialny przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">void doSomething(int count) // ostrzeżenie: liczba parametrów bez odniesienia
 {
-    // This function used to do something with count but it is not used any longer
+    // Ta funkcja służyła do wykonywania operacji zliczania, ale nie jest już używana
 }
 
 int main()
@@ -196,7 +196,7 @@ int main()
     doSomething(4);
 
     return 0;
-}</code></pre><p>Podobnie jak w przypadku nieużywanych zmiennych lokalnych, Twój kompilator prawdopodobnie ostrzeże, że zmienna <code>count</code> została zdefiniowana, ale nie została użyta.<p>W definicji funkcji nazwa parametru funkcji jest opcjonalna. Dlatego w przypadkach, gdy parametr funkcji musi istnieć, ale nie jest używany w treści funkcji, można po prostu pominąć nazwę. Parametr bez nazwy nazywany jest  <strong>parametrem nienazwanym</strong>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">void doSomething(int) // ok: unnamed parameter will not generate warning
+}</code></pre><p>Podobnie jak w przypadku nieużywanych zmiennych lokalnych, Twój kompilator prawdopodobnie ostrzeże, że zmienna <code>count</code> została zdefiniowana, ale nie została użyta.<p>W definicji funkcji nazwa parametru funkcji jest opcjonalna. Dlatego w przypadkach, gdy parametr funkcji musi istnieć, ale nie jest używany w treści funkcji, można po prostu pominąć nazwę. Parametr bez nazwy nazywany jest  <strong>parametrem nienazwanym</strong>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">void doSomething(int) // ok: nienazwany parametr nie zostanie wygenerowany ostrzeżenie
 {
 }</code></pre><p>Przewodnik po stylu Google C++ zaleca użycie komentarza w celu udokumentowania, czym był parametr bez nazwy:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">void doSomething(int /*count*/)
 {

@@ -18,11 +18,11 @@
     return x / y;
 }</code></pre><p>Jeśli obiekt wywołujący przekaże wartość, która jest semantycznie niepoprawna (np. <code>y</code> = <code>0</code>), ta funkcja nie może obliczyć wartości do zwrócenia (ponieważ dzielenie przez 0 jest matematycznie niezdefiniowane). Co w takim przypadku robimy? Ponieważ funkcje obliczające wyniki nie powinny powodować żadnych skutków ubocznych, funkcja ta nie jest w stanie rozsądnie rozwiązać samego błędu. W takich przypadkach typową rzeczą jest wykrycie przez funkcję błędu, a następnie przekazanie go z powrotem do wywołującego, aby mógł sobie z tym poradzić w jakiś sposób odpowiedni dla programu.<p>W poprzedniej lekcji omówiliśmy dwa różne sposoby, aby funkcja zwróciła błąd z powrotem do wywołującego: <ul><li>Funkcja zwracająca void zwraca zamiast tego wartość bool (wskazującą sukces lub niepowodzenie).<li>Funkcja zwracająca wartość wartość wskaźnikowa (specjalna wartość, która nie występuje w zbiorze możliwych wartości, które funkcja może w przeciwnym razie zwrócić) wskazująca błąd.</ul><p>Jako przykład tej drugiej funkcji <code>reciprocal()</code> postępująca po niej funkcja zwraca wartość <code>0.0</code> (która w innym przypadku nigdy nie mogłaby wystąpić), jeśli użytkownik przekaże semantycznie niepoprawny argument dla <code>x</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-// The reciprocal of x is 1/x, returns 0.0 if x=0
+// Odwrotność x wynosi 1/x, zwraca 0,0, jeśli x=0
 double reciprocal(double x)
 {
-    if (x == 0.0) // if x is semantically invalid
-       return 0.0; // return 0.0 as a sentinel to indicate an error occurred
+    if (x == 0.0) // jeśli x jest semantyczne nieprawidłowy
+       return 0.0; // zwróć 0,0 jako wskaźnik wskazujący, że wystąpił błąd
 
     return 1.0 / x;
 }
@@ -30,11 +30,11 @@ double reciprocal(double x)
 void testReciprocal(double d)
 {
      double result { reciprocal(d) };
-     std::cout &lt;&lt; &#34;The reciprocal of &#34; &lt;&lt; d &lt;&lt; &#34; is &#34;;
+     std::cout &lt;&lt; "The reciprocal of " &lt;&lt; d &lt;&lt; " is ";
      if (result != 0.0)
-         std::cout &lt;&lt; result &lt;&lt; &#39;\n&#39;;
+         std::cout &lt;&lt; result &lt;&lt; '\n';
      else
-         std::cout &lt;&lt; &#34;undefined\n&#34;;
+         std::cout &lt;&lt; "undefined\n";
 }
 
 int main()
@@ -44,7 +44,7 @@ int main()
     testReciprocal(0.0);
 
     return 0;
-}</code></pre><p>Chociaż jest to dość atrakcyjne rozwiązanie, istnieje wiele potencjalnych wady:<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><ul><li>Programista musi wiedzieć, jakiej wartości wskaźnikowej używa funkcja do wskazania błędu (a wartość ta może się różnić dla każdej funkcji zwracającej błąd tą metodą).<li>Inna wersja tej samej funkcji może używać innej wartości wskaźnikowej.<li>Ta metoda nie działa w przypadku funkcji, w których wszystkie możliwe wartości wskaźnikowe są prawidłowymi wartościami zwrotnymi.</ul><p>Rozważ naszą <code>doIntDivision()</code> funkcję powyżej. Jaką wartość może zwrócić, jeśli użytkownik przekaże <code>0</code> for <code>y</code>? Nie możemy użyć  <code>0</code>, ponieważ <code>0</code> dzielenia przez cokolwiek, co daje <code>0</code> jako prawidłowego wyniku. W rzeczywistości nie ma wartości, które moglibyśmy zwrócić, a które nie mogłyby wystąpić w sposób naturalny.<p>Więc co mamy zrobić?<p>Najpierw możemy wybrać jakąś (miejmy nadzieję) nietypową wartość zwracaną jako nasz wskaźnik i użyć jej do wskazania błędu:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;limits&gt; // for std::numeric_limits
+}</code></pre><p>Chociaż jest to dość atrakcyjne rozwiązanie, istnieje wiele potencjalnych wady:<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><ul><li>Programista musi wiedzieć, jakiej wartości wskaźnikowej używa funkcja do wskazania błędu (a wartość ta może się różnić dla każdej funkcji zwracającej błąd tą metodą).<li>Inna wersja tej samej funkcji może używać innej wartości wskaźnikowej.<li>Ta metoda nie działa w przypadku funkcji, w których wszystkie możliwe wartości wskaźnikowe są prawidłowymi wartościami zwrotnymi.</ul><p>Rozważ naszą <code>doIntDivision()</code> funkcję powyżej. Jaką wartość może zwrócić, jeśli użytkownik przekaże <code>0</code> for <code>y</code>? Nie możemy użyć  <code>0</code>, ponieważ <code>0</code> dzielenia przez cokolwiek, co daje <code>0</code> jako prawidłowego wyniku. W rzeczywistości nie ma wartości, które moglibyśmy zwrócić, a które nie mogłyby wystąpić w sposób naturalny.<p>Więc co mamy zrobić?<p>Najpierw możemy wybrać jakąś (miejmy nadzieję) nietypową wartość zwracaną jako nasz wskaźnik i użyć jej do wskazania błędu:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;limits&gt; // dla std::numeric_limits
 
 // returns std::numeric_limits&lt;int&gt;::lowest() on failure
 int doIntDivision(int x, int y)
@@ -52,56 +52,56 @@ int doIntDivision(int x, int y)
     if (y == 0)
         return std::numeric_limits&lt;int&gt;::lowest();
     return x / y;
-}</code></pre><p><code>std::numeric_limits&lt;T>::lowest()</code> to funkcja, która zwraca najbardziej ujemną wartość dla typu <code>T</code>. Jest to odpowiednik funkcji <code>std::numeric_limits&lt;T>::max()</code> (która zwraca największą dodatnią wartość dla typu <code>T</code>), którą przedstawiliśmy w lekcji <a href="../stdcin-and-handling-invalid-input/index.html">9.5 — std::cin i obsługa nieprawidłowych danych wejściowych</a>.<p>W powyższym przykładzie, jeśli <code>doIntDivision()</code> nie można kontynuować, zwracamy <code>std::numeric_limits&lt;int>::lowest()</code>, która zwraca najbardziej ujemną wartość int z powrotem do wywołującego, aby wskazać, że funkcja się nie powiodła.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Chociaż to w większości działa, to ma dwie wady:<ul><li>Za każdym razem, gdy wywołujemy tę funkcję, musimy przetestować wartość zwracaną pod kątem równości z  <code>std::numeric_limits&lt;int>::lowest()</code> , aby sprawdzić, czy się nie udało. To jest rozwlekłe i brzydkie.<li>To przykład <a href=https://en.wikipedia.org/wiki/Semipredicate_problem>problemu półpredykatu</a>: jeśli użytkownik wywoła <code>doIntDivision(std::numeric_limits&lt;int>::lowest(), 1)</code>, zwrócony wynik <code>std::numeric_limits&lt;int>::lowest()</code> będzie niejednoznaczny co do tego, czy funkcja się powiodła, czy nie. Może to stanowić problem, ale nie musi, w zależności od tego, jak funkcja jest faktycznie używana, ale jest to kolejna rzecz, o którą musimy się martwić i kolejny potencjalny sposób, w jaki błędy mogą wkraść się do naszego programu.</ul><p>Po drugie, moglibyśmy zrezygnować ze zwracanych wartości do zwracania błędów i zastosować inny mechanizm (np. wyjątki). Jednakże wyjątki mają swoje własne komplikacje i koszty wydajności i mogą nie być odpowiednie lub pożądane. To prawdopodobnie przesada w przypadku czegoś takiego.<p>Po trzecie, moglibyśmy zrezygnować ze zwracania pojedynczej wartości i zamiast tego zwrócić dwie wartości: jedną (typu <code>bool</code>), który wskazuje, czy funkcja się powiodła, i drugi (o żądanym typie zwrotu), który przechowuje rzeczywistą wartość zwracaną (jeśli funkcja powiodła się) lub wartość nieokreśloną (jeśli funkcja się nie powiodła). Jest to prawdopodobnie najlepsza opcja ze wszystkich.<p>Przed C++17 wybranie tej drugiej opcji wymagało samodzielnego wdrożenia. I chociaż C++ zapewnia wiele sposobów, aby to zrobić, każde samodzielne podejście nieuchronnie doprowadzi do niespójności i błędów.<p class="cpp-section cpp-topline" style=clear:both>Zwrócenie <code>std::optional</code><p>C++17 wprowadza <code>std::optional</code>, który jest typem szablonu klasy, który implementuje wartość opcjonalną. Oznacza to, że a <code>std::optional&lt;T></code> może mieć wartość typu <code>T</code> lub nie. Możemy to wykorzystać do wdrożenia trzeciej opcji powyżej:<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
-#include &lt;optional&gt; // for std::optional (C++17)
+}</code></pre><p><code>std::numeric_limits&lt;T>::lowest()</code> to funkcja, która zwraca najbardziej ujemną wartość dla typu <code>T</code>. Jest to odpowiednik funkcji <code>std::numeric_limits&lt;T>::max()</code> (która zwraca największą dodatnią wartość dla typu <code>T</code>), którą przedstawiliśmy w lekcji <a href="../stdcin-and-handling-invalid-input/index.html">9.5 — std::cin i obsługa nieprawidłowych danych wejściowych</a>.<p>W powyższym przykładzie, jeśli <code>doIntDivision()</code> nie można kontynuować, zwracamy <code>std::numeric_limits&lt;int>::lowest()</code>, która zwraca najbardziej ujemną wartość int z powrotem do wywołującego, aby wskazać, że funkcja się nie powiodła.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Chociaż to w większości działa, to ma dwie wady:<ul><li>Za każdym razem, gdy wywołujemy tę funkcję, musimy przetestować wartość zwracaną pod kątem równości z  <code>std::numeric_limits&lt;int>::lowest()</code> , aby sprawdzić, czy się nie udało. To jest rozwlekłe i brzydkie.<li>To przykład <a href=https://en.wikipedia.org/wiki/Semipredicate_problem>problemu półpredykatu</a>: jeśli użytkownik wywoła <code>doIntDivision(std::numeric_limits&lt;int>::lowest(), 1)</code>, zwrócony wynik <code>std::numeric_limits&lt;int>::lowest()</code> będzie niejednoznaczny co do tego, czy funkcja się powiodła, czy nie. Może to stanowić problem, ale nie musi, w zależności od tego, jak funkcja jest faktycznie używana, ale jest to kolejna rzecz, o którą musimy się martwić i kolejny potencjalny sposób, w jaki błędy mogą wkraść się do naszego programu.</ul><p>Po drugie, moglibyśmy zrezygnować ze zwracanych wartości do zwracania błędów i zastosować inny mechanizm (np. wyjątki). Jednakże wyjątki mają swoje własne komplikacje i koszty wydajności i mogą nie być odpowiednie lub pożądane. To prawdopodobnie przesada w przypadku czegoś takiego.<p>Po trzecie, moglibyśmy zrezygnować ze zwracania pojedynczej wartości i zamiast tego zwrócić dwie wartości: jedną (typu <code>bool</code>), który wskazuje, czy funkcja się powiodła, i drugi (o żądanym typie zwrotu), który przechowuje rzeczywistą wartość zwracaną (jeśli funkcja powiodła się) lub wartość nieokreśloną (jeśli funkcja się nie powiodła). Jest to prawdopodobnie najlepsza opcja ze wszystkich.<p>Przed C++17 wybranie tej drugiej opcji wymagało samodzielnego wdrożenia. I chociaż C++ zapewnia wiele sposobów, aby to zrobić, każde samodzielne podejście nieuchronnie doprowadzi do niespójności i błędów.<p class="cpp-section cpp-topline" style=clear:both>Zwrócenie <code>std::optional</code><p>C++17 wprowadza <code>std::optional</code>, który jest typem szablonu klasy, który implementuje wartość opcjonalną. Oznacza to, że <code>std::optional&lt;T></code> może mieć wartość typu <code>T</code> lub nie. Możemy to wykorzystać do wdrożenia trzeciej opcji powyżej:<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+#include &lt;optional&gt; // dla std::opcjonalne (C++17)
 
-// Our function now optionally returns an int value
+// Nasza funkcja teraz opcjonalnie zwraca wartość int
 std::optional&lt;int&gt; doIntDivision(int x, int y)
 {
     if (y == 0)
-        return {}; // or return std::nullopt
+        return {}; // lub zwróć std::nullopt
     return x / y;
 }
 
 int main()
 {
     std::optional&lt;int&gt; result1 { doIntDivision(20, 5) };
-    if (result1) // if the function returned a value
-        std::cout &lt;&lt; &#34;Result 1: &#34; &lt;&lt; *result1 &lt;&lt; &#39;\n&#39;; // get the value
+    if (result1) // jeśli funkcja zwróciła wartość
+        std::cout &lt;&lt; "Result 1: " &lt;&lt; *result1 &lt;&lt; '\n'; // pobierz wartość
     else
-        std::cout &lt;&lt; &#34;Result 1: failed\n&#34;;
+        std::cout &lt;&lt; "Result 1: failed\n";
 
     std::optional&lt;int&gt; result2 { doIntDivision(5, 0) };
 
     if (result2)
-        std::cout &lt;&lt; &#34;Result 2: &#34; &lt;&lt; *result2 &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; "Result 2: " &lt;&lt; *result2 &lt;&lt; '\n';
     else
-        std::cout &lt;&lt; &#34;Result 2: failed\n&#34;;
+        std::cout &lt;&lt; "Result 2: failed\n";
 
     return 0;
 }</code></pre><p>Wypisuje:<pre>Result 1: 4
 Result 2: failed
-</pre><p>Użycie <code>std::optional</code> jest całkiem prosta. Możemy skonstruować <code>std::optional&lt;T></code> z wartością lub bez:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::optional&lt;int&gt; o1 { 5 };            // initialize with a value
-std::optional&lt;int&gt; o2 {};               // initialize with no value
-std::optional&lt;int&gt; o3 { std::nullopt }; // initialize with no value</code></pre><p>Aby sprawdzić, czy a <code>std::optional</code> ma wartość, możemy wybrać jedną z następujących opcji:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">if (o1.has_value()) // call has_value() to check if o1 has a value
-if (o2)             // use implicit conversion to bool to check if o2 has a value</code></pre><p>Aby uzyskać wartość z a <code>std::optional</code>, możemy wybrać jedną z następujących opcji:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::cout &lt;&lt; *o1;             // dereference to get value stored in o1 (undefined behavior if o1 does not have a value)
-std::cout &lt;&lt; o2.value();      // call value() to get value stored in o2 (throws std::bad_optional_access exception if o2 does not have a value)
-std::cout &lt;&lt; o3.value_or(42); // call value_or() to get value stored in o3 (or value `42` if o3 doesn&#39;t have a value)</code></pre><p>Zauważ to <code>std::optional</code> ma składnię użycia, która jest zasadniczo identyczna ze składnią wskaźnik:<div class=cpp-table-wrapper><table class=cpp-table><tbody><tr><th>Zachowanie<th>Wskaźnik<th><code>std::optional</code><tr><td>Nie przechowuj wartości<td>zainicjuj/przypisz <code>{}</code> lub <code>std::nullptr</code><td>zainicjuj/przypisz <code>{}</code> lub <code>std::nullopt</code><tr><td>Zatrzymaj wartość<td>zainicjuj/przypisz adres<td>zainicjuj/przypisz wartość<tr><td>Sprawdź, czy ma wartość<td>ukryta konwersja na bool<td>ukryta konwersja na bool lub <code>has_value()</code><tr><td>Pobierz wartość<td>dereferencja<td>dereferencja lub <code>value()</code></table></div><p>Jednak semantycznie wskaźnik i a <code>std::optional</code> są zupełnie różne.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><ul><li>Wskaźnik ma semantyka odniesienia, co oznacza, że odwołuje się do innego obiektu, a przypisanie kopiuje wskaźnik, a nie obiekt. Jeśli zwrócimy wskaźnik według adresu, wskaźnik zostanie skopiowany z powrotem do osoby wywołującej, a nie do wskazywanego obiektu. Oznacza to, że nie możemy zwrócić obiektu lokalnego według adresu, ponieważ skopiujemy adres tego obiektu z powrotem do obiektu wywołującego, a następnie obiekt zostanie zniszczony, pozostawiając zwrócony wskaźnik w zawieszeniu.<li>A <code>std::optional</code> ma semantykę wartości, co oznacza, że ​​faktycznie zawiera jej wartość, a przypisanie kopiuje wartość. Jeśli zwrócimy  <code>std::optional</code> by wartość,  <code>std::optional</code> (wraz z zawartą wartością) zostanie skopiowana z powrotem do obiektu wywołującego. Oznacza to, że możemy zwrócić wartość funkcji z powrotem do osoby wywołującej za pomocą <code>std::optional</code>.</ul><p>Mając to na uwadze, przyjrzyjmy się, jak działa nasz przykład. Nasz <code>doIntDivision()</code> zwraca teraz  <code>std::optional&lt;int></code> zamiast <code>int</code>. Jeśli w treści funkcji wykryjemy błąd, zwracamy <code>{}</code>, co domyślnie zwraca a <code>std::optional</code> niezawierający żadnej wartości. Jeśli mamy wartość, zwracamy tę wartość, która niejawnie zwraca a <code>std::optional</code> zawierający tę wartość.<p>W <code>main()</code>, używamy niejawnej konwersji na wartość bool, aby sprawdzić, czy zwrócony <code>std::optional</code> ma wartość, czy nie. Jeśli tak, usuwamy referencję do obiektu <code>std::optional</code> , aby uzyskać wartość. Jeśli tak nie jest, wykonujemy nasz warunek błędu. To wszystko!<p class="cpp-section cpp-topline" style=clear:both>Za i przeciw zwracaniu <code>std::optional</code><p>Zwrócenie <code>std::optional</code> jest to przydatne z wielu powodów:<ul><li>Użycie <code>std::optional</code> skutecznie dokumentuje, że funkcja może zwracać wartość lub nie.<li>Nie musimy pamiętać, która wartość jest zwracana jako wskaźnik.<li>Składnia używania <code>std::optional</code> jest wygodna i intuicyjny.</ul><p>Zwrócenie <code>std::optional</code> ma kilka wad:<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><ul><li>Musimy upewnić się, że  <code>std::optional</code> zawiera wartość, zanim ją uzyskamy. Jeśli usuniemy odwołanie do  <code>std::optional</code> nie zawierającej wartości, otrzymamy niezdefiniowane zachowanie. <li><code>std::optional</code> nie umożliwia przekazania informacji o przyczynie niepowodzenia funkcji. </ul><p>Jeśli funkcja nie musi zwracać dodatkowych informacji o przyczynie niepowodzenia (aby lepiej zrozumieć awarię, albo rozróżnić różne rodzaje awarii),  <code>std::optional</code> jest doskonałym wyborem dla funkcji, które mogą zwracać wartość lub niepowodzenie.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Zwróć  <code>std::optional</code> (zamiast wartości wskaźnikowej) dla funkcji, które mogą zakończyć się niepowodzeniem, chyba że funkcja musi zwrócić dodatkowe informacje o przyczynie niepowodzenia.</div><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Powiązana treść<p><code>std::expected</code> (wprowadzony w C++23) został zaprojektowany do obsługi przypadku, w którym funkcja może zwrócić oczekiwaną wartość lub nieoczekiwany kod błędu. Zobacz <a href=https://en.cppreference.com/w/cpp/utility/expected>std::expected reference</a> .</div><p class="cpp-section cpp-topline" style=clear:both>Użycie <code>std::optional</code> jako opcjonalny parametr funkcji<p>W lekcji <a href="../pass-by-address-part-2/index.html">12.11 — Przekazywanie adresu (część 2)</a>. Omówiliśmy, w jaki sposób można użyć przekazywania adresu, aby umożliwić funkcji przyjęcie „opcjonalnego” argumentu (tzn. osoba wywołująca może albo przekazać  <code>nullptr</code> , aby reprezentować „brak argumentu” lub obiekt). Jednakże wadą tego podejścia jest to, że argument inny niż nullptr musi być wartością (aby jego adres mógł zostać przekazany do funkcji).<p>Być może nie jest to zaskakujące (biorąc pod uwagę nazwę), <code>std::optional</code> jest alternatywnym sposobem, aby funkcja zaakceptowała opcjonalny argument (który jest używany tylko jako parametr wewnętrzny). Zamiast tego:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+</pre><p>Użycie <code>std::optional</code> jest całkiem prosta. Możemy skonstruować <code>std::optional&lt;T></code> z wartością lub bez:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::optional&lt;int&gt; o1 { 5 };            // zainicjuj wartością
+std::optional&lt;int&gt; o2 {};               // zainicjuj bez wartości
+std::optional&lt;int&gt; o3 { std::nullopt }; // zainicjuj bez wartości</code></pre><p>Aby sprawdzić, czy <code>std::optional</code> ma wartość, możemy wybrać jedną z następujących opcji:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">if (o1.has_value()) // wywołaj funkcję has_value(), aby sprawdzić, czy o1 ma wartość
+if (o2)             // użyj niejawnej konwersji na bool, aby sprawdzić, czy o2 ma wartość</code></pre><p>Aby uzyskać wartość z <code>std::optional</code>, możemy wybrać jedną z następujących opcji:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::cout &lt;&lt; *o1;             // dereferencja w celu uzyskania wartości zapisanej w o1 (niezdefiniowane zachowanie, jeśli o1 nie ma wartości)
+std::cout &lt;&lt; o2.value();      // wywołaj wartość(), aby uzyskać wartość zapisaną w o2 (zgłasza wyjątek std::bad_opcjonalny_access, jeśli o2 nie ma wartości)
+std::cout &lt;&lt; o3.value_or(42); // wywołaj wartość_lub(), aby uzyskać wartość zapisaną w o3 (lub wartość „42”, jeśli o3 nie ma wartości)</code></pre><p>Zauważ to <code>std::optional</code> ma składnię użycia, która jest zasadniczo identyczna ze składnią wskaźnik:<div class=cpp-table-wrapper><table class=cpp-table><tbody><tr><th>Zachowanie<th>Wskaźnik<th><code>std::optional</code><tr><td>Nie przechowuj wartości<td>zainicjuj/przypisz <code>{}</code> lub <code>std::nullptr</code><td>zainicjuj/przypisz <code>{}</code> lub <code>std::nullopt</code><tr><td>Zatrzymaj wartość<td>zainicjuj/przypisz adres<td>zainicjuj/przypisz wartość<tr><td>Sprawdź, czy ma wartość<td>ukryta konwersja na bool<td>ukryta konwersja na bool lub <code>has_value()</code><tr><td>Pobierz wartość<td>dereferencja<td>dereferencja lub <code>value()</code></table></div><p>Jednak semantycznie wskaźnik i <code>std::optional</code> są zupełnie różne.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><ul><li>Wskaźnik ma semantyka odniesienia, co oznacza, że odwołuje się do innego obiektu, a przypisanie kopiuje wskaźnik, a nie obiekt. Jeśli zwrócimy wskaźnik według adresu, wskaźnik zostanie skopiowany z powrotem do osoby wywołującej, a nie do wskazywanego obiektu. Oznacza to, że nie możemy zwrócić obiektu lokalnego według adresu, ponieważ skopiujemy adres tego obiektu z powrotem do obiektu wywołującego, a następnie obiekt zostanie zniszczony, pozostawiając zwrócony wskaźnik w zawieszeniu.<li><code>std::optional</code> ma semantykę wartości, co oznacza, że ​​faktycznie zawiera jej wartość, a przypisanie kopiuje wartość. Jeśli zwrócimy  <code>std::optional</code> by wartość,  <code>std::optional</code> (wraz z zawartą wartością) zostanie skopiowana z powrotem do obiektu wywołującego. Oznacza to, że możemy zwrócić wartość funkcji z powrotem do osoby wywołującej za pomocą <code>std::optional</code>.</ul><p>Mając to na uwadze, przyjrzyjmy się, jak działa nasz przykład. Nasz <code>doIntDivision()</code> zwraca teraz  <code>std::optional&lt;int></code> zamiast <code>int</code>. Jeśli w treści funkcji wykryjemy błąd, zwracamy <code>{}</code>, co domyślnie zwraca <code>std::optional</code> niezawierający żadnej wartości. Jeśli mamy wartość, zwracamy tę wartość, która niejawnie zwraca <code>std::optional</code> zawierający tę wartość.<p>W <code>main()</code>, używamy niejawnej konwersji na wartość bool, aby sprawdzić, czy zwrócony <code>std::optional</code> ma wartość, czy nie. Jeśli tak, usuwamy referencję do obiektu <code>std::optional</code> , aby uzyskać wartość. Jeśli tak nie jest, wykonujemy nasz warunek błędu. To wszystko!<p class="cpp-section cpp-topline" style=clear:both>Za i przeciw zwracaniu <code>std::optional</code><p>Zwrócenie <code>std::optional</code> jest to przydatne z wielu powodów:<ul><li>Użycie <code>std::optional</code> skutecznie dokumentuje, że funkcja może zwracać wartość lub nie.<li>Nie musimy pamiętać, która wartość jest zwracana jako wskaźnik.<li>Składnia używania <code>std::optional</code> jest wygodna i intuicyjny.</ul><p>Zwrócenie <code>std::optional</code> ma kilka wad:<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><ul><li>Musimy upewnić się, że  <code>std::optional</code> zawiera wartość, zanim ją uzyskamy. Jeśli usuniemy odwołanie do  <code>std::optional</code> nie zawierającej wartości, otrzymamy niezdefiniowane zachowanie. <li><code>std::optional</code> nie umożliwia przekazania informacji o przyczynie niepowodzenia funkcji. </ul><p>Jeśli funkcja nie musi zwracać dodatkowych informacji o przyczynie niepowodzenia (aby lepiej zrozumieć awarię, albo rozróżnić różne rodzaje awarii),  <code>std::optional</code> jest doskonałym wyborem dla funkcji, które mogą zwracać wartość lub niepowodzenie.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Zwróć  <code>std::optional</code> (zamiast wartości wskaźnikowej) dla funkcji, które mogą zakończyć się niepowodzeniem, chyba że funkcja musi zwrócić dodatkowe informacje o przyczynie niepowodzenia.</div><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Powiązana treść<p><code>std::expected</code> (wprowadzony w C++23) został zaprojektowany do obsługi przypadku, w którym funkcja może zwrócić oczekiwaną wartość lub nieoczekiwany kod błędu. Zobacz <a href=https://en.cppreference.com/w/cpp/utility/expected>std::expected reference</a> .</div><p class="cpp-section cpp-topline" style=clear:both>Użycie <code>std::optional</code> jako opcjonalny parametr funkcji<p>W lekcji <a href="../pass-by-address-part-2/index.html">12.11 — Przekazywanie adresu (część 2)</a>. Omówiliśmy, w jaki sposób można użyć przekazywania adresu, aby umożliwić funkcji przyjęcie „opcjonalnego” argumentu (tzn. osoba wywołująca może albo przekazać  <code>nullptr</code> , aby reprezentować „brak argumentu” lub obiekt). Jednakże wadą tego podejścia jest to, że argument inny niż nullptr musi być wartością (aby jego adres mógł zostać przekazany do funkcji).<p>Być może nie jest to zaskakujące (biorąc pod uwagę nazwę), <code>std::optional</code> jest alternatywnym sposobem, aby funkcja zaakceptowała opcjonalny argument (który jest używany tylko jako parametr wewnętrzny). Zamiast tego:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 void printIDNumber(const int *id=nullptr)
 {
     if (id)
-        std::cout &lt;&lt; &#34;Your ID number is &#34; &lt;&lt; *id &lt;&lt; &#34;.\n&#34;;
+        std::cout &lt;&lt; "Your ID number is " &lt;&lt; *id &lt;&lt; ".\n";
     else
-        std::cout &lt;&lt; &#34;Your ID number is not known.\n&#34;;
+        std::cout &lt;&lt; "Your ID number is not known.\n";
 }
 
 int main()
 {
-    printIDNumber(); // we don&#39;t know the user&#39;s ID yet
+    printIDNumber(); // nie znamy jeszcze ID użytkownika
 
     int userid { 34 };
-    printIDNumber(&amp;userid); // we know the user&#39;s ID now
+    printIDNumber(&amp;userid); // znamy już identyfikator użytkownika
 
     return 0;
 }</code></pre><p>Możesz to zrobić:<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -110,46 +110,46 @@ int main()
 void printIDNumber(std::optional&lt;const int&gt; id = std::nullopt)
 {
     if (id)
-        std::cout &lt;&lt; &#34;Your ID number is &#34; &lt;&lt; *id &lt;&lt; &#34;.\n&#34;;
+        std::cout &lt;&lt; "Your ID number is " &lt;&lt; *id &lt;&lt; ".\n";
     else
-        std::cout &lt;&lt; &#34;Your ID number is not known.\n&#34;;
+        std::cout &lt;&lt; "Your ID number is not known.\n";
 }
 
 int main()
 {
-    printIDNumber(); // we don&#39;t know the user&#39;s ID yet
+    printIDNumber(); // nie znamy jeszcze ID użytkownika
 
     int userid { 34 };
-    printIDNumber(userid); // we know the user&#39;s ID now
+    printIDNumber(userid); // znamy już identyfikator użytkownika
 
-    printIDNumber(62); // we can also pass an rvalue
+    printIDNumber(62); // możemy również przekazać rvalue
     
     return 0;
-}</code></pre><p>To podejście ma dwie zalety:<ol start=1><li>Efektywnie dokumentuje, że parametr jest opcjonalny.<li>Możemy przekazać wartość (ponieważ <code>std::optional</code> utworzy kopię).</ol><p>Jednakże <code>std::optional</code> tworzy kopię swojego argumentu, staje się to problematyczne, gdy <code>T</code> jest typem drogim do skopiowania (jak <code>std::string</code>). W przypadku normalnych parametrów funkcji obeszliśmy ten problem, tworząc parametr a <code>const lvalue reference</code>, aby nie została wykonana kopia. Niestety, od wersji C++23 <code>std::optional</code> nie obsługuje odniesień.<p>Dlatego zalecamy używanie <code>std::optional&lt;T></code> jako opcjonalnego parametru tylko wtedy, gdy <code>T</code> zwykle jest przekazywana przez wartość. W przeciwnym razie użycie <code>const T*</code>.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Dla zaawansowanych czytelników<p>Chociaż <code>std::optional</code> nie obsługuje bezpośrednio odniesień, możesz użyć  <code>std::reference_wrapper</code> (które omówimy w lekcji <a href="../arrays-of-references-via-stdreference_wrapper/index.html">17.5 -- Tablice odniesień poprzez std::reference_wrapper</a>), aby naśladować odniesienie. Przyjrzyjmy się jak wygląda powyższy program z  <code>std::string</code> id i  <code>std::reference_wrapper</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;functional&gt;  // for std::reference_wrapper
+}</code></pre><p>To podejście ma dwie zalety:<ol start=1><li>Efektywnie dokumentuje, że parametr jest opcjonalny.<li>Możemy przekazać wartość (ponieważ <code>std::optional</code> utworzy kopię).</ol><p>Jednakże <code>std::optional</code> tworzy kopię swojego argumentu, staje się to problematyczne, gdy <code>T</code> jest typem drogim do skopiowania (jak <code>std::string</code>). W przypadku normalnych parametrów funkcji obeszliśmy ten problem, tworząc parametr <code>const lvalue reference</code>, aby nie została wykonana kopia. Niestety, od wersji C++23 <code>std::optional</code> nie obsługuje odniesień.<p>Dlatego zalecamy używanie <code>std::optional&lt;T></code> jako opcjonalnego parametru tylko wtedy, gdy <code>T</code> zwykle jest przekazywana przez wartość. W przeciwnym razie użycie <code>const T*</code>.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Dla zaawansowanych czytelników<p>Chociaż <code>std::optional</code> nie obsługuje bezpośrednio odniesień, możesz użyć  <code>std::reference_wrapper</code> (które omówimy w lekcji <a href="../arrays-of-references-via-stdreference_wrapper/index.html">17.5 -- Tablice odniesień poprzez std::reference_wrapper</a>), aby naśladować odniesienie. Przyjrzyjmy się jak wygląda powyższy program z  <code>std::string</code> id i  <code>std::reference_wrapper</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;functional&gt;  // dla std::reference_wrapper
 #include &lt;iostream&gt;
 #include &lt;optional&gt;
 #include &lt;string&gt;
 
 struct Employee
 {
-    std::string name{}; // expensive to copy
+    std::string name{}; // kosztowne kopiowanie
     int id;
 };
 
 void printEmployeeID(std::optional&lt;std::reference_wrapper&lt;Employee&gt;&gt; e=std::nullopt)
 {
     if (e)
-        std::cout &lt;&lt; &#34;Your ID number is &#34; &lt;&lt; e-&gt;get().id &lt;&lt; &#34;.\n&#34;;
+        std::cout &lt;&lt; "Your ID number is " &lt;&lt; e-&gt;get().id &lt;&lt; ".\n";
     else
-        std::cout &lt;&lt; &#34;Your ID number is not known.\n&#34;;
+        std::cout &lt;&lt; "Your ID number is not known.\n";
 }
 
 int main()
 {
-    printEmployeeID(); // we don&#39;t know the Employee yet
+    printEmployeeID(); // nie znamy jeszcze pracownika
 
-    Employee e { &#34;James&#34;, 34 };
-    printEmployeeID(e); // we know the Employee&#39;s ID now
+    Employee e { "James", 34 };
+    printEmployeeID(e); // Znamy teraz identyfikator pracownika
 
     return 0;
 }</code></pre><p>I dla porównania wersją wskaźnikową:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -157,24 +157,24 @@ int main()
 
 struct Employee
 {
-    std::string name{}; // expensive to copy
+    std::string name{}; // kosztowne kopiowanie
     int id;
 };
 
 void printEmployeeID(const Employee* e=nullptr)
 {
     if (e)
-        std::cout &lt;&lt; &#34;Your ID number is &#34; &lt;&lt; e-&gt;id &lt;&lt; &#34;.\n&#34;;
+        std::cout &lt;&lt; "Your ID number is " &lt;&lt; e-&gt;id &lt;&lt; ".\n";
     else
-        std::cout &lt;&lt; &#34;Your ID number is not known.\n&#34;;
+        std::cout &lt;&lt; "Your ID number is not known.\n";
 }
 
 int main()
 {
-    printEmployeeID(); // we don&#39;t know the Employee yet
+    printEmployeeID(); // nie znamy jeszcze pracownika
 
-    Employee e { &#34;James&#34;, 34 };
-    printEmployeeID(&amp;e); // we know the Employee&#39;s ID now
+    Employee e { "James", 34 };
+    printEmployeeID(&amp;e); // Znamy teraz identyfikator pracownika
 
     return 0;
 }</code></pre><p>Te dwa programy są prawie identyczne. Twierdzilibyśmy, że ten pierwszy nie jest bardziej czytelny ani łatwiejszy w utrzymaniu niż drugi i nie warto wprowadzać do programu dwóch dodatkowych typów.</div><p>W wielu przypadkach przeciążenie funkcji zapewnia lepsze rozwiązanie:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -182,28 +182,28 @@ int main()
 
 struct Employee
 {
-    std::string name{}; // expensive to copy
+    std::string name{}; // kosztowne kopiowanie
     int id;
 };
 
 void printEmployeeID()
 {
-    std::cout &lt;&lt; &#34;Your ID number is not known.\n&#34;;
+    std::cout &lt;&lt; "Your ID number is not known.\n";
 }
 
 void printEmployeeID(const Employee&amp; e)
 {
-    std::cout &lt;&lt; &#34;Your ID number is &#34; &lt;&lt; e.id &lt;&lt; &#34;.\n&#34;;
+    std::cout &lt;&lt; "Your ID number is " &lt;&lt; e.id &lt;&lt; ".\n";
 }
 
 int main()
 {
-    printEmployeeID(); // we don&#39;t know the Employee yet
+    printEmployeeID(); // nie znamy jeszcze pracownika
 
-    Employee e { &#34;James&#34;, 34 };
-    printEmployeeID(e); // we know the Employee&#39;s ID now
+    Employee e { "James", 34 };
+    printEmployeeID(e); // Znamy teraz identyfikator pracownika
 
-    printEmployeeID( { &#34;Dave&#34;, 62 } ); // we can even pass rvalues
+    printEmployeeID( { "Dave", 62 } ); // możemy nawet przekazywać wartości
 
     return 0;
 }</code></pre><div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Preferuj <code>std::optional</code> w przypadku opcjonalnych typów zwracanych wartości.<p>Preferuj przeciążanie funkcji dla opcjonalnych parametrów funkcji (jeśli to możliwe). W przeciwnym razie użyj <code>std::optional&lt;T></code> dla opcjonalnych argumentów, gdy <code>T</code> zwykle jest przekazywana przez wartość. Kopiowanie przysługi <code>const T*</code> gdy <code>T</code> jest kosztowne.</div><div class=prevnext><div class=prevnext-inline><a class=nav-link href="../chapter-12-summary-and-quiz/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>12.x</span>Rozdział 12, podsumowanie i quiz</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../type-deduction-with-pointers-references-and-const/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>12.14</span>Wpisz dedukcję ze wskaźnikami, referencjami i const</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/stdoptional/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../introduction-to-c23/index.html" rel=prev><span>B.5 — Wprowadzenie do C++23</span></a></div><div class=nav-next><em>Następny post</em><a href="../converting-an-enumeration-to-and-from-a-string/index.html" rel=next><span>13.4 — Konwersja wyliczenia do i z ciągu znaków</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>

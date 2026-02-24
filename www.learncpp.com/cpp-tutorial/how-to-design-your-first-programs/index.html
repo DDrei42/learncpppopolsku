@@ -23,28 +23,28 @@
     return 0;
 }</code></pre><p>Lub w przypadku kalkulatora:<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
-    // Get first number from user
+    // Uzyskaj pierwszy numer od użytkownika
 //    getUserInput();
 
-    // Get mathematical operation from user
+    // Uzyskaj operację matematyczną od użytkownika
 //    getMathematicalOperation();
 
-    // Get second number from user
+    // Uzyskaj drugi numer od użytkownika
 //    getUserInput();
 
     // Calculate result
 //    calculateResult();
 
-    // Print result
+    // Wydrukuj wynik
 //    printResult();
 
     return 0;
 }</code></pre><p>Zauważ, że jeśli zamierzasz używać tej „zarysowej” metody do konstruowania programów, Twoje funkcje nie zostaną skompilowane, ponieważ definicje jeszcze nie istnieją. Jednym ze sposobów rozwiązania tego problemu jest komentowanie wywołań funkcji do czasu, aż będziesz gotowy do zaimplementowania definicji funkcji (i sposób, który tutaj pokażemy). Alternatywnie możesz <em>wyłączyć</em> swoje funkcje (utworzyć funkcje zastępcze z pustymi treściami), aby program się skompilował.<p class="cpp-section cpp-topline" style=clear:both>Krok implementacji 2: Zaimplementuj każdą funkcję<p>W tym kroku dla każdej funkcji wykonasz trzy rzeczy:<ol><li>Zdefiniujesz prototyp funkcji (wejścia i wyjścia)<li>Napisz funkcję<li>Przetestuj funkcję</ol><p>Jeśli Twoje funkcje są wystarczająco szczegółowe, każda funkcja powinna być dość prosta i bezpośrednia. Jeśli dana funkcja nadal wydaje się zbyt skomplikowana w implementacji, być może należy ją podzielić na podfunkcje, które można łatwiej zaimplementować (lub możliwe, że zrobiłeś coś w niewłaściwej kolejności i musisz ponownie sprawdzić kolejność zdarzeń).<p>Zróbmy pierwszą funkcję z przykładu kalkulatora:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-// Full implementation of the getUserInput function
+// Pełna implementacja funkcji getUserInput
 int getUserInput()
 {
-    std::cout &lt;&lt; &#34;Enter an integer: &#34;;
+    std::cout &lt;&lt; "Enter an integer: ";
     int input{};
     std::cin &gt;&gt; input;
 
@@ -53,20 +53,20 @@ int getUserInput()
 
 int main()
 {
-    // Get first number from user
-    int value{ getUserInput() }; // Note we&#39;ve included code here to test the return value!
-    std::cout &lt;&lt; value &lt;&lt; &#39;\n&#39;; // debug code to ensure getUserInput() is working, we&#39;ll remove this later
+    // Uzyskaj pierwszy numer od użytkownika
+    int value{ getUserInput() }; // Zauważ, że zamieściliśmy tutaj kod, aby przetestować wartość zwracaną!
+    std::cout &lt;&lt; value &lt;&lt; '\n'; // kod debugowania, aby upewnić się, że getUserInput() działa, usuniemy to później
 
-    // Get mathematical operation from user
+    // Uzyskaj operację matematyczną od użytkownika
 //    getMathematicalOperation();
 
-    // Get second number from user
+    // Uzyskaj drugi numer od użytkownika
 //    getUserInput();
 
     // Calculate result
 //    calculateResult();
 
-    // Print result
+    // Wydrukuj wynik
 //    printResult();
 
     return 0;

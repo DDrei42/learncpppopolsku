@@ -13,10 +13,10 @@
 <button class=searchsubmit><span class=screen-reader-text>Szukaj</span><i class=icon-search></i></button>
 <input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=6836></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="4.10 — Wprowadzenie do instrukcji if" src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-8349 class="post-8349 post type-post status-publish format-standard hentry category-cpp-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>4.10 — Wprowadzenie do instrukcji if</h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Autor></i><a class="url fn n" rel=author href=/www.learncpp.com/author/Alex/ title="Wyświetl wszystkie posty Alexa" itemprop=url><em itemprop=name>Alex</em></a></span>
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2019-04-23T12:57:29-07:00 itemprop=datePublished>23 kwietnia 2019, 12:57 czasu PDT</time>
-<time class=updated datetime=2025-02-11T17:32:53-08:00 itemprop=dateModified>11 lutego 2025</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>Rozważmy sytuację, w której idziesz na rynek, a współlokator mówi Ci: „Jeśli mają truskawki w promocji, kup je”. Jest to instrukcja warunkowa, co oznacza, że ​​wykonasz jakąś akcję („kup trochę”) tylko wtedy, gdy warunek („mają truskawki w sprzedaży”) jest prawdziwy.<p>Takie warunki są powszechne w programowaniu, ponieważ pozwalają nam zaimplementować zachowanie warunkowe w naszych programach. Najprostszy rodzaj instrukcji warunkowej w C++ nazywa się <em>instrukcji if</em>. An <strong>instrukcji if</strong> pozwala nam wykonać jedną (lub więcej) linijkę kodu tylko wtedy, gdy jakiś warunek jest spełniony.<p>Najprostsza <em>instrukcji if</em> przybiera następującą formę:<pre>if (condition) true_statement;
+<time class=updated datetime=2025-02-11T17:32:53-08:00 itemprop=dateModified>11 lutego 2025</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>Rozważmy sytuację, w której idziesz na rynek, a współlokator mówi Ci: „Jeśli mają truskawki w promocji, kup je”. Jest to instrukcja warunkowa, co oznacza, że ​​wykonasz jakąś akcję („kup trochę”) tylko wtedy, gdy warunek („mają truskawki w sprzedaży”) jest prawdziwy.<p>Takie warunki są powszechne w programowaniu, ponieważ pozwalają nam zaimplementować zachowanie warunkowe w naszych programach. Najprostszy rodzaj instrukcji warunkowej w C++ nazywa się <em>instrukcji if</em>. <strong>instrukcji if</strong> pozwala nam wykonać jedną (lub więcej) linijkę kodu tylko wtedy, gdy jakiś warunek jest spełniony.<p>Najprostsza <em>instrukcji if</em> przybiera następującą formę:<pre>if (condition) true_statement;
 </pre><p>Dla czytelności jest ona częściej zapisywana jako następujący:<pre>if (condition)
     true_statement;
-</pre><p>A <strong>warunek</strong> (zwana także <strong>wyrażenie warunkowe</strong>) to wyrażenie, którego wynikiem jest wartość logiczna.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Jeśli <em>warunek</em> instrukcji  <em>instrukcji if</em> określany jako wartość logiczna <em>prawda</em>, wówczas  <em>true_statement</em> jest wykonywane. Jeśli <em>warunek</em> zamiast tego daje wartość logiczną <em>fałsz</em>, wówczas  <em>true_statement</em> jest pomijany.<p class="cpp-section cpp-topline" style=clear:both>Przykładowy program używający instrukcji if<p>Biorąc pod uwagę następujący program:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+</pre><p><strong>warunek</strong> (zwana także <strong>wyrażenie warunkowe</strong>) to wyrażenie, którego wynikiem jest wartość logiczna.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Jeśli <em>warunek</em> instrukcji  <em>instrukcji if</em> określany jako wartość logiczna <em>prawda</em>, wówczas  <em>true_statement</em> jest wykonywane. Jeśli <em>warunek</em> zamiast tego daje wartość logiczną <em>fałsz</em>, wówczas  <em>true_statement</em> jest pomijany.<p class="cpp-section cpp-topline" style=clear:both>Przykładowy program używający instrukcji if<p>Biorąc pod uwagę następujący program:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 int main()
 {
@@ -106,52 +106,52 @@ The value is negative
 The value is zero
 </pre><p>Pamiętaj, że możesz łączyć  <em>instrukcje if</em> tyle razy, ile masz warunków, które chcesz obliczyć. Zobaczymy w quizie przykład, w którym jest to przydatne.<p class="cpp-section cpp-topline" style=clear:both>Zwracane wartości logiczne i instrukcje if<p>W poprzedniej lekcji (<a href="../boolean-values/index.html">4.9 -- Wartości logiczne</a>), napisaliśmy ten program za pomocą funkcji zwracającej wartość logiczną:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
  
-// returns true if x and y are equal, false otherwise
+// zwraca wartość true, jeśli x i y są równe, false w przeciwnym razie
 bool isEqual(int x, int y)
 {
-    return x == y; // operator== returns true if x equals y, and false otherwise
+    return x == y; // operator== zwraca wartość true, jeśli x jest równe y, i fałsz w przeciwnym razie
 }
  
 int main()
 {
-    std::cout &lt;&lt; &#34;Enter an integer: &#34;;
+    std::cout &lt;&lt; "Enter an integer: ";
     int x {};
     std::cin &gt;&gt; x;
  
-    std::cout &lt;&lt; &#34;Enter another integer: &#34;;
+    std::cout &lt;&lt; "Enter another integer: ";
     int y {};
     std::cin &gt;&gt; y;
  
-    std::cout &lt;&lt; std::boolalpha; // print bools as true or false
+    std::cout &lt;&lt; std::boolalpha; // wydrukuj bool jako prawdę lub fałsz
     
-    std::cout &lt;&lt; x &lt;&lt; &#34; and &#34; &lt;&lt; y &lt;&lt; &#34; are equal? &#34;;
-    std::cout &lt;&lt; isEqual(x, y); // will return true or false
+    std::cout &lt;&lt; x &lt;&lt; " and " &lt;&lt; y &lt;&lt; " are equal? ";
+    std::cout &lt;&lt; isEqual(x, y); // zwróci wartość true lub false
 
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
  
     return 0;
 }</code></pre><p>Ulepszmy ten program za pomocą <em>instrukcji if</em>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
  
-// returns true if x and y are equal, false otherwise
+// zwraca wartość true, jeśli x i y są równe, false w przeciwnym razie
 bool isEqual(int x, int y)
 {
-    return x == y; // operator== returns true if x equals y, and false otherwise
+    return x == y; // operator== zwraca wartość true, jeśli x jest równe y, i fałsz w przeciwnym razie
 }
  
 int main()
 {
-    std::cout &lt;&lt; &#34;Enter an integer: &#34;;
+    std::cout &lt;&lt; "Enter an integer: ";
     int x {};
     std::cin &gt;&gt; x;
  
-    std::cout &lt;&lt; &#34;Enter another integer: &#34;;
+    std::cout &lt;&lt; "Enter another integer: ";
     int y {};
     std::cin &gt;&gt; y;
     
     if (isEqual(x, y))
-        std::cout &lt;&lt; x &lt;&lt; &#34; and &#34; &lt;&lt; y &lt;&lt; &#34; are equal\n&#34;;
+        std::cout &lt;&lt; x &lt;&lt; " and " &lt;&lt; y &lt;&lt; " are equal\n";
     else
-        std::cout &lt;&lt; x &lt;&lt; &#34; and &#34; &lt;&lt; y &lt;&lt; &#34; are not equal\n&#34;;
+        std::cout &lt;&lt; x &lt;&lt; " and " &lt;&lt; y &lt;&lt; " are not equal\n";
 
     return 0;
 }</code></pre><p>Dwa uruchomienia tego program:<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><pre>Enter an integer: 5
@@ -165,79 +165,79 @@ Enter another integer: 4
 int main()
 {
     int x { 4 };
-    if (x) // nonsensical, but for the sake of example...
-        std::cout &lt;&lt; &#34;hi\n&#34;;
+    if (x) // bezsensowna, ale dla przykładu...
+        std::cout &lt;&lt; "hi\n";
     else
-        std::cout &lt;&lt; &#34;bye\n&#34;;
+        std::cout &lt;&lt; "bye\n";
 
     return 0;
-}</code></pre><p>To spowoduje print <code>hi</code>, ponieważ <code>x</code> ma wartość <code>4</code>, I <code>4</code> jest wartością niezerową, która jest konwertowana na wartość logiczną <code>true</code>, co powoduje wykonanie instrukcji po warunku.<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p><code>if (x)</code> oznacza „jeśli x jest niezerowe/niepuste”.</div><p class="cpp-section cpp-topline" style=clear:both>Instrukcje if i wczesne zwroty<p>Instrukcja return, która nie jest ostatnią instrukcją w funkcja nazywa się  <strong>wczesnym powrotem</strong>. Taka instrukcja spowoduje, że funkcja wróci do wywołującego po wykonaniu instrukcji return (zanim w przeciwnym razie funkcja wróci do wywołującego, a zatem „wcześniej”).<p>Bezwarunkowy wcześniejszy powrót nie jest przydatny:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">void print()
+}</code></pre><p>To spowoduje print <code>hi</code>, ponieważ <code>x</code> ma wartość <code>4</code>, i <code>4</code> jest wartością niezerową, która jest konwertowana na wartość logiczną <code>true</code>, co powoduje wykonanie instrukcji po warunku.<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p><code>if (x)</code> oznacza „jeśli x jest niezerowe/niepuste”.</div><p class="cpp-section cpp-topline" style=clear:both>Instrukcje if i wczesne zwroty<p>Instrukcja return, która nie jest ostatnią instrukcją w funkcja nazywa się  <strong>wczesnym zwrotem</strong>. Taka instrukcja spowoduje, że funkcja wróci do wywołującego po wykonaniu instrukcji return (zanim w przeciwnym razie funkcja wróci do wywołującego, a zatem „wcześniej”).<p>Bezwarunkowy wcześniejszy powrót nie jest przydatny:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">void print()
 {
-    std::cout &lt;&lt; &#34;A&#34; &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "A" &lt;&lt; '\n';
 
-    return; // the function will always return to the caller here
+    return; // funkcja zawsze zwróci do wywołującego tutaj
 
-    std::cout &lt;&lt; &#34;B&#34; &lt;&lt; &#39;\n&#39;; // this will never be printed
+    std::cout &lt;&lt; "B" &lt;&lt; '\n'; // nigdy nie zostanie wydrukowane
 }</code></pre><p>Ponieważ <code>std::cout &lt;&lt; "B" &lt;&lt; '\n';</code> nigdy nie zostanie wykonany, równie dobrze możemy go usunąć, a wtedy nasza <code>return</code> instrukcja nie jest już wczesna.<p>Jednak w połączeniu z Instrukcje if, wcześniejsze zwroty umożliwiają warunkowanie wartości zwracanej przez naszą funkcję.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-// returns the absolute value of x
+// zwraca wartość bezwzględną x
 int abs(int x) 
 {
     if (x &lt; 0)
-        return -x; // early return (only when x &lt; 0)
+        return -x; // wcześniejszy powrót (tylko gdy x &lt; 0)
 
     return x;
 }
 
 int main()
 {
-    std::cout &lt;&lt; abs(4) &lt;&lt; &#39;\n&#39;; // prints 4
-    std::cout &lt;&lt; abs(-3) &lt;&lt; &#39;\n&#39;; // prints 3
+    std::cout &lt;&lt; abs(4) &lt;&lt; '\n'; // prints 4
+    std::cout &lt;&lt; abs(-3) &lt;&lt; '\n'; // prints 3
 
     return 0;
 }</code></pre><p>Po wywołaniu <code>abs(4)</code>  <code>x</code> ma wartość <code>4</code>. <code>if (x &lt; 0)</code> jest fałszywe, więc wcześniejszy powrót nie zostanie wykonany. Funkcja zwraca <code>x</code> (wartość <code>4</code>) do osoby wywołującej na końcu funkcji.<p>Po wywołaniu <code>abs(-3)</code>  <code>x</code> ma wartość <code>-3</code>. <code>if (x &lt; 0)</code> jest prawdą, więc wykonywany jest wcześniejszy powrót. Funkcja zwraca  <code>-x</code> (wartość <code>3</code>) do osoby wywołującej w tym momencie.<p>Historycznie rzecz biorąc, wczesne zwroty nie były mile widziane. Jednakże we współczesnym programowaniu są one bardziej akceptowane, szczególnie gdy można ich użyć do uproszczenia funkcji lub do wcześniejszego przerwania funkcji z powodu błędu.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Powiązana treść<p>Debatę na temat wczesnych zwrotów omawiamy w dalszej części lekcji <a href="../break-and-continue/index.html">8.11 — Przerwij i kontynuuj</a></div><p>Będziemy kontynuować badanie instrukcji if w przyszłej lekcji <a href="../if-statements-and-blocks/index.html">8.2 -- Instrukcje i bloki if</a>.<p class="cpp-section cpp-topline" style=clear:both>Czas quizu<p class=cpp-quiz-question style=clear:both>Pytanie nr 1<p>Co to jest wczesny powrót i jakie jest jego znaczenie zachowanie?<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_0 style=display:none>Wczesny powrót to instrukcja return występująca przed ostatnią linią funkcji. Powoduje to, że funkcja natychmiast zwraca się do wywołującego.</div><p class="cpp-quiz-question cpp-topline" style=clear:both>Pytanie nr 2<p>Liczba pierwsza to liczba całkowita większa od 1, którą można podzielić równo tylko przez 1 i samą siebie. Napisz program, który poprosi użytkownika o wprowadzenie liczby od 0 do 9 (włącznie). Jeśli użytkownik wprowadzi liczbę z tego zakresu, która jest liczbą pierwszą (2, 3, 5 lub 7), wydrukuj „Cyfra jest pierwsza”. W przeciwnym razie wydrukuj „Cyfra nie jest pierwsza”.<p><a class=hint_link_show href=javascript:void(0) onclick="cppHintToggle(document.getElementById('cpp_hint_id_0'),this,'Show Hint','')">Pokaż wskazówkę</a><div class=wphint id=cpp_hint_id_0 style=display:none;margin-bottom:1em>Wskazówka: Użyj łańcucha <em>instrukcji if-else</em> , aby porównać liczbę wprowadzoną przez użytkownika z liczbami pierwszymi i sprawdzić, czy istnieje dopasowanie. </div><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_1 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 bool isPrime(int x)
 {
-    if (x == 2) // if user entered 2, the digit is prime
+    if (x == 2) // jeśli użytkownik wpisał 2, cyfra jest pierwsza
         return true;
-    else if (x == 3) // if user entered 3, the digit is prime
+    else if (x == 3) // jeśli użytkownik wpisał 3, cyfra jest pierwsza
         return true;
-    else if (x == 5) // if user entered 5, the digit is prime
+    else if (x == 5) // jeśli użytkownik wpisał 5, cyfra jest pierwsza
         return true;
-    else if (x == 7) // if user entered 7, the digit is prime
+    else if (x == 7) // jeśli użytkownik wpisał 7, cyfra jest pierwsza
         return true;
 
-    return false; // if the user did not enter 2, 3, 5, 7, the digit must not be prime
+    return false; // jeśli użytkownik nie wpisał 2, 3, 5, 7, cyfra nie może być prime
 }
 
 int main()
 {
-    std::cout &lt;&lt; &#34;Enter a number 0 through 9: &#34;;
+    std::cout &lt;&lt; "Enter a number 0 through 9: ";
     int x {};
     std::cin &gt;&gt; x;
 
     if ( isPrime(x) )
-        std::cout &lt;&lt; &#34;The digit is prime\n&#34;;
+        std::cout &lt;&lt; "The digit is prime\n";
     else
-        std::cout &lt;&lt; &#34;The digit is not prime\n&#34;;
+        std::cout &lt;&lt; "The digit is not prime\n";
 
     return 0;
 }</code></pre><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Dla zaawansowanych czytelników<p>Jeśli <code>isPrime()</code> powyższa funkcja wydaje się nieco gadatliwa/powtarzalna — rzeczywiście jest. Możemy pisać <code>isPrime()</code> bardziej zwięźle i wydajnie, korzystając z pewnych pojęć, które wyjaśnimy w przyszłych lekcjach.<p>Używając operatora logicznego OR (||) (<a href="../logical-operators/index.html">6.8 -- Operatory logiczne</a>):<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">bool isPrime(int x)
 {
-    return x == 2 || x == 3 || x == 5 || x == 7; // if user entered 2 or 3 or 5 or 7 the digit is prime
+    return x == 2 || x == 3 || x == 5 || x == 7; // jeśli użytkownik wprowadził 2 lub 3 lub 5 lub 7 cyfra jest liczba pierwsza
 }</code></pre><p>Używając instrukcji switch (<a href="../switch-statement-basics/index.html">8.5 - Podstawy instrukcji Switch</a>):<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">bool isPrime(int x)
 {
     switch (x)
     {
-        case 2: // if the user entered 2
-        case 3: // or if the user entered 3
-        case 5: // or if the user entered 5
-        case 7: // or if the user entered 7
-            return true; // then the digit is prime
+        case 2: // jeśli użytkownik wprowadził 2
+        case 3: // lub jeśli użytkownik wprowadził 3
+        case 5: // lub jeśli użytkownik wprowadził 5
+        case 7: // lub jeśli użytkownik wprowadził 7
+            return true; // wtedy cyfra jest liczbą pierwszą
     }
 
-    return false; // otherwise the digit must not be prime
+    return false; // w przeciwnym razie cyfra nie może być liczbą pierwszą
 }</code></pre></div></div><p class="cpp-quiz-question cpp-topline" style=clear:both>Pytanie nr 3<p>Jak można zmniejszyć długość następującego kodu (bez zmiany formatowania)?<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 bool isAllowedToTakeFunRide()
@@ -261,7 +261,7 @@ int main()
     std::cout &lt;&lt; &#34;Sorry, you&#39;re too short.\n&#34;;
 
   return 0;
-}</code></pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_2'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_2 style=display:none><p>Nie potrzebujemy instrukcji if in <code>isAllowedToTakeFunRide()</code>. Wyrażenie <code>height >= 140.0</code> wylicza a <code>bool</code>, które można bezpośrednio zwrócić.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">bool isAllowedToTakeFunRide()
+}</code></pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_2'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_2 style=display:none><p>Nie potrzebujemy instrukcji if in <code>isAllowedToTakeFunRide()</code>. Wyrażenie <code>height >= 140.0</code> wylicza <code>bool</code>, które można bezpośrednio zwrócić.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">bool isAllowedToTakeFunRide()
 {
   std::cout &lt;&lt; &#34;How tall are you? (cm)\n&#34;;
 

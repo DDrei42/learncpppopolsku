@@ -57,7 +57,7 @@ T max(T x, T y)
 
 int main()
 {
-    std::cout &lt;&lt; max(static_cast&lt;double&gt;(2), 3.5) &lt;&lt; &#39;\n&#39;; // convert our int to a double so we can call max(double, double)
+    std::cout &lt;&lt; max(static_cast&lt;double&gt;(2), 3.5) &lt;&lt; '\n'; // przekonwertuj naszą int na double, abyśmy mogli wywołać max(double, double)
 
     return 0;
 }</code></pre><p>Teraz, gdy oba argumenty są typu <code>double</code>, kompilator będzie mógł utworzyć instancję <code>max(double, double)</code> która spełni wymagania tego wywołania funkcji.<p>To rozwiązanie jest jednak niewygodne i trudne do odczytania.<p class="cpp-section cpp-topline" style=clear:both>Podaj jawny argument szablonu typu<p>Gdybyśmy napisali niebędącą szablonem  <code>max(double, double)</code> , wtedy moglibyśmy wywołać  <code>max(int, double)</code>  i pozwolić, aby niejawne reguły konwersji typu przekonwertowały nasz  <code>int</code> argument na  <code>double</code> , aby wywołanie funkcji mogło zostać rozwiązane:<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -69,7 +69,7 @@ double max(double x, double y)
 
 int main()
 {
-    std::cout &lt;&lt; max(2, 3.5) &lt;&lt; &#39;\n&#39;; // the int argument will be converted to a double
+    std::cout &lt;&lt; max(2, 3.5) &lt;&lt; '\n'; // argument int zostanie przekonwertowany na podwójny
 
     return 0;
 }</code></pre><p>Jednak gdy kompilator dokonuje dedukcji argumentów szablonu, nie dokona żadnej konwersji typów. Na szczęście nie musimy korzystać z dedukcji argumentów szablonu, jeśli zamiast tego określimy jawny argument szablonu typu:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -82,46 +82,46 @@ T max(T x, T y)
 
 int main()
 {
-    // we&#39;ve explicitly specified type double, so the compiler won&#39;t use template argument deduction
-    std::cout &lt;&lt; max&lt;double&gt;(2, 3.5) &lt;&lt; &#39;\n&#39;;
+    // jawnie określiliśmy typ double, więc kompilator nie będzie korzystał z odliczenia argumentów szablonu
+    std::cout &lt;&lt; max&lt;double&gt;(2, 3.5) &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>W powyższym przykładzie wywołujemy <code>max&lt;double>(2, 3.5)</code>. Ponieważ wyraźnie określiliśmy, że  <code>T</code> należy zastąpić  <code>double</code>, kompilator nie będzie korzystał z dedukcji argumentów szablonu. Zamiast tego po prostu utworzy instancję funkcji <code>max&lt;double>(double, double)</code>, a następnie napisze konwertuj wszelkie niedopasowane argumenty. Nasz <code>int</code> parametr zostanie niejawnie przekonwertowany na <code>double</code>.<p>Chociaż jest to bardziej czytelne niż użycie <code>static_cast</code>, byłoby jeszcze ładniej, gdybyśmy w ogóle nie musieli myśleć o typach podczas wywoływania funkcji  <code>max</code> .<p class="cpp-section cpp-topline" style=clear:both>Szablony funkcji z wieloma parametrami typu szablonu<p>Źródłem naszego problemu jest to, że zdefiniowaliśmy tylko jeden typ szablonu (<code>T</code>) dla naszego szablonu funkcji, a następnie określono, że oba parametry muszą być tego samego typu.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>Najlepszym sposobem rozwiązania tego problemu jest przepisanie naszego szablonu funkcji w taki sposób, aby nasze parametry mogły zostać rozdzielone na różne typy. Zamiast używać jednego parametru typu szablonu <code>T</code>, użyjemy teraz dwóch (<code>T</code> i <code>U</code>):<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-template &lt;typename T, typename U&gt; // We&#39;re using two template type parameters named T and U
-T max(T x, U y) // x can resolve to type T, and y can resolve to type U
+template &lt;typename T, typename U&gt; // Używamy dwóch parametrów typu szablonu o nazwach T i U
+T max(T x, U y) // x może rozwiązać typ T, a y może rozwiązać typ U
 {
-    return (x &lt; y) ? y : x; // uh oh, we have a narrowing conversion problem here
+    return (x &lt; y) ? y : x; // uch, mamy tutaj problem zawężającej konwersji
 }
 
 int main()
 {
-    std::cout &lt;&lt; max(2, 3.5) &lt;&lt; &#39;\n&#39;; // resolves to max&lt;int, double&gt;
+    std::cout &lt;&lt; max(2, 3.5) &lt;&lt; '\n'; // rozwiązuje do max&lt;int, double&gt;
 
     return 0;
-}</code></pre><p>Ponieważ zdefiniowaliśmy <code>x</code> z typem szablonu <code>T</code>, I <code>y</code> z typem szablonu <code>U</code>, <code>x</code> i <code>y</code> mogą teraz niezależnie rozstrzygać ich typy. Kiedy zadzwonimy <code>max(2, 3.5)</code>, <code>T</code> może być <code>int</code> i <code>U</code> może być <code>double</code>. Kompilator z radością utworzy instancję <code>max&lt;int, double>(int, double)</code> dla nas.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Ponieważ <code>T</code> i <code>U</code> są niezależnymi parametrami szablonu, rozwiązują ich typy niezależnie od siebie. To oznacza <code>T</code> i <code>U</code> mogą być rozpoznawane na różne typy lub mogą być rozpoznawane na ten sam typ.</div><p>Jednak ten przykład nie działa poprawnie. Jeśli skompilujesz i uruchomisz program (z wyłączoną opcją „traktuj ostrzeżenia jako błędy”), wyświetli się następujący wynik:<pre>3
-</pre><p>Co się tutaj dzieje? Jak można max <code>2</code> i <code>3.5</code> Być <code>3</code>?<p>Operator warunkowy (?:) wymaga, aby jego operandy (niewarunkowe) były tego samego wspólnego typu. Zwykłe reguły arytmetyczne (<a href="../arithmetic-conversions/index.html">10.5 — Konwersje arytmetyczne</a>) służą do określenia, jaki będzie wspólny typ, a wynik operatora warunkowego również będzie korzystał z tego wspólnego typu. Na przykład powszechny typ <code>int</code> i <code>double</code> Jest <code>double</code>, więc gdy operandami (bezwarunkowymi) naszego operatora warunkowego są an <code>int</code> oraz a <code>double</code>, wartość wygenerowana przez operator warunkowy będzie typu <code>double</code>. W tym przypadku to jest wartość <code>3.5</code>, co jest prawidłowe.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p>Jednak zadeklarowanym typem zwracanym przez naszą funkcję jest <code>T</code>. Podczas oceny <code>T</code> jest <code>int</code> i <code>U</code> jest <code>double</code>, typem zwracanym przez funkcję jest <code>int</code>. Nasza wartość <code>3.5</code> przechodzi zawężającą konwersję do <code>int</code> wartości <code>3</code>, co powoduje utratę danych (i prawdopodobnie ostrzeżenie kompilatora).<p>Jak więc to rozwiązać? Dokonywanie zwrotu typu a <code>U</code> zamiast tego nie rozwiązuje problemu, ponieważ <code>max(3.5, 2)</code> has <code>U</code> jako <code>int</code> i będzie prezentował ten sam problem.<p>W takich przypadkach odliczenie typu zwrotu (via <code>auto</code>) może się przydać — pozwolimy kompilatorowi wydedukować, jaki powinien być typ zwracany na podstawie instrukcji return:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+}</code></pre><p>Ponieważ zdefiniowaliśmy <code>x</code> z typem szablonu <code>T</code>, i <code>y</code> z typem szablonu <code>U</code>, <code>x</code> i <code>y</code> mogą teraz niezależnie rozstrzygać ich typy. Kiedy zadzwonimy <code>max(2, 3.5)</code>, <code>T</code> może być <code>int</code> i <code>U</code> może być <code>double</code>. Kompilator z radością utworzy instancję <code>max&lt;int, double>(int, double)</code> dla nas.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Ponieważ <code>T</code> i <code>U</code> są niezależnymi parametrami szablonu, rozwiązują ich typy niezależnie od siebie. To oznacza <code>T</code> i <code>U</code> mogą być rozpoznawane na różne typy lub mogą być rozpoznawane na ten sam typ.</div><p>Jednak ten przykład nie działa poprawnie. Jeśli skompilujesz i uruchomisz program (z wyłączoną opcją „traktuj ostrzeżenia jako błędy”), wyświetli się następujący wynik:<pre>3
+</pre><p>Co się tutaj dzieje? Jak można max <code>2</code> i <code>3.5</code> Być <code>3</code>?<p>Operator warunkowy (?:) wymaga, aby jego operandy (niewarunkowe) były tego samego wspólnego typu. Zwykłe reguły arytmetyczne (<a href="../arithmetic-conversions/index.html">10.5 — Konwersje arytmetyczne</a>) służą do określenia, jaki będzie wspólny typ, a wynik operatora warunkowego również będzie korzystał z tego wspólnego typu. Na przykład powszechny typ <code>int</code> i <code>double</code> Jest <code>double</code>, więc gdy operandami (bezwarunkowymi) naszego operatora warunkowego są <code>int</code> oraz <code>double</code>, wartość wygenerowana przez operator warunkowy będzie typu <code>double</code>. W tym przypadku to jest wartość <code>3.5</code>, co jest prawidłowe.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p>Jednak zadeklarowanym typem zwracanym przez naszą funkcję jest <code>T</code>. Podczas oceny <code>T</code> jest <code>int</code> i <code>U</code> jest <code>double</code>, typem zwracanym przez funkcję jest <code>int</code>. Nasza wartość <code>3.5</code> przechodzi zawężającą konwersję do <code>int</code> wartości <code>3</code>, co powoduje utratę danych (i prawdopodobnie ostrzeżenie kompilatora).<p>Jak więc to rozwiązać? Dokonywanie zwrotu typu <code>U</code> zamiast tego nie rozwiązuje problemu, ponieważ <code>max(3.5, 2)</code> has <code>U</code> jako <code>int</code> i będzie prezentował ten sam problem.<p>W takich przypadkach odliczenie typu zwrotu (via <code>auto</code>) może się przydać — pozwolimy kompilatorowi wydedukować, jaki powinien być typ zwracany na podstawie instrukcji return:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 template &lt;typename T, typename U&gt;
-auto max(T x, U y) // ask compiler can figure out what the relevant return type is
+auto max(T x, U y) // Ask kompilator może dowiedzieć się, jaki jest odpowiedni typ zwrotu
 {
     return (x &lt; y) ? y : x;
 }
 
 int main()
 {
-    std::cout &lt;&lt; max(2, 3.5) &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; max(2, 3.5) &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Ta wersja <code>max</code> teraz działa poprawnie z operandami różnych typów. Pamiętaj tylko, że funkcja z <code>auto</code> typ zwracany musi być w pełni zdefiniowany, zanim będzie można go użyć (deklaracja forward nie wystarczy), ponieważ kompilator musi sprawdzić implementację funkcji, aby określić typ zwracany.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Dla zaawansowanych czytelników<p>Jeśli potrzebujemy funkcji, którą można zadeklarować w przód, musimy wyraźnie określić typ zwracany. Ponieważ nasz typ zwrotu musi być powszechnym typem <code>T</code> i <code>U</code>, możemy skorzystać <code>std::common_type_t</code> (omówione na lekcji <a href="../arithmetic-conversions/index.html">10.5 — Konwersje arytmetyczne</a>), aby pobrać typowy typ <code>T</code> i <code>U</code> do użycia jako nasz jawny typ zwrotu:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
-#include &lt;type_traits&gt; // for std::common_type_t
+#include &lt;type_traits&gt; // dla std::common_type_t
 
 template &lt;typename T, typename U&gt;
-auto max(T x, U y) -&gt; std::common_type_t&lt;T, U&gt;; // returns the common type of T and U
+auto max(T x, U y) -&gt; std::common_type_t&lt;T, U&gt;; // charakterystyczny typ T i U
 
 int main()
 {
-    std::cout &lt;&lt; max(2, 3.5) &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; max(2, 3.5) &lt;&lt; '\n';
 
     return 0;
 }
@@ -130,7 +130,7 @@ template &lt;typename T, typename U&gt;
 auto max(T x, U y) -&gt; std::common_type_t&lt;T, U&gt;
 {
     return (x &lt; y) ? y : x;
-}</code></pre></div><p class="cpp-section cpp-topline" style=clear:both>Skrócone szablony funkcji <span class="cpp-section-pill cpp-section-standard">C++20</span><div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>C++20 wprowadza nowe zastosowanie metody <code>auto</code> słowo kluczowe: Kiedy <code>auto</code> słowo kluczowe jest używane jako typ parametru w normalnej funkcji, kompilator automatycznie przekonwertuje tę funkcję na szablon funkcji, przy czym każdy parametr auto stanie się niezależnym parametrem typu szablonu. Ta metoda tworzenia szablonu funkcji nazywa się <strong>skróconym szablonem funkcji</strong>.<p>Na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">auto max(auto x, auto y)
+}</code></pre></div><p class="cpp-section cpp-topline" style=clear:both>Skrócone szablony funkcji <span class="cpp-section-pill cpp-section-standard">C++20</span><div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>C++20 wprowadza nowe zastosowanie metody słowo kluczowe <code>auto</code>: Kiedy słowo kluczowe <code>auto</code> jest używane jako typ parametru w normalnej funkcji, kompilator automatycznie przekonwertuje tę funkcję na szablon funkcji, przy czym każdy parametr auto stanie się niezależnym parametrem typu szablonu. Ta metoda tworzenia szablonu funkcji nazywa się <strong>skróconym szablonem funkcji</strong>.<p>Na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">auto max(auto x, auto y)
 {
     return (x &lt; y) ? y : x;
 }</code></pre><p>jest skrótem w C++ 20 dla następujących elementów:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">template &lt;typename T, typename U&gt;
@@ -138,28 +138,28 @@ auto max(T x, U y)
 {
     return (x &lt; y) ? y : x;
 }</code></pre><p>co jest tym samym co <code>max</code> szablon funkcji, który napisaliśmy powyżej.<p>W przypadkach, gdy chcesz, aby każdy parametr typu szablonu był niezależnym typem, preferowana jest ta forma, ponieważ usunięcie linii deklaracji parametrów szablonu sprawi, że kod będzie bardziej zwięzły i czytelny.<p>Nie ma zwięzłego sposobu użycia skróconych szablonów funkcji, jeśli chcesz, aby więcej niż jeden parametr auto był tego samego typu. Oznacza to, że nie ma prostego, skróconego szablonu funkcji dla czegoś takiego:<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">template &lt;typename T&gt;
-T max(T x, T y) // two parameters of the same type
+T max(T x, T y) // dwa parametry tego samego typu
 {
     return (x &lt; y) ? y : x;
 }</code></pre><div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Możesz używać skróconych szablonów funkcji z pojedynczym parametrem auto lub tam, gdzie każdy parametr auto powinien być typu niezależnego (a standard języka jest ustawiony na C++ 20 lub nowszy).</div><p class="cpp-section cpp-topline" style=clear:both>Szablony funkcji mogą być przeciążone<p>Podobnie jak funkcje mogą być przeciążone, szablony funkcji mogą być również przeciążone. Takie przeciążenia mogą mieć różną liczbę typów szablonów i/lub inną liczbę lub typ parametrów funkcji:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-// Add two values with matching types
+// Dodaj dwie wartości pasującymi typami
 template &lt;typename T&gt;
 auto add(T x, T y)
 {
     return x + y;
 }
 
-// Add two values with non-matching types
-// As of C++20 we could also use auto add(auto x, auto y)
+// Dodaj dwie wartości niepasującymi typami
+// Od C++20 możemy również użyć automatycznego dodawania (auto x, auto y)
 template &lt;typename T, typename U&gt;
 auto add(T x, U y)
 {
     return x + y;
 }
 
-// Add three values with any type
-// As of C++20 we could also use auto add(auto x, auto y, auto z)
+// Dodaj trzy wartości dowolnym typem
+// Od C++20 możemy również użyć automatycznego dodawania (auto x, auto y, auto z)
 template &lt;typename T, typename U, typename V&gt;
 auto add(T x, U y, V z)
 {
@@ -168,9 +168,9 @@ auto add(T x, U y, V z)
 
 int main()
 {
-    std::cout &lt;&lt; add(1.2, 3.4) &lt;&lt; &#39;\n&#39;; // instantiates and calls add&lt;double&gt;()
-    std::cout &lt;&lt; add(5.6, 7) &lt;&lt; &#39;\n&#39;;   // instantiates and calls add&lt;double, int&gt;()
-    std::cout &lt;&lt; add(8, 9, 10) &lt;&lt; &#39;\n&#39;; // instantiates and calls add&lt;int, int, int&gt;()
+    std::cout &lt;&lt; add(1.2, 3.4) &lt;&lt; '\n'; // tworzy instancje i wywołuje add&lt;double&gt;()
+    std::cout &lt;&lt; add(5.6, 7) &lt;&lt; '\n';   // tworzy instancję i wywołuje add&lt;double, int&gt;()
+    std::cout &lt;&lt; add(8, 9, 10) &lt;&lt; '\n'; // tworzy instancje i wywołuje add&lt;int, int, int&gt;()
 
     return 0;
 }</code></pre><p>Jedną interesującą uwagą jest to, że w przypadku wywołania  <code>add(1.2, 3.4)</code> kompilator będzie preferował <code>add&lt;T>(T, T)</code> za  <code>add&lt;T, U>(T, U)</code> nawet jeśli oba mogą pasować.<p>Zasady określania, który z wielu pasujących szablonów funkcji powinien być preferowany, nazywane są „częściowym porządkowaniem szablonów funkcji”. Krótko mówiąc, preferowany będzie dowolny szablon funkcji, który jest bardziej restrykcyjny/specjalistyczny. <code>add&lt;T>(T, T)</code> jest bardziej restrykcyjnym szablonem funkcji w tym przypadku (ponieważ ma tylko jeden parametr szablonu), więc jest preferowany.<p>Jeśli wiele szablonów funkcji może dopasować wywołanie, a kompilator nie może określić, który jest bardziej restrykcyjny, kompilator wyświetli błąd z niejednoznacznym dopasowaniem.<div class=prevnext><div class=prevnext-inline><a class=nav-link href="../non-type-template-parameters/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>11.9</span>Szablon inny niż typ parametry</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../function-template-instantiation/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>11.7</span>Tworzenie szablonu funkcji</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/function-templates-with-multiple-template-types/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../function-overload-resolution-and-ambiguous-matches/index.html" rel=prev><span>11.3 — Rozwiązywanie przeciążenia funkcji i niejednoznaczne dopasowania</span></a></div><div class=nav-next><em>Następny post</em><a href="../chapter-10-summary-and-quiz/index.html" rel=next><span>10.x — Podsumowanie i rozdział 10 quiz</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>

@@ -36,26 +36,26 @@ int main()
 
     return 0;
 }</code></pre><p>Ten przykład wypisuje wynik:<pre>rBase is a Base
-</pre><p>Ponieważ rBase jest referencją bazową, wywołuje Base::getName(), nawet jeśli w rzeczywistości odwołuje się do części bazowej funkcji pochodnej obiektu.<p>W tej lekcji pokażemy, jak rozwiązać ten problem za pomocą funkcji wirtualnych.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Funkcje wirtualne<p>A <strong>funkcja wirtualna</strong> to specjalny typ funkcji składowej, która po wywołaniu daje najbardziej pochodną wersję funkcji dla rzeczywistego typu obiektu, do którego się odwołuje lub na który wskazuje.<p>Funkcja pochodna jest uważana za dopasowaną, jeśli ma ten sam podpis (nazwa, typy parametrów i to, czy jest to const) i typ zwracany, co podstawowa wersja funkcji. Takie funkcje nazywane są <strong>przesłonięciami</strong>.<p>Aby uczynić funkcję wirtualną, wystarczy umieścić słowo kluczowe „virtual” przed deklaracją funkcji.<p>Oto powyższy przykład z funkcją wirtualną:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+</pre><p>Ponieważ rBase jest referencją bazową, wywołuje Base::getName(), nawet jeśli w rzeczywistości odwołuje się do części bazowej funkcji pochodnej obiektu.<p>W tej lekcji pokażemy, jak rozwiązać ten problem za pomocą funkcji wirtualnych.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Funkcje wirtualne<p><strong>funkcja wirtualna</strong> to specjalny typ funkcji składowej, która po wywołaniu daje najbardziej pochodną wersję funkcji dla rzeczywistego typu obiektu, do którego się odwołuje lub na który wskazuje.<p>Funkcja pochodna jest uważana za dopasowaną, jeśli ma ten sam podpis (nazwa, typy parametrów i to, czy jest to const) i typ zwracany, co podstawowa wersja funkcji. Takie funkcje nazywane są <strong>przesłonięciami</strong>.<p>Aby uczynić funkcję wirtualną, wystarczy umieścić słowo kluczowe „virtual” przed deklaracją funkcji.<p>Oto powyższy przykład z funkcją wirtualną:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;string_view&gt;
 
 class Base
 {
 public:
-    virtual std::string_view getName() const { return &#34;Base&#34;; } // note addition of virtual keyword
+    virtual std::string_view getName() const { return "Base"; } // zwróć uwagę na dodanie słowa kluczowego virtual
 };
 
 class Derived: public Base
 {
 public:
-    virtual std::string_view getName() const { return &#34;Derived&#34;; }
+    virtual std::string_view getName() const { return "Derived"; }
 };
 
 int main()
 {
     Derived derived {};
     Base&amp; rBase{ derived };
-    std::cout &lt;&lt; &#34;rBase is a &#34; &lt;&lt; rBase.getName() &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "rBase is a " &lt;&lt; rBase.getName() &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Ten przykład wypisuje wynik:<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><pre>rBase is a Derived
@@ -95,10 +95,10 @@ int main()
     return 0;
 }</code></pre><p>Jak myślisz, co wyświetli ten program?<p>Spójrzmy, jak to działa. Najpierw tworzymy instancję obiektu klasy C. rBase jest referencją A, którą ustawiamy tak, aby odnosiła się do części A obiektu C. Na koniec wywołujemy rBase.getName(). rBase.getName() daje w wyniku A::getName(). Jednakże funkcja A::getName() jest wirtualna, więc kompilator wywoła najbardziej pochodne dopasowanie pomiędzy A i C. W tym przypadku jest to C::getName(). Zauważ, że nie wywoła to D::getName(), ponieważ naszym pierwotnym obiektem był C, a nie D, więc brane są pod uwagę tylko funkcje pomiędzy A i C.<p>W rezultacie nasz program wyprowadza:<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre>rBase is a C
 </pre><p>Zauważ, że rozpoznawanie funkcji wirtualnych działa tylko wtedy, gdy funkcja elementu wirtualnego jest wywoływana poprzez wskaźnik lub odwołanie do obiektu typu klasy. Działa to, ponieważ kompilator może odróżnić typ wskaźnika lub odniesienia od typu obiektu, na który wskazuje lub do którego się odwołuje. Widzimy to w powyższym przykładzie.<p>Wywołanie wirtualnej funkcji składowej bezpośrednio na obiekcie (a nie poprzez wskaźnik lub odwołanie) zawsze wywoła funkcję składową należącą do tego samego typu obiektu. Na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">C c{};
-std::cout &lt;&lt; c.getName(); // will always call C::getName
+std::cout &lt;&lt; c.getName(); // zawsze wywoła C::getName
 
-A a { c }; // copies the A portion of c into a (don&#39;t do this)
-std::cout &lt;&lt; a.getName(); // will always call A::getName</code></pre><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Rozpoznawanie funkcji wirtualnych działa tylko wtedy, gdy funkcja składowa jest wywoływana poprzez wskaźnik lub odniesienie do obiektu typu klasy.</div><p class="cpp-section cpp-topline" style=clear:both>Polimorfizm<p>W programowaniu <strong>polimorfizm</strong> odnosi się do zdolności jednostki do posiadania wielu form (termin „polimorfizm” dosłownie oznacza „wiele form”). Rozważmy na przykład następujące dwie deklaracje funkcji:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int add(int, int);
+A a { c }; // kopiuje część A c do (nie rób tego)
+std::cout &lt;&lt; a.getName(); // zawsze wywoła A::getName</code></pre><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Rozpoznawanie funkcji wirtualnych działa tylko wtedy, gdy funkcja składowa jest wywoływana poprzez wskaźnik lub odniesienie do obiektu typu klasy.</div><p class="cpp-section cpp-topline" style=clear:both>Polimorfizm<p>W programowaniu <strong>polimorfizm</strong> odnosi się do zdolności jednostki do posiadania wielu form (termin „polimorfizm” dosłownie oznacza „wiele form”). Rozważmy na przykład następujące dwie deklaracje funkcji:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int add(int, int);
 double add(double, double);</code></pre><p>Identyfikator <code>add</code> ma dwie formy: <code>add(int, int)</code> i <code>add(double, double)</code>.<p><strong>Polimorfizm w czasie kompilacji</strong> odnosi się do form polimorfizmu, które są rozpoznawane przez kompilator. Należą do nich rozdzielczość przeciążenia funkcji, a także rozdzielczość szablonu.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p><strong>Polimorfizm w czasie wykonywania</strong> odnosi się do form polimorfizmu, które są rozwiązywane w czasie wykonywania. Obejmuje to rozpoznawanie funkcji wirtualnych.<p class="cpp-section cpp-topline" style=clear:both>Bardziej złożony przykład<p>Przyjrzyjmy się jeszcze raz przykładowi Animal, z którym pracowaliśmy w poprzedniej lekcji. Oto oryginalna klasa wraz z kodem testowym:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;string&gt;
 #include &lt;string_view&gt;
@@ -108,9 +108,9 @@ class Animal
 protected:
     std::string m_name {};
 
-    // We&#39;re making this constructor protected because
-    // we don&#39;t want people creating Animal objects directly,
-    // but we still want derived classes to be able to use it.
+    // Chronimy ten konstruktor, ponieważ
+    // nie chcemy, aby ludzie tworzyli bezpośrednio obiekty Animal,
+    // ale nadal chcemy, aby klasy pochodne mogły z niego korzystać.
     Animal(std::string_view name)
         : m_name{ name }
     {
@@ -118,7 +118,7 @@ protected:
 
 public:
     const std::string&amp; getName() const { return m_name; }
-    std::string_view speak() const { return &#34;???&#34;; }
+    std::string_view speak() const { return "???"; }
 };
 
 class Cat: public Animal
@@ -129,7 +129,7 @@ public:
     {
     }
 
-    std::string_view speak() const { return &#34;Meow&#34;; }
+    std::string_view speak() const { return "Meow"; }
 };
 
 class Dog: public Animal
@@ -140,18 +140,18 @@ public:
     {
     }
 
-    std::string_view speak() const { return &#34;Woof&#34;; }
+    std::string_view speak() const { return "Woof"; }
 };
 
 void report(const Animal&amp; animal)
 {
-    std::cout &lt;&lt; animal.getName() &lt;&lt; &#34; says &#34; &lt;&lt; animal.speak() &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; animal.getName() &lt;&lt; " says " &lt;&lt; animal.speak() &lt;&lt; '\n';
 }
 
 int main()
 {
-    Cat cat{ &#34;Fred&#34; };
-    Dog dog{ &#34;Garbo&#34; };
+    Cat cat{ "Fred" };
+    Dog dog{ "Garbo" };
 
     report(cat);
     report(dog);
@@ -168,9 +168,9 @@ class Animal
 protected:
     std::string m_name {};
 
-    // We&#39;re making this constructor protected because
-    // we don&#39;t want people creating Animal objects directly,
-    // but we still want derived classes to be able to use it.
+    // Chronimy ten konstruktor, ponieważ
+    // nie chcemy, aby ludzie tworzyli bezpośrednio obiekty Animal,
+    // ale nadal chcemy, aby klasy pochodne mogły z niego korzystać.
     Animal(std::string_view name)
         : m_name{ name }
     {
@@ -178,7 +178,7 @@ protected:
 
 public:
     const std::string&amp; getName() const { return m_name; }
-    virtual std::string_view speak() const { return &#34;???&#34;; }
+    virtual std::string_view speak() const { return "???"; }
 };
 
 class Cat: public Animal
@@ -189,7 +189,7 @@ public:
     {
     }
 
-    virtual std::string_view speak() const { return &#34;Meow&#34;; }
+    virtual std::string_view speak() const { return "Meow"; }
 };
 
 class Dog: public Animal
@@ -200,18 +200,18 @@ public:
     {
     }
 
-    virtual std::string_view speak() const { return &#34;Woof&#34;; }
+    virtual std::string_view speak() const { return "Woof"; }
 };
 
 void report(const Animal&amp; animal)
 {
-    std::cout &lt;&lt; animal.getName() &lt;&lt; &#34; says &#34; &lt;&lt; animal.speak() &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; animal.getName() &lt;&lt; " says " &lt;&lt; animal.speak() &lt;&lt; '\n';
 }
 
 int main()
 {
-    Cat cat{ &#34;Fred&#34; };
-    Dog dog{ &#34;Garbo&#34; };
+    Cat cat{ "Fred" };
+    Dog dog{ "Garbo" };
 
     report(cat);
     report(dog);
@@ -219,19 +219,19 @@ int main()
     return 0;
 }</code></pre><p>Ten program generuje wynik:<pre>Fred says Meow
 Garbo says Woof
-</pre><p>To działa!<p>Gdy oceniana jest funkcja Animal.speak(), program zauważa, że ​​Animal::speak() jest funkcją wirtualną. W przypadku, gdy zwierzę odwołuje się do części Animal obiektu Cat, program sprawdza wszystkie klasy pomiędzy Animal i Cat, aby sprawdzić, czy może znaleźć bardziej pochodną funkcję. W takim przypadku znajduje Cat::speak(). W przypadku, gdy zwierzę odwołuje się do części Animal obiektu Dog, program rozwiązuje wywołanie funkcji Dog::speak().<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p>Zauważ, że nie uczyniliśmy Animal::getName() wirtualnym. Dzieje się tak, ponieważ funkcja getName() nigdy nie jest zastępowana w żadnej z klas pochodnych, dlatego nie ma takiej potrzeby.<p>Podobnie następujący przykład tablicy działa teraz zgodnie z oczekiwaniami:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">Cat fred{ &#34;Fred&#34; };
-Cat misty{ &#34;Misty&#34; };
-Cat zeke{ &#34;Zeke&#34; };
+</pre><p>To działa!<p>Gdy oceniana jest funkcja Animal.speak(), program zauważa, że ​​Animal::speak() jest funkcją wirtualną. W przypadku, gdy zwierzę odwołuje się do części Animal obiektu Cat, program sprawdza wszystkie klasy pomiędzy Animal i Cat, aby sprawdzić, czy może znaleźć bardziej pochodną funkcję. W takim przypadku znajduje Cat::speak(). W przypadku, gdy zwierzę odwołuje się do części Animal obiektu Dog, program rozwiązuje wywołanie funkcji Dog::speak().<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p>Zauważ, że nie uczyniliśmy Animal::getName() wirtualnym. Dzieje się tak, ponieważ funkcja getName() nigdy nie jest zastępowana w żadnej z klas pochodnych, dlatego nie ma takiej potrzeby.<p>Podobnie następujący przykład tablicy działa teraz zgodnie z oczekiwaniami:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">Cat fred{ "Fred" };
+Cat misty{ "Misty" };
+Cat zeke{ "Zeke" };
  
-Dog garbo{ &#34;Garbo&#34; };
-Dog pooky{ &#34;Pooky&#34; };
-Dog truffle{ &#34;Truffle&#34; };
+Dog garbo{ "Garbo" };
+Dog pooky{ "Pooky" };
+Dog truffle{ "Truffle" };
 
-// Set up an array of pointers to animals, and set those pointers to our Cat and Dog objects
+// Ustaw tablicę wskaźników na zwierzęta i ustaw te wskaźniki na nasze obiekty Kot i Pies
 Animal* animals[]{ &amp;fred, &amp;garbo, &amp;misty, &amp;pooky, &amp;truffle, &amp;zeke };
 
 for (const auto* animal : animals)
-    std::cout &lt;&lt; animal-&gt;getName() &lt;&lt; &#34; says &#34; &lt;&lt; animal-&gt;speak() &lt;&lt; &#39;\n&#39;;</code></pre><p>Co daje wynik:<pre>Fred says Meow
+    std::cout &lt;&lt; animal-&gt;getName() &lt;&lt; " says " &lt;&lt; animal-&gt;speak() &lt;&lt; '\n';</code></pre><p>Co daje wynik:<pre>Fred says Meow
 Garbo says Woof
 Misty says Meow
 Pooky says Woof
@@ -253,32 +253,32 @@ public:
 class A
 {
 public:
-    virtual std::string_view getName() const { return &#34;A&#34;; }
+    virtual std::string_view getName() const { return "A"; }
 };
 
 class B: public A
 {
 public:
-    virtual std::string_view getName() const { return &#34;B&#34;; }
+    virtual std::string_view getName() const { return "B"; }
 };
 
 class C: public B
 {
 public:
-// Note: no getName() function here
+// Uwaga: nie ma tutaj funkcji getName()
 };
 
 class D: public C
 {
 public:
-    virtual std::string_view getName() const { return &#34;D&#34;; }
+    virtual std::string_view getName() const { return "D"; }
 };
 
 int main()
 {
     C c {};
     A&amp; rBase{ c };
-    std::cout &lt;&lt; rBase.getName() &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; rBase.getName() &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_0 style=display:none>B. rBase jest referencją A wskazującą na obiekt C. Normalnie rBase.getName() wywołałoby A::getName(), ale A::getName() jest wirtualne, więc zamiast tego wywołuje najbardziej pochodną funkcję dopasowującą pomiędzy A i C. To jest B::getName(), która wypisuje B.</div><p>1b)<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -287,32 +287,32 @@ int main()
 class A
 {
 public:
-    virtual std::string_view getName() const { return &#34;A&#34;; }
+    virtual std::string_view getName() const { return "A"; }
 };
 
 class B: public A
 {
 public:
-    virtual std::string_view getName() const { return &#34;B&#34;; }
+    virtual std::string_view getName() const { return "B"; }
 };
 
 class C: public B
 {
 public:
-    virtual std::string_view getName() const { return &#34;C&#34;; }
+    virtual std::string_view getName() const { return "C"; }
 };
 
 class D: public C
 {
 public:
-    virtual std::string_view getName() const { return &#34;D&#34;; }
+    virtual std::string_view getName() const { return "D"; }
 };
 
 int main()
 {
     C c;
-    B&amp; rBase{ c }; // note: rBase is a B this time
-    std::cout &lt;&lt; rBase.getName() &lt;&lt; &#39;\n&#39;;
+    B&amp; rBase{ c }; // uwaga: rBase jest tym razem B
+    std::cout &lt;&lt; rBase.getName() &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_1 style=display:none>C. Jest to całkiem proste, ponieważ C::getName() jest najbardziej pochodnym wywołaniem dopasowującym pomiędzy klasami B i C.</div><p>1c)<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -321,33 +321,33 @@ int main()
 class A
 {
 public:
-    // note: no virtual keyword
-    std::string_view getName() const { return &#34;A&#34;; }
+    // uwaga: brak wirtualnego słowa kluczowego
+    std::string_view getName() const { return "A"; }
 };
 
 class B: public A
 {
 public:
-    virtual std::string_view getName() const { return &#34;B&#34;; }
+    virtual std::string_view getName() const { return "B"; }
 };
 
 class C: public B
 {
 public:
-    virtual std::string_view getName() const { return &#34;C&#34;; }
+    virtual std::string_view getName() const { return "C"; }
 };
 
 class D: public C
 {
 public:
-    virtual std::string_view getName() const { return &#34;D&#34;; }
+    virtual std::string_view getName() const { return "D"; }
 };
 
 int main()
 {
     C c {};
     A&amp; rBase{ c };
-    std::cout &lt;&lt; rBase.getName() &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; rBase.getName() &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_2'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_2 style=display:none>A. Ponieważ A nie jest wirtualne, kiedy wywoływana jest rBase.getName(), wywoływana jest A::getName().</div><p>1d)<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -356,33 +356,33 @@ int main()
 class A
 {
 public:
-    virtual std::string_view getName() const { return &#34;A&#34;; }
+    virtual std::string_view getName() const { return "A"; }
 };
 
 class B: public A
 {
 public:
-    // note: no virtual keyword in B, C, and D
-    std::string_view getName() const { return &#34;B&#34;; }
+    // uwaga: brak wirtualnego słowa kluczowego w B, C i D
+    std::string_view getName() const { return "B"; }
 };
 
 class C: public B
 {
 public:
-    std::string_view getName() const { return &#34;C&#34;; }
+    std::string_view getName() const { return "C"; }
 };
 
 class D: public C
 {
 public:
-    std::string_view getName() const { return &#34;D&#34;; } 
+    std::string_view getName() const { return "D"; } 
 };
 
 int main()
 {
     C c {};
-    B&amp; rBase{ c }; // note: rBase is a B this time
-    std::cout &lt;&lt; rBase.getName() &lt;&lt; &#39;\n&#39;;
+    B&amp; rBase{ c }; // uwaga: rBase jest tym razem B
+    std::cout &lt;&lt; rBase.getName() &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_3'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_3 style=display:none>C. Mimo że B i C nie są oznaczone jako funkcje wirtualne, A::getName() jest wirtualne, a B::getName() i C::getName() są zastąpione. Dlatego B::getName() i C::getName() są uważane za domyślnie wirtualne, a zatem wywołanie rBase.getName() jest rozpoznawane jako C::getName(), a nie B::getName().</div><p>1e)<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -391,33 +391,33 @@ int main()
 class A
 {
 public:
-    virtual std::string_view getName() const { return &#34;A&#34;; }
+    virtual std::string_view getName() const { return "A"; }
 };
 
 class B: public A
 {
 public:
-    // Note: Functions in B, C, and D are non-const.
-    virtual std::string_view getName() { return &#34;B&#34;; }
+    // Uwaga: Funkcje w B, C i D na non-const.
+    virtual std::string_view getName() { return "B"; }
 };
 
 class C: public B
 {
 public:
-    virtual std::string_view getName() { return &#34;C&#34;; }
+    virtual std::string_view getName() { return "C"; }
 };
 
 class D: public C
 {
 public:
-    virtual std::string_view getName() { return &#34;D&#34;; }
+    virtual std::string_view getName() { return "D"; }
 };
 
 int main()
 {
     C c {};
     A&amp; rBase{ c };
-    std::cout &lt;&lt; rBase.getName() &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; rBase.getName() &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_4'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_4 style=display:none>A. Ten jest trochę trudniejszy. rBase jest referencją A do obiektu C, więc rBase.getName() normalnie wywołałoby A::getName(). Ale A::getName() jest wirtualna, więc wywołuje najbardziej pochodną wersję funkcji pomiędzy A i C. Jest to A::getName(). Ponieważ B::getName() i C::getName() nie są stałymi, nie są uważane za przesłonięcia! W rezultacie program ten wypisuje A.</div><p>1f)<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -426,27 +426,27 @@ int main()
 class A
 {
 public:
-	A() { std::cout &lt;&lt; getName(); } // note addition of constructor (getName() now called from here)
+	A() { std::cout &lt;&lt; getName(); } // zauważ dodanie konstruktora (getName() teraz wywoływanego z tutaj)
 
-	virtual std::string_view getName() const { return &#34;A&#34;; }
+	virtual std::string_view getName() const { return "A"; }
 };
 
 class B : public A
 {
 public:
-	virtual std::string_view getName() const { return &#34;B&#34;; }
+	virtual std::string_view getName() const { return "B"; }
 };
 
 class C : public B
 {
 public:
-	virtual std::string_view getName() const { return &#34;C&#34;; }
+	virtual std::string_view getName() const { return "C"; }
 };
 
 class D : public C
 {
 public:
-	virtual std::string_view getName() const { return &#34;D&#34;; }
+	virtual std::string_view getName() const { return "D"; }
 };
 
 int main()

@@ -17,35 +17,35 @@
 
 int main()
 {
-    char name[]{ &#34;Alex&#34; }; // C-style string
-    std::cout &lt;&lt; name &lt;&lt; &#39;\n&#39;;
+    char name[]{ "Alex" }; // Ciąg w stylu C
+    std::cout &lt;&lt; name &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>C++ obsługuje dwa różne sposoby tworzenia stałych symbolicznych ciągu w stylu C:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 int main()
 {
-    const char name[] { &#34;Alex&#34; };        // case 1: const C-style string initialized with C-style string literal
-    const char* const color{ &#34;Orange&#34; }; // case 2: const pointer to C-style string literal
+    const char name[] { "Alex" };        // przypadek 1: const Łańcuch w stylu C zainicjowany literałem ciągu w stylu C
+    const char* const color{ "Orange" }; // przypadek 2: stały wskaźnik na literał łańcuchowy w stylu C
 
-    std::cout &lt;&lt; name &lt;&lt; &#39; &#39; &lt;&lt; color &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; name &lt;&lt; ' ' &lt;&lt; color &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Wypisuje:<pre>Alex Orange
 </pre><p>Podczas gdy powyższe dwie metody dają takie same wyniki, C++ radzi sobie z alokacją pamięci dla nich nieco inaczej.<p>W przypadku 1 „Alex” jest umieszczany gdzieś w pamięci (prawdopodobnie tylko do odczytu). Następnie program przydziela pamięć dla tablicy w stylu C o długości 5 (cztery jawne znaki plus terminator zerowy) i inicjuje tę pamięć ciągiem „Alex”. W rezultacie otrzymujemy 2 kopie „Alexa” – jedną gdzieś w globalnej pamięci, a drugą posiadaną przez  <code>name</code>. Ponieważ <code>name</code> jest stałą (i nigdy nie będzie modyfikowana), tworzenie kopii jest nieefektywne.<p>W przypadku 2 sposób, w jaki kompilator sobie z tym radzi, jest zdefiniowany przez implementację.  <em>Zazwyczaj</em> zdarza się, że kompilator umieszcza ciąg „Orange” gdzieś w pamięci tylko do odczytu, a następnie inicjuje wskaźnik adresem ciągu.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>W celach optymalizacji wiele literałów łańcuchowych można połączyć w jedną wartość. Na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">const char* name1{ &#34;Alex&#34; };
-const char* name2{ &#34;Alex&#34; };</code></pre><p>Są to dwa różne literały łańcuchowe o tej samej wartości. Ponieważ te literały są stałymi, kompilator może zdecydować się na oszczędzanie pamięci, łącząc je w jeden współdzielony literał łańcuchowy, przy czym oba <code>name1</code> i <code>name2</code> wskazują ten sam adres.<p class="cpp-section cpp-topline" style=clear:both>Dedukcja typu za pomocą stałych ciągów w stylu C<p>Dedukcja typu przy użyciu literału łańcuchowego w stylu C jest dość prosta:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    auto s1{ &#34;Alex&#34; };  // type deduced as const char*
-    auto* s2{ &#34;Alex&#34; }; // type deduced as const char*
-    auto&amp; s3{ &#34;Alex&#34; }; // type deduced as const char(&amp;)[5]</code></pre><p class="cpp-section cpp-topline" style=clear:both>Wyprowadzanie wskaźników i stylu C strings<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Być może zauważyłeś coś interesującego w sposobie <code>std::cout</code> obsługi wskaźników różnych typów.<p>Rozważ następujący przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+const char* name2{ &#34;Alex&#34; };</code></pre><p>Są to dwa różne literały łańcuchowe o tej samej wartości. Ponieważ te literały są stałymi, kompilator może zdecydować się na oszczędzanie pamięci, łącząc je w jeden współdzielony literał łańcuchowy, przy czym oba <code>name1</code> i <code>name2</code> wskazują ten sam adres.<p class="cpp-section cpp-topline" style=clear:both>Dedukcja typu za pomocą stałych ciągów w stylu C<p>Dedukcja typu przy użyciu literału łańcuchowego w stylu C jest dość prosta:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    auto s1{ "Alex" };  // typ wydedukowany jako const char*
+    auto* s2{ "Alex" }; // typ wydedukowany jako const char*
+    auto&amp; s3{ "Alex" }; // typ wydedukowany jako const char(&amp;)[5]</code></pre><p class="cpp-section cpp-topline" style=clear:both>Wyprowadzanie wskaźników i stylu C strings<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Być może zauważyłeś coś interesującego w sposobie <code>std::cout</code> obsługi wskaźników różnych typów.<p>Rozważ następujący przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 int main()
 {
     int narr[]{ 9, 7, 5, 3, 1 };
-    char carr[]{ &#34;Hello!&#34; };
-    const char* ptr{ &#34;Alex&#34; };
+    char carr[]{ "Hello!" };
+    const char* ptr{ "Alex" };
 
-    std::cout &lt;&lt; narr &lt;&lt; &#39;\n&#39;; // narr will decay to type int*
-    std::cout &lt;&lt; carr &lt;&lt; &#39;\n&#39;; // carr will decay to type char*
-    std::cout &lt;&lt; ptr &lt;&lt; &#39;\n&#39;; // name is already type char*
+    std::cout &lt;&lt; narr &lt;&lt; '\n'; // narr przejścia do typu int*
+    std::cout &lt;&lt; carr &lt;&lt; '\n'; // Carr przechodzi do typu char*
+    std::cout &lt;&lt; ptr &lt;&lt; '\n'; // nazwa jest już typu char*
 
     return 0;
 }</code></pre><p>Na maszynie autora wydrukowało to:<pre>003AF738
@@ -64,10 +64,10 @@ int main()
 
 int main()
 {
-    const char* ptr{ &#34;Alex&#34; };
+    const char* ptr{ "Alex" };
 
-    std::cout &lt;&lt; ptr &lt;&lt; &#39;\n&#39;;                           // print ptr as C-style string
-    std::cout &lt;&lt; static_cast&lt;const void*&gt;(ptr) &lt;&lt; &#39;\n&#39;; // print address held by ptr
+    std::cout &lt;&lt; ptr &lt;&lt; '\n';                           // wydrukuj ptr jako ciąg w stylu C
+    std::cout &lt;&lt; static_cast&lt;const void*&gt;(ptr) &lt;&lt; '\n'; // wydrukuj adres trzymany przez ptr
     
     return 0;
 }</code></pre><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Powiązana treść<p>Omawiamy <code>void*</code> w lekcji <a href="../void-pointers/index.html">19.5 -- Wskaźniki pustki</a>. Nie musisz wiedzieć, jak to działa, aby go tutaj używać.</div><p class="cpp-section cpp-topline" style=clear:both>Preferuj std::string_view dla stałych symbolicznych ciągu w stylu C<p>Nie ma powodu, aby używać stałych symbolicznych ciągu w stylu C we współczesnym C++. Zamiast tego preferuj  <code>constexpr std::string_view</code> obiekty, które są zwykle równie szybkie (jeśli nie szybsze) i zachowują się bardziej konsekwentnie.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Unikaj stałych symbolicznych w stylu C na rzecz <code>constexpr std::string_view</code>.</div><div class=prevnext><div class=prevnext-inline><a class=nav-link href="../multidimensional-c-style-arrays/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>17.12</span>Wielowymiarowych tablic w stylu C</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../66-c-style-strings/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>17.10</span>Ciągów w stylu C</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/c-style-string-symbolic-constants/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../pointer-arithmetic-and-subscripting/index.html" rel=prev><span>17.9 — Arytmetyka wskaźników i indeks dolny</span></a></div><div class=nav-next><em>Następny post</em><a href="../dynamically-allocating-arrays/index.html" rel=next><span>19,2 — Dynamiczne przydzielanie tablic</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>

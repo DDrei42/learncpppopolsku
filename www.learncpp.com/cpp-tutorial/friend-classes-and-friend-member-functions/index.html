@@ -13,7 +13,7 @@
 <button class=searchsubmit><span class=screen-reader-text>Szukaj</span><i class=icon-search></i></button>
 <input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=15036></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="15.9 — Klasy znajomych i członek znajomych funkcje" src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-15369 class="post-15369 post type-post status-publish format-standard hentry category-cpp-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>15.9 — Klasy znajomych i członek znajomych funkcje</h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Autor></i><a class="url fn n" rel=author href=/www.learncpp.com/author/Alex/ title="Wyświetl wszystkie posty Alexa" itemprop=url><em itemprop=name>Alex</em></a></span>
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2023-09-11T13:05:39-07:00 itemprop=datePublished>11 września 2023, 13:05 PDT</time>
-<time class=updated datetime=2024-04-30T21:18:02-07:00 itemprop=dateModified>30 kwietnia 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p class=cpp-section>Klasy znajomych<p>A <strong>Klasa przyjaciół</strong> to klasa, która ma dostęp do prywatnych i chronionych członków innej klasy.<p>Oto przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+<time class=updated datetime=2024-04-30T21:18:02-07:00 itemprop=dateModified>30 kwietnia 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p class=cpp-section>Klasy znajomych<p><strong>Klasa przyjaciół</strong> to klasa, która ma dostęp do prywatnych i chronionych członków innej klasy.<p>Oto przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 class Storage
 {
@@ -25,7 +25,7 @@ public:
        : m_nValue { nValue }, m_dValue { dValue }
     { }
 
-    // Make the Display class a friend of Storage
+    // Uczyń klasę Display przyjacielem Storage
     friend class Display;
 };
 
@@ -40,13 +40,13 @@ public:
     {
     }
 
-    // Because Display is a friend of Storage, Display members can access the private members of Storage
+    // Ponieważ Display jest przyjacielem Storage, członkowie Display mogą uzyskać dostęp do prywatnych członków Storage
     void displayStorage(const Storage&amp; storage)
     {
         if (m_displayIntFirst)
-            std::cout &lt;&lt; storage.m_nValue &lt;&lt; &#39; &#39; &lt;&lt; storage.m_dValue &lt;&lt; &#39;\n&#39;;
-        else // display double first
-            std::cout &lt;&lt; storage.m_dValue &lt;&lt; &#39; &#39; &lt;&lt; storage.m_nValue &lt;&lt; &#39;\n&#39;;
+            std::cout &lt;&lt; storage.m_nValue &lt;&lt; ' ' &lt;&lt; storage.m_dValue &lt;&lt; '\n';
+        else // najpierw wyświetl podwójnie
+            std::cout &lt;&lt; storage.m_dValue &lt;&lt; ' ' &lt;&lt; storage.m_nValue &lt;&lt; '\n';
     }
 
     void setDisplayIntFirst(bool b)
@@ -70,7 +70,7 @@ int main()
 5 6.7
 </pre><p>Kilka dodatkowych uwag na temat klas znajomych.<p>Po pierwsze, mimo że <code>Display</code> jest przyjacielem <code>Storage</code>, <code>Display</code> nie ma dostępu do  <code>*this</code> wskaźnik <code>Storage</code> obiektów (ponieważ <code>*this</code> jest w rzeczywistości parametrem funkcji).<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Po drugie, przyjaźń nie jest wzajemna. To, że <code>Display</code> jest przyjacielem <code>Storage</code> nie oznacza, <code>Storage</code> jest także przyjacielem <code>Display</code>. Jeśli chcesz, aby dwie klasy były dla siebie przyjaciółmi, obie muszą zadeklarować drugą jako przyjaciela.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nota autora<p>Przepraszam, jeśli ta klasa jest dla Ciebie zbyt bliska!</div><p>Przyjaźń klasowa również nie jest przechodnia. Jeśli klasa A jest przyjacielem B, a B jest przyjacielem C, nie oznacza to, że A jest przyjacielem C.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Dla zaawansowanych czytelników<p>Przyjaźń też nie jest dziedziczona. Jeśli klasa A czyni B przyjacielem, klasy wywodzące się z B nie są przyjaciółmi A.</div><p>Deklaracja klasy zaprzyjaźnionej działa jak deklaracja forward dla zaprzyjaźnionej klasy. Oznacza to, że nie musimy przekazywać dalej deklaracji, że klasa jest zaprzyjaźniona przed dodaniem jej do grona znajomych. W powyższym przykładzie <code>friend class Display</code> działa zarówno jako deklaracja forward  <code>Display</code> i deklaracja znajomego.<p class="cpp-section cpp-topline" style=clear:both>Funkcje członka znajomego<p>Zamiast czynić przyjaciela całą klasą, możesz uczynić jednego członka członkiem funkcją przyjaciela. Odbywa się to podobnie do zaprzyjaźniania funkcji niebędącej członkiem, z tą różnicą, że zamiast niej używana jest nazwa funkcji członkowskiej.<p>Jednak w rzeczywistości może to być trochę trudniejsze, niż oczekiwano. Przekształćmy poprzedni przykład, aby utworzyć <code>Display::displayStorage</code> przyjacielską funkcję członkowską. Możesz spróbować czegoś takiego:<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-class Display; // forward declaration for class Display
+class Display; // deklaracja forward dla klasy Display
 
 class Storage
 {
@@ -83,8 +83,8 @@ public:
 	{
 	}
 
-	// Make the Display::displayStorage member function a friend of the Storage class
-	friend void Display::displayStorage(const Storage&amp; storage); // error: Storage hasn&#39;t seen the full definition of class Display
+	// Uczyń Display::displayStorage Funkcja składowa zaprzyjaźniona z klasą Storage
+	friend void Display::displayStorage(const Storage&amp; storage); // błąd: Pamięć nie widziała pełnej definicji klasy Display
 };
 
 class Display
@@ -101,9 +101,9 @@ public:
 	void displayStorage(const Storage&amp; storage)
 	{
 		if (m_displayIntFirst)
-			std::cout &lt;&lt; storage.m_nValue &lt;&lt; &#39; &#39; &lt;&lt; storage.m_dValue &lt;&lt; &#39;\n&#39;;
-		else // display double first
-			std::cout &lt;&lt; storage.m_dValue &lt;&lt; &#39; &#39; &lt;&lt; storage.m_nValue &lt;&lt; &#39;\n&#39;;
+			std::cout &lt;&lt; storage.m_nValue &lt;&lt; ' ' &lt;&lt; storage.m_dValue &lt;&lt; '\n';
+		else // najpierw wyświetl podwójnie
+			std::cout &lt;&lt; storage.m_dValue &lt;&lt; ' ' &lt;&lt; storage.m_nValue &lt;&lt; '\n';
 	}
 };
 
@@ -127,12 +127,12 @@ public:
 	{
 	}
 
-	void displayStorage(const Storage&amp; storage) // compile error: compiler doesn&#39;t know what a Storage is
+	void displayStorage(const Storage&amp; storage) // błąd kompilacji: kompilator nie wie, czym jest pamięć
 	{
 		if (m_displayIntFirst)
-			std::cout &lt;&lt; storage.m_nValue &lt;&lt; &#39; &#39; &lt;&lt; storage.m_dValue &lt;&lt; &#39;\n&#39;;
-		else // display double first
-			std::cout &lt;&lt; storage.m_dValue &lt;&lt; &#39; &#39; &lt;&lt; storage.m_nValue &lt;&lt; &#39;\n&#39;;
+			std::cout &lt;&lt; storage.m_nValue &lt;&lt; ' ' &lt;&lt; storage.m_dValue &lt;&lt; '\n';
+		else // najpierw wyświetl podwójnie
+			std::cout &lt;&lt; storage.m_dValue &lt;&lt; ' ' &lt;&lt; storage.m_nValue &lt;&lt; '\n';
 	}
 };
 
@@ -147,8 +147,8 @@ public:
 	{
 	}
 
-	// Make the Display::displayStorage member function a friend of the Storage class
-	friend void Display::displayStorage(const Storage&amp; storage); // okay now
+	// Uczyń Display::displayStorage Funkcja składowa zaprzyjaźniona z klasą Storage
+	friend void Display::displayStorage(const Storage&amp; storage); // w porządku teraz
 };
 
 int main()
@@ -160,7 +160,7 @@ int main()
     return 0;
 }</code></pre><p>Jednak mamy teraz inny problem. Ponieważ funkcja składowa <code>Display::displayStorage()</code> używa <code>Storage</code> jako parametr referencyjny i właśnie przenieśliśmy definicję <code>Storage</code> poniżej definicji <code>Display</code>, kompilator będzie narzekał, że nie wie, czym jest <code>Storage</code> . Nie możemy tego naprawić, zmieniając kolejność definicji, ponieważ wtedy cofniemy poprzednią poprawkę.<p>Na szczęście można to również naprawić w kilku prostych krokach. Po pierwsze, możemy dodać  <code>class Storage</code> jako deklarację forward, tak aby kompilator zgodził się z odwołaniem do <code>Storage</code> zanim zobaczy pełną definicję klasy.<p>Po drugie, możemy przenieść definicję <code>Display::displayStorage()</code> poza klasę, po pełnej definicji <code>Storage</code> .<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>Oto jak to wygląda np.:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-class Storage; // forward declaration for class Storage
+class Storage; // deklaracja forward dla klasy Storage
 
 class Display
 {
@@ -173,10 +173,10 @@ public:
 	{
 	}
 
-	void displayStorage(const Storage&amp; storage); // forward declaration for Storage needed for reference here
+	void displayStorage(const Storage&amp; storage); // deklaracja forward dla Storage, zainstalowana tutaj w zakresie komunikacji
 };
 
-class Storage // full definition of Storage class
+class Storage // pełna definicja klasy Storage
 {
 private:
 	int m_nValue {};
@@ -187,19 +187,19 @@ public:
 	{
 	}
 
-	// Make the Display::displayStorage member function a friend of the Storage class
-	// Requires seeing the full definition of class Display (as displayStorage is a member)
+	// Uczyń Display::displayStorage Funkcja składowa zaprzyjaźniona z klasą Storage
+	// Wymaga zobaczenia pełnej definicji klasy Display (ponieważ displayStorage jest członkiem)
 	friend void Display::displayStorage(const Storage&amp; storage);
 };
 
-// Now we can define Display::displayStorage
-// Requires seeing the full definition of class Storage (as we access Storage members)
+// Teraz możemy zdefiniować Display::displayStorage
+// Wymaga zobaczenia pełnej definicji klasy Storage (gdy uzyskujemy dostęp do członków Storage)
 void Display::displayStorage(const Storage&amp; storage)
 {
 	if (m_displayIntFirst)
-		std::cout &lt;&lt; storage.m_nValue &lt;&lt; &#39; &#39; &lt;&lt; storage.m_dValue &lt;&lt; &#39;\n&#39;;
-	else // display double first
-		std::cout &lt;&lt; storage.m_dValue &lt;&lt; &#39; &#39; &lt;&lt; storage.m_nValue &lt;&lt; &#39;\n&#39;;
+		std::cout &lt;&lt; storage.m_nValue &lt;&lt; ' ' &lt;&lt; storage.m_dValue &lt;&lt; '\n';
+	else // najpierw wyświetl podwójnie
+		std::cout &lt;&lt; storage.m_dValue &lt;&lt; ' ' &lt;&lt; storage.m_nValue &lt;&lt; '\n';
 }
 
 int main()
@@ -209,7 +209,7 @@ int main()
     display.displayStorage(storage);
 
     return 0;
-}</code></pre><p>Teraz wszystko skompiluje się poprawnie: deklaracja forward  <code>class Storage</code> wystarczy, aby spełnić deklarację <code>Display::displayStorage()</code> wewnątrz klasy <code>Display</code> . Pełna definicja <code>Display</code> spełnia deklarację <code>Display::displayStorage()</code> jako przyjaciela <code>Storage</code>. A pełna definicja klasy <code>Storage</code> wystarczy, aby spełnić definicję funkcji składowej <code>Display::displayStorage()</code>.<p>Jeśli jest to nieco zagmatwane, zobacz komentarze w programie powyżej. Najważniejsze jest to, że deklaracja przekazania klasy spełnia odniesienia do klasy. Jednakże uzyskanie dostępu do elementów klasy wymaga, aby kompilator zapoznał się z pełną definicją klasy.<p>Jeśli wydaje się to uciążliwe – rzeczywiście tak jest. Na szczęście ten taniec jest konieczny tylko dlatego, że staramy się zrobić wszystko w jednym pliku. Lepszym rozwiązaniem jest umieszczenie definicji każdej klasy w oddzielnym pliku nagłówkowym, a definicje funkcji składowych w odpowiednich plikach .cpp. W ten sposób wszystkie definicje klas będą dostępne w plikach .cpp i nie będzie konieczne przestawianie klas ani funkcji!<p class="cpp-section cpp-topline" style=clear:both>Czas quizu<p class=cpp-quiz-question style=clear:both>Pytanie nr 1<p>W geometrii punkt to pozycja w przestrzeni. Możemy zdefiniować punkt w przestrzeni 3D jako zbiór współrzędnych x, y i z. Na przykład <code>Point { 2.0, 1.0, 0.0 }</code> byłby punktem w przestrzeni współrzędnych x=2,0, y=1,0 i z=0,0.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>W fizyce wektor to wielkość, która ma wielkość (długość) i kierunek (ale nie ma położenia). Możemy zdefiniować wektor w przestrzeni 3D jako wartość x, y i z reprezentującą kierunek wektora wzdłuż osi x, y i z (można z nich wyprowadzić długość). Na przykład <code>Vector { 2.0, 0.0, 0.0 }</code> byłby wektorem reprezentującym kierunek wzdłuż dodatniej osi x (tylko) o długości 2,0. <p>A <code>Vector</code> można zastosować do a <code>Point</code> w celu przesunięcia <code>Point</code> do nowej pozycji. Odbywa się to poprzez dodanie kierunku wektora do położenia punktu, aby uzyskać nową pozycję. Na przykład <code>Point { 2.0, 1.0, 0.0 }</code> + <code>Vector { 2.0, 0.0, 0.0 }</code> dałoby  <code>Point { 4.0, 1.0, 0.0 }</code>.<p>Takie punkty i wektory są często używane w grafice komputerowej (z punktami reprezentującymi wierzchołki kształtu, a wektory reprezentują ruch kształtu).<p>Biorąc pod uwagę następujący program:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+}</code></pre><p>Teraz wszystko skompiluje się poprawnie: deklaracja forward  <code>class Storage</code> wystarczy, aby spełnić deklarację <code>Display::displayStorage()</code> wewnątrz klasy <code>Display</code> . Pełna definicja <code>Display</code> spełnia deklarację <code>Display::displayStorage()</code> jako przyjaciela <code>Storage</code>. A pełna definicja klasy <code>Storage</code> wystarczy, aby spełnić definicję funkcji składowej <code>Display::displayStorage()</code>.<p>Jeśli jest to nieco zagmatwane, zobacz komentarze w programie powyżej. Najważniejsze jest to, że deklaracja przekazania klasy spełnia odniesienia do klasy. Jednakże uzyskanie dostępu do elementów klasy wymaga, aby kompilator zapoznał się z pełną definicją klasy.<p>Jeśli wydaje się to uciążliwe – rzeczywiście tak jest. Na szczęście ten taniec jest konieczny tylko dlatego, że staramy się zrobić wszystko w jednym pliku. Lepszym rozwiązaniem jest umieszczenie definicji każdej klasy w oddzielnym pliku nagłówkowym, a definicje funkcji składowych w odpowiednich plikach .cpp. W ten sposób wszystkie definicje klas będą dostępne w plikach .cpp i nie będzie konieczne przestawianie klas ani funkcji!<p class="cpp-section cpp-topline" style=clear:both>Czas quizu<p class=cpp-quiz-question style=clear:both>Pytanie nr 1<p>W geometrii punkt to pozycja w przestrzeni. Możemy zdefiniować punkt w przestrzeni 3D jako zbiór współrzędnych x, y i z. Na przykład <code>Point { 2.0, 1.0, 0.0 }</code> byłby punktem w przestrzeni współrzędnych x=2,0, y=1,0 i z=0,0.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>W fizyce wektor to wielkość, która ma wielkość (długość) i kierunek (ale nie ma położenia). Możemy zdefiniować wektor w przestrzeni 3D jako wartość x, y i z reprezentującą kierunek wektora wzdłuż osi x, y i z (można z nich wyprowadzić długość). Na przykład <code>Vector { 2.0, 0.0, 0.0 }</code> byłby wektorem reprezentującym kierunek wzdłuż dodatniej osi x (tylko) o długości 2,0. <p><code>Vector</code> można zastosować do <code>Point</code> w celu przesunięcia <code>Point</code> do nowej pozycji. Odbywa się to poprzez dodanie kierunku wektora do położenia punktu, aby uzyskać nową pozycję. Na przykład <code>Point { 2.0, 1.0, 0.0 }</code> + <code>Vector { 2.0, 0.0, 0.0 }</code> dałoby  <code>Point { 4.0, 1.0, 0.0 }</code>.<p>Takie punkty i wektory są często używane w grafice komputerowej (z punktami reprezentującymi wierzchołki kształtu, a wektory reprezentują ruch kształtu).<p>Biorąc pod uwagę następujący program:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 class Vector3d
 {
@@ -226,7 +226,7 @@ public:
 
 	void print() const
 	{
-		std::cout &lt;&lt; &#34;Vector(&#34; &lt;&lt; m_x &lt;&lt; &#34;, &#34; &lt;&lt; m_y &lt;&lt; &#34;, &#34; &lt;&lt; m_z &lt;&lt; &#34;)\n&#34;;
+		std::cout &lt;&lt; "Vector(" &lt;&lt; m_x &lt;&lt; ", " &lt;&lt; m_y &lt;&lt; ", " &lt;&lt; m_z &lt;&lt; ")\n";
 	}
 };
 
@@ -244,12 +244,12 @@ public:
 
 	void print() const
 	{
-		std::cout &lt;&lt; &#34;Point(&#34; &lt;&lt; m_x &lt;&lt; &#34;, &#34; &lt;&lt; m_y &lt;&lt; &#34;, &#34; &lt;&lt; m_z &lt;&lt; &#34;)\n&#34;;
+		std::cout &lt;&lt; "Point(" &lt;&lt; m_x &lt;&lt; ", " &lt;&lt; m_y &lt;&lt; ", " &lt;&lt; m_z &lt;&lt; ")\n";
 	}
 
 	void moveByVector(const Vector3d&amp; v)
 	{
-		// implement this function as a friend of class Vector3d
+		// zaimplementuj tę funkcję jako przyjaciel klasy Vector3d
 	}
 };
 
@@ -281,10 +281,10 @@ public:
 
 	void print() const
 	{
-		std::cout &lt;&lt; &#34;Vector(&#34; &lt;&lt; m_x &lt;&lt; &#34;, &#34; &lt;&lt; m_y &lt;&lt; &#34;, &#34; &lt;&lt; m_z &lt;&lt; &#34;)\n&#34;;
+		std::cout &lt;&lt; "Vector(" &lt;&lt; m_x &lt;&lt; ", " &lt;&lt; m_y &lt;&lt; ", " &lt;&lt; m_z &lt;&lt; ")\n";
 	}
 
-	friend class Point3d; // Point3d is now a friend of class Vector3d
+	friend class Point3d; // Point3d jest teraz przyjacielem klasy Vector3d
 };
 
 
@@ -304,7 +304,7 @@ public:
 
 	void print() const
 	{
-		std::cout &lt;&lt; &#34;Point(&#34; &lt;&lt; m_x &lt;&lt; &#34;, &#34; &lt;&lt; m_y &lt;&lt; &#34;, &#34; &lt;&lt; m_z &lt;&lt; &#34;)\n&#34;;
+		std::cout &lt;&lt; "Point(" &lt;&lt; m_x &lt;&lt; ", " &lt;&lt; m_y &lt;&lt; ", " &lt;&lt; m_z &lt;&lt; ")\n";
 	}
 
 
@@ -329,7 +329,7 @@ int main()
 	return 0;
 }</code></pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>&gt; Krok #2<p>Zamiast tworzyć klasę <code>Point3d</code> przyjacielem klasy <code>Vector3d</code>, uczyń funkcję składową <code>Point3d::moveByVector</code> przyjacielem klasy <code>Vector3d</code>.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_1 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-class Vector3d; // first, we need to tell the compiler that a class named Vector3d exists
+class Vector3d; // najpierw musimy powiedzieć kompilatorowi, że istnieje klasa o nazwie Vector3d
 
 class Point3d
 {
@@ -347,11 +347,11 @@ public:
 
 	void print() const
 	{
-		std::cout &lt;&lt; &#34;Point(&#34; &lt;&lt; m_x &lt;&lt; &#34;, &#34; &lt;&lt; m_y &lt;&lt; &#34;, &#34; &lt;&lt; m_z &lt;&lt; &#34;)\n&#34;;
+		std::cout &lt;&lt; "Point(" &lt;&lt; m_x &lt;&lt; ", " &lt;&lt; m_y &lt;&lt; ", " &lt;&lt; m_z &lt;&lt; ")\n";
 	}
 
-	void moveByVector(const Vector3d&amp; v); // so we can use Vector3d here
-       // note: we can&#39;t define this function here, because Vector3d hasn&#39;t been defined yet (just forward declared)
+	void moveByVector(const Vector3d&amp; v); // abyśmy mogli tutaj użyć Vector3d
+       // uwaga: nie możemy tutaj zdefiniować tej funkcji, ponieważ Vector3d nie został zdefiniowany yet (tylko zadeklarowane forward)
 };
 
 class Vector3d
@@ -370,13 +370,13 @@ public:
 
 	void print() const
 	{
-		std::cout &lt;&lt; &#34;Vector(&#34; &lt;&lt; m_x &lt;&lt; &#34;, &#34; &lt;&lt; m_y &lt;&lt; &#34;, &#34; &lt;&lt; m_z &lt;&lt; &#34;)\n&#34;;
+		std::cout &lt;&lt; "Vector(" &lt;&lt; m_x &lt;&lt; ", " &lt;&lt; m_y &lt;&lt; ", " &lt;&lt; m_z &lt;&lt; ")\n";
 	}
 
-	friend void Point3d::moveByVector(const Vector3d&amp; v); // Point3d::moveByVector() is now a friend of class Vector3d
+	friend void Point3d::moveByVector(const Vector3d&amp; v); // Point3d::moveByVector() jest teraz przyjacielem klasy Vector3d
 };
 
-// Now that Vector3d has been defined, we can define the function Point3d::moveByVector()
+// Teraz, gdy Vector3d został zdefiniowany, możemy zdefiniować funkcję Point3d::moveByVector()
 void Point3d::moveByVector(const Vector3d&amp; v)
 {
 	m_x += v.m_x;
@@ -394,12 +394,12 @@ int main()
 	p.print();
 
 	return 0;
-}</code></pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>&gt; Krok #3<p>Zaimplementuj rozwiązanie z poprzedniego kroku, używając 5 oddzielnych plików: Point3d.h, Point3d.cpp, Vector3d.h, Vector3d.cpp i main.cpp.<p>Dziękujemy czytelnikowi Shivie za sugestię i rozwiązanie.<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_2'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_2 style=display:none><p>Point3d.h:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Header file that defines the Point3d class
+}</code></pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>&gt; Krok #3<p>Zaimplementuj rozwiązanie z poprzedniego kroku, używając 5 oddzielnych plików: Point3d.h, Point3d.cpp, Vector3d.h, Vector3d.cpp i main.cpp.<p>Dziękujemy czytelnikowi Shivie za sugestię i rozwiązanie.<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_2'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_2 style=display:none><p>Point3d.h:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Plik nagłówkowy definiujący klasę Point3d
 
 #ifndef POINT3D_H
 #define POINT3D_H
 
-class Vector3d; // forward declaration for class Vector3d for function moveByVector()
+class Vector3d; // deklaracja forward dla klasy Vector3d dla funkcji moveByVector()
 
 class Point3d
 {
@@ -412,13 +412,13 @@ class Point3d
         Point3d(double x, double y, double z);
 
         void print() const;
-        void moveByVector(const Vector3d&amp; v); // forward declaration above needed for this line
+        void moveByVector(const Vector3d&amp; v); // deklaracja forward dla tej linii
 };
 
-#endif</code></pre><p>Point3d.cpp:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Member functions of the Point3d class defined here
+#endif</code></pre><p>Point3d.cpp:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Funkcje składowe klasy Point3d zdefiniowane tutaj
 
-#include &#34;Point3d.h&#34; // Point3d class defined here
-#include &#34;Vector3d.h&#34; // for the parameter of the function moveByVector()
+#include "Point3d.h" // Zdefiniowano tutaj klasę Point3d
+#include "Vector3d.h" // dla parametru funkcji moveByVector()
 
 #include &lt;iostream&gt;
 
@@ -428,7 +428,7 @@ Point3d::Point3d(double x, double y, double z)
 
 void Point3d::moveByVector(const Vector3d&amp; v)
 {
-    // Add the vector components to the corresponding point coordinates
+    // Dodaj składowe wektora do odpowiednich współrzędnych punktu
     m_x += v.m_x;
     m_y += v.m_y;
     m_z += v.m_z;
@@ -436,13 +436,13 @@ void Point3d::moveByVector(const Vector3d&amp; v)
 
 void Point3d::print() const
 {
-    std::cout &lt;&lt; &#34;Point(&#34; &lt;&lt; m_x &lt;&lt; &#34;, &#34; &lt;&lt; m_y &lt;&lt; &#34;, &#34; &lt;&lt; m_z &lt;&lt; &#34;)\n&#34;;
-}</code></pre><p>Vector3d.h:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Header file that defines the Vector3d class
+    std::cout &lt;&lt; "Point(" &lt;&lt; m_x &lt;&lt; ", " &lt;&lt; m_y &lt;&lt; ", " &lt;&lt; m_z &lt;&lt; ")\n";
+}</code></pre><p>Vector3d.h:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Plik nagłówkowy definiujący klasę Vector3d
 
 #ifndef VECTOR3D_H
 #define VECTOR3D_H
 
-#include &#34;Point3d.h&#34; // for declaring Point3d::moveByVector() as a friend
+#include "Point3d.h" // do deklarowania Point3d::moveByVector() jako znajomego
 
 class Vector3d
 {
@@ -458,9 +458,9 @@ class Vector3d
         friend void Point3d::moveByVector(const Vector3d&amp; v);
 };
 
-#endif</code></pre><p>Vector3d.cpp:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Member functions of the Vector3d class defined here
+#endif</code></pre><p>Vector3d.cpp:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Funkcje składowe Vector3d klasa zdefiniowana tutaj
 
-#include &#34;Vector3d.h&#34; // Vector3d class defined in this file
+#include "Vector3d.h" // Klasa Vector3d zdefiniowana w tym pliku
 
 #include &lt;iostream&gt;
 
@@ -470,7 +470,7 @@ Vector3d::Vector3d(double x, double y, double z)
 
 void Vector3d::print() const
 {
-    std::cout &lt;&lt; &#34;Vector(&#34; &lt;&lt; m_x &lt;&lt; &#34; , &#34; &lt;&lt; m_y &lt;&lt; &#34; , &#34; &lt;&lt; m_z &lt;&lt; &#34;)\n&#34;;
+    std::cout &lt;&lt; "Vector(" &lt;&lt; m_x &lt;&lt; " , " &lt;&lt; m_y &lt;&lt; " , " &lt;&lt; m_z &lt;&lt; ")\n";
 }</code></pre><p>main.cpp:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &#34;Vector3d.h&#34;
 #include &#34;Point3d.h&#34;
 

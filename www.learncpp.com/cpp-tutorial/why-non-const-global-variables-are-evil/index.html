@@ -15,29 +15,29 @@
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2015-03-23T15:59:36-07:00 itemprop=datePublished>23 marca 2015, 15:59 czasu PDT</time>
 <time class=updated datetime=2025-01-29T18:02:41-08:00 itemprop=dateModified>29 stycznia 2025</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>Gdybyś miał poprosić doświadczonego programistę o <em>jedną</em> radę dotyczącą dobrych praktyk programistycznych, po namyśle najbardziej prawdopodobną odpowiedzią byłoby: „Unikaj globalnych zmienne!”. I nie bez powodu: zmienne globalne są jednym z najczęściej nadużywanych pojęć w tym języku. Chociaż mogą wydawać się nieszkodliwe w małych programach akademickich, często stwarzają problemy w większych.<p>Nowych programistów często kusi, aby używać wielu zmiennych globalnych, ponieważ łatwo jest z nimi pracować, szczególnie gdy w grę wchodzi wiele wywołań różnych funkcji (przekazywanie danych przez parametry funkcji jest uciążliwe). Jednak ogólnie jest to zły pomysł. Wielu programistów uważa, że ​​należy całkowicie unikać zmiennych globalnych innych niż stałe!<p>Ale zanim przejdziemy do wyjaśnienia, dlaczego. Kiedy programiści mówią Ci, że zmienne globalne są złe, zwykle nie mają na myśli  <em>uniknąć</em> zmiennych globalnych. Mówią głównie o zmiennych globalnych o charakterze innym niż stałe.<p class="cpp-section cpp-topline" style=clear:both>Dlaczego (inne niż stałe) zmienne globalne są złe<p>Zdecydowanie największym powodem, dla którego zmienne globalne niebędące stałymi są niebezpieczne, jest to, że ich wartości można zmienić za pomocą <em>dowolnego</em> wywoływanej funkcji, a programista nie ma łatwego sposobu, aby dowiedzieć się, że tak się stanie. Rozważmy następujący program:<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-int g_mode; // declare global variable (will be zero-initialized by default)
+int g_mode; // deklaruj zmienną globalną (domyślnie będzie inicjalizowana zerem)
 
 void doSomething()
 {
-    g_mode = 2; // set the global g_mode variable to 2
+    g_mode = 2; // ustaw globalną zmienną g_mode na 2
 }
 
 int main()
 {
-    g_mode = 1; // note: this sets the global g_mode variable to 1.  It does not declare a local g_mode variable!
+    g_mode = 1; // uwaga: ustawia globalną zmienną g_mode na 1. Nie deklaruje lokalnej zmiennej g_mode!
 
     doSomething();
 
-    // Programmer still expects g_mode to be 1
-    // But doSomething changed it to 2!
+    // Programista nadal oczekuje, że g_mode będzie miał wartość 1
+    // Ale doSomething zmienił to na 2!
 
     if (g_mode == 1)
     {
-        std::cout &lt;&lt; &#34;No threat detected.\n&#34;;
+        std::cout &lt;&lt; "No threat detected.\n";
     }
     else
     {
-        std::cout &lt;&lt; &#34;Launching nuclear missiles...\n&#34;;
+        std::cout &lt;&lt; "Launching nuclear missiles...\n";
     }
 
     return 0;
@@ -47,24 +47,24 @@ int main()
 
     if (g_mode == 4)
     {
-        // do something good
+        // zrobić coś dobrego
     }
 }</code></pre><p>Po debugowaniu stwierdzasz, że Twój program nie działa poprawnie, ponieważ <code>g_mode</code> ma wartość <code>3</code>, nie <em>4</em>. Jak to naprawić? Teraz musisz znaleźć wszystkie miejsca <code>g_mode</code> mogące być ustawione na <code>3</code> i prześledzić, jak to się stało. Możliwe, że może to dotyczyć zupełnie niepowiązanego fragmentu kodu!<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Jednym z kluczowych powodów, dla których warto deklarować zmienne lokalne jak najbliżej miejsca, w którym są używane, jest to, że minimalizuje to ilość kodu, który trzeba przejrzeć, aby zrozumieć, co robi zmienna. Zmienne globalne znajdują się na drugim końcu spektrum — ponieważ można uzyskać do nich dostęp z dowolnego miejsca, konieczne może być przejrzenie całego programu, aby zrozumieć ich użycie. W małych programach może to nie stanowić problemu. W dużych będzie.<p>Na przykład możesz znaleźć w swoim programie 442 odniesienia do słowa  <code>g_mode</code> . Jeśli  <code>g_mode</code> nie jest dobrze udokumentowany, potencjalnie będziesz musiał przejrzeć każde użycie <code>g_mode</code> , aby zrozumieć, w jaki sposób jest on używany w różnych przypadkach, jakie są jego prawidłowe wartości i jaka jest jego ogólna funkcja.<p>Zmienne globalne sprawiają również, że Twój program jest mniej modułowy i mniej elastyczny. Funkcja, która wykorzystuje tylko swoje parametry i nie ma żadnych skutków ubocznych, jest doskonale modułowa. Modularność pomaga zarówno w zrozumieniu działania programu, jak i możliwości ponownego użycia. Zmienne globalne znacznie zmniejszają modułowość.<p>W szczególności należy unikać używania zmiennych globalnych dla ważnych zmiennych „punktu decyzyjnego” (np. zmiennych, których można użyć w instrukcji warunkowej, takich jak zmienna <code>g_mode</code> w powyższym przykładzie). Twój program prawdopodobnie nie ulegnie uszkodzeniu, jeśli zmieni się zmienna globalna przechowująca wartość informacyjną (np. nazwa użytkownika). Jest znacznie bardziej prawdopodobne, że ulegnie uszkodzeniu, jeśli zmienisz zmienną globalną, która ma <em>jak</em> faktyczny wpływ na działanie programu.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Jeśli to możliwe, używaj zmiennych lokalnych zamiast zmiennych globalnych.</div><p class="cpp-section cpp-topline" style=clear:both>Problem kolejności inicjalizacji zmiennych globalnych<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>Inicjowanie zmiennych statycznych (w tym zmiennych globalnych) odbywa się w ramach uruchamiania programu, przed wykonaniem funkcji <code>main</code> . Proces ten przebiega w dwóch fazach.<p>Pierwsza faza nazywana jest <strong>inicjalizacją statyczną</strong>. Inicjalizacja statyczna przebiega w dwóch fazach:<ul><li>Zmienne globalne z inicjatorami constexpr (w tym literały) są inicjalizowane tymi wartościami. Nazywa się to  <strong>stała inicjalizacja</strong>.<li>Zmienne globalne bez inicjatorów są inicjowane zerem. Inicjalizacja zerowa jest uważana za formę inicjalizacji statycznej, ponieważ <code>0</code> jest wartością constexpr.</ul><p>Druga faza nazywana jest <strong>inicjalizacją dynamiczną</strong>. Ta faza jest bardziej złożona i pełna niuansów, ale jej istota jest taka, że ​​inicjowane są zmienne globalne z inicjatorami innymi niż constexpr.<p>Oto przykład inicjatora innego niż constexpr:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int init()
 {
     return 5;
 }
 
-int g_something{ init() }; // non-constexpr initialization</code></pre><p>W pojedynczym pliku, dla każdej fazy, zmienne globalne są zazwyczaj inicjowane w kolejności definicji (istnieje kilka wyjątków od tej reguły dla fazy dynamicznej inicjalizacji). Biorąc to pod uwagę, należy uważać, aby zmienne nie były zależne od wartości inicjalizacji innych zmiennych, które zostaną zainicjowane dopiero później. Na przykład: <div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+int g_something{ init() }; // Inicjalizacja inna niż constexpr</code></pre><p>W pojedynczym pliku, dla każdej fazy, zmienne globalne są zazwyczaj inicjowane w kolejności definicji (istnieje kilka wyjątków od tej reguły dla fazy dynamicznej inicjalizacji). Biorąc to pod uwagę, należy uważać, aby zmienne nie były zależne od wartości inicjalizacji innych zmiennych, które zostaną zainicjowane dopiero później. Na przykład: <div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 int initX();  // forward declaration
 int initY();  // forward declaration
 
-int g_x{ initX() }; // g_x is initialized first
+int g_x{ initX() }; // g_x jest inicjalizowane jako pierwsze
 int g_y{ initY() };
 
 int initX()
 {
-    return g_y; // g_y isn&#39;t initialized when this is called
+    return g_y; // g_y nie jest inicjalizowane, gdy jest to wywoływany
 }
 
 int initY()
@@ -74,32 +74,32 @@ int initY()
 
 int main()
 {
-    std::cout &lt;&lt; g_x &lt;&lt; &#39; &#39; &lt;&lt; g_y &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; g_x &lt;&lt; ' ' &lt;&lt; g_y &lt;&lt; '\n';
 }</code></pre><p>Wypisuje:<pre>0 5
 </pre><p>Znacznie większym problemem jest niejednoznaczna kolejność inicjowania obiektów statycznych w różnych jednostkach translacji.<p>Biorąc pod uwagę dwa pliki,  <em>a.cpp</em> i <em>b.cpp</em>, w każdym z nich można najpierw zainicjować zmienne globalne. Jeśli jakaś zmienna o statycznym czasie trwania w <em>a.cpp</em> zostanie zainicjalizowana statyczną zmienną czasu trwania zdefiniowaną w <em>b.cpp</em>, istnieje 50% szans, że zmienna w <em>b.cpp</em> nie zostanie jeszcze zainicjowana.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nomenklatura<p>Niejednoznaczność kolejności obiektów statycznych inicjowanie czasu przechowywania w różnych jednostkach tłumaczeniowych jest często nazywane <a href=https://en.cppreference.com/w/cpp/language/siof>fiaskiem kolejności inicjalizacji statycznej</a>.</div><div class="cpp-note cpp-lightredbackground"><p class="cpp-note-title cpp-bottomline">Ostrzeżenie<p>Unikaj inicjowania obiektów o statycznym czasie trwania przy użyciu innych obiektów o statycznym czasie trwania z innej jednostki tłumaczenia.<p>Dynamiczna inicjalizacja zmiennych globalnych jest również podatna na problemy z kolejnością inicjalizacji i należy jej unikać, gdy tylko jest to możliwe.</div><p class="cpp-section cpp-topline" style=clear:both>Jakie są więc bardzo dobre powody, aby używać globali innych niż stałe zmiennych?<p>Nie ma ich wiele. W większości przypadków preferowane jest używanie zmiennych lokalnych i przekazywanie ich jako argumentów innym funkcjom. Jednak w niektórych przypadkach rozsądne użycie zmiennych globalnych innych niż stałe <em>możesz</em> w rzeczywistości zmniejsza złożoność programu, a w tych rzadkich przypadkach ich użycie może być lepsze niż alternatyw.<p>Dobrym przykładem jest plik dziennika, w którym można zrzucić informacje o błędach lub debugowaniu. Prawdopodobnie sensowne jest zdefiniowanie tego jako dziennika globalnego, ponieważ prawdopodobnie będziesz mieć tylko jeden taki dziennik w programie i prawdopodobnie będzie on używany w całym programie. Innym dobrym przykładem może być generator liczb losowych (pokazujemy to na lekcji <a href="../global-random-numbers-random-h/index.html">8.15 -- Globalne liczby losowe (Random.h)</a>).<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p>O ile ma to sens, obiekty std::cout i std::cin są zaimplementowane jako zmienne globalne (wewnątrz <em>std</em> przestrzeni nazw).<p>Ogólnie rzecz biorąc, każde użycie zmiennej globalnej powinno spełniać co najmniej dwa następujące kryteria: W programie powinna zawsze istnieć tylko jedna rzecz, którą zmienna reprezentuje, a jej użycie powinno być wszechobecne w całym programie programu.<p>Wielu nowych programistów popełnia błąd sądząc, że coś można zaimplementować globalnie, ponieważ potrzebny jest tylko jeden  <em>w tej chwili</em>. Na przykład możesz pomyśleć, że ponieważ wdrażasz grę dla jednego gracza, potrzebujesz tylko jednego gracza. Ale co się stanie później, gdy zechcesz dodać tryb wieloosobowy (w porównaniu do trybu hotseat)?<p class="cpp-section cpp-topline" style=clear:both>Chroń się przed globalną zagładą<p>Jeśli znajdziesz dobre zastosowanie dla zmiennej globalnej o charakterze niestałym, kilka przydatnych porad zminimalizuje ilość kłopotów, w jakie możesz się wpakować. Ta rada nie dotyczy tylko zmiennych globalnych niestałych, ale może być pomocna w przypadku wszystkich zmiennych globalnych.<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>Najpierw poprzedź wszystkie zmienne globalne nieobjęte przestrzenią nazw przedrostkiem „g” lub „g_”, albo jeszcze lepiej, umieść je w przestrzeni nazw (omówionej w lekcji <a href="../user-defined-namespaces-and-the-scope-resolution-operator/index.html">7.2 -- Przestrzenie nazw zdefiniowane przez użytkownika i operator rozpoznawania zakresu</a>), aby zmniejszyć ryzyko kolizji nazw.<p>Na przykład zamiast tego of:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-constexpr double gravity { 9.8 }; // risk of collision with some other global variable named gravity
+constexpr double gravity { 9.8 }; // ryzyko kolizji z inną zmienną globalną o nazwie grawitacja
 
 int main()
 {
-    std::cout &lt;&lt; gravity &lt;&lt; &#39;\n&#39;; // unclear if this is a local or global variable from the name
+    std::cout &lt;&lt; gravity &lt;&lt; '\n'; // nie jest jasne, czy jest zmienna lokalna czy globalna z nazwą
 
     return 0;
 }</code></pre><p>Zrób to:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 namespace constants
 {
-    constexpr double gravity { 9.8 }; // will not collide with other global variables named gravity
+    constexpr double gravity { 9.8 }; // nie będzie kolidować z innymi zmiennymi globalnymi zwanymi grawitacją
 }
 
 int main()
 {
-    std::cout &lt;&lt; constants::gravity &lt;&lt; &#39;\n&#39;; // clear this is a global variable (since namespaces are global)
+    std::cout &lt;&lt; constants::gravity &lt;&lt; '\n'; // wyczyść to zmienna globalna (ponieważ przestrzenie nazw są globalne)
 
     return 0;
 }</code></pre><p>Po drugie, zamiast umożliwiać bezpośredni dostęp do zmiennej globalnej, lepszą praktyką jest „hermetyzowanie” zmiennej. Upewnij się, że dostęp do zmiennej można uzyskać tylko z pliku, w którym jest zadeklarowana, np. ustawiając zmienną jako statyczną lub stałą, a następnie udostępnij zewnętrzne globalne „funkcje dostępu” do pracy ze zmienną. Funkcje te mogą zapewnić utrzymanie prawidłowego użytkowania (np. sprawdzanie poprawności danych wejściowych, sprawdzanie zakresu itp.). Ponadto, jeśli kiedykolwiek zdecydujesz się zmienić podstawową implementację (np. przenieść się z jednej bazy danych do drugiej), wystarczy zaktualizować funkcje dostępu zamiast każdego fragmentu kodu, który bezpośrednio używa zmiennej globalnej.<p>Na przykład zamiast tego:<p>constants.cpp:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">namespace constants
 {
-    extern const double gravity { 9.8 }; // has external linkage, can be accessed by other files
+    extern const double gravity { 9.8 }; // posiada zewnętrzne powiązanie, można uzyskać do niego dostęp z innych plików
 }</code></pre><p>main.cpp:<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 namespace constants
@@ -109,18 +109,18 @@ namespace constants
 
 int main()
 {
-    std::cout &lt;&lt; constants::gravity &lt;&lt; &#39;\n&#39;; // direct access to global variable
+    std::cout &lt;&lt; constants::gravity &lt;&lt; '\n'; // bezpośredni dostęp do zmiennej globalnej
 
     return 0;
 }</code></pre><p>Zrób to:<p>contants.cpp:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">namespace constants
 {
-    constexpr double gravity { 9.8 }; // has internal linkage, is accessible only within this file
+    constexpr double gravity { 9.8 }; // posiada wewnętrzne powiązanie, jest dostępny tylko w tym pliku
 }
 
-double getGravity() // has external linkage, can be accessed by other files
+double getGravity() // posiada zewnętrzne powiązanie, można uzyskać do niego dostęp z innych plików
 {
-    // We could add logic here if needed later
-    // or change the implementation transparently to the callers
+    // Możemy dodać tutaj logikę, jeśli zajdzie taka potrzeba później
+    // lub zmień implementację w sposób przejrzysty dla wywołujących
     return constants::gravity;
 } </code></pre><p>main.cpp:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
@@ -138,7 +138,7 @@ namespace constants
     constexpr double gravity { 9.8 };
 }
 
-// This function is only useful for calculating your instant velocity based on the global gravity
+// Ta funkcja jest przydatne tylko do obliczenia prędkości chwilowej na podstawie globalnej grawitacji
 double instantVelocity(int time)
 {
     return constants::gravity * time;
@@ -146,7 +146,7 @@ double instantVelocity(int time)
 
 int main()
 {
-    std::cout &lt;&lt; instantVelocity(5) &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; instantVelocity(5) &lt;&lt; '\n';
 
     return 0;
 
@@ -157,7 +157,7 @@ namespace constants
     constexpr double gravity { 9.8 };
 }
 
-// This function can calculate the instant velocity for any gravity value (more useful)
+// Ta funkcja może obliczyć prędkość chwilową dla dowolnej wartości grawitacji (bardziej przydatne)
 double instantVelocity(int time, double gravity)
 {
     return gravity * time;
@@ -165,7 +165,7 @@ double instantVelocity(int time, double gravity)
 
 int main()
 {
-    std::cout &lt;&lt; instantVelocity(5, constants::gravity) &lt;&lt; &#39;\n&#39;; // pass our constant to the function as a parameter
+    std::cout &lt;&lt; instantVelocity(5, constants::gravity) &lt;&lt; '\n'; // przekazuje naszą stałą do funkcji jako parametr
 
     return 0;
 }</code></pre><p class="cpp-section cpp-topline" style=clear:both>żart w C++<p>Jaki jest najlepszy przedrostek nazewniczy dla zmiennej globalnej?<p>Odpowiedź: //<p>Ten żart jest wart wszystkich komentarzy.<div class=prevnext><div class=prevnext-inline><a class=nav-link href="../inline-functions-and-variables/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>7.9</span>Funkcje i zmienne wbudowane</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../external-linkage-and-variable-forward-declarations/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>7.7</span>Połączenie zewnętrzne i deklaracje zmiennych w przód</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/why-non-const-global-variables-are-evil/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../local-variables/index.html" rel=prev><span>7.3 -- Zmienne lokalne</span></a></div><div class=nav-next><em>Następny post</em><a href="../explicit-type-conversion-casting-and-static-cast/index.html" rel=next><span>10.6 -- Jawna konwersja typów (casting) i static_cast</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>

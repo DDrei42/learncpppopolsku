@@ -171,7 +171,7 @@ int main()
 
     return 0;
 }</code></pre><p>W ten sposób, jeśli kiedykolwiek będziemy musieli coś zmienić, wystarczy zaktualizować operator== i operator&lt; zamiast wszystkich sześciu operatorów porównania!<p class="cpp-section cpp-topline" style=clear:both>Operator statku kosmicznego &lt;=&gt; <span class="cpp-section-pill cpp-section-standard">C++20</span><p>C++20 wprowadza operatora statku kosmicznego (<code>operator&lt;=></code>), co pozwala nam zredukować liczbę funkcji porównania, które musimy zapisać maksymalnie do 2, a czasem tylko 1!<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nota autora<p>Zamierzamy wkrótce dodać nową lekcję na ten temat. Do tego czasu uważaj to za coś, co wzbudzi Twoje zainteresowanie — ale będziesz musiał udać się poza teren placówki, aby dowiedzieć się więcej.</div><p><strong>Czas quizu</strong><ol start=1><li>Dodaj sześć operatorów porównania do klasy Fraction, aby skompilować następujący program:</ol><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
-#include &lt;numeric&gt; // for std::gcd
+#include &lt;numeric&gt; // dla std::gcd
 
 class Fraction
 {
@@ -183,8 +183,8 @@ public:
 	Fraction(int numerator = 0, int denominator = 1) :
 		m_numerator{ numerator }, m_denominator{ denominator }
 	{
-		// We put reduce() in the constructor to ensure any new fractions we make get reduced!
-		// Any fractions that are overwritten will need to be re-reduced
+		// Umieszczamy redukcję() w konstruktorze, aby zapewnić, że wszystkie nowe ułamki zostaną otrzymane zmniejszona!
+		// Wszelkie nadpisane ułamki będą musiały zostać ponownie zredukowany
 		reduce();
 	}
 
@@ -203,7 +203,7 @@ public:
 
 std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const Fraction&amp; f1)
 {
-	out &lt;&lt; f1.m_numerator &lt;&lt; &#39;/&#39; &lt;&lt; f1.m_denominator;
+	out &lt;&lt; f1.m_numerator &lt;&lt; '/' &lt;&lt; f1.m_denominator;
 	return out;
 }
 
@@ -212,19 +212,19 @@ int main()
 	Fraction f1{ 3, 2 };
 	Fraction f2{ 5, 8 };
 
-	std::cout &lt;&lt; f1 &lt;&lt; ((f1 == f2) ? &#34; == &#34; : &#34; not == &#34;) &lt;&lt; f2 &lt;&lt; &#39;\n&#39;;
-	std::cout &lt;&lt; f1 &lt;&lt; ((f1 != f2) ? &#34; != &#34; : &#34; not != &#34;) &lt;&lt; f2 &lt;&lt; &#39;\n&#39;;
-	std::cout &lt;&lt; f1 &lt;&lt; ((f1 &lt; f2) ? &#34; &lt; &#34; : &#34; not &lt; &#34;) &lt;&lt; f2 &lt;&lt; &#39;\n&#39;;
-	std::cout &lt;&lt; f1 &lt;&lt; ((f1 &gt; f2) ? &#34; &gt; &#34; : &#34; not &gt; &#34;) &lt;&lt; f2 &lt;&lt; &#39;\n&#39;;
-	std::cout &lt;&lt; f1 &lt;&lt; ((f1 &lt;= f2) ? &#34; &lt;= &#34; : &#34; not &lt;= &#34;) &lt;&lt; f2 &lt;&lt; &#39;\n&#39;;
-	std::cout &lt;&lt; f1 &lt;&lt; ((f1 &gt;= f2) ? &#34; &gt;= &#34; : &#34; not &gt;= &#34;) &lt;&lt; f2 &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; f1 &lt;&lt; ((f1 == f2) ? " == " : " not == ") &lt;&lt; f2 &lt;&lt; '\n';
+	std::cout &lt;&lt; f1 &lt;&lt; ((f1 != f2) ? " != " : " not != ") &lt;&lt; f2 &lt;&lt; '\n';
+	std::cout &lt;&lt; f1 &lt;&lt; ((f1 &lt; f2) ? " &lt; " : " not &lt; ") &lt;&lt; f2 &lt;&lt; '\n';
+	std::cout &lt;&lt; f1 &lt;&lt; ((f1 &gt; f2) ? " &gt; " : " not &gt; ") &lt;&lt; f2 &lt;&lt; '\n';
+	std::cout &lt;&lt; f1 &lt;&lt; ((f1 &lt;= f2) ? " &lt;= " : " not &lt;= ") &lt;&lt; f2 &lt;&lt; '\n';
+	std::cout &lt;&lt; f1 &lt;&lt; ((f1 &gt;= f2) ? " &gt;= " : " not &gt;= ") &lt;&lt; f2 &lt;&lt; '\n';
 	return 0;
 }</code></pre><p>Jeśli korzystasz z kompilatora w wersji starszej niż C++17, możesz zastąpić std::gcd tą funkcją:<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cmath&gt;
  
 int gcd(int a, int b) {
     return (b == 0) ? std::abs(a) : gcd(b, a % b);
 }</code></pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_0 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
-#include &lt;numeric&gt; // for std::gcd
+#include &lt;numeric&gt; // dla std::gcd
 
 class Fraction
 {
@@ -236,8 +236,8 @@ public:
 	Fraction(int numerator = 0, int denominator = 1) :
 		m_numerator{ numerator }, m_denominator{ denominator }
 	{
-		// We put reduce() in the constructor to ensure any new fractions we make get reduced!
-		// Any fractions that are overwritten will need to be re-reduced
+		// Umieszczamy redukcję() w konstruktorze, aby zapewnić, że wszystkie nowe ułamki zostaną otrzymane zmniejszona!
+		// Wszelkie nadpisane ułamki będą musiały zostać ponownie zredukowany
 		reduce();
 	}
 
@@ -265,7 +265,7 @@ public:
 
 std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const Fraction&amp; f1)
 {
-	out &lt;&lt; f1.m_numerator &lt;&lt; &#39;/&#39; &lt;&lt; f1.m_denominator;
+	out &lt;&lt; f1.m_numerator &lt;&lt; '/' &lt;&lt; f1.m_denominator;
 	return out;
 }
 
@@ -304,12 +304,12 @@ int main()
 	Fraction f1{ 3, 2 };
 	Fraction f2{ 5, 8 };
 
-	std::cout &lt;&lt; f1 &lt;&lt; ((f1 == f2) ? &#34; == &#34; : &#34; not == &#34;) &lt;&lt; f2 &lt;&lt; &#39;\n&#39;;
-	std::cout &lt;&lt; f1 &lt;&lt; ((f1 != f2) ? &#34; != &#34; : &#34; not != &#34;) &lt;&lt; f2 &lt;&lt; &#39;\n&#39;;
-	std::cout &lt;&lt; f1 &lt;&lt; ((f1 &lt; f2) ? &#34; &lt; &#34; : &#34; not &lt; &#34;) &lt;&lt; f2 &lt;&lt; &#39;\n&#39;;
-	std::cout &lt;&lt; f1 &lt;&lt; ((f1 &gt; f2) ? &#34; &gt; &#34; : &#34; not &gt; &#34;) &lt;&lt; f2 &lt;&lt; &#39;\n&#39;;
-	std::cout &lt;&lt; f1 &lt;&lt; ((f1 &lt;= f2) ? &#34; &lt;= &#34; : &#34; not &lt;= &#34;) &lt;&lt; f2 &lt;&lt; &#39;\n&#39;;
-	std::cout &lt;&lt; f1 &lt;&lt; ((f1 &gt;= f2) ? &#34; &gt;= &#34; : &#34; not &gt;= &#34;) &lt;&lt; f2 &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; f1 &lt;&lt; ((f1 == f2) ? " == " : " not == ") &lt;&lt; f2 &lt;&lt; '\n';
+	std::cout &lt;&lt; f1 &lt;&lt; ((f1 != f2) ? " != " : " not != ") &lt;&lt; f2 &lt;&lt; '\n';
+	std::cout &lt;&lt; f1 &lt;&lt; ((f1 &lt; f2) ? " &lt; " : " not &lt; ") &lt;&lt; f2 &lt;&lt; '\n';
+	std::cout &lt;&lt; f1 &lt;&lt; ((f1 &gt; f2) ? " &gt; " : " not &gt; ") &lt;&lt; f2 &lt;&lt; '\n';
+	std::cout &lt;&lt; f1 &lt;&lt; ((f1 &lt;= f2) ? " &lt;= " : " not &lt;= ") &lt;&lt; f2 &lt;&lt; '\n';
+	std::cout &lt;&lt; f1 &lt;&lt; ((f1 &gt;= f2) ? " &gt;= " : " not &gt;= ") &lt;&lt; f2 &lt;&lt; '\n';
 
 	return 0;
 }</code></pre></div><ol start=2><li>Dodaj przeciążony operator&lt;&lt; i operator&lt; do klasy Car na górze lekcji, aby skompilował się następujący program:</ol><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;algorithm&gt;
@@ -320,16 +320,16 @@ int main()
 int main()
 {
   std::vector&lt;Car&gt; cars{
-    { &#34;Toyota&#34;, &#34;Corolla&#34; },
-    { &#34;Honda&#34;, &#34;Accord&#34; },
-    { &#34;Toyota&#34;, &#34;Camry&#34; },
-    { &#34;Honda&#34;, &#34;Civic&#34; }
+    { "Toyota", "Corolla" },
+    { "Honda", "Accord" },
+    { "Toyota", "Camry" },
+    { "Honda", "Civic" }
   };
 
-  std::sort(cars.begin(), cars.end()); // requires an overloaded operator&lt;
+  std::sort(cars.begin(), cars.end()); // wymaga przeciążonego operatora&lt;
 
   for (const auto&amp; car : cars)
-    std::cout &lt;&lt; car &lt;&lt; &#39;\n&#39;; // requires an overloaded operator&lt;&lt;
+    std::cout &lt;&lt; car &lt;&lt; '\n'; // wymaga przeciążonego operator&lt;&lt;
 
   return 0;
 }</code></pre><p>Ten program powinien wygenerować następujące informacje wyjście:<pre>(Honda, Accord)
@@ -359,17 +359,17 @@ public:
 
     friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const Car&amp; c)
     {
-        out &lt;&lt; &#39;(&#39; &lt;&lt; c.m_make &lt;&lt; &#34;, &#34; &lt;&lt; c.m_model &lt;&lt; &#39;)&#39;;
+        out &lt;&lt; '(' &lt;&lt; c.m_make &lt;&lt; ", " &lt;&lt; c.m_model &lt;&lt; ')';
         return out;
     }
 
-    // h/t to reader Olivier for the initial version of the function
+    // h/t do czytnika Oliviera za wstępną wersję funkcji
     friend bool operator&lt;(const Car&amp; c1, const Car&amp; c2)
     {
-        if (c1.m_make != c2.m_make) // If the car is not the same make...
-            return c1.m_make &lt; c2.m_make; // ...then compare the make
+        if (c1.m_make != c2.m_make) // Jeśli samochód nie jest tej samej marki...
+            return c1.m_make &lt; c2.m_make; // ...następnie porównaj make
 
-        return c1.m_model &lt; c2.m_model; // otherwise compare the model
+        return c1.m_model &lt; c2.m_model; // w przeciwnym razie porównaj model
     }
 };
 
@@ -386,16 +386,16 @@ bool operator!= (const Car&amp; c1, const Car&amp; c2)
 int main()
 {
     std::vector&lt;Car&gt; cars{
-      { &#34;Toyota&#34;, &#34;Corolla&#34; },
-      { &#34;Honda&#34;, &#34;Accord&#34; },
-      { &#34;Toyota&#34;, &#34;Camry&#34; },
-      { &#34;Honda&#34;, &#34;Civic&#34; }
+      { "Toyota", "Corolla" },
+      { "Honda", "Accord" },
+      { "Toyota", "Camry" },
+      { "Honda", "Civic" }
     };
 
-    std::sort(cars.begin(), cars.end()); // requires an overloaded Car::operator&lt;
+    std::sort(cars.begin(), cars.end()); // wymaga przeciążonego Car::operator&lt;
 
     for (const auto&amp; car : cars)
-        std::cout &lt;&lt; car &lt;&lt; &#39;\n&#39;; // requires an overloaded Car::operator&lt;&lt;
+        std::cout &lt;&lt; car &lt;&lt; '\n'; // wymaga przeciążonego Car::operator&lt;&lt;
 
     return 0;
 }</code></pre></div><div class=prevnext><div class=prevnext-inline><a class=nav-link href="../overloading-the-increment-and-decrement-operators/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>21.8</span>Przeciążenie inkrementacji i dekrementacji operatory</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../overloading-unary-operators/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>21.6</span>Przeciążanie operatorów jednoargumentowych +, - i !</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/overloading-the-comparison-operators/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../93-overloading-the-io-operators/index.html" rel=prev><span>21.4 — Przeciążenie operatorów I/O</span></a></div><div class=nav-next><em>Następny post</em><a href="../overloading-unary-operators/index.html" rel=next><span>21.6 — Przeciążanie operatorów jednoargumentowych +, - i !</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>

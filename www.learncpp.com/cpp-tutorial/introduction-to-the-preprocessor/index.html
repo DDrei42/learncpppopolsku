@@ -19,7 +19,7 @@ int main()
 {
     std::cout &lt;&lt; &#34;Hello, world!\n&#34;;
     return 0;
-}</code></pre><p>Gdy preprocesor działa w tym programie, preprocesor zastąpi  <code>#include &lt;iostream></code> zawartością pliku o nazwie „iostream”, a następnie wstępnie przetworzy dołączoną zawartość i resztę pliku.<p>Ponieważ <em>#include</em> jest używany prawie wyłącznie do Dołącz pliki nagłówkowe, omówimy <em>#include</em> bardziej szczegółowo w następnej lekcji (kiedy będziemy omawiać pliki nagłówkowe).<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Każda jednostka tłumaczeniowa zazwyczaj składa się z pojedynczego pliku kodu (.cpp) i wszystkich plików nagłówkowych, które #zawiera (stosowanych rekurencyjnie, ponieważ pliki nagłówkowe mogą #zawierać inne pliki nagłówkowe).</div><p class="cpp-section cpp-topline" style=clear:both>Makro definiuje<p>Klasa <em>#define</em> dyrektywę można wykorzystać do utworzenia makra. W języku C++ a <strong>Makro</strong> jest regułą definiującą sposób konwertowania tekstu wejściowego na zastępczy tekst wyjściowy.<p>Istnieją dwa podstawowe typy makr: <em>makra obiektowe</em>, I <em>makra funkcyjne</em>.<p><em>Makra funkcyjne</em> działają jak funkcje i służą podobnemu celowi. Ich użycie jest ogólnie uważane za niebezpieczne i prawie wszystko, co mogą zrobić, można wykonać za pomocą normalnej funkcji.<p><em>Makra obiektowe</em> można zdefiniować na jeden z dwóch sposobów:<pre>#define IDENTIFIER
+}</code></pre><p>Gdy preprocesor działa w tym programie, preprocesor zastąpi  <code>#include &lt;iostream></code> zawartością pliku o nazwie „iostream”, a następnie wstępnie przetworzy dołączoną zawartość i resztę pliku.<p>Ponieważ <em>#include</em> jest używany prawie wyłącznie do Dołącz pliki nagłówkowe, omówimy <em>#include</em> bardziej szczegółowo w następnej lekcji (kiedy będziemy omawiać pliki nagłówkowe).<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Każda jednostka tłumaczeniowa zazwyczaj składa się z pojedynczego pliku kodu (.cpp) i wszystkich plików nagłówkowych, które #zawiera (stosowanych rekurencyjnie, ponieważ pliki nagłówkowe mogą #zawierać inne pliki nagłówkowe).</div><p class="cpp-section cpp-topline" style=clear:both>Makro definiuje<p>Klasa <em>#define</em> dyrektywę można wykorzystać do utworzenia makra. W języku C++ <strong>Makro</strong> jest regułą definiującą sposób konwertowania tekstu wejściowego na zastępczy tekst wyjściowy.<p>Istnieją dwa podstawowe typy makr: <em>makra obiektowe</em>, I <em>makra funkcyjne</em>.<p><em>Makra funkcyjne</em> działają jak funkcje i służą podobnemu celowi. Ich użycie jest ogólnie uważane za niebezpieczne i prawie wszystko, co mogą zrobić, można wykonać za pomocą normalnej funkcji.<p><em>Makra obiektowe</em> można zdefiniować na jeden z dwóch sposobów:<pre>#define IDENTIFIER
 #define IDENTIFIER substitution_text
 </pre><p>Górna definicja nie zawiera tekstu zastępczego, podczas gdy dolna tak. Ponieważ są to dyrektywy preprocesora (nie instrukcje), należy pamiętać, że żaden z formularzy nie kończy się średnikiem.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>Identyfikator makra wykorzystuje te same zasady nazewnictwa, co zwykłe identyfikatory: mogą używać liter, cyfr i podkreśleń, nie mogą zaczynać się od cyfry i nie powinny zaczynać się od podkreślenia. Zgodnie z konwencją wszystkie nazwy makr są zazwyczaj pisane wielkimi literami, oddzielone podkreśleniami.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Nazwy makr powinny być pisane wielkimi literami, a słowa oddzielone podkreśleniami.</div><p class="cpp-section cpp-topline" style=clear:both>Makra obiektowe z tekstem zastępczym<p>Gdy preprocesor napotka tę dyrektywę, tworzone jest powiązanie pomiędzy identyfikatorem makra a <em>tekst_podstawienia</em>. Wszystkie dalsze wystąpienia identyfikatora makra (poza użyciem w innych poleceniach preprocesora) są zastępowane przez <em>tekst_podstawienia</em>.<p>Rozważ następujący program:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
@@ -30,11 +30,11 @@ int main()
     std::cout &lt;&lt; &#34;My name is: &#34; &lt;&lt; MY_NAME &lt;&lt; &#39;\n&#39;;
 
     return 0;
-}</code></pre><p>Preprocesor konwertuje powyższe na:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// The contents of iostream are inserted here
+}</code></pre><p>Preprocesor konwertuje powyższe na:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Tutaj wstawiana jest zawartość iostream
 
 int main()
 {
-    std::cout &lt;&lt; &#34;My name is: &#34; &lt;&lt; &#34;Alex&#34; &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "My name is: " &lt;&lt; "Alex" &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Który po uruchomieniu wypisuje wynik <code>My name is: Alex</code>.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>Makra obiektowe z tekstem podstawienia zostały użyte (w C) jako sposób na przypisanie nazw do literałów. Nie jest to już konieczne, ponieważ w C++ dostępne są lepsze metody (patrz <a href="../sharing-global-constants-across-multiple-files-using-inline-variables/index.html">7.10 — Współdzielenie stałych globalnych w wielu plikach (przy użyciu zmiennych wbudowanych)</a>). Makra obiektowe z tekstem podstawieniowym są obecnie najczęściej spotykane w starszym kodzie i zalecamy ich unikać, jeśli to możliwe.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Unikaj makr z tekstem podstawieniowym, chyba że nie istnieją realne alternatywy.</div><p class="cpp-section cpp-topline" style=clear:both>Makra obiektowe bez tekstu podstawieniowego<p><em>Makra obiektowe</em> można również definiować bez tekstu podstawieniowego.<p>Na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#define USE_YEN</code></pre><p>Makra obiektów ten formularz działa tak, jak można się spodziewać: większość dalszych wystąpień identyfikatora jest usuwana i zastępowana niczym!<p>Może się to wydawać całkiem bezużyteczne i  <em>jest bezużyteczne</em> do zastępowania tekstu. Jednak nie do tego powszechnie stosuje się tę formę dyrektywy. Za chwilę omówimy zastosowania tej formy.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p>W przeciwieństwie do makr obiektowych z tekstem podstawieniowym, makra w tej formie są ogólnie uważane za akceptowalne w użyciu.<p class="cpp-section cpp-topline" style=clear:both>Kompilacja warunkowa<p>Klasa <em>kompilacja warunkowa</em> dyrektywy preprocesora pozwalają określić, w jakich warunkach coś się skompiluje, a czego nie. Istnieje sporo różnych dyrektyw kompilacji warunkowej, ale omówimy tylko kilka najczęściej używanych:  <em>#ifdef</em>, <em>#ifndef</em>, I <em>#endif</em>.<p>Klasa <em>#ifdef</em> dyrektywa preprocesora pozwala preprocesorowi sprawdzić, czy identyfikator został wcześniej zdefiniowany za pomocą #define. Jeśli tak, kompilowany jest kod pomiędzy <em>#ifdef</em> i pasującym <em>#endif</em> . Jeżeli nie, kod jest ignorowany.<p>Rozważ następujący program:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -44,11 +44,11 @@ int main()
 int main()
 {
 #ifdef PRINT_JOE
-    std::cout &lt;&lt; &#34;Joe\n&#34;; // will be compiled since PRINT_JOE is defined
+    std::cout &lt;&lt; "Joe\n"; // będzie kompilowane, ponieważ zdefiniowano PRINT_JOE
 #endif
 
 #ifdef PRINT_BOB
-    std::cout &lt;&lt; &#34;Bob\n&#34;; // will be excluded since PRINT_BOB is not defined
+    std::cout &lt;&lt; "Bob\n"; // zostaną wykluczone, ponieważ PRINT_BOB nie jest zdefiniowane
 #endif
 
     return 0;
@@ -65,43 +65,43 @@ int main()
 
 int main()
 {
-    std::cout &lt;&lt; &#34;Joe\n&#34;;
+    std::cout &lt;&lt; "Joe\n";
 
-#if 0 // Don&#39;t compile anything starting here
-    std::cout &lt;&lt; &#34;Bob\n&#34;;
-    std::cout &lt;&lt; &#34;Steve\n&#34;;
-#endif // until this point
+#if 0 // Nie kompiluj niczego zaczynając od tego
+    std::cout &lt;&lt; "Bob\n";
+    std::cout &lt;&lt; "Steve\n";
+#endif // aż do tego momentu
 
     return 0;
 }</code></pre><p>Powyższy kod wypisuje tylko „Joe”, ponieważ „Bob” i „Steve” są wykluczeni z kompilacji przez <em>#if 0</em> dyrektywa preprocesora.<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><p>Zapewnia wygodny sposób „komentowania” kodu zawierającego komentarze wielowierszowe (których nie można skomentować przy użyciu innego komentarza wielowierszowego, ponieważ komentarze wielowierszowe nie są zagnieżdżane):<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 int main()
 {
-    std::cout &lt;&lt; &#34;Joe\n&#34;;
+    std::cout &lt;&lt; "Joe\n";
 
-#if 0 // Don&#39;t compile anything starting here
-    std::cout &lt;&lt; &#34;Bob\n&#34;;
+#if 0 // Nie kompiluj niczego zaczynając od tego
+    std::cout &lt;&lt; "Bob\n";
     /* Some
-     * multi-line
-     * comment here
+     * wieloliniowy
+     * skomentuj tutaj
      */
-    std::cout &lt;&lt; &#34;Steve\n&#34;;
-#endif // until this point
+    std::cout &lt;&lt; "Steve\n";
+#endif // aż do tego momentu
 
     return 0;
 }</code></pre><p>Aby tymczasowo ponownie włączyć kod zawinięty w <code>#if 0</code>, możesz zmienić <code>#if 0</code> Do <code>#if 1</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 int main()
 {
-    std::cout &lt;&lt; &#34;Joe\n&#34;;
+    std::cout &lt;&lt; "Joe\n";
 
-#if 1 // always true, so the following code will be compiled
-    std::cout &lt;&lt; &#34;Bob\n&#34;;
+#if 1 // zawsze prawdziwy, więc poniższy kod zostanie skompilowany
+    std::cout &lt;&lt; "Bob\n";
     /* Some
-     * multi-line
-     * comment here
+     * wieloliniowy
+     * skomentuj tutaj
      */
-    std::cout &lt;&lt; &#34;Steve\n&#34;;
+    std::cout &lt;&lt; "Steve\n";
 #endif
 
     return 0;
@@ -110,14 +110,14 @@ int main()
 int main()
 {
 #ifdef PRINT_JOE
-    std::cout &lt;&lt; &#34;Joe\n&#34;; // will be compiled since PRINT_JOE is defined
+    std::cout &lt;&lt; "Joe\n"; // będzie kompilowane, ponieważ zdefiniowano PRINT_JOE
 #endif
 
     return 0;
-}</code></pre><p>Skoro zdefiniowaliśmy <em>PRINT_JOE</em> jako nic, dlaczego preprocesor nie zastąpił <em>PRINT_JOE</em> w <em>#ifdef PRINT_JOE</em> bez niczego i wykluczyć instrukcję wyjściową z kompilacji?<p>W większości przypadków podstawienie makra nie następuje, gdy identyfikator makra jest używany w innym poleceniu preprocesora.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Na marginesie…<p>Istnieje co najmniej jeden wyjątek od tej reguły: większość form <code>#if</code> i <code>#elif</code> wykonuje podstawienie makra w poleceniu preprocesora.</div><p>Jako inny przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#define FOO 9 // Here&#39;s a macro substitution
+}</code></pre><p>Skoro zdefiniowaliśmy <em>PRINT_JOE</em> jako nic, dlaczego preprocesor nie zastąpił <em>PRINT_JOE</em> w <em>#ifdef PRINT_JOE</em> bez niczego i wykluczyć instrukcję wyjściową z kompilacji?<p>W większości przypadków podstawienie makra nie następuje, gdy identyfikator makra jest używany w innym poleceniu preprocesora.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Na marginesie…<p>Istnieje co najmniej jeden wyjątek od tej reguły: większość form <code>#if</code> i <code>#elif</code> wykonuje podstawienie makra w poleceniu preprocesora.</div><p>Jako inny przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#define FOO 9 // Oto podstawnie makra
 
-#ifdef FOO // This FOO does not get replaced with 9 because it’s part of another preprocessor directive
-    std::cout &lt;&lt; FOO &lt;&lt; &#39;\n&#39;; // This FOO gets replaced with 9 because it&#39;s part of the normal code
+#ifdef FOO // Ten inspektor obsługi nie jest zastępowany przez 9, ponieważ jest to część innej dyrektywy preprocesora
+    std::cout &lt;&lt; FOO &lt;&lt; '\n'; // Ten inspektor obsługi zostaje zastąpiony przez 9, ponieważ jest częścią normalnego kodu
 #endif</code></pre><p class="cpp-section cpp-topline" style=clear:both>Zakres #defines<p>Dyrektywy są ustalane przed kompilacją, od góry do dołu, plik po pliku.<p>Rozważ następujący program:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 void foo()
@@ -130,12 +130,12 @@ int main()
 	std::cout &lt;&lt; &#34;My name is: &#34; &lt;&lt; MY_NAME &lt;&lt; &#39;\n&#39;;
 
 	return 0;
-}</code></pre><p>Mimo że wygląda na to, że <em>#define MOJA_NAZWA „Alex”</em> jest zdefiniowane wewnątrz funkcja <em>foo</em>, preprocesor nie rozumie pojęć C++, takich jak funkcje. Dlatego ten program zachowuje się identycznie jak ten, w którym <em>#define MOJA_NAZWA „Alex”</em> została zdefiniowana przed lub bezpośrednio po funkcji <em>foo</em>. Aby uniknąć nieporozumień, zazwyczaj będziesz chciał #definiować identyfikatory poza funkcjami.<p>Ponieważ dyrektywa #include zastępuje dyrektywę #include zawartością dołączonego pliku, #include może skopiować dyrektywy z dołączonego pliku do bieżącego pliku. Dyrektywy te będą następnie przetwarzane w określonej kolejności.<p>Na przykład poniższe zachowują się identycznie jak w poprzednich przykładach:<p>Alex.h:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#define MY_NAME &#34;Alex&#34;</code></pre><p>main.cpp:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &#34;Alex.h&#34; // copies #define MY_NAME from Alex.h here
+}</code></pre><p>Mimo że wygląda na to, że <em>#define MOJA_NAZWA „Alex”</em> jest zdefiniowane wewnątrz funkcja <em>foo</em>, preprocesor nie rozumie pojęć C++, takich jak funkcje. Dlatego ten program zachowuje się identycznie jak ten, w którym <em>#define MOJA_NAZWA „Alex”</em> została zdefiniowana przed lub bezpośrednio po funkcji <em>foo</em>. Aby uniknąć nieporozumień, zazwyczaj będziesz chciał #definiować identyfikatory poza funkcjami.<p>Ponieważ dyrektywa #include zastępuje dyrektywę #include zawartością dołączonego pliku, #include może skopiować dyrektywy z dołączonego pliku do bieżącego pliku. Dyrektywy te będą następnie przetwarzane w określonej kolejności.<p>Na przykład poniższe zachowują się identycznie jak w poprzednich przykładach:<p>Alex.h:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#define MY_NAME &#34;Alex&#34;</code></pre><p>main.cpp:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include "Alex.h" // kopiuje tutaj #define MY_NAME z Alex.h
 #include &lt;iostream&gt;
 
 int main()
 {
-	std::cout &lt;&lt; &#34;My name is: &#34; &lt;&lt; MY_NAME &lt;&lt; &#39;\n&#39;; // preprocessor replaces MY_NAME with &#34;Alex&#34;
+	std::cout &lt;&lt; "My name is: " &lt;&lt; MY_NAME &lt;&lt; '\n'; // preprocesor zastępuje MY_NAME przez "Alex"
 
 	return 0;
 }</code></pre><p>Po zakończeniu działania preprocesora wszystkie zdefiniowane identyfikatory z tego pliku są odrzucane. Oznacza to, że dyrektywy obowiązują tylko od punktu definicji do końca pliku, w którym są zdefiniowane. Dyrektywy zdefiniowane w jednym pliku nie mają żadnego wpływu na inne pliki (chyba, że ​​zostaną #uwzględnione w innym pliku). Na przykład:<p>function.cpp:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -148,7 +148,7 @@ void doSomething()
 #ifndef PRINT
     std::cout &lt;&lt; &#34;Not printing!\n&#34;;
 #endif
-}</code></pre><p>main.cpp:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">void doSomething(); // forward declaration for function doSomething()
+}</code></pre><p>main.cpp:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">void doSomething(); // deklaracja forward dla funkcji doSomething()
 
 #define PRINT
 

@@ -18,7 +18,7 @@ T max(T x, T y)
 {
     return (x &lt; y) ? y : x;
 }</code></pre><p>W tej lekcji skupimy się na tym, jak używane są szablony funkcji.<p class="cpp-section cpp-topline" style=clear:both>Korzystanie z szablonu funkcji<p>Szablony funkcji nie są w rzeczywistości funkcjami — ich kod nie jest kompilowany ani wykonywany bezpośrednio. Zamiast tego szablony funkcji mają jedno zadanie: generować funkcje (które są kompilowane i wykonywane).<p>Aby skorzystać z naszego <code>max&lt;T></code> szablonu funkcji, możemy wykonać wywołanie funkcji z następującą składnią:<pre>max&lt;actual_type&gt;(arg1, arg2); // actual_type is some actual type, like int or double
-</pre><p>Wygląda to bardzo podobnie do normalnego wywołania funkcji - podstawowa różnica polega na dodaniu typu w nawiasach ostrych (tzw. a <strong>argumencie szablonu</strong>), który określa rzeczywisty typ, który zostanie użyty zamiast typu szablonu <code>T</code>.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Przyjrzyjmy się temu na prostym przykładzie:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+</pre><p>Wygląda to bardzo podobnie do normalnego wywołania funkcji - podstawowa różnica polega na dodaniu typu w nawiasach ostrych (tzw. <strong>argumencie szablonu</strong>), który określa rzeczywisty typ, który zostanie użyty zamiast typu szablonu <code>T</code>.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Przyjrzyjmy się temu na prostym przykładzie:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 template &lt;typename T&gt;
 T max(T x, T y)
@@ -28,124 +28,124 @@ T max(T x, T y)
 
 int main()
 {
-    std::cout &lt;&lt; max&lt;int&gt;(1, 2) &lt;&lt; &#39;\n&#39;; // instantiates and calls function max&lt;int&gt;(int, int)
+    std::cout &lt;&lt; max&lt;int&gt;(1, 2) &lt;&lt; '\n'; // tworzy instancje i wywołuje funkcję max&lt;int&gt;(int, int)
 
     return 0;
-}</code></pre><p>Gdy kompilator napotka wywołanie funkcji <code>max&lt;int>(1, 2)</code>, ustali, że definicja funkcji dla <code>max&lt;int>(int, int)</code> jeszcze nie istnieje. W rezultacie kompilator domyślnie użyje naszego  <code>max&lt;T></code> szablonu funkcji do jego utworzenia.<p>Proces tworzenia funkcji (z określonymi typami) z szablonów funkcji (z typami szablonów) nazywa się w skrócie <strong>instancją szablonu funkcji</strong> (lub <strong>instancją</strong> w skrócie). Kiedy w wyniku wywołania funkcji tworzona jest instancja funkcji, nazywa się ją  <strong>niejawną instancją</strong>. Funkcja utworzona na podstawie szablonu jest technicznie nazywana  <strong>specjalizacją</strong>, ale w języku potocznym często nazywana jest  <strong>instancją funkcji</strong>. Szablon, na podstawie którego tworzona jest specjalizacja, nazywany jest <strong>szablonem podstawowym</strong>. Instancje funkcji są pod każdym względem normalnymi funkcjami.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nomenklatura<p>Termin „specjalizacja” jest częściej używany w odniesieniu do jawnej specjalizacji, która pozwala nam jawnie zdefiniować specjalizację (zamiast jej domyślnego tworzenia instancji na podstawie podstawowego szablonu). Wyraźną specjalizację omówimy na lekcji <a href="../function-template-specialization/index.html">26.3 -- Specjalizacja szablonu funkcji</a>.</div><p>Proces tworzenia instancji funkcji jest prosty: kompilator zasadniczo klonuje podstawowy szablon i zastępuje typ szablonu (<code>T</code>) rzeczywistym typem, który określiliśmy (<code>int</code>).<p>Więc kiedy wywołujemy <code>max&lt;int>(1, 2)</code>, specjalizacja funkcji, która zostaje utworzona, wygląda mniej więcej tak:<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">template&lt;&gt; // ignore this for now
-int max&lt;int&gt;(int x, int y) // the generated function max&lt;int&gt;(int, int)
+}</code></pre><p>Gdy kompilator napotka wywołanie funkcji <code>max&lt;int>(1, 2)</code>, ustali, że definicja funkcji dla <code>max&lt;int>(int, int)</code> jeszcze nie istnieje. W rezultacie kompilator domyślnie użyje naszego  <code>max&lt;T></code> szablonu funkcji do jego utworzenia.<p>Proces tworzenia funkcji (z określonymi typami) z szablonów funkcji (z typami szablonów) nazywa się w skrócie <strong>instancją szablonu funkcji</strong> (lub <strong>instancją</strong> w skrócie). Kiedy w wyniku wywołania funkcji tworzona jest instancja funkcji, nazywa się ją  <strong>niejawną instancją</strong>. Funkcja utworzona na podstawie szablonu jest technicznie nazywana  <strong>specjalizacją</strong>, ale w języku potocznym często nazywana jest  <strong>instancją funkcji</strong>. Szablon, na podstawie którego tworzona jest specjalizacja, nazywany jest <strong>szablonem podstawowym</strong>. Instancje funkcji są pod każdym względem normalnymi funkcjami.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nomenklatura<p>Termin „specjalizacja” jest częściej używany w odniesieniu do jawnej specjalizacji, która pozwala nam jawnie zdefiniować specjalizację (zamiast jej domyślnego tworzenia instancji na podstawie podstawowego szablonu). Wyraźną specjalizację omówimy na lekcji <a href="../function-template-specialization/index.html">26.3 -- Specjalizacja szablonu funkcji</a>.</div><p>Proces tworzenia instancji funkcji jest prosty: kompilator zasadniczo klonuje podstawowy szablon i zastępuje typ szablonu (<code>T</code>) rzeczywistym typem, który określiliśmy (<code>int</code>).<p>Więc kiedy wywołujemy <code>max&lt;int>(1, 2)</code>, specjalizacja funkcji, która zostaje utworzona, wygląda mniej więcej tak:<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">template&lt;&gt; // z pominięciem na razie
+int max&lt;int&gt;(int x, int y) // wygenerowana funkcja max&lt;int&gt;(int, int)
 {
     return (x &lt; y) ? y : x;
 }</code></pre><p>Oto ten sam przykład co powyżej, pokazujący, co kompilator faktycznie kompiluje po wykonaniu wszystkich instancji:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-// a declaration for our function template (we don&#39;t need the definition any more)
+// deklaracja naszego szablonu funkcji (nie potrzebujemy już definicji)
 template &lt;typename T&gt; 
 T max(T x, T y);
 
 template&lt;&gt;
-int max&lt;int&gt;(int x, int y) // the generated function max&lt;int&gt;(int, int)
+int max&lt;int&gt;(int x, int y) // wygenerowana funkcja max&lt;int&gt;(int, int)
 {
     return (x &lt; y) ? y : x;
 }
 
 int main()
 {
-    std::cout &lt;&lt; max&lt;int&gt;(1, 2) &lt;&lt; &#39;\n&#39;; // instantiates and calls function max&lt;int&gt;(int, int)
+    std::cout &lt;&lt; max&lt;int&gt;(1, 2) &lt;&lt; '\n'; // tworzy instancje i wywołuje funkcję max&lt;int&gt;(int, int)
 
     return 0;
 }</code></pre><p>Możesz to skompilować samodzielnie i sprawdzić, czy to działa. Szablon funkcji jest tworzony tylko przy pierwszym wywołaniu funkcji w każdej jednostce tłumaczenia. Dalsze wywołania funkcji są kierowane do już utworzonej funkcji.<p>I odwrotnie, jeśli nie zostanie wykonane żadne wywołanie funkcji do szablonu funkcji, szablon funkcji nie zostanie utworzony w tym tłumaczeniu. jednostka.<p>Zróbmy inny przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 template &lt;typename T&gt;
-T max(T x, T y) // function template for max(T, T)
+T max(T x, T y) // szablon funkcji dla max(T, T)
 {
     return (x &lt; y) ? y : x;
 }
 
 int main()
 {
-    std::cout &lt;&lt; max&lt;int&gt;(1, 2) &lt;&lt; &#39;\n&#39;;    // instantiates and calls function max&lt;int&gt;(int, int)
-    std::cout &lt;&lt; max&lt;int&gt;(4, 3) &lt;&lt; &#39;\n&#39;;    // calls already instantiated function max&lt;int&gt;(int, int)
-    std::cout &lt;&lt; max&lt;double&gt;(1, 2) &lt;&lt; &#39;\n&#39;; // instantiates and calls function max&lt;double&gt;(double, double)
+    std::cout &lt;&lt; max&lt;int&gt;(1, 2) &lt;&lt; '\n';    // tworzy instancje i wywołuje funkcję max&lt;int&gt;(int, int)
+    std::cout &lt;&lt; max&lt;int&gt;(4, 3) &lt;&lt; '\n';    // wywołuje już utworzoną funkcję max&lt;int&gt;(int, int)
+    std::cout &lt;&lt; max&lt;double&gt;(1, 2) &lt;&lt; '\n'; // tworzy instancje i wywołuje funkcję max&lt;double&gt;(double, double)
 
     return 0;
 }</code></pre><p>Działa to podobnie do poprzedniego przykładu, ale tym razem nasz szablon funkcji zostanie użyty do wygenerowania dwóch funkcji: raz zastąpimy <code>T</code> z <code>int</code>, a drugi raz zastąpimy <code>T</code> z <code>double</code>. Po wszystkich instancjach program będzie wyglądał mniej więcej tak:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-// a declaration for our function template (we don&#39;t need the definition any more)
+// deklaracja naszego szablonu funkcji (nie potrzebujemy już definicji)
 template &lt;typename T&gt;
 T max(T x, T y); 
 
 template&lt;&gt;
-int max&lt;int&gt;(int x, int y) // the generated function max&lt;int&gt;(int, int)
+int max&lt;int&gt;(int x, int y) // wygenerowana funkcja max&lt;int&gt;(int, int)
 {
     return (x &lt; y) ? y : x;
 }
 
 template&lt;&gt;
-double max&lt;double&gt;(double x, double y) // the generated function max&lt;double&gt;(double, double)
+double max&lt;double&gt;(double x, double y) // wygenerowana funkcja max&lt;double&gt;(double, double)
 {
     return (x &lt; y) ? y : x;
 }
 
 int main()
 {
-    std::cout &lt;&lt; max&lt;int&gt;(1, 2) &lt;&lt; &#39;\n&#39;;    // instantiates and calls function max&lt;int&gt;(int, int)
-    std::cout &lt;&lt; max&lt;int&gt;(4, 3) &lt;&lt; &#39;\n&#39;;    // calls already instantiated function max&lt;int&gt;(int, int)
-    std::cout &lt;&lt; max&lt;double&gt;(1, 2) &lt;&lt; &#39;\n&#39;; // instantiates and calls function max&lt;double&gt;(double, double)
+    std::cout &lt;&lt; max&lt;int&gt;(1, 2) &lt;&lt; '\n';    // tworzy instancje i wywołuje funkcję max&lt;int&gt;(int, int)
+    std::cout &lt;&lt; max&lt;int&gt;(4, 3) &lt;&lt; '\n';    // wywołuje już utworzoną funkcję max&lt;int&gt;(int, int)
+    std::cout &lt;&lt; max&lt;double&gt;(1, 2) &lt;&lt; '\n'; // tworzy instancje i wywołuje funkcję max&lt;double&gt;(double, double)
 
     return 0;
-}</code></pre><p>Dodatkowa rzecz, na którą warto zwrócić uwagę: kiedy wykonamy wszystkie instancje. instancja <code>max&lt;double></code>, utworzona funkcja ma parametry typu <code>double</code> Ponieważ udostępniliśmy <code>int</code> argumenty, argumenty te zostaną niejawnie przekonwertowane na <code>double</code>.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p class="cpp-section cpp-topline" style=clear:both>dedukcją argumentów szablonu<p>W większości przypadków rzeczywiste typy, których chcemy użyć do utworzenia instancji, będą odpowiadać typowi parametrów naszej funkcji. Na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::cout &lt;&lt; max&lt;int&gt;(1, 2) &lt;&lt; &#39;\n&#39;; // specifying we want to call max&lt;int&gt;</code></pre><p>W tym wywołaniu funkcji określiliśmy, że chcemy zamień <code>T</code> z <code>int</code>, ale wywołujemy także funkcję z <code>int</code> argumentami.<p>W przypadkach, gdy typ argumentów odpowiada rzeczywistemu typowi, który chcemy, nie musimy określać rzeczywistego typu - zamiast tego możemy użyć  <strong>odliczenia argumentów szablonu</strong> , aby kompilator wydedukował rzeczywisty typ, który powinien zostać użyty z typów argumentów w funkcji zadzwoń.<p>Na przykład zamiast wywoływać funkcję w ten sposób:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::cout &lt;&lt; max&lt;int&gt;(1, 2) &lt;&lt; &#39;\n&#39;; // specifying we want to call max&lt;int&gt;</code></pre><p>Możemy zamiast tego wykonać jedną z poniższych czynności:<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::cout &lt;&lt; max&lt;&gt;(1, 2) &lt;&lt; &#39;\n&#39;;
+}</code></pre><p>Dodatkowa rzecz, na którą warto zwrócić uwagę: kiedy wykonamy wszystkie instancje. instancja <code>max&lt;double></code>, utworzona funkcja ma parametry typu <code>double</code> Ponieważ udostępniliśmy <code>int</code> argumenty, argumenty te zostaną niejawnie przekonwertowane na <code>double</code>.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p class="cpp-section cpp-topline" style=clear:both>dedukcją argumentów szablonu<p>W większości przypadków rzeczywiste typy, których chcemy użyć do utworzenia instancji, będą odpowiadać typowi parametrów naszej funkcji. Na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::cout &lt;&lt; max&lt;int&gt;(1, 2) &lt;&lt; '\n'; // określanie, że chcemy wywołać max&lt;int&gt;</code></pre><p>W tym wywołaniu funkcji określiliśmy, że chcemy zamień <code>T</code> z <code>int</code>, ale wywołujemy także funkcję z <code>int</code> argumentami.<p>W przypadkach, gdy typ argumentów odpowiada rzeczywistemu typowi, który chcemy, nie musimy określać rzeczywistego typu - zamiast tego możemy użyć  <strong>odliczenia argumentów szablonu</strong> , aby kompilator wydedukował rzeczywisty typ, który powinien zostać użyty z typów argumentów w funkcji zadzwoń.<p>Na przykład zamiast wywoływać funkcję w ten sposób:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::cout &lt;&lt; max&lt;int&gt;(1, 2) &lt;&lt; '\n'; // określanie, że chcemy wywołać max&lt;int&gt;</code></pre><p>Możemy zamiast tego wykonać jedną z poniższych czynności:<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::cout &lt;&lt; max&lt;&gt;(1, 2) &lt;&lt; &#39;\n&#39;;
 std::cout &lt;&lt; max(1, 2) &lt;&lt; &#39;\n&#39;;</code></pre><p>W obu przypadkach kompilator zobaczy, że nie podano rzeczywistego typu, więc spróbuje wydedukować rzeczywisty typ z argumentów funkcji, co pozwoli mu wygenerować funkcję <code>max()</code> , w której wszystkie parametry szablonu odpowiadają typowi podanych argumentów. W tym przykładzie kompilator wywnioskuje, że użycie szablonu funkcji <code>max&lt;T></code> z rzeczywistym typem <code>int</code> pozwala na utworzenie instancji funkcji <code>max&lt;int>(int, int)</code>, tak że typ obu parametrów funkcji (<code>int</code>) odpowiada typowi dostarczonych argumentów (<code>int</code>).<p>Różnica między tymi dwoma przypadkami ma związek ze sposobem, w jaki kompilator rozwiązuje wywołanie funkcji ze zbioru przeciążonych funkcji. (z pustymi nawiasami kątowymi) kompilator weźmie pod uwagę tylko  <code>max&lt;int></code> przeciążenia funkcji szablonu podczas określania, którą przeciążoną funkcję wywołać. W dolnym przypadku (bez nawiasów kątowych) kompilator uwzględni zarówno  <code>max&lt;int></code> przeciążenia funkcji szablonu, jak i  <code>max</code> przeciążenia funkcji innych niż szablon. preferowane.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Normalna składnia wywołania funkcji będzie preferować funkcję inną niż szablon, a nie równie wykonalną funkcję utworzoną z szablonu.</div><p>Na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 template &lt;typename T&gt;
 T max(T x, T y)
 {
-    std::cout &lt;&lt; &#34;called max&lt;int&gt;(int, int)\n&#34;;
+    std::cout &lt;&lt; "called max&lt;int&gt;(int, int)\n";
     return (x &lt; y) ? y : x;
 }
 
 int max(int x, int y)
 {
-    std::cout &lt;&lt; &#34;called max(int, int)\n&#34;;
+    std::cout &lt;&lt; "called max(int, int)\n";
     return (x &lt; y) ? y : x;
 }
 
 int main()
 {
-    std::cout &lt;&lt; max&lt;int&gt;(1, 2) &lt;&lt; &#39;\n&#39;; // calls max&lt;int&gt;(int, int)
-    std::cout &lt;&lt; max&lt;&gt;(1, 2) &lt;&lt; &#39;\n&#39;;    // deduces max&lt;int&gt;(int, int) (non-template functions not considered)
-    std::cout &lt;&lt; max(1, 2) &lt;&lt; &#39;\n&#39;;      // calls max(int, int)
+    std::cout &lt;&lt; max&lt;int&gt;(1, 2) &lt;&lt; '\n'; // calls max&lt;int&gt;(int, int)
+    std::cout &lt;&lt; max&lt;&gt;(1, 2) &lt;&lt; '\n';    // dedukuje max&lt;int&gt;(int, int) (funkcje inne niż szablon nie są brane pod uwagę)
+    std::cout &lt;&lt; max(1, 2) &lt;&lt; '\n';      // calls max(int, int)
 
     return 0;
 }</code></pre><p>Zauważ, że składnia w dolnej części litery wygląda identycznie jak normalne wywołanie funkcji! W większości przypadków ta normalna składnia wywołania funkcji będzie tą, której używamy do wywoływania funkcji utworzonych z szablonu funkcji.<p>Jest kilka powodów, dla których warto to zrobić. to: <ul><li>Składnia jest bardziej zwięzła.<li>Rzadko zdarza się, że mamy zarówno pasującą funkcję nieszablonowy, jak i szablon funkcji.<li>Jeśli mamy pasującą funkcję nieszablonową i pasujący szablon funkcji, zwykle wolimy wywołać funkcję nieszablonową.</ul><p>Ten ostatni punkt może być nieoczywisty działa dla wielu typów - ale w rezultacie musi być ogólna. Funkcja niebędąca szablonem obsługuje tylko określoną kombinację typów. Może mieć implementację, która jest bardziej zoptymalizowana lub bardziej wyspecjalizowana dla tych konkretnych typów niż wersja szablonu funkcji. Na przykład:<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-// This function template can handle many types, so its implementation is generic
+// Ten szablon funkcji może obsługiwać wiele typów, więc jego implementacja jest rodzajowy
 template &lt;typename T&gt;
 void print(T x)
 {
-    std::cout &lt;&lt; x; // print T however it normally prints
+    std::cout &lt;&lt; x; // wypisz T, jednak normalnie wypisuje
 }
 
-// This function only needs to consider how to print a bool, so it can specialize how it handles
-// printing of a bool
+// Ta funkcja musi jedynie rozważyć, jak wydrukować wartość bool, aby mogła specjalizować się w obsłudze
+// drukowanie boola
 void print(bool x)
 {
-    std::cout &lt;&lt; std::boolalpha &lt;&lt; x; // print bool as true or false, not 1 or 0
+    std::cout &lt;&lt; std::boolalpha &lt;&lt; x; // wydrukuj bool jako prawdę lub fałsz, a nie 1 lub 0
 }
 
 int main()
 {
-    print&lt;bool&gt;(true); // calls print&lt;bool&gt;(bool) -- prints 1
-    std::cout &lt;&lt; &#39;\n&#39;;
+    print&lt;bool&gt;(true); // wywołuje print&lt;bool&gt;(bool) -- drukuje 1
+    std::cout &lt;&lt; '\n';
 
-    print&lt;&gt;(true);     // deduces print&lt;bool&gt;(bool) (non-template functions not considered) -- prints 1
-    std::cout &lt;&lt; &#39;\n&#39;;
+    print&lt;&gt;(true);     // dedukuje print&lt;bool&gt;(bool) (funkcje inne niż szablon nie są brane pod uwagę) -- wypisuje 1
+    std::cout &lt;&lt; '\n';
 
-    print(true);       // calls print(bool) -- prints true
-    std::cout &lt;&lt; &#39;\n&#39;;
+    print(true);       // wywołuje print(bool) -- wypisuje wartość true
+    std::cout &lt;&lt; '\n';
 
     return 0;
-}</code></pre><div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Preferuj normalną składnię wywołań funkcji podczas wywoływania funkcji utworzonej z szablonu funkcji (chyba że chcesz, aby wersja szablonu funkcji była preferowana w stosunku do odpowiadającej funkcji niebędącej szablonem).</div><p class="cpp-section cpp-topline" style=clear:both>Funkcja szablony z parametrami innymi niż szablonowe<p>Możliwe jest tworzenie szablonów funkcji, które mają zarówno parametry szablonu, jak i parametry inne niż szablonowe. Parametry szablonu typu można dopasować do dowolnego typu, a parametry inne niż szablonowe działają jak parametry normalnych funkcji.<p>Na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// T is a type template parameter
-// double is a non-template parameter
-// We don&#39;t need to provide names for these parameters since they aren&#39;t used
+}</code></pre><div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Preferuj normalną składnię wywołań funkcji podczas wywoływania funkcji utworzonej z szablonu funkcji (chyba że chcesz, aby wersja szablonu funkcji była preferowana w stosunku do odpowiadającej funkcji niebędącej szablonem).</div><p class="cpp-section cpp-topline" style=clear:both>Funkcja szablony z parametrami innymi niż szablonowe<p>Możliwe jest tworzenie szablonów funkcji, które mają zarówno parametry szablonu, jak i parametry inne niż szablonowe. Parametry szablonu typu można dopasować do dowolnego typu, a parametry inne niż szablonowe działają jak parametry normalnych funkcji.<p>Na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// To jest parametr szablonu typu
+// double jest parametrem innym niż szablon
+// Nie musimy podawać nazw tych parametrów, ponieważ nie są one używane
 template &lt;typename T&gt;
 int someFcn(T, double)
 {
@@ -155,10 +155,10 @@ int someFcn(T, double)
 int main()
 {
     someFcn(1, 3.4); // matches someFcn(int, double)
-    someFcn(1, 3.4f); // matches someFcn(int, double) -- the float is promoted to a double
+    someFcn(1, 3.4f); // dopasowuje SomeFcn(int, double) -- float jest promowany do double
     someFcn(1.2, 3.4); // matches someFcn(double, double)
     someFcn(1.2f, 3.4); // matches someFcn(float, double)
-    someFcn(1.2f, 3.4f); // matches someFcn(float, double) -- the float is promoted to a double
+    someFcn(1.2f, 3.4f); // dopasowuje SomeFcn(float, double) -- float jest promowany do double
 
     return 0;
 }</code></pre><p>Ten szablon funkcji ma pierwszy parametr oparty na szablonie, ale drugi parametr ma ustalony typ <code>double</code>. Należy pamiętać, że zwracanym typem może być również dowolny typ. W tym przypadku nasz funkcja zawsze zwróci <code>int</code> wartości.<p class="cpp-section cpp-topline" style=clear:both>Funkcje utworzone w instancji mogą nie zawsze się skompilować<p>Rozważ następujący program:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -256,14 +256,14 @@ T addOne(T x)
     return x + 1;
 }
 
-// Use function template specialization to tell the compiler that addOne(const char*) should emit a compilation error
-// const char* will match a string literal
+// Użyj specjalizacji szablonu funkcji, aby poinformować kompilator, że addOne(const char*) powinien wyemitować błąd kompilacji
+// const char* będzie pasować do literału ciągu
 template &lt;&gt;
 const char* addOne(const char* x) = delete;
 
 int main()
 {
-    std::cout &lt;&lt; addOne(&#34;Hello, world!&#34;) &lt;&lt; &#39;\n&#39;; // compile error
+    std::cout &lt;&lt; addOne("Hello, world!") &lt;&lt; '\n'; // compile error
 
     return 0;
 }</code></pre><p>Specjalizację szablonów funkcji omówimy w lekcji <a href="../function-template-specialization/index.html">26.3 -- Specjalizacja szablonu funkcji</a>.</div><p class="cpp-section cpp-topline" style=clear:both>Szablony funkcji i domyślne argumenty dla parametrów innych niż szablony<p>Tak jak normalne funkcje, szablony funkcji mogą mieć argumenty domyślne dla parametrów innych niż szablon. Każda funkcja utworzona z szablonu będzie używać tego samego domyślnego argumentu.<p>Na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -279,19 +279,19 @@ void print(T val, int times=1)
 
 int main()
 {
-    print(5);      // print 5 1 time
-    print(&#39;a&#39;, 3); // print &#39;a&#39; 3 times
+    print(5);      // drukuj 5 1 raz
+    print('a', 3); // drukuj 'a' 3 razy
 
     return 0;
 }</code></pre><p>Wypisuje:<pre>5aaa
 </pre><p class="cpp-section cpp-topline" style=clear:both>Uważaj na szablony funkcji z modyfikowalnymi statycznymi zmiennymi lokalnymi<p>W lekcji <a href="../static-local-variables/index.html">7.11 -- Statyczne zmienne lokalne</a>, omówiliśmy statyczne zmienne lokalne, które są zmiennymi lokalnymi o statycznym czasie trwania (utrzymują się przez cały czas istnienia programu).<p>Kiedy w szablonie funkcji używana jest statyczna zmienna lokalna, każda funkcja utworzona na podstawie tego szablonu będzie miała osobną wersję statycznej zmiennej lokalnej. Rzadko stanowi to problem, jeśli statyczna zmienna lokalna ma wartość stałą. Jeśli jednak statyczna zmienna lokalna jest zmodyfikowana, wyniki mogą nie być zgodne z oczekiwaniami.<p>Na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-// Here&#39;s a function template with a static local variable that is modified
+// Oto szablon funkcji ze statyczną zmienną lokalną, która jest modyfikowana
 template &lt;typename T&gt;
 void printIDAndValue(T value)
 {
     static int id{ 0 };
-    std::cout &lt;&lt; ++id &lt;&lt; &#34;) &#34; &lt;&lt; value &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; ++id &lt;&lt; ") " &lt;&lt; value &lt;&lt; '\n';
 }
 
 int main()

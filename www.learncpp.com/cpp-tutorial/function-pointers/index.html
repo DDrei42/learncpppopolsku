@@ -16,43 +16,43 @@
 <time class=updated datetime=2024-12-14T23:17:57-08:00 itemprop=dateModified>14 grudnia 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>W lekcji <a href="../introduction-to-pointers/index.html">12.7 -- Wprowadzenie do wskaźników</a>, dowiedziałeś się, że wskaźnik jest zmienną przechowującą adres innej zmiennej. Wskaźniki funkcji działają podobnie, z tą różnicą, że zamiast wskazywać na zmienne, wskazują na funkcje!<p>Rozważ następującą funkcję:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int foo()
 {
     return 5;
-}</code></pre><p>Identyfikator <code>foo()</code> to nazwa funkcji. Ale jakiego typu jest ta funkcja? Funkcje mają swój własny typ funkcji — w tym przypadku typ funkcji, który zwraca liczbę całkowitą i nie przyjmuje żadnych parametrów. Podobnie jak zmienne, funkcje żyją pod przypisanym adresem w pamięci (co czyni je lwartościami).<p>Gdy funkcja jest wywoływana (przez <code>operator()</code>), wykonanie przeskakuje pod adres wywoływanej funkcji:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int foo() // code for foo starts at memory address 0x002717f0
+}</code></pre><p>Identyfikator <code>foo()</code> to nazwa funkcji. Ale jakiego typu jest ta funkcja? Funkcje mają swój własny typ funkcji — w tym przypadku typ funkcji, który zwraca liczbę całkowitą i nie przyjmuje żadnych parametrów. Podobnie jak zmienne, funkcje żyją pod przypisanym adresem w pamięci (co czyni je lwartościami).<p>Gdy funkcja jest wywoływana (przez <code>operator()</code>), wykonanie przeskakuje pod adres wywoływanej funkcji:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int foo() // kod dla foo zaczyna się od adresu pamięci 0x002717f0
 {
     return 5;
 }
 
 int main()
 {
-    foo(); // jump to address 0x002717f0
+    foo(); // skok do adresu 0x002717f0
 
     return 0;
 }</code></pre><p>W pewnym momencie swojej kariery programistycznej (jeśli jeszcze tego nie zrobiłeś) prawdopodobnie popełnisz prosty błąd:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-int foo() // code starts at memory address 0x002717f0
+int foo() // kod zaczyna się od adresu pamięci 0x002717f0
 {
     return 5;
 }
 
 int main()
 {
-    std::cout &lt;&lt; foo &lt;&lt; &#39;\n&#39;; // we meant to call foo(), but instead we&#39;re printing foo itself!
+    std::cout &lt;&lt; foo &lt;&lt; '\n'; // chcieliśmy wywołać foo(), ale zamiast tego wypisujemy samo foo!
 
     return 0;
 }</code></pre><p>Zamiast wywoływania funkcji <code>foo()</code> i drukowania wartość zwracaną, niechcący wysłaliśmy funkcję <code>foo</code> bezpośrednio do <code>std::cout</code>. Co się dzieje w tym przypadku?<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Kiedy odwołanie się do funkcji następuje po nazwie (bez nawiasów), C++ konwertuje tę funkcję na wskaźnik funkcji (przechowujący adres funkcji). Następnie <code>operator&lt;&lt;</code> próbuje wydrukować wskaźnik funkcji, ale kończy się to niepowodzeniem, ponieważ <code>operator&lt;&lt;</code> nie wie, jak wydrukować wskaźniki funkcji. Norma mówi, że w tym przypadku <code>foo</code> należy zamienić na <code>bool</code> (który <code>operator&lt;&lt;</code> wie jak wydrukować). A ponieważ wskaźnik funkcji dla <code>foo</code> nie jest wskaźnikiem o wartości null, zawsze powinien mieć wartość Boolean <code>true</code>. Powinno to zatem wyświetlić:<pre>1
 </pre><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>Niektóre kompilatory (np. Visual Studio) mają rozszerzenie kompilatora, które zamiast tego wypisuje adres funkcji:<pre>0x002717f0
 </pre><p>Jeśli Twoja platforma nie drukuje adresu funkcji, a chcesz, możesz ją wymusić, konwertując funkcję na wskaźnik pustej przestrzeni i wyświetlając następujący komunikat:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-int foo() // code starts at memory address 0x002717f0
+int foo() // kod zaczyna się od adresu pamięci 0x002717f0
 {
     return 5;
 }
 
 int main()
 {
-    std::cout &lt;&lt; reinterpret_cast&lt;void*&gt;(foo) &lt;&lt; &#39;\n&#39;; // Tell C++ to interpret function foo as a void pointer (implementation-defined behavior)
+    std::cout &lt;&lt; reinterpret_cast&lt;void*&gt;(foo) &lt;&lt; '\n'; // Powiedz C++, aby interpretował funkcję foo jako wskaźnik pustki (zachowanie zdefiniowane w implementacji)
 
     return 0;
-}</code></pre><p>To jest zachowanie zdefiniowane w implementacji, więc może nie działać na wszystkich platformy.</div><p>Tak jak możliwe jest zadeklarowanie niestałego wskaźnika do normalnej zmiennej, możliwe jest również zadeklarowanie niestałego wskaźnika do funkcji. W dalszej części tej lekcji przyjrzymy się wskaźnikom funkcji i ich zastosowaniu. Wskaźniki funkcji to dość zaawansowany temat i resztę tej lekcji mogą bezpiecznie pominąć lub prześledzić ci, którzy szukają jedynie podstaw C++.<p class="cpp-section cpp-topline" style=clear:both>Wskaźniki do funkcji<p>Składnia tworzenia niestałego wskaźnika funkcji jest jedną z najbrzydszych rzeczy, jakie kiedykolwiek zobaczysz w C++:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// fcnPtr is a pointer to a function that takes no arguments and returns an integer
+}</code></pre><p>To jest zachowanie zdefiniowane w implementacji, więc może nie działać na wszystkich platformy.</div><p>Tak jak możliwe jest zadeklarowanie niestałego wskaźnika do normalnej zmiennej, możliwe jest również zadeklarowanie niestałego wskaźnika do funkcji. W dalszej części tej lekcji przyjrzymy się wskaźnikom funkcji i ich zastosowaniu. Wskaźniki funkcji to dość zaawansowany temat i resztę tej lekcji mogą bezpiecznie pominąć lub prześledzić ci, którzy szukają jedynie podstaw C++.<p class="cpp-section cpp-topline" style=clear:both>Wskaźniki do funkcji<p>Składnia tworzenia niestałego wskaźnika funkcji jest jedną z najbrzydszych rzeczy, jakie kiedykolwiek zobaczysz w C++:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// fcnPtr jest wskaźnikiem do funkcji, która nie przyjmuje argumentów i zwraca liczbę całkowitą
 int (*fcnPtr)();</code></pre><p>W powyższym fragmencie fcnPtr jest wskaźnikiem do funkcji, która ma nie ma parametrów i zwraca liczbę całkowitą. fcnPtr może wskazywać dowolną funkcję pasującą do tego typu.<p>Nawiasy wokół *fcnPtr są konieczne ze względu na pierwszeństwo, ponieważ <code>int* fcnPtr()</code> byłyby interpretowane jako deklaracja forward dla funkcji o nazwie fcnPtr, która nie przyjmuje parametrów i zwraca wskaźnik do liczby całkowitej.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Aby utworzyć wskaźnik funkcji const, const znajduje się po gwiazdka:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int (*const fcnPtr)();</code></pre><p>Jeśli umieścisz const przed int, oznacza to, że wskazywana funkcja zwróci const int.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>Składnia wskaźnika funkcji może być trudna do zrozumienia. W poniższych artykułach przedstawiono metodę analizowania takich deklaracji:<ul><li><a href=https://c-faq.com/decl/spiral.anderson.html>https://c-faq.com/decl/spiral.anderson.html</a><li><a href=https://web.archive.org/web/20110818081319/http://ieng9.ucsd.edu/~cs30x/rt_lt.rule.html>https://web.archive.org/web/20110818081319/http://ieng9.ucsd.edu/~cs30x/rt_lt.rule.html</a></ul></div><p class="cpp-section cpp-topline" style=clear:both>Przypisywanie funkcji do wskaźnika funkcji<p>Wskaźniki funkcji można inicjować funkcją (a wskaźniki funkcji niebędące stałymi można przypisać funkcję). Podobnie jak w przypadku wskaźników do zmiennych, możemy również użyć &amp;foo, aby uzyskać wskaźnik funkcji do foo.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int foo()
 {
     return 5;
@@ -65,34 +65,34 @@ int goo()
 
 int main()
 {
-    int (*fcnPtr)(){ &amp;foo }; // fcnPtr points to function foo
-    fcnPtr = &amp;goo; // fcnPtr now points to function goo
+    int (*fcnPtr)(){ &amp;foo }; // fcnPtr wskazuje na funkcję foo
+    fcnPtr = &amp;goo; // fcnPtr wskazuje teraz na funkcję goo
 
     return 0;
-}</code></pre><p>Jednym z częstych błędów jest wykonanie następującej czynności:<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">fcnPtr = goo();</code></pre><p>To próbuje przypisać wartość zwracaną z wywołania funkcji goo() (która ma typ <code>int</code>) do fcnPtr (który oczekuje wartości typu <code>int(*)()</code>), czego nie chcemy. Chcemy, aby fcnPtr miał przypisany adres funkcji goo, a nie wartość zwracaną przez funkcję goo(). Zatem nie są potrzebne żadne nawiasy.<p>Zauważ, że typ (parametry i typ zwracany) wskaźnika funkcji musi odpowiadać typowi funkcji. Oto kilka przykładów:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// function prototypes
+}</code></pre><p>Jednym z częstych błędów jest wykonanie następującej czynności:<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">fcnPtr = goo();</code></pre><p>To próbuje przypisać wartość zwracaną z wywołania funkcji goo() (która ma typ <code>int</code>) do fcnPtr (który oczekuje wartości typu <code>int(*)()</code>), czego nie chcemy. Chcemy, aby fcnPtr miał przypisany adres funkcji goo, a nie wartość zwracaną przez funkcję goo(). Zatem nie są potrzebne żadne nawiasy.<p>Zauważ, że typ (parametry i typ zwracany) wskaźnika funkcji musi odpowiadać typowi funkcji. Oto kilka przykładów:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// prototypy funkcji
 int foo();
 double goo();
 int hoo(int x);
 
-// function pointer initializers
+// funkcja inicjatory wskaźników
 int (*fcnPtr1)(){ &amp;foo };    // okay
-int (*fcnPtr2)(){ &amp;goo };    // wrong -- return types don&#39;t match!
+int (*fcnPtr2)(){ &amp;goo };    // źle - typy zwracane nie pasują!
 double (*fcnPtr4)(){ &amp;goo }; // okay
-fcnPtr1 = &amp;hoo;              // wrong -- fcnPtr1 has no parameters, but hoo() does
-int (*fcnPtr3)(int){ &amp;hoo }; // okay</code></pre><p>W przeciwieństwie do typów podstawowych, C++ <em>będziesz</em> w razie potrzeby niejawnie konwertuje funkcję na wskaźnik funkcji (więc nie musisz używać operatora adresu (&amp;), aby uzyskać adres funkcji). Jednakże wskaźniki funkcji nie zostaną skonwertowane na wskaźniki puste i odwrotnie (chociaż niektóre kompilatory, takie jak Visual Studio, i tak mogą na to pozwolić).<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">	// function prototypes
+fcnPtr1 = &amp;hoo;              // źle - fcnPtr1 nie ma parametrów, ale hoo() ma
+int (*fcnPtr3)(int){ &amp;hoo }; // okay</code></pre><p>W przeciwieństwie do typów podstawowych, C++ <em>będziesz</em> w razie potrzeby niejawnie konwertuje funkcję na wskaźnik funkcji (więc nie musisz używać operatora adresu (&amp;), aby uzyskać adres funkcji). Jednakże wskaźniki funkcji nie zostaną skonwertowane na wskaźniki puste i odwrotnie (chociaż niektóre kompilatory, takie jak Visual Studio, i tak mogą na to pozwolić).<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">	// prototypy funkcji
 	int foo();
 
-	// function initializations
-	int (*fcnPtr5)() { foo }; // okay, foo implicitly converts to function pointer to foo
-	void* vPtr { foo };       // not okay, though some compilers may allow</code></pre><p>Wskaźniki funkcji można również inicjować lub przypisywać im wartość nullptr:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int (*fcnptr)() { nullptr }; // okay</code></pre><p class="cpp-section cpp-topline" style=clear:both>Wywoływanie funkcji przy użyciu wskaźnika funkcji<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>Inną podstawową rzeczą, którą można zrobić ze wskaźnikiem funkcji, jest użycie go do faktycznego wywołania funkcji. Można to zrobić na dwa sposoby. Pierwszy polega na jawnym dereferencji:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int foo(int x)
+	// inicjalizacje funkcji
+	int (*fcnPtr5)() { foo }; // OK, foo niejawnie konwertuje wskaźnik funkcji na foo
+	void* vPtr { foo };       // nie w porządku, chociaż niektóre kompilatory mogą zezwolenie</code></pre><p>Wskaźniki funkcji można również inicjować lub przypisywać im wartość nullptr:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int (*fcnptr)() { nullptr }; // okay</code></pre><p class="cpp-section cpp-topline" style=clear:both>Wywoływanie funkcji przy użyciu wskaźnika funkcji<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>Inną podstawową rzeczą, którą można zrobić ze wskaźnikiem funkcji, jest użycie go do faktycznego wywołania funkcji. Można to zrobić na dwa sposoby. Pierwszy polega na jawnym dereferencji:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int foo(int x)
 {
     return x;
 }
 
 int main()
 {
-    int (*fcnPtr)(int){ &amp;foo }; // Initialize fcnPtr with function foo
-    (*fcnPtr)(5); // call function foo(5) through fcnPtr.
+    int (*fcnPtr)(int){ &amp;foo }; // Zainicjuj fcnPtr funkcją foo
+    (*fcnPtr)(5); // wywołaj funkcję foo(5) poprzez fcnPtr.
 
     return 0;
 }</code></pre><p>Drugi sposób polega na niejawnym dereferencji:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int foo(int x)
@@ -102,8 +102,8 @@ int main()
 
 int main()
 {
-    int (*fcnPtr)(int){ &amp;foo }; // Initialize fcnPtr with function foo
-    fcnPtr(5); // call function foo(5) through fcnPtr.
+    int (*fcnPtr)(int){ &amp;foo }; // Zainicjuj fcnPtr funkcją foo
+    fcnPtr(5); // wywołaj funkcję foo(5) poprzez fcnPtr.
 
     return 0;
 }</code></pre><p>Jak widzisz, metoda ukrytego dereferencji wygląda jak zwykłe wywołanie funkcji - czego można się spodziewać, ponieważ normalne nazwy funkcji i tak są wskaźnikami do funkcji! Jednak niektóre starsze kompilatory nie obsługują metody ukrytego dereferencji, ale wszystkie nowoczesne kompilatory powinny.<p>Pamiętaj również, że ponieważ wskaźniki funkcji można ustawić na wartość nullptr, dobrym pomysłem jest sprawdzenie lub warunkowe sprawdzenie, czy wskaźnik funkcji jest wskaźnikiem zerowym przed jego wywołaniem. Podobnie jak w przypadku zwykłych wskaźników, dereferencja wskaźnika funkcji zerowej prowadzi do niezdefiniowanego zachowania.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int foo(int x)
@@ -113,138 +113,138 @@ int main()
 
 int main()
 {
-    int (*fcnPtr)(int){ &amp;foo }; // Initialize fcnPtr with function foo
-    if (fcnPtr) // make sure fcnPtr isn&#39;t a null pointer    
-        fcnPtr(5); // otherwise this will lead to undefined behavior
+    int (*fcnPtr)(int){ &amp;foo }; // Zainicjuj fcnPtr funkcją foo
+    if (fcnPtr) // upewnij się, że fcnPtr nie jest wskaźnikiem zerowym    
+        fcnPtr(5); // w przeciwnym razie doprowadziło to do niezdefiniowanego zachowania
 
     return 0;
 }</code></pre><p class="cpp-section cpp-topline" style=clear:both>Domyślne argumenty nie działają w przypadku funkcji wywoływanych poprzez wskaźniki funkcji <span class="cpp-section-pill cpp-section-advanced">Zaawansowane</span><div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p>Kiedy kompilator napotyka normalne wywołanie funkcji z jednym lub większą liczbą domyślnych argumentów, przepisuje wywołanie funkcji, aby uwzględnić argumenty domyślne. Proces ten zachodzi w czasie kompilacji i dlatego można go zastosować tylko do funkcji, które można rozwiązać w czasie kompilacji.<p>Jednak gdy funkcja jest wywoływana poprzez wskaźnik funkcji, jest ona rozpoznawana w czasie wykonywania. W tym przypadku nie ma potrzeby przepisywania wywołania funkcji w celu uwzględnienia argumentów domyślnych.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Ponieważ rozpoznawanie odbywa się w czasie wykonywania, argumenty domyślne nie są rozpoznawane, gdy funkcja jest wywoływana przez wskaźnik funkcji.</div><p>Oznacza to, że możemy użyć wskaźnika funkcji do ujednoznacznienia wywołania funkcji, które w przeciwnym razie byłoby niejednoznaczne ze względu na domyślne argumenty. W poniższym przykładzie pokazujemy dwa sposoby, aby to zrobić:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 void print(int x)
 {
-    std::cout &lt;&lt; &#34;print(int)\n&#34;;
+    std::cout &lt;&lt; "print(int)\n";
 }
 
 void print(int x, int y = 10)
 {
-    std::cout &lt;&lt; &#34;print(int, int)\n&#34;;
+    std::cout &lt;&lt; "print(int, int)\n";
 }
 
 int main()
 {
-//    print(1); // ambiguous function call
+//    drukuj(1); // niejednoznaczne wywołanie funkcji
 
     // Deconstructed method
-    using vnptr = void(*)(int); // define a type alias for a function pointer to a void(int) function
-    vnptr pi { print }; // initialize our function pointer with function print
-    pi(1); // call the print(int) function through the function pointer
+    using vnptr = void(*)(int); // zdefiniuj alias typu dla wskaźnika funkcji do funkcji void(int)
+    vnptr pi { print }; // zainicjuj nasz wskaźnik funkcji za pomocą funkcji print
+    pi(1); // wywołaj funkcję print(int) poprzez wskaźnik funkcji
 
     // Concise method
-    static_cast&lt;void(*)(int)&gt;(print)(1); // call void(int) version of print with argument 1
+    static_cast&lt;void(*)(int)&gt;(print)(1); // wywołaj void(int) wersję print z argumentem 1
     
     return 0;
-}</code></pre><p class="cpp-section cpp-topline" style=clear:both>Przekazywanie funkcji jako argumentów do innych funkcji<p>Jedną z najbardziej przydatnych rzeczy związanych ze wskaźnikami funkcji jest przekazywanie funkcji jako argumentu do innej funkcji. Funkcje używane jako argumenty innej funkcji są czasami nazywane  <strong>funkcjami wywołania zwrotnego</strong>.<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>Rozważmy przypadek, w którym piszesz funkcję w celu wykonania zadania (takiego jak sortowanie tablicy), ale chcesz, aby użytkownik mógł określić, w jaki sposób będzie wykonywana konkretna część tego zadania (np. czy tablica będzie sortowana w kolejności rosnącej, czy malejącej). Przyjrzyjmy się bliżej temu problemowi w zastosowaniu konkretnie do sortowania, jako przykładowi, który można uogólnić na inne podobne problemy.<p>Wiele algorytmów sortowania opartego na porównaniach działa na podobnej koncepcji: algorytm sortowania iteruje po liście liczb, dokonuje porównań par liczb i zmienia kolejność liczb na podstawie wyników tych porównań. W rezultacie, zmieniając porównanie, możemy zmienić sposób sortowania algorytmu bez wpływu na resztę kodu sortującego.<p>Oto nasza procedura sortowania przez wybór z poprzedniej lekcji:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;utility&gt; // for std::swap
+}</code></pre><p class="cpp-section cpp-topline" style=clear:both>Przekazywanie funkcji jako argumentów do innych funkcji<p>Jedną z najbardziej przydatnych rzeczy związanych ze wskaźnikami funkcji jest przekazywanie funkcji jako argumentu do innej funkcji. Funkcje używane jako argumenty innej funkcji są czasami nazywane  <strong>funkcjami wywołania zwrotnego</strong>.<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>Rozważmy przypadek, w którym piszesz funkcję w celu wykonania zadania (takiego jak sortowanie tablicy), ale chcesz, aby użytkownik mógł określić, w jaki sposób będzie wykonywana konkretna część tego zadania (np. czy tablica będzie sortowana w kolejności rosnącej, czy malejącej). Przyjrzyjmy się bliżej temu problemowi w zastosowaniu konkretnie do sortowania, jako przykładowi, który można uogólnić na inne podobne problemy.<p>Wiele algorytmów sortowania opartego na porównaniach działa na podobnej koncepcji: algorytm sortowania iteruje po liście liczb, dokonuje porównań par liczb i zmienia kolejność liczb na podstawie wyników tych porównań. W rezultacie, zmieniając porównanie, możemy zmienić sposób sortowania algorytmu bez wpływu na resztę kodu sortującego.<p>Oto nasza procedura sortowania przez wybór z poprzedniej lekcji:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;utility&gt; // dla std::swap
 
 void SelectionSort(int* array, int size)
 {
     if (!array)
         return;
 
-    // Step through each element of the array
+    // Przejdź przez każdy element tablicy
     for (int startIndex{ 0 }; startIndex &lt; (size - 1); ++startIndex)
     {
-        // smallestIndex is the index of the smallest element we&#39;ve encountered so far.
+        // smallestIndex to indeks najmniejszego elementu, jaki do tej pory napotkaliśmy.
         int smallestIndex{ startIndex };
  
-        // Look for smallest element remaining in the array (starting at startIndex+1)
+        // Poszukaj najmniejszego elementu pozostałego w tablicy (zaczynając od startIndex+1)
         for (int currentIndex{ startIndex + 1 }; currentIndex &lt; size; ++currentIndex)
         {
-            // If the current element is smaller than our previously found smallest
-            if (array[smallestIndex] &gt; array[currentIndex]) // COMPARISON DONE HERE
+            // Jeśli bieżący element jest mniejszy niż poprzednio znaleziony najmniejszy
+            if (array[smallestIndex] &gt; array[currentIndex]) // PORÓWNANIE ZROBIONE TUTAJ
             {
-                // This is the new smallest number for this iteration
+                // Jest to nowa najmniejsza liczba w tej iteracji
                 smallestIndex = currentIndex;
             }
         }
  
-        // Swap our start element with our smallest element
+        // Zamień nasz element początkowy z naszym najmniejszym elementem
         std::swap(array[startIndex], array[smallestIndex]);
     }
 }</code></pre><p>Zastąpmy to porównanie funkcją umożliwiającą dokonanie porównania. Ponieważ nasza funkcja porównania porówna dwie liczby całkowite i zwróci wartość logiczną wskazującą, czy elementy powinny zostać zamienione, będzie to wyglądać mniej więcej tak: <pre class="language-cpp line-numbers"><code class="language-cpp match-braces">bool ascending(int x, int y)
 {
-    return x &gt; y; // swap if the first element is greater than the second
-}</code></pre><p>A oto nasza procedura sortowania przez wybór wykorzystująca funkcję rosnąco() do wykonania porównania:<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;utility&gt; // for std::swap
+    return x &gt; y; // zamiana, jeśli pierwszy element jest większy niż drugi
+}</code></pre><p>A oto nasza procedura sortowania przez wybór wykorzystująca funkcję rosnąco() do wykonania porównania:<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;utility&gt; // dla std::swap
 
 void SelectionSort(int* array, int size)
 {
     if (!array)
         return;
 
-    // Step through each element of the array
+    // Przejdź przez każdy element tablicy
     for (int startIndex{ 0 }; startIndex &lt; (size - 1); ++startIndex)
     {
-        // smallestIndex is the index of the smallest element we&#39;ve encountered so far.
+        // smallestIndex to indeks najmniejszego elementu, jaki do tej pory napotkaliśmy.
         int smallestIndex{ startIndex };
  
-        // Look for smallest element remaining in the array (starting at startIndex+1)
+        // Poszukaj najmniejszego elementu pozostałego w tablicy (zaczynając od startIndex+1)
         for (int currentIndex{ startIndex + 1 }; currentIndex &lt; size; ++currentIndex)
         {
-            // If the current element is smaller than our previously found smallest
-            if (ascending(array[smallestIndex], array[currentIndex])) // COMPARISON DONE HERE
+            // Jeśli bieżący element jest mniejszy niż poprzednio znaleziony najmniejszy
+            if (ascending(array[smallestIndex], array[currentIndex])) // PORÓWNANIE ZROBIONE TUTAJ
             {
-                // This is the new smallest number for this iteration
+                // Jest to nowa najmniejsza liczba w tej iteracji
                 smallestIndex = currentIndex;
             }
         }
  
-        // Swap our start element with our smallest element
+        // Zamień nasz element początkowy z naszym najmniejszym elementem
         std::swap(array[startIndex], array[smallestIndex]);
     }
-}</code></pre><p>Teraz, aby pozwolić wywołującemu zdecydować, w jaki sposób sortowanie zostanie wykonane, zamiast korzystać z naszej własnej, zakodowanej na stałe funkcji porównania, pozwolimy wywołującemu zapewnić własne sortowanie funkcja! Odbywa się to poprzez wskaźnik funkcji.<p>Ponieważ funkcja porównawcza wywołującego porówna dwie liczby całkowite i zwróci wartość logiczną, wskaźnik do takiej funkcji będzie wyglądał mniej więcej tak:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">bool (*comparisonFcn)(int, int);</code></pre><p>Pozwolimy więc wywołującemu przekazać naszej procedurze sortującej wskaźnik do żądanej funkcji porównania jako trzeci parametr, a następnie użyjemy funkcji wywołującej do wykonania porównanie.<p>Oto pełny przykład sortowania przez zaznaczenie, które wykorzystuje parametr wskaźnika funkcji do wykonania porównania zdefiniowanego przez użytkownika, wraz z przykładem, jak to wywołać:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;utility&gt; // for std::swap
+}</code></pre><p>Teraz, aby pozwolić wywołującemu zdecydować, w jaki sposób sortowanie zostanie wykonane, zamiast korzystać z naszej własnej, zakodowanej na stałe funkcji porównania, pozwolimy wywołującemu zapewnić własne sortowanie funkcja! Odbywa się to poprzez wskaźnik funkcji.<p>Ponieważ funkcja porównawcza wywołującego porówna dwie liczby całkowite i zwróci wartość logiczną, wskaźnik do takiej funkcji będzie wyglądał mniej więcej tak:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">bool (*comparisonFcn)(int, int);</code></pre><p>Pozwolimy więc wywołującemu przekazać naszej procedurze sortującej wskaźnik do żądanej funkcji porównania jako trzeci parametr, a następnie użyjemy funkcji wywołującej do wykonania porównanie.<p>Oto pełny przykład sortowania przez zaznaczenie, które wykorzystuje parametr wskaźnika funkcji do wykonania porównania zdefiniowanego przez użytkownika, wraz z przykładem, jak to wywołać:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;utility&gt; // dla std::swap
 #include &lt;iostream&gt;
 
-// Note our user-defined comparison is the third parameter
+// Pamiętaj, że naszym porównaniem zdefiniowanym przez użytkownika jest trzeci parametr
 void selectionSort(int* array, int size, bool (*comparisonFcn)(int, int))
 {
     if (!array || !comparisonFcn)
         return;
 
-    // Step through each element of the array
+    // Przejdź przez każdy element tablicy
     for (int startIndex{ 0 }; startIndex &lt; (size - 1); ++startIndex)
     {
-        // bestIndex is the index of the smallest/largest element we&#39;ve encountered so far.
+        // bestIndex to indeks najmniejszego/największego elementu, jaki napotkaliśmy do tej pory.
         int bestIndex{ startIndex };
  
-        // Look for smallest/largest element remaining in the array (starting at startIndex+1)
+        // Poszukaj najmniejszego/największego elementu pozostałego w tablicy (zaczynając od startIndex+1)
         for (int currentIndex{ startIndex + 1 }; currentIndex &lt; size; ++currentIndex)
         {
-            // If the current element is smaller/larger than our previously found smallest
-            if (comparisonFcn(array[bestIndex], array[currentIndex])) // COMPARISON DONE HERE
+            // Jeśli bieżący element jest mniejszy/większy niż poprzednio znaleziony najmniejszy
+            if (comparisonFcn(array[bestIndex], array[currentIndex])) // PORÓWNANIE ZROBIONE TUTAJ
             {
-                // This is the new smallest/largest number for this iteration
+                // To jest nowa najmniejsza/największa liczba w tej iteracji
                 bestIndex = currentIndex;
             }
         }
  
-        // Swap our start element with our smallest/largest element
+        // Zamień nasz element początkowy z naszym najmniejszym/największym elementem
         std::swap(array[startIndex], array[bestIndex]);
     }
 }
 
-// Here is a comparison function that sorts in ascending order
-// (Note: it&#39;s exactly the same as the previous ascending() function)
+// Oto funkcja porównawcza sortująca w porządku rosnącym
+// (Uwaga: to dokładnie to samo, co poprzednia funkcja ascending())
 bool ascending(int x, int y)
 {
-    return x &gt; y; // swap if the first element is greater than the second
+    return x &gt; y; // zamiana, jeśli pierwszy element jest większy niż drugi
 }
 
-// Here is a comparison function that sorts in descending order
+// Oto funkcja porównawcza sortująca w porządku malejącym
 bool descending(int x, int y)
 {
-    return x &lt; y; // swap if the second element is greater than the first
+    return x &lt; y; // zamiana, jeśli drugi element jest większy niż pierwszy
 }
 
-// This function prints out the values in the array
+// Ta funkcja wypisuje wartości z tablicy
 void printArray(int* array, int size)
 {
     if (!array)
@@ -252,21 +252,21 @@ void printArray(int* array, int size)
 
     for (int index{ 0 }; index &lt; size; ++index)
     {
-        std::cout &lt;&lt; array[index] &lt;&lt; &#39; &#39;;
+        std::cout &lt;&lt; array[index] &lt;&lt; ' ';
     }
     
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
 }
 
 int main()
 {
     int array[9]{ 3, 7, 9, 5, 6, 1, 8, 2, 4 };
 
-    // Sort the array in descending order using the descending() function
+    // Sortuj tablicę w porządku malejącym za pomocą funkcji malejącej()
     selectionSort(array, 9, descending);
     printArray(array, 9);
 
-    // Sort the array in ascending order using the ascending() function
+    // Sortuj tablicę w porządku rosnącym za pomocą funkcji ascending()
     selectionSort(array, 9, ascending);
     printArray(array, 9);
 
@@ -275,15 +275,15 @@ int main()
 1 2 3 4 5 6 7 8 9
 </pre><p>Czy to fajne, czy co? Daliśmy wywołującemu możliwość kontrolowania sposobu, w jaki sortowanie przez wybór wykonuje swoją pracę.<p>Wywołujący może nawet zdefiniować własne „dziwne” funkcje porównawcze:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">bool evensFirst(int x, int y)
 {
-	// if x is even and y is odd, x goes first (no swap needed)
+	// jeśli x jest parzyste, a y jest nieparzyste, x jest pierwsze (bez konieczności zamiany)
 	if ((x % 2 == 0) &amp;&amp; !(y % 2 == 0))
 		return false;
  
-	// if x is odd and y is even, y goes first (swap needed)
+	// jeśli x jest nieparzyste, a y jest parzyste, y jest pierwsze (wymagana zamiana)
 	if (!(x % 2 == 0) &amp;&amp; (y % 2 == 0))
 		return true;
 
-        // otherwise sort in ascending order
+        // w przeciwnym razie posortuj rosnąco
 	return ascending(x, y);
 }
 
@@ -296,10 +296,10 @@ int main()
 
     return 0;
 }</code></pre><p>Powyższy fragment daje następujący wynik:<pre>2 4 6 8 1 3 5 7 9
-</pre><p>Jak widzisz, użycie wskaźnika funkcji w tym kontekście to dobry sposób na umożliwienie wywołującemu „podczepienia” własnej funkcjonalności do czegoś, co wcześniej napisałeś i przetestowałeś, co ułatwia ponowne użycie kodu! Poprzednio, jeśli chcieliśmy posortować jedną tablicę w porządku malejącym, a drugą w porządku rosnącym, potrzebowaliśmy wielu wersji procedury sortowania. Teraz możesz mieć jedną wersję, która może sortować w dowolny sposób!<p>Uwaga: Jeśli parametr funkcji jest typu funkcji, zostanie on przekonwertowany na wskaźnik do typu funkcji. Oznacza to, że:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">void selectionSort(int* array, int size, bool (*comparisonFcn)(int, int))</code></pre><p>można równoważnie zapisać jako:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">void selectionSort(int* array, int size, bool comparisonFcn(int, int))</code></pre><p>Działa to tylko w przypadku parametrów funkcji, a zatem ma nieco ograniczone zastosowanie. W przypadku parametru niefunkcyjnego ten ostatni jest interpretowany jako deklaracja forward:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    bool (*ptr)(int, int); // definition of function pointer ptr
-    bool fcn(int, int);    // forward declaration of function fcn</code></pre><p class="cpp-section cpp-topline" style=clear:both>Udostępnianie funkcji domyślnych<p>Jeśli chcesz pozwolić wywołującemu przekazywać funkcję jako parametr, często przydatne może być udostępnienie dzwoniącemu pewnych standardowych funkcji, z których będzie mógł korzystać dla własnej wygody. Na przykład w powyższym przykładzie sortowania przez wybór udostępnienie funkcji rosnąco() i malejąco() wraz z funkcją choiceSort() ułatwiłoby życie dzwoniącemu, ponieważ nie musiałby on przepisywać funkcji rosnąco() lub malejąco() za każdym razem, gdy chce ich użyć.<p>Możesz nawet ustawić jeden z nich jako parametr domyślny:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Default the sort to ascending sort
+</pre><p>Jak widzisz, użycie wskaźnika funkcji w tym kontekście to dobry sposób na umożliwienie wywołującemu „podczepienia” własnej funkcjonalności do czegoś, co wcześniej napisałeś i przetestowałeś, co ułatwia ponowne użycie kodu! Poprzednio, jeśli chcieliśmy posortować jedną tablicę w porządku malejącym, a drugą w porządku rosnącym, potrzebowaliśmy wielu wersji procedury sortowania. Teraz możesz mieć jedną wersję, która może sortować w dowolny sposób!<p>Uwaga: Jeśli parametr funkcji jest typu funkcji, zostanie on przekonwertowany na wskaźnik do typu funkcji. Oznacza to, że:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">void selectionSort(int* array, int size, bool (*comparisonFcn)(int, int))</code></pre><p>można równoważnie zapisać jako:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">void selectionSort(int* array, int size, bool comparisonFcn(int, int))</code></pre><p>Działa to tylko w przypadku parametrów funkcji, a zatem ma nieco ograniczone zastosowanie. W przypadku parametru niefunkcyjnego ten ostatni jest interpretowany jako deklaracja forward:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    bool (*ptr)(int, int); // definicja wskaźnika funkcji ptr
+    bool fcn(int, int);    // deklaracja funkcji forward fcn</code></pre><p class="cpp-section cpp-topline" style=clear:both>Udostępnianie funkcji domyślnych<p>Jeśli chcesz pozwolić wywołującemu przekazywać funkcję jako parametr, często przydatne może być udostępnienie wywołującemu pewnych standardowych funkcji, z których będzie mógł korzystać dla własnej wygody. Na przykład w powyższym przykładzie sortowania przez wybór udostępnienie funkcji rosnąco() i malejąco() wraz z funkcją choiceSort() ułatwiłoby życie wywołującemu, ponieważ nie musiałby on przepisywać funkcji rosnąco() lub malejąco() za każdym razem, gdy chce ich użyć.<p>Możesz nawet ustawić jeden z nich jako parametr domyślny:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Domyślnie sortuj rosnąco
 void selectionSort(int* array, int size, bool (*comparisonFcn)(int, int) = ascending);</code></pre><p>W tym przypadku, o ile użytkownik normalnie wywoła wybórSort (nie przez wskaźnik funkcji), parametr porównaniaFcn będzie domyślnie ustawiony na wartość rosnącą. Będziesz musiał upewnić się, że  <code>ascending</code> funkcja została zadeklarowana przed tym punktem, w przeciwnym razie kompilator będzie narzekał, że nie wie co <code>ascending</code> jest.<p class="cpp-section cpp-topline" style=clear:both>Ulepszanie wskaźników funkcji za pomocą aliasów typów<p>Spójrzmy prawdzie w oczy — składnia wskaźników do funkcji jest brzydka. Jednakże aliasów typów można używać, aby wskaźniki do funkcji wyglądały bardziej jak zwykłe zmienne:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">using ValidateFunction = bool(*)(int, int);</code></pre><p>Definiuje to alias typu o nazwie „ValidateFunction”, który jest wskaźnikiem do funkcji, która pobiera dwie wartości typu int i zwraca wartość bool.<p>Teraz zamiast to robić:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">bool validate(int x, int y, bool (*fcnPtr)(int, int)); // ugly</code></pre><p>Możesz to zrobić:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">bool validate(int x, int y, ValidateFunction pfcn) // clean</code></pre><p class="cpp-section cpp-topline" style=clear:both>Używając std::function<p>Alternatywną metodą definiowania i przechowywania wskaźników funkcji jest użycie std::function, która jest częścią nagłówka &lt;funkcjonalnej&gt; biblioteki standardowej. Aby zdefiniować wskaźnik funkcji przy użyciu tej metody, zadeklaruj obiekt std::function w następujący sposób:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;functional&gt;
-bool validate(int x, int y, std::function&lt;bool(int, int)&gt; fcn); // std::function method that returns a bool and takes two int parameters</code></pre><p>Jak widać, zarówno typ zwracany, jak i parametry są podawane w nawiasach kątowych, a parametry w nawiasach. Jeśli nie ma parametrów, nawiasy można pozostawić puste.<p>Aktualizacja naszego wcześniejszego przykładu za pomocą std::function:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;functional&gt;
+bool validate(int x, int y, std::function&lt;bool(int, int)&gt; fcn); // std::function Metoda, która zwraca wartość bool i przyjmuje dwa parametry int</code></pre><p>Jak widać, zarówno typ zwracany, jak i parametry są podawane w nawiasach kątowych, a parametry w nawiasach. Jeśli nie ma parametrów, nawiasy można pozostawić puste.<p>Aktualizacja naszego wcześniejszego przykładu za pomocą std::function:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;functional&gt;
 #include &lt;iostream&gt;
 
 int foo()
@@ -314,15 +314,15 @@ int goo()
 
 int main()
 {
-    std::function&lt;int()&gt; fcnPtr{ &amp;foo }; // declare function pointer that returns an int and takes no parameters
-    fcnPtr = &amp;goo; // fcnPtr now points to function goo
-    std::cout &lt;&lt; fcnPtr() &lt;&lt; &#39;\n&#39;; // call the function just like normal
+    std::function&lt;int()&gt; fcnPtr{ &amp;foo }; // deklaruj wskaźnik funkcji, który zwraca wartość typu int i nie przyjmuje żadnych parametrów
+    fcnPtr = &amp;goo; // fcnPtr wskazuje teraz na funkcję goo
+    std::cout &lt;&lt; fcnPtr() &lt;&lt; '\n'; // wywołaj funkcję tak jak zwykle
 
-    std::function fcnPtr2{ &amp;foo }; // can also use CTAD to infer template arguments
+    std::function fcnPtr2{ &amp;foo }; // można również użyć CTAD do wywnioskowania argumentów szablonu
 
     return 0;
-}</code></pre><p>Aliasing typu std::function może być pomocny dla czytelności:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">using ValidateFunctionRaw = bool(*)(int, int); // type alias to raw function pointer
-using ValidateFunction = std::function&lt;bool(int, int)&gt;; // type alias to std::function</code></pre><p>Pamiętaj również, że std::function pozwala na wywołanie funkcji tylko poprzez niejawne wyłuskanie (np.  <code>fcnPtr()</code>), a nie jawne wyłuskanie (np. <code>(*fcnPtr)()</code>).<p>Podczas definiowania aliasu typu musimy jawnie określić argumenty szablonu. Nie możemy w tym przypadku użyć CTAD, ponieważ nie ma inicjatora, z którego można by wydedukować argumenty szablonu.<p class="cpp-section cpp-topline" style=clear:both>Wnioskowanie o typie dla wskaźników funkcji<p>Podobnie jak  <em>automatyczny</em> słowo kluczowe może być użyte do wywnioskowania typu normalnych zmiennych,  <em>automatyczny</em> słowo kluczowe może również wnioskować o typie wskaźnika funkcji.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+}</code></pre><p>Aliasing typu std::function może być pomocny dla czytelności:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">using ValidateFunctionRaw = bool(*)(int, int); // wpisz alias do surowego wskaźnika funkcji
+using ValidateFunction = std::function&lt;bool(int, int)&gt;; // wpisz alias do std::function</code></pre><p>Pamiętaj również, że std::function pozwala na wywołanie funkcji tylko poprzez niejawne wyłuskanie (np.  <code>fcnPtr()</code>), a nie jawne wyłuskanie (np. <code>(*fcnPtr)()</code>).<p>Podczas definiowania aliasu typu musimy jawnie określić argumenty szablonu. Nie możemy w tym przypadku użyć CTAD, ponieważ nie ma inicjatora, z którego można by wydedukować argumenty szablonu.<p class="cpp-section cpp-topline" style=clear:both>Wnioskowanie o typie dla wskaźników funkcji<p>Podobnie jak  <em>automatyczny</em> słowo kluczowe może być użyte do wywnioskowania typu normalnych zmiennych,  <em>automatyczny</em> słowo kluczowe może również wnioskować o typie wskaźnika funkcji.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 int foo(int x)
 {

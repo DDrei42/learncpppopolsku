@@ -33,10 +33,10 @@ public:
 
 Digit&amp; Digit::operator++()
 {
-    // If our number is already at 9, wrap around to 0
+    // Jeśli nasz numer jest już na 9, zawiń do 0
     if (m_digit == 9)
         m_digit = 0;
-    // otherwise just increment to next number
+    // w przeciwnym razie po prostu zwiększ do następnej liczba
     else
         ++m_digit;
 
@@ -45,10 +45,10 @@ Digit&amp; Digit::operator++()
 
 Digit&amp; Digit::operator--()
 {
-    // If our number is already at 0, wrap around to 9
+    // Jeśli nasza liczba jest już równa 0, zawiń do 9
     if (m_digit == 0)
         m_digit = 9;
-    // otherwise just decrement to next number
+    // w przeciwnym razie po prostu zmniejsz do następnej liczby
     else
         --m_digit;
 
@@ -83,65 +83,65 @@ public:
     {
     }
 
-    Digit&amp; operator++(); // prefix has no parameter
-    Digit&amp; operator--(); // prefix has no parameter
+    Digit&amp; operator++(); // prefiks nie ma parametru
+    Digit&amp; operator--(); // prefiks nie ma parametru
 
-    Digit operator++(int); // postfix has an int parameter
-    Digit operator--(int); // postfix has an int parameter
+    Digit operator++(int); // przyrostek ma parametr int
+    Digit operator--(int); // przyrostek ma parametr int
 
     friend std::ostream&amp; operator&lt;&lt; (std::ostream&amp; out, const Digit&amp; d);
 };
 
-// No parameter means this is prefix operator++
+// Brak parametru oznacza, że jest to operator przedrostka++
 Digit&amp; Digit::operator++()
 {
-    // If our number is already at 9, wrap around to 0
+    // Jeśli nasz numer jest już na 9, zawiń do 0
     if (m_digit == 9)
         m_digit = 0;
-    // otherwise just increment to next number
+    // w przeciwnym razie po prostu zwiększ do następnej liczba
     else
         ++m_digit;
 
     return *this;
 }
 
-// No parameter means this is prefix operator--
+// Brak parametru oznacza, że jest to operator przedrostka--
 Digit&amp; Digit::operator--()
 {
-    // If our number is already at 0, wrap around to 9
+    // Jeśli nasza liczba jest już równa 0, zawiń do 9
     if (m_digit == 0)
         m_digit = 9;
-    // otherwise just decrement to next number
+    // w przeciwnym razie po prostu zmniejsz do następnej liczby
     else
         --m_digit;
 
     return *this;
 }
 
-// int parameter means this is postfix operator++
+// parametr int oznacza, że jest to operator postfix++
 Digit Digit::operator++(int)
 {
-    // Create a temporary variable with our current digit
+    // Utwórz zmienną tymczasową z naszą obecną cyfrą
     Digit temp{*this};
 
-    // Use prefix operator to increment this digit
+    // Użyj operatora przedrostka, aby zwiększyć tę cyfrę
     ++(*this); // apply operator
 
-    // return temporary result
-    return temp; // return saved state
+    // zwróć wynik tymczasowy
+    return temp; // przywróć zapisany stan
 }
 
-// int parameter means this is postfix operator--
+// parametr int oznacza, że jest to operator postfix--
 Digit Digit::operator--(int)
 {
-    // Create a temporary variable with our current digit
+    // Utwórz zmienną tymczasową z naszą obecną cyfrą
     Digit temp{*this};
 
-    // Use prefix operator to decrement this digit
+    // Użyj operatora przedrostka, aby zmniejszyć tę cyfrę
     --(*this); // apply operator
 
-    // return temporary result
-    return temp; // return saved state
+    // zwróć wynik tymczasowy
+    return temp; // przywróć zapisany stan
 }
 
 std::ostream&amp; operator&lt;&lt; (std::ostream&amp; out, const Digit&amp; d)

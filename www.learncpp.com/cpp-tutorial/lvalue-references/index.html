@@ -13,19 +13,19 @@
 <button class=searchsubmit><span class=screen-reader-text>Szukaj</span><i class=icon-search></i></button>
 <input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=71042></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="12,3 — Odniesienia do wartości " src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-106 class="post-106 post type-post status-publish format-standard hentry category-cpp-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>12.3 — Referencje Lvalue</h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Autor></i><a class="url fn n" rel=author href=/www.learncpp.com/author/Alex/ title="Wyświetl wszystkie posty Alexa" itemprop=url><em itemprop=name>Alex</em></a></span>
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2007-07-16T18:19:52-07:00 itemprop=datePublished>16 lipca 2007, 18:19 PDT</time>
-<time class=updated datetime=2024-11-11T13:33:39-08:00 itemprop=dateModified>11 listopada 2024 r.</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>W C++ instrukcja  <strong>odniesieniem</strong> jest aliasem dla istniejącego obiektu. Po zdefiniowaniu odniesienia, wszelkie operacje na nim zostaną zastosowane do obiektu, do którego się odwołujemy. Oznacza to, że możemy użyć referencji do odczytania lub zmodyfikowania obiektu, do którego się odwołujemy.<p>Chociaż referencje mogą początkowo wydawać się głupie, bezużyteczne lub zbędne, referencje są używane wszędzie w C++ (zobaczymy przykłady tego w kilku lekcjach).<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Referencja jest zasadniczo identyczna z obiektem, do którego się odwołuje.</div><p>Możesz także tworzyć referencje do funkcji, chociaż robi się to rzadziej często.<p>Współczesny C++ zawiera dwa typy referencji: referencje do lwartości i referencje do wartości. W tym rozdziale omówimy odniesienia do lwartości.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Powiązana treść<p>Ponieważ w tej lekcji będziemy mówić o lwartościach i rwartościach, przed kontynuowaniem sprawdź <a href="../value-categories-lvalues-and-rvalues/index.html">12.2 — Kategorie wartości (lwartości i rwartości)</a> czy potrzebujesz odświeżenia tych pojęć. Referencje do wartości są omówione w rozdziale poświęconym semantyce przenoszenia (<a href=https://www.learncpp.com#Chapter22>rozdziale 22</a>).</div><p class="cpp-section cpp-topline" style=clear:both>Typy referencji do wartości<p>An <strong>Odniesienie do wartości</strong> (powszechnie nazywane „odniesieniami”, ponieważ przed wersją C++11 istniał tylko jeden typ referencji) działają jako alias dla istniejącej wartości (takiej jak zmienna).<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Podobnie jak typ obiektu określa, jaki rodzaj wartości może on przechowywać, typ referencji określa jaki typ obiektu, do którego może się odwoływać. Typy referencyjne wartości można zidentyfikować za pomocą pojedynczego znaku ampersand (&amp;) w specyfikatorze typu: <pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// regular types
-int        // a normal int type (not an reference)
-int&amp;       // an lvalue reference to an int object
-double&amp;    // an lvalue reference to a double object
-const int&amp; // an lvalue reference to a const int object</code></pre><p>Dla przykład <code>int&</code> jest typem odniesienia do wartości do <code>int</code> obiektu i <code>const int&</code> jest typem odniesienia do wartości do <code>const int</code> obiektem.<p>Typ, który określa odwołanie (np. <code>int&</code>) nazywany jest <strong>odniesienie typ</strong>. Typ, do którego można się odwoływać (np.  <code>int</code>) nazywany jest <strong>typem, do którego się odwołuje</strong>.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nomenklatura<p>Istnieją dwa rodzaje odniesień do wartości:<ul><li>Odwołanie do wartości niebędącej stałą jest powszechnie nazywane „odniesieniem do wartości”, ale można je również określić jako odniesienie do wartości  <strong> non-const</strong> lub a <strong>non-const odniesienie do wartości</strong> (ponieważ nie jest zdefiniowane przy użyciu słowa kluczowego <code>const</code> ).<li>odniesienie do wartości stałej jest powszechnie nazywane <strong>odniesieniem wartości do const</strong> lub a <strong>const lwartość odniesienie</strong>.</ul></div><p>skoncentrujemy się na w tej lekcji odniesienia do lwartości niebędące stałą, a w następnej lekcji odniesienia do wartości stałej (<a href="../lvalue-references-to-const/index.html">12.4 -- Odniesienia do wartości do const</a>).<p class="cpp-section cpp-topline" style=clear:both>Zmienne referencyjne lwartości<p>Jedną z rzeczy, które możemy zrobić z typem odniesienia lwartość jest utworzenie zmiennej referencyjnej lwartość. An <strong>Zmienna referencyjna wartości</strong> jest zmienną, która działa jako odniesienie do lwartości (zwykle innej zmiennej).<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Aby utworzyć zmienną referencyjną lwartość, po prostu definiujemy zmienną o typie referencyjnym lwartość:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+<time class=updated datetime=2024-11-11T13:33:39-08:00 itemprop=dateModified>11 listopada 2024 r.</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>W C++ instrukcja  <strong>odniesieniem</strong> jest aliasem dla istniejącego obiektu. Po zdefiniowaniu odniesienia, wszelkie operacje na nim zostaną zastosowane do obiektu, do którego się odwołujemy. Oznacza to, że możemy użyć referencji do odczytania lub zmodyfikowania obiektu, do którego się odwołujemy.<p>Chociaż referencje mogą początkowo wydawać się głupie, bezużyteczne lub zbędne, referencje są używane wszędzie w C++ (zobaczymy przykłady tego w kilku lekcjach).<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Referencja jest zasadniczo identyczna z obiektem, do którego się odwołuje.</div><p>Możesz także tworzyć referencje do funkcji, chociaż robi się to rzadziej często.<p>Współczesny C++ zawiera dwa typy referencji: referencje do lwartości i referencje do wartości. W tym rozdziale omówimy odniesienia do lwartości.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Powiązana treść<p>Ponieważ w tej lekcji będziemy mówić o lwartościach i rwartościach, przed kontynuowaniem sprawdź <a href="../value-categories-lvalues-and-rvalues/index.html">12.2 — Kategorie wartości (lwartości i rwartości)</a> czy potrzebujesz odświeżenia tych pojęć. Referencje do wartości są omówione w rozdziale poświęconym semantyce przenoszenia (<a href=https://www.learncpp.com#Chapter22>rozdziale 22</a>).</div><p class="cpp-section cpp-topline" style=clear:both>Typy referencji do wartości<p><strong>Odniesienie do wartości</strong> (powszechnie nazywane „odniesieniami”, ponieważ przed wersją C++11 istniał tylko jeden typ referencji) działają jako alias dla istniejącej wartości (takiej jak zmienna).<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Podobnie jak typ obiektu określa, jaki rodzaj wartości może on przechowywać, typ referencji określa jaki typ obiektu, do którego może się odwoływać. Typy referencyjne wartości można zidentyfikować za pomocą pojedynczego znaku ampersand (&amp;) w specyfikatorze typu: <pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// regular types
+int        // normalny typ int (nie referencja)
+int&amp;       // odniesienie do wartości typu int
+double&amp;    // odniesienie do wartości typu int
+const int&amp; // odniesienie do wartości stałej do obiektu int</code></pre><p>Dla przykład <code>int&</code> jest typem odniesienia do wartości do <code>int</code> obiektu i <code>const int&</code> jest typem odniesienia do wartości do <code>const int</code> obiektem.<p>Typ, który określa odwołanie (np. <code>int&</code>) nazywany jest <strong>odniesienie typ</strong>. Typ, do którego można się odwoływać (np.  <code>int</code>) nazywany jest <strong>typem, do którego się odwołuje</strong>.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nomenklatura<p>Istnieją dwa rodzaje odniesień do wartości:<ul><li>Odwołanie do wartości niebędącej stałą jest powszechnie nazywane „odniesieniem do wartości”, ale można je również określić jako odniesienie do wartości  <strong> non-const</strong> lub <strong>non-const odniesienie do wartości</strong> (ponieważ nie jest zdefiniowane przy użyciu słowa kluczowego <code>const</code> ).<li>odniesienie do wartości stałej jest powszechnie nazywane <strong>odniesieniem wartości do const</strong> lub <strong>const lwartość odniesienie</strong>.</ul></div><p>skoncentrujemy się na w tej lekcji odniesienia do lwartości niebędące stałą, a w następnej lekcji odniesienia do wartości stałej (<a href="../lvalue-references-to-const/index.html">12.4 -- Odniesienia do wartości do const</a>).<p class="cpp-section cpp-topline" style=clear:both>Zmienne referencyjne lwartości<p>Jedną z rzeczy, które możemy zrobić z typem odniesienia lwartość jest utworzenie zmiennej referencyjnej lwartość. <strong>Zmienna referencyjna wartości</strong> jest zmienną, która działa jako odniesienie do lwartości (zwykle innej zmiennej).<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Aby utworzyć zmienną referencyjną lwartość, po prostu definiujemy zmienną o typie referencyjnym lwartość:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 int main()
 {
-    int x { 5 };    // x is a normal integer variable
-    int&amp; ref { x }; // ref is an lvalue reference variable that can now be used as an alias for variable x
+    int x { 5 };    // x jest normalną zmienną całkowitą
+    int&amp; ref { x }; // ref jest zmienną referencyjną lwartości, która może być teraz użyta jako alias dla zmiennej x
 
-    std::cout &lt;&lt; x &lt;&lt; &#39;\n&#39;;  // print the value of x (5)
-    std::cout &lt;&lt; ref &lt;&lt; &#39;\n&#39;; // print the value of x via ref (5)
+    std::cout &lt;&lt; x &lt;&lt; '\n';  // wydrukuj wartość x (5)
+    std::cout &lt;&lt; ref &lt;&lt; '\n'; // wydrukuj wartość x przez ref (5)
 
     return 0;
 }</code></pre><p>W powyższym przykładzie type <code>int&</code> definiuje <code>ref</code> jako odniesienie do wartości typu int, które następnie inicjujemy wyrażeniem lvalue <code>x</code>. Następnie  <code>ref</code> i <code>x</code> można używać zamiennie. Ten program wypisuje:<pre>5
@@ -34,18 +34,18 @@ int main()
 
 int main()
 {
-    int x { 5 }; // normal integer variable
-    int&amp; ref { x }; // ref is now an alias for variable x
+    int x { 5 }; // normalna zmienna całkowita
+    int&amp; ref { x }; // ref jest teraz aliasem dla zmiennej x
 
-    std::cout &lt;&lt; x &lt;&lt; ref &lt;&lt; &#39;\n&#39;; // print 55
+    std::cout &lt;&lt; x &lt;&lt; ref &lt;&lt; '\n'; // drukuj 55
 
-    x = 6; // x now has value 6
+    x = 6; // x ma teraz wartość 6
 
-    std::cout &lt;&lt; x &lt;&lt; ref &lt;&lt; &#39;\n&#39;; // prints 66
+    std::cout &lt;&lt; x &lt;&lt; ref &lt;&lt; '\n'; // prints 66
 
-    ref = 7; // the object being referenced (x) now has value 7
+    ref = 7; // obiekt będący przedmiotem odnośnik (x) ma teraz wartość 7
 
-    std::cout &lt;&lt; x &lt;&lt; ref &lt;&lt; &#39;\n&#39;; // prints 77
+    std::cout &lt;&lt; x &lt;&lt; ref &lt;&lt; '\n'; // prints 77
 
     return 0;
 }</code></pre><p>Ten kod wypisuje:<pre>55
@@ -53,20 +53,20 @@ int main()
 77
 </pre><p>W powyższym przykładzie <code>ref</code> jest pseudonimem dla <code>x</code>, więc możemy to zrobić. mogą zmienić wartość <code>x</code> poprzez <code>x</code> lub <code>ref</code>.<p class="cpp-section cpp-topline" style=clear:both>Inicjalizacja odniesienia<p>Podobnie jak stałe, wszystkie odniesienia muszą zostać zainicjowane. Odniesienia są inicjowane przy użyciu formy inicjalizacji zwanej <strong>inicjowaniem odniesienia</strong>.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
-    int&amp; invalidRef;   // error: references must be initialized
+    int&amp; invalidRef;   // błąd: referencje muszą zostać zainicjowane
 
     int x { 5 };
-    int&amp; ref { x }; // okay: reference to int is bound to int variable
+    int&amp; ref { x }; // ok: odwołanie do int jest powiązane ze zmienną int
 
     return 0;
 }</code></pre><p>Gdy odwołanie jest inicjowane obiektem (lub funkcją), mówimy, że jest <strong>powiązane</strong> do tego obiektu (lub funkcji). Proces wiązania takiego odniesienia nazywany jest <strong>wiązaniem odniesienia</strong>. Obiekt (lub funkcja), do którego się odwołuje, jest czasami nazywany <strong>referentem</strong>.<p>Odniesienia do wartości niebędącej stałą, mogą być powiązane tylko z <em>modyfikowalną</em> wartością.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
     int x { 5 };
-    int&amp; ref { x };         // okay: non-const lvalue reference bound to a modifiable lvalue
+    int&amp; ref { x };         // okay: odniesienie do lwartości niebędące stałą powiązane z modyfikowalną wartością
 
     const int y { 5 };
-    int&amp; invalidRef { y };  // invalid: non-const lvalue reference can&#39;t bind to a non-modifiable lvalue 
-    int&amp; invalidRef2 { 0 }; // invalid: non-const lvalue reference can&#39;t bind to an rvalue
+    int&amp; invalidRef { y };  // nieprawidłowe: odwołanie do wartości innej niż stała nie może zostać powiązane z wartością niemodyfikowalną 
+    int&amp; invalidRef2 { 0 }; // nieprawidłowe: odwołanie do wartości innej niż stała nie może zostać powiązane z wartością
 
     return 0;
 }</code></pre><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Jeśli odniesienia do wartości niebędące stałymi mogłyby być powiązane z niemodyfikowalnymi (stałymi) wartościami lub rwartościami, wówczas można byłoby zmienić te wartości poprzez odniesienie, co byłoby naruszeniem ich stałość.</div><p>Lwartości odniesienia do <code>void</code> są niedozwolone (o co by to miałoby sens?).<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>Nawet jeśli typ odniesienia (np.  <code>int&</code>) nie odpowiada dokładnie typowi powiązanego obiektu (np.  <code>int</code>), nie jest tu stosowana żadna konwersja (nawet trywialna konwersja) - różnica typów jest obsługiwana jako część procesu inicjalizacji referencji.<p class="cpp-section cpp-topline" style=clear:both>Odniesienie będzie (zwykle) wiązać się tylko z obiektem pasującym do jego typu, do którego się odnosi.<p>W większości przypadków odwołanie będzie wiązać się tylko z obiektem, którego typ pasuje do typu odniesienia (istnieją pewne wyjątki od tej reguły, które omówimy, kiedy przejdziemy do dziedziczenia).<p>Jeśli spróbujesz powiązać referencję z obiektem, który nie pasuje do jego odniesienia typu, kompilator spróbuje niejawnie przekonwertować obiekt na typ, do którego się odwołuje, a następnie powiązać z nim odwołanie.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Ponieważ wynikiem konwersji jest wartość, a odwołanie do wartości innej niż stała nie może zostać powiązane z wartością, próba powiązania odwołania do wartości innej niż stała z obiektem, który nie pasuje do jego typu, do którego się odwołuje, spowoduje błąd kompilacji.</div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
@@ -75,8 +75,8 @@ int main()
     int&amp; ref { x };            // okay: referenced type (int) matches type of initializer
 
     double d { 6.0 };
-    int&amp; invalidRef { d };     // invalid: conversion of double to int is narrowing conversion, disallowed by list initialization
-    double&amp; invalidRef2 { x }; // invalid: non-const lvalue reference can&#39;t bind to rvalue (result of converting x to double)
+    int&amp; invalidRef { d };     // nieprawidłowe: konwersja double na int zawęża konwersję, niedozwolona przez inicjalizację listy
+    double&amp; invalidRef2 { x }; // nieprawidłowe: odwołanie do wartości innej niż stała nie może zostać powiązane z wartością (wynik konwersji x na wartość double)
 
     return 0;
 }</code></pre><p class="cpp-section cpp-topline" style=clear:both>Nie można ponownie podłączyć odwołań (zmieniono, aby odnosiło się do innego obiektu)<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p>Po zainicjowaniu odwołanie w C++ nie może być <strong>ponownie umieszczone</strong>, co oznacza, że nie można go zmienić tak, aby odwoływał się do innego obiektu.<p>Nowi programiści C++ często próbują ponownie umieścić referencję za pomocą przypisania, aby zapewnić referencję inną zmienną do odniesienia. Spowoduje to skompilowanie i uruchomienie - ale nie będzie działać zgodnie z oczekiwaniami. Rozważmy następujący program:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -86,12 +86,12 @@ int main()
     int x { 5 };
     int y { 6 };
 
-    int&amp; ref { x }; // ref is now an alias for x
+    int&amp; ref { x }; // ref jest teraz aliasem dla x
     
-    ref = y; // assigns 6 (the value of y) to x (the object being referenced by ref)
-    // The above line does NOT change ref into a reference to variable y!
+    ref = y; // przypisuje 6 (wartość y) do x (obiekt, do którego odwołuje się ref)
+    // Powyższa linia NIE zmienia ref na odniesienie do zmiennej y!
 
-    std::cout &lt;&lt; x &lt;&lt; &#39;\n&#39;; // user is expecting this to print 5
+    std::cout &lt;&lt; x &lt;&lt; '\n'; // użytkownik oczekuje, że to zostanie wydrukowane 5
 
     return 0;
 }</code></pre><p>Być może zaskakujące jest to, że wypisuje:<pre>6
@@ -100,28 +100,28 @@ int main()
 int main()
 {
     int x { 5 }; // normal integer
-    int&amp; ref { x }; // reference to variable value
+    int&amp; ref { x }; // odniesienie do wartości zmiennej
 
      return 0;
-} // x and ref die here</code></pre><p class="cpp-section cpp-topline" style=clear:both>Odniesienia i desygnaty mają niezależny czas życia<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>Z jednym wyjątkiem (który omówimy w następnej lekcji), czas życia odniesienia i czas życia jego desygnatu są niezależne. Innymi słowy, oba poniższe stwierdzenia są prawdziwe:<ul><li>Odniesienie może zostać zniszczone przed obiektem, do którego się odnosi.<li>Obiekt, do którego się odnosi, może zostać zniszczony przed odniesieniem.</ul><p>Kiedy odniesienie zostaje zniszczone przed odniesieniem, nie ma to wpływu na odniesienie. Poniższy program demonstruje to:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+} // x i ref umierają tutaj</code></pre><p class="cpp-section cpp-topline" style=clear:both>Odniesienia i desygnaty mają niezależny czas życia<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>Z jednym wyjątkiem (który omówimy w następnej lekcji), czas życia odniesienia i czas życia jego desygnatu są niezależne. Innymi słowy, oba poniższe stwierdzenia są prawdziwe:<ul><li>Odniesienie może zostać zniszczone przed obiektem, do którego się odnosi.<li>Obiekt, do którego się odnosi, może zostać zniszczony przed odniesieniem.</ul><p>Kiedy odniesienie zostaje zniszczone przed odniesieniem, nie ma to wpływu na odniesienie. Poniższy program demonstruje to:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 int main()
 {
     int x { 5 };
 
     {
-        int&amp; ref { x };   // ref is a reference to x
-        std::cout &lt;&lt; ref &lt;&lt; &#39;\n&#39;; // prints value of ref (5)
-    } // ref is destroyed here -- x is unaware of this
+        int&amp; ref { x };   // ref jest odniesieniem do x
+        std::cout &lt;&lt; ref &lt;&lt; '\n'; // wypisuje wartość ref (5)
+    } // ref jest tutaj niszczony -- x nie jest tego świadomy
 
-    std::cout &lt;&lt; x &lt;&lt; &#39;\n&#39;; // prints value of x (5)
+    std::cout &lt;&lt; x &lt;&lt; '\n'; // wypisuje wartość x (5)
 
     return 0;
-} // x destroyed here</code></pre><p>Powyższe wypisuje:<pre>5
+} // x zniszczone tutaj</code></pre><p>Powyższe wypisuje:<pre>5
 5
 </pre><p>Po wywołaniu <code>ref</code> umiera, zmienna <code>x</code> działa normalnie, błogo nieświadoma, że odniesienie do niego zostało zniszczone.<p class="cpp-section cpp-topline" style=clear:both>Wiszące odniesienia<p>Gdy obiekt, do którego odnosi się odwołanie, zostaje zniszczony przed powołaniem się do niego, odniesienie pozostaje odniesieniem do obiektu, który już nie istnieje. Takie odniesienie nazywa się <strong>odniesieniem wiszącym</strong>. Dostęp do odniesienia wiszącego prowadzi do niezdefiniowanego zachowania.<p>Wiszące odniesienia są dość łatwe do uniknięcia, ale pokażemy przypadek, w którym może się to zdarzyć w praktyce na lekcji <a href="../return-by-reference-and-return-by-address/index.html">12.12 -- Powrót przez referencję i powrót przez adres</a>.<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Odniesienia nie są obiekty<p>Być może, co zaskakujące, referencje nie są obiektami w C++. Odniesienie nie musi istnieć ani zajmować miejsca w pamięci. Jeśli to możliwe, kompilator zoptymalizuje referencje, zastępując wszystkie wystąpienia referencji referencjami. Jednak nie zawsze jest to możliwe i w takich przypadkach referencje mogą wymagać przechowywania.<p>Oznacza to również, że termin „zmienna referencyjna” jest nieco myląca, ponieważ zmienne są obiektami z nazwą, a referencje nie są obiektami.<p>Ponieważ referencje nie są obiektami, nie można ich używać wszędzie tam, gdzie wymagany jest obiekt (np. nie można mieć referencji do referencji, ponieważ referencja do lwartości musi odwoływać się do identyfikowalny przedmiot). W przypadkach, gdy potrzebne jest odniesienie w postaci obiektu lub odniesienie, które można ponownie osadzić, <code>std::reference_wrapper</code> (które omówimy w lekcji <a href="../103-aggregation/index.html">23.3 - Agregacja</a>) zapewnia rozwiązanie.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Na marginesie…<p>Rozważ następujące zmienne:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int var{};
-int&amp; ref1{ var };  // an lvalue reference bound to var
-int&amp; ref2{ ref1 }; // an lvalue reference bound to var</code></pre><p>Ponieważ <code>ref2</code> (odniesienie) jest inicjowane za pomocą <code>ref1</code> (odniesienie), możesz pokusić się o wyciągnięcie wniosku to <code>ref2</code> jest odniesieniem do odniesienia. Tak nie jest. Ponieważ <code>ref1</code> jest odniesieniem do <code>var</code>, gdy jest używany w wyrażeniu (takim jak inicjator), <code>ref1</code> wyniesie  <code>var</code>. Zatem  <code>ref2</code> jest zwykłym odwołaniem do wartości (jak wskazuje jej typ <code>int&</code>), powiązanym z <code>var</code>.<p>Odwołanie do referencji (do <code>int</code>) miałoby składnię <code>int&&</code> --- ale ponieważ C++ nie obsługuje odniesień do referencji, składnia ta została zmieniona w C++11, aby wskazać odwołanie do wartości (które omówimy w lekcja <a href="../rvalue-references/index.html">22.2 -- Odniesienia do wartości R</a>).</div><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nota autora<p>Jeśli odniesienia wydają się w tym momencie nieco bezużyteczne, nie martw się, że odniesienia są często używane, a jeden z głównych powodów tego omówimy wkrótce w lekcjach <a href="../pass-by-lvalue-reference/index.html">12.5 -- Przekazywanie przez lvalue reference</a> i <a href="../pass-by-const-lvalue-reference/index.html">12.6 -- Przekaż stałą lwartość odniesienia</a>.</div><p class="cpp-section cpp-topline" style=clear:both>Czas quizu<p class=cpp-quiz-question style=clear:both>Pytanie nr 1<p>Określ, jakie wartości wyświetla następujący program samodzielnie (nie kompiluj programu).<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+int&amp; ref1{ var };  // odniesienie do wartości powiązanej z var
+int&amp; ref2{ ref1 }; // odniesienie do wartości powiązanej z var</code></pre><p>Ponieważ <code>ref2</code> (odniesienie) jest inicjowane za pomocą <code>ref1</code> (odniesienie), możesz pokusić się o wyciągnięcie wniosku to <code>ref2</code> jest odniesieniem do odniesienia. Tak nie jest. Ponieważ <code>ref1</code> jest odniesieniem do <code>var</code>, gdy jest używany w wyrażeniu (takim jak inicjator), <code>ref1</code> wyniesie  <code>var</code>. Zatem  <code>ref2</code> jest zwykłym odwołaniem do wartości (jak wskazuje jej typ <code>int&</code>), powiązanym z <code>var</code>.<p>Odwołanie do referencji (do <code>int</code>) miałoby składnię <code>int&&</code> --- ale ponieważ C++ nie obsługuje odniesień do referencji, składnia ta została zmieniona w C++11, aby wskazać odwołanie do wartości (które omówimy w lekcja <a href="../rvalue-references/index.html">22.2 -- Odniesienia do wartości R</a>).</div><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nota autora<p>Jeśli odniesienia wydają się w tym momencie nieco bezużyteczne, nie martw się, że odniesienia są często używane, a jeden z głównych powodów tego omówimy wkrótce w lekcjach <a href="../pass-by-lvalue-reference/index.html">12.5 -- Przekazywanie przez lvalue reference</a> i <a href="../pass-by-const-lvalue-reference/index.html">12.6 -- Przekaż stałą lwartość odniesienia</a>.</div><p class="cpp-section cpp-topline" style=clear:both>Czas quizu<p class=cpp-quiz-question style=clear:both>Pytanie nr 1<p>Określ, jakie wartości wyświetla następujący program samodzielnie (nie kompiluj programu).<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 int main()
 {

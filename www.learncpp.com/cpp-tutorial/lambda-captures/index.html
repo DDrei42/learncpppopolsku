@@ -46,26 +46,26 @@ int main()
 
 int main()
 {
-  std::array&lt;std::string_view, 4&gt; arr{ &#34;apple&#34;, &#34;banana&#34;, &#34;walnut&#34;, &#34;lemon&#34; };
+  std::array&lt;std::string_view, 4&gt; arr{ "apple", "banana", "walnut", "lemon" };
 
-  // Ask the user what to search for.
-  std::cout &lt;&lt; &#34;search for: &#34;;
+  // Zapytaj użytkownika, czego szukać for.
+  std::cout &lt;&lt; "search for: ";
 
   std::string search{};
   std::cin &gt;&gt; search;
 
   auto found{ std::find_if(arr.begin(), arr.end(), [](std::string_view str) {
-    // Search for @search rather than &#34;nut&#34;.
-    return str.find(search) != std::string_view::npos; // Error: search not accessible in this scope
+    // Szukaj @search zamiast "nakrętka".
+    return str.find(search) != std::string_view::npos; // Błąd: wyszukiwanie niedostępne w tym zakresie
   }) };
 
   if (found == arr.end())
   {
-    std::cout &lt;&lt; &#34;Not found\n&#34;;
+    std::cout &lt;&lt; "Not found\n";
   }
   else
   {
-    std::cout &lt;&lt; &#34;Found &#34; &lt;&lt; *found &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "Found " &lt;&lt; *found &lt;&lt; '\n';
   }
 
   return 0;
@@ -107,20 +107,20 @@ int main()
 {
   int ammo{ 10 };
 
-  // Define a lambda and store it in a variable called &#34;shoot&#34;.
+  // Zdefiniuj lambdę i zapisz ją w zmiennej o nazwie "shoot".
   auto shoot{
     [ammo]() {
-      // Illegal, ammo cannot be modified.
+      // Nielegalne, amunicji nie można modyfikować.
       --ammo;
 
-      std::cout &lt;&lt; &#34;Pew! &#34; &lt;&lt; ammo &lt;&lt; &#34; shot(s) left.\n&#34;;
+      std::cout &lt;&lt; "Pew! " &lt;&lt; ammo &lt;&lt; " shot(s) left.\n";
     }
   };
 
-  // Call the lambda
+  // Wywołaj lambdę
   shoot();
 
-  std::cout &lt;&lt; ammo &lt;&lt; &#34; shot(s) left\n&#34;;
+  std::cout &lt;&lt; ammo &lt;&lt; " shot(s) left\n";
 
   return 0;
 }</code></pre><p>Powyższe nie zostanie skompilowane, ponieważ <code>ammo</code> jest traktowane jako stała w obrębie lambda.<p class="cpp-section cpp-topline" style=clear:both>Mutable przechwytuje<p>Aby umożliwić modyfikację przechwyconych zmiennych, możemy oznaczyć lambdę jako <code>mutable</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -130,18 +130,18 @@ int main()
   int ammo{ 10 };
 
   auto shoot{
-    [ammo]() mutable { // now mutable
-      // We&#39;re allowed to modify ammo now
+    [ammo]() mutable { // teraz zmienne
+      // Możemy modyfikować amunicję teraz
       --ammo;
 
-      std::cout &lt;&lt; &#34;Pew! &#34; &lt;&lt; ammo &lt;&lt; &#34; shot(s) left.\n&#34;;
+      std::cout &lt;&lt; "Pew! " &lt;&lt; ammo &lt;&lt; " shot(s) left.\n";
     }
   };
 
   shoot();
   shoot();
 
-  std::cout &lt;&lt; ammo &lt;&lt; &#34; shot(s) left\n&#34;;
+  std::cout &lt;&lt; ammo &lt;&lt; " shot(s) left\n";
 
   return 0;
 }</code></pre><p>Wyjście:<pre>Pew! 9 shot(s) left.
@@ -154,18 +154,18 @@ int main()
   int ammo{ 10 };
 
   auto shoot{
-    // We don&#39;t need mutable anymore
-    [&amp;ammo]() { // &amp;ammo means ammo is captured by reference
-      // Changes to ammo will affect main&#39;s ammo
+    // Nie potrzebujemy już funkcji mutable
+    [&amp;ammo]() { // &amp;ammo oznacza, że amunicja jest przechwytywana przez referencję
+      // Zmiany w amunicji wpłyną na amunicję główną
       --ammo;
 
-      std::cout &lt;&lt; &#34;Pew! &#34; &lt;&lt; ammo &lt;&lt; &#34; shot(s) left.\n&#34;;
+      std::cout &lt;&lt; "Pew! " &lt;&lt; ammo &lt;&lt; " shot(s) left.\n";
     }
   };
 
   shoot();
 
-  std::cout &lt;&lt; ammo &lt;&lt; &#34; shot(s) left\n&#34;;
+  std::cout &lt;&lt; ammo &lt;&lt; " shot(s) left\n";
 
   return 0;
 }</code></pre><p>To daje oczekiwaną odpowiedź:<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><pre>Pew! 9 shot(s) left.
@@ -183,27 +183,27 @@ struct Car
 
 int main()
 {
-  std::array&lt;Car, 3&gt; cars{ { { &#34;Volkswagen&#34;, &#34;Golf&#34; },
-                             { &#34;Toyota&#34;, &#34;Corolla&#34; },
-                             { &#34;Honda&#34;, &#34;Civic&#34; } } };
+  std::array&lt;Car, 3&gt; cars{ { { "Volkswagen", "Golf" },
+                             { "Toyota", "Corolla" },
+                             { "Honda", "Civic" } } };
 
   int comparisons{ 0 };
 
   std::sort(cars.begin(), cars.end(),
-    // Capture @comparisons by reference.
+    // Przechwytuj @porównania przez odniesienie.
     [&amp;comparisons](const auto&amp; a, const auto&amp; b) {
-      // We captured comparisons by reference. We can modify it without &#34;mutable&#34;.
+      // Porównania przechwyciliśmy przez odniesienie. Możemy go zmodyfikować bez „mutable”.
       ++comparisons;
 
-      // Sort the cars by their make.
+      // Sortuj samochody według ich marki.
       return a.make &lt; b.make;
   });
 
-  std::cout &lt;&lt; &#34;Comparisons: &#34; &lt;&lt; comparisons &lt;&lt; &#39;\n&#39;;
+  std::cout &lt;&lt; "Comparisons: " &lt;&lt; comparisons &lt;&lt; '\n';
 
   for (const auto&amp; car : cars)
   {
-    std::cout &lt;&lt; car.make &lt;&lt; &#39; &#39; &lt;&lt; car.model &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; car.make &lt;&lt; ' ' &lt;&lt; car.model &lt;&lt; '\n';
   }
 
   return 0;
@@ -215,8 +215,8 @@ Volkswagen Golf
 int armor{ 100 };
 std::vector&lt;CEnemy&gt; enemies{};
 
-// Capture health and armor by value, and enemies by reference.
-[health, armor, &amp;enemies](){};</code></pre><p class="cpp-section cpp-topline" style=clear:both>Przechwytywanie domyślne<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>Konieczność jawnego wyszczególnienia zmiennych, które chcesz przechwycić, może być uciążliwa. Jeśli zmodyfikujesz lambdę, możesz zapomnieć o dodaniu lub usunięciu przechwyconych zmiennych. Na szczęście możemy skorzystać z pomocy kompilatora, aby automatycznie wygenerował listę zmiennych, które musimy przechwycić.<p>A <strong>default catch</strong> (zwana także <strong>capture-default</strong>) przechwytuje wszystkie zmienne wymienione w lambdzie. Zmienne niewymienione w lambdzie nie są przechwytywane, jeśli używane jest przechwytywanie domyślne.<p>Aby przechwycić wszystkie używane zmienne według wartości, użyj wartości przechwytywania <code>=</code>.<br>Aby przechwycić wszystkie używane zmienne przez odniesienie, użyj wartości przechwytywania  <code>&</code>.<p>Oto przykład użycia domyślnego przechwytywania według wartości:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;algorithm&gt;
+// Przechwytuj zdrowie i zbroję według wartości, a wrogów według wartości reference.
+[health, armor, &amp;enemies](){};</code></pre><p class="cpp-section cpp-topline" style=clear:both>Przechwytywanie domyślne<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>Konieczność jawnego wyszczególnienia zmiennych, które chcesz przechwycić, może być uciążliwa. Jeśli zmodyfikujesz lambdę, możesz zapomnieć o dodaniu lub usunięciu przechwyconych zmiennych. Na szczęście możemy skorzystać z pomocy kompilatora, aby automatycznie wygenerował listę zmiennych, które musimy przechwycić.<p><strong>default catch</strong> (zwana także <strong>capture-default</strong>) przechwytuje wszystkie zmienne wymienione w lambdzie. Zmienne niewymienione w lambdzie nie są przechwytywane, jeśli używane jest przechwytywanie domyślne.<p>Aby przechwycić wszystkie używane zmienne według wartości, użyj wartości przechwytywania <code>=</code>.<br>Aby przechwycić wszystkie używane zmienne przez odniesienie, użyj wartości przechwytywania  <code>&</code>.<p>Oto przykład użycia domyślnego przechwytywania według wartości:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;algorithm&gt;
 #include &lt;array&gt;
 #include &lt;iostream&gt;
 
@@ -227,21 +227,21 @@ int main()
   int width{};
   int height{};
 
-  std::cout &lt;&lt; &#34;Enter width and height: &#34;;
+  std::cout &lt;&lt; "Enter width and height: ";
   std::cin &gt;&gt; width &gt;&gt; height;
 
   auto found{ std::find_if(areas.begin(), areas.end(),
-                           [=](int knownArea) { // will default capture width and height by value
-                             return width * height == knownArea; // because they&#39;re mentioned here
+                           [=](int knownArea) { // domyślne przechwytywanie szerokości i wysokości według wartości
+                             return width * height == knownArea; // ponieważ są tutaj wspomniane
                            }) };
 
   if (found == areas.end())
   {
-    std::cout &lt;&lt; &#34;I don&#39;t know this area :(\n&#34;;
+    std::cout &lt;&lt; "I don't know this area :(\n";
   }
   else
   {
-    std::cout &lt;&lt; &#34;Area found :)\n&#34;;
+    std::cout &lt;&lt; "Area found :)\n";
   }
 
   return 0;
@@ -249,25 +249,25 @@ int main()
 int armor{ 100 };
 std::vector&lt;CEnemy&gt; enemies{};
 
-// Capture health and armor by value, and enemies by reference.
+// Przechwytuj zdrowie i zbroję według wartości, a wrogów według wartości reference.
 [health, armor, &amp;enemies](){};
 
-// Capture enemies by reference and everything else by value.
+// Przechwytuj wrogów według odniesienia i wszystko inne według wartości.
 [=, &amp;enemies](){};
 
-// Capture armor by value and everything else by reference.
+// Przechwytuj zbroję według wartości i wszystko inne przez odniesienie.
 [&amp;, armor](){};
 
-// Illegal, we already said we want to capture everything by reference.
+// Nielegalne, już powiedzieliśmy, że chcemy przechwytywać wszystko przez odniesienie.
 [&amp;, &amp;armor](){};
 
-// Illegal, we already said we want to capture everything by value.
+// Nielegalne, już powiedzieliśmy, że chcemy przechwytywać wszystko według wartości.
 [=, armor](){};
 
-// Illegal, armor appears twice.
+// Nielegalne, zbroja pojawia się dwukrotnie.
 [armor, &amp;health, &amp;armor](){};
 
-// Illegal, the default capture has to be the first element in the capture group.
+// Nielegalne, domyślnym przechwytywaniem musi być pierwszy element w grupie przechwytywania.
 [armor, &amp;](){};</code></pre><p class="cpp-section cpp-topline" style=clear:both>Definiowanie nowych zmiennych w przechwytywaniu lambda<p>Czasami chcemy przechwycić zmienną z niewielką modyfikacją lub zadeklarować nową zmienną, która jest widoczna tylko w zakresie lambda. Możemy to zrobić definiując zmienną w przechwytywaniu lambda bez określania jej typu.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;array&gt;
 #include &lt;iostream&gt;
 #include &lt;algorithm&gt;
@@ -279,25 +279,25 @@ int main()
   int width{};
   int height{};
 
-  std::cout &lt;&lt; &#34;Enter width and height: &#34;;
+  std::cout &lt;&lt; "Enter width and height: ";
   std::cin &gt;&gt; width &gt;&gt; height;
 
-  // We store areas, but the user entered width and height.
-  // We need to calculate the area before we can search for it.
+  // Przechowujemy obszary, ale użytkownik wprowadził szerokość i wysokość.
+  // Musimy obliczyć obszar, zanim będziemy mogli go wyszukać.
   auto found{ std::find_if(areas.begin(), areas.end(),
-                           // Declare a new variable that&#39;s visible only to the lambda.
-                           // The type of userArea is automatically deduced to int.
+                           // Zadeklaruj nową zmienną, która będzie widoczna tylko dla lambda.
+                           // Typ userArea jest automatycznie ustalany na podstawie int.
                            [userArea{ width * height }](int knownArea) {
                              return userArea == knownArea;
                            }) };
 
   if (found == areas.end())
   {
-    std::cout &lt;&lt; &#34;I don&#39;t know this area :(\n&#34;;
+    std::cout &lt;&lt; "I don't know this area :(\n";
   }
   else
   {
-    std::cout &lt;&lt; &#34;Area found :)\n&#34;;
+    std::cout &lt;&lt; "Area found :)\n";
   }
 
   return 0;
@@ -307,19 +307,19 @@ int main()
 // returns a lambda
 auto makeWalrus(const std::string&amp; name)
 {
-  // Capture name by reference and return the lambda.
+  // Przechwyć nazwę przez referencję i zwróć lambdę.
   return [&amp;]() {
-    std::cout &lt;&lt; &#34;I am a walrus, my name is &#34; &lt;&lt; name &lt;&lt; &#39;\n&#39;; // Undefined behavior
+    std::cout &lt;&lt; "I am a walrus, my name is " &lt;&lt; name &lt;&lt; '\n'; // Undefined behavior
   };
 }
 
 int main()
 {
-  // Create a new walrus whose name is Roofus.
-  // sayName is the lambda returned by makeWalrus.
-  auto sayName{ makeWalrus(&#34;Roofus&#34;) };
+  // Utwórz nowego morsa o nazwie Roofus.
+  // sayName to lambda zwrócona przez makeWalrus.
+  auto sayName{ makeWalrus("Roofus") };
 
-  // Call the lambda function that makeWalrus returned.
+  // Wywołaj funkcję lambda, która zwróciła makeWalrus.
   sayName();
 
   return 0;
@@ -329,16 +329,16 @@ int main()
 {
   int i{ 0 };
 
-  // Create a new lambda named count
+  // Utwórz nową lambdę o nazwie count
   auto count{ [i]() mutable {
-    std::cout &lt;&lt; ++i &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; ++i &lt;&lt; '\n';
   } };
 
   count(); // invoke count
 
-  auto otherCount{ count }; // create a copy of count
+  auto otherCount{ count }; // utwórz kopię licznika
 
-  // invoke both count and the copy
+  // wywołuje zarówno licznik, jak i kopię
   count();
   otherCount();
 
@@ -358,9 +358,9 @@ int main()
 {
     int i{ 0 };
 
-    // Increments and prints its local copy of @i.
+    // Zwiększa i drukuje lokalną kopię @i.
     auto count{ [i]() mutable {
-      std::cout &lt;&lt; ++i &lt;&lt; &#39;\n&#39;;
+      std::cout &lt;&lt; ++i &lt;&lt; '\n';
     } };
 
     myInvoke(count);
@@ -383,21 +383,21 @@ int main()
 {
     int i{ 0 };
 
-    // Increments and prints its local copy of @i.
-    std::function count{ [i]() mutable { // lambda object stored in a std::function
-      std::cout &lt;&lt; ++i &lt;&lt; &#39;\n&#39;;
+    // Zwiększa i drukuje lokalną kopię @i.
+    std::function count{ [i]() mutable { // obiekt lambda przechowywany w std::function
+      std::cout &lt;&lt; ++i &lt;&lt; '\n';
     } };
 
-    myInvoke(count); // doesn&#39;t create copy when called
-    myInvoke(count); // doesn&#39;t create copy when called
-    myInvoke(count); // doesn&#39;t create copy when called
+    myInvoke(count); // nie tworzy kopii, gdy wywołany
+    myInvoke(count); // nie tworzy kopii, gdy wywołany
+    myInvoke(count); // nie tworzy kopii, gdy wywołany
 
     return 0;
 }</code></pre><p>Nasze dane wyjściowe są teraz zgodne z oczekiwaniami:<pre>1
 2
 3
 </pre><p>Alternatywnym rozwiązaniem jest użycie opakowania referencyjnego. C++ udostępnia wygodny typ (jako część nagłówka &lt;function&gt;) o nazwie  <code>std::reference_wrapper</code> , który pozwala nam przekazywać normalny typ tak, jakby był referencją. Dla jeszcze większej wygody  <code>std::reference_wrapper</code> można utworzyć za pomocą funkcji <code>std::ref()</code> . Zawijając naszą lambdę w  <code>std::reference_wrapper</code>, za każdym razem, gdy ktoś spróbuje utworzyć kopię naszej lambdy, zamiast tego utworzy kopię reference_wrapper (unikając tworzenia kopii lambdy).<p>Oto nasz zaktualizowany kod przy użyciu <code>std::ref</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
-#include &lt;functional&gt; // includes std::reference_wrapper and std::ref
+#include &lt;functional&gt; // zawiera std::reference_wrapper i std::ref
 
 void myInvoke(const std::function&lt;void()&gt;&amp; fn)
 {
@@ -408,14 +408,14 @@ int main()
 {
     int i{ 0 };
 
-    // Increments and prints its local copy of @i.
+    // Zwiększa i drukuje lokalną kopię @i.
     auto count{ [i]() mutable {
-      std::cout &lt;&lt; ++i &lt;&lt; &#39;\n&#39;;
+      std::cout &lt;&lt; ++i &lt;&lt; '\n';
     } };
 
-    // std::ref(count) ensures count is treated like a reference
-    // thus, anything that tries to copy count will actually copy the reference
-    // ensuring that only one count exists
+    // std::ref(count) gwarantuje, że liczba będzie traktowana jak referencja
+    // w ten sposób wszystko, co spróbuje skopiować liczbę, w rzeczywistości skopiuje odwołanie
+    // upewnij się, że istnieje tylko jeden licznik
     myInvoke(std::ref(count));
     myInvoke(std::ref(count));
     myInvoke(std::ref(count));
@@ -444,7 +444,7 @@ int main()
   static const int h{ getValue() }; 
 
   [](){
-    // Try to use the variables without explicitly capturing them.
+    // Spróbuj użyć zmiennych bez ich jawnego przechwytywania.
     a;
     b;
     c;
@@ -499,14 +499,14 @@ Nice! 1 number(s) left.
 Nice! You found all numbers, good job!
 </pre><ul><li>Poczynając od 1, program generuje kolejne 3 kwadraty: 1, 4, 9<li>Program wybrał 4 jako losowy mnożnik, więc każdy kwadrat jest mnożony przez 4: 4, 16, 36<li>Użytkownik poprawnie odgadnie wszystkie liczby i wygrywa gra.</ul><p>Wskazówki:<ul><li>Użyj Random.h (<a href="../global-random-numbers-random-h/index.html">8.15 -- Globalne liczby losowe (Random.h)</a>) do wygenerowania liczb losowych.<li>Użyj <code>std::find()</code> (<a href="../introduction-to-standard-library-algorithms/index.html#std_find">18.3 — Wprowadzenie do algorytmów bibliotek standardowych</a>), aby wyszukać liczbę na liście.<li>Użyj <code>std::vector::erase()</code> aby usunąć element, np.</ul><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">auto found{ std::find(/* ... */) };
 
-// Make sure the element was found
+// Upewnij się, że element został znaleziony
 
 myVector.erase(found);</code></pre><ul><li>Użyj <code>std::min_element</code> i lambdę, aby znaleźć liczbę najbliższą użytkownikowi zgadnij. <code>std::min_element</code> działa analogicznie do <code>std::max_element</code> z poprzedniego quizu.</ul><p><a class=hint_link_show href=javascript:void(0) onclick="cppHintToggle(document.getElementById('cpp_hint_id_0'),this,'Show Hint','')">Pokaż wskazówkę</a><div class=wphint id=cpp_hint_id_0 style=display:none;margin-bottom:1em>Wskazówka: użyj  <code>std::abs</code> z &lt;cmath&gt;, aby obliczyć dodatnią różnicę między dwiema liczbami.<p><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int distance{ std::abs(3 - 5) }; // 2</code></pre></div><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_2'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_2 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;algorithm&gt; // std::find, std::min_element
 #include &lt;cmath&gt; // std::abs
 #include &lt;cstddef&gt; // std::size_t
 #include &lt;iostream&gt;
 #include &lt;vector&gt;
-#include &#34;Random.h&#34;
+#include "Random.h"
 
 using Numbers = std::vector&lt;int&gt;;
 
@@ -516,8 +516,8 @@ namespace config
     constexpr int multiplierMax{ 6 };
 }
 
-// Generates @count numbers starting at @start*@start and multiplies
-// every square number by @multiplier.
+// Generuje liczby @count zaczynając od @start*@start i mnoży
+// każda liczba kwadratowa @multiplier.
 Numbers generateNumbers(int start, int count, int multiplier)
 {
     Numbers numbers(static_cast&lt;std::size_t&gt;(count));
@@ -531,39 +531,39 @@ Numbers generateNumbers(int start, int count, int multiplier)
     return numbers;
 }
 
-// Asks the user to input starting number, then generates array of numbers
+// Prosi użytkownika o wprowadzenie numeru początkowego, następnie generuje tablicę liczb
 Numbers setupGame()
 {
     int start{};
-    std::cout &lt;&lt; &#34;Start where? &#34;;
+    std::cout &lt;&lt; "Start where? ";
     std::cin &gt;&gt; start;
 
     int count{};
-    std::cout &lt;&lt; &#34;How many? &#34;;
+    std::cout &lt;&lt; "How many? ";
     std::cin &gt;&gt; count;
 
     int multiplier{ Random::get(config::multiplierMin, config::multiplierMax) };
 
-    std::cout &lt;&lt; &#34;I generated &#34; &lt;&lt; count
-        &lt;&lt; &#34; square numbers. Do you know what each number is after multiplying it by &#34;
-        &lt;&lt; multiplier &lt;&lt; &#34;?\n&#34;;
+    std::cout &lt;&lt; "I generated " &lt;&lt; count
+        &lt;&lt; " square numbers. Do you know what each number is after multiplying it by "
+        &lt;&lt; multiplier &lt;&lt; "?\n";
 
     return generateNumbers(start, count, multiplier);
 }
 
-// Returns the user&#39;s guess
+// Zwraca wartość szacunkową użytkownika
 int getUserGuess()
 {
     int guess{};
 
-    std::cout &lt;&lt; &#34;&gt; &#34;;
+    std::cout &lt;&lt; "&gt; ";
     std::cin &gt;&gt; guess;
 
     return guess;
 }
 
-// Searches for the value @guess in @numbers and removes it.
-// Returns true if the value was found. False otherwise.
+// Wyszukuje wartość @guess w @liczbach i usuwa ją.
+// Zwraca wartość true, jeśli wartość została znaleziona. W przeciwnym razie fałszywie.
 bool findAndRemove(Numbers&amp; numbers, int guess)
 {
     auto found{ std::find(numbers.begin(), numbers.end(), guess) };
@@ -575,7 +575,7 @@ bool findAndRemove(Numbers&amp; numbers, int guess)
     return true;
 }
 
-// Finds the value in @numbers that is closest to @guess.
+// Znajduje wartość w @numbers najbliższą @guess.
 int findClosestNumber(const Numbers&amp; numbers, int guess)
 {
     return *std::min_element(numbers.begin(), numbers.end(),
@@ -586,29 +586,29 @@ int findClosestNumber(const Numbers&amp; numbers, int guess)
 }
 
 
-// Called when the user guesses a number correctly.
+// Wywoływana, gdy użytkownik poprawnie odgadnie liczbę.
 void printSuccess(const Numbers&amp; numbers)
 {
-    std::cout &lt;&lt; &#34;Nice! &#34;;
+    std::cout &lt;&lt; "Nice! ";
 
     if (numbers.size() == 0)
     {
-        std::cout &lt;&lt; &#34;You found all numbers, good job!\n&#34;;
+        std::cout &lt;&lt; "You found all numbers, good job!\n";
     }
     else
     {
-        std::cout &lt;&lt; numbers.size() &lt;&lt; &#34; number(s) left.\n&#34;;
+        std::cout &lt;&lt; numbers.size() &lt;&lt; " number(s) left.\n";
     }
 }
 
-// Called when the user guesses a number that is not in the numbers.
+// Wywoływane, gdy użytkownik odgadnie liczbę, której nie ma w liczbach.
 void printFailure(const Numbers&amp; numbers, int guess)
 {
     int closest{ findClosestNumber(numbers, guess) };
 
-    std::cout &lt;&lt; guess &lt;&lt; &#34; is wrong!\n&#34;;
+    std::cout &lt;&lt; guess &lt;&lt; " is wrong!\n";
 
-    std::cout &lt;&lt; &#34;Try &#34; &lt;&lt; closest &lt;&lt; &#34; next time.\n&#34;;
+    std::cout &lt;&lt; "Try " &lt;&lt; closest &lt;&lt; " next time.\n";
 }
 
 int main()

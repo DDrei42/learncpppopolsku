@@ -15,14 +15,14 @@
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2022-04-21T13:48:18-07:00 itemprop=datePublished>21 kwietnia 2022, 13:48 czasu PDT</time>
 <time class=updated datetime=2024-12-30T20:09:52-08:00 itemprop=dateModified>30 grudnia 2024 r.</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>W lekcji <a href="../function-templates/index.html">11.6 -- Szablony funkcji</a>, wprowadziliśmy wyzwanie polegające na konieczności utworzenia osobnej (przeciążonej) funkcji dla każdego innego zestawu typów, z którymi chcemy pracować:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-// function to calculate the greater of two int values
+// funkcja do obliczenia większej z dwóch int wartości
 int max(int x, int y)
 {
     return (x &lt; y) ? y : x;
 }
 
-// almost identical function to calculate the greater of two double values
-// the only difference is the type information
+// prawie identycznej funkcji do obliczenia większej z dwóch wartości double
+// jedyną różnicą jest informacja o typie
 double max(double x, double y)
 {
     return (x &lt; y) ? y : x;
@@ -31,13 +31,13 @@ double max(double x, double y)
 int main()
 {
     std::cout &lt;&lt; max(5, 6);     // calls max(int, int)
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
     std::cout &lt;&lt; max(1.2, 3.4); // calls max(double, double)
 
     return 0;
 }</code></pre><p>Rozwiązaniem tego było utworzenie szablonu funkcji, którego kompilator może użyć do utworzenia instancji normalnych funkcji dla dowolnego zestawu typów, których potrzebujemy:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-// a single function template for max
+// szablon adaptera funkcji dla max
 template &lt;typename T&gt;
 T max(T x, T y)
 {
@@ -46,9 +46,9 @@ T max(T x, T y)
 
 int main()
 {
-    std::cout &lt;&lt; max(5, 6);     // instantiates and calls max&lt;int&gt;(int, int)
-    std::cout &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; max(1.2, 3.4); // instantiates and calls max&lt;double&gt;(double, double)
+    std::cout &lt;&lt; max(5, 6);     // tworzy instancje i wywołuje max&lt;int&gt;(int, int)
+    std::cout &lt;&lt; '\n';
+    std::cout &lt;&lt; max(1.2, 3.4); // tworzy instancje i wywołuje max&lt;double&gt;(double, double)
 
     return 0;
 }</code></pre><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Powiązana treść<p>W lekcji <a href="../function-template-instantiation/index.html">11.7 -- Szablon funkcji instancja</a>.</div><p class="cpp-section cpp-topline" style=clear:both>Typy agregatów wiążą się z podobnymi wyzwaniami<p>Napotykamy podobne wyzwania z typami agregacji (zarówno strukturami/klasami/unionami, jak i tablicami).<p>Załóżmy na przykład, że piszemy program, w którym musimy pracować z parami <code>int</code> wartości i musimy określić, która z dwóch liczb jest większa. Moglibyśmy napisać taki program:<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -59,7 +59,7 @@ struct Pair
     int second{};
 };
 
-constexpr int max(Pair p) // pass by value because Pair is small
+constexpr int max(Pair p) // przekaż wartość, ponieważ Para jest mała
 {
     return (p.first &lt; p.second ? p.second : p.first);
 }
@@ -67,7 +67,7 @@ constexpr int max(Pair p) // pass by value because Pair is small
 int main()
 {
     Pair p1{ 5, 6 };
-    std::cout &lt;&lt; max(p1) &lt;&lt; &#34; is larger\n&#34;;
+    std::cout &lt;&lt; max(p1) &lt;&lt; " is larger\n";
 
     return 0;
 }</code></pre><p>Później odkrywamy, że potrzebujemy także par <code>double</code> wartości. Dlatego aktualizujemy nasz program do następującego:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -78,7 +78,7 @@ struct Pair
     int second{};
 };
 
-struct Pair // compile error: erroneous redefinition of Pair
+struct Pair // błąd kompilacji: błędna redefinicja Para
 {
     double first{};
     double second{};
@@ -89,7 +89,7 @@ constexpr int max(Pair p)
     return (p.first &lt; p.second ? p.second : p.first);
 }
 
-constexpr double max(Pair p) // compile error: overloaded function differs only by return type
+constexpr double max(Pair p) // błąd kompilacji: funkcja przeciążona różni się tylko typem zwracanym
 {
     return (p.first &lt; p.second ? p.second : p.first);
 }
@@ -97,13 +97,13 @@ constexpr double max(Pair p) // compile error: overloaded function differs only 
 int main()
 {
     Pair p1{ 5, 6 };
-    std::cout &lt;&lt; max(p1) &lt;&lt; &#34; is larger\n&#34;;
+    std::cout &lt;&lt; max(p1) &lt;&lt; " is larger\n";
 
     Pair p2{ 1.2, 3.4 };
-    std::cout &lt;&lt; max(p2) &lt;&lt; &#34; is larger\n&#34;;
+    std::cout &lt;&lt; max(p2) &lt;&lt; " is larger\n";
 
     return 0;
-}</code></pre><p>Niestety ten program się nie skompiluje i ma wiele problemów, które należy rozwiązać.<p>Po pierwsze, w przeciwieństwie do funkcji, definicje typów nie mogą być przeciążane. Kompilator potraktuje definicję podwójnej sekundy  <code>Pair</code> jako błędną ponowną deklarację pierwszej definicji  <code>Pair</code>. Po drugie, chociaż funkcje mogą być przeciążane, nasze  <code>max(Pair)</code> funkcje różnią się jedynie typem zwracanej wartości, a funkcji przeciążonych nie można różnicować wyłącznie na podstawie typu zwracanego. Po trzecie, jest tu dużo nadmiarowości. Każda <code>Pair</code> struktura jest identyczna (z wyjątkiem typu danych) i taka sama z naszymi <code>max(Pair)</code> funkcjami (z wyjątkiem typu zwracanego).<p>Moglibyśmy rozwiązać pierwsze dwa problemy, nadając naszym <code>Pair</code> strukturom różne nazwy (np. <code>PairInt</code> i <code>PairDouble</code>). Ale wtedy oboje musimy zapamiętać nasz schemat nazewnictwa i zasadniczo sklonować trochę kodu dla każdego dodatkowego typu pary, jaki chcemy, co nie rozwiązuje problemu redundancji.<p>Na szczęście możemy zrobić lepiej.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nota autora<p>Przed kontynuowaniem przejrzyj lekcje <a href="../function-templates/index.html">11.6 -- Szablony funkcji</a> i <a href="../function-template-instantiation/index.html">11.7 -- Szablon funkcji instancja</a> jeśli nie masz pewności, jak działają szablony funkcji, typy szablonów lub tworzenie instancji szablonów funkcji.</div><p class="cpp-section cpp-topline" style=clear:both>Szablony klas<p>Podobnie jak szablon funkcji jest definicją szablonu do tworzenia instancji funkcji, a <strong>Szablon klasy</strong> jest definicją szablonu do tworzenia instancji typów klas.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Przypomnienie<p>„Typ klasy” to struktura, klasa lub typ unii. Chociaż dla uproszczenia zademonstrujemy „szablony klas” na strukturach, wszystko tutaj można zastosować równie dobrze do klas.</div><p>Dla przypomnienia, oto nasza <code>int</code> definicja struktury par:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">struct Pair
+}</code></pre><p>Niestety ten program się nie skompiluje i ma wiele problemów, które należy rozwiązać.<p>Po pierwsze, w przeciwieństwie do funkcji, definicje typów nie mogą być przeciążane. Kompilator potraktuje definicję podwójnej sekundy  <code>Pair</code> jako błędną ponowną deklarację pierwszej definicji  <code>Pair</code>. Po drugie, chociaż funkcje mogą być przeciążane, nasze  <code>max(Pair)</code> funkcje różnią się jedynie typem zwracanej wartości, a funkcji przeciążonych nie można różnicować wyłącznie na podstawie typu zwracanego. Po trzecie, jest tu dużo nadmiarowości. Każda <code>Pair</code> struktura jest identyczna (z wyjątkiem typu danych) i taka sama z naszymi <code>max(Pair)</code> funkcjami (z wyjątkiem typu zwracanego).<p>Moglibyśmy rozwiązać pierwsze dwa problemy, nadając naszym <code>Pair</code> strukturom różne nazwy (np. <code>PairInt</code> i <code>PairDouble</code>). Ale wtedy oboje musimy zapamiętać nasz schemat nazewnictwa i zasadniczo sklonować trochę kodu dla każdego dodatkowego typu pary, jaki chcemy, co nie rozwiązuje problemu redundancji.<p>Na szczęście możemy zrobić lepiej.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nota autora<p>Przed kontynuowaniem przejrzyj lekcje <a href="../function-templates/index.html">11.6 -- Szablony funkcji</a> i <a href="../function-template-instantiation/index.html">11.7 -- Szablon funkcji instancja</a> jeśli nie masz pewności, jak działają szablony funkcji, typy szablonów lub tworzenie instancji szablonów funkcji.</div><p class="cpp-section cpp-topline" style=clear:both>Szablony klas<p>Podobnie jak szablon funkcji jest definicją szablonu do tworzenia instancji funkcji, <strong>Szablon klasy</strong> jest definicją szablonu do tworzenia instancji typów klas.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Przypomnienie<p>„Typ klasy” to struktura, klasa lub typ unii. Chociaż dla uproszczenia zademonstrujemy „szablony klas” na strukturach, wszystko tutaj można zastosować równie dobrze do klas.</div><p>Dla przypomnienia, oto nasza <code>int</code> definicja struktury par:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">struct Pair
 {
     int first{};
     int second{};
@@ -118,25 +118,25 @@ struct Pair
 
 int main()
 {
-    Pair&lt;int&gt; p1{ 5, 6 };        // instantiates Pair&lt;int&gt; and creates object p1
-    std::cout &lt;&lt; p1.first &lt;&lt; &#39; &#39; &lt;&lt; p1.second &lt;&lt; &#39;\n&#39;;
+    Pair&lt;int&gt; p1{ 5, 6 };        // tworzy instancję Pair&lt;int&gt; i tworzy obiekt p1
+    std::cout &lt;&lt; p1.first &lt;&lt; ' ' &lt;&lt; p1.second &lt;&lt; '\n';
 
-    Pair&lt;double&gt; p2{ 1.2, 3.4 }; // instantiates Pair&lt;double&gt; and creates object p2
-    std::cout &lt;&lt; p2.first &lt;&lt; &#39; &#39; &lt;&lt; p2.second &lt;&lt; &#39;\n&#39;;
+    Pair&lt;double&gt; p2{ 1.2, 3.4 }; // tworzy instancję Pair&lt;double&gt; i tworzy obiekt p2
+    std::cout &lt;&lt; p2.first &lt;&lt; ' ' &lt;&lt; p2.second &lt;&lt; '\n';
 
-    Pair&lt;double&gt; p3{ 7.8, 9.0 }; // creates object p3 using prior definition for Pair&lt;double&gt;
-    std::cout &lt;&lt; p3.first &lt;&lt; &#39; &#39; &lt;&lt; p3.second &lt;&lt; &#39;\n&#39;;
+    Pair&lt;double&gt; p3{ 7.8, 9.0 }; // tworzy obiekt p3 korzystając z wcześniejszej definicji pary&lt;double&gt;
+    std::cout &lt;&lt; p3.first &lt;&lt; ' ' &lt;&lt; p3.second &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Podobnie jak w przypadku szablonów funkcji, definicję szablonu klasy zaczynamy od deklaracji parametrów szablonu. Zaczynamy od słowa kluczowego <code>template</code> . Następnie w nawiasach ostrych (&lt;&gt;) określamy wszystkie typy szablonów, których będzie używał nasz szablon klasy. Dla każdego typu szablonu, którego potrzebujemy, używamy słowa kluczowego <code>typename</code> (preferowany) lub <code>class</code> (niepreferowany), po którym następuje nazwa typu szablonu (np. <code>T</code>). W tym przypadku, ponieważ obaj nasi członkowie będą tego samego typu, potrzebujemy tylko jednego typu szablonu.<p>Następnie definiujemy naszą strukturę jak zwykle, z tą różnicą, że możemy użyć naszego typu szablonu (<code>T</code>) wszędzie tam, gdzie chcemy typu szablonowego, który zostanie później zastąpiony typem rzeczywistym. To wszystko! Skończyliśmy z definicją szablonu klasy.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>W main możemy tworzyć instancje <code>Pair</code> obiektów przy użyciu dowolnych typów. Najpierw tworzymy instancję obiektu typu  <code>Pair&lt;int></code>. Ponieważ definicja typu dla <code>Pair&lt;int></code> jeszcze nie istnieje, kompilator używa szablonu klasy do utworzenia instancji definicji typu struktury o nazwie <code>Pair&lt;int></code>, gdzie wszystkie wystąpienia typu szablonu <code>T</code> są zastępowane przez typ <code>int</code>.<p>Następnie tworzymy instancję obiektu typu <code>Pair&lt;double></code>, który tworzy instancję definicji typu struktury o nazwie <code>Pair&lt;double></code> gdzie  <code>T</code> jest zastępowana przez <code>double</code>. Instancja for <code>p3</code>, <code>Pair&lt;double></code>  została już utworzona, więc kompilator użyje wcześniejszej definicji typu.<p>Oto ten sam przykład co powyżej, pokazujący, co kompilator faktycznie kompiluje po wykonaniu wszystkich instancji szablonu:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-// A declaration for our Pair class template
-// (we don&#39;t need the definition any more since it&#39;s not used)
+// Deklaracja naszego szablonu klasy Pair
+// (nie potrzebujemy już definicji, ponieważ nie jest używana)
 template &lt;typename T&gt;
 struct Pair;
 
 // Explicitly define what Pair&lt;int&gt; looks like
-template &lt;&gt; // tells the compiler this is a template type with no template parameters
+template &lt;&gt; // mówi kompilatorowi, że jest to typ szablonu bez parametrów szablonu
 struct Pair&lt;int&gt;
 {
     int first{};
@@ -144,7 +144,7 @@ struct Pair&lt;int&gt;
 };
 
 // Explicitly define what Pair&lt;double&gt; looks like
-template &lt;&gt; // tells the compiler this is a template type with no template parameters
+template &lt;&gt; // mówi kompilatorowi, że jest to typ szablonu bez parametrów szablonu
 struct Pair&lt;double&gt;
 {
     double first{};
@@ -153,14 +153,14 @@ struct Pair&lt;double&gt;
 
 int main()
 {
-    Pair&lt;int&gt; p1{ 5, 6 };        // instantiates Pair&lt;int&gt; and creates object p1
-    std::cout &lt;&lt; p1.first &lt;&lt; &#39; &#39; &lt;&lt; p1.second &lt;&lt; &#39;\n&#39;;
+    Pair&lt;int&gt; p1{ 5, 6 };        // tworzy instancję Pair&lt;int&gt; i tworzy obiekt p1
+    std::cout &lt;&lt; p1.first &lt;&lt; ' ' &lt;&lt; p1.second &lt;&lt; '\n';
 
-    Pair&lt;double&gt; p2{ 1.2, 3.4 }; // instantiates Pair&lt;double&gt; and creates object p2
-    std::cout &lt;&lt; p2.first &lt;&lt; &#39; &#39; &lt;&lt; p2.second &lt;&lt; &#39;\n&#39;;
+    Pair&lt;double&gt; p2{ 1.2, 3.4 }; // tworzy instancję Pair&lt;double&gt; i tworzy obiekt p2
+    std::cout &lt;&lt; p2.first &lt;&lt; ' ' &lt;&lt; p2.second &lt;&lt; '\n';
 
-    Pair&lt;double&gt; p3{ 7.8, 9.0 }; // creates object p3 using prior definition for Pair&lt;double&gt;
-    std::cout &lt;&lt; p3.first &lt;&lt; &#39; &#39; &lt;&lt; p3.second &lt;&lt; &#39;\n&#39;;
+    Pair&lt;double&gt; p3{ 7.8, 9.0 }; // tworzy obiekt p3 korzystając z wcześniejszej definicji pary&lt;double&gt;
+    std::cout &lt;&lt; p3.first &lt;&lt; ' ' &lt;&lt; p3.second &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Możesz skompilować ten przykład bezpośrednio i sprawdzić, czy działa zgodnie z oczekiwaniami!<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Dla zaawansowanych czytelników<p>Powyższy przykład wykorzystuje funkcję zwaną specjalizacją szablonów klas (omówioną w przyszłości lekcja <a href="../class-template-specialization/index.html">26.4 -- Specjalizacja szablonu zajęć</a>). Na tym etapie nie jest wymagana wiedza na temat działania tej funkcji.</div><p class="cpp-section cpp-topline" style=clear:both>Wykorzystanie naszego szablonu klasy w funkcji<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>Powróćmy teraz do wyzwania, jakim jest sprawienie, aby nasza <code>max()</code> funkcja działała z różnymi typami. Ponieważ kompilator traktuje <code>Pair&lt;int></code> i <code>Pair&lt;double></code> jako oddzielne typy, możemy użyć przeciążonych funkcji, które różnią się typem parametru:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">constexpr int max(Pair&lt;int&gt; p)
@@ -168,7 +168,7 @@ int main()
     return (p.first &lt; p.second ? p.second : p.first);
 }
 
-constexpr double max(Pair&lt;double&gt; p) // okay: overloaded function differentiated by parameter type
+constexpr double max(Pair&lt;double&gt; p) // ok: przeciążona funkcja zróżnicowana według typu parametru
 {
     return (p.first &lt; p.second ? p.second : p.first);
 }</code></pre><p>Podczas kompilacji nie rozwiązuje to problemu redundancji. Tak naprawdę potrzebujemy funkcji, która może przyjąć parę dowolnego typu. Innymi słowy, chcemy funkcji, która przyjmuje parametr typu <code>Pair&lt;T></code>, gdzie T jest parametrem typu szablonu. A to oznacza, że ​​potrzebujemy szablonu funkcji do tego zadania!<p>Oto pełny przykład z <code>max()</code> zaimplementowanym jako szablon funkcji:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -189,10 +189,10 @@ constexpr T max(Pair&lt;T&gt; p)
 int main()
 {
     Pair&lt;int&gt; p1{ 5, 6 };
-    std::cout &lt;&lt; max&lt;int&gt;(p1) &lt;&lt; &#34; is larger\n&#34;; // explicit call to max&lt;int&gt;
+    std::cout &lt;&lt; max&lt;int&gt;(p1) &lt;&lt; " is larger\n"; // jawne wywołanie max&lt;int&gt;
 
     Pair&lt;double&gt; p2{ 1.2, 3.4 };
-    std::cout &lt;&lt; max(p2) &lt;&lt; &#34; is larger\n&#34;; // call to max&lt;double&gt; using template argument deduction (prefer this)
+    std::cout &lt;&lt; max(p2) &lt;&lt; " is larger\n"; // wywołaj max&lt;double&gt; używając odliczenia argumentów szablonu (preferuj to)
 
     return 0;
 }</code></pre><p>Klasa <code>max()</code> szablon funkcji jest całkiem prosty. Ponieważ chcemy przekazać  <code>Pair&lt;T></code>, kompilator musi zrozumieć, co <code>T</code> to jest. Dlatego musimy rozpocząć naszą funkcję od deklaracji parametrów szablonu, która definiuje typ szablonu T. Możemy następnie użyć  <code>T</code> jako naszego typu zwracanego i typu szablonu dla <code>Pair&lt;T></code>.<p>Gdy <code>max()</code> funkcja zostanie wywołana z argumentem <code>Pair&lt;int></code> , kompilator utworzy instancję funkcji <code>int max&lt;int>(Pair&lt;int>)</code> z szablonu funkcji, gdzie szablon typ <code>T</code> zastępuje się  <code>int</code>. Poniższy fragment pokazuje, co kompilator faktycznie tworzy w takim przypadku:<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">template &lt;&gt;
@@ -202,8 +202,8 @@ constexpr int max(Pair&lt;int&gt; p)
 }</code></pre><p>Jak w przypadku wszystkich wywołań szablonu funkcji, możemy albo wyraźnie określić argument typu szablonu (np.  <code>max&lt;int>(p1)</code>), albo możemy to zrobić niejawnie (np.  <code>max(p2)</code>) i pozwolić kompilatorowi użyć dedukcji argumentów szablonu, aby określić, jaki powinien być argument typu szablonu.<p class="cpp-section cpp-topline" style=clear:both>Szablony klas z elementami typu szablonowego i elementami niebędącymi szablonami<p>Szablony klas mogą mieć niektóre elementy korzystające z typu szablonowego, a inne elementy korzystające z typu normalnego (niebędącego szablonem). Na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">template &lt;typename T&gt;
 struct Foo
 {
-    T first{};    // first will have whatever type T is replaced with
-    int second{}; // second will always have type int, regardless of what type T is
+    T first{};    // najpierw będzie dowolny typ T zostaje zastąpiony przez
+    int second{}; // sekunda zawsze będzie miała typ int, niezależnie od typu T
 };</code></pre><p>Działa to dokładnie tak, jak można się spodziewać: <code>first</code> będzie niezależnie od typu szablonu <code>T</code> i <code>second</code> zawsze będzie <code>int</code>.<p class="cpp-section cpp-topline" style=clear:both>szablonem klas z wieloma typami szablonów<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>Szablony klas mogą również mieć wiele typów szablonów. Na przykład, jeśli chcemy, aby dwaj członkowie naszej klasy <code>Pair</code> mogli mieć różne typy, możemy zdefiniować nasz szablon klasy <code>Pair</code> z dwoma typami szablonów:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 template &lt;typename T, typename U&gt;
@@ -216,14 +216,14 @@ struct Pair
 template &lt;typename T, typename U&gt;
 void print(Pair&lt;T, U&gt; p)
 {
-    std::cout &lt;&lt; &#39;[&#39; &lt;&lt; p.first &lt;&lt; &#34;, &#34; &lt;&lt; p.second &lt;&lt; &#39;]&#39;;
+    std::cout &lt;&lt; '[' &lt;&lt; p.first &lt;&lt; ", " &lt;&lt; p.second &lt;&lt; ']';
 }
 
 int main()
 {
-    Pair&lt;int, double&gt; p1{ 1, 2.3 }; // a pair holding an int and a double
-    Pair&lt;double, int&gt; p2{ 4.5, 6 }; // a pair holding a double and an int
-    Pair&lt;int, int&gt; p3{ 7, 8 };      // a pair holding two ints
+    Pair&lt;int, double&gt; p1{ 1, 2.3 }; // para zawierająca int i double
+    Pair&lt;double, int&gt; p2{ 4.5, 6 }; // para zawierająca double i int
+    Pair&lt;int, int&gt; p3{ 7, 8 };      // para zawierająca dwa inty
 
     print(p2);
 
@@ -232,7 +232,7 @@ int main()
 void print(Pair&lt;T, U&gt; p)
 {
     std::cout &lt;&lt; &#39;[&#39; &lt;&lt; p.first &lt;&lt; &#34;, &#34; &lt;&lt; p.second &lt;&lt; &#39;]&#39;;
-}</code></pre><p>Ponieważ jawnie zdefiniowaliśmy parametr funkcji jako a <code>Pair&lt;T, U></code>, tylko argumenty typu <code>Pair&lt;T, U></code> (lub takie, które można przekonwertować na <code>Pair&lt;T, U></code>) będzie pasować. Jest to idealne rozwiązanie, jeśli chcemy móc wywoływać naszą funkcję tylko z <code>Pair&lt;T, U></code> argumentem.<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><p>W niektórych przypadkach możemy napisać szablony funkcji, których chcemy używać z dowolnym typem, który pomyślnie się skompiluje. Aby to zrobić, po prostu używamy parametru szablonu typu jako parametru funkcji.<p>Na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+}</code></pre><p>Ponieważ jawnie zdefiniowaliśmy parametr funkcji jako <code>Pair&lt;T, U></code>, tylko argumenty typu <code>Pair&lt;T, U></code> (lub takie, które można przekonwertować na <code>Pair&lt;T, U></code>) będzie pasować. Jest to idealne rozwiązanie, jeśli chcemy móc wywoływać naszą funkcję tylko z <code>Pair&lt;T, U></code> argumentem.<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><p>W niektórych przypadkach możemy napisać szablony funkcji, których chcemy używać z dowolnym typem, który pomyślnie się skompiluje. Aby to zrobić, po prostu używamy parametru szablonu typu jako parametru funkcji.<p>Na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 template &lt;typename T, typename U&gt;
 struct Pair
@@ -248,50 +248,50 @@ struct Point
 };
 
 template &lt;typename T&gt;
-void print(T p) // type template parameter will match anything
+void print(T p) // parametr szablonu typu będzie pasował do wszystkiego
 {
-    std::cout &lt;&lt; &#39;[&#39; &lt;&lt; p.first &lt;&lt; &#34;, &#34; &lt;&lt; p.second &lt;&lt; &#39;]&#39;; // will only compile if type has first and second members
+    std::cout &lt;&lt; '[' &lt;&lt; p.first &lt;&lt; ", " &lt;&lt; p.second &lt;&lt; ']'; // zostanie skompilowany tylko wtedy, gdy typ ma pierwszego i drugiego członka
 }
 
 int main()
 {
     Pair&lt;double, int&gt; p1{ 4.5, 6 };
-    print(p1); // matches print(Pair&lt;double, int&gt;)
+    print(p1); // dopasowuje print(Pair&lt;double, int&gt;)
 
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
 
     Point p2 { 7, 8 };
-    print(p2); // matches print(Point)
+    print(p2); // dopasowuje print(Point)
 
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
     
     return 0;
 }</code></pre><p>W powyższym przykładzie przerobiliśmy <code>print()</code> tak, aby miał tylko jeden parametr szablonu typu (<code>T</code>), który będzie pasował do dowolnego typu. Treść funkcji zostanie pomyślnie skompilowana dla dowolnego typu klasy, który ma element  <code>first</code> i <code>second</code> . Pokazujemy to wywołując  <code>print()</code> z obiektem typu <code>Pair&lt;double, int></code>, a następnie ponownie z obiektem typu <code>Point</code>.<p>Jest jeden przypadek, który może wprowadzić w błąd. Rozważ następującą wersję  <code>print()</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">template &lt;typename T, typename U&gt;
-struct Pair // defines a class type named Pair
+struct Pair // Określenie typ klasy o nazwie Pair
 {
     T first{};
     U second{};
 };
 
-template &lt;typename Pair&gt; // defines a type template parameter named Pair (shadows Pair class type)
-void print(Pair p)       // this refers to template parameter Pair, not class type Pair
+template &lt;typename Pair&gt; // definiuje parametr szablonu typu o parametrze Para (cienie Typ klasy Pair)
+void print(Pair p)       // to odnosi się do parametru szablonu Para, a nie typ klasy Para
 {
-    std::cout &lt;&lt; &#39;[&#39; &lt;&lt; p.first &lt;&lt; &#34;, &#34; &lt;&lt; p.second &lt;&lt; &#39;]&#39;;
+    std::cout &lt;&lt; '[' &lt;&lt; p.first &lt;&lt; ", " &lt;&lt; p.second &lt;&lt; ']';
 }</code></pre><p>Można się spodziewać, że ta funkcja będzie pasować tylko wtedy, gdy zostanie wywołana z  <code>Pair</code> argumentem typu klasy. Ale ta wersja <code>print()</code> jest funkcjonalnie identyczna z poprzednią wersją, w której parametr szablonu został nazwany <code>T</code> i będzie pasować do <em>dowolnego</em> typu. Problem polega na tym, że gdy zdefiniujemy  <code>Pair</code> jako parametr szablonu typu, przesłania to inne zastosowania nazwy <code>Pair</code> w zakresie globalnym. Zatem w szablonie funkcji <code>Pair</code> odnosi się do parametru szablonu <code>Pair</code>, a nie do typu klasy <code>Pair</code>. A ponieważ parametr szablonu typu będzie pasował do dowolnego typu,  <code>Pair</code> pasuje do dowolnego typu argumentów, a nie tylko typu klasowego <code>Pair</code>!<p>Jest to dobry powód, aby trzymać się prostych nazw parametrów szablonu, takich jak <code>T</code>, <code>U</code>, <code>N</code>, ponieważ jest mniej prawdopodobne, że będą one przesłaniały nazwę typu klasy.<p class="cpp-section cpp-topline" style=clear:both>std::pair<p>Ponieważ praca z parami danych jest powszechna, Biblioteka standardowa C++ zawiera szablon klasy o nazwie <code>std::pair</code> (w <code>&lt;utility></code> nagłówku), który jest zdefiniowany identycznie jak szablon klasy <code>Pair</code> z wieloma typami szablonów w poprzedniej sekcji. W rzeczywistości możemy zamienić <code>pair</code> strukturę, którą opracowaliśmy dla <code>std::pair</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;utility&gt;
 
 template &lt;typename T, typename U&gt;
 void print(std::pair&lt;T, U&gt; p)
 {
-    // the members of std::pair have predefined names `first` and `second`
-    std::cout &lt;&lt; &#39;[&#39; &lt;&lt; p.first &lt;&lt; &#34;, &#34; &lt;&lt; p.second &lt;&lt; &#39;]&#39;;
+    // elementy std::pair mają predefiniowane nazwy `pierwszy` i `drugi`
+    std::cout &lt;&lt; '[' &lt;&lt; p.first &lt;&lt; ", " &lt;&lt; p.second &lt;&lt; ']';
 }
 
 int main()
 {
-    std::pair&lt;int, double&gt; p1{ 1, 2.3 }; // a pair holding an int and a double
-    std::pair&lt;double, int&gt; p2{ 4.5, 6 }; // a pair holding a double and an int
-    std::pair&lt;int, int&gt; p3{ 7, 8 };      // a pair holding two ints
+    std::pair&lt;int, double&gt; p1{ 1, 2.3 }; // para zawierająca int i double
+    std::pair&lt;double, int&gt; p2{ 4.5, 6 }; // para zawierająca double i int
+    std::pair&lt;int, int&gt; p3{ 7, 8 };      // para zawierająca dwa inty
 
     print(p2);
 
@@ -319,15 +319,15 @@ void foo()
 {
     Pair&lt;int&gt; p1{ 1, 2 };
     std::cout &lt;&lt; max(p1) &lt;&lt; &#34; is larger\n&#34;;
-}</code></pre><p>main.cpp:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &#34;pair.h&#34;
+}</code></pre><p>main.cpp:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include "pair.h"
 #include &lt;iostream&gt;
 
-void foo(); // forward declaration for function foo()
+void foo(); // deklaracja forward dla funkcji foo()
 
 int main()
 {
     Pair&lt;double&gt; p2 { 3.4, 5.6 };
-    std::cout &lt;&lt; max(p2) &lt;&lt; &#34; is larger\n&#34;;
+    std::cout &lt;&lt; max(p2) &lt;&lt; " is larger\n";
 
     foo();
 

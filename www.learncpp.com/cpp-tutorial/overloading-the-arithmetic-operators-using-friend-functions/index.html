@@ -31,17 +31,17 @@ private:
 public:
 	Cents(int cents) : m_cents{ cents } { }
 
-	// add Cents + Cents using a friend function
+	// dodaj centy + centy za pomocą przyjaciela funkcja
 	friend Cents operator+(const Cents&amp; c1, const Cents&amp; c2);
 
 	int getCents() const { return m_cents; }
 };
 
-// note: this function is not a member function!
+// uwaga: ta funkcja nie jest funkcją składową funkcja!
 Cents operator+(const Cents&amp; c1, const Cents&amp; c2)
 {
-	// use the Cents constructor and operator+(int, int)
-	// we can access m_cents directly because this is a friend function
+	// użyj konstruktora Cents i operatora+(int, int)
+	// możemy uzyskać bezpośredni dostęp do m_cents, ponieważ jest to funkcja znajomego
 	return c1.m_cents + c2.m_cents;
 }
 
@@ -50,7 +50,7 @@ int main()
 	Cents cents1{ 6 };
 	Cents cents2{ 8 };
 	Cents centsSum{ cents1 + cents2 };
-	std::cout &lt;&lt; &#34;I have &#34; &lt;&lt; centsSum.getCents() &lt;&lt; &#34; cents.\n&#34;;
+	std::cout &lt;&lt; "I have " &lt;&lt; centsSum.getCents() &lt;&lt; " cents.\n";
 
 	return 0;
 }</code></pre><p>Daje to wynik:<pre>I have 14 cents.
@@ -64,28 +64,28 @@ private:
 public:
 	explicit Cents(int cents) : m_cents{ cents } { }
 
-	// add Cents + Cents using a friend function
+	// dodaj centy + centy za pomocą przyjaciela funkcja
 	friend Cents operator+(const Cents&amp; c1, const Cents&amp; c2);
 
-	// subtract Cents - Cents using a friend function
+	// odejmij centy - centy używając funkcji znajomego
 	friend Cents operator-(const Cents&amp; c1, const Cents&amp; c2);
 
 	int getCents() const { return m_cents; }
 };
 
-// note: this function is not a member function!
+// uwaga: ta funkcja nie jest funkcją składową funkcja!
 Cents operator+(const Cents&amp; c1, const Cents&amp; c2)
 {
-	// use the Cents constructor and operator+(int, int)
-	// we can access m_cents directly because this is a friend function
+	// użyj konstruktora Cents i operatora+(int, int)
+	// możemy uzyskać bezpośredni dostęp do m_cents, ponieważ jest to funkcja znajomego
 	return Cents { c1.m_cents + c2.m_cents };
 }
 
-// note: this function is not a member function!
+// uwaga: ta funkcja nie jest funkcją składową funkcja!
 Cents operator-(const Cents&amp; c1, const Cents&amp; c2)
 {
-	// use the Cents constructor and operator-(int, int)
-	// we can access m_cents directly because this is a friend function
+	// użyj konstruktora Cents i operatora-(int, int)
+	// możemy uzyskać bezpośredni dostęp do m_cents, ponieważ jest to funkcja znajomego
 	return Cents { c1.m_cents - c2.m_cents };
 }
 
@@ -94,7 +94,7 @@ int main()
 	Cents cents1{ 6 };
 	Cents cents2{ 2 };
 	Cents centsSum{ cents1 - cents2 };
-	std::cout &lt;&lt; &#34;I have &#34; &lt;&lt; centsSum.getCents() &lt;&lt; &#34; cents.\n&#34;;
+	std::cout &lt;&lt; "I have " &lt;&lt; centsSum.getCents() &lt;&lt; " cents.\n";
 
 	return 0;
 }</code></pre><p>Przeciążanie operatora mnożenia (*) i operatora dzielenia (/) jest tak proste, jak definiowanie funkcji for <code>operator*</code> i <code>operator/</code> .<p class="cpp-section cpp-topline" style=clear:both>Funkcje znajomych można definiować wewnątrz klasy<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Nawet jeśli funkcje zaprzyjaźnione nie są członkami klasy, w razie potrzeby można je zdefiniować wewnątrz klasy:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -107,12 +107,12 @@ private:
 public:
 	explicit Cents(int cents) : m_cents{ cents } { }
 
-	// add Cents + Cents using a friend function
-        // This function is not considered a member of the class, even though the definition is inside the class
+	// dodaj centy + centy za pomocą przyjaciela funkcja
+        // Ta funkcja nie jest uważana za element członkowski klasy, nawet jeśli definicja znajduje się wewnątrz klasy
 	friend Cents operator+(const Cents&amp; c1, const Cents&amp; c2)
 	{
-		// use the Cents constructor and operator+(int, int)
-		// we can access m_cents directly because this is a friend function
+		// użyj konstruktora Cents i operatora+(int, int)
+		// możemy uzyskać bezpośredni dostęp do m_cents, ponieważ jest to funkcja znajomego
 		return Cents { c1.m_cents + c2.m_cents };
 	}
 
@@ -124,7 +124,7 @@ int main()
 	Cents cents1{ 6 };
 	Cents cents2{ 8 };
 	Cents centsSum{ cents1 + cents2 };
-	std::cout &lt;&lt; &#34;I have &#34; &lt;&lt; centsSum.getCents() &lt;&lt; &#34; cents.\n&#34;;
+	std::cout &lt;&lt; "I have " &lt;&lt; centsSum.getCents() &lt;&lt; " cents.\n";
 
 	return 0;
 }</code></pre><p>Jest to dobre w przypadku przeciążonych operatorów z trywialnymi implementacjami.<p class="cpp-section cpp-topline" style=clear:both>Przeciążanie operatorów dla operandów różnych typów<p>Często jest tak, że chcesz, aby przeciążone operatory pracować z operandami różnych typów. Na przykład, jeśli mamy Cents(4), możemy dodać do tego liczbę całkowitą 6, aby otrzymać wynik Cents(10).<p>Gdy C++ ocenia wyrażenie <code>x + y</code>, x staje się pierwszym parametrem, a y drugim parametrem. Kiedy x i y mają ten sam typ, nie ma znaczenia, czy dodasz x + y, czy y + x - w obu przypadkach wywoływana jest ta sama wersja operator+. Jednakże, gdy operandy mają różne typy, x + y nie wywołuje tej samej funkcji co y + x.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>Dla przykład <code>Cents(4) + 6</code> wywołałoby operator+(Cents, int) i <code>6 + Cents(4)</code> wywołałoby operator+(int, Cents). W rezultacie, ilekroć przeciążamy operatory binarne dla operandów różnych typów, tak naprawdę musimy napisać dwie funkcje - po jednej dla każdego przypadku. Oto przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -137,29 +137,29 @@ private:
 public:
 	explicit Cents(int cents) : m_cents{ cents } { }
 
-	// add Cents + int using a friend function
+	// dodaj Centy + int za pomocą funkcji zaprzyjaźnionej
 	friend Cents operator+(const Cents&amp; c1, int value);
 
-	// add int + Cents using a friend function
+	// dodaj int + Centy za pomocą funkcji znajomego
 	friend Cents operator+(int value, const Cents&amp; c1);
 
 
 	int getCents() const { return m_cents; }
 };
 
-// note: this function is not a member function!
+// uwaga: ta funkcja nie jest funkcją składową funkcja!
 Cents operator+(const Cents&amp; c1, int value)
 {
-	// use the Cents constructor and operator+(int, int)
-	// we can access m_cents directly because this is a friend function
+	// użyj konstruktora Cents i operatora+(int, int)
+	// możemy uzyskać bezpośredni dostęp do m_cents, ponieważ jest to funkcja znajomego
 	return Cents { c1.m_cents + value };
 }
 
-// note: this function is not a member function!
+// uwaga: ta funkcja nie jest funkcją składową funkcja!
 Cents operator+(int value, const Cents&amp; c1)
 {
-	// use the Cents constructor and operator+(int, int)
-	// we can access m_cents directly because this is a friend function
+	// użyj konstruktora Cents i operatora+(int, int)
+	// możemy uzyskać bezpośredni dostęp do m_cents, ponieważ jest to funkcja znajomego
 	return Cents { c1.m_cents + value };
 }
 
@@ -168,8 +168,8 @@ int main()
 	Cents c1{ Cents{ 4 } + 6 };
 	Cents c2{ 6 + Cents{ 4 } };
 
-	std::cout &lt;&lt; &#34;I have &#34; &lt;&lt; c1.getCents() &lt;&lt; &#34; cents.\n&#34;;
-	std::cout &lt;&lt; &#34;I have &#34; &lt;&lt; c2.getCents() &lt;&lt; &#34; cents.\n&#34;;
+	std::cout &lt;&lt; "I have " &lt;&lt; c1.getCents() &lt;&lt; " cents.\n";
+	std::cout &lt;&lt; "I have " &lt;&lt; c2.getCents() &lt;&lt; " cents.\n";
 
 	return 0;
 }</code></pre><p>Zauważ, że obie przeciążone funkcje mają tę samą implementację — dzieje się tak dlatego, że robią to samo, tylko przyjmują parametry w innej kolejności.<p class="cpp-section cpp-topline" style=clear:both>Kolejny przykład<p>Przyjrzyjmy się innemu przykładowi:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -177,8 +177,8 @@ int main()
 class MinMax
 {
 private:
-	int m_min {}; // The min value seen so far
-	int m_max {}; // The max value seen so far
+	int m_min {}; // Minimalna wartość zaobserwowana do tej pory
+	int m_max {}; // Maksymalna wartość zaobserwowana do tej pory
 
 public:
 	MinMax(int min, int max)
@@ -195,10 +195,10 @@ public:
 
 MinMax operator+(const MinMax&amp; m1, const MinMax&amp; m2)
 {
-	// Get the minimum value seen in m1 and m2
+	// Uzyskaj minimalną wartość widoczną w m1 i m2
 	int min{ m1.m_min &lt; m2.m_min ? m1.m_min : m2.m_min };
 
-	// Get the maximum value seen in m1 and m2
+	// Uzyskaj maksymalną wartość widzianą w m1 i m2
 	int max{ m1.m_max &gt; m2.m_max ? m1.m_max : m2.m_max };
 
 	return MinMax { min, max };
@@ -206,10 +206,10 @@ MinMax operator+(const MinMax&amp; m1, const MinMax&amp; m2)
 
 MinMax operator+(const MinMax&amp; m, int value)
 {
-	// Get the minimum value seen in m and value
+	// Uzyskaj minimalną wartość widoczną w m i wartość
 	int min{ m.m_min &lt; value ? m.m_min : value };
 
-	// Get the maximum value seen in m and value
+	// Uzyskaj maksymalną wartość widoczną w m i wartość
 	int max{ m.m_max &gt; value ? m.m_max : value };
 
 	return MinMax { min, max };
@@ -217,7 +217,7 @@ MinMax operator+(const MinMax&amp; m, int value)
 
 MinMax operator+(int value, const MinMax&amp; m)
 {
-	// calls operator+(MinMax, int)
+	// wywołania operatora+(MinMax, int)
 	return m + value;
 }
 
@@ -229,8 +229,8 @@ int main()
 
 	MinMax mFinal{ m1 + m2 + 5 + 8 + m3 + 16 };
 
-	std::cout &lt;&lt; &#34;Result: (&#34; &lt;&lt; mFinal.getMin() &lt;&lt; &#34;, &#34; &lt;&lt;
-		mFinal.getMax() &lt;&lt; &#34;)\n&#34;;
+	std::cout &lt;&lt; "Result: (" &lt;&lt; mFinal.getMin() &lt;&lt; ", " &lt;&lt;
+		mFinal.getMax() &lt;&lt; ")\n";
 
 	return 0;
 }</code></pre><p>Klasa MinMax śledzi minimalne i maksymalne wartości, które do tej pory zobaczyła. Przeciążyliśmy operator + 3 razy, abyśmy mogli dodać dwa obiekty MinMax razem lub dodać liczby całkowite do obiektów MinMax.<p>Ten przykład daje wynik:<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><pre>Result: (3, 16)
@@ -319,16 +319,16 @@ public:
 	{
 	}
 
-	// We don&#39;t want to pass by value, because copying is slow.
-	// We can&#39;t and shouldn&#39;t pass by non-const reference, because then
-	// our functions wouldn&#39;t work with r-values.
+	// Nie chcemy przekazywać wartości, ponieważ kopiowanie jest powolne.
+	// Nie możemy i nie powinniśmy przekazywać referencji innych niż stałe, ponieważ wtedy
+	// nasze funkcje nie będą działać z wartościami r.
 	friend Fraction operator*(const Fraction&amp; f1, const Fraction&amp; f2);
 	friend Fraction operator*(const Fraction&amp; f1, int value);
 	friend Fraction operator*(int value, const Fraction&amp; f1);
 
 	void print() const
 	{
-		std::cout &lt;&lt; m_numerator &lt;&lt; &#39;/&#39; &lt;&lt; m_denominator &lt;&lt; &#39;\n&#39;;
+		std::cout &lt;&lt; m_numerator &lt;&lt; '/' &lt;&lt; m_denominator &lt;&lt; '\n';
 	}
 };
 
@@ -368,19 +368,19 @@ int main()
 	f6.print();
 
 	return 0;
-}</code></pre></div><p>c) Dlaczego program nadal działa poprawnie, jeśli konstruktor nie jest jawny i usuniemy operatory mnożenia liczb całkowitych z poprzedniego rozwiązania?<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Remove explicit from constructor
+}</code></pre></div><p>c) Dlaczego program nadal działa poprawnie, jeśli konstruktor nie jest jawny i usuniemy operatory mnożenia liczb całkowitych z poprzedniego rozwiązania?<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Usuń jawnie z konstruktora
 	Fraction(int numerator, int denominator=1)
 		: m_numerator{numerator}, m_denominator{denominator}
 	{
 	}
 
-// We can remove these operators, and the program continues to work
+// Możemy usunąć te operatory, a program będzie nadal działać
 Fraction operator*(const Fraction&amp; f1, int value);
-Fraction operator*(int value, const Fraction&amp; f1);</code></pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_2'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_2 style=display:none><p>Nadal mamy<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">Fraction operator*(const Fraction&amp; f1, const Fraction&amp; f2)</code></pre><p>Kiedy pomnożymy pomnóż ułamek przez liczbę całkowitą, na przykład<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">Fraction f5{ 2 * f2 };</code></pre><p>Niejawny <code>Fraction(int, int)</code> konstruktor zostanie użyty do skonstruowania nowego <code>Fraction</code> z 2. Ten nowy <code>Fraction</code> jest następnie mnożony przez <code>f2</code> za pomocą konstruktora <code>Fraction * Fraction</code> operator.<p>Ponieważ wymaga to konwersji <code>2</code> do <code>Fraction</code>, jest to nieco wolniejsze niż implementacja z przeciążonymi operatorami dla liczb całkowitych mnożenie.</div><p>d) Jeżeli parametry referencyjne  <code>operator*(Fraction, Fraction)</code> nie będą stałymi, następujący wiersz funkcji <code>main</code> przestanie działać. Dlaczego?<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// The non-const multiplication operator looks like this
+Fraction operator*(int value, const Fraction&amp; f1);</code></pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_2'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_2 style=display:none><p>Nadal mamy<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">Fraction operator*(const Fraction&amp; f1, const Fraction&amp; f2)</code></pre><p>Kiedy pomnożymy pomnóż ułamek przez liczbę całkowitą, na przykład<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">Fraction f5{ 2 * f2 };</code></pre><p>Niejawny <code>Fraction(int, int)</code> konstruktor zostanie użyty do skonstruowania nowego <code>Fraction</code> z 2. Ten nowy <code>Fraction</code> jest następnie mnożony przez <code>f2</code> za pomocą konstruktora <code>Fraction * Fraction</code> operator.<p>Ponieważ wymaga to konwersji <code>2</code> do <code>Fraction</code>, jest to nieco wolniejsze niż implementacja z przeciążonymi operatorami dla liczb całkowitych mnożenie.</div><p>d) Jeżeli parametry referencyjne  <code>operator*(Fraction, Fraction)</code> nie będą stałymi, następujący wiersz funkcji <code>main</code> przestanie działać. Dlaczego?<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Operator mnożenia inny niż stały wygląda tak
 Fraction operator*(Fraction&amp; f1, Fraction&amp; f2)
 
-// This doesn&#39;t work anymore
-Fraction f6{ Fraction{1, 2} * Fraction{2, 3} * Fraction{3, 4} };</code></pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_3'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_3 style=display:none><p>Mnożymy obiekty tymczasowe <code>Fraction</code> , ale odniesienia inne niż stałe nie mogą wiązać się z obiektami tymczasowymi.</div><p>e) Dodatkowe zaliczenie: ułamek 2/4 jest taki sam jak 1/2, ale 2/4 nie jest zredukowany do najniższych wartości. Możemy zredukować dowolny ułamek do najniższego wyrazu, znajdując największy wspólny dzielnik (NWD) pomiędzy licznikiem a mianownikiem, a następnie dzieląc licznik i mianownik przez NWD. <p><code>std::gcd()</code> został dodany do standardowej biblioteki w C++17 (w nagłówku &lt;numeric&gt;).<p>Jeśli używasz starszego kompilatora, możesz użyć tej funkcji, aby znaleźć GCD:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cmath&gt; // for std::abs
+// To już nie działa
+Fraction f6{ Fraction{1, 2} * Fraction{2, 3} * Fraction{3, 4} };</code></pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_3'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_3 style=display:none><p>Mnożymy obiekty tymczasowe <code>Fraction</code> , ale odniesienia inne niż stałe nie mogą wiązać się z obiektami tymczasowymi.</div><p>e) Dodatkowe zaliczenie: ułamek 2/4 jest taki sam jak 1/2, ale 2/4 nie jest zredukowany do najniższych wartości. Możemy zredukować dowolny ułamek do najniższego wyrazu, znajdując największy wspólny dzielnik (NWD) pomiędzy licznikiem a mianownikiem, a następnie dzieląc licznik i mianownik przez NWD. <p><code>std::gcd()</code> został dodany do standardowej biblioteki w C++17 (w nagłówku &lt;numeric&gt;).<p>Jeśli używasz starszego kompilatora, możesz użyć tej funkcji, aby znaleźć GCD:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cmath&gt; // dla std::abs
 
 int gcd(int a, int b) {
     return (b == 0) ? std::abs(a) : gcd(b, a % b);
@@ -418,9 +418,9 @@ int main()
 1/4
 0/1
 </pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_4'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_4 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
-#include &lt;numeric&gt; // for std::gcd
+#include &lt;numeric&gt; // dla std::gcd
 
-// This version of the Fraction class auto-reduces fractions
+// Ta wersja klasy Fraction automatycznie redukuje ułamki
 class Fraction
 {
 private:
@@ -431,15 +431,15 @@ public:
 	explicit Fraction(int numerator, int denominator = 1)
 		: m_numerator{ numerator }, m_denominator{ denominator }
 	{
-		// We put reduce() in the constructor to ensure any fractions we make get reduced!
-		// Since all of the overloaded operators create new Fractions, we can guarantee this will get called here
+		// Wstawiamy funkcję redukcji() do konstruktora, aby mieć pewność, że wszystkie ułamki, które wykonamy, zostaną zmniejszone!
+		// Ponieważ wszyscy przeciążeni operatorzy tworzą nowe Ułamki, możemy zagwarantować, że zostanie to wywołane tutaj
 		reduce();
 	}
 
 	void reduce()
 	{
 		int gcd{ std::gcd(m_numerator, m_denominator) };
-		if (gcd) // Make sure we don&#39;t try to divide by 0
+		if (gcd) // Upewnij się, że nie próbujemy dzielić przez 0
 		{
 			m_numerator /= gcd;
 			m_denominator /= gcd;
@@ -452,7 +452,7 @@ public:
 
 	void print() const
 	{
-		std::cout &lt;&lt; m_numerator &lt;&lt; &#39;/&#39; &lt;&lt; m_denominator &lt;&lt; &#39;\n&#39;;
+		std::cout &lt;&lt; m_numerator &lt;&lt; '/' &lt;&lt; m_denominator &lt;&lt; '\n';
 	}
 };
 

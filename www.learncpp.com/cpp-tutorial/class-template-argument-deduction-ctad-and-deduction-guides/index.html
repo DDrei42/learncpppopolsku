@@ -13,31 +13,31 @@
 <button class=searchsubmit><span class=screen-reader-text>Szukaj</span><i class=icon-search></i></button>
 <input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=51612></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="13.14 — Dedukcja i dedukcja argumentów szablonu klasy (CTAD) przewodniki" src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-13001 class="post-13001 post type-post status-publish format-standard hentry category-cpp-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>13.14 — Dedukcja i dedukcja argumentów szablonu klasy (CTAD) przewodniki</h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Autor></i><a class="url fn n" rel=author href=/www.learncpp.com/author/Alex/ title="Wyświetl wszystkie posty Alexa" itemprop=url><em itemprop=name>Alex</em></a></span>
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2022-04-24T19:49:30-07:00 itemprop=datePublished>24 kwietnia 2022 r., 19:49 czasu PDT</time>
-<time class=updated datetime=2024-03-25T14:48:52-07:00 itemprop=dateModified>25 marca, 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p class=cpp-section><a name=CTAD></a>Dedukcja argumentów szablonu klasy (CTAD) <span class="cpp-section-pill cpp-section-standard">C++17</span> <a href="index.html#CTAD"><i class="fa fa-link" style=font-size:.8em></i></a><p>Począwszy od C++17, podczas tworzenia instancji obiektu na podstawie szablonu klasy, kompilator może wywnioskować typy szablonów z typów inicjatora obiektu (nazywa się to w skrócie <strong>dedukcją argumentów szablonu klasy</strong> lub <strong>CTAD</strong> ). Na przykład: <pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;utility&gt; // for std::pair
+<time class=updated datetime=2024-03-25T14:48:52-07:00 itemprop=dateModified>25 marca, 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p class=cpp-section><a name=CTAD></a>Dedukcja argumentów szablonu klasy (CTAD) <span class="cpp-section-pill cpp-section-standard">C++17</span> <a href="index.html#CTAD"><i class="fa fa-link" style=font-size:.8em></i></a><p>Począwszy od C++17, podczas tworzenia instancji obiektu na podstawie szablonu klasy, kompilator może wywnioskować typy szablonów z typów inicjatora obiektu (nazywa się to w skrócie <strong>dedukcją argumentów szablonu klasy</strong> lub <strong>CTAD</strong> ). Na przykład: <pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;utility&gt; // dla std::pair
 
 int main()
 {
-    std::pair&lt;int, int&gt; p1{ 1, 2 }; // explicitly specify class template std::pair&lt;int, int&gt; (C++11 onward)
-    std::pair p2{ 1, 2 };           // CTAD used to deduce std::pair&lt;int, int&gt; from the initializers (C++17)
+    std::pair&lt;int, int&gt; p1{ 1, 2 }; // jawnie określ szablon klasy std::pair&lt;int, int&gt; (C++11 i nowsze)
+    std::pair p2{ 1, 2 };           // CTAD użyte do wydedukowania std::pair&lt;int, int&gt; z inicjatorów (C++17)
 
     return 0;
-}</code></pre><p>CTAD jest wykonywane tylko wtedy, gdy nie istnieje żadna szablonowa lista argumentów. Dlatego oba poniższe przypadki są błędami:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;utility&gt; // for std::pair
+}</code></pre><p>CTAD jest wykonywane tylko wtedy, gdy nie istnieje żadna szablonowa lista argumentów. Dlatego oba poniższe przypadki są błędami:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;utility&gt; // dla std::pair
 
 int main()
 {
-    std::pair&lt;&gt; p1 { 1, 2 };    // error: too few template arguments, both arguments not deduced
-    std::pair&lt;int&gt; p2 { 3, 4 }; // error: too few template arguments, second argument not deduced
+    std::pair&lt;&gt; p1 { 1, 2 };    // błąd: za mało argumentów szablonu, nie wydedukowano obu argumentów
+    std::pair&lt;int&gt; p2 { 3, 4 }; // błąd: za mało argumentów szablonu, nie wydedukowano drugiego argumentu
 
     return 0;
-}</code></pre><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nota autora<p>Wiele przyszłych lekcji na tej stronie korzysta z CTAD. Jeśli kompilujesz te przykłady przy użyciu standardu C++ 14 (lub starszego), pojawi się błąd dotyczący brakujących argumentów szablonu. Będziesz musiał jawnie dodać takie argumenty do przykładu, aby go skompilować.</div><p>Ponieważ CTAD jest formą dedukcji typu, możemy użyć sufiksów dosłownych, aby zmienić wydedukowany typ:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;utility&gt; // for std::pair
+}</code></pre><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nota autora<p>Wiele przyszłych lekcji na tej stronie korzysta z CTAD. Jeśli kompilujesz te przykłady przy użyciu standardu C++ 14 (lub starszego), pojawi się błąd dotyczący brakujących argumentów szablonu. Będziesz musiał jawnie dodać takie argumenty do przykładu, aby go skompilować.</div><p>Ponieważ CTAD jest formą dedukcji typu, możemy użyć sufiksów dosłownych, aby zmienić wydedukowany typ:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;utility&gt; // dla std::pair
 
 int main()
 {
-    std::pair p1 { 3.4f, 5.6f }; // deduced to pair&lt;float, float&gt;
-    std::pair p2 { 1u, 2u };     // deduced to pair&lt;unsigned int, unsigned int&gt;
+    std::pair p1 { 3.4f, 5.6f }; // wydedukowano do pary&lt;float, float&gt;
+    std::pair p2 { 1u, 2u };     // wydedukowano do pary&lt;unsigned int, unsigned int&gt;
 
     return 0;
-}</code></pre><p class="cpp-section cpp-topline" style=clear:both><a name=DeductionGuide></a>Przewodniki po dedukowaniu argumentów w szablonie <span class="cpp-section-pill cpp-section-standard">C++17</span> <a href="index.html#DeductionGuide"><i class="fa fa-link" style=font-size:.8em></i></a><div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>W większości przypadków CTAD działa od razu po wyjęciu z pudełka. Jednak w niektórych przypadkach kompilator może potrzebować dodatkowej pomocy w zrozumieniu, jak prawidłowo wydedukować argumenty szablonu.<p>Możesz być zaskoczony, gdy odkryjesz, że następujący program (który jest prawie identyczny z przykładem, w którym zastosowano <code>std::pair</code> powyżej) nie kompiluje się w C++17 (tylko):<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// define our own Pair type
+}</code></pre><p class="cpp-section cpp-topline" style=clear:both><a name=DeductionGuide></a>Przewodniki po dedukowaniu argumentów w szablonie <span class="cpp-section-pill cpp-section-standard">C++17</span> <a href="index.html#DeductionGuide"><i class="fa fa-link" style=font-size:.8em></i></a><div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>W większości przypadków CTAD działa od razu po wyjęciu z pudełka. Jednak w niektórych przypadkach kompilator może potrzebować dodatkowej pomocy w zrozumieniu, jak prawidłowo wydedukować argumenty szablonu.<p>Możesz być zaskoczony, gdy odkryjesz, że następujący program (który jest prawie identyczny z przykładem, w którym zastosowano <code>std::pair</code> powyżej) nie kompiluje się w C++17 (tylko):<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// zdefiniuj własny typ pary
 template &lt;typename T, typename U&gt;
 struct Pair
 {
@@ -47,8 +47,8 @@ struct Pair
 
 int main()
 {
-    Pair&lt;int, int&gt; p1{ 1, 2 }; // ok: we&#39;re explicitly specifying the template arguments
-    Pair p2{ 1, 2 };           // compile error in C++17 (okay in C++20)
+    Pair&lt;int, int&gt; p1{ 1, 2 }; // ok: jawnie określamy argumenty szablonu
+    Pair p2{ 1, 2 };           // błąd kompilacji w C++17 (w porządku w C++20)
 
     return 0;
 }</code></pre><p>Jeśli skompilujesz to w C++17, prawdopodobnie pojawi się błąd o „dedukcja argumentów szablonu klasy nie powiodła się” lub „nie można wydedukować argumentów szablonu” lub „Brak wykonalnego konstruktora lub przewodnika po dedukcjach”. Dzieje się tak, ponieważ w C++17 CTAD nie wie, jak wywnioskować argumenty szablonu dla szablonów klas zagregowanych. Aby rozwiązać ten problem, możemy udostępnić kompilatorowi <strong>przewodnik po dedukcjach</strong>, który informuje kompilator, jak wydedukować argumenty szablonu dla danego szablonu klasy.<p>Oto ten sam program z przewodnikiem po dedukcjach:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">template &lt;typename T, typename U&gt;
@@ -58,39 +58,39 @@ struct Pair
     U second{};
 };
 
-// Here&#39;s a deduction guide for our Pair (needed in C++17 only)
-// Pair objects initialized with arguments of type T and U should deduce to Pair&lt;T, U&gt;
+// Oto przewodnik po dedukcjach dla naszej para (wymagana tylko w C++17)
+// Obiekty par zainicjowane argumentami typu T i U powinny wydedukować Pair&lt;T, U&gt;
 template &lt;typename T, typename U&gt;
 Pair(T, U) -&gt; Pair&lt;T, U&gt;;
     
 int main()
 {
-    Pair&lt;int, int&gt; p1{ 1, 2 }; // explicitly specify class template Pair&lt;int, int&gt; (C++11 onward)
-    Pair p2{ 1, 2 };           // CTAD used to deduce Pair&lt;int, int&gt; from the initializers (C++17)
+    Pair&lt;int, int&gt; p1{ 1, 2 }; // jawnie określ szablon klasy Pair&lt;int, int&gt; (C++11 i nowsze)
+    Pair p2{ 1, 2 };           // CTAD użyte do wydedukowania Pair&lt;int, int&gt; z inicjatorów (C++17)
 
     return 0;
-}</code></pre><p>Ten przykład powinien zostać skompilowany w języku C++17.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Przewodnik po dedukcjach dla nasza <code>Pair</code> klasa jest dość prosta, ale przyjrzyjmy się bliżej, jak to działa.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Here&#39;s a deduction guide for our Pair (needed in C++17 only)
-// Pair objects initialized with arguments of type T and U should deduce to Pair&lt;T, U&gt;
+}</code></pre><p>Ten przykład powinien zostać skompilowany w języku C++17.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Przewodnik po dedukcjach dla nasza <code>Pair</code> klasa jest dość prosta, ale przyjrzyjmy się bliżej, jak to działa.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Oto przewodnik po dedukcjach dla naszej para (wymagana tylko w C++17)
+// Obiekty par zainicjowane argumentami typu T i U powinny wydedukować Pair&lt;T, U&gt;
 template &lt;typename T, typename U&gt;
-Pair(T, U) -&gt; Pair&lt;T, U&gt;;</code></pre><p>Najpierw używamy tej samej definicji typu szablonu, co w naszej klasie <code>Pair</code> . Ma to sens, ponieważ jeśli nasz przewodnik dedukcji ma powiedzieć kompilatorowi, jak wydedukować typy dla a <code>Pair&lt;T, U></code>, musimy zdefiniować, czym <code>T</code> i <code>U</code> są (typy szablonów). Po drugie, po prawej stronie strzałki znajduje się typ, który pomagamy kompilatorowi wydedukować. W tym przypadku chcemy, aby kompilator potrafił wydedukować argumenty szablonu dla obiektów typu  <code>Pair&lt;T, U></code>, więc właśnie to tutaj umieściliśmy. Na koniec, po lewej stronie strzałki, mówimy kompilatorowi, jakiego rodzaju deklaracji ma szukać. W tym przypadku mówimy mu, aby szukał deklaracji jakiegoś obiektu o nazwie  <code>Pair</code> z dwoma argumentami (jeden typu  <code>T</code>, drugi typu  <code>U</code>). Moglibyśmy to również zapisać jako <code>Pair(T t, U u)</code> (gdzie <code>t</code> i <code>u</code> są nazwami parametrów, ale ponieważ nie używamy <code>t</code> i <code>u</code>, nie musimy nadawać im nazw).<p>Łącząc to wszystko, mówimy kompilatorowi, że jeśli zobaczy deklarację a <code>Pair</code> z dwoma argumentami (z typy <code>T</code> i <code>U</code> ), powinien wywnioskować, że typem jest a <code>Pair&lt;T, U></code>.<p>Więc kiedy kompilator zobaczy definicję <code>Pair p2{ 1, 2 };</code> w naszym programie, powie: „och, to jest deklaracja a <code>Pair</code> i istnieją dwa argumenty typu <code>int</code> i <code>int</code>, więc korzystając z przewodnika dedukcji, powinienem wywnioskować, że to jest a <code>Pair&lt;int, int></code>“.<p>Oto podobny przykład pary, która przyjmuje pojedynczy typ szablonu:<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">template &lt;typename T&gt;
+Pair(T, U) -&gt; Pair&lt;T, U&gt;;</code></pre><p>Najpierw używamy tej samej definicji typu szablonu, co w naszej klasie <code>Pair</code> . Ma to sens, ponieważ jeśli nasz przewodnik dedukcji ma powiedzieć kompilatorowi, jak wydedukować typy dla <code>Pair&lt;T, U></code>, musimy zdefiniować, czym <code>T</code> i <code>U</code> są (typy szablonów). Po drugie, po prawej stronie strzałki znajduje się typ, który pomagamy kompilatorowi wydedukować. W tym przypadku chcemy, aby kompilator potrafił wydedukować argumenty szablonu dla obiektów typu  <code>Pair&lt;T, U></code>, więc właśnie to tutaj umieściliśmy. Na koniec, po lewej stronie strzałki, mówimy kompilatorowi, jakiego rodzaju deklaracji ma szukać. W tym przypadku mówimy mu, aby szukał deklaracji jakiegoś obiektu o nazwie  <code>Pair</code> z dwoma argumentami (jeden typu  <code>T</code>, drugi typu  <code>U</code>). Moglibyśmy to również zapisać jako <code>Pair(T t, U u)</code> (gdzie <code>t</code> i <code>u</code> są nazwami parametrów, ale ponieważ nie używamy <code>t</code> i <code>u</code>, nie musimy nadawać im nazw).<p>Łącząc to wszystko, mówimy kompilatorowi, że jeśli zobaczy deklarację <code>Pair</code> z dwoma argumentami (z typy <code>T</code> i <code>U</code> ), powinien wywnioskować, że typem jest <code>Pair&lt;T, U></code>.<p>Więc kiedy kompilator zobaczy definicję <code>Pair p2{ 1, 2 };</code> w naszym programie, powie: „och, to jest deklaracja <code>Pair</code> i istnieją dwa argumenty typu <code>int</code> i <code>int</code>, więc korzystając z przewodnika dedukcji, powinienem wywnioskować, że to jest <code>Pair&lt;int, int></code>“.<p>Oto podobny przykład pary, która przyjmuje pojedynczy typ szablonu:<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">template &lt;typename T&gt;
 struct Pair
 {
     T first{};
     T second{};
 };
 
-// Here&#39;s a deduction guide for our Pair (needed in C++17 only)
-// Pair objects initialized with arguments of type T and T should deduce to Pair&lt;T&gt;
+// Oto przewodnik po dedukcjach dla naszej para (wymagana tylko w C++17)
+// Obiekty par zainicjowane argumentami typu T i T powinny wydedukować Pair&lt;T&gt;
 template &lt;typename T&gt;
 Pair(T, T) -&gt; Pair&lt;T&gt;;
 
 int main()
 {
-    Pair&lt;int&gt; p1{ 1, 2 }; // explicitly specify class template Pair&lt;int&gt; (C++11 onward)
-    Pair p2{ 1, 2 };      // CTAD used to deduce Pair&lt;int&gt; from the initializers (C++17)
+    Pair&lt;int&gt; p1{ 1, 2 }; // jawnie określ szablon klasy Pair&lt;int&gt; (C++11 i nowsze)
+    Pair p2{ 1, 2 };      // CTAD użyte do wydedukowania Pair&lt;int&gt; z inicjatorów (C++17)
 
     return 0;
-}</code></pre><p>W tym przypadku nasz przewodnik po dedukcjach odwzorowuje a <code>Pair(T, T)</code> (a <code>Pair</code> z dwoma argumentami typu <code>T</code>) do a <code>Pair&lt;T></code>.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>C++ 20 dodał możliwość kompilatora automatycznego generowania przewodników dedukcji dla agregatów, więc przewodniki po dedukcjach powinny być dostarczane jedynie w celu zapewnienia zgodności z C++ 17.<p>Z tego powodu wersja  <code>Pair</code> bez przewodników dedukcyjnych powinna zostać skompilowana w C++ 20. <p><code>std::pair</code> (i inne standardowe typy szablonów bibliotek) są dostarczane z predefiniowanymi przewodnikami dedukcyjnymi, dlatego też nasz powyższy przykład, w którym  <code>std::pair</code> kompiluje się dobrze w C++ 17 bez konieczności samodzielnego dostarczania przewodników dedukcyjnych.</div><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Dla zaawansowanych czytelników<p>Nieagregowane nie potrzebujesz przewodników dedukcyjnych w C++17, ponieważ obecność konstruktora służy temu samemu celowi.</div><p class="cpp-section cpp-topline" style=clear:both>Wpisz parametry szablonu z wartościami domyślnymi<p>Tak jak parametry funkcji mogą mieć domyślne argumenty, tak parametry szablonu mogą otrzymać wartości domyślne. Będą one używane, gdy parametr szablonu nie jest jawnie określony i nie można go wydedukować.<p>Oto modyfikacja naszego <code>Pair&lt;T, U></code> programu szablonu klasy powyżej, z parametrami szablonu typów <code>T</code> i <code>U</code> domyślnie ustawionymi na type <code>int</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">template &lt;typename T=int, typename U=int&gt; // default T and U to type int
+}</code></pre><p>W tym przypadku nasz przewodnik po dedukcjach odwzorowuje <code>Pair(T, T)</code> (<code>Pair</code> z dwoma argumentami typu <code>T</code>) do <code>Pair&lt;T></code>.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>C++ 20 dodał możliwość kompilatora automatycznego generowania przewodników dedukcji dla agregatów, więc przewodniki po dedukcjach powinny być dostarczane jedynie w celu zapewnienia zgodności z C++ 17.<p>Z tego powodu wersja  <code>Pair</code> bez przewodników dedukcyjnych powinna zostać skompilowana w C++ 20. <p><code>std::pair</code> (i inne standardowe typy szablonów bibliotek) są dostarczane z predefiniowanymi przewodnikami dedukcyjnymi, dlatego też nasz powyższy przykład, w którym  <code>std::pair</code> kompiluje się dobrze w C++ 17 bez konieczności samodzielnego dostarczania przewodników dedukcyjnych.</div><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Dla zaawansowanych czytelników<p>Nieagregowane nie potrzebujesz przewodników dedukcyjnych w C++17, ponieważ obecność konstruktora służy temu samemu celowi.</div><p class="cpp-section cpp-topline" style=clear:both>Wpisz parametry szablonu z wartościami domyślnymi<p>Tak jak parametry funkcji mogą mieć domyślne argumenty, tak parametry szablonu mogą otrzymać wartości domyślne. Będą one używane, gdy parametr szablonu nie jest jawnie określony i nie można go wydedukować.<p>Oto modyfikacja naszego <code>Pair&lt;T, U></code> programu szablonu klasy powyżej, z parametrami szablonu typów <code>T</code> i <code>U</code> domyślnie ustawionymi na type <code>int</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">template &lt;typename T=int, typename U=int&gt; // domyślne T i U do wpisania int
 struct Pair
 {
     T first{};
@@ -102,35 +102,35 @@ Pair(T, U) -&gt; Pair&lt;T, U&gt;;
 
 int main()
 {
-    Pair&lt;int, int&gt; p1{ 1, 2 }; // explicitly specify class template Pair&lt;int, int&gt; (C++11 onward)
-    Pair p2{ 1, 2 };           // CTAD used to deduce Pair&lt;int, int&gt; from the initializers (C++17)
+    Pair&lt;int, int&gt; p1{ 1, 2 }; // jawnie określ szablon klasy Pair&lt;int, int&gt; (C++11 i nowsze)
+    Pair p2{ 1, 2 };           // CTAD użyte do wydedukowania Pair&lt;int, int&gt; z inicjatorów (C++17)
 
     Pair p3;                   // uses default Pair&lt;int, int&gt;
 
     return 0;
-}</code></pre><p>Nasza definicja <code>p3</code> nie określa jawnie typów parametrów szablonu typów, ani nie ma inicjatora dla tych typów, które można wydedukować od. Dlatego kompilator użyje typów określonych w ustawieniach domyślnych, co oznacza <code>p3</code> będzie typu <code>Pair&lt;int, int></code>.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p class="cpp-section cpp-topline" style=clear:both>CTAD nie działa z inicjalizacją elementu niestatycznego<p>Podczas inicjowania elementu typu klasy przy użyciu niestatycznej inicjalizacji elementu członkowskiego, CTAD nie będzie działać w tym kontekście. Wszystkie argumenty szablonu muszą być wyraźnie określone:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;utility&gt; // for std::pair
+}</code></pre><p>Nasza definicja <code>p3</code> nie określa jawnie typów parametrów szablonu typów, ani nie ma inicjatora dla tych typów, które można wydedukować od. Dlatego kompilator użyje typów określonych w ustawieniach domyślnych, co oznacza <code>p3</code> będzie typu <code>Pair&lt;int, int></code>.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p class="cpp-section cpp-topline" style=clear:both>CTAD nie działa z inicjalizacją elementu niestatycznego<p>Podczas inicjowania elementu typu klasy przy użyciu niestatycznej inicjalizacji elementu członkowskiego, CTAD nie będzie działać w tym kontekście. Wszystkie argumenty szablonu muszą być wyraźnie określone:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;utility&gt; // dla std::pair
 
 struct Foo
 {
-    std::pair&lt;int, int&gt; p1{ 1, 2 }; // ok, template arguments explicitly specified
-    std::pair p2{ 1, 2 };           // compile error, CTAD can&#39;t be used in this context
+    std::pair&lt;int, int&gt; p1{ 1, 2 }; // ok, jawnie określono argumenty szablonu
+    std::pair p2{ 1, 2 };           // błąd kompilacji, CTAD nie można użyć w tym kontekście
 };
 
 int main()
 {
-    std::pair p3{ 1, 2 };           // ok, CTAD can be used here
+    std::pair p3{ 1, 2 };           // ok, można tu użyć CTAD
     return 0;
 }</code></pre><p class="cpp-section cpp-topline" style=clear:both>CTAD nie działa z parametrami funkcji<p>CTAD oznacza szablon klasy <em>argument</em> dedukcję, a nie szablon klasy <em>parametr</em> dedukcję, więc wydedukuje tylko typ argumentów szablonu, a nie parametry szablonu.<p>Dlatego CTAD nie można używać w parametrach funkcji.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;utility&gt;
 
-void print(std::pair p) // compile error, CTAD can&#39;t be used here
+void print(std::pair p) // błąd kompilacji, nie można tu użyć CTAD
 {
-    std::cout &lt;&lt; p.first &lt;&lt; &#39; &#39; &lt;&lt; p.second &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; p.first &lt;&lt; ' ' &lt;&lt; p.second &lt;&lt; '\n';
 }
 
 int main()
 {
-    std::pair p { 1, 2 }; // p deduced to std::pair&lt;int, int&gt;
+    std::pair p { 1, 2 }; // p wydedukowany do std::pair&lt;int, int&gt;
     print(p);
 
     return 0;
@@ -140,12 +140,12 @@ int main()
 template &lt;typename T, typename U&gt;
 void print(std::pair&lt;T, U&gt; p)
 {
-    std::cout &lt;&lt; p.first &lt;&lt; &#39; &#39; &lt;&lt; p.second &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; p.first &lt;&lt; ' ' &lt;&lt; p.second &lt;&lt; '\n';
 }
 
 int main()
 {
-    std::pair p { 1, 2 }; // p deduced to std::pair&lt;int, int&gt;
+    std::pair p { 1, 2 }; // p wydedukowany do std::pair&lt;int, int&gt;
     print(p);
 
     return 0;

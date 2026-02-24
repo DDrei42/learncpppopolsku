@@ -13,74 +13,74 @@
 <button class=searchsubmit><span class=screen-reader-text>Szukaj</span><i class=icon-search></i></button>
 <input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=86210></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="2.1 — Wprowadzenie do funkcji" src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-23 class="post-23 post type-post status-publish format-standard hentry category-cpp-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>2.1 -- Wprowadzenie do funkcji</h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Autor></i><a class="url fn n" rel=author href=/www.learncpp.com/author/Alex/ title="Wyświetl wszystkie posty Alexa" itemprop=url><em itemprop=name>Alex</em></a></span>
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2007-05-31T17:23:58-07:00 itemprop=datePublished>31 maja 2007, 17:23 czasu PDT</time>
-<time class=updated datetime=2024-09-28T17:06:16-07:00 itemprop=dateModified>28 września 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>W ostatnim rozdziale zdefiniowaliśmy funkcję jako zbiór instrukcji wykonywanych sekwencyjnie. Chociaż jest to z pewnością prawdą, definicja ta nie zapewnia zbyt dużego wglądu w to, dlaczego funkcje są przydatne. Zaktualizujmy naszą definicję: A <strong>funkcja</strong> to ciąg instrukcji wielokrotnego użytku, zaprojektowany do wykonania określonego zadania.<p>Wiesz już, że każdy program wykonywalny musi mieć funkcję o nazwie <code>main()</code> (która jest miejscem, w którym program rozpoczyna wykonywanie po uruchomieniu). Jednakże w miarę jak programy stają się coraz dłuższe, zarządzanie całym kodem w funkcji  <code>main()</code>  staje się coraz trudniejsze. Funkcje umożliwiają nam dzielenie naszych programów na małe, modułowe części, które są łatwiejsze do zorganizowania, testowania i używania. Większość programów korzysta z wielu funkcji. Standardowa biblioteka C++ zawiera mnóstwo już napisanych funkcji, z których możesz skorzystać — jednak równie powszechne jest pisanie własnych. Funkcje, które sam piszesz, nazywane są <strong>funkcjami zdefiniowanymi przez użytkownika</strong>.<p>Rozważmy przypadek, który może mieć miejsce w prawdziwym życiu: czytasz książkę, kiedy przypominasz sobie, że musisz wykonać telefon. Umieszczasz zakładkę w swojej książce, wykonujesz połączenie telefoniczne, a kiedy skończysz rozmowę telefoniczną, wracasz do miejsca, w którym zaznaczyłeś zakładkę i kontynuujesz książkę dokładnie od miejsca, w którym ją przerwałeś.<p>Programy w C++ mogą działać w ten sam sposób (i zapożyczają trochę tej samej nomenklatury). Program będzie wykonywał instrukcje sekwencyjnie w obrębie jednej funkcji, gdy napotka wywołanie funkcji. A <strong>wywołanie funkcji</strong> nakazuje procesorowi przerwanie bieżącej funkcji i wykonanie innej funkcji. CPU zasadniczo „zapisuje zakładkę” w bieżącym momencie wykonania, wykonuje funkcję nazwaną w wywołaniu funkcji, a następnie <strong>zwraca</strong> do miejsca, w którym zaznaczył zakładkę i wznawia wykonywanie.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nomenklatura<p>Funkcją inicjującą wywołanie funkcji jest <strong>gość</strong>, a funkcją  <strong>zwany</strong> (wykonywaną) jest <strong>wywoływany</strong>. Wywołanie funkcji jest czasami nazywane  <strong>wywołaniem</strong>, przy czym wywołujący <strong>wywołuje</strong> odbiorcę.</div><p class="cpp-section cpp-topline" style=clear:both>Przykład funkcji zdefiniowanej przez użytkownika<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Najpierw zacznijmy od najbardziej podstawowej składni, aby zdefiniować funkcję zdefiniowaną przez użytkownika. W ciągu następnych kilku lekcji wszystkie funkcje zdefiniowane przez użytkownika będą miały następującą formę:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">returnType functionName() // This is the function header (tells the compiler about the existence of the function)
+<time class=updated datetime=2024-09-28T17:06:16-07:00 itemprop=dateModified>28 września 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>W ostatnim rozdziale zdefiniowaliśmy funkcję jako zbiór instrukcji wykonywanych sekwencyjnie. Chociaż jest to z pewnością prawdą, definicja ta nie zapewnia zbyt dużego wglądu w to, dlaczego funkcje są przydatne. Zaktualizujmy naszą definicję: <strong>funkcja</strong> to ciąg instrukcji wielokrotnego użytku, zaprojektowany do wykonania określonego zadania.<p>Wiesz już, że każdy program wykonywalny musi mieć funkcję o nazwie <code>main()</code> (która jest miejscem, w którym program rozpoczyna wykonywanie po uruchomieniu). Jednakże w miarę jak programy stają się coraz dłuższe, zarządzanie całym kodem w funkcji  <code>main()</code>  staje się coraz trudniejsze. Funkcje umożliwiają nam dzielenie naszych programów na małe, modułowe części, które są łatwiejsze do zorganizowania, testowania i używania. Większość programów korzysta z wielu funkcji. Standardowa biblioteka C++ zawiera mnóstwo już napisanych funkcji, z których możesz skorzystać — jednak równie powszechne jest pisanie własnych. Funkcje, które sam piszesz, nazywane są <strong>funkcjami zdefiniowanymi przez użytkownika</strong>.<p>Rozważmy przypadek, który może mieć miejsce w prawdziwym życiu: czytasz książkę, kiedy przypominasz sobie, że musisz wykonać telefon. Umieszczasz zakładkę w swojej książce, wykonujesz połączenie telefoniczne, a kiedy skończysz rozmowę telefoniczną, wracasz do miejsca, w którym zaznaczyłeś zakładkę i kontynuujesz książkę dokładnie od miejsca, w którym ją przerwałeś.<p>Programy w C++ mogą działać w ten sam sposób (i zapożyczają trochę tej samej nomenklatury). Program będzie wykonywał instrukcje sekwencyjnie w obrębie jednej funkcji, gdy napotka wywołanie funkcji. <strong>wywołanie funkcji</strong> nakazuje procesorowi przerwanie bieżącej funkcji i wykonanie innej funkcji. CPU zasadniczo „zapisuje zakładkę” w bieżącym momencie wykonania, wykonuje funkcję nazwaną w wywołaniu funkcji, a następnie <strong>zwraca</strong> do miejsca, w którym zaznaczył zakładkę i wznawia wykonywanie.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nomenklatura<p>Funkcją inicjującą wywołanie funkcji jest <strong>wywołujący</strong>, a funkcją  <strong>zwany</strong> (wykonywaną) jest <strong>wywoływany</strong>. Wywołanie funkcji jest czasami nazywane  <strong>wywołaniem</strong>, przy czym wywołujący <strong>wywołuje</strong> odbiorcę.</div><p class="cpp-section cpp-topline" style=clear:both>Przykład funkcji zdefiniowanej przez użytkownika<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Najpierw zacznijmy od najbardziej podstawowej składni, aby zdefiniować funkcję zdefiniowaną przez użytkownika. W ciągu następnych kilku lekcji wszystkie funkcje zdefiniowane przez użytkownika będą miały następującą formę:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">returnType functionName() // To jest nagłówek funkcji (informuje kompilator o istnieniu funkcji)
 {
-    // This is the function body (tells the compiler what the function does)
-}</code></pre><p>Pierwszy wiersz nazywa się nieformalnie <strong>nagłówkiem funkcji</strong> i informuje kompilator o istnieniu funkcji, jej nazwie i kilku innych informacjach, które omówimy w przyszłych lekcjach (takich jak typ zwracany).<ul><li>W tej lekcji będziemy używać a <em>returnType</em> z <code>int</code> (dla funkcji <code>main()</code>) lub <code>void</code> (w przeciwnym razie). Na razie nie przejmuj się nimi, ponieważ w następnej lekcji porozmawiamy więcej o typach zwracanych wartości i zwracanych wartościach (<a href="../function-return-values-value-returning-functions/index.html">2.2 -- Wartości zwracane przez funkcję (funkcje zwracające wartość)</a>).<li>Podobnie jak zmienne mają nazwy, tak samo funkcje zdefiniowane przez użytkownika.  <em>Nazwafunkcji</em> to nazwa (identyfikator) funkcji zdefiniowanej przez użytkownika.<li>Nawiasy po identyfikatorze informują kompilator, że definiujemy funkcję funkcja.</ul><p>Nawiasy klamrowe i instrukcje pomiędzy nimi nazywane są <strong>ciało funkcyjne</strong>. Tutaj znajdują się instrukcje określające działanie funkcji.<p>Aby wywołać funkcję, używamy nazwy funkcji, po której następuje zestaw nawiasów (np.  <code>functionName()</code> wywołuje funkcję, której nazwa to  <code>functionName</code>). są umieszczane obok nazwy funkcji (bez odstępów między nimi).<p>Na razie funkcja musi zostać zdefiniowana, zanim będzie można ją wywołać. Sposoby obejścia tego problemu omówimy na lekcji <a href="../forward-declarations/index.html">2.7 -- Deklaracje przesyłania dalej i definicje</a>.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Oto przykładowy program ilustrujący definiowanie i wywoływanie funkcji zdefiniowanej przez użytkownika:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt; // for std::cout
+    // To jest treść funkcji (informuje kompilator, co robi funkcja)
+}</code></pre><p>Pierwszy wiersz nazywa się nieformalnie <strong>nagłówkiem funkcji</strong> i informuje kompilator o istnieniu funkcji, jej nazwie i kilku innych informacjach, które omówimy w przyszłych lekcjach (takich jak typ zwracany).<ul><li>W tej lekcji będziemy używać a <em>returnType</em> z <code>int</code> (dla funkcji <code>main()</code>) lub <code>void</code> (w przeciwnym razie). Na razie nie przejmuj się nimi, ponieważ w następnej lekcji porozmawiamy więcej o typach zwracanych wartości i zwracanych wartościach (<a href="../function-return-values-value-returning-functions/index.html">2.2 -- Wartości zwracane przez funkcję (funkcje zwracające wartość)</a>).<li>Podobnie jak zmienne mają nazwy, tak samo funkcje zdefiniowane przez użytkownika.  <em>Nazwafunkcji</em> to nazwa (identyfikator) funkcji zdefiniowanej przez użytkownika.<li>Nawiasy po identyfikatorze informują kompilator, że definiujemy funkcję funkcja.</ul><p>Nawiasy klamrowe i instrukcje pomiędzy nimi nazywane są <strong>ciało funkcyjne</strong>. Tutaj znajdują się instrukcje określające działanie funkcji.<p>Aby wywołać funkcję, używamy nazwy funkcji, po której następuje zestaw nawiasów (np.  <code>functionName()</code> wywołuje funkcję, której nazwa to  <code>functionName</code>). są umieszczane obok nazwy funkcji (bez odstępów między nimi).<p>Na razie funkcja musi zostać zdefiniowana, zanim będzie można ją wywołać. Sposoby obejścia tego problemu omówimy na lekcji <a href="../forward-declarations/index.html">2.7 -- Deklaracje przesyłania dalej i definicje</a>.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Oto przykładowy program ilustrujący definiowanie i wywoływanie funkcji zdefiniowanej przez użytkownika:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt; // dla std::cout
 
-// Definition of user-defined function doPrint()
-// doPrint() is the called function in this example
+// Definicja funkcji zdefiniowanej przez użytkownika doPrint()
+// doPrint() to funkcja wywoływana w tym przykładzie
 void doPrint()
 {
-    std::cout &lt;&lt; &#34;In doPrint()\n&#34;;
+    std::cout &lt;&lt; "In doPrint()\n";
 }
 
-// Definition of user-defined function main()
+// Definicja funkcji zdefiniowanej przez użytkownika main()
 int main()
 {
-    std::cout &lt;&lt; &#34;Starting main()\n&#34;;
-    doPrint();                        // Interrupt main() by making a function call to doPrint().  main() is the caller.
-    std::cout &lt;&lt; &#34;Ending main()\n&#34;;   // This statement is executed after doPrint() ends
+    std::cout &lt;&lt; "Starting main()\n";
+    doPrint();                        // Przerwij funkcję main() wykonując wywołanie funkcji doPrint(). main() jest obiektem wywołującym.
+    std::cout &lt;&lt; "Ending main()\n";   // Ta instrukcja jest wykonywana po zakończeniu funkcji doPrint()
 
     return 0;
 }</code></pre><p>Ten program generuje następujące dane wyjściowe:<pre>Starting main()
 In doPrint()
 Ending main()
-</pre><p>Ten program rozpoczyna wykonywanie od góry funkcji <code>main()</code> i od pierwszej linii do wykonania drukuje <code>Starting main()</code>.<p>Druga linia w  <code>main()</code> jest wywołaniem funkcji  <code>doPrint()</code>. Wiemy, że jest to wywołanie funkcji, dzięki nawiasom końcowym.<div class="cpp-note cpp-lightredbackground"><p class="cpp-note-title cpp-bottomline">Ostrzeżenie<p>Wywołując funkcję, nie zapomnij o nawiasach  <code>()</code> po nazwie funkcji. Jeśli zapomnisz nawiasów, Twój program może się nie skompilować (a jeśli tak, funkcja nie zostanie wywołana).</div><p>Ponieważ wykonano wywołanie funkcji, wykonywanie instrukcji w <code>main()</code> zostaje wstrzymane, a wykonanie przeskakuje na początek wywoływanej funkcji <code>doPrint()</code>. Pierwsza (i jedyna) linia w <code>doPrint()</code> wypisuje <code>In doPrint()</code>. Podczas oceny <code>doPrint()</code> kończy się, wykonanie wraca do wywołującego (<code>main()</code>) i jest kontynuowane od punktu tuż za wywołaniem funkcji. W rezultacie następna instrukcja wykonana w <code>main()</code> wypisuje <code>Ending main()</code>.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Wywoływaniu funkcji więcej niż raz<p>Jedną z przydatnych cech funkcji jest to, że można je wywoływać więcej niż raz. Oto program, który to demonstruje:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt; // for std::cout
+</pre><p>Ten program rozpoczyna wykonywanie od góry funkcji <code>main()</code> i od pierwszej linii do wykonania drukuje <code>Starting main()</code>.<p>Druga linia w  <code>main()</code> jest wywołaniem funkcji  <code>doPrint()</code>. Wiemy, że jest to wywołanie funkcji, dzięki nawiasom końcowym.<div class="cpp-note cpp-lightredbackground"><p class="cpp-note-title cpp-bottomline">Ostrzeżenie<p>Wywołując funkcję, nie zapomnij o nawiasach  <code>()</code> po nazwie funkcji. Jeśli zapomnisz nawiasów, Twój program może się nie skompilować (a jeśli tak, funkcja nie zostanie wywołana).</div><p>Ponieważ wykonano wywołanie funkcji, wykonywanie instrukcji w <code>main()</code> zostaje wstrzymane, a wykonanie przeskakuje na początek wywoływanej funkcji <code>doPrint()</code>. Pierwsza (i jedyna) linia w <code>doPrint()</code> wypisuje <code>In doPrint()</code>. Podczas oceny <code>doPrint()</code> kończy się, wykonanie wraca do wywołującego (<code>main()</code>) i jest kontynuowane od punktu tuż za wywołaniem funkcji. W rezultacie następna instrukcja wykonana w <code>main()</code> wypisuje <code>Ending main()</code>.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Wywoływaniu funkcji więcej niż raz<p>Jedną z przydatnych cech funkcji jest to, że można je wywoływać więcej niż raz. Oto program, który to demonstruje:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt; // dla std::cout
 
 void doPrint()
 {
-    std::cout &lt;&lt; &#34;In doPrint()\n&#34;;
+    std::cout &lt;&lt; "In doPrint()\n";
 }
 
-// Definition of function main()
+// Definicja funkcji main()
 int main()
 {
-    std::cout &lt;&lt; &#34;Starting main()\n&#34;;
-    doPrint(); // doPrint() called for the first time
-    doPrint(); // doPrint() called for the second time
-    std::cout &lt;&lt; &#34;Ending main()\n&#34;;
+    std::cout &lt;&lt; "Starting main()\n";
+    doPrint(); // doPrint() wywołaną po raz pierwszy
+    doPrint(); // doPrint() wywołaną po raz drugi time
+    std::cout &lt;&lt; "Ending main()\n";
 
     return 0;
 }</code></pre><p>Ten program generuje następujące dane wyjściowe:<pre>Starting main()
 In doPrint()
 In doPrint()
 Ending main()
-</pre><p>Ponieważ <code>doPrint()</code> jest wywoływany dwukrotnie  <code>main()</code>, <code>doPrint()</code> wykonuje się dwukrotnie i <code>In doPrint()</code> jest wypisywany dwukrotnie (raz na każde wywołanie).<p class="cpp-section cpp-topline" style=clear:both>Funkcje mogą wywoływać funkcje, które wywołują inne funkcje<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>Widzieliście już, że funkcja <code>main()</code> może wywoływać inne funkcje (takie jak funkcja <code>doPrint()</code> w powyższym przykładzie). Funkcje wywoływane przez <code>main()</code> mogą także wywoływać inne funkcje (i te funkcje mogą też wywoływać funkcje itd.). W poniższym programie funkcja <code>main()</code> wywołuje funkcję <code>doA()</code>, która wywołuje funkcję <code>doB()</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt; // for std::cout
+</pre><p>Ponieważ <code>doPrint()</code> jest wywoływany dwukrotnie  <code>main()</code>, <code>doPrint()</code> wykonuje się dwukrotnie i <code>In doPrint()</code> jest wypisywany dwukrotnie (raz na każde wywołanie).<p class="cpp-section cpp-topline" style=clear:both>Funkcje mogą wywoływać funkcje, które wywołują inne funkcje<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>Widzieliście już, że funkcja <code>main()</code> może wywoływać inne funkcje (takie jak funkcja <code>doPrint()</code> w powyższym przykładzie). Funkcje wywoływane przez <code>main()</code> mogą także wywoływać inne funkcje (i te funkcje mogą też wywoływać funkcje itd.). W poniższym programie funkcja <code>main()</code> wywołuje funkcję <code>doA()</code>, która wywołuje funkcję <code>doB()</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt; // dla std::cout
 
 void doB()
 {
-    std::cout &lt;&lt; &#34;In doB()\n&#34;;
+    std::cout &lt;&lt; "In doB()\n";
 }
 
 
 void doA()
 {
-    std::cout &lt;&lt; &#34;Starting doA()\n&#34;;
+    std::cout &lt;&lt; "Starting doA()\n";
 
     doB();
 
-    std::cout &lt;&lt; &#34;Ending doA()\n&#34;;
+    std::cout &lt;&lt; "Ending doA()\n";
 }
 
-// Definition of function main()
+// Definicja funkcji main()
 int main()
 {
-    std::cout &lt;&lt; &#34;Starting main()\n&#34;;
+    std::cout &lt;&lt; "Starting main()\n";
 
     doA();
 
-    std::cout &lt;&lt; &#34;Ending main()\n&#34;;
+    std::cout &lt;&lt; "Ending main()\n";
 
     return 0;
 }</code></pre><p>Ten program generuje następujące dane wyjściowe:<pre>Starting main()
@@ -92,12 +92,12 @@ Ending main()
 
 int main()
 {
-    void foo() // Illegal: this function is nested inside function main()
+    void foo() // Nielegalne: ta funkcja jest zagnieżdżona w funkcji main()
     {
-        std::cout &lt;&lt; &#34;foo!\n&#34;;
+        std::cout &lt;&lt; "foo!\n";
     }
 
-    foo(); // function call to foo()
+    foo(); // wywołanie funkcji foo()
 
     return 0;
 }</code></pre><p>Właściwy sposób napisania powyższego programu jest następujący: <div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -112,29 +112,29 @@ int main()
     foo();
 
     return 0;
-}</code></pre><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nomenklatura<p>„foo” to pozbawione znaczenia słowo, które jest często używane jako nazwa zastępcza funkcji lub zmiennej, gdy nazwa nie jest istotna dla demonstracji jakiejś koncepcji. Takie słowa nazywane są <a href=https://en.wikipedia.org/wiki/Metasyntactic_variable>zmiennymi metasyntaktycznymi</a> (chociaż w języku potocznym często nazywa się je „nazwami zastępczymi”, ponieważ nikt nie pamięta terminu „zmienna metasyntaktyczna”). Inne popularne zmienne metasyntaktyczne w C++ to „bar”, „baz” i trzyliterowe słowa zakończone na „oo”, takie jak „goo”, „moo” i „boo”).<p>Dla osób zainteresowanych etymologią (jak ewoluują słowa), <a href=https://datatracker.ietf.org/doc/html/rfc3092>RFC 3092</a> jest interesującą lekturą.</div><p class="cpp-section cpp-topline" style=clear:both>Czas quizu<p class=cpp-quiz-question style=clear:both>Pytanie nr 1<p>W definicji funkcji, jakie są nazywane nawiasami klamrowymi i instrukcjami pośrednimi?<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_0 style=display:none>Treść funkcji</div><p class="cpp-quiz-question cpp-topline" style=clear:both>Pytanie nr 2<p>Co wypisuje poniższy program? Nie kompiluj tego programu, po prostu prześledź kod samodzielnie.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt; // for std::cout
+}</code></pre><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nomenklatura<p>„foo” to pozbawione znaczenia słowo, które jest często używane jako nazwa zastępcza funkcji lub zmiennej, gdy nazwa nie jest istotna dla demonstracji jakiejś koncepcji. Takie słowa nazywane są <a href=https://en.wikipedia.org/wiki/Metasyntactic_variable>zmiennymi metasyntaktycznymi</a> (chociaż w języku potocznym często nazywa się je „nazwami zastępczymi”, ponieważ nikt nie pamięta terminu „zmienna metasyntaktyczna”). Inne popularne zmienne metasyntaktyczne w C++ to „bar”, „baz” i trzyliterowe słowa zakończone na „oo”, takie jak „goo”, „moo” i „boo”).<p>Dla osób zainteresowanych etymologią (jak ewoluują słowa), <a href=https://datatracker.ietf.org/doc/html/rfc3092>RFC 3092</a> jest interesującą lekturą.</div><p class="cpp-section cpp-topline" style=clear:both>Czas quizu<p class=cpp-quiz-question style=clear:both>Pytanie nr 1<p>W definicji funkcji, jakie są nazywane nawiasami klamrowymi i instrukcjami pośrednimi?<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_0 style=display:none>Treść funkcji</div><p class="cpp-quiz-question cpp-topline" style=clear:both>Pytanie nr 2<p>Co wypisuje poniższy program? Nie kompiluj tego programu, po prostu prześledź kod samodzielnie.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt; // dla std::cout
 
 void doB()
 {
-    std::cout &lt;&lt; &#34;In doB()\n&#34;;
+    std::cout &lt;&lt; "In doB()\n";
 }
 
 void doA()
 {
-    std::cout &lt;&lt; &#34;In doA()\n&#34;;
+    std::cout &lt;&lt; "In doA()\n";
 
     doB();
 }
 
-// Definition of function main()
+// Definicja funkcji main()
 int main()
 {
-    std::cout &lt;&lt; &#34;Starting main()\n&#34;;
+    std::cout &lt;&lt; "Starting main()\n";
 
     doA();
     doB();
 
-    std::cout &lt;&lt; &#34;Ending main()\n&#34;;
+    std::cout &lt;&lt; "Ending main()\n";
 
     return 0;
 }</code></pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><div class=wpsolution id=cpp_solution_id_1 style=display:none><pre>Starting main()

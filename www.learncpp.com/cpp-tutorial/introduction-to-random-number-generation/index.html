@@ -13,54 +13,54 @@
 <button class=searchsubmit><span class=screen-reader-text>Szukaj</span><i class=icon-search></i></button>
 <input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=44805></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="8.13 — Wprowadzenie do generowania liczb losowych" src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-12670 class="post-12670 post type-post status-publish format-standard hentry category-cpp-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>8.13 — Wprowadzenie do generowania liczb losowych</h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Autor></i><a class="url fn n" rel=author href=/www.learncpp.com/author/Alex/ title="Wyświetl wszystkie posty Alexa" itemprop=url><em itemprop=name>Alex</em></a></span>
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2022-02-18T13:56:24-08:00 itemprop=datePublished>18 lutego 2022, 13:56 czasu PST</time>
-<time class=updated datetime=2024-08-26T00:10:30-07:00 itemprop=dateModified>26 sierpnia 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>Możliwość generowania liczb losowych może być przydatna w niektórych rodzajach programów, szczególnie w grach, programach do modelowania statystycznego i aplikacjach kryptograficznych, które wymagają szyfrowania i deszyfrowania rzeczy. Weźmy na przykład gry – gdyby nie zdarzenia losowe, potwory zawsze atakowałyby cię w ten sam sposób, zawsze znajdowałbyś ten sam skarb, układ lochów nigdy by się nie zmienił itd… a to nie oznaczałoby dobrej gry.<p>W prawdziwym życiu często tworzymy losowość, na przykład rzucając monetą, kostką lub tasując talię kart. Zdarzenia te nie są w rzeczywistości losowe, ale obejmują tak wiele zmiennych fizycznych (np. grawitację, tarcie, opór powietrza, pęd itp.), że prawie niemożliwe jest ich przewidzenie lub kontrolowanie i (chyba że jesteś magiem) dają wyniki, które są ze wszech miar losowe.<p>Komputery nie są jednak zaprojektowane do wykorzystywania zmiennych fizycznych — nie mogą rzucać monetą, kostką ani tasować prawdziwych kart. Nowoczesne komputery żyją w kontrolowanym świecie elektrycznym, w którym wszystko jest binarne (0 lub 1) i nie ma miejsca pomiędzy. Komputery ze swej natury są zaprojektowane tak, aby generować wyniki jak najbardziej przewidywalne. Kiedy każesz komputerowi obliczyć 2 + 2, <em>zawsze</em> chcesz, aby odpowiedź brzmiała 4. Czasami nie 3 lub 5.<p>W rezultacie komputery na ogół nie są w stanie generować naprawdę losowych liczb (przynajmniej za pomocą oprogramowania). Zamiast tego nowoczesne programy zazwyczaj <em>symulują</em> losowość za pomocą algorytmu.<p>W tej lekcji omówimy wiele teorii dotyczących generowania liczb losowych w programach i wprowadzimy pewną terminologię, której będziemy używać w przyszłych lekcjach.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Algorytmy i stan<p>Najpierw omińmy pojęcia algorytmów i stanów.<p>An <strong>algorytm</strong> to skończona sekwencja instrukcji, którą można wykonać, aby rozwiązać jakiś problem lub uzyskać użyteczny wynik.<p>Załóżmy na przykład, że twój szef daje ci mały plik tekstowy zawierający kilka nieposortowanych nazw (po jednej w każdym wierszu) i prosi o posortowanie listy. Ponieważ lista jest niewielka i nie spodziewasz się, że będziesz to robić często, decydujesz się posortować ją ręcznie. Istnieje wiele sposobów sortowania listy, ale możesz zrobić coś takiego:<ul><li>Utwórz nową pustą listę do przechowywania posortowanych wyników<li>Przeskanuj listę nieposortowanych nazw, aby znaleźć nazwę, która jest pierwsza w kolejności alfabetycznej<li>Wytnij tę nazwę z nieposortowanej listy i wklej ją na dole posortowanej listy<li>Powtarzaj poprzednie dwa kroki, aż nie będzie już żadnych więcej nazw na nieposortowanej liście</ul><p>Powyższy zestaw kroków opisuje algorytm sortowania (przy użyciu języka naturalnego). Algorytmy z natury nadają się do wielokrotnego użytku — jeśli szef poprosi Cię jutro o posortowanie kolejnej listy, możesz po prostu zastosować ten sam algorytm do nowej listy.<p>Ponieważ komputery mogą wykonywać instrukcje i manipulować danymi znacznie szybciej niż my, algorytmy są często pisane przy użyciu języków programowania, co pozwala nam automatyzować zadania. W C++ algorytmy są zazwyczaj implementowane jako funkcje wielokrotnego użytku.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Oto prosty algorytm generowania sekwencji liczb, w której każda kolejna liczba jest zwiększana o 1:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+<time class=updated datetime=2024-08-26T00:10:30-07:00 itemprop=dateModified>26 sierpnia 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>Możliwość generowania liczb losowych może być przydatna w niektórych rodzajach programów, szczególnie w grach, programach do modelowania statystycznego i aplikacjach kryptograficznych, które wymagają szyfrowania i deszyfrowania rzeczy. Weźmy na przykład gry – gdyby nie zdarzenia losowe, potwory zawsze atakowałyby cię w ten sam sposób, zawsze znajdowałbyś ten sam skarb, układ lochów nigdy by się nie zmienił itd… a to nie oznaczałoby dobrej gry.<p>W prawdziwym życiu często tworzymy losowość, na przykład rzucając monetą, kostką lub tasując talię kart. Zdarzenia te nie są w rzeczywistości losowe, ale obejmują tak wiele zmiennych fizycznych (np. grawitację, tarcie, opór powietrza, pęd itp.), że prawie niemożliwe jest ich przewidzenie lub kontrolowanie i (chyba że jesteś magiem) dają wyniki, które są ze wszech miar losowe.<p>Komputery nie są jednak zaprojektowane do wykorzystywania zmiennych fizycznych — nie mogą rzucać monetą, kostką ani tasować prawdziwych kart. Nowoczesne komputery żyją w kontrolowanym świecie elektrycznym, w którym wszystko jest binarne (0 lub 1) i nie ma miejsca pomiędzy. Komputery ze swej natury są zaprojektowane tak, aby generować wyniki jak najbardziej przewidywalne. Kiedy każesz komputerowi obliczyć 2 + 2, <em>zawsze</em> chcesz, aby odpowiedź brzmiała 4. Czasami nie 3 lub 5.<p>W rezultacie komputery na ogół nie są w stanie generować naprawdę losowych liczb (przynajmniej za pomocą oprogramowania). Zamiast tego nowoczesne programy zazwyczaj <em>symulują</em> losowość za pomocą algorytmu.<p>W tej lekcji omówimy wiele teorii dotyczących generowania liczb losowych w programach i wprowadzimy pewną terminologię, której będziemy używać w przyszłych lekcjach.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Algorytmy i stan<p>Najpierw omińmy pojęcia algorytmów i stanów.<p><strong>algorytm</strong> to skończona sekwencja instrukcji, którą można wykonać, aby rozwiązać jakiś problem lub uzyskać użyteczny wynik.<p>Załóżmy na przykład, że twój szef daje ci mały plik tekstowy zawierający kilka nieposortowanych nazw (po jednej w każdym wierszu) i prosi o posortowanie listy. Ponieważ lista jest niewielka i nie spodziewasz się, że będziesz to robić często, decydujesz się posortować ją ręcznie. Istnieje wiele sposobów sortowania listy, ale możesz zrobić coś takiego:<ul><li>Utwórz nową pustą listę do przechowywania posortowanych wyników<li>Przeskanuj listę nieposortowanych nazw, aby znaleźć nazwę, która jest pierwsza w kolejności alfabetycznej<li>Wytnij tę nazwę z nieposortowanej listy i wklej ją na dole posortowanej listy<li>Powtarzaj poprzednie dwa kroki, aż nie będzie już żadnych więcej nazw na nieposortowanej liście</ul><p>Powyższy zestaw kroków opisuje algorytm sortowania (przy użyciu języka naturalnego). Algorytmy z natury nadają się do wielokrotnego użytku — jeśli szef poprosi Cię jutro o posortowanie kolejnej listy, możesz po prostu zastosować ten sam algorytm do nowej listy.<p>Ponieważ komputery mogą wykonywać instrukcje i manipulować danymi znacznie szybciej niż my, algorytmy są często pisane przy użyciu języków programowania, co pozwala nam automatyzować zadania. W C++ algorytmy są zazwyczaj implementowane jako funkcje wielokrotnego użytku.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Oto prosty algorytm generowania sekwencji liczb, w której każda kolejna liczba jest zwiększana o 1:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 int plusOne()
 {
-    static int s_state { 3 }; // only initialized the first time this function is called
+    static int s_state { 3 }; // inicjuje się tylko przy pierwszym wywołaniu tej funkcji
 
-    // Generate the next number
+    // Wygeneruj następny numer
 
-    ++s_state;      // first we modify the state
-    return s_state; // then we use the new state to generate the next number in the sequence
+    ++s_state;      // najpierw modyfikujemy stan
+    return s_state; // następnie używamy nowego stanu do wygenerowania kolejnej liczby w sekwencji
 }
 
 int main()
 {
-    std::cout &lt;&lt; plusOne() &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; plusOne() &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; plusOne() &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; plusOne() &lt;&lt; '\n';
+    std::cout &lt;&lt; plusOne() &lt;&lt; '\n';
+    std::cout &lt;&lt; plusOne() &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Wypisuje:<pre>4
 5
 6
-</pre><p>Ten algorytm jest całkiem prosty. Za pierwszym razem wywołanie <code>plusOne()</code>, <code>s_state</code> jest inicjalizowane wartością <code>3</code>. Następnie generowany i zwracany jest kolejny numer w sekwencji wyjściowej.<p>Algorytm jest uważany za <strong>stanowy</strong> jeśli zachowuje pewne informacje podczas połączeń. I odwrotnie, algorytm <strong>bezstanowy</strong> algorytm, który nie przechowuje żadnych informacji (i przy każdym wywołaniu musi otrzymać wszystkie informacje potrzebne do pracy). Nasza <code>plusOne()</code> funkcja jest stanowa, ponieważ używa zmiennej statycznej <code>s_state</code> do przechowywania ostatniego wygenerowanego numeru. W zastosowaniu do algorytmów termin <strong>stan</strong> odnosi się do bieżących wartości przechowywanych w zmiennych stanowych (tych zachowywanych podczas wywołań).<p>Aby wygenerować kolejny numer w sekwencji, nasz algorytm wykorzystuje dwuetapowy proces:<ul><li>Najpierw bieżący stan (zainicjowany od wartości początkowej lub zachowany z poprzedniego wywołania) jest modyfikowany w celu utworzenia nowego stanu.<li>Następnie następna liczba w sekwencja jest generowana z nowego stanu.</ul><p>Nasz algorytm jest brany pod uwagę <strong>deterministyczny</strong>, co oznacza, że dla danego wejścia (wartość podana dla <code>start</code>) zawsze wygeneruje tę samą sekwencję wyjściową.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Generatory liczb pseudolosowych (PRNG)<p>W celu symulacji losowości programy zazwyczaj używają generatora liczb pseudolosowych. A <strong>Generator liczb pseudolosowych (PRNG)</strong> to algorytm generujący ciąg liczb, którego właściwości symulują ciąg liczb losowych.<p>Napisanie podstawowego algorytmu PRNG jest łatwe. Oto krótki przykład PRNG, który generuje 100 16-bitowych liczb pseudolosowych:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+</pre><p>Ten algorytm jest całkiem prosty. Za pierwszym razem wywołanie <code>plusOne()</code>, <code>s_state</code> jest inicjalizowane wartością <code>3</code>. Następnie generowany i zwracany jest kolejny numer w sekwencji wyjściowej.<p>Algorytm jest uważany za <strong>stanowy</strong> jeśli zachowuje pewne informacje podczas połączeń. I odwrotnie, algorytm <strong>bezstanowy</strong> algorytm, który nie przechowuje żadnych informacji (i przy każdym wywołaniu musi otrzymać wszystkie informacje potrzebne do pracy). Nasza <code>plusOne()</code> funkcja jest stanowa, ponieważ używa zmiennej statycznej <code>s_state</code> do przechowywania ostatniego wygenerowanego numeru. W zastosowaniu do algorytmów termin <strong>stan</strong> odnosi się do bieżących wartości przechowywanych w zmiennych stanowych (tych zachowywanych podczas wywołań).<p>Aby wygenerować kolejny numer w sekwencji, nasz algorytm wykorzystuje dwuetapowy proces:<ul><li>Najpierw bieżący stan (zainicjowany od wartości początkowej lub zachowany z poprzedniego wywołania) jest modyfikowany w celu utworzenia nowego stanu.<li>Następnie następna liczba w sekwencja jest generowana z nowego stanu.</ul><p>Nasz algorytm jest brany pod uwagę <strong>deterministyczny</strong>, co oznacza, że dla danego wejścia (wartość podana dla <code>start</code>) zawsze wygeneruje tę samą sekwencję wyjściową.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Generatory liczb pseudolosowych (PRNG)<p>W celu symulacji losowości programy zazwyczaj używają generatora liczb pseudolosowych. <strong>Generator liczb pseudolosowych (PRNG)</strong> to algorytm generujący ciąg liczb, którego właściwości symulują ciąg liczb losowych.<p>Napisanie podstawowego algorytmu PRNG jest łatwe. Oto krótki przykład PRNG, który generuje 100 16-bitowych liczb pseudolosowych:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-// For illustrative purposes only, don&#39;t use this
+// Nie używaj tego wyłącznie w celach ilustracyjnych
 unsigned int LCG16() // our PRNG
 {
-    static unsigned int s_state{ 0 }; // only initialized the first time this function is called
+    static unsigned int s_state{ 0 }; // inicjuje się tylko przy pierwszym wywołaniu tej funkcji
 
-    // Generate the next number
+    // Wygeneruj następny numer
 
-    // We modify the state using large constants and intentional overflow to make it hard
-    // for someone to casually determine what the next number in the sequence will be.
+    // Modyfikujemy stan za pomocą dużych stałych i celowego przepełnienia, aby było to trudne
+    // dla kogoś, kto może przypadkowo określić, jaka będzie następna liczba w sekwencji.
 
-    s_state = 8253729 * s_state + 2396403; // first we modify the state
-    return s_state % 32768; // then we use the new state to generate the next number in the sequence
+    s_state = 8253729 * s_state + 2396403; // najpierw modyfikujemy stan
+    return s_state % 32768; // następnie używamy nowego stanu do wygenerowania kolejnej liczby w sekwencji
 }
 
 int main()
 {
-    // Print 100 random numbers
+    // Wydrukuj 100 losowych liczb
     for (int count{ 1 }; count &lt;= 100; ++count)
     {
-        std::cout &lt;&lt; LCG16() &lt;&lt; &#39;\t&#39;;
+        std::cout &lt;&lt; LCG16() &lt;&lt; '\t';
 
-        // If we&#39;ve printed 10 numbers, start a new row
+        // Jeśli wydrukowaliśmy 10 liczb, rozpocznij nowy wiersz
         if (count % 10 == 0)
-            std::cout &lt;&lt; &#39;\n&#39;;
+            std::cout &lt;&lt; '\n';
     }
 
     return 0;
@@ -74,7 +74,7 @@ int main()
 4165	7896	25291	26654	15057	26340	30807	31530	31581	1264	
 9187	25654	20969	30972	25967	9026	15989	17160	15611	14414	
 16641	25364	10887	9050	22925	22816	11795	25702	2073	9516	
-</pre><p>Każda liczba wydaje się dość losowa w stosunku do poprzedniej.<p>Zauważ, jak  <code>LCG16()</code> jest podobny do naszego <code>plusOne()</code> przykładu powyżej! Stan jest początkowo ustawiony na wartość <code>0</code>. Następnie, aby wygenerować następną liczbę w sekwencji wyjściowej, bieżący stan jest modyfikowany (poprzez zastosowanie pewnych operacji matematycznych) w celu utworzenia nowego stanu, a następna liczba w sekwencji jest generowana na podstawie tego nowego stanu.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>Jak się okazuje, ten konkretny algorytm nie jest zbyt dobry jako generator liczb losowych (zwróć uwagę, że każdy wynik zmienia się pomiędzy parzystymi i nieparzystymi – to nie jest zbyt losowe!). Jednak większość PRNG działa podobnie do <code>LCG16()</code> -- po prostu zazwyczaj używa większej liczby zmiennych stanu i bardziej złożonych operacji matematycznych w celu wygenerowania wyników lepszej jakości.<p class="cpp-section cpp-topline" style=clear:both>Zakładanie PRNG<p>Sekwencja „liczb losowych” generowana przez PRNG nie jest wcale przypadkowa. Podobnie jak nasz <code>plusOne()</code> funkcji <code>LCG16()</code> jest również deterministyczny. Biorąc pod uwagę pewną wartość stanu początkowego (taką jak <code>0</code>), PRNG będzie generować za każdym razem tę samą sekwencję liczb. Jeśli uruchomisz powyższy program 3 razy, zobaczysz, że za każdym razem generuje tę samą sekwencję wartości.<p>Aby wygenerować różne sekwencje wyjściowe, należy zmienić stan początkowy PRNG. Wartość (lub zbiór wartości) używana do ustawienia stanu początkowego PRNG nazywana jest w skrócie a <strong>losowym ziarnem</strong> (lub <strong>nasionem</strong> ). Kiedy stan początkowy PRNG został ustawiony przy użyciu wartości początkowej, mówimy, że został <strong>zadane</strong>.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Ponieważ stan początkowy PRNG jest ustawiony na podstawie wartości początkowej, wszystkie wartości, które wygeneruje PRNG, są deterministycznie obliczane na podstawie wartości początkowej.</div><p>Wartość początkowa jest zazwyczaj dostarczana przez program przy użyciu PRNG. Oto przykładowy program, który żąda od użytkownika wartości początkowej, a następnie generuje 10 liczb losowych przy użyciu tej wartości początkowej (przy użyciu naszej funkcji <code>LCG16()</code> ).<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+</pre><p>Każda liczba wydaje się dość losowa w stosunku do poprzedniej.<p>Zauważ, jak  <code>LCG16()</code> jest podobny do naszego <code>plusOne()</code> przykładu powyżej! Stan jest początkowo ustawiony na wartość <code>0</code>. Następnie, aby wygenerować następną liczbę w sekwencji wyjściowej, bieżący stan jest modyfikowany (poprzez zastosowanie pewnych operacji matematycznych) w celu utworzenia nowego stanu, a następna liczba w sekwencji jest generowana na podstawie tego nowego stanu.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>Jak się okazuje, ten konkretny algorytm nie jest zbyt dobry jako generator liczb losowych (zwróć uwagę, że każdy wynik zmienia się pomiędzy parzystymi i nieparzystymi – to nie jest zbyt losowe!). Jednak większość PRNG działa podobnie do <code>LCG16()</code> -- po prostu zazwyczaj używa większej liczby zmiennych stanu i bardziej złożonych operacji matematycznych w celu wygenerowania wyników lepszej jakości.<p class="cpp-section cpp-topline" style=clear:both>Zakładanie PRNG<p>Sekwencja „liczb losowych” generowana przez PRNG nie jest wcale przypadkowa. Podobnie jak nasz <code>plusOne()</code> funkcji <code>LCG16()</code> jest również deterministyczny. Biorąc pod uwagę pewną wartość stanu początkowego (taką jak <code>0</code>), PRNG będzie generować za każdym razem tę samą sekwencję liczb. Jeśli uruchomisz powyższy program 3 razy, zobaczysz, że za każdym razem generuje tę samą sekwencję wartości.<p>Aby wygenerować różne sekwencje wyjściowe, należy zmienić stan początkowy PRNG. Wartość (lub zbiór wartości) używana do ustawienia stanu początkowego PRNG nazywana jest w skrócie <strong>losowym ziarnem</strong> (lub <strong>nasionem</strong> ). Kiedy stan początkowy PRNG został ustawiony przy użyciu wartości początkowej, mówimy, że został <strong>zadane</strong>.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Ponieważ stan początkowy PRNG jest ustawiony na podstawie wartości początkowej, wszystkie wartości, które wygeneruje PRNG, są deterministycznie obliczane na podstawie wartości początkowej.</div><p>Wartość początkowa jest zazwyczaj dostarczana przez program przy użyciu PRNG. Oto przykładowy program, który żąda od użytkownika wartości początkowej, a następnie generuje 10 liczb losowych przy użyciu tej wartości początkowej (przy użyciu naszej funkcji <code>LCG16()</code> ).<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 unsigned int g_state{ 0 };
 
@@ -83,35 +83,35 @@ void seedPRNG(unsigned int seed)
     g_state = seed;
 }
 
-// For illustrative purposes only, don&#39;t use this
+// Nie używaj tego wyłącznie w celach ilustracyjnych
 unsigned int LCG16() // our PRNG
 {
-    // We modify the state using large constants and intentional overflow to make it hard
-    // for someone to casually determine what the next number in the sequence will be.
+    // Modyfikujemy stan za pomocą dużych stałych i celowego przepełnienia, aby było to trudne
+    // dla kogoś, kto może przypadkowo określić, jaka będzie następna liczba w sekwencji.
 
-    g_state = 8253729 * g_state + 2396403; // first we modify the state
-    return g_state % 32768; // then we use the new state to generate the next number in the sequence
+    g_state = 8253729 * g_state + 2396403; // najpierw modyfikujemy stan
+    return g_state % 32768; // następnie używamy nowego stanu do wygenerowania kolejnej liczby w sekwencji
 }
 
 void print10()
 {
-    // Print 10 random numbers
+    // Wydrukuj 10 losowych liczb
     for (int count{ 1 }; count &lt;= 10; ++count)
     {
-        std::cout &lt;&lt; LCG16() &lt;&lt; &#39;\t&#39;;
+        std::cout &lt;&lt; LCG16() &lt;&lt; '\t';
     }   
 
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
 }
 
 int main()
 {
     unsigned int x {};
-    std::cout &lt;&lt; &#34;Enter a seed value: &#34;;
+    std::cout &lt;&lt; "Enter a seed value: ";
     std::cin &gt;&gt; x;
 
-    seedPRNG(x); // seed our PRNG
-    print10();   // generate 10 random values
+    seedPRNG(x); // zasiać nasz PRNG
+    print10();   // wygeneruj 10 losowych wartości
 
     return 0;
 }</code></pre><p>Oto 3 przykładowe przebiegi z tego:<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><pre>Enter a seed value: 7

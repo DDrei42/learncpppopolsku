@@ -17,21 +17,21 @@
 
 int generateID()
 {
-    static int s_id{ 0 }; // static local variable
+    static int s_id{ 0 }; // statyczna zmienna lokalna
     return ++s_id;
 }
 
 int main()
 {
-    std::cout &lt;&lt; generateID() &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; generateID() &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; generateID() &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; generateID() &lt;&lt; '\n';
+    std::cout &lt;&lt; generateID() &lt;&lt; '\n';
+    std::cout &lt;&lt; generateID() &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Ten program wypisuje:<pre>1
 2
 3
-</pre><p>Zauważ, że statyczna zmienna lokalna <code>s_id</code> zachowała swoją wartość podczas wielu wywołań funkcji.<p>Typy klas przynoszą  <code>static</code> słowo kluczowe jeszcze dwa zastosowania: statyczne zmienne składowe i statyczne funkcje składowe. Na szczęście te zastosowania są dość proste. W tej lekcji porozmawiamy o statycznych zmiennych składowych, a o statycznych funkcjach składowych w następnej.<p class="cpp-section cpp-topline" style=clear:both>Statyczne zmienne składowe<p>Zanim przejdziemy do słowa kluczowego static zastosowanego do zmiennych składowych, najpierw rozważmy następującą klasę:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+</pre><p>Zauważ, że statyczna zmienna lokalna <code>s_id</code> zachowała swoją wartość podczas wielu wywołań funkcji.<p>Typy klas przynoszą  słowo kluczowe <code>static</code> jeszcze dwa zastosowania: statyczne zmienne składowe i statyczne funkcje składowe. Na szczęście te zastosowania są dość proste. W tej lekcji porozmawiamy o statycznych zmiennych składowych, a o statycznych funkcjach składowych w następnej.<p class="cpp-section cpp-topline" style=clear:both>Statyczne zmienne składowe<p>Zanim przejdziemy do słowa kluczowego static zastosowanego do zmiennych składowych, najpierw rozważmy następującą klasę:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 struct Something
 {
@@ -49,16 +49,16 @@ int main()
     std::cout &lt;&lt; second.value &lt;&lt; &#39;\n&#39;;
 
     return 0;
-}</code></pre><p>Kiedy tworzymy instancję obiektu klasy, każdy obiekt otrzymuje własną kopię wszystkich normalnych zmiennych składowych. W tym przypadku, ponieważ zadeklarowaliśmy dwa obiekty klasy <code>Something</code> , otrzymujemy dwie kopie <code>value</code>: <code>first.value</code>, I <code>second.value</code>. <code>first.value</code> różne od <code>second.value</code>. W rezultacie powyższy program wypisuje:<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><pre>2
+}</code></pre><p>Kiedy tworzymy instancję obiektu klasy, każdy obiekt otrzymuje własną kopię wszystkich normalnych zmiennych składowych. W tym przypadku, ponieważ zadeklarowaliśmy dwa obiekty klasy <code>Something</code> , otrzymujemy dwie kopie <code>value</code>: <code>first.value</code>, i <code>second.value</code>. <code>first.value</code> różne od <code>second.value</code>. W rezultacie powyższy program wypisuje:<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><pre>2
 1
 </pre><p>Zmienne składowe klasy mogą być statyczne przy użyciu słowa kluczowego <code>static</code> . W przeciwieństwie do zwykłych zmiennych składowych, <strong>statyczne zmienne składowe</strong> są wspólne dla wszystkich obiektów klasy. Rozważmy następujący program, podobny do powyższego:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 struct Something
 {
-    static int s_value; // declare s_value as static (initializer moved below)
+    static int s_value; // deklaruj wartość_s jako statyczną (inicjator przeniesiony poniżej)
 };
 
-int Something::s_value{ 1 }; // define and initialize s_value to 1 (we&#39;ll discuss this section below)
+int Something::s_value{ 1 }; // zdefiniuj i zainicjuj wartość_s na 1 (ten rozdział omówimy poniżej)
 
 int main()
 {
@@ -67,41 +67,41 @@ int main()
 
     first.s_value = 2;
 
-    std::cout &lt;&lt; first.s_value &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; second.s_value &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; first.s_value &lt;&lt; '\n';
+    std::cout &lt;&lt; second.s_value &lt;&lt; '\n';
     return 0;
 }</code></pre><p>Ten program generuje następujące dane wyjściowe:<pre>2
 2
 </pre><p>Ponieważ <code>s_value</code> jest statyczną zmienną składową, <code>s_value</code> jest współdzielona pomiędzy wszystkimi obiektami klasy. W konsekwencji  <code>first.s_value</code> jest tą samą zmienną co <code>second.s_value</code>. Powyższy program pokazuje, że dostęp do wartości, którą ustawiamy za pomocą  <code>first</code> , można uzyskać za pomocą <code>second</code>!<p class="cpp-section cpp-topline" style=clear:both>Statyczne elementy członkowskie nie są powiązane z obiektami klasy<p>Chociaż dostęp do statycznych elementów można uzyskać poprzez obiekty klasy (jak pokazano za pomocą <code>first.s_value</code> i <code>second.s_value</code> w powyższym przykładzie), elementy statyczne istnieją nawet jeśli nie utworzono instancji obiektów klasy! Ma to sens: są tworzone na początku programu i niszczone na końcu programu, więc ich czas życia nie jest powiązany z obiektem klasy jak zwykły członek.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Zasadniczo elementy statyczne są zmiennymi globalnymi, które znajdują się w obszarze zasięgu klasy. Istnieje bardzo mała różnica pomiędzy statycznym elementem klasy a normalną zmienną w przestrzeni nazw.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Statyczne elementy składowe to zmienne globalne znajdujące się w obszarze zasięgu klasy.</div><p>Ponieważ statyczny element <code>s_value</code> istnieje niezależnie od jakichkolwiek obiektów klasy, można uzyskać do niego bezpośredni dostęp za pomocą nazwy klasy i operatora rozpoznawania zakresu (w tym przypadku <code>Something::s_value</code>):<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">class Something
 {
 public:
-    static int s_value; // declare s_value as static
+    static int s_value; // deklaruj wartość_s jako statyczną
 };
 
-int Something::s_value{ 1 }; // define and initialize s_value to 1 (we&#39;ll discuss this section below)
+int Something::s_value{ 1 }; // zdefiniuj i zainicjuj wartość_s na 1 (ten rozdział omówimy poniżej)
 
 int main()
 {
-    // note: we&#39;re not instantiating any objects of type Something
+    // uwaga: nie tworzymy instancji dowolne obiekty typu Coś
 
     Something::s_value = 2;
-    std::cout &lt;&lt; Something::s_value &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; Something::s_value &lt;&lt; '\n';
     return 0;
-}</code></pre><p>W powyższym przykładzie fragment kodu,  <code>s_value</code> odwołuje się za pomocą nazwy klasy <code>Something</code> a nie poprzez obiekt. Należy zauważyć, że nie utworzyliśmy nawet instancji obiektu typu <code>Something</code>, ale nadal możemy uzyskiwać dostęp i używać <code>Something::s_value</code>. Jest to preferowana metoda uzyskiwania dostępu do elementów statycznych.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Uzyskuj dostęp do elementów statycznych za pomocą nazwy klasy i operatora rozpoznawania zakresu. (::).</div><p class="cpp-section cpp-topline" style=clear:both>Definiowanie i inicjowanie statycznych zmiennych składowych<p>Kiedy deklarujemy statyczną zmienną składową wewnątrz typu klasy, mówimy kompilatorowi o istnieniu statycznej zmiennej składowej, ale tak naprawdę jej nie definiujemy (podobnie jak deklaracja forward). zakres.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>W powyższym przykładzie robimy to za pomocą tej linii:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int Something::s_value{ 1 }; // define and initialize s_value to 1</code></pre><p>Ta linia służy dwóm celom: tworzy instancję statycznej zmiennej składowej (podobnie jak zmienna globalna) i inicjuje ją. W tym przypadku podajemy wartość inicjującą <code>1</code>. Jeśli nie podano inicjatora, statyczne zmienne składowe są domyślnie inicjowane zerem.<p>Zauważ, że ta statyczna definicja elementu członkowskiego nie podlega kontroli dostępu: możesz zdefiniować i zainicjować wartość, nawet jeśli jest zadeklarowana w klasie jako prywatna (lub chroniona) (ponieważ definicje nie są uważane za formę dostępu).<p>W przypadku klas innych niż szablon, jeśli klasa jest zdefiniowana w pliku nagłówkowym (.h), definicja statycznego elementu członkowskiego jest zwykle umieszczana w powiązanym pliku kodu dla klasy (np. <code>Something.cpp</code>). Alternatywnie element można również zdefiniować jako  <code>inline</code>  i umieścić poniżej definicji klasy w nagłówku (jest to przydatne w przypadku bibliotek zawierających tylko nagłówek). Jeśli klasa jest zdefiniowana w pliku źródłowym (.cpp), definicja statycznego elementu członkowskiego jest zwykle umieszczana bezpośrednio pod klasą. Nie umieszczaj definicji elementu statycznego w pliku nagłówkowym (podobnie jak zmienna globalna, jeśli ten plik nagłówkowy zostanie dołączony więcej niż raz, otrzymasz wiele definicji, co spowoduje błąd linkera).<p>W przypadku klas szablonowych (szablonowy) definicja statycznego elementu członkowskiego jest zwykle umieszczana bezpośrednio pod definicją klasy szablonu w pliku nagłówkowym (nie narusza to ODR, ponieważ takie definicje są domyślnie wbudowane).<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Inicjalizacja statycznych zmiennych składowych wewnątrz definicji klasy<p>Istnieje kilka skrótów do powyższego. Po pierwsze, gdy element statyczny jest stałym typem całkowitym (który zawiera <code>char</code> i <code>bool</code>) lub const enum, element statyczny można zainicjować w definicji klasy:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">class Whatever
+}</code></pre><p>W powyższym przykładzie fragment kodu,  <code>s_value</code> odwołuje się za pomocą nazwy klasy <code>Something</code> a nie poprzez obiekt. Należy zauważyć, że nie utworzyliśmy nawet instancji obiektu typu <code>Something</code>, ale nadal możemy uzyskiwać dostęp i używać <code>Something::s_value</code>. Jest to preferowana metoda uzyskiwania dostępu do elementów statycznych.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Uzyskuj dostęp do elementów statycznych za pomocą nazwy klasy i operatora rozpoznawania zakresu. (::).</div><p class="cpp-section cpp-topline" style=clear:both>Definiowanie i inicjowanie statycznych zmiennych składowych<p>Kiedy deklarujemy statyczną zmienną składową wewnątrz typu klasy, mówimy kompilatorowi o istnieniu statycznej zmiennej składowej, ale tak naprawdę jej nie definiujemy (podobnie jak deklaracja forward). zakres.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>W powyższym przykładzie robimy to za pomocą tej linii:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int Something::s_value{ 1 }; // zdefiniuj i zainicjuj wartość_s do 1</code></pre><p>Ta linia służy dwóm celom: tworzy instancję statycznej zmiennej składowej (podobnie jak zmienna globalna) i inicjuje ją. W tym przypadku podajemy wartość inicjującą <code>1</code>. Jeśli nie podano inicjatora, statyczne zmienne składowe są domyślnie inicjowane zerem.<p>Zauważ, że ta statyczna definicja elementu członkowskiego nie podlega kontroli dostępu: możesz zdefiniować i zainicjować wartość, nawet jeśli jest zadeklarowana w klasie jako prywatna (lub chroniona) (ponieważ definicje nie są uważane za formę dostępu).<p>W przypadku klas innych niż szablon, jeśli klasa jest zdefiniowana w pliku nagłówkowym (.h), definicja statycznego elementu członkowskiego jest zwykle umieszczana w powiązanym pliku kodu dla klasy (np. <code>Something.cpp</code>). Alternatywnie element można również zdefiniować jako  <code>inline</code>  i umieścić poniżej definicji klasy w nagłówku (jest to przydatne w przypadku bibliotek zawierających tylko nagłówek). Jeśli klasa jest zdefiniowana w pliku źródłowym (.cpp), definicja statycznego elementu członkowskiego jest zwykle umieszczana bezpośrednio pod klasą. Nie umieszczaj definicji elementu statycznego w pliku nagłówkowym (podobnie jak zmienna globalna, jeśli ten plik nagłówkowy zostanie dołączony więcej niż raz, otrzymasz wiele definicji, co spowoduje błąd linkera).<p>W przypadku klas szablonowych (szablonowy) definicja statycznego elementu członkowskiego jest zwykle umieszczana bezpośrednio pod definicją klasy szablonu w pliku nagłówkowym (nie narusza to ODR, ponieważ takie definicje są domyślnie wbudowane).<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Inicjalizacja statycznych zmiennych składowych wewnątrz definicji klasy<p>Istnieje kilka skrótów do powyższego. Po pierwsze, gdy element statyczny jest stałym typem całkowitym (który zawiera <code>char</code> i <code>bool</code>) lub const enum, element statyczny można zainicjować w definicji klasy:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">class Whatever
 {
 public:
-    static const int s_value{ 4 }; // a static const int can be defined and initialized directly
+    static const int s_value{ 4 }; // stała statyczna int może zostać zdefiniowana i zainicjowana bezpośrednio
 };</code></pre><p>W powyższym przykładzie, ponieważ zmienna składowa statyczna jest stałą int, nie jest wymagana żadna jawna linia definicji. Ten skrót jest dozwolony, ponieważ te konkretne typy const są stałymi czasu kompilacji.<p>W lekcji <a href="../sharing-global-constants-across-multiple-files-using-inline-variables/index.html">7.10 — Współdzielenie stałych globalnych w wielu plikach (przy użyciu zmiennych wbudowanych)</a>, wprowadziliśmy zmienne wbudowane, które mogą mieć wiele definicji. C++17 pozwala statycznym członom być zmiennymi wbudowanymi:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">class Whatever
 {
 public:
-    static inline int s_value{ 4 }; // a static inline variable can be defined and initialized directly
-};</code></pre><p>Takie zmienne można inicjalizować wewnątrz definicji klasy niezależnie od tego, czy są stałe, czy nie. Jest to preferowana metoda definiowania i inicjowania składowych statycznych.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p>Ponieważ <code>constexpr</code> Elementy są domyślnie wbudowane (od C++17), statyczne <code>constexpr</code> elementy można także inicjować wewnątrz definicji klasy bez jawnego użycia  <code>inline</code> słowem kluczowym:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;string_view&gt;
+    static inline int s_value{ 4 }; // statyczna zmienna inline może zostać zdefiniowana i zainicjowana bezpośrednio
+};</code></pre><p>Takie zmienne można inicjalizować wewnątrz definicji klasy niezależnie od tego, czy są stałe, czy nie. Jest to preferowana metoda definiowania i inicjowania składowych statycznych.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p>Ponieważ <code>constexpr</code> Elementy są domyślnie wbudowane (od C++17), statyczne <code>constexpr</code> elementy można także inicjować wewnątrz definicji klasy bez jawnego użycia  słowem kluczowym <code>inline</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;string_view&gt;
 
 class Whatever
 {
 public:
     static constexpr double s_value{ 2.2 }; // ok
-    static constexpr std::string_view s_view{ &#34;Hello&#34; }; // this even works for classes that support constexpr initialization
+    static constexpr std::string_view s_view{ "Hello" }; // działa to nawet dla klas obsługujących inicjalizację constexpr
 };</code></pre><div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Utwórz swoje statyczne elementy <code>inline</code> lub <code>constexpr</code> , aby można je było inicjalizować w definicji klasy.</div><p class="cpp-section cpp-topline" style=clear:both>Przykład statyczne zmienne składowe<p>Po co używać zmiennych statycznych wewnątrz klas? Jednym z zastosowań jest przypisanie unikalnego identyfikatora do każdej instancji klasy. Oto przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 class Something
@@ -111,7 +111,7 @@ private:
     int m_id {};
 
 public:
-    // grab the next value from the id generator
+    // pobierz następną wartość z generator id
     Something() : m_id { s_idGenerator++ } 
     {    
     }
@@ -125,23 +125,23 @@ int main()
     Something second{};
     Something third{};
 
-    std::cout &lt;&lt; first.getID() &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; second.getID() &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; third.getID() &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; first.getID() &lt;&lt; '\n';
+    std::cout &lt;&lt; second.getID() &lt;&lt; '\n';
+    std::cout &lt;&lt; third.getID() &lt;&lt; '\n';
     return 0;
 }</code></pre><p>Ten program wypisuje:<pre>1
 2
 3
-</pre><p>Ponieważ <code>s_idGenerator</code> jest wspólny dla wszystkich <code>Something</code> obiektów, kiedy tworzony jest nowy <code>Something</code> obiekt, konstruktor inicjuje <code>m_id</code> bieżącą wartością <code>s_idGenerator</code> a następnie zwiększa wartość dla następnego obiektu. Gwarantuje to, że każdy utworzony <code>Something</code> obiekt otrzyma unikalny identyfikator (zwiększany w kolejności tworzenia).<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>Nadanie każdemu obiektowi unikalnego identyfikatora może być pomocne podczas debugowania, ponieważ można go wykorzystać do rozróżnienia obiektów, które w przeciwnym razie miałyby identyczne dane. Jest to szczególnie prawdziwe podczas pracy z tablicami danych.<p>Statyczne zmienne składowe są również przydatne, gdy klasa musi skorzystać z tabeli przeglądowej (np. tablicy używanej do przechowywania zestawu wstępnie obliczonych wartości). Dzięki uczynieniu tabeli przeglądowej statyczną istnieje tylko jedna kopia dla wszystkich obiektów, zamiast tworzyć kopię dla każdej utworzonej instancji obiektu. Może to zaoszczędzić znaczną ilość pamięci.<p class="cpp-section cpp-topline" style=clear:both>Tylko statyczne elementy członkowskie mogą używać dedukcji typu (<code>auto</code> i CTAD)<p>Statyczny element składowy może używać <code>auto</code> do dedukcji swojego typu na podstawie inicjatora, lub klasowego odliczania argumentów szablonu (CTAD) do dedukowania argumentów typu szablonu z inicjatora.<p>Niestatyczne elementy członkowskie mogą nie używaj <code>auto</code> ani CTAD.<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><p>Powody dokonania tego rozróżnienia są dość skomplikowane, ale sprowadzają się do tego, że w przypadku elementów niestatycznych mogą wystąpić pewne przypadki, które prowadzą do niejednoznaczności lub nieintuicyjnych wyników. Nie dotyczy to elementów statycznych. Zatem elementy niestatyczne mają ograniczone możliwości korzystania z tych funkcji, podczas gdy elementy statyczne nie.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;utility&gt; // for std::pair&lt;T, U&gt;
+</pre><p>Ponieważ <code>s_idGenerator</code> jest wspólny dla wszystkich <code>Something</code> obiektów, kiedy tworzony jest nowy <code>Something</code> obiekt, konstruktor inicjuje <code>m_id</code> bieżącą wartością <code>s_idGenerator</code> a następnie zwiększa wartość dla następnego obiektu. Gwarantuje to, że każdy utworzony <code>Something</code> obiekt otrzyma unikalny identyfikator (zwiększany w kolejności tworzenia).<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>Nadanie każdemu obiektowi unikalnego identyfikatora może być pomocne podczas debugowania, ponieważ można go wykorzystać do rozróżnienia obiektów, które w przeciwnym razie miałyby identyczne dane. Jest to szczególnie prawdziwe podczas pracy z tablicami danych.<p>Statyczne zmienne składowe są również przydatne, gdy klasa musi skorzystać z tabeli przeglądowej (np. tablicy używanej do przechowywania zestawu wstępnie obliczonych wartości). Dzięki uczynieniu tabeli przeglądowej statyczną istnieje tylko jedna kopia dla wszystkich obiektów, zamiast tworzyć kopię dla każdej utworzonej instancji obiektu. Może to zaoszczędzić znaczną ilość pamięci.<p class="cpp-section cpp-topline" style=clear:both>Tylko statyczne elementy członkowskie mogą używać dedukcji typu (<code>auto</code> i CTAD)<p>Statyczny element składowy może używać <code>auto</code> do dedukcji swojego typu na podstawie inicjatora, lub klasowego odliczania argumentów szablonu (CTAD) do dedukowania argumentów typu szablonu z inicjatora.<p>Niestatyczne elementy członkowskie mogą nie używaj <code>auto</code> ani CTAD.<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><p>Powody dokonania tego rozróżnienia są dość skomplikowane, ale sprowadzają się do tego, że w przypadku elementów niestatycznych mogą wystąpić pewne przypadki, które prowadzą do niejednoznaczności lub nieintuicyjnych wyników. Nie dotyczy to elementów statycznych. Zatem elementy niestatyczne mają ograniczone możliwości korzystania z tych funkcji, podczas gdy elementy statyczne nie.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;utility&gt; // dla std::pair&lt;T, U&gt;
 
 class Foo
 {
 private:
-    auto m_x { 5 };           // auto not allowed for non-static members
-    std::pair m_v { 1, 2.3 }; // CTAD not allowed for non-static members
+    auto m_x { 5 };           // auto niedozwolone dla członków niestatycznych
+    std::pair m_v { 1, 2.3 }; // CTAD nie jest dozwolone dla elementów niestatycznych członkowie
 
-    static inline auto s_x { 5 };           // auto allowed for static members
-    static inline std::pair s_v { 1, 2.3 }; // CTAD allowed for static members
+    static inline auto s_x { 5 };           // auto dozwolone dla statycznych członków
+    static inline std::pair s_v { 1, 2.3 }; // CTAD dozwolone dla elementów statycznych
 
 public:
     Foo() {};

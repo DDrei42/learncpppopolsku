@@ -20,14 +20,14 @@ unsigned long long ull;</code></pre><p class="cpp-section cpp-topline" style=cle
 
 int main()
 {
-    unsigned short x{ 65535 }; // largest 16-bit unsigned value possible
-    std::cout &lt;&lt; &#34;x was: &#34; &lt;&lt; x &lt;&lt; &#39;\n&#39;;
+    unsigned short x{ 65535 }; // największa możliwa 16-bitowa wartość bez znaku
+    std::cout &lt;&lt; "x was: " &lt;&lt; x &lt;&lt; '\n';
 
-    x = 65536; // 65536 is out of our range, so we get modulo wrap-around
-    std::cout &lt;&lt; &#34;x is now: &#34; &lt;&lt; x &lt;&lt; &#39;\n&#39;;
+    x = 65536; // 65536 jest poza naszym zakresem, więc otrzymamy modulo zawijanie
+    std::cout &lt;&lt; "x is now: " &lt;&lt; x &lt;&lt; '\n';
 
-    x = 65537; // 65537 is out of our range, so we get modulo wrap-around
-    std::cout &lt;&lt; &#34;x is now: &#34; &lt;&lt; x &lt;&lt; &#39;\n&#39;;
+    x = 65537; // 65537 jest poza naszym zakresem, więc otrzymujemy zawijanie modulo
+    std::cout &lt;&lt; "x is now: " &lt;&lt; x &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Jak myślisz, jaki będzie wynik tego programu?<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>(Uwaga: jeśli spróbujesz skompilować powyższy program, kompilator powinien wyświetlić ostrzeżenia o przepełnieniu lub obcięciu — aby uruchomić program, musisz wyłączyć opcję „traktuj ostrzeżenia jako błędy”)<pre>x was: 65535
@@ -37,14 +37,14 @@ x is now: 1
 
 int main()
 {
-    unsigned short x{ 0 }; // smallest 2-byte unsigned value possible
-    std::cout &lt;&lt; &#34;x was: &#34; &lt;&lt; x &lt;&lt; &#39;\n&#39;;
+    unsigned short x{ 0 }; // najmniejsza możliwa 2-bajtowa wartość bez znaku
+    std::cout &lt;&lt; "x was: " &lt;&lt; x &lt;&lt; '\n';
 
-    x = -1; // -1 is out of our range, so we get modulo wrap-around
-    std::cout &lt;&lt; &#34;x is now: &#34; &lt;&lt; x &lt;&lt; &#39;\n&#39;;
+    x = -1; // -1 jest poza naszym zakresem, więc otrzymujemy zawijanie modulo
+    std::cout &lt;&lt; "x is now: " &lt;&lt; x &lt;&lt; '\n';
 
-    x = -2; // -2 is out of our range, so we get modulo wrap-around
-    std::cout &lt;&lt; &#34;x is now: &#34; &lt;&lt; x &lt;&lt; &#39;\n&#39;;
+    x = -2; // -2 jest poza naszym zakresem, więc otrzymujemy modulo zawijanie
+    std::cout &lt;&lt; "x is now: " &lt;&lt; x &lt;&lt; '\n';
 
     return 0;
 }</code></pre><pre>x was: 0
@@ -52,51 +52,51 @@ x is now: 65535
 x is now: 65534
 </pre><p>Powyższy kod wywołuje ostrzeżenie w niektórych kompilatorach, ponieważ kompilator wykrywa, że ​​literał całkowity jest poza zakresem dla danego typu. Jeśli mimo wszystko chcesz skompilować kod, tymczasowo wyłącz opcję „Traktuj ostrzeżenia jako błędy”.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Na marginesie…<p>Wiele znaczących błędów w historii gier wideo miało miejsce w wyniku zawijania zachowań liczbami całkowitymi bez znaku. W grze zręcznościowej Donkey Kong nie można przekroczyć poziomu 22 ze względu na błąd przepełnienia, który pozostawia użytkownikowi niewystarczającą ilość dodatkowego czasu na ukończenie poziomu.<p>W grze Civilization na komputery PC Gandhi był znany z tego, że często jako pierwszy używał broni nuklearnej, co wydaje się sprzeczne z jego oczekiwaną pasywną naturą. Gracze mieli teorię, że poziom agresji Gandhiego początkowo wynosił 1, ale jeśli wybrałby rząd demokratyczny, otrzymałby modyfikator agresji -2 (obniżając jego obecną wartość agresji o 2). Spowodowałoby to przekroczenie jego poziomu agresji do 255, czyniąc go maksymalnie agresywnym! Jednak niedawno Sid Meier (autor gry) wyjaśnił, że tak nie jest w rzeczywistości.</div><p class="cpp-section cpp-topline" style=clear:both>Kontrowersje wokół liczb bez znaku<p>Wielu programistów (i niektóre duże firmy programistyczne, takie jak Google) uważa, że programiści powinni generalnie unikać liczb całkowitych bez znaku.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>Jest to głównie spowodowane dwoma zachowaniami, które mogą powodować problemy.<p>Po pierwsze, w przypadku wartości ze znakiem trochę pracy, aby przypadkowo przekroczyć górę lub dół zakresu, ponieważ te wartości są dalekie od 0. W przypadku liczb bez znaku znacznie łatwiej jest przekroczyć dół zakresu, ponieważ dolna część zakresu wynosi 0, czyli blisko miejsca, gdzie znajduje się większość naszych wartości.<p>Rozważ odejmowanie dwóch liczb bez znaku, takich jak 2 i 3:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-// assume int is 4 bytes
+// załóżmy, że int ma 4 bajty
 int main()
 {
 	unsigned int x{ 2 };
 	unsigned int y{ 3 };
 
-	std::cout &lt;&lt; x - y &lt;&lt; &#39;\n&#39;; // prints 4294967295 (incorrect!)
+	std::cout &lt;&lt; x - y &lt;&lt; '\n'; // prints 4294967295 (incorrect!)
 
 	return 0;
 }</code></pre><p>Ty i ja wiemy, że <code>2 - 3</code> Jest <code>-1</code>, ale <code>-1</code> nie może być reprezentowana jako liczba całkowita bez znaku, więc otrzymamy przepełnienie i następujący wynik:<pre>4294967295
 </pre><p>Inne częste niepożądane zawijanie ma miejsce, gdy liczba całkowita bez znaku jest wielokrotnie zmniejszana o 1, aż do próby zmniejszenia do liczby ujemnej. Zobaczysz tego przykład po wprowadzeniu pętli.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p>Po drugie, bardziej podstępne, może wystąpić nieoczekiwane zachowanie, gdy mieszasz liczby całkowite ze znakiem i bez znaku. W C++, jeśli operacja matematyczna (np. arytmetyka lub porównanie) ma jedną liczbę całkowitą ze znakiem i jedną liczbę całkowitą bez znaku, liczba całkowita ze znakiem będzie zwykle konwertowana na liczbę całkowitą bez znaku. A zatem wynik będzie niepodpisany. Na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-// assume int is 4 bytes
+// załóżmy, że int ma 4 bajty
 int main()
 {
 	unsigned int u{ 2 };
 	signed int s{ 3 };
 
-	std::cout &lt;&lt; u - s &lt;&lt; &#39;\n&#39;; // 2 - 3 = 4294967295
+	std::cout &lt;&lt; u - s &lt;&lt; '\n'; // 2 - 3 = 4294967295
 
 	return 0;
 }</code></pre><p>To również daje wynik:<pre>4294967295
 </pre><p>W tym przypadku, jeśli <code>u</code> został podpisany, zostanie wygenerowany poprawny wynik. Ponieważ jednak  <code>u</code> jest bez znaku (co łatwo przeoczyć),  <code>s</code> jest konwertowany na wartość bez znaku, a wynik (<code>-1</code>) jest traktowany jako wartość bez znaku. Ponieważ <code>-1</code> nie można zapisać w wartości bez znaku, otrzymujemy przepełnienie i nieoczekiwaną odpowiedź.<p>Oto kolejny przykład, w którym coś poszło nie tak:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-// assume int is 4 bytes
+// załóżmy, że int ma 4 bajty
 int main()
 {
     signed int s { -1 };
     unsigned int u { 1 };
 
-    if (s &lt; u) // -1 is implicitly converted to 4294967295, and 4294967295 &lt; 1 is false
-        std::cout &lt;&lt; &#34;-1 is less than 1\n&#34;;
+    if (s &lt; u) // -1 jest domyślnie konwertowane na 4294967295 i 4294967295 &lt; 1 to false
+        std::cout &lt;&lt; "-1 is less than 1\n";
     else
-        std::cout &lt;&lt; &#34;1 is less than -1\n&#34;; // this statement executes
+        std::cout &lt;&lt; "1 is less than -1\n"; // ta instrukcja jest wykonywana
 
     return 0;
 }</code></pre><p>Wypisuje:<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><pre>1 is less than -1
 </pre><p>Ten program jest dobrze zbudowany, kompiluje się i jest logicznie spójny dla oka. Ale wypisuje błędną odpowiedź. I chociaż Twój kompilator powinien ostrzegać Cię o niezgodności ze znakiem/bez znaku w tym przypadku, Twój kompilator wygeneruje również identyczne ostrzeżenia w innych przypadkach, w których nie występuje ten problem (np. gdy obie liczby są dodatnie), co utrudnia wykrycie rzeczywistego problemu.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Powiązana treść<p>Omówimy reguły konwersji, które wymagają, aby oba operandy niektórych operacji binarnych były tego samego typu na lekcji <a href="../arithmetic-conversions/index.html">10.5 — Konwersje arytmetyczne</a>.<br>Instrukcje if omówimy w nadchodzących lekcjach lekcja <a href="../introduction-to-if-statements/index.html">4.10 - Wprowadzenie do instrukcji if</a>.</div><p>Dodatkowo istnieją inne problematyczne przypadki, które są trudne do wykrycia. Rozważ następujące kwestie:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-// assume int is 4 bytes
+// załóżmy, że int ma 4 bajty
 void doSomething(unsigned int x)
 {
-    // Run some code x times
+    // Uruchom jakiś kod x razy
 
-    std::cout &lt;&lt; &#34;x is &#34; &lt;&lt; x &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "x is " &lt;&lt; x &lt;&lt; '\n';
 }
 
 int main()

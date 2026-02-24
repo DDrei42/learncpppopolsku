@@ -17,8 +17,8 @@
 
 int main()
 {
-    int x { 5 }; // x makes a copy of its initializer
-    std::cout &lt;&lt; x &lt;&lt; &#39;\n&#39;;
+    int x { 5 }; // x tworzy kopię swojego inicjatora
+    std::cout &lt;&lt; x &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Gdy wykonywana jest definicja dla <code>x</code> , wartość inicjująca <code>5</code> jest kopiowana do pamięci przeznaczonej dla zmienna <code>int x</code>. W przypadku typów podstawowych inicjowanie i kopiowanie zmiennej jest szybkie.<p>Rozważmy teraz podobny program: <pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -26,95 +26,95 @@ int main()
 
 int main()
 {
-    std::string s{ &#34;Hello, world!&#34; }; // s makes a copy of its initializer
-    std::cout &lt;&lt; s &lt;&lt; &#39;\n&#39;;
+    std::string s{ "Hello, world!" }; // s tworzy kopię swojego inicjatora
+    std::cout &lt;&lt; s &lt;&lt; '\n';
 
     return 0;
-}</code></pre><p>Po wywołaniu <code>s</code> jest inicjowany, literał ciągu znaków w stylu C <code>"Hello, world!"</code> jest kopiowany do pamięci przydzielonej dla <code>std::string s</code>. W przeciwieństwie do typów podstawowych, inicjowanie i kopiowanie a <code>std::string</code> jest powolne.<p>W powyższym programie jedyne, co robimy za pomocą <code>s</code> to wypisanie wartości do konsoli, a następnie <code>s</code> jest ona niszczona. Zasadniczo stworzyliśmy kopię „Hello, world!” po prostu wydrukować, a następnie zniszczyć tę kopię. To jest nieefektywne.<p>Widzimy coś podobnego w tym przykładzie:<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+}</code></pre><p>Po wywołaniu <code>s</code> jest inicjowany, literał ciągu znaków w stylu C <code>"Hello, world!"</code> jest kopiowany do pamięci przydzielonej dla <code>std::string s</code>. W przeciwieństwie do typów podstawowych, inicjowanie i kopiowanie <code>std::string</code> jest powolne.<p>W powyższym programie jedyne, co robimy za pomocą <code>s</code> to wypisanie wartości do konsoli, a następnie <code>s</code> jest ona niszczona. Zasadniczo stworzyliśmy kopię „Hello, world!” po prostu wydrukować, a następnie zniszczyć tę kopię. To jest nieefektywne.<p>Widzimy coś podobnego w tym przykładzie:<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;string&gt;
 
-void printString(std::string str) // str makes a copy of its initializer
+void printString(std::string str) // str tworzy kopię swojego inicjatora
 {
-    std::cout &lt;&lt; str &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; str &lt;&lt; '\n';
 }
 
 int main()
 {
-    std::string s{ &#34;Hello, world!&#34; }; // s makes a copy of its initializer
+    std::string s{ "Hello, world!" }; // s tworzy kopię swojego inicjatora
     printString(s);
 
     return 0;
-}</code></pre><p>W tym przykładzie tworzone są dwie kopie ciągu znaków w stylu C „Hello, world!”: jedna, gdy inicjujemy  <code>s</code> w <code>main()</code>, a druga, gdy inicjujemy parametr  <code>str</code> w <code>printString()</code>. To dużo niepotrzebnego kopiowania, aby wydrukować ciąg znaków!<p class="cpp-section cpp-topline" style=clear:both>std::string_view <span class="cpp-section-pill cpp-section-standard">C++17</span><p>Aby rozwiązać problem <code>std::string</code> kosztownego inicjalizacji (lub kopiowania), wprowadzono C++17 <code>std::string_view</code> (który znajduje się w nagłówku &lt;string_view&gt;). <code>std::string_view</code> zapewnia dostęp tylko do odczytu  <em>istniejący</em> ciąg znaków (ciąg w stylu C, a <code>std::string</code> lub innymi <code>std::string_view</code>) bez tworzenia kopii. <strong>Tylko do odczytu</strong> oznacza, że możemy uzyskać dostęp do przeglądanej wartości i z niej korzystać, ale nie możemy jej modyfikować.<p>Poniższy przykład jest identyczny z poprzedni, z tą różnicą, że zastąpiliśmy  <code>std::string</code> z <code>std::string_view</code>.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+}</code></pre><p>W tym przykładzie tworzone są dwie kopie ciągu znaków w stylu C „Hello, world!”: jedna, gdy inicjujemy  <code>s</code> w <code>main()</code>, a druga, gdy inicjujemy parametr  <code>str</code> w <code>printString()</code>. To dużo niepotrzebnego kopiowania, aby wydrukować ciąg znaków!<p class="cpp-section cpp-topline" style=clear:both>std::string_view <span class="cpp-section-pill cpp-section-standard">C++17</span><p>Aby rozwiązać problem <code>std::string</code> kosztownego inicjalizacji (lub kopiowania), wprowadzono C++17 <code>std::string_view</code> (który znajduje się w nagłówku &lt;string_view&gt;). <code>std::string_view</code> zapewnia dostęp tylko do odczytu  <em>istniejący</em> ciąg znaków (ciąg w stylu C, <code>std::string</code> lub innymi <code>std::string_view</code>) bez tworzenia kopii. <strong>Tylko do odczytu</strong> oznacza, że możemy uzyskać dostęp do przeglądanej wartości i z niej korzystać, ale nie możemy jej modyfikować.<p>Poniższy przykład jest identyczny z poprzedni, z tą różnicą, że zastąpiliśmy  <code>std::string</code> z <code>std::string_view</code>.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;string_view&gt; // C++17
 
-// str provides read-only access to whatever argument is passed in
-void printSV(std::string_view str) // now a std::string_view
+// str zapewnia dostęp tylko do odczytu do dowolnego argumentu przekazanego
+void printSV(std::string_view str) // teraz std::string_view
 {
-    std::cout &lt;&lt; str &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; str &lt;&lt; '\n';
 }
 
 int main()
 {
-    std::string_view s{ &#34;Hello, world!&#34; }; // now a std::string_view
+    std::string_view s{ "Hello, world!" }; // teraz std::string_view
     printSV(s);
 
     return 0;
-}</code></pre><p>Ten program generuje takie same dane wyjściowe jak poprzedni, ale nie kopiuje ciągu „Witaj, świecie!” są tworzone.<p>Kiedy inicjujemy <code>std::string_view s</code> za pomocą literału łańcuchowego w stylu C <code>"Hello, world!"</code>, <code>s</code> zapewnia dostęp tylko do odczytu do „Hello, world!” bez tworzenia kopii ciągu. Kiedy przekazujemy <code>s</code> Do <code>printSV()</code>, parametr <code>str</code> jest inicjowany z <code>s</code>. Dzięki temu możemy uzyskać dostęp do „Hello, world!” poprzez <code>str</code>, ponownie bez tworzenia kopii ciągu.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Preferuj <code>std::string_view</code> za  <code>std::string</code> kiedy potrzebny jest ciąg tylko do odczytu, zwłaszcza dla parametrów funkcji.</div><p class="cpp-section cpp-topline" style=clear:both><code>std::string_view</code> można inicjalizować wieloma różnymi typami ciągów<p>Jedną z najważniejszych cech  <code>std::string_view</code> jest jego elastyczność. Obiekt <code>std::string_view</code> można zainicjować ciągiem w stylu C, a <code>std::string</code> lub innymi <code>std::string_view</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+}</code></pre><p>Ten program generuje takie same dane wyjściowe jak poprzedni, ale nie kopiuje ciągu „Witaj, świecie!” są tworzone.<p>Kiedy inicjujemy <code>std::string_view s</code> za pomocą literału łańcuchowego w stylu C <code>"Hello, world!"</code>, <code>s</code> zapewnia dostęp tylko do odczytu do „Hello, world!” bez tworzenia kopii ciągu. Kiedy przekazujemy <code>s</code> Do <code>printSV()</code>, parametr <code>str</code> jest inicjowany z <code>s</code>. Dzięki temu możemy uzyskać dostęp do „Hello, world!” poprzez <code>str</code>, ponownie bez tworzenia kopii ciągu.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Preferuj <code>std::string_view</code> za  <code>std::string</code> kiedy potrzebny jest ciąg tylko do odczytu, zwłaszcza dla parametrów funkcji.</div><p class="cpp-section cpp-topline" style=clear:both><code>std::string_view</code> można inicjalizować wieloma różnymi typami ciągów<p>Jedną z najważniejszych cech  <code>std::string_view</code> jest jego elastyczność. Obiekt <code>std::string_view</code> można zainicjować ciągiem w stylu C, <code>std::string</code> lub innymi <code>std::string_view</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;string&gt;
 #include &lt;string_view&gt;
 
 int main()
 {
-    std::string_view s1 { &#34;Hello, world!&#34; }; // initialize with C-style string literal
-    std::cout &lt;&lt; s1 &lt;&lt; &#39;\n&#39;;
+    std::string_view s1 { "Hello, world!" }; // zainicjuj za pomocą literału łańcuchowego w stylu C
+    std::cout &lt;&lt; s1 &lt;&lt; '\n';
 
-    std::string s{ &#34;Hello, world!&#34; };
-    std::string_view s2 { s };  // initialize with std::string
-    std::cout &lt;&lt; s2 &lt;&lt; &#39;\n&#39;;
+    std::string s{ "Hello, world!" };
+    std::string_view s2 { s };  // zainicjuj za pomocą std::string
+    std::cout &lt;&lt; s2 &lt;&lt; '\n';
 
-    std::string_view s3 { s2 }; // initialize with std::string_view
-    std::cout &lt;&lt; s3 &lt;&lt; &#39;\n&#39;;
+    std::string_view s3 { s2 }; // zainicjuj za pomocą std::string_view
+    std::cout &lt;&lt; s3 &lt;&lt; '\n';
        
     return 0;
-}</code></pre><p class="cpp-section cpp-topline" style=clear:both><code>std::string_view</code> parametrami, które akceptują wiele różnych typów argumentów ciągu<p>Zarówno ciąg w stylu C, jak i a <code>std::string</code> będą niejawnie konwertowane na a <code>std::string_view</code>. Zatem parametr <code>std::string_view</code> zaakceptuje argumenty typu string w stylu C, a <code>std::string</code> lub <code>std::string_view</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+}</code></pre><p class="cpp-section cpp-topline" style=clear:both><code>std::string_view</code> parametrami, które akceptują wiele różnych typów argumentów ciągu<p>Zarówno ciąg w stylu C, jak i <code>std::string</code> będą niejawnie konwertowane na <code>std::string_view</code>. Zatem parametr <code>std::string_view</code> zaakceptuje argumenty typu string w stylu C, <code>std::string</code> lub <code>std::string_view</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;string&gt;
 #include &lt;string_view&gt;
 
 void printSV(std::string_view str)
 {
-    std::cout &lt;&lt; str &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; str &lt;&lt; '\n';
 }
 
 int main()
 {
-    printSV(&#34;Hello, world!&#34;); // call with C-style string literal
+    printSV("Hello, world!"); // wywołaj z literałem ciągu w stylu C
 
-    std::string s2{ &#34;Hello, world!&#34; };
-    printSV(s2); // call with std::string
+    std::string s2{ "Hello, world!" };
+    printSV(s2); // wywołaj za pomocą std::string
 
     std::string_view s3 { s2 };
-    printSV(s3); // call with std::string_view
+    printSV(s3); // zadzwoń za pomocą std::string_view
        
     return 0;
-}</code></pre><p class="cpp-section cpp-topline" style=clear:both><code>std::string_view</code> nie zostanie niejawnie przekonwertowany na  <code>std::string</code><div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>Ponieważ <code>std::string</code> utworzy kopię swojego inicjatora (co jest drogie), C++ nie pozwoli na niejawną konwersję a <code>std::string_view</code> do <code>std::string</code>. Ma to na celu zapobieżenie przypadkowemu przekazaniu <code>std::string_view</code> do  <code>std::string</code> parametru i przypadkowemu wykonaniu kosztownej kopii, gdy taka kopia może nie być wymagana.<p>Jeśli jednak jest to pożądane, mamy dwie możliwości:<ol start=1><li>Jawnie utwórz  <code>std::string</code> z  <code>std::string_view</code> inicjator (co jest dozwolone, ponieważ rzadko będzie to zrobione w sposób niezamierzony)<li>Konwertuj istniejący <code>std::string_view</code> do <code>std::string</code> za pomocą <code>static_cast</code></ol><p>Poniższy przykład pokazuje obie opcje:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+}</code></pre><p class="cpp-section cpp-topline" style=clear:both><code>std::string_view</code> nie zostanie niejawnie przekonwertowany na  <code>std::string</code><div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>Ponieważ <code>std::string</code> utworzy kopię swojego inicjatora (co jest drogie), C++ nie pozwoli na niejawną konwersję <code>std::string_view</code> do <code>std::string</code>. Ma to na celu zapobieżenie przypadkowemu przekazaniu <code>std::string_view</code> do  <code>std::string</code> parametru i przypadkowemu wykonaniu kosztownej kopii, gdy taka kopia może nie być wymagana.<p>Jeśli jednak jest to pożądane, mamy dwie możliwości:<ol start=1><li>Jawnie utwórz  <code>std::string</code> z  <code>std::string_view</code> inicjator (co jest dozwolone, ponieważ rzadko będzie to zrobione w sposób niezamierzony)<li>Konwertuj istniejący <code>std::string_view</code> do <code>std::string</code> za pomocą <code>static_cast</code></ol><p>Poniższy przykład pokazuje obie opcje:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;string&gt;
 #include &lt;string_view&gt;
 
 void printString(std::string str)
 {
-	std::cout &lt;&lt; str &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; str &lt;&lt; '\n';
 }
 
 int main()
 {
-	std::string_view sv{ &#34;Hello, world!&#34; };
+	std::string_view sv{ "Hello, world!" };
 
-	// printString(sv);   // compile error: won&#39;t implicitly convert std::string_view to a std::string
+	// printString(sv); // błąd kompilacji: nie zostanie domyślnie przekonwertowany std::string_view na std::string
 
-	std::string s{ sv }; // okay: we can create std::string using std::string_view initializer
-	printString(s);      // and call the function with the std::string
+	std::string s{ sv }; // ok: możemy utworzyć std::string za pomocą inicjatora std::string_view
+	printString(s);      // i wywołaj funkcję za pomocą std::string
 
-	printString(static_cast&lt;std::string&gt;(sv)); // okay: we can explicitly cast a std::string_view to a std::string
+	printString(static_cast&lt;std::string&gt;(sv)); // OK: możemy jawnie rzucić std::string_view na std::string
 
 	return 0;
 }</code></pre><p class="cpp-section cpp-topline" style=clear:both>Przypisanie zmienia to, co przegląda <code>std::string_view</code> <p>Przypisanie nowego ciągu do <code>std::string_view</code> powoduje <code>std::string_view</code> wyświetlenie nowego ciągu. Nie modyfikuje to w żaden sposób poprzednio przeglądanego ciągu.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>Poniższy przykład ilustruje to:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -123,28 +123,28 @@ int main()
 
 int main()
 {
-    std::string name { &#34;Alex&#34; };
-    std::string_view sv { name }; // sv is now viewing name
-    std::cout &lt;&lt; sv &lt;&lt; &#39;\n&#39;; // prints Alex
+    std::string name { "Alex" };
+    std::string_view sv { name }; // sv teraz przegląda nazwę
+    std::cout &lt;&lt; sv &lt;&lt; '\n'; // prints Alex
 
-    sv = &#34;John&#34;; // sv is now viewing &#34;John&#34; (does not change name)
-    std::cout &lt;&lt; sv &lt;&lt; &#39;\n&#39;; // prints John
+    sv = "John"; // sv przegląda teraz „John” (nie zmienia imienia)
+    std::cout &lt;&lt; sv &lt;&lt; '\n'; // prints John
 
-    std::cout &lt;&lt; name &lt;&lt; &#39;\n&#39;; // prints Alex
+    std::cout &lt;&lt; name &lt;&lt; '\n'; // prints Alex
 
     return 0;
-}</code></pre><p>W powyższym przykładzie <code>sv = "John"</code> powoduje <code>sv</code> wyświetlanie ciągu  <code>"John"</code>. Nie zmienia to wartości utrzymywanej przez <code>name</code> (która nadal jest <code>"Alex"</code>).<p class="cpp-section cpp-topline" style=clear:both>Literały dla <code>std::string_view</code><p>Literały łańcuchowe w podwójnych cudzysłowach są domyślnie literałami łańcuchowymi w stylu C. Literały łańcuchowe możemy tworzyć za pomocą typu <code>std::string_view</code> używając a <code>sv</code> sufiks po literale ciągu w cudzysłowie <code>sv</code> musi być pisany małymi literami.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
-#include &lt;string&gt;      // for std::string
-#include &lt;string_view&gt; // for std::string_view
+}</code></pre><p>W powyższym przykładzie <code>sv = "John"</code> powoduje <code>sv</code> wyświetlanie ciągu  <code>"John"</code>. Nie zmienia to wartości utrzymywanej przez <code>name</code> (która nadal jest <code>"Alex"</code>).<p class="cpp-section cpp-topline" style=clear:both>Literały dla <code>std::string_view</code><p>Literały łańcuchowe w podwójnych cudzysłowach są domyślnie literałami łańcuchowymi w stylu C. Literały łańcuchowe możemy tworzyć za pomocą typu <code>std::string_view</code> używając <code>sv</code> sufiks po literale ciągu w cudzysłowie <code>sv</code> musi być pisany małymi literami.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+#include &lt;string&gt;      // dla std::string
+#include &lt;string_view&gt; // dla std::string_view
 
 int main()
 {
-    using namespace std::string_literals;      // access the s suffix
-    using namespace std::string_view_literals; // access the sv suffix
+    using namespace std::string_literals;      // dostęp do sufiksu s
+    using namespace std::string_view_literals; // dostęp do sufiksu sv
 
-    std::cout &lt;&lt; &#34;foo\n&#34;;   // no suffix is a C-style string literal
-    std::cout &lt;&lt; &#34;goo\n&#34;s;  // s suffix is a std::string literal
-    std::cout &lt;&lt; &#34;moo\n&#34;sv; // sv suffix is a std::string_view literal
+    std::cout &lt;&lt; "foo\n";   // żaden sufiks nie jest literałem łańcuchowym w stylu C
+    std::cout &lt;&lt; "goo\n"s;  // s sufiks jest std::string literał
+    std::cout &lt;&lt; "moo\n"sv; // Sufiks sv jest literałem std::string_view
 
     return 0;
 }</code></pre><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Powiązana treść<p>Omawiamy użycie <code>using namespace</code> w lekcji <a href="../introduction-to-stdstring/index.html">5.7 — Wprowadzenie do std::string</a>. Ta sama rada ma zastosowanie tutaj.</div><p>Dobrze jest zainicjować obiekt <code>std::string_view</code> za pomocą Literał łańcuchowy w stylu C (nie trzeba go inicjować za pomocą literału  <code>std::string_view</code> ).<p>To powiedziawszy, inicjowanie <code>std::string_view</code> użycie  <code>std::string_view</code> literału nie spowoduje problemów (ponieważ takie literały są w rzeczywistości literałami łańcuchowymi w stylu C).<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p class="cpp-section cpp-topline" style=clear:both>constexpr <code>std::string_view</code><p>W przeciwieństwie do <code>std::string</code>, <code>std::string_view</code> w pełni obsługuje constexpr:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -152,8 +152,8 @@ int main()
 
 int main()
 {
-    constexpr std::string_view s{ &#34;Hello, world!&#34; }; // s is a string symbolic constant
-    std::cout &lt;&lt; s &lt;&lt; &#39;\n&#39;; // s will be replaced with &#34;Hello, world!&#34; at compile-time
+    constexpr std::string_view s{ "Hello, world!" }; // s jest symboliczną stałą ciągu znaków
+    std::cout &lt;&lt; s &lt;&lt; '\n'; // s zostanie zastąpiony przez „Witajcie, world!” w czasie kompilacji
 
     return 0;
 }</code></pre><p>To sprawia, że <code>constexpr std::string_view</code> jest preferowanym wyborem, gdy potrzebne są symboliczne stałe łańcuchowe.<p>Będziemy kontynuować dyskusję <code>std::string_view</code> .<div class=prevnext><div class=prevnext-inline><a class=nav-link href="../stdstring_view-part-2/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>5.9</span>std::string_view (część 2)</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../introduction-to-stdstring/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>5.7</span>Wprowadzenie do std::string</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/introduction-to-stdstring_view/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../bit-flags-and-bit-manipulation-via-stdbitset/index.html" rel=prev><span>O.1 — Flagi bitowe i manipulacja bitami poprzez std::bitset</span></a></div><div class=nav-next><em>Następny post</em><a href="../configuring-your-compiler-choosing-a-language-standard/index.html" rel=next><span>0.12 — Konfigurowanie kompilator: Wybór standardu językowego</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>

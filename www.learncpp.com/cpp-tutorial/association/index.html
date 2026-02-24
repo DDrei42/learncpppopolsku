@@ -11,13 +11,13 @@
 <input type=search class=s placeholder=Search name=s></label>
 <button class=searchsubmit><span class=screen-reader-text>Szukaj</span><i class=icon-search></i></button></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="23.4 — Stowarzyszenie" src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-4445 class="post-4445 post type-post status-publish format-standard hentry category-cpp-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>23.4 — Stowarzyszenie</h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Autor></i><a class="url fn n" rel=author href=/www.learncpp.com/author/Alex/ title="Wyświetl wszystkie posty Alexa" itemprop=url><em itemprop=name>Alex</em></a></span>
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2016-08-19T17:18:22-07:00 itemprop=datePublished>19 sierpnia 2016, 17:18 PDT</time>
-<time class=updated datetime=2023-12-07T12:03:29-08:00 itemprop=dateModified>7 grudnia 2023</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>W poprzednich dwóch lekcjach przyglądaliśmy się dwóm typom składu obiektu, kompozycji i agregacji. Kompozycja obiektów służy do modelowania relacji, w których złożony obiekt jest zbudowany z jednego lub większej liczby prostszych obiektów (części).<p>W tej lekcji przyjrzymy się słabszemu typowi relacji między dwoma skądinąd niepowiązanymi obiektami, zwanemu skojarzeniem. W przeciwieństwie do relacji kompozycji obiektów, w skojarzeniu nie ma domniemanej relacji całość/część.<p class="cpp-section cpp-topline" style=clear:both>Stowarzyszenie<p>Aby zakwalifikować się jako <strong>skojarzenie</strong>, obiekt i inny obiekt muszą mieć następującą relację:<ul><li>Powiązany obiekt (element) nie jest w żaden sposób powiązany z obiektem (klasą)<li>Powiązany obiekt (element) może należeć do więcej niż jednego obiektu (klasy) naraz<li>Powiązany obiekt (członek)  <em>nie</em> jego istnieniem nie zarządza obiekt (klasa)<li>Powiązany obiekt (członek) może wiedzieć o istnieniu obiektu (klasy) lub nie.</ul><p>W przeciwieństwie do kompozycji lub skupienia, gdzie część jest częścią całego obiektu, w skojarzeniu powiązany obiekt nie jest w żaden sposób powiązany z obiektem. Podobnie jak agregacja, powiązany obiekt może należeć do wielu obiektów jednocześnie i nie jest zarządzany przez te obiekty. Jednakże w przeciwieństwie do agregacji, gdzie relacja jest zawsze jednokierunkowa, w stowarzyszeniu relacja może być jednokierunkowa lub dwukierunkowa (gdzie oba obiekty są sobie świadome). <p>Relacja pomiędzy lekarzami i pacjentami jest doskonałym przykładem stowarzyszenia. Lekarz wyraźnie ma więź ze swoimi pacjentami, ale pod względem koncepcyjnym nie jest to relacja część/całość (kompozycja obiektu). Lekarz może przyjąć wielu pacjentów dziennie, a pacjent wielu lekarzy (być może chce zasięgnąć drugiej opinii lub odwiedza różnych lekarzy). Żaden z okresów życia obiektów nie jest powiązany z drugim.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Możemy powiedzieć, że modele skojarzeń są relacją „używa-a”. Lekarz „wykorzystuje” pacjenta (w celu uzyskania dochodu). Pacjent korzysta z pomocy lekarza (w dowolnych celach zdrowotnych).<p class="cpp-section cpp-topline" style=clear:both>Wdrażanie skojarzeń<p>Ponieważ skojarzenia są szerokim rodzajem relacji, można je realizować na wiele różnych sposobów. Jednak najczęściej skojarzenia implementuje się za pomocą wskaźników, gdzie obiekt wskazuje powiązany obiekt.<p>W tym przykładzie zaimplementujemy dwukierunkową relację Lekarz/Pacjent, ponieważ ma sens, aby lekarze wiedzieli, kim są ich Pacjenci i odwrotnie.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;functional&gt; // reference_wrapper
+<time class=updated datetime=2023-12-07T12:03:29-08:00 itemprop=dateModified>7 grudnia 2023</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>W poprzednich dwóch lekcjach przyglądaliśmy się dwóm typom składu obiektu, kompozycji i agregacji. Kompozycja obiektów służy do modelowania relacji, w których złożony obiekt jest zbudowany z jednego lub większej liczby prostszych obiektów (części).<p>W tej lekcji przyjrzymy się słabszemu typowi relacji między dwoma skądinąd niepowiązanymi obiektami, zwanemu skojarzeniem. W przeciwieństwie do relacji kompozycji obiektów, w skojarzeniu nie ma domniemanej relacji całość/część.<p class="cpp-section cpp-topline" style=clear:both>Stowarzyszenie<p>Aby zakwalifikować się jako <strong>skojarzenie</strong>, obiekt i inny obiekt muszą mieć następującą relację:<ul><li>Powiązany obiekt (element) nie jest w żaden sposób powiązany z obiektem (klasą)<li>Powiązany obiekt (element) może należeć do więcej niż jednego obiektu (klasy) naraz<li>Powiązany obiekt (członek)  <em>nie</em> jego istnieniem nie zarządza obiekt (klasa)<li>Powiązany obiekt (członek) może wiedzieć o istnieniu obiektu (klasy) lub nie.</ul><p>W przeciwieństwie do kompozycji lub skupienia, gdzie część jest częścią całego obiektu, w skojarzeniu powiązany obiekt nie jest w żaden sposób powiązany z obiektem. Podobnie jak agregacja, powiązany obiekt może należeć do wielu obiektów jednocześnie i nie jest zarządzany przez te obiekty. Jednakże w przeciwieństwie do agregacji, gdzie relacja jest zawsze jednokierunkowa, w stowarzyszeniu relacja może być jednokierunkowa lub dwukierunkowa (gdzie oba obiekty są sobie świadome). <p>Relacja pomiędzy lekarzami i pacjentami jest doskonałym przykładem stowarzyszenia. Lekarz wyraźnie ma więź ze swoimi pacjentami, ale pod względem koncepcyjnym nie jest to relacja część/całość (kompozycja obiektu). Lekarz może przyjąć wielu pacjentów dziennie, a pacjent wielu lekarzy (być może chce zasięgnąć drugiej opinii lub odwiedza różnych lekarzy). Żaden z okresów życia obiektów nie jest powiązany z drugim.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Możemy powiedzieć, że modele skojarzeń są relacją „używa-a”. Lekarz „wykorzystuje” pacjenta (w celu uzyskania dochodu). Pacjent korzysta z pomocy lekarza (w dowolnych celach zdrowotnych).<p class="cpp-section cpp-topline" style=clear:both>Wdrażanie skojarzeń<p>Ponieważ skojarzenia są szerokim rodzajem relacji, można je realizować na wiele różnych sposobów. Jednak najczęściej skojarzenia implementuje się za pomocą wskaźników, gdzie obiekt wskazuje powiązany obiekt.<p>W tym przykładzie zaimplementujemy dwukierunkową relację Lekarz/Pacjent, ponieważ ma sens, aby lekarze wiedzieli, kim są ich Pacjenci i odwrotnie.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;functional&gt; // opakowanie_odniesienia
 #include &lt;iostream&gt;
 #include &lt;string&gt;
 #include &lt;string_view&gt;
 #include &lt;vector&gt;
 
-// Since Doctor and Patient have a circular dependency, we&#39;re going to forward declare Patient
+// Ponieważ Lekarz i Pacjent mają zależność cykliczną, zamierzamy to zrobić forward deklaruj Patient
 class Patient;
 
 class Doctor
@@ -34,7 +34,7 @@ public:
 
 	void addPatient(Patient&amp; patient);
 	
-	// We&#39;ll implement this function below Patient since we need Patient to be defined at that point
+	// Zaimplementujemy tę funkcję poniżej Patient, ponieważ potrzebujemy Pacjent do zdefiniowania w tym momencie
 	friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const Doctor&amp; doctor);
 
 	const std::string&amp; getName() const { return m_name; }
@@ -44,10 +44,10 @@ class Patient
 {
 private:
 	std::string m_name{};
-	std::vector&lt;std::reference_wrapper&lt;const Doctor&gt;&gt; m_doctor{}; // so that we can use it here
+	std::vector&lt;std::reference_wrapper&lt;const Doctor&gt;&gt; m_doctor{}; // abyśmy mogli z niej tutaj skorzystać
 
-	// We&#39;re going to make addDoctor private because we don&#39;t want the public to use it.
-	// They should use Doctor::addPatient() instead, which is publicly exposed
+	// Uczynimy addDoctor prywatnym, ponieważ nie chcemy, aby inni z niego korzystali.
+	// Powinni zamiast tego użyć Doctor::addPatient(), która jest publicznie widoczna
 	void addDoctor(const Doctor&amp; doctor)
 	{
 		m_doctor.push_back(doctor);
@@ -59,21 +59,21 @@ public:
 	{
 	}
 
-	// We&#39;ll implement this function below to parallel operator&lt;&lt;(std::ostream&amp;, const Doctor&amp;)
+	// Zaimplementujemy tę funkcję poniżej do operatora równoległego&lt;&lt;(std::ostream&amp;, const Doctor&amp;)
 	friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const Patient&amp; patient);
 
 	const std::string&amp; getName() const { return m_name; }
 
-	// We&#39;ll friend Doctor::addPatient() so it can access the private function Patient::addDoctor()
+	// Zaprzyjaźnimy się z Doctor::addPatient(), aby mógł uzyskać dostęp do prywatnej funkcji Patient::addDoctor()
 	friend void Doctor::addPatient(Patient&amp; patient);
 };
 
 void Doctor::addPatient(Patient&amp; patient)
 {
-	// Our doctor will add this patient
+	// Nasz lekarz doda tego pacjenta
 	m_patient.push_back(patient);
 
-	// and the patient will also add this doctor
+	// a pacjent również doda tego lekarza
 	patient.addDoctor(*this);
 }
 
@@ -81,13 +81,13 @@ std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const Doctor&amp; doct
 {
 	if (doctor.m_patient.empty())
 	{
-		out &lt;&lt; doctor.m_name &lt;&lt; &#34; has no patients right now&#34;;
+		out &lt;&lt; doctor.m_name &lt;&lt; " has no patients right now";
 		return out;
 	}
 
-	out &lt;&lt; doctor.m_name &lt;&lt; &#34; is seeing patients: &#34;;
+	out &lt;&lt; doctor.m_name &lt;&lt; " is seeing patients: ";
 	for (const auto&amp; patient : doctor.m_patient)
-		out &lt;&lt; patient.get().getName() &lt;&lt; &#39; &#39;;
+		out &lt;&lt; patient.get().getName() &lt;&lt; ' ';
 
 	return out;
 }
@@ -96,37 +96,37 @@ std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const Patient&amp; pat
 {
 	if (patient.m_doctor.empty())
 	{
-		out &lt;&lt; patient.getName() &lt;&lt; &#34; has no doctors right now&#34;;
+		out &lt;&lt; patient.getName() &lt;&lt; " has no doctors right now";
 		return out;
 	}
 
-	out &lt;&lt; patient.m_name &lt;&lt; &#34; is seeing doctors: &#34;;
+	out &lt;&lt; patient.m_name &lt;&lt; " is seeing doctors: ";
 	for (const auto&amp; doctor : patient.m_doctor)
-		out &lt;&lt; doctor.get().getName() &lt;&lt; &#39; &#39;;
+		out &lt;&lt; doctor.get().getName() &lt;&lt; ' ';
 
 	return out;
 }
 
 int main()
 {
-	// Create a Patient outside the scope of the Doctor
-	Patient dave{ &#34;Dave&#34; };
-	Patient frank{ &#34;Frank&#34; };
-	Patient betsy{ &#34;Betsy&#34; };
+	// Utwórz Pacjenta poza zakresem Doktora
+	Patient dave{ "Dave" };
+	Patient frank{ "Frank" };
+	Patient betsy{ "Betsy" };
 
-	Doctor james{ &#34;James&#34; };
-	Doctor scott{ &#34;Scott&#34; };
+	Doctor james{ "James" };
+	Doctor scott{ "Scott" };
 
 	james.addPatient(dave);
 
 	scott.addPatient(dave);
 	scott.addPatient(betsy);
 
-	std::cout &lt;&lt; james &lt;&lt; &#39;\n&#39;;
-	std::cout &lt;&lt; scott &lt;&lt; &#39;\n&#39;;
-	std::cout &lt;&lt; dave &lt;&lt; &#39;\n&#39;;
-	std::cout &lt;&lt; frank &lt;&lt; &#39;\n&#39;;
-	std::cout &lt;&lt; betsy &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; james &lt;&lt; '\n';
+	std::cout &lt;&lt; scott &lt;&lt; '\n';
+	std::cout &lt;&lt; dave &lt;&lt; '\n';
+	std::cout &lt;&lt; frank &lt;&lt; '\n';
+	std::cout &lt;&lt; betsy &lt;&lt; '\n';
 
 	return 0;
 }</code></pre><p>Wypisuje:<pre>James is seeing patients: Dave
@@ -169,11 +169,11 @@ public:
 	int getId() const { return m_id; }
 };
 
-// Our CarLot is essentially just a static array of Cars and a lookup function to retrieve them.
-// Because it&#39;s static, we don&#39;t need to allocate an object of type CarLot to use it
+// Nasz CarLot to po prostu statyczna tablica samochodów i funkcja wyszukiwania umożliwiająca ich odzyskanie.
+// Ponieważ jest statyczna, nie musimy przydzielać obiektu typu CarLot, aby z niego korzystać
 namespace CarLot
 {
-    Car carLot[4] { { &#34;Prius&#34;, 4 }, { &#34;Corolla&#34;, 17 }, { &#34;Accord&#34;, 84 }, { &#34;Matrix&#34;, 62 } };
+    Car carLot[4] { { "Prius", 4 }, { "Corolla", 17 }, { "Accord", 84 }, { "Matrix", 62 } };
 
 	Car* getCar(int id)
 	{
@@ -193,7 +193,7 @@ class Driver
 {
 private:
 	std::string m_name{};
-	int m_carId{}; // we&#39;re associated with the Car by ID rather than pointer
+	int m_carId{}; // jesteśmy powiązani z samochodem przez identyfikator, a nie wskaźnik
 
 public:
 	Driver(std::string_view name, int carId)
@@ -207,14 +207,14 @@ public:
 
 int main()
 {
-	Driver d{ &#34;Franz&#34;, 17 }; // Franz is driving the car with ID 17
+	Driver d{ "Franz", 17 }; // Franz prowadzi samochód z identyfikatorem 17
 
-	Car* car{ CarLot::getCar(d.getCarId()) }; // Get that car from the car lot
+	Car* car{ CarLot::getCar(d.getCarId()) }; // Zabierz ten samochód z parkingu
 	
 	if (car)
-		std::cout &lt;&lt; d.getName() &lt;&lt; &#34; is driving a &#34; &lt;&lt; car-&gt;getName() &lt;&lt; &#39;\n&#39;;
+		std::cout &lt;&lt; d.getName() &lt;&lt; " is driving a " &lt;&lt; car-&gt;getName() &lt;&lt; '\n';
 	else
-		std::cout &lt;&lt; d.getName() &lt;&lt; &#34; couldn&#39;t find his car\n&#34;;
+		std::cout &lt;&lt; d.getName() &lt;&lt; " couldn't find his car\n";
 
 	return 0;
 }</code></pre><p>W powyższym przykładzie mamy CarLot przechowujący nasze samochody. Kierowca, który potrzebuje samochodu, nie ma wskaźnika do swojego Samochodu - zamiast tego ma identyfikator samochodu, którego możemy użyć, aby pobrać Samochód z CarLot, kiedy go potrzebujemy.<p>W tym konkretnym przykładzie robienie tego w ten sposób jest trochę głupie, ponieważ wyciągnięcie Samochodu z CarLot wymaga nieefektywnego wyszukiwania (wskaźnik łączący oba jest znacznie szybszy). Odwoływanie się do rzeczy za pomocą unikalnego identyfikatora zamiast wskaźnika ma jednak zalety. Na przykład możesz odwoływać się do rzeczy, które nie znajdują się aktualnie w pamięci (być może znajdują się w pliku lub w bazie danych i można je załadować na żądanie). Ponadto wskaźniki mogą zajmować 4 lub 8 bajtów — jeśli przestrzeń jest ograniczona, a liczba unikalnych obiektów jest dość mała, odwoływanie się do nich za pomocą 8-bitowej lub 16-bitowej liczby całkowitej może zaoszczędzić dużo pamięci.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Skład a agregacja vs podsumowanie powiązań<p>Oto tabela podsumowująca, która pomoże Ci zapamiętać różnicę między kompozycją, agregacją i powiązanie:<div class=cpp-table-wrapper><p><p><table class=cpp-table><tbody><tr><th>Własność<th>Kompozycja<th>Agregacja<th>Stowarzyszenie<tr><td>Typ powiązania<td>Cała/część<td>Cała/część<td>W inny sposób niepowiązany<tr><td>Członkowie mogą należeć do wielu klasy<td>Nie<td>Tak<td>Tak<tr><td>Istnienie członków zarządzane przez klasa<td>Tak<td>Nie<td>Nie<tr><td>Kierunkowość<td>Jednokierunkowa<td>Jednokierunkowa<td>Jednokierunkowa lub dwukierunkowa<tr><td>Zależność czasownik<td>Część<td>Ma-a<td>Używa-a</table></div><div class=prevnext><div class=prevnext-inline><a class=nav-link href="../dependencies/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>23.5</span>Zależności</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../103-aggregation/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>23.3</span>Agregacja</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/association/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../object-relationships/index.html" rel=prev><span>23.1 — Obiekt relacje</span></a></div><div class=nav-next><em>Następny post</em><a href="../dependencies/index.html" rel=next><span>23,5 — Zależności</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>

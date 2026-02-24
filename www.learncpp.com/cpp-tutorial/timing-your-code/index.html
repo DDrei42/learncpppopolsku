@@ -13,12 +13,12 @@
 <button class=searchsubmit><span class=screen-reader-text>Szukaj</span><i class=icon-search></i></button>
 <input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=68479></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="18.4 — Synchronizacja kodu" src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-5524 class="post-5524 post type-post status-publish format-standard hentry category-cpp-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>18.4 — Synchronizacja kodu</h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Autor></i><a class="url fn n" rel=author href=/www.learncpp.com/author/Alex/ title="Wyświetl wszystkie posty Alexa" itemprop=url><em itemprop=name>Alex</em></a></span>
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2018-01-04T15:10:37-08:00 itemprop=datePublished>4 stycznia 2018 r., 15:10 czasu PST</time>
-<time class=updated datetime=2023-10-31T13:08:59-07:00 itemprop=dateModified>31 października 2023 r.</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>Podczas pisania kodu czasami napotkasz przypadki, w których nie masz pewności, czy ta czy inna metoda będzie bardziej wydajna. Jak więc to sprawdzić?<p>Jednym z prostych sposobów jest sprawdzenie czasu działania kodu, aby zobaczyć, ile czasu zajmie jego wykonanie. C++ 11 zawiera pewną funkcjonalność w bibliotece chrono, która właśnie to umożliwia. Jednak korzystanie z biblioteki chrono jest nieco tajemnicze. Dobra wiadomość jest taka, że ​​możemy łatwo zawrzeć całą potrzebną funkcjonalność synchronizacji w klasie, której możemy następnie używać w naszych własnych programach.<p>Oto klasa:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;chrono&gt; // for std::chrono functions
+<time class=updated datetime=2023-10-31T13:08:59-07:00 itemprop=dateModified>31 października 2023 r.</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>Podczas pisania kodu czasami napotkasz przypadki, w których nie masz pewności, czy ta czy inna metoda będzie bardziej wydajna. Jak więc to sprawdzić?<p>Jednym z prostych sposobów jest sprawdzenie czasu działania kodu, aby zobaczyć, ile czasu zajmie jego wykonanie. C++ 11 zawiera pewną funkcjonalność w bibliotece chrono, która właśnie to umożliwia. Jednak korzystanie z biblioteki chrono jest nieco tajemnicze. Dobra wiadomość jest taka, że ​​możemy łatwo zawrzeć całą potrzebną funkcjonalność synchronizacji w klasie, której możemy następnie używać w naszych własnych programach.<p>Oto klasa:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;chrono&gt; // dla funkcji std::chrono
 
 class Timer
 {
 private:
-	// Type aliases to make accessing nested type easier
+	// Aliasy typów, aby ułatwić dostęp do typu zagnieżdżonego
 	using Clock = std::chrono::steady_clock;
 	using Second = std::chrono::duration&lt;double, std::ratio&lt;1&gt; &gt;;
 	
@@ -40,23 +40,23 @@ int main()
 {
     Timer t;
 
-    // Code to time goes here
+    // Tutaj znajduje się kod do czasu
 
-    std::cout &lt;&lt; &#34;Time elapsed: &#34; &lt;&lt; t.elapsed() &lt;&lt; &#34; seconds\n&#34;;
+    std::cout &lt;&lt; "Time elapsed: " &lt;&lt; t.elapsed() &lt;&lt; " seconds\n";
 
     return 0;
 }</code></pre><p>Wykorzystajmy to teraz w rzeczywistym przykładzie, w którym sortujemy tablicę składającą się z 10000 elementów. Najpierw użyjmy algorytmu sortowania przez wybór, który opracowaliśmy w poprzednim rozdziale:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;array&gt;
-#include &lt;chrono&gt; // for std::chrono functions
-#include &lt;cstddef&gt; // for std::size_t
+#include &lt;chrono&gt; // dla funkcji std::chrono
+#include &lt;cstddef&gt; // dla std::size_t
 #include &lt;iostream&gt;
-#include &lt;numeric&gt; // for std::iota
+#include &lt;numeric&gt; // dla std::iota
 
 const int g_arrayElements { 10000 };
 
 class Timer
 {
 private:
-    // Type aliases to make accessing nested type easier
+    // Aliasy typów, aby ułatwić dostęp do typu zagnieżdżonego
     using Clock = std::chrono::steady_clock;
     using Second = std::chrono::duration&lt;double, std::ratio&lt;1&gt; &gt;;
 
@@ -78,27 +78,27 @@ public:
 void sortArray(std::array&lt;int, g_arrayElements&gt;&amp; array)
 {
 
-    // Step through each element of the array
-    // (except the last one, which will already be sorted by the time we get there)
+    // Przejdź przez każdy element tablicy
+    // (z wyjątkiem ostatniego, który będzie już posortowany, zanim tam dotrzemy)
     for (std::size_t startIndex{ 0 }; startIndex &lt; (g_arrayElements - 1); ++startIndex)
     {
-        // smallestIndex is the index of the smallest element we’ve encountered this iteration
-        // Start by assuming the smallest element is the first element of this iteration
+        // smallestIndex to indeks najmniejszego elementu, jaki napotkaliśmy w tej iteracji
+        // Zacznij od założenia, że najmniejszy element jest pierwszym elementem tej iteracji
         std::size_t smallestIndex{ startIndex };
 
-        // Then look for a smaller element in the rest of the array
+        // Następnie poszukaj mniejszego elementu w pozostałej części tablicy
         for (std::size_t currentIndex{ startIndex + 1 }; currentIndex &lt; g_arrayElements; ++currentIndex)
         {
-            // If we&#39;ve found an element that is smaller than our previously found smallest
+            // Jeśli znaleźliśmy element mniejszy niż poprzednio znaleziony najmniejszy
             if (array[currentIndex] &lt; array[smallestIndex])
             {
-                // then keep track of it
+                // następnie ją śledź
                 smallestIndex = currentIndex;
             }
         }
 
-        // smallestIndex is now the smallest element in the remaining array
-        // swap our start element with our smallest element (this sorts it into the correct place)
+        // smallestIndex jest teraz najmniejszym elementem pozostałej tablicy
+        // zamień nasz element początkowy z naszym najmniejszym elementem (to sortuje go do prawidłowego miejsce)
         std::swap(array[startIndex], array[smallestIndex]);
     }
 }
@@ -106,28 +106,28 @@ void sortArray(std::array&lt;int, g_arrayElements&gt;&amp; array)
 int main()
 {
     std::array&lt;int, g_arrayElements&gt; array;
-    std::iota(array.rbegin(), array.rend(), 1); // fill the array with values 10000 to 1
+    std::iota(array.rbegin(), array.rend(), 1); // wypełnij tablicę wartościami 10000 do 1
 
     Timer t;
 
     sortArray(array);
 
-    std::cout &lt;&lt; &#34;Time taken: &#34; &lt;&lt; t.elapsed() &lt;&lt; &#34; seconds\n&#34;;
+    std::cout &lt;&lt; "Time taken: " &lt;&lt; t.elapsed() &lt;&lt; " seconds\n";
 
     return 0;
-}</code></pre><p>Na maszynie autora trzy serie dały czasy 0,0507, 0,0506 i 0,0498. Możemy więc powiedzieć, że około 0,05 sekundy.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Teraz wykonaj ten sam test, używając std::sort ze standardowej biblioteki.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;algorithm&gt; // for std::sort
+}</code></pre><p>Na maszynie autora trzy serie dały czasy 0,0507, 0,0506 i 0,0498. Możemy więc powiedzieć, że około 0,05 sekundy.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Teraz wykonaj ten sam test, używając std::sort ze standardowej biblioteki.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;algorithm&gt; // dla std::sort
 #include &lt;array&gt;
-#include &lt;chrono&gt; // for std::chrono functions
-#include &lt;cstddef&gt; // for std::size_t
+#include &lt;chrono&gt; // dla funkcji std::chrono
+#include &lt;cstddef&gt; // dla std::size_t
 #include &lt;iostream&gt;
-#include &lt;numeric&gt; // for std::iota
+#include &lt;numeric&gt; // dla std::iota
 
 const int g_arrayElements { 10000 };
 
 class Timer
 {
 private:
-    // Type aliases to make accessing nested type easier
+    // Aliasy typów, aby ułatwić dostęp do typu zagnieżdżonego
     using Clock = std::chrono::steady_clock;
     using Second = std::chrono::duration&lt;double, std::ratio&lt;1&gt; &gt;;
 
@@ -149,15 +149,15 @@ public:
 int main()
 {
     std::array&lt;int, g_arrayElements&gt; array;
-    std::iota(array.rbegin(), array.rend(), 1); // fill the array with values 10000 to 1
+    std::iota(array.rbegin(), array.rend(), 1); // wypełnij tablicę wartościami 10000 do 1
 
     Timer t;
 
     std::ranges::sort(array); // Since C++20
-    // If your compiler isn&#39;t C++20-capable
+    // Jeśli twój kompilator nie obsługuje C++ 20
     // std::sort(array.begin(), array.end());
 
-    std::cout &lt;&lt; &#34;Time taken: &#34; &lt;&lt; t.elapsed() &lt;&lt; &#34; seconds\n&#34;;
+    std::cout &lt;&lt; "Time taken: " &lt;&lt; t.elapsed() &lt;&lt; " seconds\n";
 
     return 0;
 }</code></pre><p>Na komputerze autora dało to wyniki: 0,000693, 0,000692 i 0,000699. Czyli w zasadzie około 0,0007.<p>Innymi słowy, w tym przypadku std::sort jest 100 razy szybsze niż sortowanie przez wybór, które sami napisaliśmy!<p class="cpp-section cpp-topline" style=clear:both>Rzeczy, które mogą mieć wpływ na wydajność twojego programu<p>Wyznaczenie czasu uruchomienia programu jest dość proste, ale na wyniki może znacząco wpływać wiele rzeczy i ważne jest, aby mieć świadomość, jak prawidłowo mierzyć i jakie czynniki mogą mieć wpływ na czas.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Po pierwsze, upewnij się, że używasz celu kompilacji wydania, a nie celu kompilacji debugowania. Cele kompilacji debugowania zazwyczaj wyłączają optymalizację, a ta optymalizacja może mieć znaczący wpływ na wyniki. Na przykład przy użyciu celu kompilacji debugowania uruchomienie powyższego przykładu std::sort na komputerze autora zajęło 0,0235 sekundy — 33 razy dłużej!<p>Po drugie, na wyniki synchronizacji mogą mieć wpływ inne rzeczy, które system może robić w tle. Upewnij się, że Twój system nie wykonuje żadnych czynności obciążających procesor, pamięć lub dysk twardy (np. nie grasz w grę, nie szukasz pliku, nie uruchamiasz skanowania antywirusowego lub nie instalujesz aktualizacji w tle). Pozornie niewinne rzeczy, takie jak bezczynne przeglądarki internetowe, mogą tymczasowo zwiększyć wykorzystanie procesora do 100%, gdy aktywna karta obróci się w nowym banerze reklamowym i będzie musiała przeanalizować mnóstwo kodu JavaScript. Im więcej aplikacji możesz wyłączyć przed pomiarem, tym mniej prawdopodobne jest, że rozbieżność w wynikach będzie mniejsza.<p>Po trzecie, jeśli Twój program korzysta z generatora liczb losowych, konkretna sekwencja wygenerowanych liczb losowych może mieć wpływ na czas. Na przykład, jeśli sortujesz tablicę wypełnioną liczbami losowymi, wyniki prawdopodobnie będą się różnić w zależności od uruchomienia, ponieważ liczba operacji zamiany wymaganych do posortowania tablicy będzie się różnić w zależności od uruchomienia. Aby uzyskać bardziej spójne wyniki w wielu uruchomieniach programu, możesz tymczasowo zaszczepić generator liczb losowych wartością dosłowną (zamiast std::random_device lub zegara systemowego), tak aby generował tę samą sekwencję liczb przy każdym uruchomieniu. Jeśli jednak wydajność Twojego programu w dużym stopniu zależy od konkretnej wygenerowanej losowej sekwencji, może to również prowadzić do ogólnie mylących wyników.<p>Po czwarte, upewnij się, że nie planujesz czasu oczekiwania na wprowadzenie danych przez użytkownika, ponieważ czas potrzebny użytkownikowi na wprowadzenie czegoś nie powinien być częścią Twoich rozważań dotyczących czasu. Jeśli wymagane jest wprowadzenie danych przez użytkownika, rozważ dodanie sposobu zapewnienia tych danych wejściowych, które nie będą czekać na użytkownika (np. linia poleceń, plik z ścieżką kodu wyznaczającą drogę wokół danych wejściowych).<p class="cpp-section cpp-topline" style=clear:both>Pomiar wydajności<p>Podczas pomiaru wydajności swojego programu zbierz co najmniej 3 wyniki. Jeśli wszystkie wyniki są podobne, prawdopodobnie reprezentują one rzeczywistą wydajność programu na tym komputerze. W przeciwnym razie kontynuuj wykonywanie pomiarów, aż uzyskasz grupę podobnych wyników (i zrozumiesz, które inne wyniki są wartościami odstającymi). Nierzadko zdarza się, że jedna lub więcej wartości odstających występuje, ponieważ system robi coś w tle podczas niektórych z tych uruchomień.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>Jeśli wyniki wykazują dużą rozbieżność (i nie są dobrze zgrupowane), na program prawdopodobnie znacząco wpływają inne rzeczy dziejące się w systemie lub skutki randomizacji w aplikacji.<p>Ponieważ na pomiary wydajności wpływa wiele czynników (szczególnie szybkość sprzętu, ale także system operacyjny, działające aplikacje, itp.), bezwzględne pomiary wydajności (np. „program działa w 10 sekund”) na ogół nie są zbyt przydatne poza zrozumieniem, jak dobrze program działa na konkretnej maszynie, na której Ci zależy. Na innym komputerze ten sam program może działać w ciągu 1 sekundy, 10 sekund lub 1 minuty. Trudno to stwierdzić bez dokonania pomiaru całego spektrum różnych urządzeń.<p>Jednak w przypadku pojedynczej maszyny przydatne mogą być względne pomiary wydajności. Możemy zebrać wyniki wydajności kilku różnych wariantów programu, aby określić, który wariant jest najskuteczniejszy. Na przykład, jeśli wariant 1 działa w 10 sekund, a wariant 2 w 8 sekund, wariant 2 będzie prawdopodobnie szybszy na wszystkich podobnych maszynach, niezależnie od bezwzględnej prędkości tej maszyny.<p>Po zmierzeniu drugiego wariantu, dobrym sposobem sprawdzenia poprawności jest ponowne zmierzenie pierwszego wariantu. Jeśli wyniki pierwszego wariantu są zgodne z początkowymi pomiarami dla tego wariantu, wówczas wynik obu wariantów powinien być w miarę porównywalny. Na przykład, jeśli wariant 1 działa w 10 sekund, a wariant 2 w 8 sekund, a następnie ponownie mierzymy wariant 1 i otrzymujemy 10 sekund, to możemy zasadnie stwierdzić, że pomiary dla obu wariantów były rzetelnie zmierzone, a wariant 2 jest szybszy.<p>Jeśli jednak wyniki pierwszego wariantu nie są już zgodne z początkowymi pomiarami dla tego wariantu, oznacza to, że na maszynie wydarzyło się coś, co teraz wpływa na wydajność i trudno będzie stwierdzić, czy różnice w pomiarach wynikają z wariantu lub z samej maszyny. W takim przypadku najlepiej odrzucić istniejące wyniki i dokonać ponownego pomiaru.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><div class=prevnext><div class=prevnext-inline><a class=nav-link href="../dynamic-memory-allocation-with-new-and-delete/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>19.1</span>Dynamiczna alokacja pamięci za pomocą nowych i usuwania</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../introduction-to-standard-library-algorithms/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>18.3</span>Wprowadzenie do algorytmów bibliotek standardowych</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/timing-your-code/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../introduction-to-c14/index.html" rel=prev><span>B.2 — Wprowadzenie do C++14</span></a></div><div class=nav-next><em>Następny post</em><a href="../appendix-c-the-end/index.html" rel=next><span>C.1 — Koniec?</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>

@@ -15,22 +15,22 @@
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2007-09-07T09:22:16-07:00 itemprop=datePublished>7 września 2007, 9:22 czasu PDT</time>
 <time class=updated datetime=2025-01-21T20:19:17-08:00 itemprop=dateModified>21 stycznia 2025 r</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>Gdy to możliwe, chcemy zredukować nadmiarowy kod (zgodnie z zasadą DRY – Don’t Repeat Yourself).<p>Rozważ następujące funkcje:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">void A()
 {
-    // statements that do task A
+    // instrukcje wykonujące zadanie A
 }
 
 void B()
 {
-    // statements that do task A
-    // statements that do task B
+    // instrukcje wykonujące zadanie A
+    // instrukcje wykonujące zadanie B
 }</code></pre><p>Obie funkcje mają zbiór instrukcji, które robią dokładnie to samo (zadanie A). W takim przypadku możemy przeprowadzić refaktoryzację w następujący sposób:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">void A()
 {
-    // statements that do task A
+    // instrukcje wykonujące zadanie A
 }
 
 void B()
 {
     A();
-    // statements that do task B
+    // instrukcje wykonujące zadanie B
 }</code></pre><p>W ten sposób usunęliśmy zbędny kod, który istniał w funkcjach <code>A()</code> i <code>B()</code>. Dzięki temu nasz kod jest łatwiejszy w utrzymaniu, ponieważ zmiany wystarczy wprowadzić tylko w jednym miejscu.<p>Gdy klasa zawiera wiele konstruktorów, niezwykle często kod w każdym konstruktorze jest podobny, jeśli nie identyczny, z dużą ilością powtórzeń. Podobnie chcielibyśmy usunąć, tam gdzie to możliwe, nadmiarowość konstruktorów.<p>Rozważ następujący przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;string&gt;
 #include &lt;string_view&gt;
@@ -38,28 +38,28 @@ void B()
 class Employee
 {
 private:
-    std::string m_name { &#34;???&#34; };
+    std::string m_name { "???" };
     int m_id { 0 };
     bool m_isManager { false };
 
 public:
-    Employee(std::string_view name, int id) // Employees must have a name and an id
+    Employee(std::string_view name, int id) // Pracownicy muszą mieć nazwę i identyfikator
         : m_name{ name }, m_id { id }
     {
-        std::cout &lt;&lt; &#34;Employee &#34; &lt;&lt; m_name &lt;&lt; &#34; created\n&#34;;
+        std::cout &lt;&lt; "Employee " &lt;&lt; m_name &lt;&lt; " created\n";
     }
 
-    Employee(std::string_view name, int id, bool isManager) // They can optionally be a manager
+    Employee(std::string_view name, int id, bool isManager) // Mogą opcjonalnie być menedżerem
         : m_name{ name }, m_id{ id }, m_isManager { isManager }
     {
-        std::cout &lt;&lt; &#34;Employee &#34; &lt;&lt; m_name &lt;&lt; &#34; created\n&#34;;
+        std::cout &lt;&lt; "Employee " &lt;&lt; m_name &lt;&lt; " created\n";
     }
 };
 
 int main()
 {
-    Employee e1{ &#34;James&#34;, 7 };
-    Employee e2{ &#34;Dave&#34;, 42, true };
+    Employee e1{ "James", 7 };
+    Employee e2{ "Dave", 42, true };
 }</code></pre><p>Treść każdego konstruktora ma dokładnie tę samą instrukcję print.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nota autora<p>Generalnie nie jest dobrym pomysłem, aby konstruktor coś wypisywał (z wyjątkiem celów debugowania), ponieważ oznacza to, że nie można utworzyć obiektu przy użyciu tego konstruktora w przypadku, gdy nie chcesz czegoś wydrukować. Robimy to w tym przykładzie, aby pomóc zilustrować, co się dzieje.</div><p>Konstruktory mogą wywoływać inne funkcje, w tym inne funkcje składowe klasy. Moglibyśmy więc przeprowadzić refaktoryzację w następujący sposób:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;string&gt;
 #include &lt;string_view&gt;
@@ -67,33 +67,33 @@ int main()
 class Employee
 {
 private:
-    std::string m_name { &#34;???&#34; };
+    std::string m_name { "???" };
     int m_id{ 0 };
     bool m_isManager { false };
 
-    void printCreated() const // our new helper function
+    void printCreated() const // nasza nowa funkcja pomocnicza
     {
-        std::cout &lt;&lt; &#34;Employee &#34; &lt;&lt; m_name &lt;&lt; &#34; created\n&#34;;
+        std::cout &lt;&lt; "Employee " &lt;&lt; m_name &lt;&lt; " created\n";
     }
 
 public:
     Employee(std::string_view name, int id)
         : m_name{ name }, m_id { id }
     {
-        printCreated(); // we call it here
+        printCreated(); // zapraszamy tutaj
     }
 
     Employee(std::string_view name, int id, bool isManager)
         : m_name{ name }, m_id{ id }, m_isManager { isManager }
     {
-        printCreated(); // and here
+        printCreated(); // i tutaj
     }
 };
 
 int main()
 {
-    Employee e1{ &#34;James&#34;, 7 };
-    Employee e2{ &#34;Dave&#34;, 42, true };
+    Employee e1{ "James", 7 };
+    Employee e2{ "Dave", 42, true };
 }</code></pre><p>Chociaż jest to lepsze niż poprzednia wersja (ponieważ zbędna instrukcja została zastąpiona zbędnym wywołaniem funkcji), wymaga wprowadzenia nowej funkcji. Obaj nasi dwaj konstruktorzy również inicjują  <code>m_name</code> i <code>m_id</code>. Idealnie byłoby, gdybyśmy usunęli także tę nadmiarowość.<p>Czy możemy zrobić lepiej? Możemy. Ale w tym miejscu wielu nowych programistów wpada w kłopoty.<p class="cpp-section cpp-topline" style=clear:both>Wywołanie konstruktora w treści funkcji tworzy obiekt tymczasowy<p>Analogicznie do tego, jak mieliśmy funkcję <code>B()</code> wywołanie funkcji <code>A()</code> w powyższym przykładzie oczywistym rozwiązaniem wydaje się wywołanie konstruktora <code>Employee(std::string_view, int)</code> z treści z <code>Employee(std::string_view, int, bool)</code> w celu zainicjowania <code>m_name</code>, <code>m_id</code> i wydrukowania wyciągu. Oto jak to wygląda:<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;string&gt;
 #include &lt;string_view&gt;
@@ -101,22 +101,22 @@ int main()
 class Employee
 {
 private:
-    std::string m_name { &#34;???&#34; };
+    std::string m_name { "???" };
     int m_id { 0 };
     bool m_isManager { false };
 
 public:
     Employee(std::string_view name, int id)
-        : m_name{ name }, m_id { id } // this constructor initializes name and id
+        : m_name{ name }, m_id { id } // ten konstruktor inicjuje nazwę i id
     {
-        std::cout &lt;&lt; &#34;Employee &#34; &lt;&lt; m_name &lt;&lt; &#34; created\n&#34;; // our print statement is back here
+        std::cout &lt;&lt; "Employee " &lt;&lt; m_name &lt;&lt; " created\n"; // nasza instrukcja jest tutaj
     }
 
     Employee(std::string_view name, int id, bool isManager)
-        : m_isManager { isManager } // this constructor initializes m_isManager
+        : m_isManager { isManager } // ten konstruktor inicjuje m_isManager
     {
-        // Call Employee(std::string_view, int) to initialize m_name and m_id
-        Employee(name, id); // this doesn&#39;t work as expected!
+        // Wywołaj Employee(std::string_view, int), aby zainicjować m_name i m_id
+        Employee(name, id); // to nie działa zgodnie z oczekiwaniami!
     }
 
     const std::string&amp; getName() const { return m_name; }
@@ -124,8 +124,8 @@ public:
 
 int main()
 {
-    Employee e2{ &#34;Dave&#34;, 42, true };
-    std::cout &lt;&lt; &#34;e2 has name: &#34; &lt;&lt; e2.getName() &lt;&lt; &#34;\n&#34;; // print e2.m_name
+    Employee e2{ "Dave", 42, true };
+    std::cout &lt;&lt; "e2 has name: " &lt;&lt; e2.getName() &lt;&lt; "\n"; // drukuj e2.m_name
 }</code></pre><p>Ale to nie działa poprawnie, ponieważ program wypisuje następujący komunikat:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">Employee Dave created
 e2 has name: ???</code></pre><p>Mimo że <code>Employee Dave created</code> wydrukowany, po <code>e2</code> zakończeniu budowy, <code>e2.m_name</code> wydaje się, że nadal jest ustawiony na wartość początkową  <code>"???"</code>. Jak to możliwe?<p>Spodziewaliśmy się <code>Employee(name, id)</code> wywołania konstruktora w celu kontynuacji inicjalizacji bieżącego ukrytego obiektu (<code>e2</code>). Ale inicjalizacja obiektu klasy zostaje zakończona po zakończeniu wykonywania listy inicjatorów składowych. Zanim zaczniemy wykonywać treść konstruktora, jest już za późno na dalszą inicjalizację.<p>Gdy zostanie wywołane z treści funkcji, coś, co wygląda na wywołanie funkcji do konstruktora, zwykle tworzy i bezpośrednio inicjuje obiekt tymczasowy (w innym przypadku zamiast tego pojawi się błąd kompilacji). W powyższym przykładzie <code>Employee(name, id);</code> tworzy tymczasowy (nienazwany) obiekt Pracownik. Tym obiektem tymczasowym jest ten, którego <code>m_name</code> ustawiono na  <code>Dave</code> i to ten, który drukuje <code>Employee Dave created</code>. Następnie element tymczasowy zostaje zniszczony. <code>e2</code> nigdy nie  <code>m_name</code> lub <code>m_id</code> zmieniono &lt;&lt;&lt;M35&gt;&gt;&gt;wartości domyślnych.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Konstruktorów nie należy wywoływać bezpośrednio z treści innej funkcji. Spowoduje to albo błąd kompilacji, albo spowoduje bezpośrednią inicjalizację obiektu tymczasowego.<br>Jeśli chcesz obiektu tymczasowego, preferuj inicjalizację listy (która jasno pokazuje, że masz zamiar utworzyć obiekt).</div><p>Jeśli więc nie możemy wywołać konstruktora z treści innego konstruktora, to jak rozwiązać ten problem?<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Delegowanie konstruktorów<p>Konstruktorzy mogą delegować (przenosić odpowiedzialność za) inicjalizacja do innego konstruktora z tego samego typu klasy. Proces ten jest czasami nazywany <strong>łączeniem konstruktorów</strong> , a takie konstruktory nazywane są <strong>konstruktorami delegującymi</strong>.<p>Aby jeden konstruktor delegował inicjalizację innemu konstruktorowi, po prostu wywołaj konstruktor na liście inicjatorów składowych:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;string&gt;
@@ -134,27 +134,27 @@ e2 has name: ???</code></pre><p>Mimo że <code>Employee Dave created</code> wydr
 class Employee
 {
 private:
-    std::string m_name { &#34;???&#34; };
+    std::string m_name { "???" };
     int m_id { 0 };
 
 public:
     Employee(std::string_view name)
-        : Employee{ name, 0 } // delegate initialization to Employee(std::string_view, int) constructor
+        : Employee{ name, 0 } // deleguj inicjalizację do konstruktora Employee(std::string_view, int)
     {
     }
 
     Employee(std::string_view name, int id)
-        : m_name{ name }, m_id { id } // actually initializes the members
+        : m_name{ name }, m_id { id } // faktycznie inicjuje elementy
     {
-        std::cout &lt;&lt; &#34;Employee &#34; &lt;&lt; m_name &lt;&lt; &#34; created\n&#34;;
+        std::cout &lt;&lt; "Employee " &lt;&lt; m_name &lt;&lt; " created\n";
     }
 
 };
 
 int main()
 {
-    Employee e1{ &#34;James&#34; };
-    Employee e2{ &#34;Dave&#34;, 42 };
+    Employee e1{ "James" };
+    Employee e2{ "Dave", 42 };
 }</code></pre><p>Po wywołaniu <code>e1 { "James" }</code> jest inicjalizowany, pasujący konstruktor <code>Employee(std::string_view)</code> jest wywoływany z parametrem <code>name</code> ustawionym na  <code>"James"</code>. Lista inicjatorów składowych tego konstruktora deleguje inicjalizację innemu konstruktorowi, więc zostaje wywołana funkcja  <code>Employee(std::string_view, int)</code> . Jako pierwszy argument przekazywana jest wartość <code>name</code> (<code>"James"</code>, a jako drugi argument literał <code>0</code> . Lista inicjatorów elementów członkowskich delegowanego konstruktora następnie inicjuje elementy członkowskie. Następnie zostaje uruchomiona treść delegowanego konstruktora. Następnie kontrola wraca do początkowego konstruktora, którego (pusta) treść jest uruchamiana. Na koniec kontrola wraca do wywołującego.<p>Wadą tej metody jest to, że czasami wymaga ona powielenia wartości inicjujących. W delegacji do konstruktora <code>Employee(std::string_view, int)</code> potrzebujemy wartości inicjującej dla parametru <code>int</code> . Musieliśmy zakodować na stałe literał <code>0</code>, ponieważ nie ma możliwości odniesienia się do domyślnego inicjatora elementu członkowskiego.<p>Kilka dodatkowych uwag na temat delegowania konstruktorów. Po pierwsze, konstruktor delegujący do innego konstruktora nie może samodzielnie inicjować żadnego elementu członkowskiego. Zatem twoi konstruktorzy mogą delegować lub inicjować, ale nie jedno i drugie.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Na marginesie…<p>Zauważ, że  <code>Employee(std::string_view)</code> (konstruktor z mniejszą liczbą parametrów) delegował do  <code>Employee(std::string_view name, int id)</code> (konstruktor z większą liczbą parametrów). Często zdarza się, że konstruktor z mniejszą liczbą parametrów jest delegowany do konstruktora z większą liczbą parametrów.<p>Gdybyśmy zamiast tego wybrali  <code>Employee(std::string_view name, int id)</code> delegację do <code>Employee(std::string_view)</code>, wówczas nie moglibyśmy zainicjować <code>m_id</code> za pomocą <code>id</code>, ponieważ konstruktor może tylko delegować lub inicjować, a nie jedno i drugie.</div><p>Po drugie, jeden konstruktor może delegować do inny konstruktor, który deleguje z powrotem do pierwszego konstruktora. Tworzy to nieskończoną pętlę i powoduje, że w programie zabraknie miejsca na stosie i nastąpi awaria. Można tego uniknąć, upewniając się, że wszystkie konstruktory są rozpoznawane jako konstruktor niedelegujący.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Jeśli masz wiele konstruktorów, zastanów się, czy możesz użyć konstruktorów delegujących, aby zredukować duplikat kodu.</div><p class="cpp-section cpp-topline" style=clear:both>Redukcja konstruktorów przy użyciu argumentów domyślnych<p>Czasami można również użyć wartości domyślnych, aby zredukować wiele konstruktorów do mniejszej liczby konstruktorów. Na przykład, umieszczając wartość domyślną naszego parametru <code>id</code> , możemy utworzyć pojedynczy <code>Employee</code> konstruktor, który wymaga argumentu name, ale opcjonalnie akceptuje argument id:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;string&gt;
 #include &lt;string_view&gt;
@@ -163,21 +163,21 @@ class Employee
 {
 private:
     std::string m_name{};
-    int m_id{ 0 }; // default member initializer
+    int m_id{ 0 }; // domyślny inicjator elementu członkowskiego
 
 public:
 
-    Employee(std::string_view name, int id = 0) // default argument for id
+    Employee(std::string_view name, int id = 0) // domyślny argument dla id
         : m_name{ name }, m_id{ id }
     {
-        std::cout &lt;&lt; &#34;Employee &#34; &lt;&lt; m_name &lt;&lt; &#34; created\n&#34;;
+        std::cout &lt;&lt; "Employee " &lt;&lt; m_name &lt;&lt; " created\n";
     }
 };
 
 int main()
 {
-    Employee e1{ &#34;James&#34; };
-    Employee e2{ &#34;Dave&#34;, 42 };
+    Employee e1{ "James" };
+    Employee e2{ "Dave", 42 };
 }</code></pre><p>Ponieważ wartości domyślne muszą być dołączone do parametrów znajdujących się najbardziej na prawo w wywołaniu funkcji, dobrą praktyką podczas definiowania klas jest zdefiniowanie elementów, dla których użytkownik <em>muszą</em> poda najpierw wartości inicjujące (a następnie skrajne lewe parametry konstruktora). Elementy, dla których użytkownik może opcjonalnie podać (ponieważ dopuszczalne są wartości domyślne), należy zdefiniować jako drugie (a następnie ustawić je jako parametry konstruktora znajdujące się najbardziej na prawo). <div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p> Elementy, dla których użytkownik musi podać wartości inicjujące, należy zdefiniować jako pierwsze (i jako parametry konstruktora znajdujące się najbardziej na lewo). Elementy, dla których użytkownik może opcjonalnie podać wartości inicjujące (ponieważ wartości domyślne są dopuszczalne) powinny być zdefiniowane jako drugie (i jako parametry konstruktora znajdujące się najbardziej na prawo).</div><p>Zauważ, że ta metoda wymaga również zduplikowania domyślnej wartości inicjalizacyjnej dla <code>m_id</code> (‚0”): raz jako domyślny inicjator elementu i raz jako domyślny argument.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Zagadka: nadmiarowe konstruktory vs nadmiarowe wartości domyślne wartości<p>W powyższych przykładach użyliśmy konstruktorów delegujących, a następnie argumentów domyślnych, aby zmniejszyć redundancję konstruktorów. Ale obie te metody wymagały od nas zduplikowania wartości inicjalizacyjnych dla naszych członków w różnych miejscach. Niestety, obecnie nie ma sposobu, aby określić, że konstruktor delegujący lub argument domyślny powinien używać domyślnej wartości inicjatora elementu członkowskiego.<p>Istnieją różne opinie na temat tego, czy lepiej jest mieć mniej konstruktorów (z powielaniem wartości inicjujących), czy więcej konstruktorów (bez powielania wartości inicjujących). Naszym zdaniem zazwyczaj prościej jest mieć mniej konstruktorów, nawet jeśli skutkuje to zduplikowaniem wartości inicjujących.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Dla zaawansowanych czytelników<p>Gdy mamy wartość inicjującą, która jest używana w wielu miejscach (np. jako domyślny inicjator elementu członkowskiego i domyślny argument parametru konstruktora), możemy zdefiniować nazwaną stałą i użyć jej wszędzie tam, gdzie jest potrzebna nasza wartość inicjująca. Pozwala to na zdefiniowanie wartości inicjalizacyjnej w jednym miejscu.<p>Chociaż można do tego użyć zmiennej globalnej constexpr, lepszą opcją jest użycie  <code>static constexpr</code> elementu wewnątrz klasy:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;string&gt;
 #include &lt;string_view&gt;
@@ -185,24 +185,24 @@ int main()
 class Employee
 {
 private:
-    static constexpr int default_id { 0 }; // define a named constant with our desired initialization value
+    static constexpr int default_id { 0 }; // zdefiniuj nazwaną stałą z żądaną wartością inicjalizacyjną
     
     std::string m_name {};
-    int m_id { default_id }; // we can use it here
+    int m_id { default_id }; // możemy go tutaj użyć
 
 public:
 
-    Employee(std::string_view name, int id = default_id) // and we can use it here
+    Employee(std::string_view name, int id = default_id) // i możemy go tutaj wykorzystać
         : m_name { name }, m_id { id }
     {
-        std::cout &lt;&lt; &#34;Employee &#34; &lt;&lt; m_name &lt;&lt; &#34; created\n&#34;;
+        std::cout &lt;&lt; "Employee " &lt;&lt; m_name &lt;&lt; " created\n";
     }
 };
 
 int main()
 {
-    Employee e1 { &#34;James&#34; };
-    Employee e2 { &#34;Dave&#34;, 42 };
+    Employee e1 { "James" };
+    Employee e2 { "Dave", 42 };
 }</code></pre><p>Użycie słowa kluczowego <code>static</code> w tym kontekście pozwala nam mieć pojedynczy <code>default_id</code> element współdzielony przez wszystkie <code>Employee</code> obiekty. Bez <code>static</code> każdy <code>Employee</code> obiekt miałby swój własny, niezależny <code>default_id</code> element (co działałoby, ale byłoby stratą pamięci).<p>Wadą tego podejścia jest to, że każda dodatkowa nazwana stała dodaje inną nazwę, którą należy zrozumieć, co czyni klasę nieco bardziej zagraconą i złożoną. To, czy jest to tego warte, zależy od tego, ile takich stałych jest wymaganych i w ilu miejscach potrzebne są wartości inicjujące.<p>Statyczne składowe danych omówimy w lekcji <a href="../static-member-variables/index.html">15.6 -- Statyczne zmienne składowe</a>.</div><p class="cpp-section cpp-topline" style=clear:both>Czas quizu<p class=cpp-quiz-question style=clear:both>Pytanie nr 1<p>Napisz klasę o nazwie Ball. Piłka powinna mieć dwie prywatne zmienne członkowskie, jedną przechowującą kolor (wartość domyślna:  <code>black</code>) i drugą przechowującą promień (wartość domyślna:  <code>10.0</code>). Dodaj 4 konstruktory, po jednym do obsługi każdego poniższego przypadku:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
     Ball def{};
@@ -222,31 +222,31 @@ Ball(blue, 20)
 class Ball
 {
 private:
-	std::string m_color{ &#34;black&#34; };
+	std::string m_color{ "black" };
 	double m_radius{ 10.0 };
 
 public:
-	// Default constructor (color and radius will use default value)
+	// Domyślny konstruktor (kolor i promień będą używać domyślnych wartość)
 	Ball()
 	{
             print();
 	}
 
-	// Constructor with only radius parameter (color will use default value)
+	// Konstruktor tylko z parametrem promienia (kolor użyje wartości domyślnej)
 	Ball(double radius)
 		: m_radius{ radius }
 	{
             print();
 	}
 
-	// Constructor with only color parameter (radius will use default value)
+	// Konstruktor tylko z parametrem koloru (promień użyje wartości domyślnej)
 	Ball(std::string_view color)
 		: m_color{ color }
 	{
             print();
 	}
 
-	// Constructor with both color and radius parameters
+	// Konstruktor z parametrami koloru promienia
 	Ball(std::string_view color, double radius)
 		: m_color{ color }
 		, m_radius{ radius }
@@ -256,16 +256,16 @@ public:
 
     void print() const
     {
-        std::cout &lt;&lt; &#34;Ball(&#34; &lt;&lt; m_color &lt;&lt; &#34;, &#34; &lt;&lt; m_radius &lt;&lt; &#34;)\n&#34;;
+        std::cout &lt;&lt; "Ball(" &lt;&lt; m_color &lt;&lt; ", " &lt;&lt; m_radius &lt;&lt; ")\n";
     }
 };
 
 int main()
 {
     Ball def{};
-    Ball blue{ &#34;blue&#34; };
+    Ball blue{ "blue" };
     Ball twenty{ 20.0 };
-    Ball blueTwenty{ &#34;blue&#34;, 20.0 };
+    Ball blueTwenty{ "blue", 20.0 };
 
     return 0;
 }</code></pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>Pytanie nr 2<p>Zmniejsz liczbę konstruktorów w powyższym programie, używając domyślnych argumentów i delegując konstruktory.<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_1 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -275,20 +275,20 @@ int main()
 class Ball
 {
 private:
-	std::string m_color{ &#34;black&#34; };
+	std::string m_color{ "black" };
 	double m_radius{ 10.0 };
 
 public:
 	// Handles Ball(radius)
 	Ball(double radius)
-		: Ball{ &#34;black&#34;, radius } // delegate to the other constructor
+		: Ball{ "black", radius } // deleguj do innego konstruktora
 	{
-		// We don&#39;t need to call print() here since it will be called by
-		// the constructor we delegate to		
+		// Nie musimy tutaj wywoływać funkcji print(), ponieważ zostanie ona wywołana by
+		// konstruktor, do którego delegujemy		
 	}
 
-	// Handles Ball(color, radius), Ball(color), and Ball()
-	Ball(std::string_view color=&#34;black&#34;, double radius=10.0)
+	// Obsługuje Ball(kolor, promień), Ball(kolor) i Ball()
+	Ball(std::string_view color="black", double radius=10.0)
 		: m_color{ color }
 		, m_radius{ radius }
 	{
@@ -297,16 +297,16 @@ public:
 
 	void print() const
 	{
-		std::cout &lt;&lt; &#34;Ball(&#34; &lt;&lt; m_color &lt;&lt; &#34;, &#34; &lt;&lt; m_radius &lt;&lt; &#34;)\n&#34;;
+		std::cout &lt;&lt; "Ball(" &lt;&lt; m_color &lt;&lt; ", " &lt;&lt; m_radius &lt;&lt; ")\n";
 	}
 };
 
 int main()
 {
     Ball def{};
-    Ball blue{ &#34;blue&#34; };
+    Ball blue{ "blue" };
     Ball twenty{ 20.0 };
-    Ball blueTwenty{ &#34;blue&#34;, 20.0 };
+    Ball blueTwenty{ "blue", 20.0 };
 
     return 0;
 }</code></pre></div><div class=prevnext><div class=prevnext-inline><a class=nav-link href="../temporary-class-objects/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>14.13</span>Tymczasowe obiekty klasy</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../default-constructors-and-default-arguments/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>14.11</span>Domyślne konstruktory i domyślne argumenty</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/delegating-constructors/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../the-hidden-this-pointer-and-member-function-chaining/index.html" rel=prev><span>15.1 — Ukryty „ten” wskaźnik i łańcuch funkcji składowych</span></a></div><div class=nav-next><em>Następny post</em><a href="../classes-and-header-files/index.html" rel=next><span>15.2 — Klasy i pliki nagłówkowe</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>

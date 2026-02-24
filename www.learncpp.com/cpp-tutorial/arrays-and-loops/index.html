@@ -17,7 +17,7 @@
 
 int main()
 {
-    // allocate 5 integer variables (each with a different name)
+    // przydziel 5 zmiennych całkowitych (każda z inną nazwą)
     int testScore1{ 84 };
     int testScore2{ 92 };
     int testScore3{ 76 };
@@ -26,10 +26,10 @@ int main()
 
     int average { (testScore1 + testScore2 + testScore3 + testScore4 + testScore5) / 5 };
 
-    std::cout &lt;&lt; &#34;The class average is: &#34; &lt;&lt; average &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "The class average is: " &lt;&lt; average &lt;&lt; '\n';
 
     return 0;
-}</code></pre><p>To dużo zmiennych i dużo pisania. Wyobraź sobie, ile pracy musielibyśmy wykonać dla 30 uczniów, czyli 600. Co więcej, jeśli zostanie dodany nowy wynik testu, należy zadeklarować, zainicjować i dodać nową zmienną do obliczenia średniej. Czy pamiętałeś o aktualizacji dzielnika? Jeśli zapomniałeś, masz teraz błąd semantyczny. Za każdym razem, gdy musisz zmodyfikować istniejący kod, ryzykujesz wprowadzeniem błędów.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Wiesz już, że powinniśmy używać tablicy, gdy mamy kilka powiązanych zmiennych. Zastąpmy więc nasze indywidualne zmienne a <code>std::vector</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+}</code></pre><p>To dużo zmiennych i dużo pisania. Wyobraź sobie, ile pracy musielibyśmy wykonać dla 30 uczniów, czyli 600. Co więcej, jeśli zostanie dodany nowy wynik testu, należy zadeklarować, zainicjować i dodać nową zmienną do obliczenia średniej. Czy pamiętałeś o aktualizacji dzielnika? Jeśli zapomniałeś, masz teraz błąd semantyczny. Za każdym razem, gdy musisz zmodyfikować istniejący kod, ryzykujesz wprowadzeniem błędów.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Wiesz już, że powinniśmy używać tablicy, gdy mamy kilka powiązanych zmiennych. Zastąpmy więc nasze indywidualne zmienne <code>std::vector</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;vector&gt;
 
 int main()
@@ -52,26 +52,26 @@ int main()
     std::size_t length { testScore.size() };
 
     int average { 0 };
-    for (std::size_t index{ 0 }; index &lt; length; ++index) // index from 0 to length-1
-        average += testScore[index];                      // add the value of element with index `index`
-    average /= static_cast&lt;int&gt;(length);                  // calculate the average
+    for (std::size_t index{ 0 }; index &lt; length; ++index) // indeks od 0 do długości-1
+        average += testScore[index];                      // dodaj wartość elementu z indeksem `indeks`
+    average /= static_cast&lt;int&gt;(length);                  // obliczyć średnią
 
-    std::cout &lt;&lt; &#34;The class average is: &#34; &lt;&lt; average &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "The class average is: " &lt;&lt; average &lt;&lt; '\n';
 
     return 0;
-}</code></pre><p>To powinno być całkiem proste. <code>index</code> zaczyna się w <code>0</code>, <code>testScore[0]</code> jest dodawane do <code>average</code>, I <code>index</code> jest zwiększane do <code>1</code>. <code>testScore[1]</code> jest dodawane do <code>average</code>, I <code>index</code> zwiększy się do <code>2</code>. Ostatecznie, gdy <code>index</code> zwiększy się do <code>5</code>, <code>index &lt; length</code> jest fałszywe i pętla się zakończy.<p>W tym momencie pętla dodała wartości <code>testScore[0]</code>, <code>testScore[1]</code>, <code>testScore[2]</code>, <code>testScore[3]</code>, I <code>testScore[4]</code> Do <code>average</code>.<p>Na koniec obliczamy naszą średnią dzieląc skumulowane wartości przez długość tablicy.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>To rozwiązanie jest idealne pod względem łatwości konserwacji. Liczba iteracji pętli jest określana na podstawie długości tablicy, a zmienna pętli służy do wykonania całego indeksowania tablicy. Nie musimy już ręcznie wypisywać każdego elementu tablicy.<p>Jeśli chcemy dodać lub usunąć wynik testu, możemy po prostu zmodyfikować liczbę inicjatorów tablicy, a reszta kodu będzie nadal działać bez dalszych zmian!<p>Dostęp do każdego elementu kontenera w określonej kolejności nazywany jest <strong>przechodzeniem</strong> lub <strong>przechodzeniem</strong> kontenerem. Przechodzenie jest często nazywane <strong>iteracją</strong> lub <strong>iteracją po</strong> lub <strong>iteracją po</strong> kontenerze.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nota autora<p>Ponieważ klasy kontenerów używają typu <code>size_t</code> dla długości i indeksów, w tej lekcji zrobimy to samo. Używanie długości i indeksów ze znakiem omówimy na nadchodzącej lekcji <a href="../arrays-loops-and-sign-challenge-solutions/index.html">16.7 — Tablice, pętle i rozwiązania w zakresie wyzwań związanych ze znakami</a>.</div><p class="cpp-section cpp-topline" style=clear:both>Szablony, tablice i pętle odblokowują skalowalność<p>Tablice umożliwiają przechowywanie wielu obiektów bez konieczności nazywania każdego elementu.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>Pętle umożliwiają przeglądanie tablicy bez konieczności jawnego wymieniania każdego elementu.<p>Szablony umożliwiają parametryzację typu elementu.<p>W sumie szablony, tablice i pętle pozwalają nam napisać kod, który może operować na kontenerze elementów, niezależnie od typu elementu lub liczby elementów w kontenerze!<p>Aby to lepiej zilustrować, przepiszmy powyższy przykład, refaktoryzując średnie obliczenia do funkcji szablon:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+}</code></pre><p>To powinno być całkiem proste. <code>index</code> zaczyna się w <code>0</code>, <code>testScore[0]</code> jest dodawane do <code>average</code>, i <code>index</code> jest zwiększane do <code>1</code>. <code>testScore[1]</code> jest dodawane do <code>average</code>, i <code>index</code> zwiększy się do <code>2</code>. Ostatecznie, gdy <code>index</code> zwiększy się do <code>5</code>, <code>index &lt; length</code> jest fałszywe i pętla się zakończy.<p>W tym momencie pętla dodała wartości <code>testScore[0]</code>, <code>testScore[1]</code>, <code>testScore[2]</code>, <code>testScore[3]</code>, i <code>testScore[4]</code> Do <code>average</code>.<p>Na koniec obliczamy naszą średnią dzieląc skumulowane wartości przez długość tablicy.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>To rozwiązanie jest idealne pod względem łatwości konserwacji. Liczba iteracji pętli jest określana na podstawie długości tablicy, a zmienna pętli służy do wykonania całego indeksowania tablicy. Nie musimy już ręcznie wypisywać każdego elementu tablicy.<p>Jeśli chcemy dodać lub usunąć wynik testu, możemy po prostu zmodyfikować liczbę inicjatorów tablicy, a reszta kodu będzie nadal działać bez dalszych zmian!<p>Dostęp do każdego elementu kontenera w określonej kolejności nazywany jest <strong>przechodzeniem</strong> lub <strong>przechodzeniem</strong> kontenerem. Przechodzenie jest często nazywane <strong>iteracją</strong> lub <strong>iteracją po</strong> lub <strong>iteracją po</strong> kontenerze.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nota autora<p>Ponieważ klasy kontenerów używają typu <code>size_t</code> dla długości i indeksów, w tej lekcji zrobimy to samo. Używanie długości i indeksów ze znakiem omówimy na nadchodzącej lekcji <a href="../arrays-loops-and-sign-challenge-solutions/index.html">16.7 — Tablice, pętle i rozwiązania w zakresie wyzwań związanych ze znakami</a>.</div><p class="cpp-section cpp-topline" style=clear:both>Szablony, tablice i pętle odblokowują skalowalność<p>Tablice umożliwiają przechowywanie wielu obiektów bez konieczności nazywania każdego elementu.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>Pętle umożliwiają przeglądanie tablicy bez konieczności jawnego wymieniania każdego elementu.<p>Szablony umożliwiają parametryzację typu elementu.<p>W sumie szablony, tablice i pętle pozwalają nam napisać kod, który może operować na kontenerze elementów, niezależnie od typu elementu lub liczby elementów w kontenerze!<p>Aby to lepiej zilustrować, przepiszmy powyższy przykład, refaktoryzując średnie obliczenia do funkcji szablon:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;vector&gt;
 
-// Function template to calculate the average of the values in a std::vector
+// Szablon funkcji do obliczania średniej wartości w std::vector
 template &lt;typename T&gt;
 T calculateAverage(const std::vector&lt;T&gt;&amp; arr)
 {
     std::size_t length { arr.size() };
     
-    T average { 0 };                                      // if our array has elements of type T, our average should have type T too
-    for (std::size_t index{ 0 }; index &lt; length; ++index) // iterate through all the elements
-        average += arr[index];                            // sum up all the elements
-    average /= static_cast&lt;int&gt;(length);                  // divide by count of items (integral in nature)
+    T average { 0 };                                      // jeśli nasza tablica zawiera elementy typu T, nasza średnia też powinna mieć typ T
+    for (std::size_t index{ 0 }; index &lt; length; ++index) // iteruj po wszystkich elementach
+        average += arr[index];                            // podsumuj wszystkie elementy
+    average /= static_cast&lt;int&gt;(length);                  // dzielenie przez liczbę elementów (z natury całkowej)
     
     return average;
 }
@@ -79,22 +79,22 @@ T calculateAverage(const std::vector&lt;T&gt;&amp; arr)
 int main()
 {
     std::vector class1 { 84, 92, 76, 81, 56 };
-    std::cout &lt;&lt; &#34;The class 1 average is: &#34; &lt;&lt; calculateAverage(class1) &lt;&lt; &#39;\n&#39;; // calc average of 5 ints
+    std::cout &lt;&lt; "The class 1 average is: " &lt;&lt; calculateAverage(class1) &lt;&lt; '\n'; // oblicz średnią z 5 int
 
     std::vector class2 { 93.2, 88.6, 64.2, 81.0 };
-    std::cout &lt;&lt; &#34;The class 2 average is: &#34; &lt;&lt; calculateAverage(class2) &lt;&lt; &#39;\n&#39;; // calc average of 4 doubles
+    std::cout &lt;&lt; "The class 2 average is: " &lt;&lt; calculateAverage(class2) &lt;&lt; '\n'; // oblicz średnią z 4 dubletów
     
     return 0;
 }</code></pre><p>Wypisuje:<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><pre>The class 1 average is: 77
 The class 2 average is: 81.75
-</pre><p>W powyższym przykładzie utworzyliśmy funkcję szablon <code>calculateAverage()</code>, która pobiera <code>std::vector</code> dowolnego typu elementu i dowolnej długości i zwraca średnią. W <code>main()</code> pokazujemy, że funkcja ta działa równie dobrze, gdy jest wywoływana z tablicą 5 <code>int</code> elementów lub tablicą 4 <code>double</code> elementów!<p><code>calculateAverage()</code> będzie działać dla dowolnego typu <code>T</code> obsługującego operatory użyte wewnątrz funkcji (<code>operator+=(T)</code>, <code>operator/=(int)</code>). Jeśli spróbujesz użyć  <code>T</code> , który nie obsługuje tych operatorów, kompilator wystąpi błąd podczas próby kompilacji szablonu funkcji utworzonej. <p>Możesz się zastanawiać, dlaczego rzutujemy <code>length</code> na <code>int</code> a nie a <code>T</code>. Obliczając średnią, dzielimy sumę przez liczbę elementów. Liczba elementów jest wartością całkowitą. Dlatego z semantycznego punktu widzenia bardziej sensowne jest dzielenie przez  <code>int</code>.<p class="cpp-section cpp-topline" style=clear:both>Co możemy zrobić za pomocą tablic i pętli<p>Teraz, gdy wiemy, jak poruszać się po kontenerze elementów za pomocą pętli, przyjrzyjmy się najczęstszym rzeczom, do których możemy wykorzystać przechodzenie przez kontener. Zwykle przemierzamy kontener, aby wykonać jedną z czterech rzeczy:<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><ol start=1><li>Obliczyć nową wartość na podstawie wartości istniejących elementów (np. wartości średniej, sumy wartości).<li>Wyszukać istniejący element (np. ma dokładne dopasowanie, policzyć liczbę dopasowań, znaleźć najwyższą wartość).<li>Operuj na każdym elemencie (np. wyprowadź każdy element, pomnóż wszystkie elementy przez 2).<li>Zmień kolejność elementów (np. posortuj elementy w kolejności rosnącej).</ol><p>Pierwsze trzy z nich są dość proste. Za pomocą pojedynczej pętli możemy przeglądać tablicę, sprawdzając lub modyfikując odpowiednio każdy element.<p>Zmiana kolejności elementów kontenera jest nieco trudniejsza, ponieważ zwykle wiąże się to z użyciem pętli wewnątrz innej pętli. Chociaż możemy to zrobić ręcznie, zwykle lepiej jest użyć do tego istniejącego algorytmu ze standardowej biblioteki. Omówimy to bardziej szczegółowo w następnym rozdziale, kiedy będziemy omawiać algorytmy.<p class="cpp-section cpp-topline" style=clear:both>Tablice i błędy pojedyncze<p>Podczas przechodzenia przez kontener za pomocą indeksu musisz zadbać o to, aby pętla wykonała się odpowiednią liczbę razy. Błędy co do jednego (gdzie ciało pętli wykonuje się o jeden raz za dużo lub o jeden za mało) są łatwe do popełnienia.<p>Zazwyczaj podczas przechodzenia przez kontener za pomocą indeksu rozpoczynamy indeks od  <code>0</code> i wykonujemy pętlę aż do <code>index &lt; length</code>.<p>Nowi programiści czasami przypadkowo używają <code>index &lt;= length</code> jako warunku pętli. Spowoduje to wykonanie pętli gdy <code>index == length</code>, co spowoduje przekroczenie zakresu indeksu dolnego i niezdefiniowane zachowanie.<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Czas quizu<p class=cpp-quiz-question style=clear:both>Pytanie nr 1<p>Napisz krótki program, który za pomocą pętli wypisuje na ekran elementy następującego wektora:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+</pre><p>W powyższym przykładzie utworzyliśmy funkcję szablon <code>calculateAverage()</code>, która pobiera <code>std::vector</code> dowolnego typu elementu i dowolnej długości i zwraca średnią. W <code>main()</code> pokazujemy, że funkcja ta działa równie dobrze, gdy jest wywoływana z tablicą 5 <code>int</code> elementów lub tablicą 4 <code>double</code> elementów!<p><code>calculateAverage()</code> będzie działać dla dowolnego typu <code>T</code> obsługującego operatory użyte wewnątrz funkcji (<code>operator+=(T)</code>, <code>operator/=(int)</code>). Jeśli spróbujesz użyć  <code>T</code> , który nie obsługuje tych operatorów, kompilator wystąpi błąd podczas próby kompilacji szablonu funkcji utworzonej. <p>Możesz się zastanawiać, dlaczego rzutujemy <code>length</code> na <code>int</code> a nie <code>T</code>. Obliczając średnią, dzielimy sumę przez liczbę elementów. Liczba elementów jest wartością całkowitą. Dlatego z semantycznego punktu widzenia bardziej sensowne jest dzielenie przez  <code>int</code>.<p class="cpp-section cpp-topline" style=clear:both>Co możemy zrobić za pomocą tablic i pętli<p>Teraz, gdy wiemy, jak poruszać się po kontenerze elementów za pomocą pętli, przyjrzyjmy się najczęstszym rzeczom, do których możemy wykorzystać przechodzenie przez kontener. Zwykle przemierzamy kontener, aby wykonać jedną z czterech rzeczy:<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><ol start=1><li>Obliczyć nową wartość na podstawie wartości istniejących elementów (np. wartości średniej, sumy wartości).<li>Wyszukać istniejący element (np. ma dokładne dopasowanie, policzyć liczbę dopasowań, znaleźć najwyższą wartość).<li>Operuj na każdym elemencie (np. wyprowadź każdy element, pomnóż wszystkie elementy przez 2).<li>Zmień kolejność elementów (np. posortuj elementy w kolejności rosnącej).</ol><p>Pierwsze trzy z nich są dość proste. Za pomocą pojedynczej pętli możemy przeglądać tablicę, sprawdzając lub modyfikując odpowiednio każdy element.<p>Zmiana kolejności elementów kontenera jest nieco trudniejsza, ponieważ zwykle wiąże się to z użyciem pętli wewnątrz innej pętli. Chociaż możemy to zrobić ręcznie, zwykle lepiej jest użyć do tego istniejącego algorytmu ze standardowej biblioteki. Omówimy to bardziej szczegółowo w następnym rozdziale, kiedy będziemy omawiać algorytmy.<p class="cpp-section cpp-topline" style=clear:both>Tablice i błędy pojedyncze<p>Podczas przechodzenia przez kontener za pomocą indeksu musisz zadbać o to, aby pętla wykonała się odpowiednią liczbę razy. Błędy co do jednego (gdzie ciało pętli wykonuje się o jeden raz za dużo lub o jeden za mało) są łatwe do popełnienia.<p>Zazwyczaj podczas przechodzenia przez kontener za pomocą indeksu rozpoczynamy indeks od  <code>0</code> i wykonujemy pętlę aż do <code>index &lt; length</code>.<p>Nowi programiści czasami przypadkowo używają <code>index &lt;= length</code> jako warunku pętli. Spowoduje to wykonanie pętli gdy <code>index == length</code>, co spowoduje przekroczenie zakresu indeksu dolnego i niezdefiniowane zachowanie.<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Czas quizu<p class=cpp-quiz-question style=clear:both>Pytanie nr 1<p>Napisz krótki program, który za pomocą pętli wypisuje na ekran elementy następującego wektora:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;vector&gt;
 
 int main()
 {
     std::vector arr{ 4, 6, 7, 3, 8, 2, 1, 9 };
 
-    // Add your code here
+    // Dodaj tutaj swój kod
 
     return 0;
 }</code></pre><p>Wyniki powinny wyglądać następująco:<pre>4 6 7 3 8 2 1 9
@@ -117,13 +117,13 @@ int main()
 }</code></pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>Pytanie nr 2<p>Zaktualizuj kod poprzedniego rozwiązania quizu, tak aby następujący program się skompilował i dał takie same wyniki:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;vector&gt;
 
-// Implement printArray() here
+// Zaimplementuj tutaj printArray()
 
 int main()
 {
     std::vector arr{ 4, 6, 7, 3, 8, 2, 1, 9 };
 
-    printArray(arr); // use function template to print array
+    printArray(arr); // użyj szablonu funkcji do wydrukowania tablicy
 
     return 0;
 }</code></pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_1 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -164,11 +164,11 @@ void printArray(const std::vector&lt;T&gt;&amp; arr)
 {
     for (std::size_t index{ 0 }; index &lt; arr.size(); ++index)
     {
-        std::cout &lt;&lt; arr[index] &lt;&lt; &#39; &#39;;
+        std::cout &lt;&lt; arr[index] &lt;&lt; ' ';
     }
    
     if (arr.size() &gt; 0)
-        std::cout &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; '\n';
 }
 
 template &lt;typename T&gt;
@@ -180,24 +180,24 @@ int findIndex(const std::vector&lt;T&gt;&amp; arr, T val)
             return static_cast&lt;int&gt;(index);
     }    
 
-    return -1; // -1 is not a valid index, so we can use it as an error return value
+    return -1; // -1 nie jest prawidłowym indeksem, więc możemy go użyć jako wartości zwracanej błędu
 }
 
 
 int getValidNumber()
 {
-    // First, read in valid input from user
+    // Najpierw wczytaj prawidłowe dane wejściowe od użytkownika
     int num {};
     do
     {
-        std::cout &lt;&lt; &#34;Enter a number between 1 and 9: &#34;;
+        std::cout &lt;&lt; "Enter a number between 1 and 9: ";
         std::cin &gt;&gt; num;
 
-        // if the user entered an invalid character
+        // jeśli użytkownik wprowadził nieprawidłowy znak
         if (!std::cin)
-            std::cin.clear(); // reset any error flags
+            std::cin.clear(); // zresetuj wszystkie flagi błędów
 
-        std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), &#39;\n&#39;); // ignore any extra characters in the input buffer (regardless of whether we had an error or not)
+        std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), '\n'); // zignoruj wszelkie dodatkowe znaki w buforze wejściowym (niezależnie od tego, czy wystąpił błąd, czy nie)
 
     } while (num &lt; 1 || num &gt; 9);
 
@@ -215,9 +215,9 @@ int main()
     int index { findIndex(arr, num) };
 
     if (index != -1)
-        std::cout &lt;&lt; &#34;The number &#34; &lt;&lt; num &lt;&lt; &#34; has index &#34; &lt;&lt; index &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; "The number " &lt;&lt; num &lt;&lt; " has index " &lt;&lt; index &lt;&lt; '\n';
     else
-        std::cout &lt;&lt; &#34;The number &#34; &lt;&lt; num &lt;&lt; &#34; was not found\n&#34;;
+        std::cout &lt;&lt; "The number " &lt;&lt; num &lt;&lt; " was not found\n";
 
     return 0;
 }</code></pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>Pytanie nr 4<p>Dodatkowe punkty: Zmodyfikuj poprzedni program tak, aby mógł obsłużyć <code>std::vector</code> zawierające wartości liczbowe inne niż int, takie jak as <code>std::vector arr{ 4.4, 6.6, 7.7, 3.3, 8.8, 2.2, 1.1, 9.9 };</code>.<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_3'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_3 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -229,11 +229,11 @@ void printArray(const std::vector&lt;T&gt;&amp; arr)
 {
     for (std::size_t index{ 0 }; index &lt; arr.size(); ++index)
     {
-        std::cout &lt;&lt; arr[index] &lt;&lt; &#39; &#39;;
+        std::cout &lt;&lt; arr[index] &lt;&lt; ' ';
     }
 
     if (arr.size() &gt; 0)
-        std::cout &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; '\n';
 }
 
 template &lt;typename T&gt;
@@ -245,25 +245,25 @@ int findIndex(const std::vector&lt;T&gt;&amp; arr, T val)
             return static_cast&lt;int&gt;(index);
     }
 
-    return -1; // -1 is not a valid index, so we can use it as an error return value
+    return -1; // -1 nie jest prawidłowym indeksem, więc możemy go użyć jako wartości zwracanej błędu
 }
 
-// Passing in low and high allows the compiler to infer the type of the input we want
+// Przekazywanie wartości low i high pozwala kompilatorowi wywnioskować, jakiego typu danych wejściowych chcemy
 template &lt;typename T&gt;
 T getValidNumber(std::string_view prompt, T low, T high)
 {
-    // First, read in valid input from user
+    // Najpierw wczytaj prawidłowe dane wejściowe od użytkownika
     T val {};
     do
     {
         std::cout &lt;&lt; prompt;
         std::cin &gt;&gt; val;
 
-        // if the user entered an invalid character
+        // jeśli użytkownik wprowadził nieprawidłowy znak
         if (!std::cin)
-            std::cin.clear(); // reset any error flags
+            std::cin.clear(); // zresetuj wszystkie flagi błędów
 
-        std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), &#39;\n&#39;); // ignore any extra characters in the input buffer (regardless of whether we had an error or not)
+        std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), '\n'); // zignoruj wszelkie dodatkowe znaki w buforze wejściowym (niezależnie od tego, czy wystąpił błąd, czy nie)
 
     } while (val &lt; low || val &gt; high);
 
@@ -274,16 +274,16 @@ int main()
 {
     std::vector arr{ 4.4, 6.6, 7.7, 3.3, 8.8, 2.2, 1.1, 9.9 };
     
-    auto num { getValidNumber(&#34;Enter a number between 1 and 9: &#34;, 1.0, 9.0) };
+    auto num { getValidNumber("Enter a number between 1 and 9: ", 1.0, 9.0) };
 
     printArray(arr);
 
     int index { findIndex(arr, num) };
 
     if (index != -1)
-        std::cout &lt;&lt; &#34;The number &#34; &lt;&lt; num &lt;&lt; &#34; has index &#34; &lt;&lt; index &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; "The number " &lt;&lt; num &lt;&lt; " has index " &lt;&lt; index &lt;&lt; '\n';
     else
-        std::cout &lt;&lt; &#34;The number &#34; &lt;&lt; num &lt;&lt; &#34; was not found\n&#34;;
+        std::cout &lt;&lt; "The number " &lt;&lt; num &lt;&lt; " was not found\n";
 
     return 0;
 }</code></pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>Pytanie #5<p>Napisz szablon funkcji, aby znaleźć największą wartość w <code>std::vector</code>. Jeśli wektor jest pusty, zwróć wartość domyślną dla typu elementu.<p>Należy wykonać następujący kod:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
@@ -312,9 +312,9 @@ T findMax(const std::vector&lt;T&gt;&amp; arr)
     if (length==0)
         return T{};    
 
-    T max { arr[0] }; // Set the max seen to the first element
+    T max { arr[0] }; // Ustaw najważniejszego pierwszego elementu
 
-    // Iterate through any remaining elements looking for a larger value
+    // Przejdź przez pozostałe elementy w poszukiwaniu większej wartości
     for (std::size_t index{ 1 }; index &lt; length; ++index)
     {
         if (arr[index] &gt; max)
@@ -327,16 +327,16 @@ T findMax(const std::vector&lt;T&gt;&amp; arr)
 int main()
 {
     std::vector data1 { 84, 92, 76, 81, 56 };
-    std::cout &lt;&lt; findMax(data1) &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; findMax(data1) &lt;&lt; '\n';
 
     std::vector data2 { -13.0, -26.7, -105.5, -14.8 };
-    std::cout &lt;&lt; findMax(data2) &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; findMax(data2) &lt;&lt; '\n';
 
     std::vector&lt;int&gt; data3 { };
-    std::cout &lt;&lt; findMax(data3) &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; findMax(data3) &lt;&lt; '\n';
     
     return 0;
-}</code></pre><p>W tym przykładzie używamy zmiennej niebędącej pętlą o nazwie <code>max</code> , aby śledzić najwyższy wynik widzieliśmy. Inicjujemy <code>max</code> wartością pierwszego elementu tak, aby zaczynał się od prawidłowej wartości. Inicjalizacja wartości może być kusząca, ale spowoduje, że funkcja zwróci błędną wartość, jeśli tablica zawiera tylko wartości ujemne.<p>Następnie iterujemy po każdym elemencie tablicy i jeśli znajdziemy wynik wyższy niż jakikolwiek inny, który widzieliśmy wcześniej, ustawiamy <code>max</code> tę wartość. Zatem <code>max</code> zawsze reprezentuje najwyższy wynik spośród wszystkich elementów, które do tej pory przeszukaliśmy. Zanim dotrzemy do końca tablicy, <code>max</code> ma najwyższy wynik w całej tablicy, który możemy następnie zwrócić dzwoniącemu.</div><p class="cpp-quiz-question cpp-topline" style=clear:both>Pytanie nr 6<p>W quizie na lekcję <a href="../for-statements/index.html">8.10 -- Dla instrukcji</a> zaimplementowaliśmy grę o nazwie FizzBuzz dla liczb trzy, pięć i siedem.<p>W tym quizie zaimplementuj grę w następujący sposób:<ul><li>Liczby podzielne tylko przez 3 powinny zostać wydrukowane jako „fizz”.<li>Liczby podzielne tylko przez 5 powinny zostać wydrukowane jako „buzz”.<li>Liczby podzielne tylko przez 7 powinny zostać wydrukowane jako „pop”.<li>Liczby podzielne tylko przez 11 powinny zostać wydrukowane „bang”.<li>Liczby podzielne tylko przez 13 powinny zostać wydrukowane „jazz”.<li>Liczby podzielne tylko przez 17 powinny zostać wydrukowane „pow”.<li>Liczby podzielne tylko przez 19 powinny zostać wydrukowane „boom”.<li>Liczby podzielne przez więcej niż jedno z powyższych powinny wydrukować każde ze słów powiązanych z jej dzielniki.<li>Liczby, których nie można podzielić przez żaden z powyższych, powinny po prostu wydrukować liczbę.</ul><p>Użyj <code>std::vector</code> do przechowywania dzielników, a kolejne <code>std::vector</code> do przechowywania słów (jak wpisz <code>std::string_view</code>). Jeśli tablice nie mają tej samej długości, program powinien potwierdzić. Utwórz wynik dla 150 liczb.<p><a class=hint_link_show href=javascript:void(0) onclick="cppHintToggle(document.getElementById('cpp_hint_id_1'),this,'Show Hint','')">Pokaż wskazówkę</a><div class=wphint id=cpp_hint_id_1 style=display:none;margin-bottom:1em>Wskazówka: Użyj sufiksu literału <code>sv</code> , aby utworzyć słowa typu <code>std::string_view</code>, dzięki czemu możesz użyć CTAD do wydedukowania typu tablicy.</div><p><a class=hint_link_show href=javascript:void(0) onclick="cppHintToggle(document.getElementById('cpp_hint_id_2'),this,'Show Hint','')">Pokaż wskazówkę</a><div class=wphint id=cpp_hint_id_2 style=display:none;margin-bottom:1em>Wskazówka: Użyj zagnieżdżonej pętli for, aby sprawdzić liczbę względem dzielników. Omawiamy zagnieżdżone pętle for w lekcji <a href="../for-statements/index.html">8.10 -- Dla instrukcji</a>.</div><p>Oto oczekiwany wynik z pierwszych 21 iteracji:<pre>1
+}</code></pre><p>W tym przykładzie używamy zmiennej niebędącej pętlą o nazwie <code>max</code> , aby śledzić najwyższy wynik widzieliśmy. Inicjujemy <code>max</code> wartością pierwszego elementu tak, aby zaczynał się od prawidłowej wartości. Inicjalizacja wartości może być kusząca, ale spowoduje, że funkcja zwróci błędną wartość, jeśli tablica zawiera tylko wartości ujemne.<p>Następnie iterujemy po każdym elemencie tablicy i jeśli znajdziemy wynik wyższy niż jakikolwiek inny, który widzieliśmy wcześniej, ustawiamy <code>max</code> tę wartość. Zatem <code>max</code> zawsze reprezentuje najwyższy wynik spośród wszystkich elementów, które do tej pory przeszukaliśmy. Zanim dotrzemy do końca tablicy, <code>max</code> ma najwyższy wynik w całej tablicy, który możemy następnie zwrócić wywołującemu.</div><p class="cpp-quiz-question cpp-topline" style=clear:both>Pytanie nr 6<p>W quizie na lekcję <a href="../for-statements/index.html">8.10 -- Dla instrukcji</a> zaimplementowaliśmy grę o nazwie FizzBuzz dla liczb trzy, pięć i siedem.<p>W tym quizie zaimplementuj grę w następujący sposób:<ul><li>Liczby podzielne tylko przez 3 powinny zostać wydrukowane jako „fizz”.<li>Liczby podzielne tylko przez 5 powinny zostać wydrukowane jako „buzz”.<li>Liczby podzielne tylko przez 7 powinny zostać wydrukowane jako „pop”.<li>Liczby podzielne tylko przez 11 powinny zostać wydrukowane „bang”.<li>Liczby podzielne tylko przez 13 powinny zostać wydrukowane „jazz”.<li>Liczby podzielne tylko przez 17 powinny zostać wydrukowane „pow”.<li>Liczby podzielne tylko przez 19 powinny zostać wydrukowane „boom”.<li>Liczby podzielne przez więcej niż jedno z powyższych powinny wydrukować każde ze słów powiązanych z jej dzielniki.<li>Liczby, których nie można podzielić przez żaden z powyższych, powinny po prostu wydrukować liczbę.</ul><p>Użyj <code>std::vector</code> do przechowywania dzielników, a kolejne <code>std::vector</code> do przechowywania słów (jak wpisz <code>std::string_view</code>). Jeśli tablice nie mają tej samej długości, program powinien potwierdzić. Utwórz wynik dla 150 liczb.<p><a class=hint_link_show href=javascript:void(0) onclick="cppHintToggle(document.getElementById('cpp_hint_id_1'),this,'Show Hint','')">Pokaż wskazówkę</a><div class=wphint id=cpp_hint_id_1 style=display:none;margin-bottom:1em>Wskazówka: Użyj sufiksu literału <code>sv</code> , aby utworzyć słowa typu <code>std::string_view</code>, dzięki czemu możesz użyć CTAD do wydedukowania typu tablicy.</div><p><a class=hint_link_show href=javascript:void(0) onclick="cppHintToggle(document.getElementById('cpp_hint_id_2'),this,'Show Hint','')">Pokaż wskazówkę</a><div class=wphint id=cpp_hint_id_2 style=display:none;margin-bottom:1em>Wskazówka: Użyj zagnieżdżonej pętli for, aby sprawdzić liczbę względem dzielników. Omawiamy zagnieżdżone pętle for w lekcji <a href="../for-statements/index.html">8.10 -- Dla instrukcji</a>.</div><p>Oto oczekiwany wynik z pierwszych 21 iteracji:<pre>1
 2
 fizz
 4
@@ -357,7 +357,7 @@ fizz
 boom
 buzz
 fizzpop
-</pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_5'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_5 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// h/t to reader Waldo for suggesting this quiz
+</pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_5'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_5 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// h/t czytelnikowi Waldo za zasugerowanie tego quizu
 #include &lt;cassert&gt;
 #include &lt;iostream&gt;
 #include &lt;string_view&gt;
@@ -365,17 +365,17 @@ fizzpop
 
 void fizzbuzz(int count)
 {
-	// We&#39;ll make these static so we only have to do initialization once
+	// Uczynimy je statycznymi, więc inicjalizację będziemy musieli wykonać tylko raz
 	static const std::vector divisors                { 3, 5, 7, 11, 13, 17, 19 };
-	static const std::vector&lt;std::string_view&gt; words { &#34;fizz&#34;, &#34;buzz&#34;, &#34;pop&#34;, &#34;bang&#34;, &#34;jazz&#34;, &#34;pow&#34;, &#34;boom&#34; };
-	assert(std::size(divisors) == std::size(words) &amp;&amp; &#34;fizzbuzz: array sizes don&#39;t match&#34;);
+	static const std::vector&lt;std::string_view&gt; words { "fizz", "buzz", "pop", "bang", "jazz", "pow", "boom" };
+	assert(std::size(divisors) == std::size(words) &amp;&amp; "fizzbuzz: array sizes don't match");
 
-	// Loop through each number between 1 and count (inclusive)
+	// Przejdź przez każdą liczbę od 1 do liczby (włącznie)
 	for (int i{ 1 }; i &lt;= count; ++i)
 	{
 		bool printed{ false };
 
-		// Check the current number against each possible divisor
+		// Sprawdź bieżącą liczbę względem każdego możliwego dzielnika
 		for (std::size_t j{ 0 }; j &lt; divisors.size(); ++j)
 		{
 			if (i % divisors[j] == 0)
@@ -385,11 +385,11 @@ void fizzbuzz(int count)
 			}
 		}
 
-		// If there were no divisors
+		// Jeśli tak było brak dzielników
 		if (!printed)
 			std::cout &lt;&lt; i;
 
-		std::cout &lt;&lt; &#39;\n&#39;;
+		std::cout &lt;&lt; '\n';
 	}
 }
 

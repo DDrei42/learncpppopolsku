@@ -17,7 +17,7 @@
 
 int main()
 {
-    std::cout &lt;&lt; 2 + 3 &lt;&lt; &#39;\n&#39;; // The expression 2 + 3 produces the value 5
+    std::cout &lt;&lt; 2 + 3 &lt;&lt; '\n'; // Wyrażenie 2 + 3 daje wartość 5
 
     return 0;
 }</code></pre><p>W powyższym programie wyrażenie <code>2 + 3</code> jest oceniane w celu uzyskania wartości 5, która jest następnie wydawana na konsolę.<p>W lekcji <a href="../increment-decrement-operators-and-side-effects/index.html">6.4 — Operatory zwiększania/zmniejszania i skutki uboczne</a> zauważyliśmy również, że wyrażenia mogą powodować skutki uboczne, które trwają dłużej niż wyrażenie:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -25,8 +25,8 @@ int main()
 int main()
 {
     int x { 5 };
-    ++x; // This expression statement has the side-effect of incrementing x
-    std::cout &lt;&lt; x &lt;&lt; &#39;\n&#39;; // prints 6
+    ++x; // Ta instrukcja wyrażenia ma skutek uboczny w postaci zwiększania x
+    std::cout &lt;&lt; x &lt;&lt; '\n'; // prints 6
 
     return 0;
 }</code></pre><p>W powyższym programie wyrażenie <code>++x</code> zwiększa wartość of <code>x</code>, a wartość ta pozostaje zmieniona nawet po zakończeniu obliczania wyrażenia.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Oprócz tworzenia wartości i skutków ubocznych, wyrażenia mogą robić jeszcze jedną rzecz: mogą oceniać obiekty lub funkcje. Za chwilę zajmiemy się tym szerzej.<p class="cpp-section cpp-topline" style=clear:both>Właściwości wyrażenia<p>Aby określić, w jaki sposób wyrażenia powinny być oceniane i gdzie można ich używać, wszystkie wyrażenia w C++ mają dwie właściwości: typ i kategorię wartości.<p class="cpp-section cpp-topline" style=clear:both>Typ wyrażenia<p>Typ wyrażenia jest równoważny typowi wartości, obiektu lub funkcji, która wynika z ocenianego wyrażenia. Na przykład:<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
@@ -35,73 +35,73 @@ int main()
     auto v2 { 12.0 / 4 }; // double / int =&gt; double
 
     return 0;
-}</code></pre><p>For <code>v1</code>, kompilator ustali (w czasie kompilacji), że dzielenie na dwa <code>int</code> operandy da wynik <code>int</code> , więc <code>int</code> jest typem tego wyrażenia. Na podstawie wnioskowania o typie,  <code>int</code> zostanie wówczas użyty jako typ <code>v1</code>.<p>For <code>v2</code>, kompilator ustali (w czasie kompilacji), że dzielenie za pomocą argumentu <code>double</code> i argumentu <code>int</code>  da wynik <code>double</code> . Pamiętaj, że operatory arytmetyczne muszą mieć operandy pasujących typów, zatem w tym przypadku operand <code>int</code> jest konwertowany na a <code>double</code> i wykonywane jest dzielenie zmiennoprzecinkowe. Zatem <code>double</code> jest typem tego wyrażenia.<p>Kompilator może użyć typu wyrażenia, aby określić, czy wyrażenie jest prawidłowe w danym kontekście. Przykładowo:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+}</code></pre><p>For <code>v1</code>, kompilator ustali (w czasie kompilacji), że dzielenie na dwa <code>int</code> operandy da wynik <code>int</code> , więc <code>int</code> jest typem tego wyrażenia. Na podstawie wnioskowania o typie,  <code>int</code> zostanie wówczas użyty jako typ <code>v1</code>.<p>For <code>v2</code>, kompilator ustali (w czasie kompilacji), że dzielenie za pomocą argumentu <code>double</code> i argumentu <code>int</code>  da wynik <code>double</code> . Pamiętaj, że operatory arytmetyczne muszą mieć operandy pasujących typów, zatem w tym przypadku operand <code>int</code> jest konwertowany na <code>double</code> i wykonywane jest dzielenie zmiennoprzecinkowe. Zatem <code>double</code> jest typem tego wyrażenia.<p>Kompilator może użyć typu wyrażenia, aby określić, czy wyrażenie jest prawidłowe w danym kontekście. Przykładowo:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 void print(int x)
 {
-    std::cout &lt;&lt; x &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; x &lt;&lt; '\n';
 }
 
 int main()
 {
-    print(&#34;foo&#34;); // error: print() was expecting an int argument, we tried to pass in a string literal
+    print("foo"); // błąd: print() oczekiwał argumentu int, próbowaliśmy przekazać literał łańcuchowy
 
     return 0;
 }</code></pre><p>W powyższym programie funkcja <code>print(int)</code> oczekuje parametru <code>int</code> . Jednak typ wyrażenia, które przekazujemy (literał ciągu  <code>"foo"</code>) nie jest zgodny i nie można znaleźć żadnej konwersji. W rezultacie pojawia się błąd kompilacji.<p>Zauważ, że typ wyrażenia musi być możliwy do określenia w czasie kompilacji (w przeciwnym razie sprawdzanie typu i dedukcja typu nie zadziałałyby) -- jednakże wartość wyrażenia może zostać określona w czasie kompilacji (jeśli wyrażenie to constexpr) lub w czasie wykonywania (jeśli wyrażenie nie jest constexpr).<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Kategoria wartości wyrażenia<p>Rozważmy teraz następujący program:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
     int x{};
 
-    x = 5; // valid: we can assign 5 to x
-    5 = x; // error: can not assign value of x to literal value 5
+    x = 5; // poprawna: możemy przypisać 5 do x
+    5 = x; // błąd: nie można przypisz wartość x do wartości literału 5
 
     return 0;
-}</code></pre><p>Jedna z tych instrukcji przypisania jest prawidłowa (przypisanie wartość <code>5</code> do zmiennej <code>x</code>), a jedna nie (co by oznaczało przypisanie wartości <code>x</code> do wartości literalnej <code>5</code>?). Skąd więc kompilator wie, które wyrażenia mogą legalnie występować po obu stronach instrukcji przypisania?<p>Odpowiedź leży w drugiej właściwości wyrażeń:  <code>value category</code>. Słowo kluczowe <strong>kategoria wartości</strong> wyrażenia (lub podwyrażenia) wskazuje, czy wyrażenie daje się rozwiązać na wartość, funkcję czy jakiś obiekt.<p>Przed C++11 istniały tylko dwie możliwe kategorie wartości: <code>lvalue</code> i <code>rvalue</code>.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>W W języku C++11 dodano trzy dodatkowe kategorie wartości (<code>glvalue</code>, <code>prvalue</code>, I <code>xvalue</code>) w celu obsługi nowej funkcji o nazwie <code>move semantics</code>.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nota autora<p>W tej lekcji pozostaniemy przy widoku kategorii wartości sprzed wersji C++11, ponieważ stanowi to łagodniejsze wprowadzenie do kategorii wartości (i to wszystko, czego w tej chwili potrzebujemy). Semantykę przenoszenia (oraz trzy dodatkowe kategorie wartości) omówimy w następnym rozdziale.</div><p class="cpp-section cpp-topline" style=clear:both>Wyrażenia l-wartości i rwartości<p>An <strong>wartość</strong> (wymawiane „wartość-ell”, skrót od „wartość lewa” lub „wartość lokalizatora”, czasami zapisywane jako „wartość-l”) to wyrażenie, którego wynikiem jest możliwy do zidentyfikowania obiekt lub funkcja (lub pole bitowe).<p>Termin „tożsamość” jest używany w standardzie C++, ale nie jest dobrze zdefiniowany. Obiekt (taki jak obiekt lub funkcja), który ma tożsamość, można odróżnić od innych podobnych obiektów (zwykle poprzez porównanie adresów obiektu).<p>Do obiektów z tożsamością można uzyskać dostęp za pośrednictwem identyfikatora, odwołania lub wskaźnika i zazwyczaj mają one dłuższy czas życia niż pojedyncze wyrażenie lub instrukcja.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
+}</code></pre><p>Jedna z tych instrukcji przypisania jest prawidłowa (przypisanie wartość <code>5</code> do zmiennej <code>x</code>), a jedna nie (co by oznaczało przypisanie wartości <code>x</code> do wartości literalnej <code>5</code>?). Skąd więc kompilator wie, które wyrażenia mogą legalnie występować po obu stronach instrukcji przypisania?<p>Odpowiedź leży w drugiej właściwości wyrażeń:  <code>value category</code>. Słowo kluczowe <strong>kategoria wartości</strong> wyrażenia (lub podwyrażenia) wskazuje, czy wyrażenie daje się rozwiązać na wartość, funkcję czy jakiś obiekt.<p>Przed C++11 istniały tylko dwie możliwe kategorie wartości: <code>lvalue</code> i <code>rvalue</code>.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>W W języku C++11 dodano trzy dodatkowe kategorie wartości (<code>glvalue</code>, <code>prvalue</code>, i <code>xvalue</code>) w celu obsługi nowej funkcji o nazwie <code>move semantics</code>.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nota autora<p>W tej lekcji pozostaniemy przy widoku kategorii wartości sprzed wersji C++11, ponieważ stanowi to łagodniejsze wprowadzenie do kategorii wartości (i to wszystko, czego w tej chwili potrzebujemy). Semantykę przenoszenia (oraz trzy dodatkowe kategorie wartości) omówimy w następnym rozdziale.</div><p class="cpp-section cpp-topline" style=clear:both>Wyrażenia l-wartości i rwartości<p><strong>wartość</strong> (wymawiane „wartość-ell”, skrót od „wartość lewa” lub „wartość lokalizatora”, czasami zapisywane jako „wartość-l”) to wyrażenie, którego wynikiem jest możliwy do zidentyfikowania obiekt lub funkcja (lub pole bitowe).<p>Termin „tożsamość” jest używany w standardzie C++, ale nie jest dobrze zdefiniowany. Obiekt (taki jak obiekt lub funkcja), który ma tożsamość, można odróżnić od innych podobnych obiektów (zwykle poprzez porównanie adresów obiektu).<p>Do obiektów z tożsamością można uzyskać dostęp za pośrednictwem identyfikatora, odwołania lub wskaźnika i zazwyczaj mają one dłuższy czas życia niż pojedyncze wyrażenie lub instrukcja.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
     int x { 5 };
-    int y { x }; // x is an lvalue expression
+    int y { x }; // x jest wyrażeniem wartości
 
     return 0;
-}</code></pre><p>W powyższym programie wyrażenie <code>x</code> jest wyrażeniem lwartościowym, zgodnie z jego wartością zmienna <code>x</code> (która posiada identyfikator).<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p>Od czasu wprowadzenia stałych do języka, lwartości występują w dwóch podtypach: a <strong>modyfikowalna lwartość</strong> to lwartość, której wartość można modyfikować. A <strong>niemodyfikowalna lwartość</strong> to lwartość, której wartości nie można modyfikować (ponieważ lwartość to const lub constexpr).<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
+}</code></pre><p>W powyższym programie wyrażenie <code>x</code> jest wyrażeniem lwartościowym, zgodnie z jego wartością zmienna <code>x</code> (która posiada identyfikator).<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p>Od czasu wprowadzenia stałych do języka, lwartości występują w dwóch podtypach: <strong>modyfikowalna lwartość</strong> to lwartość, której wartość można modyfikować. <strong>niemodyfikowalna lwartość</strong> to lwartość, której wartości nie można modyfikować (ponieważ lwartość to const lub constexpr).<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
     int x{};
     const double d{};
 
-    int y { x }; // x is a modifiable lvalue expression
-    const double e { d }; // d is a non-modifiable lvalue expression
+    int y { x }; // x jest modyfikowalnym wyrażeniem wartości
+    const double e { d }; // d jest niemodyfikowalnym wyrażeniem wartości
 
     return 0;
-}</code></pre><p>An <strong>wartość</strong> (wymawiane „arr-value”, skrót od „right value”, czasami zapisywane jako  <code>r-value</code>) to wyrażenie, które nie jest lwartością. Wyrażenia Rvalue dają w wyniku wartość. Często spotykane wartości obejmują literały (z wyjątkiem literałów łańcuchowych w stylu C, które są lwartościami) oraz wartość zwracaną przez funkcje i operatory, które zwracają wartość. Wartości nie można zidentyfikować (co oznacza, że należy je natychmiast użyć) i istnieją jedynie w zakresie wyrażenia, w którym są użyte.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int return5()
+}</code></pre><p><strong>wartość</strong> (wymawiane „arr-value”, skrót od „right value”, czasami zapisywane jako  <code>r-value</code>) to wyrażenie, które nie jest lwartością. Wyrażenia Rvalue dają w wyniku wartość. Często spotykane wartości obejmują literały (z wyjątkiem literałów łańcuchowych w stylu C, które są lwartościami) oraz wartość zwracaną przez funkcje i operatory, które zwracają wartość. Wartości nie można zidentyfikować (co oznacza, że należy je natychmiast użyć) i istnieją jedynie w zakresie wyrażenia, w którym są użyte.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int return5()
 {
     return 5;
 }
 
 int main()
 {
-    int x{ 5 }; // 5 is an rvalue expression
-    const double d{ 1.2 }; // 1.2 is an rvalue expression
+    int x{ 5 }; // 5 to wyrażenie wartości
+    const double d{ 1.2 }; // 1.2 jest wyrażeniem wartości
 
-    int y { x }; // x is a modifiable lvalue expression
-    const double e { d }; // d is a non-modifiable lvalue expression
-    int z { return5() }; // return5() is an rvalue expression (since the result is returned by value)
+    int y { x }; // x jest modyfikowalnym wyrażeniem wartości
+    const double e { d }; // d jest niemodyfikowalnym wyrażeniem wartości
+    int z { return5() }; // return5() jest wyrażeniem wartości (ponieważ wynik jest zwracany przez wartość)
 
-    int w { x + 1 }; // x + 1 is an rvalue expression
-    int q { static_cast&lt;int&gt;(d) }; // the result of static casting d to an int is an rvalue expression
+    int w { x + 1 }; // x + 1 jest wyrażeniem wartości
+    int q { static_cast&lt;int&gt;(d) }; // wynikiem statycznego rzutowania d na int jest wartością wyrażenie
 
     return 0;
-}</code></pre><p>Możesz się zastanawiać, dlaczego <code>return5()</code>, <code>x + 1</code>, I <code>static_cast&lt;int>(d)</code> są wartościami: odpowiedź jest taka, że wyrażenia te generują wartości tymczasowe, które nie są możliwymi do zidentyfikowania obiektami.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Wyrażenia Lwartości oceniają się na możliwy do zidentyfikowania obiekt.<br>Wyrażenia R wartością są wartość.</div><p class="cpp-section cpp-topline" style=clear:both>Kategorie i operatory wartości<p>O ile nie określono inaczej, operatory oczekują, że ich operandy będą rwartościami. Na przykład binarny <code>operator+</code> oczekuje, że jego operandy będą wartościami:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+}</code></pre><p>Możesz się zastanawiać, dlaczego <code>return5()</code>, <code>x + 1</code>, i <code>static_cast&lt;int>(d)</code> są wartościami: odpowiedź jest taka, że wyrażenia te generują wartości tymczasowe, które nie są możliwymi do zidentyfikowania obiektami.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Wyrażenia Lwartości oceniają się na możliwy do zidentyfikowania obiekt.<br>Wyrażenia R wartością są wartość.</div><p class="cpp-section cpp-topline" style=clear:both>Kategorie i operatory wartości<p>O ile nie określono inaczej, operatory oczekują, że ich operandy będą rwartościami. Na przykład binarny <code>operator+</code> oczekuje, że jego operandy będą wartościami:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 int main()
 {
-    std::cout &lt;&lt; 1 + 2; // 1 and 2 are rvalues, operator+ returns an rvalue
+    std::cout &lt;&lt; 1 + 2; // 1 i 2 to rwartości, operator+ zwraca wartość
 
     return 0;
 }</code></pre><p>Literały <code>1</code> i <code>2</code> są wyrażeniami wartości. <code>operator+</code> z radością użyją ich do zwrócenia wyrażenia wartości <code>3</code>.<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>Teraz możemy odpowiedzieć na pytanie, dlaczego <code>x = 5</code> jest poprawne, ale <code>5 = x</code> nie jest: operacja przypisania wymaga, aby jej lewy operand był modyfikowalnym wyrażeniem wartości. To ostatnie przypisanie (<code>5 = x</code>) kończy się niepowodzeniem, ponieważ lewy operand jest wyrażeniem <code>5</code> jest wartością, a nie modyfikowalną wartością.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
     int x{};
 
-    // Assignment requires the left operand to be a modifiable lvalue expression and the right operand to be an rvalue expression
-    x = 5; // valid: x is a modifiable lvalue expression and 5 is an rvalue expression
-    5 = x; // error: 5 is an rvalue expression and x is a modifiable lvalue expression
+    // Przypisanie wymaga, aby lewy operand był modyfikowalnym wyrażeniem l-wartości, a prawy operand był wyrażeniem r-wartości
+    x = 5; // poprawna: x to modyfikowalne wyrażenie lwartości, a 5 to wyrażenie wartości
+    5 = x; // błąd: 5 to wyrażenie wartości, a x to modyfikowalne wyrażenie wartości
 
     return 0;
 }</code></pre><p class="cpp-section cpp-topline" style=clear:both>Konwersja lwartości na rwartość<p>Ponieważ operacje przypisania oczekują, że prawy operand będzie wyrażeniem rwartości, możesz zastanawiać się, dlaczego działa następujące działanie:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
@@ -109,7 +109,7 @@ int main()
     int x{ 1 };
     int y{ 2 };
 
-    x = y; // y is not an rvalue, but this is legal
+    x = y; // y nie jest wartością, ale jest to dozwolone
 
     return 0;
 }</code></pre><p>W przypadkach, gdy oczekiwana jest wartość, ale jest ona pod warunkiem, że lwartość zostanie przekształcona z lwartości na rwartość, dzięki czemu będzie można jej używać w takich kontekstach. Zasadniczo oznacza to, że lwartość jest oceniana w celu wytworzenia jej wartości, która jest wartością.<p>W powyższym przykładzie wyrażenie lwartości <code>y</code> poddaje się konwersji lwartości na rwartość, która w wyniku  <code>y</code> wytwarza rwartość (<code>2</code>), która jest następnie przypisana do <code>x</code>.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>lwartość zostanie niejawnie przekonwertowana na rwartość. Oznacza to, że lwartości można użyć wszędzie tam, gdzie się jej oczekuje.<br>Z drugiej strony, wartość nie zostanie w sposób dorozumiany przekonwertowana na lwartość.</div><p>Rozważmy teraz następujący przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
@@ -122,22 +122,22 @@ int main()
 }</code></pre><p>W tej instrukcji zmienna <code>x</code> jest używana w dwóch różnych kontekstach. Po lewej stronie operatora przypisania (gdzie wymagane jest wyrażenie lwartości) <code>x</code> znajduje się wyrażenie lwartości, którego wynikiem jest zmienna <code>x</code>. Po prawej stronie operatora przypisania  <code>x</code> przechodzi konwersję lwartości na rwartość, a następnie jest oceniany w taki sposób, że jego (<code>2</code>) może zostać użyty jako lewy operand  <code>operator+</code>. <code>operator+</code> zwraca wyrażenie rwartości <code>3</code>, które jest następnie używane jako prawy operand przypisania.<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Jak odróżnić lwartości od rwartości<p>Nadal możesz nie być zdezorientowany, jaki rodzaj wyrażeń kwalifikuje się jako lwartość i rwartość. Na przykład, czy wynik <code>operator++</code> jest wartością czy wartością? Omówimy tutaj różne metody, których możesz użyć do określenia, która jest która.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>Praktyczna zasada identyfikowania wyrażeń l-wartość i rwartość:<ul><li>Wyrażenia l-wartości to te, które wyznaczają funkcje lub możliwe do zidentyfikowania obiekty (w tym zmienne), które utrzymują się po zakończeniu wyrażenia.<li>Wyrażenia R-wartości to te, które oceniają wartości, w tym literały i obiekty tymczasowe, które nie pozostają poza końcem wyrażenia wyrażenie.</ul></div><p>Pełniejszą listę wyrażeń lwartość i rwartość można znaleźć w dokumentacji technicznej.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>Pełną listę wyrażeń lwartość i rwartość można znaleźć <a href=https://en.cppreference.com/w/cpp/language/value_category>tutaj</a>. W C++11 wartości są podzielone na dwa podtypy: wartości prvalue i wartości x, więc wartości, o których tu mówimy, stanowią sumę obu tych kategorii. </div><p>W końcu możemy napisać program i poprosić kompilator o informację, jakiego rodzaju wyrażeniem jest coś. Poniższy kod ilustruje metodę określającą, czy wyrażenie jest wartością lvalue czy rvalue:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;string&gt;
 
-// T&amp; is an lvalue reference, so this overload will be preferred for lvalues
+// T&amp; jest odniesieniem do lwartości, więc to przeciążenie będzie preferowane dla lwartości
 template &lt;typename T&gt;
 constexpr bool is_lvalue(T&amp;)
 {
     return true;
 }
 
-// T&amp;&amp; is an rvalue reference, so this overload will be preferred for rvalues
+// T&amp;&amp; jest odniesieniem do rwartości, więc to przeciążenie będzie preferowane w przypadku rwartości
 template &lt;typename T&gt;
 constexpr bool is_lvalue(T&amp;&amp;)
 {
     return false;
 }
 
-// A helper macro (#expr prints whatever is passed in for expr as text)
-#define PRINTVCAT(expr) { std::cout &lt;&lt; #expr &lt;&lt; &#34; is an &#34; &lt;&lt; (is_lvalue(expr) ? &#34;lvalue\n&#34; : &#34;rvalue\n&#34;); }
+// Makro pomocnicze (#expr drukuje wszystko, co jest przekazywane do wyrażenia jako tekst)
+#define PRINTVCAT(expr) { std::cout &lt;&lt; #expr &lt;&lt; " is an " &lt;&lt; (is_lvalue(expr) ? "lvalue\n" : "rvalue\n"); }
 
 int getint() { return 5; }
 
@@ -147,8 +147,8 @@ int main()
     PRINTVCAT(getint()); // rvalue
     int x { 5 };
     PRINTVCAT(x);        // lvalue
-    PRINTVCAT(std::string {&#34;Hello&#34;}); // rvalue
-    PRINTVCAT(&#34;Hello&#34;);  // lvalue
+    PRINTVCAT(std::string {"Hello"}); // rvalue
+    PRINTVCAT("Hello");  // lvalue
     PRINTVCAT(++x);      // lvalue
     PRINTVCAT(x++);      // rvalue
 } </code></pre><p>Wypisuje:<pre>5 is an rvalue

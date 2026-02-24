@@ -12,12 +12,12 @@
 <button class=searchsubmit><span class=screen-reader-text>Szukaj</span><i class=icon-search></i></button></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="28.4 — Klasy strumieniowe dla ciągów znaków" src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-192 class="post-192 post type-post status-publish format-standard hentry category-cpp-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>28.4 — Klasy strumieniowe dla ciągów znaków</h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Autor></i><a class="url fn n" rel=author href=/www.learncpp.com/author/Alex/ title="Wyświetl wszystkie posty Alexa" itemprop=url><em itemprop=name>Alex</em></a></span>
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2008-03-18T14:58:04-07:00 itemprop=datePublished>18 marca 2008, 14:58 czasu PDT</time>
 <time class=updated datetime=2024-02-27T18:33:51-08:00 itemprop=dateModified>27 lutego 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>Jak dotąd wszystkie przykłady we/wy, które widziałeś, były pisane do cout lub czytane z cin. Istnieje jednak inny zestaw klas, zwany klasami strumieniowymi dla ciągów, który umożliwia używanie znanych operatorów wstawiania (&lt;&lt;) i ekstrakcji (&gt;&gt;) do pracy z ciągami. Podobnie jak istream i ostream, strumienie łańcuchowe zapewniają bufor do przechowywania danych. Jednak w przeciwieństwie do cin i cout, strumienie te nie są podłączone do kanału we/wy (takiego jak klawiatura, monitor itp.). Jednym z głównych zastosowań strumieni łańcuchowych jest buforowanie danych wyjściowych do wyświetlenia w późniejszym czasie lub przetwarzanie danych wejściowych linia po linii.<p>Istnieje sześć klas strumieni dla ciągów znaków: istringstream (pochodząca z istream), ostringstream (pochodząca z ostream) i stringstream (pochodząca z iostream) służą do odczytywania i zapisywania ciągów znaków o normalnej szerokości. wistringstream, wostringstream i wstringstream służą do odczytywania i zapisywania szerokich ciągów znaków. Aby użyć strumieni stringów, musisz #include nagłówek sstream.<p>Istnieją dwa sposoby pobierania danych do strumienia string:<ol start=1><li>Użyj operatora wstawiania (&lt;&lt;):</ol><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::stringstream os {};
-os &lt;&lt; &#34;en garde!\n&#34;; // insert &#34;en garde!&#34; into the stringstream</code></pre><ol start=2><li>Użyj funkcji str(string), aby ustawić wartość bufora:</ol><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::stringstream os {};
-os.str(&#34;en garde!&#34;); // set the stringstream buffer to &#34;en garde!&#34;</code></pre><p>Istnieją podobne dwa sposoby pobrania danych z stringstream:<ol start=1><li>Użyj funkcji str(), aby pobrać wyniki z bufora:</ol><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::stringstream os {};
+os &lt;&lt; "en garde!\n"; // wstaw „en garde!” do strumienia stringów</code></pre><ol start=2><li>Użyj funkcji str(string), aby ustawić wartość bufora:</ol><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::stringstream os {};
+os.str("en garde!"); // ustaw bufor strumienia stringów na „en garde!”</code></pre><p>Istnieją podobne dwa sposoby pobrania danych z stringstream:<ol start=1><li>Użyj funkcji str(), aby pobrać wyniki z bufora:</ol><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::stringstream os {};
 os &lt;&lt; &#34;12345 67.89\n&#34;;
 std::cout &lt;&lt; os.str();</code></pre><p>Wypisuje:<pre>12345 67.89
 </pre><ol start=2><li>Użyj operatora wyodrębniania (&gt;&gt;):</ol><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::stringstream os {};
-os &lt;&lt; &#34;12345 67.89&#34;; // insert a string of numbers into the stream
+os &lt;&lt; "12345 67.89"; // wstaw ciąg liczb do strumienia
 
 std::string strValue {};
 os &gt;&gt; strValue;
@@ -25,8 +25,8 @@ os &gt;&gt; strValue;
 std::string strValue2 {};
 os &gt;&gt; strValue2;
 
-// print the numbers separated by a dash
-std::cout &lt;&lt; strValue &lt;&lt; &#34; - &#34; &lt;&lt; strValue2 &lt;&lt; &#39;\n&#39;;</code></pre><p>Ten program wypisuje:<pre>12345 - 67.89
+// wydrukuj liczby oddzielone myślnikiem
+std::cout &lt;&lt; strValue &lt;&lt; " - " &lt;&lt; strValue2 &lt;&lt; '\n';</code></pre><p>Ten program wypisuje:<pre>12345 - 67.89
 </pre><p>Zauważ, że operator &gt;&gt; iteruje po ciągu - każde kolejne użycie &gt;&gt; zwraca następną możliwą do wyodrębnienia wartość w strumieniu. Z drugiej strony str() zwraca całą wartość strumienia, nawet jeśli &gt;&gt; został już użyty w strumieniu.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p><strong>Konwersja między ciągami znaków a liczbami</strong><p>Ponieważ operatory wstawiania i ekstrakcji wiedzą, jak pracować ze wszystkimi podstawowymi typami danych, możemy ich użyć do konwersji ciągów na liczby i odwrotnie.<p>Najpierw przyjrzyjmy się konwersji liczb na liczby string:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::stringstream os {};
 
 constexpr int nValue { 12345 };
@@ -38,33 +38,33 @@ os &gt;&gt; strValue1 &gt;&gt; strValue2;
 
 std::cout &lt;&lt; strValue1 &lt;&lt; &#39; &#39; &lt;&lt; strValue2 &lt;&lt; &#39;\n&#39;;</code></pre><p>Ten fragment wyświetla:<pre>12345 67.89
 </pre><p>Teraz przekonwertujmy ciąg numeryczny na liczbę:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::stringstream os {};
-os &lt;&lt; &#34;12345 67.89&#34;; // insert a string of numbers into the stream
+os &lt;&lt; "12345 67.89"; // wstaw ciąg liczb do strumienia
 int nValue {};
 double dValue {};
 
 os &gt;&gt; nValue &gt;&gt; dValue;
 
-std::cout &lt;&lt; nValue &lt;&lt; &#39; &#39; &lt;&lt; dValue &lt;&lt; &#39;\n&#39;;</code></pre><p>Ten program wypisuje:<pre>12345 67.89
+std::cout &lt;&lt; nValue &lt;&lt; ' ' &lt;&lt; dValue &lt;&lt; '\n';</code></pre><p>Ten program wypisuje:<pre>12345 67.89
 </pre><p><strong>Czyszczenie strumienia stringów do ponownego wykorzystania</strong><div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Istnieje kilka sposobów opróżnienia bufora strumienia stringów.<ol start=1><li>Ustaw go na pusty ciąg znaków za pomocą str() z pustym stylem C string:</ol><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::stringstream os {};
-os &lt;&lt; &#34;Hello &#34;;
+os &lt;&lt; "Hello ";
 
-os.str(&#34;&#34;); // erase the buffer
+os.str(""); // usuń bufor
 
-os &lt;&lt; &#34;World!&#34;;
+os &lt;&lt; "World!";
 std::cout &lt;&lt; os.str();</code></pre><ol start=2><li>Ustaw pusty ciąg znaków za pomocą str() z pustym obiektem std::string:</ol><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::stringstream os {};
-os &lt;&lt; &#34;Hello &#34;;
+os &lt;&lt; "Hello ";
 
-os.str(std::string{}); // erase the buffer
+os.str(std::string{}); // usuń bufor
 
-os &lt;&lt; &#34;World!&#34;;
+os &lt;&lt; "World!";
 std::cout &lt;&lt; os.str();</code></pre><p>Obydwa programy dają następujący wynik:<pre>World!
 </pre><p>Podczas czyszczenia strumienia stringów ogólnie dobrym pomysłem jest również wywołanie funkcji clear():<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::stringstream os {};
-os &lt;&lt; &#34;Hello &#34;;
+os &lt;&lt; "Hello ";
 
-os.str(&#34;&#34;); // erase the buffer
-os.clear(); // reset error flags
+os.str(""); // usuń bufor
+os.clear(); // zresetuj flagi błędów
 
-os &lt;&lt; &#34;World!&#34;;
+os &lt;&lt; "World!";
 std::cout &lt;&lt; os.str();</code></pre><p>clear() resetuje wszystkie ustawione flagi błędów i przywraca strumień do prawidłowego stanu. Więcej o stanie strumienia i flagach błędów porozmawiamy w następnej lekcji.<div class=prevnext><div class=prevnext-inline><a class=nav-link href="../stream-states-and-input-validation/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>28.5</span>Stany strumieni i sprawdzanie poprawności danych wejściowych</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../output-with-ostream-and-ios/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>28.3</span>Wyjście z ostream i ios</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/stream-classes-for-strings/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../output-with-ostream-and-ios/index.html" rel=prev><span>28.3 — Wyjście z ostream i ios</span></a></div><div class=nav-next><em>Następny post</em><a href="../stream-states-and-input-validation/index.html" rel=next><span>28.5 — Stany strumieni i weryfikacja danych wejściowych</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>
 <textarea id=wc-textarea-0_0 placeholder="Zostaw komentarz..." aria-label="Zostaw komentarz..." required name=wc_comment class="wc_comment wpd-field"></textarea></div><div class=wpd-editor-buttons-right></div></div></div></div><div class=wpd-form-foot><div class=wpdiscuz-textarea-foot><div class=wpdiscuz-button-actions></div></div><div class=wpd-form-row><div class=wpd-form-col-left><div class="wpdiscuz-item wc_name-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-user"></i></div><input id=wc_name-0_0 required aria-required=true class="wc_name wpd-field" name=wc_name placeholder=Imię* maxlength=50 pattern=.{3,50}>
 <label for=wc_name-0_0 class=wpdlb>Imię*</label></div><div class="wpdiscuz-item wc_email-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-at"></i></div><input id=wc_email-0_0 required aria-required=true class="wc_email wpd-field" type=email name=wc_email placeholder=E-mail*>

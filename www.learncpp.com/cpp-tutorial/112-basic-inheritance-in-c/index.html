@@ -18,12 +18,12 @@
 
 class Person
 {
-// In this example, we&#39;re making our members public for simplicity
+// W tym przykładzie upubliczniamy nasze elementy członkowskie dla prostota
 public: 
     std::string m_name{};
     int m_age{};
 
-    Person(std::string_view name = &#34;&#34;, int age = 0)
+    Person(std::string_view name = "", int age = 0)
         : m_name{ name }, m_age{ age }
     {
     }
@@ -33,7 +33,7 @@ public:
 
 };</code></pre><p>Ponieważ ta klasa Person została zaprojektowana do reprezentowania ogólnej osoby, zdefiniowaliśmy tylko elementy, które byłyby wspólne dla każdego typu osoby. Każda osoba (niezależnie od płci, zawodu itp.) ma imię i wiek, więc są one tutaj przedstawione.<p>Zauważ, że w tym przykładzie wszystkie nasze zmienne i funkcje zostały upublicznione. Ma to na celu wyłącznie uproszczenie tych przykładów. Zwykle ustawialibyśmy zmienne jako prywatne. O kontroli dostępu i jej interakcji z dziedziczeniem porozmawiamy w dalszej części tego rozdziału.<p><strong>Klasa BaseballPlayer</strong><p>Powiedzmy, że chcemy napisać program, który śledzi informacje o niektórych graczach w baseball. Gracze w baseball muszą zawierać informacje specyficzne dla graczy w baseball — na przykład możemy chcieć przechowywać średnią odbijań gracza i liczbę home runów, które udało mu się trafić.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Oto nasza niekompletna klasa baseballisty:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">class BaseballPlayer
 {
-// In this example, we&#39;re making our members public for simplicity
+// W tym przykładzie upubliczniamy nasze elementy członkowskie dla prostota
 public:
     double m_battingAverage{};
     int m_homeRuns{};
@@ -42,7 +42,7 @@ public:
        : m_battingAverage{battingAverage}, m_homeRuns{homeRuns}
     {
     }
-};</code></pre><p>Teraz chcemy także śledzić imię i wiek gracza baseballowego i mamy już te informacje w ramach naszej klasy Osoba.<p>Mamy trzy możliwości wyboru, w jaki sposób aby dodać imię i wiek do BaseballPlayer:<ol start=1><li>Dodaj imię i wiek do klasy BaseballPlayer bezpośrednio jako członkowie. To prawdopodobnie najgorszy wybór, ponieważ duplikujemy kod, który już istnieje w naszej klasie Person. Wszelkie aktualizacje osoby będą musiały zostać dokonane także w BaseballPlayer.<li>Dodaj osobę jako członka BaseballPlayer za pomocą kompozycji. Musimy jednak zadać sobie pytanie: „czy baseballista ma osobę”? Nie, tak nie jest. Nie jest to więc właściwy paradygmat.<li>Pozwól BaseballPlayerowi odziedziczyć te atrybuty od Osoby. Pamiętaj, że dziedziczenie reprezentuje relację jest-jest. Czy baseballista jest osobą? Tak, to prawda. Zatem dziedziczenie jest tutaj dobrym wyborem.</ol><p><strong>Uczynienie BaseballPlayer klasą pochodną</strong><p>Aby BaseballPlayer dziedziczył z naszej klasy Person, składnia jest dość prosta. Po  <code>class BaseballPlayer</code> deklaracji stosujemy dwukropek, słowo „public” i nazwę klasy, którą chcemy odziedziczyć. Nazywa się to <em>dziedziczeniem publicznym</em>. O tym, co oznacza dziedziczenie publiczne, porozmawiamy więcej na przyszłej lekcji.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// BaseballPlayer publicly inheriting Person
+};</code></pre><p>Teraz chcemy także śledzić imię i wiek gracza baseballowego i mamy już te informacje w ramach naszej klasy Osoba.<p>Mamy trzy możliwości wyboru, w jaki sposób aby dodać imię i wiek do BaseballPlayer:<ol start=1><li>Dodaj imię i wiek do klasy BaseballPlayer bezpośrednio jako członkowie. To prawdopodobnie najgorszy wybór, ponieważ duplikujemy kod, który już istnieje w naszej klasie Person. Wszelkie aktualizacje osoby będą musiały zostać dokonane także w BaseballPlayer.<li>Dodaj osobę jako członka BaseballPlayer za pomocą kompozycji. Musimy jednak zadać sobie pytanie: „czy baseballista ma osobę”? Nie, tak nie jest. Nie jest to więc właściwy paradygmat.<li>Pozwól BaseballPlayerowi odziedziczyć te atrybuty od Osoby. Pamiętaj, że dziedziczenie reprezentuje relację jest-jest. Czy baseballista jest osobą? Tak, to prawda. Zatem dziedziczenie jest tutaj dobrym wyborem.</ol><p><strong>Uczynienie BaseballPlayer klasą pochodną</strong><p>Aby BaseballPlayer dziedziczył z naszej klasy Person, składnia jest dość prosta. Po  <code>class BaseballPlayer</code> deklaracji stosujemy dwukropek, słowo „public” i nazwę klasy, którą chcemy odziedziczyć. Nazywa się to <em>dziedziczeniem publicznym</em>. O tym, co oznacza dziedziczenie publiczne, porozmawiamy więcej na przyszłej lekcji.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// BaseballPlayer Osoba dziedzicząca publicznie
 class BaseballPlayer : public Person
 {
 public:
@@ -63,7 +63,7 @@ public:
     std::string m_name{};
     int m_age{};
 
-    Person(std::string_view name = &#34;&#34;, int age = 0)
+    Person(std::string_view name = "", int age = 0)
         : m_name{name}, m_age{age}
     {
     }
@@ -73,7 +73,7 @@ public:
 
 };
 
-// BaseballPlayer publicly inheriting Person
+// BaseballPlayer Osoba dziedzicząca publicznie
 class BaseballPlayer : public Person
 {
 public:
@@ -88,16 +88,16 @@ public:
 
 int main()
 {
-    // Create a new BaseballPlayer object
+    // Utwórz nowego BaseballPlayera obiekt
     BaseballPlayer joe{};
-    // Assign it a name (we can do this directly because m_name is public)
-    joe.m_name = &#34;Joe&#34;;
-    // Print out the name
-    std::cout &lt;&lt; joe.getName() &lt;&lt; &#39;\n&#39;; // use the getName() function we&#39;ve acquired from the Person base class
+    // Przypisz mu nazwę (możemy to zrobić bezpośrednio, ponieważ m_name jest publiczna)
+    joe.m_name = "Joe";
+    // Wydrukuj nazwę
+    std::cout &lt;&lt; joe.getName() &lt;&lt; '\n'; // użyj funkcji getName(), którą pozyskaliśmy z klasy bazowej Person
 
     return 0;
 }</code></pre><p>Co wypisuje wartość:<pre>Joe
-</pre><p>To się kompiluje i działa, ponieważ joe jest graczem BaseballPlayer, a wszystkie obiekty BaseballPlayer mają zmienną składową m_name i funkcję członkowską getName() odziedziczoną z klasy Person.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p><strong>Klasa pochodna pracownika</strong><p>Teraz napiszmy inną klasę, która również dziedziczy po osobie. Tym razem napiszemy klasę Pracownik. Pracownik „jest” osobą, dlatego właściwe jest użycie dziedziczenia: <pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Employee publicly inherits from Person
+</pre><p>To się kompiluje i działa, ponieważ joe jest graczem BaseballPlayer, a wszystkie obiekty BaseballPlayer mają zmienną składową m_name i funkcję członkowską getName() odziedziczoną z klasy Person.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p><strong>Klasa pochodna pracownika</strong><p>Teraz napiszmy inną klasę, która również dziedziczy po osobie. Tym razem napiszemy klasę Pracownik. Pracownik „jest” osobą, dlatego właściwe jest użycie dziedziczenia: <pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Pracownik dziedziczy po Person
 class Employee: public Person
 {
 public:
@@ -111,7 +111,7 @@ public:
 
     void printNameAndSalary() const
     {
-        std::cout &lt;&lt; m_name &lt;&lt; &#34;: &#34; &lt;&lt; m_hourlySalary &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; m_name &lt;&lt; ": " &lt;&lt; m_hourlySalary &lt;&lt; '\n';
     }
 };</code></pre><p>Pracownik dziedziczy m_name i m_age od Person (jak również dwie funkcje dostępu) i dodaje dwie kolejne zmienne składowe oraz własną funkcję składową. Zauważ, że printNameAndSalary() używa zmiennych zarówno z klasy, do której należy (Employee::m_hourlySalary), jak i klasy nadrzędnej (Person::m_name).<p>Otrzymujemy wykres wyprowadzania wyglądający tak:<p><img src="../../images/CppTutorial/Section11/EmployeeInheritance.gif"><p>Zauważ, że Pracownik i BaseballPlayer nie mają żadnego bezpośredniego związku, mimo że obaj dziedziczą po Osoba.<p>Oto pełny przykład użycia pracownika:<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;string&gt;
@@ -123,7 +123,7 @@ public:
     std::string m_name{};
     int m_age{};
 
-    Person(std::string_view name = &#34;&#34;, int age = 0)
+    Person(std::string_view name = "", int age = 0)
         : m_name{name}, m_age{age}
     {
     }
@@ -133,7 +133,7 @@ public:
 
 };
 
-// Employee publicly inherits from Person
+// Pracownik dziedziczy po Person
 class Employee: public Person
 {
 public:
@@ -147,14 +147,14 @@ public:
 
     void printNameAndSalary() const
     {
-        std::cout &lt;&lt; m_name &lt;&lt; &#34;: &#34; &lt;&lt; m_hourlySalary &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; m_name &lt;&lt; ": " &lt;&lt; m_hourlySalary &lt;&lt; '\n';
     }
 };
 
 int main()
 {
     Employee frank{20.25, 12345};
-    frank.m_name = &#34;Frank&#34;; // we can do this because m_name is public
+    frank.m_name = "Frank"; // możemy to zrobić, ponieważ m_name to public
 
     frank.printNameAndSalary();
     
@@ -163,7 +163,7 @@ int main()
 </pre><p><strong>Łańcuchy dziedziczenia</strong><p>Możliwe jest dziedziczenie z klasy, która sama jest pochodną innej klasy. Nie ma w tym nic godnego uwagi ani specjalnego – wszystko przebiega tak, jak w powyższych przykładach.<p>Na przykład napiszmy klasę Supervisor. Przełożony to Pracownik, czyli Osoba. Napisaliśmy już klasę Pracownik, więc użyjmy jej jako klasy bazowej, z której wyprowadzimy klasę Supervisor:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">class Supervisor: public Employee
 {
 public:
-    // This Supervisor can oversee a max of 5 employees
+    // Ten przełożony może nadzorować maksymalnie 5 pracowników
     long m_overseesIDs[5]{};
 };</code></pre><p>Teraz nasz wykres wyprowadzania wygląda następująco:<p><img src="../../images/CppTutorial/Section11/SupervisorInheritance.gif"><p>Wszystkie obiekty Supervisor dziedziczą funkcje i zmienne zarówno po Pracowniku, jak i Osobie oraz dodają własną zmienną składową m_overseesIDs.<p>Konstruując takie łańcuchy dziedziczenia, możemy utworzyć zestaw klasy wielokrotnego użytku, które są bardzo ogólne (na górze) i stają się coraz bardziej szczegółowe na każdym poziomie dziedziczenia.<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p><strong>Dlaczego ten rodzaj dziedziczenia jest przydatny?</strong><p>Dziedziczenie z klasy bazowej oznacza, że nie musimy na nowo definiować informacji z klasy bazowej w naszych klasach pochodnych. Automatycznie otrzymujemy funkcje składowe i zmienne składowe klasy bazowej poprzez dziedziczenie, a następnie po prostu dodajemy potrzebne nam dodatkowe funkcje lub zmienne składowe. To nie tylko oszczędza pracę, ale oznacza również, że jeśli kiedykolwiek zaktualizujemy lub zmodyfikujemy klasę bazową (np. dodamy nowe funkcje lub naprawimy błąd), wszystkie nasze klasy pochodne automatycznie odziedziczą zmiany!<p>Na przykład, jeśli kiedykolwiek dodamy nową funkcję do Person, wówczas Employee, Supervisor i BaseballPlayer automatycznie uzyskają do niej dostęp. Gdybyśmy dodali nową zmienną do Pracownika, wówczas Przełożony również uzyskałby do niej dostęp. Pozwala nam to konstruować nowe klasy w łatwy, intuicyjny i łatwy w utrzymaniu sposób!<p><strong>Wnioski</strong><p>Dziedziczenie pozwala nam na ponowne wykorzystanie klas poprzez dziedziczenie ich członków przez inne klasy. Na przyszłych lekcjach będziemy dalej badać, jak to działa.<div class=prevnext><div class=prevnext-inline><a class=nav-link href="../113-order-of-construction-of-derived-classes/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>24.3</span>Kolejność konstruowania klas pochodnych</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../111-introduction-to-inheritance/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>24.1</span>Wprowadzenie do dziedziczenia</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/basic-inheritance-in-c/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../temporary-class-objects/index.html" rel=prev><span>14.13 -- Tymczasowe obiekty klas</span></a></div><div class=nav-next><em>Następny post</em><a href="../113-order-of-construction-of-derived-classes/index.html" rel=next><span>24.3 — Kolejność konstruowania klas pochodnych</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>
 <textarea id=wc-textarea-0_0 placeholder="Zostaw komentarz..." aria-label="Zostaw komentarz..." required name=wc_comment class="wc_comment wpd-field"></textarea></div><div class=wpd-editor-buttons-right></div></div></div></div><div class=wpd-form-foot><div class=wpdiscuz-textarea-foot><div class=wpdiscuz-button-actions></div></div><div class=wpd-form-row><div class=wpd-form-col-left><div class="wpdiscuz-item wc_name-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-user"></i></div><input id=wc_name-0_0 required aria-required=true class="wc_name wpd-field" name=wc_name placeholder=Imię* maxlength=50 pattern=.{3,50}>

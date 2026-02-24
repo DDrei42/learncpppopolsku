@@ -16,25 +16,25 @@
 <time class=updated datetime=2024-12-28T19:11:02-08:00 itemprop=dateModified>28 grudnia 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>W tym rozdziale omawialiśmy tematy związane z operatorami przeciążanie, a także przeciążone rzutowania typów i tematy związane z konstruktorem kopiującym.<p class="cpp-section cpp-topline" style=clear:both>Streszczenie<p>Przeciążanie operatorów to odmiana przeciążania funkcji, która pozwala przeciążać operatorów klas. Gdy operatory są przeciążone, intencje operatorów powinny być możliwie najbliższe pierwotnej intencji operatorów. Jeśli znaczenie operatora zastosowanego do klasy niestandardowej nie jest jasne i intuicyjne, użyj zamiast tego funkcji nazwanej.<p>Operatory mogą być przeciążane jako funkcja normalna, funkcja zaprzyjaźniona lub funkcja składowa. Poniższe praktyczne zasady mogą pomóc w określeniu, która forma jest najlepsza w danej sytuacji:<ul><li>Jeśli przeciążasz przypisanie (=), indeks dolny ([]), wywołanie funkcji (()) lub wybór elementu członkowskiego (-&gt;), zrób to jako funkcję składową.<li>Jeśli przeciążasz operator jednoargumentowy, zrób to jako funkcję składową.<li>Jeśli przeciążasz operator binarny, który modyfikuje jego lewy operand (np. operator+=), rób to jako funkcję składową, jeśli możesz.<li>Jeśli przeciążasz operator binarny, który nie modyfikuje jego lewego operandu (np. operator+), zrób to jako normalną funkcję lub funkcję zaprzyjaźnioną.</ul><p>Rysowanie typów może być przeciążane, aby zapewnić funkcje konwersji, których można użyć do jawnej lub niejawnej konwersji klasy na inny typ.<p>Konstruktor kopiujący to specjalny typ konstruktora używany do inicjowania obiektu z innego obiektu tego samego typu. Konstruktory kopiujące służą do bezpośredniej/jednolitej inicjalizacji z obiektu tego samego typu, inicjalizacji kopiowania (Frakcja f = Frakcja(5,3)) oraz podczas przekazywania lub zwracania parametru według wartości.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Jeśli nie podasz konstruktora kopiującego, kompilator go utworzy. Konstruktory kopiujące dostarczone przez kompilator będą używać inicjalizacji członkowskiej, co oznacza, że ​​każdy członek kopii jest inicjowany z oryginalnego elementu członkowskiego. Konstruktor kopiujący może zostać pominięty w celach optymalizacji, nawet jeśli ma skutki uboczne, więc nie polegaj na tym, że twój konstruktor kopiujący faktycznie się wykonuje.<p>Konstruktory są domyślnie uważane za konstruktory konwertujące, co oznacza, że ​​kompilator użyje ich do niejawnej konwersji obiektów innych typów na obiekty twojej klasy. Można tego uniknąć, używając jawnego słowa kluczowego przed konstruktorem. W razie potrzeby możesz także usuwać funkcje w swojej klasie, w tym konstruktor kopiujący i przeciążony operator przypisania. Spowoduje to błąd kompilatora, jeśli zostanie wywołana usunięta funkcja.<p>Operator przypisania może zostać przeciążony, aby umożliwić przypisanie do Twojej klasy. Jeśli nie podasz przeciążonego operatora przypisania, kompilator go utworzy. Przeciążone operatory przypisania powinny zawsze uwzględniać kontrolę samodzielnego przypisania (chyba że jest to obsługiwane w sposób naturalny lub używasz idiomu kopiowania i zamiany).<p>Nowi programiści często mylą się, gdy używany jest operator przypisania z konstruktorem kopiowania, ale jest to dość proste:<ul><li>Jeśli nowy obiekt musi zostać utworzony, zanim nastąpi kopiowanie, używany jest konstruktor kopiujący (uwaga: obejmuje to przekazywanie lub zwracanie obiektów przez wartość).<li>Jeśli nie ma potrzeby tworzenia nowego obiektu, zanim nastąpi kopiowanie, używany jest operator przypisania.</ul><p>Domyślnie konstruktor kopiujący i operatory przypisania dostarczone przez kompilator wykonują inicjalizację lub przypisanie członkowskie, co jest płytką kopią. Jeśli twoja klasa dynamicznie przydziela pamięć, prawdopodobnie doprowadzi to do problemów, ponieważ wiele obiektów będzie wskazywało tę samą przydzieloną pamięć. W takim przypadku musisz je wyraźnie zdefiniować, aby wykonać głęboką kopię. Jeszcze lepiej, jeśli możesz, unikaj samodzielnego zarządzania pamięcią i korzystaj z klas ze standardowej biblioteki.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Czas quizu<p class=cpp-quiz-question style=clear:both>Pytanie nr 1<ol start=1><li>Zakładając, że <code>Point</code> jest klasą i <code>point</code> jest instancją tej klasy, czy powinieneś użyć przeciążenia funkcji normalnej/przyjacielskiej lub składowej dla następujących operatorów?</ol><p>A) <code>point + point</code><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_0 style=display:none>binarny <code>operator+</code> najlepiej jest zaimplementowany jako funkcja normalna/przyjacielska.</div><p>B) <code>-point</code><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_1 style=display:none>jednoargumentowy <code>operator-</code> najlepiej jest zaimplementowany jako element członkowski funkcja.</div><p>C) <code>std::cout &lt;&lt; point</code><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_2'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_2 style=display:none><code>operator&lt;&lt;</code> musi być zaimplementowana jako funkcja normalna/przyjacielska.</div><p>D) <code>point = 5;</code><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_3'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_3 style=display:none><code>operator=</code> musi być zaimplementowana jako funkcja składowa.</div><p class="cpp-quiz-question cpp-topline" style=clear:both>Pytanie nr 2<p>Napisz klasę o nazwie Średnia, która będzie śledzić średnią wszystkich przekazanych do niej liczb całkowitych. Użyj dwóch elementów: pierwszy powinien być typu <code>std::int32_t</code> i używany do śledzenia sumy wszystkich liczb, które widziałeś do tej pory. Drugi powinien śledzić, ile liczb widziałeś do tej pory. Można je podzielić, aby znaleźć średnią.<p>a) Napisz wszystkie funkcje niezbędne do uruchomienia poniższego programu:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
 	Average avg{};
-	std::cout &lt;&lt; avg &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; avg &lt;&lt; '\n';
 	
 	avg += 4;
-	std::cout &lt;&lt; avg &lt;&lt; &#39;\n&#39;; // 4 / 1 = 4
+	std::cout &lt;&lt; avg &lt;&lt; '\n'; // 4 / 1 = 4
 	
 	avg += 8;
-	std::cout &lt;&lt; avg &lt;&lt; &#39;\n&#39;; // (4 + 8) / 2 = 6
+	std::cout &lt;&lt; avg &lt;&lt; '\n'; // (4 + 8) / 2 = 6
 
 	avg += 24;
-	std::cout &lt;&lt; avg &lt;&lt; &#39;\n&#39;; // (4 + 8 + 24) / 3 = 12
+	std::cout &lt;&lt; avg &lt;&lt; '\n'; // (4 + 8 + 24) / 3 = 12
 
 	avg += -10;
-	std::cout &lt;&lt; avg &lt;&lt; &#39;\n&#39;; // (4 + 8 + 24 - 10) / 4 = 6.5
+	std::cout &lt;&lt; avg &lt;&lt; '\n'; // (4 + 8 + 24 - 10) / 4 = 6.5
 
-	(avg += 6) += 10; // 2 calls chained together
-	std::cout &lt;&lt; avg &lt;&lt; &#39;\n&#39;; // (4 + 8 + 24 - 10 + 6 + 10) / 6 = 7
+	(avg += 6) += 10; // 2 połączenia połączone w łańcuch
+	std::cout &lt;&lt; avg &lt;&lt; '\n'; // (4 + 8 + 24 - 10 + 6 + 10) / 6 = 7
 
 	Average copy{ avg };
-	std::cout &lt;&lt; copy &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; copy &lt;&lt; '\n';
 
 	return 0;
 }</code></pre><p>i wygeneruj wynik:<pre>0
@@ -45,13 +45,13 @@
 7
 7
 </pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_4'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_4 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
-#include &lt;cstdint&gt; // for fixed width integers
+#include &lt;cstdint&gt; // dla liczb całkowitych o stałej szerokości
 
 class Average
 {
 private:
-	std::int32_t m_total{ 0 }; // the sum of all numbers we&#39;ve seen so far
-	int m_numbers{ 0 }; // the count of numbers we&#39;ve seen so far
+	std::int32_t m_total{ 0 }; // suma wszystkich liczb, które do tej pory widzieliśmy
+	int m_numbers{ 0 }; // liczba liczb, które widzieliśmy do tej pory
 
 public:
 	Average()
@@ -60,29 +60,29 @@ public:
 
 	friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const Average&amp; average)
 	{
-        // Handle case where we haven&#39;t seen any numbers yet
+        // Zajmij się przypadkiem, w którym nie widzieliśmy jeszcze żadnych liczb
 		if (average.m_numbers == 0)
 		{
 			out &lt;&lt; 0;
 			return out;
 		}
 
-		// Our average is the sum of the numbers we&#39;ve seen divided by the count of the numbers we&#39;ve seen
-		// We need to remember to do a floating point division here, not an integer division
+		// Nasza średnia to suma liczb, które widzieliśmy, podzielona przez liczbę liczb, które widzieliśmy
+		// Musimy pamiętać, aby tutaj wykonać dzielenie zmiennoprzecinkowe, a nie dzielenie przez liczby całkowite
 		out &lt;&lt; static_cast&lt;double&gt;(average.m_total) / average.m_numbers;
 
 		return out;
 	}
 
-	// Because operator+= modifies its left operand, we&#39;ll write it as a member
+	// Ponieważ operator+= modyfikuje jego lewą stronę operand, napiszemy go jako element
 	Average&amp; operator+=(std::int32_t num)
 	{
-		// Increment our total by the new number
+		// Zwiększ naszą sumę o nową liczbę
 		m_total += num;
-		// And increase the count by 1
+		// I zwiększ liczbę o 1
 		++m_numbers;
 
-		// return *this in case someone wants to chain +=&#39;s together
+		// zwraca *to na wypadek, gdyby ktoś chciał połączyć += w łańcuch razem
 		return *this;
 	}
 };
@@ -90,25 +90,25 @@ public:
 int main()
 {
 	Average avg{};
-	std::cout &lt;&lt; avg &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; avg &lt;&lt; '\n';
 
 	avg += 4;
-	std::cout &lt;&lt; avg &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; avg &lt;&lt; '\n';
 	
 	avg += 8;
-	std::cout &lt;&lt; avg &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; avg &lt;&lt; '\n';
 
 	avg += 24;
-	std::cout &lt;&lt; avg &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; avg &lt;&lt; '\n';
 
 	avg += -10;
-	std::cout &lt;&lt; avg &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; avg &lt;&lt; '\n';
 
-	(avg += 6) += 10; // 2 calls chained together
-	std::cout &lt;&lt; avg &lt;&lt; &#39;\n&#39;;
+	(avg += 6) += 10; // 2 połączenia połączone w łańcuch
+	std::cout &lt;&lt; avg &lt;&lt; '\n';
 
 	Average copy{ avg };
-	std::cout &lt;&lt; copy &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; copy &lt;&lt; '\n';
 
 	return 0;
 }</code></pre></div><p>b) Czy dla tej klasy należy udostępnić zdefiniowany przez użytkownika konstruktor kopiujący lub operator przypisania?<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_5'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_5 style=display:none><p>Nie. Ponieważ użycie inicjalizacji/kopiowania członkowskiego jest tutaj w porządku, dopuszczalne jest użycie ustawień domyślnych dostarczonych przez kompilator.</div><p>c) Dlaczego użycie <code>std::int32_t</code> zamiast <code>int</code>?<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_6'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_6 style=display:none><p><code>int</code> może mieć 16 bitów na niektórych platformach, co oznaczałoby, że nasz <code>Average</code> obiekt może mieć maksymalną wartość licznika wynoszącą 32 767. Użycie <code>std::int32_t</code> zagwarantuje 32-bitową wartość całkowitą, która daje nam znacznie większy zakres pracy.</div><p class="cpp-quiz-question cpp-topline" style=clear:both>Pytanie nr 3<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>Napisz od zera własną klasę tablicy liczb całkowitych o nazwie  <code>IntArray</code>  (nie używaj std::array ani std::vector). Użytkownicy powinni podać rozmiar tablicy podczas jej tworzenia, a tablica powinna być alokowana dynamicznie. Używaj instrukcji asercji, aby chronić się przed złymi danymi. Utwórz dowolne konstruktory lub przeciążone operatory potrzebne do poprawnego działania następującego programu:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -130,9 +130,9 @@ int main()
 {
 	IntArray a{ fillArray() };
 
-	std::cout &lt;&lt; a &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; a &lt;&lt; '\n';
 
-	auto&amp; ref{ a }; // we&#39;re using this reference to avoid compiler self-assignment errors
+	auto&amp; ref{ a }; // używamy tego odniesienia, aby uniknąć błędów przy samodzielnym przypisaniu kompilatora
 	a = ref;
 
 	IntArray b(1);
@@ -140,13 +140,13 @@ int main()
 
 	a[4] = 7;
 
-	std::cout &lt;&lt; b &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; b &lt;&lt; '\n';
 
 	return 0;
 }</code></pre><p>Ten program powinien wyświetlić:<pre>5 8 2 3 6
 5 8 2 3 6
 </pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_7'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_7 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
-#include &lt;cassert&gt; // for assert
+#include &lt;cassert&gt; // dla potwierdzenia
 
 class IntArray
 {
@@ -158,19 +158,19 @@ public:
 	explicit IntArray(int length)
 		: m_length{ length }
 	{
-		assert(length &gt; 0 &amp;&amp; &#34;IntArray length should be a positive integer&#34;);
+		assert(length &gt; 0 &amp;&amp; "IntArray length should be a positive integer");
 
 		m_array = new int[static_cast&lt;std::size_t&gt;(m_length)] {};
 	}
 
-	// Copy constructor that does a deep copy
+	// Kopiuj konstruktor wykonujący głęboką kopię
 	IntArray(const IntArray&amp; array)
 		: m_length{ array.m_length }
 	{
-		// Allocate a new array
+		// Przydziel nową tablicę
 		m_array = new int[static_cast&lt;std::size_t&gt;(m_length)] {};
 
-		// Copy elements from original array to new array
+		// Kopiuj elementy z oryginalnej tablicy do nowej tablicy
 		for (int count{ 0 }; count &lt; array.m_length; ++count)
 			m_array[count] = array.m_array[count];
 	}
@@ -180,12 +180,12 @@ public:
 		delete[] m_array;
 	}
 
-	// If you&#39;re getting crazy values here you probably forgot to do a deep copy in your copy constructor
+	// Jeśli otrzymujesz tutaj szalone wartości, prawdopodobnie zapomniałeś wykonać głęboką kopię w konstruktorze kopiującym
 	friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const IntArray&amp; array)
 	{
 		for (int count{ 0 }; count &lt; array.m_length; ++count)
 		{
-			out &lt;&lt; array.m_array[count] &lt;&lt; &#39; &#39;;
+			out &lt;&lt; array.m_array[count] &lt;&lt; ' ';
 		}
 		return out;
 	}
@@ -197,22 +197,22 @@ public:
 		return m_array[index];
 	}
 
-	// Assignment operator that does a deep copy
+	// Operator przypisania wykonujący głęboką kopię
 	IntArray&amp; operator= (const IntArray&amp; array)
 	{
-		// self-assignment guard
+		// ochroniarz z własnym przydziałem
 		if (this == &amp;array)
 			return *this;
 
-		// If this array already exists, delete it so we don&#39;t leak memory
+		// Jeśli ta tablica już istnieje, usuń ją, aby nie wyciekać pamięci
 		delete[] m_array;
 
 		m_length = array.m_length;
 
-		// Allocate a new array
+		// Przydziel nową tablicę
 		m_array = new int[static_cast&lt;std::size_t&gt;(m_length)] {};
 
-		// Copy elements from original array to new array
+		// Kopiuj elementy z oryginalnej tablicy do nowej tablicy
 		for (int count{ 0 }; count &lt; array.m_length; ++count)
 			m_array[count] = array.m_array[count];
 
@@ -237,20 +237,20 @@ int main()
 {
 	IntArray a{ fillArray() };
 
-	// If you&#39;re getting crazy values here you probably forgot to do a deep copy in your copy constructor
-	std::cout &lt;&lt; a &lt;&lt; &#39;\n&#39;;
+	// Jeśli otrzymujesz tutaj szalone wartości, prawdopodobnie zapomniałeś wykonać głęboką kopię w konstruktorze kopiującym
+	std::cout &lt;&lt; a &lt;&lt; '\n';
 
-	auto&amp; ref{ a }; // we&#39;re using this reference to avoid compiler self-assignment errors
+	auto&amp; ref{ a }; // używamy tego odniesienia, aby uniknąć błędów przy samodzielnym przypisaniu kompilatora
 	a = ref;
 
 	IntArray b(1);
 	b = a;
 
-	a[4] = 7; // change value in a, b should not change
+	a[4] = 7; // zmień wartość w a, b nie powinna zmieniać
 
-	// If you&#39;re getting crazy values here you probably forgot to do self-assignment check
-	// If b ends in 7, you probably forgot to do a deep copy in your copy assignment
-	std::cout &lt;&lt; b &lt;&lt; &#39;\n&#39;;
+	// Jeśli otrzymujesz tutaj szalone wartości, prawdopodobnie zapomniałeś sprawdzić samodzielne przypisanie
+	// Jeśli b kończy się na 7, prawdopodobnie zapomniałeś wykonać głęboką kopię w swoim zadaniu kopiowania
+	std::cout &lt;&lt; b &lt;&lt; '\n';
 
 	return 0;
 }</code></pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>Pytanie nr 4<p>Dodatkowy kredyt: To jest trochę trudniejsze.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>Liczba zmiennoprzecinkowa to liczba z ułamkiem dziesiętnym, gdzie liczba cyfr po przecinku może być zmienna. Liczba stałoprzecinkowa to liczba ze składnikiem ułamkowym, w której liczba cyfr w części ułamkowej jest stała.<p>W tym quizie napiszemy zajęcia, które zaimplementują liczbę stałoprzecinkową zawierającą dwie cyfry ułamkowe (np. 12,34, 3,00 lub 1278,99). Załóżmy, że zakres klasy powinien wynosić od -32768,99 do 32767,99, że składnik ułamkowy powinien zawierać dowolne dwie cyfry, że nie chcemy błędów precyzji i że chcemy zaoszczędzić miejsce.<p class="cpp-quiz-question cpp-topline" style=clear:both>&gt; Krok #1<p>Jakiego typu zmiennych składowych powinniśmy użyć, aby zaimplementować naszą liczbę stałoprzecinkową z 2 cyframi po przecinku? (Upewnij się, że przeczytałeś odpowiedź, zanim przejdziesz do kolejnych pytań) <p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_8'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_8 style=display:none><p>Istnieje wiele różnych sposobów wdrożenia liczby stałoprzecinkowej. Ponieważ liczba stałoprzecinkowa jest zasadniczo podprzypadkiem liczby zmiennoprzecinkowej (gdzie liczba cyfr po przecinku jest stała, a nie zmienna), użycie liczby zmiennoprzecinkowej może wydawać się oczywistym wyborem. Ale liczby zmiennoprzecinkowe mają problemy z precyzją. Mając stałą liczbę cyfr dziesiętnych, możemy rozsądnie wyliczyć wszystkie możliwe wartości ułamkowe (w naszym przypadku od 0,00 do 0,99), więc użycie typu danych, który ma problemy z precyzją, nie jest najlepszym wyborem.<p>Lepszym rozwiązaniem byłoby użycie 16-bitowej liczby całkowitej ze znakiem do przechowywania nieułamkowej części liczby i 8-bitowej liczby całkowitej ze znakiem do przechowywania ułamka komponent.</div><p class="cpp-quiz-question cpp-topline" style=clear:both>&gt; Krok #2<p>Napisz klasę o nazwie <code>FixedPoint2</code> , która implementuje rozwiązanie zalecane z poprzedniego pytania. Jeśli jedna (lub obie) części nieułamkowej i ułamkowej liczby są ujemne, liczbę należy traktować jako ujemną. Podaj przeciążone operatory i konstruktory wymagane do uruchomienia następującego programu. Na razie nie przejmuj się, że część ułamkowa jest poza zakresem (&gt;99 lub &lt;-99).<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cassert&gt;
@@ -282,26 +282,26 @@ int main()
 }</code></pre><p>Ten program powinien dać wynik:<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><pre>34.56
 34.56
 </pre><p>Wskazówka: Aby wyprowadzić liczbę, static_rzuć ją na wartość podwójną.<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_9'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_9 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cassert&gt;
-#include &lt;cstdint&gt; // for fixed width integers
+#include &lt;cstdint&gt; // dla liczb całkowitych o stałej szerokości
 #include &lt;iostream&gt;
 
 class FixedPoint2
 {
 private:
-	std::int16_t m_base{}; // here&#39;s our non-fractional part
-	std::int8_t m_decimal{}; // here&#39;s our factional part
+	std::int16_t m_base{}; // Oto nasza część nieułamkowa
+	std::int8_t m_decimal{}; // Oto nasza część frakcyjna
 
 public:
 	FixedPoint2(std::int16_t base = 0, std::int8_t decimal = 0)
 		: m_base{ base }, m_decimal{ decimal }
 	{
-		// If either (or both) of the non-fractional and fractional part of the number are negative, the number should be treated as negative
+		// Jeśli którakolwiek (lub obie) części nieułamkowej i ułamkowej liczby są ujemne, liczbę należy traktować jako ujemny
 		if (m_base &lt; 0 || m_decimal &lt; 0)
 		{
-			// Make sure base is negative
+			// Upewnij się, że podstawa jest ujemna
 			if (m_base &gt; 0)
 				m_base = -m_base;
-			// Make sure decimal is negative
+			// Upewnij się, że liczba dziesiętna jest ujemna
 			if (m_decimal &gt; 0)
 				m_decimal = -m_decimal;
 		}
@@ -313,7 +313,7 @@ public:
 	}
 };
 
-// This doesn&#39;t require access to the internals of the class, so it can be defined outside the class
+// Nie wymaga to dostępu do wewnętrznych elementów class, więc można go zdefiniować poza klasą
 std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const FixedPoint2&amp; fp)
 {
 	out &lt;&lt; static_cast&lt;double&gt;(fp);
@@ -323,8 +323,8 @@ std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const FixedPoint2&amp;
 int main()
 {
 	FixedPoint2 a{ 34, 56 };
-	std::cout &lt;&lt; a &lt;&lt; &#39;\n&#39;;
-	std::cout &lt;&lt; static_cast&lt;double&gt;(a) &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; a &lt;&lt; '\n';
+	std::cout &lt;&lt; static_cast&lt;double&gt;(a) &lt;&lt; '\n';
 	assert(static_cast&lt;double&gt;(a) == 34.56);
 
 	FixedPoint2 b{ -2, 8 };
@@ -346,8 +346,8 @@ int main()
 }</code></pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>&gt; Krok #3<p>Zajmijmy się teraz przypadkiem, w którym część ułamkowa jest poza zakresem. Mamy tu dwie rozsądne strategie:<ul><li>Zamknij część ułamkową (jeśli &gt;99, ustaw na 99).<li>Potraktuj przepełnienie jako istotne (jeśli &gt;99, zmniejsz o 100 i dodaj 1 do podstawy).</ul><p>W tym ćwiczeniu potraktujemy przepełnienie dziesiętne jako istotne, ponieważ będzie to przydatne w następnym kroku.<p>Poniższe powinny run:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cassert&gt;
 #include &lt;iostream&gt;
 
-// You will need to make testDecimal a friend of FixedPoint2
-// so the function can access the private members of FixedPoint2
+// Będziesz musiał to zrobić testDecimal znajomy FixPoint2
+// aby funkcja mogła uzyskać dostęp do prywatnych elementów StałegoPoint2
 bool testDecimal(const FixedPoint2 &amp;fp)
 {
     if (fp.m_base &gt;= 0)
@@ -359,8 +359,8 @@ bool testDecimal(const FixedPoint2 &amp;fp)
 int main()
 {
 	FixedPoint2 a{ 1, 104 };
-	std::cout &lt;&lt; a &lt;&lt; &#39;\n&#39;;
-	std::cout &lt;&lt; static_cast&lt;double&gt;(a) &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; a &lt;&lt; '\n';
+	std::cout &lt;&lt; static_cast&lt;double&gt;(a) &lt;&lt; '\n';
 	assert(static_cast&lt;double&gt;(a) == 2.04);
 	assert(testDecimal(a));
 
@@ -380,34 +380,34 @@ int main()
 }</code></pre><p>I wygeneruj wynik:<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><pre>2.04
 2.04
 </pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_10'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_10 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cassert&gt;
-#include &lt;cstdint&gt; // for fixed width integers
+#include &lt;cstdint&gt; // dla liczb całkowitych o stałej szerokości
 #include &lt;iostream&gt;
 
 class FixedPoint2
 {
 private:
-	std::int16_t m_base{}; // here&#39;s our non-fractional part
-	std::int8_t m_decimal{}; // here&#39;s our factional part
+	std::int16_t m_base{}; // Oto nasza część nieułamkowa
+	std::int8_t m_decimal{}; // Oto nasza część frakcyjna
 
 public:
 	FixedPoint2(std::int16_t base = 0, std::int8_t decimal = 0)
 		: m_base{ base }, m_decimal{ decimal }
 	{
-		// If either (or both) of the non-fractional and fractional part of the number are negative, the number should be treated as negative
+		// Jeśli którakolwiek (lub obie) części nieułamkowej i ułamkowej liczby są ujemne, liczbę należy traktować jako ujemny
 		if (m_base &lt; 0 || m_decimal &lt; 0)
 		{
-			// Make sure base is negative
+			// Upewnij się, że podstawa jest ujemna
 			if (m_base &gt; 0)
 				m_base = -m_base;
-			// Make sure decimal is negative
+			// Upewnij się, że liczba dziesiętna jest ujemna
 			if (m_decimal &gt; 0)
 				m_decimal = -m_decimal;
 		}
 
-		// If decimal is out of bounds (in either direction),
-		// adjust the decimal so it&#39;s in bounds,
-		// and adjust base to account for the number of units removed from the decimal
-		// h/t to reader David Pinheiro for simplifying this
+		// Jeśli liczba dziesiętna jest poza zakresem (w dowolnym kierunku),
+		// dostosuj przecinek tak, aby mieścił się w granicach,
+		// i dostosowuję bazę tak, aby uwzględnić liczbę jednostek usuniętych z ułamka dziesiętnego
+		// h/t do czytnika Davida Pinheiro za uproszczenie tego
 		m_base += m_decimal / 100;    // integer division
 		m_decimal = m_decimal % 100;  // integer remainder
 	}
@@ -420,15 +420,15 @@ public:
 	friend bool testDecimal(const FixedPoint2 &amp;fp);
 };
 
-// This doesn&#39;t require access to the internals of the class, so it can be defined outside the class
+// Nie wymaga to dostępu do wewnętrznych elementów class, więc można go zdefiniować poza klasą
 std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const FixedPoint2&amp; fp)
 {
 	out &lt;&lt; static_cast&lt;double&gt;(fp);
 	return out;
 }
 
-// You will need to make testDecimal a friend of FixedPoint2
-// so the function can access the private members of FixedPoint2
+// Będziesz musiał to zrobić testDecimal znajomy FixPoint2
+// aby funkcja mogła uzyskać dostęp do prywatnych elementów StałegoPoint2
 bool testDecimal(const FixedPoint2 &amp;fp)
 {
 	if (fp.m_base &gt;= 0)
@@ -440,8 +440,8 @@ bool testDecimal(const FixedPoint2 &amp;fp)
 int main()
 {
 	FixedPoint2 a{ 1, 104 };
-	std::cout &lt;&lt; a &lt;&lt; &#39;\n&#39;;
-	std::cout &lt;&lt; static_cast&lt;double&gt;(a) &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; a &lt;&lt; '\n';
+	std::cout &lt;&lt; static_cast&lt;double&gt;(a) &lt;&lt; '\n';
 	assert(static_cast&lt;double&gt;(a) == 2.04);
 	assert(testDecimal(a));
 
@@ -469,59 +469,59 @@ int main()
 	FixedPoint2 b{ -0.01 };
 	assert(static_cast&lt;double&gt;(b) == -0.01);
 
-	FixedPoint2 c{ 1.9 }; // make sure we handle single digit decimal
+	FixedPoint2 c{ 1.9 }; // upewnij się, że obsługujemy jednocyfrowy zapis dziesiętny
 	assert(static_cast&lt;double&gt;(c) == 1.9);
     
-	FixedPoint2 d{ 5.01 }; // stored as 5.0099999... so we&#39;ll need to round this
+	FixedPoint2 d{ 5.01 }; // zapisane jako 5,0099999... więc będziemy musieli zaokrąglić to
 	assert(static_cast&lt;double&gt;(d) == 5.01);
 
-	FixedPoint2 e{ -5.01 }; // stored as -5.0099999... so we&#39;ll need to round this
+	FixedPoint2 e{ -5.01 }; // zapisaną jako -5,0099999... więc będziemy musieli zaokrąglić to
 	assert(static_cast&lt;double&gt;(e) == -5.01);
 
-	// Handle case where the argument&#39;s decimal rounds to 100 (need to increase base by 1)
-	FixedPoint2 f { 106.9978 }; // should be stored with base 107 and decimal 0
+	// Zajmij się przypadkiem, gdy liczba dziesiętna argumentu zaokrągli się do 100 (należy zwiększyć podstawę o 1)
+	FixedPoint2 f { 106.9978 }; // powinna być zapisana z podstawą 107 i dziesiętną 0
 	assert(static_cast&lt;double&gt;(f) == 107.0);
 
-	// Handle case where the argument&#39;s decimal rounds to -100 (need to decrease base by 1)
-	FixedPoint2 g { -106.9978 }; // should be stored with base -107 and decimal 0
+	// Zajmij się przypadkiem, w którym liczba dziesiętna argumentu zaokrągli się do -100 (należy zmniejszyć podstawę o 1)
+	FixedPoint2 g { -106.9978 }; // powinna być przechowywana z podstawą -107 i dziesiętną 0
 	assert(static_cast&lt;double&gt;(g) == -107.0);
 
 	return 0;
 }</code></pre><p>Zalecenie: Ten będzie nieco trudny. Zrób to w trzech krokach. Najpierw rozwiąż przypadki, w których parametr double można przedstawić bezpośrednio (zmienne <code>a</code> do <code>c</code> powyżej). Następnie zaktualizuj swój kod, aby obsługiwał przypadki, w których parametr double zawiera błąd zaokrąglenia (zmienne <code>d</code> & <code>e</code>). Zmienne <code>f</code> i <code>g</code> powinny być obsługiwane przez obsługę przepełnienia, którą dodaliśmy w poprzednim kroku.<p>We wszystkich przypadkach: <a class=hint_link_show href=javascript:void(0) onclick="cppHintToggle(document.getElementById('cpp_hint_id_0'),this,'Show Hint','')">Pokaż wskazówkę</a><div class=wphint id=cpp_hint_id_0 style=display:none;margin-bottom:1em>Wskazówka: Możesz przenieść cyfrę z prawej strony ułamka dziesiętnego na lewo od ułamka dziesiętnego, mnożąc przez 10. Pomnóż przez 100, aby przenieść się o dwa miejsca.</div><p>Dla zmiennych <code>a</code> do <code>c</code>: <a class=hint_link_show href=javascript:void(0) onclick="cppHintToggle(document.getElementById('cpp_hint_id_1'),this,'Show Hint','')">Pokaż wskazówkę</a><div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><div class=wphint id=cpp_hint_id_1 style=display:none;margin-bottom:1em>Wskazówka: Nieułamkową część liczby podwójnej można uzyskać poprzez statyczne rzutowanie liczby podwójnej na liczbę całkowitą. Aby otrzymać część ułamkową, możesz odjąć część podstawową.</div><p>Dla zmiennych <code>d</code> & <code>e</code>: <a class=hint_link_show href=javascript:void(0) onclick="cppHintToggle(document.getElementById('cpp_hint_id_2'),this,'Show Hint','')">Pokaż wskazówkę</a><div class=wphint id=cpp_hint_id_2 style=display:none;margin-bottom:1em>Wskazówka: Możesz zaokrąglić liczbę (na lewo od przecinka) za pomocą funkcji <code>std::round()</code> (zawartej w nagłówku <code>&lt;cmath></code>) i przyjąć podłogę liczby (w stronę zera) użycie <code>std::trunc()</code>.</div><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_11'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_11 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cassert&gt;
 #include &lt;cmath&gt;
-#include &lt;cstdint&gt; // for fixed width integers
+#include &lt;cstdint&gt; // dla liczb całkowitych o stałej szerokości
 #include &lt;iostream&gt;
 
 class FixedPoint2
 {
 private:
-	std::int16_t m_base{}; // here&#39;s our non-fractional part
-	std::int8_t m_decimal{}; // here&#39;s our factional part
+	std::int16_t m_base{}; // Oto nasza część nieułamkowa
+	std::int8_t m_decimal{}; // Oto nasza część frakcyjna
 
 public:
 	FixedPoint2(std::int16_t base = 0, std::int8_t decimal = 0)
 		: m_base{ base }, m_decimal{ decimal }
 	{
-		// If either (or both) of the non-fractional and fractional part of the number are negative, the number should be treated as negative
+		// Jeśli którakolwiek (lub obie) części nieułamkowej i ułamkowej liczby są ujemne, liczbę należy traktować jako ujemny
 		if (m_base &lt; 0 || m_decimal &lt; 0)
 		{
-			// Make sure base is negative
+			// Upewnij się, że podstawa jest ujemna
 			if (m_base &gt; 0)
 				m_base = -m_base;
-			// Make sure decimal is negative
+			// Upewnij się, że liczba dziesiętna jest ujemna
 			if (m_decimal &gt; 0)
 				m_decimal = -m_decimal;
 		}
 
-		// If decimal is out of bounds (in either direction),
-		// adjust the decimal so it&#39;s in bounds,
-		// and adjust base to account for the number of units removed from the decimal
-		// h/t to reader David Pinheiro for simplifying this
+		// Jeśli liczba dziesiętna jest poza zakresem (w dowolnym kierunku),
+		// dostosuj przecinek tak, aby mieścił się w granicach,
+		// i dostosowuję bazę tak, aby uwzględnić liczbę jednostek usuniętych z ułamka dziesiętnego
+		// h/t do czytnika Davida Pinheiro za uproszczenie tego
 		m_base += m_decimal / 100;    // integer division
 		m_decimal = m_decimal % 100;  // integer remainder
 	}
 
-	// We&#39;ll delegate to the prior constructor so we don&#39;t have to duplicate the negative number and overflow handling logic
+	// Przedelegujemy do poprzedniego konstruktora, abyśmy nie musieli duplikować liczby ujemnej i logiki obsługi przepełnienia
 	FixedPoint2(double d) :
 		FixedPoint2(
 			static_cast&lt;std::int16_t&gt;(std::trunc(d)),
@@ -536,7 +536,7 @@ public:
 	}
 };
 
-// This doesn&#39;t require access to the internals of the class, so it can be defined outside the class
+// Nie wymaga to dostępu do wewnętrznych elementów class, więc można go zdefiniować poza klasą
 std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const FixedPoint2&amp; fp)
 {
 	out &lt;&lt; static_cast&lt;double&gt;(fp);
@@ -546,27 +546,27 @@ std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const FixedPoint2&amp;
 int main()
 {
 	FixedPoint2 a{ 0.01 };
-	std::cout &lt;&lt; a &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; a &lt;&lt; '\n';
 	assert(static_cast&lt;double&gt;(a) == 0.01);
 
 	FixedPoint2 b{ -0.01 };
 	assert(static_cast&lt;double&gt;(b) == -0.01);
 
-	FixedPoint2 c{ 1.9 }; // make sure we handle single digit decimal
+	FixedPoint2 c{ 1.9 }; // upewnij się, że obsługujemy jednocyfrowy zapis dziesiętny
 	assert(static_cast&lt;double&gt;(c) == 1.9);
     
-	FixedPoint2 d{ 5.01 }; // stored as 5.0099999... so we&#39;ll need to round this
+	FixedPoint2 d{ 5.01 }; // zapisane jako 5,0099999... więc będziemy musieli zaokrąglić to
 	assert(static_cast&lt;double&gt;(d) == 5.01);
 
-	FixedPoint2 e{ -5.01 }; // stored as -5.0099999... so we&#39;ll need to round this
+	FixedPoint2 e{ -5.01 }; // zapisaną jako -5,0099999... więc będziemy musieli zaokrąglić to
 	assert(static_cast&lt;double&gt;(e) == -5.01);
 
-	// Handle case where the argument&#39;s decimal rounds to 100 (need to increase base by 1)
-	FixedPoint2 f { 106.9978 }; // should be stored with base 107 and decimal 0
+	// Zajmij się przypadkiem, gdy liczba dziesiętna argumentu zaokrągli się do 100 (należy zwiększyć podstawę o 1)
+	FixedPoint2 f { 106.9978 }; // powinna być zapisana z podstawą 107 i dziesiętną 0
 	assert(static_cast&lt;double&gt;(f) == 107.0);
 
-	// Handle case where the argument&#39;s decimal rounds to -100 (need to decrease base by 1)
-	FixedPoint2 g { -106.9978 }; // should be stored with base -107 and decimal 0
+	// Zajmij się przypadkiem, w którym liczba dziesiętna argumentu zaokrągli się do -100 (należy zmniejszyć podstawę o 1)
+	FixedPoint2 g { -106.9978 }; // powinna być przechowywana z podstawą -107 i dziesiętną 0
 	assert(static_cast&lt;double&gt;(g) == -107.0);
 
 	return 0;
@@ -575,59 +575,59 @@ int main()
 
 int main()
 {
-	assert(FixedPoint2{ 0.75 } == FixedPoint2{ 0.75 });    // Test equality true
-	assert(!(FixedPoint2{ 0.75 } == FixedPoint2{ 0.76 })); // Test equality false
+	assert(FixedPoint2{ 0.75 } == FixedPoint2{ 0.75 });    // Test równości
+	assert(!(FixedPoint2{ 0.75 } == FixedPoint2{ 0.76 })); // Test równości jest fałszywy
     
-	// Test additional cases -- h/t to reader Sharjeel Safdar for these test cases
-	assert(FixedPoint2{ 0.75 } + FixedPoint2{ 1.23 } == FixedPoint2{ 1.98 });    // both positive, no decimal overflow
-	assert(FixedPoint2{ 0.75 } + FixedPoint2{ 1.50 } == FixedPoint2{ 2.25 });    // both positive, with decimal overflow
-	assert(FixedPoint2{ -0.75 } + FixedPoint2{ -1.23 } == FixedPoint2{ -1.98 }); // both negative, no decimal overflow
-	assert(FixedPoint2{ -0.75 } + FixedPoint2{ -1.50 } == FixedPoint2{ -2.25 }); // both negative, with decimal overflow
-	assert(FixedPoint2{ 0.75 } + FixedPoint2{ -1.23 } == FixedPoint2{ -0.48 });  // second negative, no decimal overflow
-	assert(FixedPoint2{ 0.75 } + FixedPoint2{ -1.50 } == FixedPoint2{ -0.75 });  // second negative, possible decimal overflow
-	assert(FixedPoint2{ -0.75 } + FixedPoint2{ 1.23 } == FixedPoint2{ 0.48 });   // first negative, no decimal overflow
-	assert(FixedPoint2{ -0.75 } + FixedPoint2{ 1.50 } == FixedPoint2{ 0.75 });   // first negative, possible decimal overflow
+	// Przetestuj dodatkowe przypadki -- h/t do czytelnika Sharjeel Safdar za te przypadki testowe
+	assert(FixedPoint2{ 0.75 } + FixedPoint2{ 1.23 } == FixedPoint2{ 1.98 });    // oba dodatni, bez przepełnienia dziesiętnego
+	assert(FixedPoint2{ 0.75 } + FixedPoint2{ 1.50 } == FixedPoint2{ 2.25 });    // oba dodatnie, z przekroczeniem dziesiętnym
+	assert(FixedPoint2{ -0.75 } + FixedPoint2{ -1.23 } == FixedPoint2{ -1.98 }); // obie wartości ujemne, brak przepełnienia dziesiętnego
+	assert(FixedPoint2{ -0.75 } + FixedPoint2{ -1.50 } == FixedPoint2{ -2.25 }); // oba ujemne, z przepełnieniem dziesiętnym
+	assert(FixedPoint2{ 0.75 } + FixedPoint2{ -1.23 } == FixedPoint2{ -0.48 });  // drugie ujemne, brak przepełnienia dziesiętnego
+	assert(FixedPoint2{ 0.75 } + FixedPoint2{ -1.50 } == FixedPoint2{ -0.75 });  // drugie ujemne, możliwe przepełnienie dziesiętne
+	assert(FixedPoint2{ -0.75 } + FixedPoint2{ 1.23 } == FixedPoint2{ 0.48 });   // pierwsza wartość ujemna, brak przepełnienia dziesiętnego
+	assert(FixedPoint2{ -0.75 } + FixedPoint2{ 1.50 } == FixedPoint2{ 0.75 });   // pierwsza wartość ujemna, możliwe przepełnienie dziesiętne
     
 	FixedPoint2 a{ -0.48 };
 	assert(static_cast&lt;double&gt;(a) == -0.48);
 	assert(static_cast&lt;double&gt;(-a) == 0.48);
 
-	std::cout &lt;&lt; &#34;Enter a number: &#34;; // enter 5.678
+	std::cout &lt;&lt; "Enter a number: "; // enter 5.678
 	std::cin &gt;&gt; a;
-	std::cout &lt;&lt; &#34;You entered: &#34; &lt;&lt; a &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; "You entered: " &lt;&lt; a &lt;&lt; '\n';
 	assert(static_cast&lt;double&gt;(a) == 5.68);
 	
 	return 0;
 }</code></pre><p><a class=hint_link_show href=javascript:void(0) onclick="cppHintToggle(document.getElementById('cpp_hint_id_3'),this,'Show Hint','')">Pokaż wskazówkę</a><div class=wphint id=cpp_hint_id_3 style=display:none;margin-bottom:1em>Wskazówka: Dodaj swoje dwa  <code>FixedPoint2</code>  razem, wykorzystując podwójne rzutowanie, dodając wyniki i konwertując z powrotem do  <code>FixedPoint2</code>. To elegancko radzi sobie z przepełnieniem miejsc dziesiętnych.</div><p><a class=hint_link_show href=javascript:void(0) onclick="cppHintToggle(document.getElementById('cpp_hint_id_4'),this,'Show Hint','')">Pokaż wskazówkę</a><div class=wphint id=cpp_hint_id_4 style=display:none;margin-bottom:1em>Wskazówka: W przypadku <code>operator>></code> użyj konstruktora double, aby utworzyć anonimowy obiekt typu <code>FixedPoint2</code> i przypisz go do  <code>FixedPoint2</code> parametru funkcji.</div><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_12'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_12 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cassert&gt;
 #include &lt;cmath&gt;
-#include &lt;cstdint&gt; // for fixed width integers
+#include &lt;cstdint&gt; // dla liczb całkowitych o stałej szerokości
 #include &lt;iostream&gt;
 
 class FixedPoint2
 {
 private:
-	std::int16_t m_base{}; // here&#39;s our non-fractional part
-	std::int8_t m_decimal{}; // here&#39;s our factional part
+	std::int16_t m_base{}; // Oto nasza część nieułamkowa
+	std::int8_t m_decimal{}; // Oto nasza część frakcyjna
 
 public:
 	FixedPoint2(std::int16_t base = 0, std::int8_t decimal = 0)
 		: m_base{ base }, m_decimal{ decimal }
 	{
-		// If either (or both) of the non-fractional and fractional part of the number are negative, the number should be treated as negative
+		// Jeśli którakolwiek (lub obie) części nieułamkowej i ułamkowej liczby są ujemne, liczbę należy traktować jako ujemny
 		if (m_base &lt; 0 || m_decimal &lt; 0)
 		{
-			// Make sure base is negative
+			// Upewnij się, że podstawa jest ujemna
 			if (m_base &gt; 0)
 				m_base = -m_base;
-			// Make sure decimal is negative
+			// Upewnij się, że liczba dziesiętna jest ujemna
 			if (m_decimal &gt; 0)
 				m_decimal = -m_decimal;
 		}
 
-		// If decimal is out of bounds (in either direction),
-		// adjust the decimal so it&#39;s in bounds,
-		// and adjust base to account for the number of units removed from the decimal
-		// h/t to reader David Pinheiro for simplifying this
+		// Jeśli liczba dziesiętna jest poza zakresem (w dowolnym kierunku),
+		// dostosuj przecinek tak, aby mieścił się w granicach,
+		// i dostosowuję bazę tak, aby uwzględnić liczbę jednostek usuniętych z ułamka dziesiętnego
+		// h/t do czytnika Davida Pinheiro za uproszczenie tego
 		m_base += m_decimal / 100;    // integer division
 		m_decimal = m_decimal % 100;  // integer remainder
 	}
@@ -652,13 +652,13 @@ public:
 
 	FixedPoint2 operator-() const
 	{
-		// Cast to double, make the double negative, then convert back to FixedPoint2
-		// h/t to reader EmtyC for this version
+		// Rzutuj na podwójną, zrób podwójną ujemną, a następnie przekonwertuj z powrotem na StałyPoint2
+		// h/t do czytnika EmtyC dla tej wersji
 		return FixedPoint2{ -static_cast&lt;double&gt;(*this) };
 	}
 };
 
-// This doesn&#39;t require access to the internals of the class, so it can be defined outside the class
+// Nie wymaga to dostępu do wewnętrznych elementów class, więc można go zdefiniować poza klasą
 std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const FixedPoint2&amp; fp)
 {
 	out &lt;&lt; static_cast&lt;double&gt;(fp);
@@ -681,26 +681,26 @@ FixedPoint2 operator+(const FixedPoint2&amp; fp1, const FixedPoint2&amp; fp2)
 
 int main()
 {
-	assert(FixedPoint2{ 0.75 } == FixedPoint2{ 0.75 });    // Test equality true
-	assert(!(FixedPoint2{ 0.75 } == FixedPoint2{ 0.76 })); // Test equality false
+	assert(FixedPoint2{ 0.75 } == FixedPoint2{ 0.75 });    // Test równości
+	assert(!(FixedPoint2{ 0.75 } == FixedPoint2{ 0.76 })); // Test równości jest fałszywy
     
-	// Test additional cases -- h/t to reader Sharjeel Safdar for these test cases
-	assert(FixedPoint2{ 0.75 } + FixedPoint2{ 1.23 } == FixedPoint2{ 1.98 });    // both positive, no decimal overflow
-	assert(FixedPoint2{ 0.75 } + FixedPoint2{ 1.50 } == FixedPoint2{ 2.25 });    // both positive, with decimal overflow
-	assert(FixedPoint2{ -0.75 } + FixedPoint2{ -1.23 } == FixedPoint2{ -1.98 }); // both negative, no decimal overflow
-	assert(FixedPoint2{ -0.75 } + FixedPoint2{ -1.50 } == FixedPoint2{ -2.25 }); // both negative, with decimal overflow
-	assert(FixedPoint2{ 0.75 } + FixedPoint2{ -1.23 } == FixedPoint2{ -0.48 });  // second negative, no decimal overflow
-	assert(FixedPoint2{ 0.75 } + FixedPoint2{ -1.50 } == FixedPoint2{ -0.75 });  // second negative, possible decimal overflow
-	assert(FixedPoint2{ -0.75 } + FixedPoint2{ 1.23 } == FixedPoint2{ 0.48 });   // first negative, no decimal overflow
-	assert(FixedPoint2{ -0.75 } + FixedPoint2{ 1.50 } == FixedPoint2{ 0.75 });   // first negative, possible decimal overflow
+	// Przetestuj dodatkowe przypadki -- h/t do czytelnika Sharjeel Safdar za te przypadki testowe
+	assert(FixedPoint2{ 0.75 } + FixedPoint2{ 1.23 } == FixedPoint2{ 1.98 });    // oba dodatni, bez przepełnienia dziesiętnego
+	assert(FixedPoint2{ 0.75 } + FixedPoint2{ 1.50 } == FixedPoint2{ 2.25 });    // oba dodatnie, z przekroczeniem dziesiętnym
+	assert(FixedPoint2{ -0.75 } + FixedPoint2{ -1.23 } == FixedPoint2{ -1.98 }); // obie wartości ujemne, brak przepełnienia dziesiętnego
+	assert(FixedPoint2{ -0.75 } + FixedPoint2{ -1.50 } == FixedPoint2{ -2.25 }); // oba ujemne, z przepełnieniem dziesiętnym
+	assert(FixedPoint2{ 0.75 } + FixedPoint2{ -1.23 } == FixedPoint2{ -0.48 });  // drugie ujemne, brak przepełnienia dziesiętnego
+	assert(FixedPoint2{ 0.75 } + FixedPoint2{ -1.50 } == FixedPoint2{ -0.75 });  // drugie ujemne, możliwe przepełnienie dziesiętne
+	assert(FixedPoint2{ -0.75 } + FixedPoint2{ 1.23 } == FixedPoint2{ 0.48 });   // pierwsza wartość ujemna, brak przepełnienia dziesiętnego
+	assert(FixedPoint2{ -0.75 } + FixedPoint2{ 1.50 } == FixedPoint2{ 0.75 });   // pierwsza wartość ujemna, możliwe przepełnienie dziesiętne
     
 	FixedPoint2 a{ -0.48 };
 	assert(static_cast&lt;double&gt;(a) == -0.48);
 	assert(static_cast&lt;double&gt;(-a) == 0.48);
 
-	std::cout &lt;&lt; &#34;Enter a number: &#34;; // enter 5.678
+	std::cout &lt;&lt; "Enter a number: "; // enter 5.678
 	std::cin &gt;&gt; a;
-	std::cout &lt;&lt; &#34;You entered: &#34; &lt;&lt; a &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; "You entered: " &lt;&lt; a &lt;&lt; '\n';
 	assert(static_cast&lt;double&gt;(a) == 5.68);
 	
 	return 0;

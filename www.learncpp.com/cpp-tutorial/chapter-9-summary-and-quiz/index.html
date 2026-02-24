@@ -13,24 +13,24 @@
 <button class=searchsubmit><span class=screen-reader-text>Szukaj</span><i class=icon-search></i></button>
 <input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=40564></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="9.x — Podsumowanie i quiz rozdziału 9" src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-16343 class="post-16343 post type-post status-publish format-standard hentry category-cpp-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>9.x — Podsumowanie i quiz rozdziału 9</h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Autor></i><a class="url fn n" rel=author href=/www.learncpp.com/author/Alex/ title="Wyświetl wszystkie posty Alexa" itemprop=url><em itemprop=name>Alex</em></a></span>
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2023-12-28T14:45:58-08:00 itemprop=datePublished>28 grudnia 2023, 14:45 czasu PST</time>
-<time class=updated datetime=2024-12-01T21:57:11-08:00 itemprop=dateModified>1 grudnia 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p class=cpp-section>Przegląd rozdziału<p><strong>Zakres pełzanie</strong> ma miejsce, gdy możliwości projektu przekraczają pierwotne zamierzenia na początku projektu lub fazy projektu.<p><strong>Weryfikacja oprogramowania</strong> to proces sprawdzania, czy oprogramowanie działa zgodnie z oczekiwaniami we wszystkich przypadkach.  <strong>Test jednostkowy</strong> to test zaprojektowany w celu przetestowania małej części kodu (zwykle funkcji lub wywołania) w izolacji, aby upewnić się, że określone zachowanie zachodzi zgodnie z oczekiwaniami. <strong>Struktury testów jednostkowych</strong> mogą pomóc w zorganizowaniu testów jednostkowych. <strong>Testy integracyjne</strong> testują integrację kilku jednostek razem w celu zapewnienia ich działają poprawnie.<p><strong>Pokrycie kodu</strong> odnosi się do tego, jaka część kodu źródłowego jest wykonywana podczas testowania. <strong>Pokrycie instrukcji</strong> odnosi się do procentu instrukcji w programie, które zostały sprawdzone przez procedury testowe. <strong>Pokrycie gałęzi</strong> odnosi się do procentu gałęzi, które zostały wykonane przez testowanie procedury. <strong>Pokrycie pętli</strong> (zwane także  <strong>testem 0, 1, 2</strong>) oznacza, że jeśli masz pętlę, powinieneś upewnić się, że działa ona poprawnie, wykonując iteracje 0, 1 raz i 2 razy. <p>Klasa <strong>szczęśliwą ścieżkę</strong> to ścieżka wykonania, która ma miejsce, gdy nie napotkano żadnych błędów.  <strong>Smutna ścieżka</strong> to taka, w której występuje błąd lub stan awarii. A <strong>nieodwracalny błąd</strong> (zwana także <strong>błędem krytycznym błąd</strong>) to błąd na tyle poważny, że program nie może kontynuować działania. Program, który dobrze radzi sobie z błędami, to <strong>solidny</strong>.<p>A <strong>bufor</strong> to fragment pamięci przeznaczony do tymczasowego przechowywania danych podczas ich przenoszenia z jednego miejsca do drugiego.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Proces sprawdzania, czy dane wejściowe użytkownika są zgodne z oczekiwaniami programu, nazywa się <strong>weryfikacja danych wejściowych</strong>.<p><strong>std::cerr</strong> jest strumieniem wyjściowym (jak <code>std::cout</code>) przeznaczony do stosowania w komunikatach o błędach.<p>A <strong>warunek wstępny</strong> to dowolny warunek, który musi zawsze być spełniony przed wykonaniem jakiegoś segmentu kodu. An <strong>Niezmiennik</strong> to warunek, który musi być spełniony podczas wykonywania jakiegoś komponentu. A <strong>warunek końcowy</strong> to dowolny warunek, który zawsze musi być spełniony po wykonaniu jakiegoś kodu.<p>An <strong>Asercja</strong> jest wyrażeniem, które będzie prawdziwe, chyba że w programie wystąpi błąd. W języku C++ asercje środowiska wykonawczego są zwykle implementowane przy użyciu makra  <strong>makro preprocesoraassert</strong> preprocesora. Asercje są zwykle wyłączone w kodzie innym niż debugowanie. A <strong>static_assert</strong> jest asercją ocenianą w czasie kompilacji.<p>Asercji należy używać do dokumentowania przypadków, które powinny być logicznie niemożliwe. Do obsługi możliwych przypadków należy używać obsługi błędów.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Czas quizu<p class=cpp-quiz-question style=clear:both>Pytanie nr 1<p>W quizie dotyczącym lekcji <a href="../chapter-8-summary-and-quiz/index.html">8.x — podsumowanie rozdziału 8 i quiz</a> zaimplementowaliśmy grę Hi-Lo.<p>Zaktualizuj swoje poprzednie rozwiązanie, aby obsługiwać nieprawidłowe domysły (np. „x”), domysły wykraczające poza zakres (np.  <code>0</code> lub <code>101</code>) lub prawidłowe domysły które zawierają obce znaki (np.  <code>43x</code>). Obsługuj także użytkownika wprowadzającego dodatkowe znaki, gdy gra zapyta go, czy chce zagrać ponownie.<p>Wskazówka: Napisz osobną funkcję do obsługi użytkownika wprowadzającego swoje przypuszczenie (wraz z powiązaną obsługą błędów).<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_0 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
-#include &lt;limits&gt;   // for std::numeric_limits
-#include &#34;Random.h&#34; // /www.learncpp.com/cpp-tutorial/global-random-numbers-random-h/
+<time class=updated datetime=2024-12-01T21:57:11-08:00 itemprop=dateModified>1 grudnia 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p class=cpp-section>Przegląd rozdziału<p><strong>Zakres pełzanie</strong> ma miejsce, gdy możliwości projektu przekraczają pierwotne zamierzenia na początku projektu lub fazy projektu.<p><strong>Weryfikacja oprogramowania</strong> to proces sprawdzania, czy oprogramowanie działa zgodnie z oczekiwaniami we wszystkich przypadkach.  <strong>Test jednostkowy</strong> to test zaprojektowany w celu przetestowania małej części kodu (zwykle funkcji lub wywołania) w izolacji, aby upewnić się, że określone zachowanie zachodzi zgodnie z oczekiwaniami. <strong>Struktury testów jednostkowych</strong> mogą pomóc w zorganizowaniu testów jednostkowych. <strong>Testy integracyjne</strong> testują integrację kilku jednostek razem w celu zapewnienia ich działają poprawnie.<p><strong>Pokrycie kodu</strong> odnosi się do tego, jaka część kodu źródłowego jest wykonywana podczas testowania. <strong>Pokrycie instrukcji</strong> odnosi się do procentu instrukcji w programie, które zostały sprawdzone przez procedury testowe. <strong>Pokrycie gałęzi</strong> odnosi się do procentu gałęzi, które zostały wykonane przez testowanie procedury. <strong>Pokrycie pętli</strong> (zwane także  <strong>testem 0, 1, 2</strong>) oznacza, że jeśli masz pętlę, powinieneś upewnić się, że działa ona poprawnie, wykonując iteracje 0, 1 raz i 2 razy. <p>Klasa <strong>szczęśliwą ścieżkę</strong> to ścieżka wykonania, która ma miejsce, gdy nie napotkano żadnych błędów.  <strong>Smutna ścieżka</strong> to taka, w której występuje błąd lub stan awarii. <strong>nieodwracalny błąd</strong> (zwana także <strong>błędem krytycznym błąd</strong>) to błąd na tyle poważny, że program nie może kontynuować działania. Program, który dobrze radzi sobie z błędami, to <strong>solidny</strong>.<p><strong>bufor</strong> to fragment pamięci przeznaczony do tymczasowego przechowywania danych podczas ich przenoszenia z jednego miejsca do drugiego.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Proces sprawdzania, czy dane wejściowe użytkownika są zgodne z oczekiwaniami programu, nazywa się <strong>weryfikacja danych wejściowych</strong>.<p><strong>std::cerr</strong> jest strumieniem wyjściowym (jak <code>std::cout</code>) przeznaczony do stosowania w komunikatach o błędach.<p><strong>warunek wstępny</strong> to dowolny warunek, który musi zawsze być spełniony przed wykonaniem jakiegoś segmentu kodu. <strong>Niezmiennik</strong> to warunek, który musi być spełniony podczas wykonywania jakiegoś komponentu. <strong>warunek końcowy</strong> to dowolny warunek, który zawsze musi być spełniony po wykonaniu jakiegoś kodu.<p><strong>Asercja</strong> jest wyrażeniem, które będzie prawdziwe, chyba że w programie wystąpi błąd. W języku C++ asercje środowiska wykonawczego są zwykle implementowane przy użyciu makra  <strong>makro preprocesoraassert</strong> preprocesora. Asercje są zwykle wyłączone w kodzie innym niż debugowanie. <strong>static_assert</strong> jest asercją ocenianą w czasie kompilacji.<p>Asercji należy używać do dokumentowania przypadków, które powinny być logicznie niemożliwe. Do obsługi możliwych przypadków należy używać obsługi błędów.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Czas quizu<p class=cpp-quiz-question style=clear:both>Pytanie nr 1<p>W quizie dotyczącym lekcji <a href="../chapter-8-summary-and-quiz/index.html">8.x — podsumowanie rozdziału 8 i quiz</a> zaimplementowaliśmy grę Hi-Lo.<p>Zaktualizuj swoje poprzednie rozwiązanie, aby obsługiwać nieprawidłowe domysły (np. „x”), domysły wykraczające poza zakres (np.  <code>0</code> lub <code>101</code>) lub prawidłowe domysły które zawierają obce znaki (np.  <code>43x</code>). Obsługuj także użytkownika wprowadzającego dodatkowe znaki, gdy gra zapyta go, czy chce zagrać ponownie.<p>Wskazówka: Napisz osobną funkcję do obsługi użytkownika wprowadzającego swoje przypuszczenie (wraz z powiązaną obsługą błędów).<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_0 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+#include &lt;limits&gt;   // dla std::numeric_limits
+#include "Random.h" // /www.learncpp.com/cpp-tutorial/global-random-numbers-random-h/
 
 int getGuess(int count, int min, int max)
 {
-	while (true) // loop until user enters valid input
+	while (true) // pętla do momentu wprowadzenia przez użytkownika prawidłowego wejścia
 	{
-		std::cout &lt;&lt; &#34;Guess #&#34; &lt;&lt; count &lt;&lt; &#34;: &#34;;
+		std::cout &lt;&lt; "Guess #" &lt;&lt; count &lt;&lt; ": ";
 
 		int guess {};
 		std::cin &gt;&gt; guess;
 
 		bool success { std::cin };
-		std::cin.clear(); // put us back in &#39;normal&#39; operation mode (if needed)
-		std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), &#39;\n&#39;); // remove any extra input
+		std::cin.clear(); // wprowadzi nas z powrotem do „normalnego” trybu pracy (jeśli potrzebne)
+		std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), '\n'); // usuń wszelkie dodatkowe dane wejściowe
 
-		// If we didn&#39;t extract anything or the extracted guess is out of bounds, try again
+		// Jeśli niczego nie wyodrębniliśmy lub wyodrębniona wartość domysłu jest poza zakresem, spróbuj ponownie
 		if (!success || guess &lt; min || guess &gt; max)
 			continue;
 
@@ -38,56 +38,56 @@ int getGuess(int count, int min, int max)
 	}
 }
 
-// returns true if the user won, false if they lost
+// zwraca wartość true jeśli użytkownik wygrał, false, jeśli przegrał
 bool playHiLo(int guesses, int min, int max)
 {
-	std::cout &lt;&lt; &#34;Let&#39;s play a game. I&#39;m thinking of a number between &#34; &lt;&lt; min &lt;&lt; &#34; and &#34; &lt;&lt; max &lt;&lt; &#34;. You have &#34; &lt;&lt; guesses &lt;&lt; &#34; tries to guess what it is.\n&#34;;
-	int number{ Random::get(min, max) }; // this is the number the user needs to guess
+	std::cout &lt;&lt; "Let's play a game. I'm thinking of a number between " &lt;&lt; min &lt;&lt; " and " &lt;&lt; max &lt;&lt; ". You have " &lt;&lt; guesses &lt;&lt; " tries to guess what it is.\n";
+	int number{ Random::get(min, max) }; // to jest liczba, którą użytkownik musi odgadnąć
 
-	// Loop through all of the guesses
+	// Przejrzyj wszystkie domysły
 	for (int count{ 1 }; count &lt;= guesses; ++count)
 	{
 		int guess{ getGuess(count, min, max) };
 
 		if (guess &gt; number)
-			std::cout &lt;&lt; &#34;Your guess is too high.\n&#34;;
+			std::cout &lt;&lt; "Your guess is too high.\n";
 		else if (guess &lt; number)
-			std::cout &lt;&lt; &#34;Your guess is too low.\n&#34;;
-		else // guess == number, so the user won
+			std::cout &lt;&lt; "Your guess is too low.\n";
+		else // zgadnij == liczba, więc użytkownik wygrał
 		{
-			std::cout &lt;&lt; &#34;Correct! You win!\n&#34;;
+			std::cout &lt;&lt; "Correct! You win!\n";
 			return true;
 		}
 	}
 
-	// The user lost
-	std::cout &lt;&lt; &#34;Sorry, you lose. The correct number was &#34; &lt;&lt; number &lt;&lt; &#39;\n&#39;;
-	return false; // if the user lost
+	// Użytkownik stracił
+	std::cout &lt;&lt; "Sorry, you lose. The correct number was " &lt;&lt; number &lt;&lt; '\n';
+	return false; // jeśli użytkownik zgubił
 }
 
 bool playAgain()
 {
-	// Keep asking the user if they want to play again until they pick y or n.
+	// Pytaj użytkownika, czy chce zagrać ponownie, dopóki nie wybierze y lub n.
 	while (true)
 	{
 		char ch{};
-		std::cout &lt;&lt; &#34;Would you like to play again (y/n)? &#34;;
+		std::cout &lt;&lt; "Would you like to play again (y/n)? ";
 		std::cin &gt;&gt; ch;
 
-		// clear out any extraneous input
-		std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), &#39;\n&#39;);
+		// usuń wszelkie niepotrzebne dane wejściowe
+		std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), '\n');
         
 		switch (ch)
 		{
-		case &#39;y&#39;: return true;
-		case &#39;n&#39;: return false;
+		case 'y': return true;
+		case 'n': return false;
 		}
 	}
 }
 
 int main()
 {
-	constexpr int guesses { 7 }; // the user has this many guesses
+	constexpr int guesses { 7 }; // użytkownik ma tyle domysłów
 	constexpr int min     { 1 };
 	constexpr int max     { 100 };
 
@@ -96,7 +96,7 @@ int main()
 		playHiLo(guesses, min, max);
 	} while (playAgain());
 
-	std::cout &lt;&lt; &#34;Thank you for playing.\n&#34;;
+	std::cout &lt;&lt; "Thank you for playing.\n";
 
 	return 0;
 }</code></pre></div><div class=prevnext><div class=prevnext-inline><a class=nav-link href="../implicit-type-conversion/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>10.1</span>Niejawna konwersja typu</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../assert-and-static_assert/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>9.6</span>Assert i static_assert</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/chapter-9-summary-and-quiz/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../constexpr-variables/index.html" rel=prev><span>5.6 -- Zmienne Constexpr</span></a></div><div class=nav-next><em>Następny post</em><a href="../global-random-numbers-random-h/index.html" rel=next><span>8.15 — Global liczby losowe (Losowe.h)</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>

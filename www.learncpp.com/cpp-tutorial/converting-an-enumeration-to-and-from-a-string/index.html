@@ -59,7 +59,7 @@ int main()
 
     return 0;
 }</code></pre><p>Wypisuje:<pre>Your shirt is blue
-</pre><p>W powyższym przykładzie włączamy <code>color</code>, który przechowuje przekazany przez nas moduł wyliczający. Wewnątrz przełącznika znajduje się etykieta wielkości liter dla każdego modułu wyliczającego <code>Color</code>. Każdy przypadek zwraca nazwę odpowiedniego koloru jako literał ciągu w stylu C. Ten literał ciągu w stylu C jest niejawnie konwertowany na a <code>std::string_view</code>, który jest zwracany do obiektu wywołującego. Mamy także domyślny przypadek, który zwraca <code>"???"</code>, na wypadek, gdyby użytkownik przekazał coś, czego się nie spodziewaliśmy.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Przypomnienie<p>Ponieważ w całym programie istnieją literały łańcuchowe w stylu C, można zwrócić <code>std::string_view</code> który przegląda literał łańcuchowy w stylu C. Kiedy <code>std::string_view</code> zostanie skopiowany z powrotem do wywołującego, przeglądany literał łańcuchowy w stylu C będzie nadal istniał.</div><p>Funkcja to constexpr, dzięki czemu możemy użyć nazwy koloru w wyrażeniu stałym.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Powiązana treść<p>Funkcje Constexpr zostały omówione w lekcji <a href="../constexpr-functions/index.html">F.1 -- Funkcje Constexpr</a>.</div><p>Chociaż pozwala nam to uzyskać nazwę modułu wyliczającego, jeśli chcemy wydrukować tę nazwę na konsoli, musimy zrobić <code>std::cout &lt;&lt; getColorName(shirt)</code> nie jest tak miłe jak  <code>std::cout &lt;&lt; shirt</code>. W następnej lekcji nauczymy <code>std::cout</code> jak wydrukować wyliczenie <a href="../introduction-to-overloading-the-i-o-operators/index.html">13.5 — Wprowadzenie do przeciążania operatorów I/O</a>.<p>Drugim sposobem rozwiązania programu mapującego wyliczacze na ciągi znaków jest użycie tablicy. Omówiliśmy to w lekcji <a href="../stdarray-and-enumerations/index.html">17.6 — std::array i wyliczenia</a>.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Wprowadzanie danych przez moduł wyliczający bez zakresu<p>Przyjrzyjmy się teraz przypadkowi wejściowemu. W poniższym przykładzie definiujemy <code>Pet</code> wyliczenie. Ponieważ  <code>Pet</code> jest typem zdefiniowanym przez program, język nie wie, jak wprowadzić <code>Pet</code> za pomocą <code>std::cin</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+</pre><p>W powyższym przykładzie włączamy <code>color</code>, który przechowuje przekazany przez nas moduł wyliczający. Wewnątrz przełącznika znajduje się etykieta wielkości liter dla każdego modułu wyliczającego <code>Color</code>. Każdy przypadek zwraca nazwę odpowiedniego koloru jako literał ciągu w stylu C. Ten literał ciągu w stylu C jest niejawnie konwertowany na <code>std::string_view</code>, który jest zwracany do obiektu wywołującego. Mamy także domyślny przypadek, który zwraca <code>"???"</code>, na wypadek, gdyby użytkownik przekazał coś, czego się nie spodziewaliśmy.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Przypomnienie<p>Ponieważ w całym programie istnieją literały łańcuchowe w stylu C, można zwrócić <code>std::string_view</code> który przegląda literał łańcuchowy w stylu C. Kiedy <code>std::string_view</code> zostanie skopiowany z powrotem do wywołującego, przeglądany literał łańcuchowy w stylu C będzie nadal istniał.</div><p>Funkcja to constexpr, dzięki czemu możemy użyć nazwy koloru w wyrażeniu stałym.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Powiązana treść<p>Funkcje Constexpr zostały omówione w lekcji <a href="../constexpr-functions/index.html">F.1 -- Funkcje Constexpr</a>.</div><p>Chociaż pozwala nam to uzyskać nazwę modułu wyliczającego, jeśli chcemy wydrukować tę nazwę na konsoli, musimy zrobić <code>std::cout &lt;&lt; getColorName(shirt)</code> nie jest tak miłe jak  <code>std::cout &lt;&lt; shirt</code>. W następnej lekcji nauczymy <code>std::cout</code> jak wydrukować wyliczenie <a href="../introduction-to-overloading-the-i-o-operators/index.html">13.5 — Wprowadzenie do przeciążania operatorów I/O</a>.<p>Drugim sposobem rozwiązania programu mapującego wyliczacze na ciągi znaków jest użycie tablicy. Omówiliśmy to w lekcji <a href="../stdarray-and-enumerations/index.html">17.6 — std::array i wyliczenia</a>.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Wprowadzanie danych przez moduł wyliczający bez zakresu<p>Przyjrzyjmy się teraz przypadkowi wejściowemu. W poniższym przykładzie definiujemy <code>Pet</code> wyliczenie. Ponieważ  <code>Pet</code> jest typem zdefiniowanym przez program, język nie wie, jak wprowadzić <code>Pet</code> za pomocą <code>std::cin</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 enum Pet
 {
@@ -72,7 +72,7 @@ enum Pet
 int main()
 {
     Pet pet { pig };
-    std::cin &gt;&gt; pet; // compile error: std::cin doesn&#39;t know how to input a Pet
+    std::cin &gt;&gt; pet; // błąd kompilacji: std::cin nie wie, jak wprowadzić Pet
 
     return 0;
 }</code></pre><p>Prostym sposobem obejścia tego problemu jest wczytanie liczby całkowitej i użycie <code>static_cast</code> do przekształcenia liczby całkowitej na moduł wyliczający odpowiedniego typu wyliczeniowego:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -90,32 +90,32 @@ constexpr std::string_view getPetName(Pet pet)
 {
     switch (pet)
     {
-    case cat:   return &#34;cat&#34;;
-    case dog:   return &#34;dog&#34;;
-    case pig:   return &#34;pig&#34;;
-    case whale: return &#34;whale&#34;;
-    default:    return &#34;???&#34;;
+    case cat:   return "cat";
+    case dog:   return "dog";
+    case pig:   return "pig";
+    case whale: return "whale";
+    default:    return "???";
     }
 }
 
 int main()
 {
-    std::cout &lt;&lt; &#34;Enter a pet (0=cat, 1=dog, 2=pig, 3=whale): &#34;;
+    std::cout &lt;&lt; "Enter a pet (0=cat, 1=dog, 2=pig, 3=whale): ";
 
     int input{};
-    std::cin &gt;&gt; input; // input an integer
+    std::cin &gt;&gt; input; // wprowadzenie liczby całkowitej
 
     if (input &lt; 0 || input &gt; 3)
-        std::cout &lt;&lt; &#34;You entered an invalid pet\n&#34;;
+        std::cout &lt;&lt; "You entered an invalid pet\n";
     else
     {
-        Pet pet{ static_cast&lt;Pet&gt;(input) }; // static_cast our integer to a Pet
-        std::cout &lt;&lt; &#34;You entered: &#34; &lt;&lt; getPetName(pet) &lt;&lt; &#39;\n&#39;;
+        Pet pet{ static_cast&lt;Pet&gt;(input) }; // static_cast naszą liczbę całkowitą do Pet
+        std::cout &lt;&lt; "You entered: " &lt;&lt; getPetName(pet) &lt;&lt; '\n';
     }
 
     return 0;
 }</code></pre><p>Chociaż to działa, jest trochę niewygodne. Należy również pamiętać, że powinniśmy  <code>static_cast&lt;Pet>(input)</code> gdy wiemy, że <code>input</code> znajduje się w zakresie modułu wyliczającego.<p class="cpp-section cpp-topline" style=clear:both>Uzyskiwanie wyliczenia z ciągu znaków<p>Zamiast wprowadzać liczbę, byłoby lepiej, gdyby użytkownik mógł wpisać ciąg znaków reprezentujący moduł wyliczający (np. „świnia”) i moglibyśmy przekonwertować ten ciąg na odpowiedni <code>Pet</code> licznik. Jednakże wymaga to od nas rozwiązania kilku wyzwań.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>Po pierwsze, nie możemy włączyć ciągu znaków, więc musimy użyć czegoś innego, aby dopasować ciąg znaków przekazany przez użytkownika. Najprostszym podejściem jest tutaj użycie serii instrukcji if.<p>Po drugie, jaki <code>Pet</code> enumerator powinniśmy zwrócić, jeśli użytkownik przekaże nieprawidłowy ciąg? Jedną z opcji byłoby dodanie modułu wyliczającego reprezentującego „brak/nieprawidłowy” i zwrócenie go. Jednak lepszą opcją jest użycie <code>std::optional</code> tutaj.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Powiązana treść<p>Omawiamy <code>std::optional</code> w lekcji <a href="../stdoptional/index.html">12.15 -- std::opcjonalne</a>.</div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
-#include &lt;optional&gt; // for std::optional
+#include &lt;optional&gt; // dla std::opcjonalne
 #include &lt;string&gt;
 #include &lt;string_view&gt;
 
@@ -131,48 +131,48 @@ constexpr std::string_view getPetName(Pet pet)
 {
     switch (pet)
     {
-    case cat:   return &#34;cat&#34;;
-    case dog:   return &#34;dog&#34;;
-    case pig:   return &#34;pig&#34;;
-    case whale: return &#34;whale&#34;;
-    default:    return &#34;???&#34;;
+    case cat:   return "cat";
+    case dog:   return "dog";
+    case pig:   return "pig";
+    case whale: return "whale";
+    default:    return "???";
     }
 }
 
 constexpr std::optional&lt;Pet&gt; getPetFromString(std::string_view sv)
 {
-    // We can only switch on an integral value (or enum), not a string
-    // so we have to use if-statements here
-    if (sv == &#34;cat&#34;)   return cat;
-    if (sv == &#34;dog&#34;)   return dog;
-    if (sv == &#34;pig&#34;)   return pig;
-    if (sv == &#34;whale&#34;) return whale;
+    // Możemy włączyć tylko wartość całkowitą (lub wyliczenie), a nie ciąg znaków
+    // więc musimy tutaj użyć instrukcji if
+    if (sv == "cat")   return cat;
+    if (sv == "dog")   return dog;
+    if (sv == "pig")   return pig;
+    if (sv == "whale") return whale;
     
     return {};
 }
 
 int main()
 {
-    std::cout &lt;&lt; &#34;Enter a pet: cat, dog, pig, or whale: &#34;;
+    std::cout &lt;&lt; "Enter a pet: cat, dog, pig, or whale: ";
     std::string s{};
     std::cin &gt;&gt; s;
         
     std::optional&lt;Pet&gt; pet { getPetFromString(s) };
 
     if (!pet)
-        std::cout &lt;&lt; &#34;You entered an invalid pet\n&#34;;
+        std::cout &lt;&lt; "You entered an invalid pet\n";
     else
-        std::cout &lt;&lt; &#34;You entered: &#34; &lt;&lt; getPetName(*pet) &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; "You entered: " &lt;&lt; getPetName(*pet) &lt;&lt; '\n';
 
     return 0;
-}</code></pre><p>W powyższym rozwiązaniu używamy serii instrukcji if-else do porównywania ciągów. Jeśli ciąg wejściowy użytkownika pasuje do ciągu wyliczającego, zwracamy odpowiedni moduł wyliczający. Jeżeli żaden z ciągów nie pasuje, zwracamy <code>{}</code>, co oznacza „brak wartości”.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Dla zaawansowanych czytelników<p>Zauważ, że powyższe rozwiązanie dopasowuje tylko małe litery. Jeśli chcesz dopasować wielkość liter, możesz użyć następującej funkcji, aby przekonwertować dane wejściowe użytkownika na małe litery:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;algorithm&gt; // for std::transform
-#include &lt;cctype&gt;    // for std::tolower
-#include &lt;iterator&gt;  // for std::back_inserter
+}</code></pre><p>W powyższym rozwiązaniu używamy serii instrukcji if-else do porównywania ciągów. Jeśli ciąg wejściowy użytkownika pasuje do ciągu wyliczającego, zwracamy odpowiedni moduł wyliczający. Jeżeli żaden z ciągów nie pasuje, zwracamy <code>{}</code>, co oznacza „brak wartości”.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Dla zaawansowanych czytelników<p>Zauważ, że powyższe rozwiązanie dopasowuje tylko małe litery. Jeśli chcesz dopasować wielkość liter, możesz użyć następującej funkcji, aby przekonwertować dane wejściowe użytkownika na małe litery:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;algorithm&gt; // dla std::transform
+#include &lt;cctype&gt;    // dla std::tolower
+#include &lt;iterator&gt;  // dla std::back_inserter
 #include &lt;string&gt;
 #include &lt;string_view&gt;
 
-// This function returns a std::string that is the lower-case version of the std::string_view passed in.
-// Only 1:1 character mapping can be performed by this function
+// Ta funkcja zwraca std::string, który jest małą wersją przekazanego std::string_view.
+// Za pomocą tej funkcji można wykonać tylko mapowanie znaków 1:1
 std::string toASCIILowerCase(std::string_view sv)
 {
     std::string lower{};

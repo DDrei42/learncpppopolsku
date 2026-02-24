@@ -13,10 +13,10 @@
 <button class=searchsubmit><span class=screen-reader-text>Szukaj</span><i class=icon-search></i></button>
 <input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=95762></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="12.7 — Wprowadzenie do wskaźników" src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-99 class="post-99 post type-post status-publish format-standard hentry category-cpp-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>12.7 -- Wprowadzenie do wskaźników</h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Autor></i><a class="url fn n" rel=author href=/www.learncpp.com/author/Alex/ title="Wyświetl wszystkie posty Alexa" itemprop=url><em itemprop=name>Alex</em></a></span>
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2007-07-10T18:52:36-07:00 itemprop=datePublished>10 lipca 2007, 18:52 PDT</time>
-<time class=updated datetime=2025-02-07T18:15:10-08:00 itemprop=dateModified>7 lutego 2025</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>Wskaźniki są jedno historycznych straszydeł C++ i miejsce, w którym utknęło wielu aspirujących uczniów C++. Jednakże, jak wkrótce się przekonasz, wskaźników nie należy się bać.<p>W rzeczywistości wskaźniki zachowują się podobnie jak referencje do wartości. Zanim jednak wyjaśnimy to szerzej, dokonajmy pewnych ustawień.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Powiązana treść<p>Jeśli nie masz doświadczenia z referencjami do lwartości lub nie jesteś zaznajomiony z referencjami do wartości, teraz jest dobry moment, aby je przejrzeć. Odniesienia do lwartości omówimy w lekcjach <a href="../lvalue-references/index.html">12.3 -- Odniesienia do wartości</a>, <a href="../lvalue-references-to-const/index.html">12.4 -- Odniesienia do wartości do const</a>, I <a href="../pass-by-lvalue-reference/index.html">12.5 -- Przekazywanie przez lvalue reference</a>.</div><p>Rozważmy zwykłą zmienną, taką jak ta:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">char x {}; // chars use 1 byte of memory</code></pre><p>Trochę upraszczając, gdy kod wygenerowany dla tej definicji zostanie wykonany, fragment pamięci RAM zostanie przypisany do tego obiektu. Dla przykładu załóżmy, że zmiennej <code>x</code> przypisany jest adres pamięci <code>140</code>. Ilekroć używamy zmiennej <code>x</code> w wyrażeniu lub instrukcji, program przejdzie do adresu pamięci <code>140</code> , aby uzyskać dostęp do przechowywanej tam wartości.<p>Fajną rzeczą w zmiennych jest to, że nie musimy się martwić, jakie konkretne adresy pamięci są przypisane lub ile bajtów potrzeba do przechowywania wartości obiektu. Po prostu odwołujemy się do zmiennej po jej podanym identyfikatorze, a kompilator tłumaczy tę nazwę na odpowiednio przypisany adres pamięci. Kompilator zajmuje się całym adresowaniem.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>To samo dotyczy odwołań: <pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
+<time class=updated datetime=2025-02-07T18:15:10-08:00 itemprop=dateModified>7 lutego 2025</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>Wskaźniki są jedno historycznych straszydeł C++ i miejsce, w którym utknęło wielu aspirujących uczniów C++. Jednakże, jak wkrótce się przekonasz, wskaźników nie należy się bać.<p>W rzeczywistości wskaźniki zachowują się podobnie jak referencje do wartości. Zanim jednak wyjaśnimy to szerzej, dokonajmy pewnych ustawień.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Powiązana treść<p>Jeśli nie masz doświadczenia z referencjami do lwartości lub nie jesteś zaznajomiony z referencjami do wartości, teraz jest dobry moment, aby je przejrzeć. Odniesienia do lwartości omówimy w lekcjach <a href="../lvalue-references/index.html">12.3 -- Odniesienia do wartości</a>, <a href="../lvalue-references-to-const/index.html">12.4 -- Odniesienia do wartości do const</a>, I <a href="../pass-by-lvalue-reference/index.html">12.5 -- Przekazywanie przez lvalue reference</a>.</div><p>Rozważmy zwykłą zmienną, taką jak ta:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">char x {}; // znaki zajmują 1 bajt pamięci</code></pre><p>Trochę upraszczając, gdy kod wygenerowany dla tej definicji zostanie wykonany, fragment pamięci RAM zostanie przypisany do tego obiektu. Dla przykładu załóżmy, że zmiennej <code>x</code> przypisany jest adres pamięci <code>140</code>. Ilekroć używamy zmiennej <code>x</code> w wyrażeniu lub instrukcji, program przejdzie do adresu pamięci <code>140</code> , aby uzyskać dostęp do przechowywanej tam wartości.<p>Fajną rzeczą w zmiennych jest to, że nie musimy się martwić, jakie konkretne adresy pamięci są przypisane lub ile bajtów potrzeba do przechowywania wartości obiektu. Po prostu odwołujemy się do zmiennej po jej podanym identyfikatorze, a kompilator tłumaczy tę nazwę na odpowiednio przypisany adres pamięci. Kompilator zajmuje się całym adresowaniem.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>To samo dotyczy odwołań: <pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
-    char x {}; // assume this is assigned memory address 140
-    char&amp; ref { x }; // ref is an lvalue reference to x (when used with a type, &amp; means lvalue reference)
+    char x {}; // załóżmy, że przypisano mu adres pamięci 140
+    char&amp; ref { x }; // ref jest odniesieniem do wartości x (w przypadku użycia z typ, &amp; oznacza odwołanie do lwartości)
 
     return 0;
 }</code></pre><p>Ponieważ <code>ref</code> działa jako alias dla  <code>x</code>, za każdym razem, gdy używamy  <code>ref</code>, program przejdzie do adresu pamięci <code>140</code> , aby uzyskać dostęp do wartości. Ponownie kompilator zajmuje się adresowaniem, abyśmy nie musieli o tym myśleć.<p class="cpp-section cpp-topline" style=clear:both>Operator adresu (&amp;)<p>Chociaż adresy pamięci używane przez zmienne nie są nam domyślnie ujawniane, mamy dostęp do tych informacji.  <strong>adres operatora</strong> (&amp;) zwraca adres pamięci swojego operandu. Jest to całkiem proste:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -24,8 +24,8 @@
 int main()
 {
     int x{ 5 };
-    std::cout &lt;&lt; x &lt;&lt; &#39;\n&#39;;  // print the value of variable x
-    std::cout &lt;&lt; &amp;x &lt;&lt; &#39;\n&#39;; // print the memory address of variable x
+    std::cout &lt;&lt; x &lt;&lt; '\n';  // wydrukuj wartość zmiennej x
+    std::cout &lt;&lt; &amp;x &lt;&lt; '\n'; // wydrukuj adres pamięci zmiennej x
 
     return 0;
 }</code></pre><p>Na maszynie autora powyższy program wypisał:<pre>5
@@ -35,34 +35,34 @@ int main()
 int main()
 {
     int x{ 5 };
-    std::cout &lt;&lt; x &lt;&lt; &#39;\n&#39;;  // print the value of variable x
-    std::cout &lt;&lt; &amp;x &lt;&lt; &#39;\n&#39;; // print the memory address of variable x
+    std::cout &lt;&lt; x &lt;&lt; '\n';  // wydrukuj wartość zmiennej x
+    std::cout &lt;&lt; &amp;x &lt;&lt; '\n'; // wydrukuj adres pamięci zmiennej x
 
-    std::cout &lt;&lt; *(&amp;x) &lt;&lt; &#39;\n&#39;; // print the value at the memory address of variable x (parentheses not required, but make it easier to read)
+    std::cout &lt;&lt; *(&amp;x) &lt;&lt; '\n'; // wydrukuj wartość pod adresem pamięci zmiennej x (nawiasy nie są wymagane, ale ułatwiają odczytanie)
 
     return 0;
 }</code></pre><p>Na maszynie autora powyższy program wypisał:<pre>5
 0027FEA0
 5
-</pre><p>Ten program jest całkiem prosty. Najpierw deklarujemy zmienną <code>x</code> i wypisujemy jej wartość. Następnie wypisujemy adres zmiennej <code>x</code>. Na koniec używamy operatora dereferencji, aby uzyskać wartość znajdującą się pod adresem pamięci zmiennej <code>x</code> (która jest po prostu wartością <code>x</code>), którą wypisujemy na konsolę.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Mając adres pamięci, możemy użyć operatora dereferencji (*), aby uzyskać wartość pod tym adresem (jako lwartość).<p>Operator adresu (&amp;) i operator dereferencji (*) działają na zasadzie przeciwieństw: adres-of pobiera adres obiektu, a dereferencja pobiera obiekt pod adresem.</div><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>Chociaż operator dereferencji wygląda podobnie jak operator mnożenia, można je rozróżnić, ponieważ operator dereferencji jest jednoargumentowy, natomiast operator mnożenia jest binarny.</div><p>Pobieranie adresu pamięci zmiennej, a następnie natychmiast dereferencja do tego adresu w celu uzyskania wartości też nie jest zbyt użyteczna (w końcu możemy po prostu użyć zmiennej, aby uzyskać dostęp do wartości).<p>Ale teraz, gdy mamy dodany do naszych narzędzi operator adresu (&amp;) i operator dereferencji (*), jesteśmy gotowi porozmawiać o wskaźnikach.<p class="cpp-section cpp-topline" style=clear:both>Wskaźniki<p>A <strong>wskaźnik</strong> jest obiektem, który przechowuje <em>adres pamięci</em> (zazwyczaj innej zmiennej) jako ich wartość. Dzięki temu możemy przechowywać adres innego obiektu do późniejszego wykorzystania.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Na marginesie…<p>We współczesnym C++ wskaźniki, o których tu mówimy, są czasami nazywane „surowymi wskaźnikami” lub „głupimi wskaźnikami”, aby pomóc odróżnić je od „inteligentnych wskaźników”, które zostały wprowadzone do języka niedawno. Inteligentne wskaźniki opisujemy w  <a href=https://www.learncpp.com#Chapter22>rozdziale 22</a>.</div><p>Typ określający wskaźnik (np.  <code>int*</code>) nazywany jest <strong>typem wskaźnika</strong>. Podobnie jak typy referencyjne deklaruje się za pomocą znaku ampersand (&amp;), typy wskaźników deklaruje się za pomocą gwiazdki (*):<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int;  // a normal int
-int&amp;; // an lvalue reference to an int value
+</pre><p>Ten program jest całkiem prosty. Najpierw deklarujemy zmienną <code>x</code> i wypisujemy jej wartość. Następnie wypisujemy adres zmiennej <code>x</code>. Na koniec używamy operatora dereferencji, aby uzyskać wartość znajdującą się pod adresem pamięci zmiennej <code>x</code> (która jest po prostu wartością <code>x</code>), którą wypisujemy na konsolę.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Mając adres pamięci, możemy użyć operatora dereferencji (*), aby uzyskać wartość pod tym adresem (jako lwartość).<p>Operator adresu (&amp;) i operator dereferencji (*) działają na zasadzie przeciwieństw: adres-of pobiera adres obiektu, a dereferencja pobiera obiekt pod adresem.</div><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>Chociaż operator dereferencji wygląda podobnie jak operator mnożenia, można je rozróżnić, ponieważ operator dereferencji jest jednoargumentowy, natomiast operator mnożenia jest binarny.</div><p>Pobieranie adresu pamięci zmiennej, a następnie natychmiast dereferencja do tego adresu w celu uzyskania wartości też nie jest zbyt użyteczna (w końcu możemy po prostu użyć zmiennej, aby uzyskać dostęp do wartości).<p>Ale teraz, gdy mamy dodany do naszych narzędzi operator adresu (&amp;) i operator dereferencji (*), jesteśmy gotowi porozmawiać o wskaźnikach.<p class="cpp-section cpp-topline" style=clear:both>Wskaźniki<p><strong>wskaźnik</strong> jest obiektem, który przechowuje <em>adres pamięci</em> (zazwyczaj innej zmiennej) jako ich wartość. Dzięki temu możemy przechowywać adres innego obiektu do późniejszego wykorzystania.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Na marginesie…<p>We współczesnym C++ wskaźniki, o których tu mówimy, są czasami nazywane „surowymi wskaźnikami” lub „głupimi wskaźnikami”, aby pomóc odróżnić je od „inteligentnych wskaźników”, które zostały wprowadzone do języka niedawno. Inteligentne wskaźniki opisujemy w  <a href=https://www.learncpp.com#Chapter22>rozdziale 22</a>.</div><p>Typ określający wskaźnik (np.  <code>int*</code>) nazywany jest <strong>typem wskaźnika</strong>. Podobnie jak typy referencyjne deklaruje się za pomocą znaku ampersand (&amp;), typy wskaźników deklaruje się za pomocą gwiazdki (*):<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int;  // a normal int
+int&amp;; // odniesienie do wartości typu int
 
-int*; // a pointer to an int value (holds the address of an integer value)</code></pre><p>Aby utworzyć zmienną wskaźnikową, po prostu definiujemy zmienną za pomocą typu wskaźnika:<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
+int*; // wskaźnik na wartość int (przechowuje adres wartości całkowitej)</code></pre><p>Aby utworzyć zmienną wskaźnikową, po prostu definiujemy zmienną za pomocą typu wskaźnika:<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
     int x { 5 };    // normal variable
-    int&amp; ref { x }; // a reference to an integer (bound to x)
+    int&amp; ref { x }; // odniesienie do liczby całkowitej (powiązanej z x)
 
-    int* ptr;       // a pointer to an integer
+    int* ptr;       // wskaźnik na liczbę całkowitą
 
     return 0;
-}</code></pre><p>Zauważ, że ta gwiazdka jest częścią składni deklaracji wskaźników, a nie użyciem operatora dereferencji.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Podczas deklarowania typu wskaźnika umieść gwiazdkę obok do nazwy typu.</div><div class="cpp-note cpp-lightredbackground"><p class="cpp-note-title cpp-bottomline">Ostrzeżenie<p>Chociaż generalnie nie należy deklarować wielu zmiennych w jednym wierszu, jeśli to zrobisz, przy każdej zmiennej należy umieścić gwiazdkę.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int* ptr1, ptr2;   // incorrect: ptr1 is a pointer to an int, but ptr2 is just a plain int!
-int* ptr3, * ptr4; // correct: ptr3 and ptr4 are both pointers to an int</code></pre><p>Chociaż jest to czasami używane jako argument, aby nie umieszczać gwiazdki przy nazwie typu (zamiast umieszczać ją obok nazwy zmiennej), jest to lepszy argument za unikaniem definiowania wielu zmiennych w tej samej instrukcji.</div><p class="cpp-section cpp-topline" style=clear:both>Wskaźnik inicjalizacja<p>Podobnie jak zwykłe zmienne, wskaźniki są  <em>nie</em> domyślnie inicjowane. Wskaźnik, który nie został zainicjowany, nazywany jest czasem  <strong>wskaźnikiem dzikim</strong>. Wskaźniki typu Wild zawierają adres śmieci, a wyłuskanie wskaźnika typu Wild spowoduje niezdefiniowane zachowanie. Z tego powodu powinieneś zawsze inicjować swoje wskaźniki znaną wartością.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Zawsze inicjuj swoje wskaźniki.</div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
+}</code></pre><p>Zauważ, że ta gwiazdka jest częścią składni deklaracji wskaźników, a nie użyciem operatora dereferencji.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Podczas deklarowania typu wskaźnika umieść gwiazdkę obok do nazwy typu.</div><div class="cpp-note cpp-lightredbackground"><p class="cpp-note-title cpp-bottomline">Ostrzeżenie<p>Chociaż generalnie nie należy deklarować wielu zmiennych w jednym wierszu, jeśli to zrobisz, przy każdej zmiennej należy umieścić gwiazdkę.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int* ptr1, ptr2;   // niepoprawnie: ptr1 to wskaźnik do int, ale ptr2 to zwykła int!
+int* ptr3, * ptr4; // poprawne: ptr3 i ptr4 są wskaźnikami do odpowiedniej funkcji int</code></pre><p>Chociaż jest to czasami używane jako argument, aby nie umieszczać gwiazdki przy nazwie typu (zamiast umieszczać ją obok nazwy zmiennej), jest to lepszy argument za unikaniem definiowania wielu zmiennych w tej samej instrukcji.</div><p class="cpp-section cpp-topline" style=clear:both>Wskaźnik inicjalizacja<p>Podobnie jak zwykłe zmienne, wskaźniki są  <em>nie</em> domyślnie inicjowane. Wskaźnik, który nie został zainicjowany, nazywany jest czasem  <strong>wskaźnikiem dzikim</strong>. Wskaźniki typu Wild zawierają adres śmieci, a wyłuskanie wskaźnika typu Wild spowoduje niezdefiniowane zachowanie. Z tego powodu powinieneś zawsze inicjować swoje wskaźniki znaną wartością.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Zawsze inicjuj swoje wskaźniki.</div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
     int x{ 5 };
 
-    int* ptr;        // an uninitialized pointer (holds a garbage address)
-    int* ptr2{};     // a null pointer (we&#39;ll discuss these in the next lesson)
-    int* ptr3{ &amp;x }; // a pointer initialized with the address of variable x
+    int* ptr;        // an niezainicjowany wskaźnik (zawiera adres śmieciowy)
+    int* ptr2{};     // wskaźnik zerowy (omówimy to w następnym lekcja)
+    int* ptr3{ &amp;x }; // wskaźnik zainicjowany adresem zmiennej x
 
     return 0;
 }</code></pre><p>Ponieważ wskaźniki przechowują adresy, kiedy inicjujemy lub przypisujemy wartość do wskaźnika, ta wartość musi być adresem. Zwykle wskaźniki służą do przechowywania adresu innej zmiennej (który możemy uzyskać za pomocą operatora adresu (&amp;)).<p>Gdy już mamy wskaźnik przechowujący adres innego obiektu, możemy użyć operatora dereferencji (*), aby uzyskać dostęp do wartości pod tym adresem. Na przykład: <pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -70,10 +70,10 @@ int* ptr3, * ptr4; // correct: ptr3 and ptr4 are both pointers to an int</code><
 int main()
 {
     int x{ 5 };
-    std::cout &lt;&lt; x &lt;&lt; &#39;\n&#39;; // print the value of variable x
+    std::cout &lt;&lt; x &lt;&lt; '\n'; // wydrukuj wartość zmiennej x
 
-    int* ptr{ &amp;x }; // ptr holds the address of x
-    std::cout &lt;&lt; *ptr &lt;&lt; &#39;\n&#39;; // use dereference operator to print the value at the address that ptr is holding (which is x&#39;s address)
+    int* ptr{ &amp;x }; // ptr przechowuje adres x
+    std::cout &lt;&lt; *ptr &lt;&lt; '\n'; // użyj operatora dereferencji, aby wydrukować wartość pod adresem, który przechowuje ptr (który jest adresem x)
 
     return 0;
 }</code></pre><p>Wypisuje:<pre>5
@@ -83,26 +83,26 @@ int main()
     int i{ 5 };
     double d{ 7.0 };
 
-    int* iPtr{ &amp;i };     // ok: a pointer to an int can point to an int object
-    int* iPtr2 { &amp;d };   // not okay: a pointer to an int can&#39;t point to a double object
-    double* dPtr{ &amp;d };  // ok: a pointer to a double can point to a double object
-    double* dPtr2{ &amp;i }; // not okay: a pointer to a double can&#39;t point to an int object
+    int* iPtr{ &amp;i };     // ok: wskaźnik do typu int może wskazywać na obiekt typu int
+    int* iPtr2 { &amp;d };   // nie w porządku: wskaźnik do obiektu typu int nie może wskazywać na obiekt double
+    double* dPtr{ &amp;d };  // ok: wskaźnik do obiektu typu double może wskazywać na obiekt typu double
+    double* dPtr2{ &amp;i }; // nie w porządku: wskaźnik do obiektu double nie może wskazywać na obiekt int
 
     return 0;
-}</code></pre><p>Z jednym wyjątkiem, który omówimy w następnej lekcji, inicjowanie wskaźnika wartością dosłowną jest niedozwolone:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int* ptr{ 5 }; // not okay
-int* ptr{ 0x0012FF7C }; // not okay, 0x0012FF7C is treated as an integer literal</code></pre><p class="cpp-section cpp-topline" style=clear:both>Wskaźniki i przypisanie<p>Przypisania ze wskaźnikami możemy używać na dwa różne sposoby:<ol start=1><li>Aby zmienić to, na co wskazuje wskaźnik (poprzez przypisanie wskaźnikowi nowego adresu)<li>Aby zmienić wskazywaną wartość (poprzez przypisanie wyłuskanemu wskaźnikowi nowej wartości)</ol><p>Najpierw przyjrzyjmy się przypadkowi, w którym wskaźnik zostaje zmieniony tak, aby wskazywał inny obiekt:<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+}</code></pre><p>Z jednym wyjątkiem, który omówimy w następnej lekcji, inicjowanie wskaźnika wartością dosłowną jest niedozwolone:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int* ptr{ 5 }; // nie w porządku
+int* ptr{ 0x0012FF7C }; // nie w porządku, 0x0012FF7C jest traktowane jako literał całkowity</code></pre><p class="cpp-section cpp-topline" style=clear:both>Wskaźniki i przypisanie<p>Przypisania ze wskaźnikami możemy używać na dwa różne sposoby:<ol start=1><li>Aby zmienić to, na co wskazuje wskaźnik (poprzez przypisanie wskaźnikowi nowego adresu)<li>Aby zmienić wskazywaną wartość (poprzez przypisanie wyłuskanemu wskaźnikowi nowej wartości)</ol><p>Najpierw przyjrzyjmy się przypadkowi, w którym wskaźnik zostaje zmieniony tak, aby wskazywał inny obiekt:<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 int main()
 {
     int x{ 5 };
-    int* ptr{ &amp;x }; // ptr initialized to point at x
+    int* ptr{ &amp;x }; // ptr zainicjowany tak, aby wskazywał x
 
-    std::cout &lt;&lt; *ptr &lt;&lt; &#39;\n&#39;; // print the value at the address being pointed to (x&#39;s address)
+    std::cout &lt;&lt; *ptr &lt;&lt; '\n'; // wydrukuj wartość pod wskazanym adresem (adres x)
 
     int y{ 6 };
-    ptr = &amp;y; // // change ptr to point at y
+    ptr = &amp;y; // // zmień ptr na punkt y
 
-    std::cout &lt;&lt; *ptr &lt;&lt; &#39;\n&#39;; // print the value at the address being pointed to (y&#39;s address)
+    std::cout &lt;&lt; *ptr &lt;&lt; '\n'; // wydrukuj wartość pod adresem adres wskazywany (adres y)
 
     return 0;
 }</code></pre><p>Powyższe wypisuje:<pre>5
@@ -112,15 +112,15 @@ int main()
 int main()
 {
     int x{ 5 };
-    int* ptr{ &amp;x }; // initialize ptr with address of variable x
+    int* ptr{ &amp;x }; // zainicjuj ptr adresu zmiennej x
 
-    std::cout &lt;&lt; x &lt;&lt; &#39;\n&#39;;    // print x&#39;s value
-    std::cout &lt;&lt; *ptr &lt;&lt; &#39;\n&#39;; // print the value at the address that ptr is holding (x&#39;s address)
+    std::cout &lt;&lt; x &lt;&lt; '\n';    // wydrukuj wartość x
+    std::cout &lt;&lt; *ptr &lt;&lt; '\n'; // wydrukuj wartość pod adresem, który przechowuje ptr (adres x)
 
-    *ptr = 6; // The object at the address held by ptr (x) assigned value 6 (note that ptr is dereferenced here)
+    *ptr = 6; // Obiekt pod adresem trzymanym przez ptr (x) ma przypisaną wartość 6 (zwróć uwagę, że ptr jest tutaj wyłuskiwany)
 
-    std::cout &lt;&lt; x &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; *ptr &lt;&lt; &#39;\n&#39;; // print the value at the address that ptr is holding (x&#39;s address)
+    std::cout &lt;&lt; x &lt;&lt; '\n';
+    std::cout &lt;&lt; *ptr &lt;&lt; '\n'; // wydrukuj wartość pod adresem, który przechowuje ptr (adres x)
 
     return 0;
 }</code></pre><p>Ten program wypisuje:<pre>5
@@ -132,22 +132,22 @@ int main()
 int main()
 {
     int x{ 5 };
-    int&amp; ref { x };  // get a reference to x
-    int* ptr { &amp;x }; // get a pointer to x
+    int&amp; ref { x };  // pobierz referencję do x
+    int* ptr { &amp;x }; // pobierz wskaźnik do x
 
     std::cout &lt;&lt; x;
-    std::cout &lt;&lt; ref;  // use the reference to print x&#39;s value (5)
-    std::cout &lt;&lt; *ptr &lt;&lt; &#39;\n&#39;; // use the pointer to print x&#39;s value (5)
+    std::cout &lt;&lt; ref;  // użyj odnośnika, aby wydrukować wartość x (5)
+    std::cout &lt;&lt; *ptr &lt;&lt; '\n'; // użyj wskaźnika, aby wydrukować wartość x (5)
 
-    ref = 6; // use the reference to change the value of x
+    ref = 6; // użyj odnośnika, aby zmienić wartość x
     std::cout &lt;&lt; x;
-    std::cout &lt;&lt; ref;  // use the reference to print x&#39;s value (6)
-    std::cout &lt;&lt; *ptr &lt;&lt; &#39;\n&#39;; // use the pointer to print x&#39;s value (6)
+    std::cout &lt;&lt; ref;  // użyj odnośnika, aby wydrukować wartość x (6)
+    std::cout &lt;&lt; *ptr &lt;&lt; '\n'; // użyj wskaźnika, aby wydrukować wartość x (6)
 
-    *ptr = 7; // use the pointer to change the value of x
+    *ptr = 7; // użyj wskaźnika, aby zmienić wartość x
     std::cout &lt;&lt; x;
-    std::cout &lt;&lt; ref;  // use the reference to print x&#39;s value (7)
-    std::cout &lt;&lt; *ptr &lt;&lt; &#39;\n&#39;; // use the pointer to print x&#39;s value (7)
+    std::cout &lt;&lt; ref;  // użyj odnośnika, aby wydrukować wartość x (7)
+    std::cout &lt;&lt; *ptr &lt;&lt; '\n'; // użyj wskaźnika, aby wydrukować wartość x (7)
 
     return 0;
 }</code></pre><p>Ten program wypisuje:<pre>555
@@ -159,23 +159,23 @@ int main()
 int main()
 {
 	int x{ 4 };
-	std::cout &lt;&lt; typeid(x).name() &lt;&lt; &#39;\n&#39;;  // print the type of x
-	std::cout &lt;&lt; typeid(&amp;x).name() &lt;&lt; &#39;\n&#39;; // print the type of &amp;x
+	std::cout &lt;&lt; typeid(x).name() &lt;&lt; '\n';  // wydrukuj typ x
+	std::cout &lt;&lt; typeid(&amp;x).name() &lt;&lt; '\n'; // wydrukuj typ &amp;x
 
 	return 0;
 }</code></pre><p>W Visual Studio wyświetliło się:<pre>int
 int *
 </pre><p>W przypadku gcc zamiast tego zostanie wydrukowane <code>i</code> (int) i <code>pi</code> (wskaźnik do int). Ponieważ wynik typeid().name() jest zależny od kompilatora, Twój kompilator może wydrukować coś innego, ale będzie to miało to samo znaczenie.<p class="cpp-section cpp-topline" style=clear:both>Rozmiar wskaźników<p>Rozmiar wskaźnika zależy od architektury, dla której plik wykonywalny jest skompilowany — 32-bitowy plik wykonywalny używa 32-bitowych adresów pamięci — w związku z tym wskaźnik na maszynie 32-bitowej ma 32 bity (4 bajty). W przypadku 64-bitowego pliku wykonywalnego wskaźnik będzie miał 64 bity (8 bajtów). Należy pamiętać, że dzieje się tak niezależnie od wielkości wskazywanego obiektu:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-int main() // assume a 32-bit application
+int main() // załóżmy, że jest to aplikacja 32-bitowa
 {
-    char* chPtr{};        // chars are 1 byte
-    int* iPtr{};          // ints are usually 4 bytes
-    long double* ldPtr{}; // long doubles are usually 8 or 12 bytes
+    char* chPtr{};        // znaki mają 1 bajt
+    int* iPtr{};          // intły mają zwykle 4 bajty
+    long double* ldPtr{}; // długie dublety mają zwykle 8 lub 12 bajtów
 
-    std::cout &lt;&lt; sizeof(chPtr) &lt;&lt; &#39;\n&#39;; // prints 4
-    std::cout &lt;&lt; sizeof(iPtr) &lt;&lt; &#39;\n&#39;;  // prints 4
-    std::cout &lt;&lt; sizeof(ldPtr) &lt;&lt; &#39;\n&#39;; // prints 4
+    std::cout &lt;&lt; sizeof(chPtr) &lt;&lt; '\n'; // prints 4
+    std::cout &lt;&lt; sizeof(iPtr) &lt;&lt; '\n';  // prints 4
+    std::cout &lt;&lt; sizeof(ldPtr) &lt;&lt; '\n'; // prints 4
 
     return 0;
 }</code></pre><p>Rozmiar wskaźnika jest zawsze taki sam. Dzieje się tak dlatego, że wskaźnik jest po prostu adresem pamięci, a liczba bitów potrzebnych do uzyskania dostępu do adresu pamięci jest stała.<p class="cpp-section cpp-topline" style=clear:both>Wiszące wskaźniki<p>Podobnie jak odwołanie wiszące,  <strong>wskaźnikiem wiszącym</strong> to wskaźnik przechowujący adres obiektu, który nie jest już ważny (np. ponieważ został zniszczony).<p>Wyłuskiwanie wskaźnika wiszącego (np. w celu wydrukowania wskazywanej wartości) doprowadzi do niezdefiniowanego zachowania podczas próby dostępu do obiektu, który nie jest już ważny.<p>Być może zaskakujące, jak mówi norma „Każde inne użycie nieprawidłowego wskaźnika <em>wartości</em> ma zachowanie zdefiniowane w implementacji”. Oznacza to, że możesz przypisać nieprawidłowemu wskaźnikowi nową wartość, np. nullptr (ponieważ nie spowoduje to użycia wartości nieprawidłowego wskaźnika). Jednakże wszelkie inne operacje wykorzystujące wartość nieprawidłowego wskaźnika (takie jak kopiowanie lub zwiększanie nieprawidłowego wskaźnika) spowodują zachowanie zdefiniowane w implementacji.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Wyłuskanie nieprawidłowego wskaźnika doprowadzi do niezdefiniowanego zachowania. Każde inne użycie nieprawidłowej wartości wskaźnika jest zdefiniowane w implementacji.</div><p>Oto przykład tworzenia wiszącego wskaźnika:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -185,16 +185,16 @@ int main()
     int x{ 5 };
     int* ptr{ &amp;x };
 
-    std::cout &lt;&lt; *ptr &lt;&lt; &#39;\n&#39;; // valid
+    std::cout &lt;&lt; *ptr &lt;&lt; '\n'; // valid
 
     {
         int y{ 6 };
         ptr = &amp;y;
 
-        std::cout &lt;&lt; *ptr &lt;&lt; &#39;\n&#39;; // valid
-    } // y goes out of scope, and ptr is now dangling
+        std::cout &lt;&lt; *ptr &lt;&lt; '\n'; // valid
+    } // y wychodzi poza zakres, a ptr jest teraz zwisający
 
-    std::cout &lt;&lt; *ptr &lt;&lt; &#39;\n&#39;; // undefined behavior from dereferencing a dangling pointer
+    std::cout &lt;&lt; *ptr &lt;&lt; '\n'; // niezdefiniowane zachowanie w wyniku wyłuskiwania wiszącego wskaźnika
 
     return 0;
 }</code></pre><p>Powyższy program prawdopodobnie wyświetli:<pre>5
@@ -204,35 +204,35 @@ int main()
 
 int main()
 {
-	short value{ 7 }; // &amp;value = 0012FF60
+	short value{ 7 }; // &amp;wartość = 0012FF60
 	short otherValue{ 3 }; // &amp;otherValue = 0012FF54
 
 	short* ptr{ &amp;value };
 
-	std::cout &lt;&lt; &amp;value &lt;&lt; &#39;\n&#39;;
-	std::cout &lt;&lt; value &lt;&lt; &#39;\n&#39;;
-	std::cout &lt;&lt; ptr &lt;&lt; &#39;\n&#39;;
-	std::cout &lt;&lt; *ptr &lt;&lt; &#39;\n&#39;;
-	std::cout &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; &amp;value &lt;&lt; '\n';
+	std::cout &lt;&lt; value &lt;&lt; '\n';
+	std::cout &lt;&lt; ptr &lt;&lt; '\n';
+	std::cout &lt;&lt; *ptr &lt;&lt; '\n';
+	std::cout &lt;&lt; '\n';
 
 	*ptr = 9;
 
-	std::cout &lt;&lt; &amp;value &lt;&lt; &#39;\n&#39;;
-	std::cout &lt;&lt; value &lt;&lt; &#39;\n&#39;;
-	std::cout &lt;&lt; ptr &lt;&lt; &#39;\n&#39;;
-	std::cout &lt;&lt; *ptr &lt;&lt; &#39;\n&#39;;
-	std::cout &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; &amp;value &lt;&lt; '\n';
+	std::cout &lt;&lt; value &lt;&lt; '\n';
+	std::cout &lt;&lt; ptr &lt;&lt; '\n';
+	std::cout &lt;&lt; *ptr &lt;&lt; '\n';
+	std::cout &lt;&lt; '\n';
 
 	ptr = &amp;otherValue;
 
-	std::cout &lt;&lt; &amp;otherValue &lt;&lt; &#39;\n&#39;;
-	std::cout &lt;&lt; otherValue &lt;&lt; &#39;\n&#39;;
-	std::cout &lt;&lt; ptr &lt;&lt; &#39;\n&#39;;
-	std::cout &lt;&lt; *ptr &lt;&lt; &#39;\n&#39;;
-	std::cout &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; &amp;otherValue &lt;&lt; '\n';
+	std::cout &lt;&lt; otherValue &lt;&lt; '\n';
+	std::cout &lt;&lt; ptr &lt;&lt; '\n';
+	std::cout &lt;&lt; *ptr &lt;&lt; '\n';
+	std::cout &lt;&lt; '\n';
 
-	std::cout &lt;&lt; sizeof(ptr) &lt;&lt; &#39;\n&#39;;
-	std::cout &lt;&lt; sizeof(*ptr) &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; sizeof(ptr) &lt;&lt; '\n';
+	std::cout &lt;&lt; sizeof(*ptr) &lt;&lt; '\n';
 
 	return 0;
 }</code></pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_0 style=display:none><pre>0012FF60
@@ -253,10 +253,10 @@ int main()
 4
 2
 </pre><p>Krótkie wyjaśnienie dotyczące 4 i 2. Maszyna 32-bitowa oznacza, że ​​wskaźniki będą miały długość 32 bitów, ale sizeof() zawsze wypisuje rozmiar w bajtach. 32 bity to 4 bajty. Zatem <code>sizeof(ptr)</code> wynosi 4. Ponieważ <code>ptr</code> jest wskaźnikiem do zwarcia, <code>*ptr</code> jest zwarciem. Rozmiar skrótu w tym przykładzie wynosi 2 bajty. Zatem <code>sizeof(*ptr)</code> wynosi 2.</div><p class="cpp-quiz-question cpp-topline" style=clear:both>Pytanie nr 2<p>Co jest nie tak z tym fragmentem kodu?<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int v1{ 45 };
-int* ptr{ &amp;v1 }; // initialize ptr with address of v1
+int* ptr{ &amp;v1 }; // zainicjuj ptr adresu v1
 
 int v2 { 78 };
-*ptr = &amp;v2;     // assign ptr to address of v2</code></pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_1 style=display:none><p>Ostatnia linia powyższego fragmentu nie kompiluje się.<p>Przyjrzyjmy się temu programowi bardziej szczegółowo.<p>Pierwsza i czwarta linia zawierają standardowe definicje zmiennych wraz z wartością inicjującą. Nie ma tu nic specjalnego.<p>W drugim wierszu gwiazdka jest częścią składni deklaracji wskaźnika (nie jest dereferencją). Zatem ta linia mówi: „przypisz adres  <code>v1</code> Do <code>ptr</code>”. To jest w porządku, ponieważ wskaźniki przechowują adresy.<p>W linii piątej gwiazdka oznacza dereferencję, która służy do uzyskania wartości, na którą wskazuje wskaźnik. Zatem ta linia mówi: „przypisz adres <code>v2</code> do wartości wskazywanej przez <code>ptr</code>”. Wartość wskazywana przez <code>ptr</code> jest liczbą całkowitą. Zatem to przypisanie nie ma żadnego sensu -- nie można przypisać adresu do liczby całkowitej!<p>Piąta linia powinna brzmieć:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">ptr = &amp;v2;</code></pre><p>To poprawnie przypisuje adres <code>v2</code> do wskaźnika.</div><div class=prevnext><div class=prevnext-inline><a class=nav-link href="../null-pointers/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>12.8</span>Wskaźniki zerowe</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../pass-by-const-lvalue-reference/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>12.6</span>Przekaż referencję do wartości stałej</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/introduction-to-pointers/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href=/www.learncpp.com/general-programming/a-php-script-to-unzip-files-with-file-overwriting/ rel=prev><span>Skrypt PHP do rozpakowywania plików z nadpisywaniem plików</span></a></div><div class=nav-next><em>Następny post</em><a href="../c-style-array-decay/index.html" rel=next><span>17.8 — Zanik tablicy w stylu C</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>
+*ptr = &amp;v2;     // przypisz ptr do adresu v2</code></pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_1 style=display:none><p>Ostatnia linia powyższego fragmentu nie kompiluje się.<p>Przyjrzyjmy się temu programowi bardziej szczegółowo.<p>Pierwsza i czwarta linia zawierają standardowe definicje zmiennych wraz z wartością inicjującą. Nie ma tu nic specjalnego.<p>W drugim wierszu gwiazdka jest częścią składni deklaracji wskaźnika (nie jest dereferencją). Zatem ta linia mówi: „przypisz adres  <code>v1</code> Do <code>ptr</code>”. To jest w porządku, ponieważ wskaźniki przechowują adresy.<p>W linii piątej gwiazdka oznacza dereferencję, która służy do uzyskania wartości, na którą wskazuje wskaźnik. Zatem ta linia mówi: „przypisz adres <code>v2</code> do wartości wskazywanej przez <code>ptr</code>”. Wartość wskazywana przez <code>ptr</code> jest liczbą całkowitą. Zatem to przypisanie nie ma żadnego sensu -- nie można przypisać adresu do liczby całkowitej!<p>Piąta linia powinna brzmieć:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">ptr = &amp;v2;</code></pre><p>To poprawnie przypisuje adres <code>v2</code> do wskaźnika.</div><div class=prevnext><div class=prevnext-inline><a class=nav-link href="../null-pointers/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>12.8</span>Wskaźniki zerowe</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../pass-by-const-lvalue-reference/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>12.6</span>Przekaż referencję do wartości stałej</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/introduction-to-pointers/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href=/www.learncpp.com/general-programming/a-php-script-to-unzip-files-with-file-overwriting/ rel=prev><span>Skrypt PHP do rozpakowywania plików z nadpisywaniem plików</span></a></div><div class=nav-next><em>Następny post</em><a href="../c-style-array-decay/index.html" rel=next><span>17.8 — Zanik tablicy w stylu C</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>
 <textarea id=wc-textarea-0_0 placeholder="Zostaw komentarz..." aria-label="Zostaw komentarz..." required name=wc_comment class="wc_comment wpd-field"></textarea></div><div class=wpd-editor-buttons-right></div></div></div></div><div class=wpd-form-foot><div class=wpdiscuz-textarea-foot><div class=wpdiscuz-button-actions></div></div><div class=wpd-form-row><div class=wpd-form-col-left><div class="wpdiscuz-item wc_name-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-user"></i></div><input id=wc_name-0_0 required aria-required=true class="wc_name wpd-field" name=wc_name placeholder=Imię* maxlength=50 pattern=.{3,50}>
 <label for=wc_name-0_0 class=wpdlb>Imię*</label></div><div class="wpdiscuz-item wc_email-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-at"></i></div><input id=wc_email-0_0 required aria-required=true class="wc_email wpd-field" type=email name=wc_email placeholder=E-mail*>
 <label for=wc_email-0_0 class=wpdlb>E-mail*</label><div class=wpd-field-desc><i class="far fa-question-circle"></i><span>Twój adres e-mail nie zostanie wyświetlony</span></div></div><div class=cpp_correction_div style=padding-bottom:4px><div class=wpd-field-icon style=display:inline-block;width:20px><i style=opacity:.6 class="fas fa-regular fa-bug"></i></div>Znalazłeś błąd? Zostaw komentarz powyżej!<div class=wpd-field-desc><i class="far fa-question-circle"></i><span>Komentarze związane z poprawkami zostaną usunięte po przetworzeniu, aby pomóc zmniejszyć bałagan. Dziękujemy za pomoc w ulepszaniu witryny dla wszystkich!</span></div></div><div class=cpp_avatar_div style=padding-bottom:4px><div class=wpd-field-icon style=display:inline-block;width:20px><i style=opacity:.6 class="fas fa-user"></i></div>Awatary z <a target=_blank rel="noopener noreferrer" href=https://gravatar.com/>https://gravatar.com/</a> są połączone z podanym adresem e-mail.</div></div><div class=wpd-form-col-right><div class=wc-field-submit><span style=margin-top:6px>Powiadamiaj mnie o odpowiedziach:  </span>

@@ -19,12 +19,12 @@
 
 int main()
 {
-    std::cout &lt;&lt; &#34;Please enter an image filename to create a thumbnail for: &#34;;
+    std::cout &lt;&lt; "Please enter an image filename to create a thumbnail for: ";
     std::string filename{};
     std::cin &gt;&gt; filename;
 
-    // open image file
-    // create thumbnail
+    // otwórz plik obrazu
+    // utwórz miniaturę
     // output thumbnail
 }</code></pre><p>Jednakże istnieje potencjalny problem z tym podejściem. Za każdym razem, gdy program jest uruchamiany, będzie on czekał, aż użytkownik wprowadzi dane wejściowe. Może to nie stanowić problemu, jeśli uruchomisz ten program ręcznie z wiersza poleceń. Jest to jednak problematyczne w innych przypadkach, np. gdy chcesz uruchomić ten program na wielu plikach lub aby ten program był uruchamiany przez inny program.<p>Przyjrzyjmy się tym przypadkom bliżej.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Rozważmy przypadek, w którym chcesz utworzyć miniatury wszystkich plików obrazów w danym katalogu. Jak byś to zrobił? Można uruchomić ten program tyle razy, ile obrazów znajduje się w katalogu, wpisując ręcznie nazwę każdego pliku. Jeśli jednak byłyby setki zdjęć, mogłoby to zająć cały dzień! Dobrym rozwiązaniem byłoby napisanie programu, który będzie przeglądał każdą nazwę pliku w katalogu i wywoływał Thumbnail raz dla każdego pliku.<p>Rozważmy teraz przypadek, gdy prowadzisz witrynę internetową i chcesz, aby Twoja witryna tworzyła miniaturę za każdym razem, gdy użytkownik prześle obraz do Twojej witryny. Ten program nie jest skonfigurowany do akceptowania danych wejściowych z Internetu, więc jak w tym przypadku osoba przesyłająca miałaby wprowadzić nazwę pliku? Dobrym rozwiązaniem byłoby automatyczne wywoływanie przez serwer WWW Thumbnail po przesłaniu.<p>W obu przypadkach naprawdę potrzebujemy sposobu, aby zewnętrzny  <em>programu</em> przekazywał nazwę pliku jako dane wejściowe do naszego programu Thumbnail po uruchomieniu Thumbnail, zamiast czekać, aż  <em>użytkownik</em> wprowadzi nazwa pliku po jego uruchomieniu.<p><strong>Argumenty wiersza poleceń</strong> są opcjonalnymi argumentami w postaci łańcuchów, które system operacyjny przekazuje do programu podczas jego uruchamiania. Program może następnie użyć ich jako danych wejściowych (lub zignorować je). Podobnie jak parametry funkcji umożliwiają funkcji dostarczanie danych wejściowych do innej funkcji, argumenty wiersza poleceń umożliwiają ludziom lub programom dostarczanie danych wejściowych do  <em>programu</em>.<p><strong>Przekazywanie argumentów wiersza poleceń</strong><p>Programy wykonywalne można uruchamiać w wierszu poleceń, wywołując je według nazwy. Na przykład, aby uruchomić plik wykonywalny „WordCount”, który znajduje się w bieżącym katalogu komputera z systemem Windows, można wpisać:<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><pre>WordCount
 </pre><p>Odpowiedni wiersz poleceń w systemie operacyjnym opartym na systemie Unix będzie wyglądał następująco:<pre>./WordCount
@@ -35,12 +35,12 @@ int main()
 
 int main(int argc, char* argv[])
 {
-    std::cout &lt;&lt; &#34;There are &#34; &lt;&lt; argc &lt;&lt; &#34; arguments:\n&#34;;
+    std::cout &lt;&lt; "There are " &lt;&lt; argc &lt;&lt; " arguments:\n";
 
-    // Loop through each argument and print its number and value
+    // Przejdź przez każdy argument i wydrukuj jego liczbę i wartość
     for (int count{ 0 }; count &lt; argc; ++count)
     {
-        std::cout &lt;&lt; count &lt;&lt; &#39; &#39; &lt;&lt; argv[count] &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; count &lt;&lt; ' ' &lt;&lt; argv[count] &lt;&lt; '\n';
     }
 
     return 0;
@@ -49,30 +49,30 @@ int main(int argc, char* argv[])
 1 Myfile.txt
 2 100
 </pre><p>Argument 0 to ścieżka i nazwa aktualnie uruchomiony program. Argumenty 1 i 2 w tym przypadku to dwa parametry wiersza poleceń, które przekazaliśmy.<p>Zauważ, że nie możemy używać pętli for opartej na zakresach do iteracji <code>argv</code>, ponieważ pętle for oparte na zakresach nie działają na uszkodzonych tablicach w stylu C.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p><strong>Obsługa argumentów numerycznych</strong><p>Argumenty wiersza poleceń są zawsze przekazywane jako ciągów znaków, nawet jeśli podana wartość ma charakter numeryczny. Aby użyć argumentu wiersza poleceń jako liczby, należy przekonwertować go z ciągu znaków na liczbę. Niestety w C++ jest to trochę trudniejsze, niż powinno.<p>Sposób, w jaki można to zrobić w C++, jest następujący:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
-#include &lt;sstream&gt; // for std::stringstream
+#include &lt;sstream&gt; // dla std::stringstream
 #include &lt;string&gt;
 
 int main(int argc, char* argv[])
 {
 	if (argc &lt;= 1)
 	{
-		// On some operating systems, argv[0] can end up as an empty string instead of the program&#39;s name.
-		// We&#39;ll conditionalize our response on whether argv[0] is empty or not.
+		// W niektórych systemach operacyjnych argv[0] może zakończyć się jako pusty ciąg znaków zamiast nazwy programu.
+		// Uwarunkowamy naszą odpowiedź od tego, czy argv[0] jest pusty, czy nie.
 		if (argv[0])
-			std::cout &lt;&lt; &#34;Usage: &#34; &lt;&lt; argv[0] &lt;&lt; &#34; &lt;number&gt;&#34; &lt;&lt; &#39;\n&#39;;
+			std::cout &lt;&lt; "Usage: " &lt;&lt; argv[0] &lt;&lt; " &lt;number&gt;" &lt;&lt; '\n';
 		else
-			std::cout &lt;&lt; &#34;Usage: &lt;program name&gt; &lt;number&gt;&#34; &lt;&lt; &#39;\n&#39;;
+			std::cout &lt;&lt; "Usage: &lt;program name&gt; &lt;number&gt;" &lt;&lt; '\n';
             
 		return 1;
 	}
 
-	std::stringstream convert{ argv[1] }; // set up a stringstream variable named convert, initialized with the input from argv[1]
+	std::stringstream convert{ argv[1] }; // ustaw zmienną strumienia o nazwie Convert, zainicjowaną danymi wejściowymi z argv[1]
 
 	int myint{};
-	if (!(convert &gt;&gt; myint)) // do the conversion
-		myint = 0; // if conversion fails, set myint to a default value
+	if (!(convert &gt;&gt; myint)) // wykonaj konwersję
+		myint = 0; // jeśli konwersja się nie powiedzie, ustaw myint na wartość domyślną
 
-	std::cout &lt;&lt; &#34;Got integer: &#34; &lt;&lt; myint &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; "Got integer: " &lt;&lt; myint &lt;&lt; '\n';
 
 	return 0;
 }</code></pre><p>Po uruchomieniu z wejściem „567” program wypisuje:<pre>Got integer: 567

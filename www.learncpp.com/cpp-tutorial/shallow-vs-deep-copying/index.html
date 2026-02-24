@@ -56,35 +56,35 @@ public:
         assert(denominator != 0);
     }
  
-    // Possible implementation of implicit copy constructor
+    // Możliwa implementacja ukrytego konstruktora kopiującego
     Fraction(const Fraction&amp; f)
         : m_numerator{ f.m_numerator }
         , m_denominator{ f.m_denominator }
     {
     }
 
-    // Possible implementation of implicit assignment operator
+    // Możliwa implementacja ukrytego operatora przypisania
     Fraction&amp; operator= (const Fraction&amp; fraction)
     {
-        // self-assignment guard
+        // ochroniarz z własnym przydziałem
         if (this == &amp;fraction)
             return *this;
  
-        // do the copy
+        // zrób kopię
         m_numerator = fraction.m_numerator;
         m_denominator = fraction.m_denominator;
  
-        // return the existing object so we can chain this operator
+        // zwróć istniejący obiekt, abyśmy mogli połączyć ten operator
         return *this;
     }
 
     friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const Fraction&amp; f1)
     {
-	out &lt;&lt; f1.m_numerator &lt;&lt; &#39;/&#39; &lt;&lt; f1.m_denominator;
+	out &lt;&lt; f1.m_numerator &lt;&lt; '/' &lt;&lt; f1.m_denominator;
 	return out;
     }
-};</code></pre><p>Zauważ, że ponieważ te wersje domyślne świetnie sprawdzają się przy kopiowaniu tej klasy, naprawdę nie ma powodu pisać w tym własnej wersji tych funkcji przypadek.<p>Jednak przy projektowaniu klas obsługujących dynamicznie alokowaną pamięć, kopiowanie składowe (płytkie) może przysporzyć nam sporo kłopotów! Dzieje się tak dlatego, że płytkie kopie wskaźnika po prostu kopiują adres wskaźnika - nie przydzielają one żadnej pamięci ani nie kopiują wskazywanej zawartości!<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Przyjrzyjmy się temu przykładowi:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cstring&gt; // for strlen()
-#include &lt;cassert&gt; // for assert()
+};</code></pre><p>Zauważ, że ponieważ te wersje domyślne świetnie sprawdzają się przy kopiowaniu tej klasy, naprawdę nie ma powodu pisać w tym własnej wersji tych funkcji przypadek.<p>Jednak przy projektowaniu klas obsługujących dynamicznie alokowaną pamięć, kopiowanie składowe (płytkie) może przysporzyć nam sporo kłopotów! Dzieje się tak dlatego, że płytkie kopie wskaźnika po prostu kopiują adres wskaźnika - nie przydzielają one żadnej pamięci ani nie kopiują wskazywanej zawartości!<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Przyjrzyjmy się temu przykładowi:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cstring&gt; // dla strlen()
+#include &lt;cassert&gt; // dla Assert()
 
 class MyString
 {
@@ -93,25 +93,25 @@ private:
     int m_length{};
  
 public:
-    MyString(const char* source = &#34;&#34; )
+    MyString(const char* source = "" )
     {
-        assert(source); // make sure source isn&#39;t a null string
+        assert(source); // upewnij się upewnij się, że źródło nie jest ciągiem pustym
 
-        // Find the length of the string
-        // Plus one character for a terminator
+        // Znajdź długość sznurka
+        // Plus jeden znak dla terminatora
         m_length = std::strlen(source) + 1;
         
-        // Allocate a buffer equal to this length
+        // Przydziel bufor równy tej długości
         m_data = new char[m_length];
         
-        // Copy the parameter string into our internal buffer
+        // Skopiuj ciąg parametrów do naszego wewnętrznego bufora
         for (int i{ 0 }; i &lt; m_length; ++i)
             m_data[i] = source[i];
     }
  
     ~MyString() // destructor
     {
-        // We need to deallocate our string
+        // Musimy zwolnić nasz ciąg znaków
         delete[] m_data;
     }
  
@@ -125,30 +125,30 @@ public:
 
 int main()
 {
-    MyString hello{ &#34;Hello, world!&#34; };
+    MyString hello{ "Hello, world!" };
     {
-        MyString copy{ hello }; // use default copy constructor
-    } // copy is a local variable, so it gets destroyed here.  The destructor deletes copy&#39;s string, which leaves hello with a dangling pointer
+        MyString copy{ hello }; // użyj domyślny konstruktor kopiujący
+    } // copy jest zmienną lokalną, więc tutaj zostaje zniszczona. Destruktor usuwa ciąg kopii, co pozostawia hello ze zwisającym wskaźnikiem
 
-    std::cout &lt;&lt; hello.getString() &lt;&lt; &#39;\n&#39;; // this will have undefined behavior
+    std::cout &lt;&lt; hello.getString() &lt;&lt; '\n'; // będzie miała niezdefiniowane zachowanie
 
     return 0;
-}</code></pre><p>Chociaż ten kod wygląda wystarczająco nieszkodliwie, zawiera podstępny problem, który spowoduje, że program wyświetli niezdefiniowany zachowanie!<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Przeanalizujmy ten przykład wiersz po wierszu:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    MyString hello{ &#34;Hello, world!&#34; };</code></pre><p>Ten wiersz jest wystarczająco nieszkodliwy. Wywołuje to konstruktor MyString, który przydziela część pamięci, ustawia hello.m_data tak, aby wskazywał na nią, a następnie kopiuje ciąg znaków „Hello, world!” w to.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    MyString copy{ hello }; // use default copy constructor</code></pre><p>Ta linia również wydaje się nieszkodliwa, ale w rzeczywistości jest źródłem naszego problemu! Kiedy ta linia zostanie oceniona, C++ użyje domyślnego konstruktora kopiującego (ponieważ nie udostępniliśmy własnego). Ten konstruktor kopiujący wykona płytką kopię, inicjując copy.m_data na ten sam adres hello.m_data. W rezultacie copy.m_data i hello.m_data wskazują teraz na ten sam fragment pamięci!<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">} // copy gets destroyed here</code></pre><p>Gdy kopiowanie wykracza poza zakres, podczas kopiowania wywoływany jest destruktor MyString. Destruktor usuwa dynamicznie przydzieloną pamięć, na którą wskazują zarówno copy.m_data, jak i hello.m_data! W rezultacie, usuwając kopię, wpłynęliśmy (nieumyślnie) na hello. Kopia zmiennej zostaje następnie zniszczona, ale plik hello.m_data pozostaje wskazujący na usuniętą (nieprawidłową) pamięć!<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    std::cout &lt;&lt; hello.getString() &lt;&lt; &#39;\n&#39;; // this will have undefined behavior</code></pre><p>Teraz możesz zobaczyć, dlaczego ten program ma niezdefiniowane zachowanie. Usunęliśmy ciąg znaków, na który wskazywał hello, a teraz próbujemy wydrukować wartość pamięci, która nie jest już alokowana.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>Źródłem tego problemu jest płytka kopia wykonywana przez konstruktor kopiujący — wykonanie płytkiej kopii wartości wskaźników w konstruktorze kopiującym lub przeciążonym operatorze przypisania prawie zawsze powoduje problemy.<p class="cpp-section cpp-topline" style=clear:both>Głębokie kopiowanie<p>Jedną z odpowiedzi na ten problem jest wykonanie głębokiej kopii dowolnego kopiowane są wskaźniki inne niż null. A <strong>głęboka kopia</strong> przydziela pamięć dla kopii, a następnie kopiuje rzeczywistą wartość, tak że kopia żyje w pamięci odrębnej od źródła. W ten sposób kopia i źródło są odrębne i nie wpływają na siebie w żaden sposób. Wykonywanie głębokich kopii wymaga napisania własnych konstruktorów kopiujących i przeciążonych operatorów przypisania.<p>Pójdźmy dalej i pokażmy, jak to się robi dla naszej klasy MyString:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// assumes m_data is initialized
+}</code></pre><p>Chociaż ten kod wygląda wystarczająco nieszkodliwie, zawiera podstępny problem, który spowoduje, że program wyświetli niezdefiniowany zachowanie!<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Przeanalizujmy ten przykład wiersz po wierszu:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    MyString hello{ &#34;Hello, world!&#34; };</code></pre><p>Ten wiersz jest wystarczająco nieszkodliwy. Wywołuje to konstruktor MyString, który przydziela część pamięci, ustawia hello.m_data tak, aby wskazywał na nią, a następnie kopiuje ciąg znaków „Hello, world!” w to.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    MyString copy{ hello }; // użyj domyślny konstruktor kopiujący</code></pre><p>Ta linia również wydaje się nieszkodliwa, ale w rzeczywistości jest źródłem naszego problemu! Kiedy ta linia zostanie oceniona, C++ użyje domyślnego konstruktora kopiującego (ponieważ nie udostępniliśmy własnego). Ten konstruktor kopiujący wykona płytką kopię, inicjując copy.m_data na ten sam adres hello.m_data. W rezultacie copy.m_data i hello.m_data wskazują teraz na ten sam fragment pamięci!<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">} // kopia zostanie zniszczona tutaj</code></pre><p>Gdy kopiowanie wykracza poza zakres, podczas kopiowania wywoływany jest destruktor MyString. Destruktor usuwa dynamicznie przydzieloną pamięć, na którą wskazują zarówno copy.m_data, jak i hello.m_data! W rezultacie, usuwając kopię, wpłynęliśmy (nieumyślnie) na hello. Kopia zmiennej zostaje następnie zniszczona, ale plik hello.m_data pozostaje wskazujący na usuniętą (nieprawidłową) pamięć!<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    std::cout &lt;&lt; hello.getString() &lt;&lt; '\n'; // będzie miała niezdefiniowane zachowanie</code></pre><p>Teraz możesz zobaczyć, dlaczego ten program ma niezdefiniowane zachowanie. Usunęliśmy ciąg znaków, na który wskazywał hello, a teraz próbujemy wydrukować wartość pamięci, która nie jest już alokowana.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>Źródłem tego problemu jest płytka kopia wykonywana przez konstruktor kopiujący — wykonanie płytkiej kopii wartości wskaźników w konstruktorze kopiującym lub przeciążonym operatorze przypisania prawie zawsze powoduje problemy.<p class="cpp-section cpp-topline" style=clear:both>Głębokie kopiowanie<p>Jedną z odpowiedzi na ten problem jest wykonanie głębokiej kopii dowolnego kopiowane są wskaźniki inne niż null. <strong>głęboka kopia</strong> przydziela pamięć dla kopii, a następnie kopiuje rzeczywistą wartość, tak że kopia żyje w pamięci odrębnej od źródła. W ten sposób kopia i źródło są odrębne i nie wpływają na siebie w żaden sposób. Wykonywanie głębokich kopii wymaga napisania własnych konstruktorów kopiujących i przeciążonych operatorów przypisania.<p>Pójdźmy dalej i pokażmy, jak to się robi dla naszej klasy MyString:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// zakłada, że ​​zainicjowano m_data
 void MyString::deepCopy(const MyString&amp; source)
 {
-    // first we need to deallocate any value that this string is holding!
+    // najpierw musimy zwolnić dowolną wartość przechowywaną w tym ciągu!
     delete[] m_data;
 
-    // because m_length is not a pointer, we can shallow copy it
+    // ponieważ m_length nie jest wskaźnikiem, możemy go płytkie skopiować
     m_length = source.m_length;
 
-    // m_data is a pointer, so we need to deep copy it if it is non-null
+    // m_data jest wskaźnikiem, więc musimy go głęboko skopiować, jeśli nie ma wartości null
     if (source.m_data)
     {
-        // allocate memory for our copy
+        // przydziel pamięć dla naszej kopii
         m_data = new char[m_length];
 
-        // do the copy
+        // zrób kopię
         for (int i{ 0 }; i &lt; m_length; ++i)
             m_data[i] = source.m_data[i];
     }
@@ -156,17 +156,17 @@ void MyString::deepCopy(const MyString&amp; source)
         m_data = nullptr;
 }
 
-// Copy constructor
+// Kopiuj konstruktor
 MyString::MyString(const MyString&amp; source)
 {
     deepCopy(source);
 }</code></pre><p>Jak widzisz, jest to trochę bardziej skomplikowane niż zwykła, płytka kopia! Najpierw musimy sprawdzić, czy źródło zawiera w ogóle ciąg znaków (linia 11). Jeśli tak, przydzielamy wystarczającą ilość pamięci, aby pomieścić kopię tego ciągu (linia 14). Na koniec musimy ręcznie skopiować ciąg znaków (linie 17 i 18).<p>Zajmijmy się teraz przeciążonym operatorem przypisania. Przeciążony operator przypisania jest nieco trudniejszy:<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Assignment operator
 MyString&amp; MyString::operator=(const MyString&amp; source)
 {
-    // check for self-assignment
+    // sprawdź samodzielne przypisanie
     if (this != &amp;source)
     {
-        // now do the deep copy
+        // teraz wykonaj głęboką kopię
         deepCopy(source);
     }
 

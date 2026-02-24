@@ -17,14 +17,14 @@
 
 void printInt(int x)
 {
-    std::cout &lt;&lt; x &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; x &lt;&lt; '\n';
 }
 
 int main()
 {
     printInt(5);    // okay: prints 5
-    printInt(&#39;a&#39;);  // prints 97 -- does this make sense?
-    printInt(true); // print 1 -- does this make sense?
+    printInt('a');  // drukuje 97 -- czy to ma sens?
+    printInt(true); // drukuj 1 -- czy to ma sens?
     
     return 0;
 }</code></pre><p>Ten przykład wyświetla:<pre>5
@@ -34,39 +34,39 @@ int main()
 
 void printInt(int x)
 {
-    std::cout &lt;&lt; x &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; x &lt;&lt; '\n';
 }
 
-void printInt(char) = delete; // calls to this function will halt compilation
-void printInt(bool) = delete; // calls to this function will halt compilation
+void printInt(char) = delete; // wywołania tej funkcji zatrzymają kompilację
+void printInt(bool) = delete; // wywołania tej funkcji zatrzymają kompilację
 
 int main()
 {
     printInt(97);   // okay
 
-    printInt(&#39;a&#39;);  // compile error: function deleted
-    printInt(true); // compile error: function deleted
+    printInt('a');  // błąd kompilacji: funkcja usunięta
+    printInt(true); // błąd kompilacji: funkcja usunięta
 
-    printInt(5.0);  // compile error: ambiguous match
+    printInt(5.0);  // błąd kompilacji: niejednoznaczne dopasowanie
     
     return 0;
 }</code></pre><p>Przyjrzyjmy się niektórym z nich. Po pierwsze,  <code>printInt('a')</code> jest bezpośrednim dopasowaniem do <code>printInt(char)</code>, które zostało usunięte. W ten sposób kompilator generuje błąd kompilacji. <code>printInt(true)</code> jest bezpośrednim dopasowaniem do <code>printInt(bool)</code>, które jest usuwane, a zatem również generuje błąd kompilacji.<p><code>printInt(5.0)</code> jest interesującym przypadkiem, z być może nieoczekiwanymi wynikami. Najpierw kompilator sprawdza, czy istnieje dokładne dopasowanie <code>printInt(double)</code> . Tak nie jest. Następnie kompilator próbuje znaleźć najlepsze dopasowanie. Chociaż <code>printInt(int)</code> jest jedyną nieusuniętą funkcją, usunięte funkcje są nadal uważane za kandydatów w rozpoznawaniu przeciążenia funkcji. Ponieważ żadna z tych funkcji nie jest jednoznacznie najlepiej dopasowana, kompilator zgłosi błąd kompilacji dopasowania niejednoznacznego.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p><code>= delete</code> oznacza „Zabraniam tego”, a nie „to nie istnieje”.<p>Usunięta funkcja uczestniczy we wszystkich etapach rozwiązywania przeciążenia funkcji (nie tylko w fazie dokładnego dopasowania). Jeśli zostanie wybrana usunięta funkcja, pojawi się błąd kompilacji.</div><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Dla zaawansowanych czytelników<p>Inne typy funkcji można usunąć w podobny sposób.<p>Usuwanie funkcji składowych omawiamy w lekcji <a href="../introduction-to-the-copy-constructor/index.html">14.14 -- Wprowadzenie do konstruktora kopiującego</a> i usuwanie specjalizacji szablonów funkcji na lekcji <a href="../function-template-instantiation/index.html">11.7 -- Szablon funkcji instancja</a>.</div><p class="cpp-section cpp-topline" style=clear:both>Usuwanie wszystkich niepasujących przeciążenia <span class="cpp-section-pill cpp-section-advanced">Zaawansowane</span><p>Usunięcie kilku pojedynczych przeciążeń funkcji działa dobrze, ale może być zbyt szczegółowe. Może się zdarzyć, że będziemy chcieli, aby określona funkcja była wywoływana tylko z argumentami, których typy dokładnie odpowiadają parametrom funkcji. Możemy to zrobić za pomocą szablonu funkcji (przedstawionego w nadchodzącej lekcji <a href="../function-templates/index.html">11.6 -- Szablony funkcji</a>) w następujący sposób:<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-// This function will take precedence for arguments of type int
+// Ta funkcja będzie miała pierwszeństwo w przypadku argumentów typu int
 void printInt(int x)
 {
-    std::cout &lt;&lt; x &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; x &lt;&lt; '\n';
 }
 
-// This function template will take precedence for arguments of other types
-// Since this function template is deleted, calls to it will halt compilation
+// Ten szablon funkcji będzie miał pierwszeństwo w przypadku argumentów innych typów
+// Ponieważ ten szablon funkcji zostanie usunięty, wywołania go zatrzymają kompilację
 template &lt;typename T&gt;
 void printInt(T x) = delete;
 
 int main()
 {
     printInt(97);   // okay
-    printInt(&#39;a&#39;);  // compile error
+    printInt('a');  // compile error
     printInt(true); // compile error
     
     return 0;

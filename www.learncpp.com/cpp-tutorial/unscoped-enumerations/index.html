@@ -15,8 +15,8 @@
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2007-06-19T20:24:48-07:00 itemprop=datePublished>19 czerwca 2007, 20:24 czasu PDT</time>
 <time class=updated datetime=2024-10-28T16:43:38-07:00 itemprop=dateModified>28 października 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>C++ zawiera wiele przydatnych podstawowych i złożonych typów danych (które przedstawiliśmy na lekcjach <a href="../introduction-to-fundamental-data-types/index.html">4.1 -- Wprowadzenie do podstawowych typów danych</a> i <a href="../introduction-to-compound-data-types/index.html">12.1 — Wprowadzenie do złożonych typów danych</a>). Jednak te typy nie zawsze są wystarczające do tego, co chcemy robić.<p>Załóżmy na przykład, że piszesz program, który musi śledzić, czy jabłko jest czerwone, żółte czy zielone, albo jakiego koloru jest koszula (z wstępnie ustawionej listy kolorów). Gdyby dostępne były tylko podstawowe typy, jak można to zrobić?<p>Możesz przechowywać kolor jako wartość całkowitą, używając pewnego rodzaju ukrytego mapowania (0 = czerwony, 1 = zielony, 2 = niebieski):<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
-    int appleColor{ 0 }; // my apple is red
-    int shirtColor{ 1 }; // my shirt is green
+    int appleColor{ 0 }; // moje jabłko jest czerwone
+    int shirtColor{ 1 }; // moja koszula jest zielona
 
     return 0;
 }</code></pre><p>Ale nie jest to wcale intuicyjne i już omawialiśmy, dlaczego magiczne liczby są złe (<a href="../literals/index.html">5.2 -- Literały</a>). Możemy pozbyć się magicznych liczb, używając stałych symbolicznych:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">constexpr int red{ 0 };
@@ -29,9 +29,9 @@ int main()
     int shirtColor{ green };
 
     return 0;
-}</code></pre><p>Chociaż jest to trochę lepsze do odczytu, programiście nadal pozostaje do wywnioskowania, że <code>appleColor</code> i <code>shirtColor</code> (które są typu <code>int</code>) mają przechowywać jedną z wartości zdefiniowanych w zestawie stałych symbolicznych kolorów (które prawdopodobnie są zdefiniowane gdzie indziej, prawdopodobnie w osobnym pliku).<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Możemy uczynić ten program trochę bardziej przejrzystym używając aliasu typu:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">using Color = int; // define a type alias named Color
+}</code></pre><p>Chociaż jest to trochę lepsze do odczytu, programiście nadal pozostaje do wywnioskowania, że <code>appleColor</code> i <code>shirtColor</code> (które są typu <code>int</code>) mają przechowywać jedną z wartości zdefiniowanych w zestawie stałych symbolicznych kolorów (które prawdopodobnie są zdefiniowane gdzie indziej, prawdopodobnie w osobnym pliku).<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Możemy uczynić ten program trochę bardziej przejrzystym używając aliasu typu:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">using Color = int; // zdefiniuj alias typu o nazwie Kolor
 
-// The following color values should be used for a Color
+// Następujące wartości kolorów powinny być użyte dla Koloru
 constexpr Color red{ 0 };
 constexpr Color green{ 1 };
 constexpr Color blue{ 2 };
@@ -42,29 +42,29 @@ int main()
     Color shirtColor{ green };
 
     return 0;
-}</code></pre><p>Jesteśmy coraz bliżej. Ktoś czytający ten kod nadal musi zrozumieć, że te stałe symboliczne koloru mają być używane ze zmiennymi typu <code>Color</code>, ale przynajmniej typ ma teraz unikalną nazwę, więc ktoś wyszukujący <code>Color</code>  będzie mógł znaleźć zestaw powiązanych stałych symbolicznych.<p>Jednakże <code>Color</code> to tylko alias dla  <code>int</code>, nadal mamy problem, że nic nie wymusza prawidłowego użycia tych symbolicznych symboli kolorów stałe. Nadal możemy zrobić coś takiego:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">Color eyeColor{ 8 }; // syntactically valid, semantically meaningless</code></pre><p>Ponadto, jeśli debugujemy którąkolwiek z tych zmiennych w naszym debugerze, zobaczymy tylko całkowitą wartość koloru (np.  <code>0</code>), a nie znaczenie symboliczne (<code>red</code>), co może utrudnić stwierdzenie, czy nasz program jest poprawny.<p>Na szczęście możemy zrobić lepiej.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Jako inspirację rozważ typ <code>bool</code> . To, co sprawia, że <code>bool</code> jest szczególnie interesujące, to fakt, że ma on tylko dwie zdefiniowane wartości: <code>true</code> i <code>false</code>. Możemy użyć <code>true</code> lub <code>false</code> bezpośrednio (jako literałów) lub możemy utworzyć instancję obiektu <code>bool</code>  i sprawić, że będzie on przechowywał jedną z tych wartości. Dodatkowo kompilator potrafi odróżnić <code>bool</code> od innych typów. Oznacza to, że możemy przeciążać funkcje i dostosowywać sposób, w jaki te funkcje zachowują się po przekazaniu. a <code>bool</code> wartości.<p>Gdybyśmy mieli możliwość zdefiniowania własnych typów niestandardowych, gdzie <em>moglibyśmy</em> zdefiniować zestaw nazwanych wartości powiązanych z tym typem, mielibyśmy doskonałe narzędzie do eleganckiego rozwiązania powyższego wyzwania…<p class="cpp-section cpp-topline" style=clear:both>Enumerations<p>An <strong>wyliczenie</strong> (zwany także <strong>typem wyliczeniowym</strong> lub <strong>wyliczeniem</strong>) to złożony typ danych, którego wartości są ograniczone do zbiór nazwanych stałych symbolicznych (zwanych <strong>enumeratorami</strong>).<p>C++ obsługuje dwa rodzaje wyliczeń: wyliczenia bez zakresu (które omówimy teraz) i wyliczenia z zakresem (które omówimy w dalszej części tego rozdziału).<p>Ponieważ wyliczenia są typami zdefiniowanymi w programie <a href="../introduction-to-program-defined-user-defined-types/index.html">13.1 -- Wprowadzenie do typów zdefiniowanych przez program (zdefiniowanych przez użytkownika)</a>, każde wyliczenie musi zostać w pełni zdefiniowane, zanim będziemy mogli z niego skorzystać (przejście do przodu deklaracja nie jest wystarczająca).<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Wyliczenia bez zakresu<p>Wyliczenia bez zakresu są definiowane za pomocą <code>enum</code> słowo kluczowe.<p>Typy wyliczeniowe najlepiej uczyć się na przykładach, więc zdefiniujmy wyliczenie bez zakresu, które może przechowywać pewne wartości kolorów. Poniżej wyjaśnimy, jak to wszystko działa.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Define a new unscoped enumeration named Color
+}</code></pre><p>Jesteśmy coraz bliżej. Ktoś czytający ten kod nadal musi zrozumieć, że te stałe symboliczne koloru mają być używane ze zmiennymi typu <code>Color</code>, ale przynajmniej typ ma teraz unikalną nazwę, więc ktoś wyszukujący <code>Color</code>  będzie mógł znaleźć zestaw powiązanych stałych symbolicznych.<p>Jednakże <code>Color</code> to tylko alias dla  <code>int</code>, nadal mamy problem, że nic nie wymusza prawidłowego użycia tych symbolicznych symboli kolorów stałe. Nadal możemy zrobić coś takiego:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">Color eyeColor{ 8 }; // syntaktycznie poprawne, semantycznie bez znaczenia</code></pre><p>Ponadto, jeśli debugujemy którąkolwiek z tych zmiennych w naszym debugerze, zobaczymy tylko całkowitą wartość koloru (np.  <code>0</code>), a nie znaczenie symboliczne (<code>red</code>), co może utrudnić stwierdzenie, czy nasz program jest poprawny.<p>Na szczęście możemy zrobić lepiej.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Jako inspirację rozważ typ <code>bool</code> . To, co sprawia, że <code>bool</code> jest szczególnie interesujące, to fakt, że ma on tylko dwie zdefiniowane wartości: <code>true</code> i <code>false</code>. Możemy użyć <code>true</code> lub <code>false</code> bezpośrednio (jako literałów) lub możemy utworzyć instancję obiektu <code>bool</code>  i sprawić, że będzie on przechowywał jedną z tych wartości. Dodatkowo kompilator potrafi odróżnić <code>bool</code> od innych typów. Oznacza to, że możemy przeciążać funkcje i dostosowywać sposób, w jaki te funkcje zachowują się po przekazaniu. <code>bool</code> wartości.<p>Gdybyśmy mieli możliwość zdefiniowania własnych typów niestandardowych, gdzie <em>moglibyśmy</em> zdefiniować zestaw nazwanych wartości powiązanych z tym typem, mielibyśmy doskonałe narzędzie do eleganckiego rozwiązania powyższego wyzwania…<p class="cpp-section cpp-topline" style=clear:both>Enumerations<p><strong>wyliczenie</strong> (zwany także <strong>typem wyliczeniowym</strong> lub <strong>wyliczeniem</strong>) to złożony typ danych, którego wartości są ograniczone do zbiór nazwanych stałych symbolicznych (zwanych <strong>enumeratorami</strong>).<p>C++ obsługuje dwa rodzaje wyliczeń: wyliczenia bez zakresu (które omówimy teraz) i wyliczenia z zakresem (które omówimy w dalszej części tego rozdziału).<p>Ponieważ wyliczenia są typami zdefiniowanymi w programie <a href="../introduction-to-program-defined-user-defined-types/index.html">13.1 -- Wprowadzenie do typów zdefiniowanych przez program (zdefiniowanych przez użytkownika)</a>, każde wyliczenie musi zostać w pełni zdefiniowane, zanim będziemy mogli z niego skorzystać (przejście do przodu deklaracja nie jest wystarczająca).<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Wyliczenia bez zakresu<p>Wyliczenia bez zakresu są definiowane za pomocą słowa kluczowego <code>enum</code>.<p>Typy wyliczeniowe najlepiej uczyć się na przykładach, więc zdefiniujmy wyliczenie bez zakresu, które może przechowywać pewne wartości kolorów. Poniżej wyjaśnimy, jak to wszystko działa.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Zdefiniuj nowe wyliczenie bez zakresu o nazwie Color
 enum Color
 {
-    // Here are the enumerators
-    // These symbolic constants define all the possible values this type can hold
-    // Each enumerator is separated by a comma, not a semicolon
+    // Oto moduły wyliczające
+    // Te stałe symboliczne definiują wszystkie możliwe wartości, jakie ten typ może przechowywać
+    // Każdy moduł wyliczający jest oddzielony przecinkiem, a nie średnikiem
     red,
     green,
-    blue, // trailing comma optional but recommended
-}; // the enum definition must end with a semicolon
+    blue, // przecinek końcowy jest opcjonalny, ale zalecany
+}; // definicja wyliczenia musi kończyć się znakiem średnik
 
 int main()
 {
-    // Define a few variables of enumerated type Color
-    Color apple { red };   // my apple is red
-    Color shirt { green }; // my shirt is green
-    Color cup { blue };    // my cup is blue
+    // Zdefiniuj kilka zmiennych typu wyliczeniowego Color
+    Color apple { red };   // moje jabłko jest czerwone
+    Color shirt { green }; // moja koszula jest zielona
+    Color cup { blue };    // moja filiżanka jest niebieska
 
-    Color socks { white }; // error: white is not an enumerator of Color
-    Color hat { 2 };       // error: 2 is not an enumerator of Color
+    Color socks { white }; // błąd: biały nie jest moduł wyliczający Color
+    Color hat { 2 };       // błąd: 2 nie jest moduł wyliczający Color
 
     return 0;
-}</code></pre><p>Zaczynamy nasz przykład od użycia słowa kluczowego <code>enum</code> , aby poinformować kompilator, że definiujemy wyliczenie bez zakresu, co oznacza, że nazwaliśmy <code>Color</code>.<p>W parze nawiasów klamrowych definiujemy moduły wyliczające dla typu <code>Color</code> : <code>red</code>, <code>green</code>, I <code>blue</code>. Te wyliczacze definiują konkretne wartości, do których ograniczony jest typ <code>Color</code> . Każdy moduł wyliczający musi być oddzielony przecinkiem (a nie średnikiem) — przecinek końcowy po ostatnim module wyliczającym jest opcjonalny, ale zalecany. spójność.<p>Najczęściej definiuje się jeden moduł wyliczający w jednej linii, lecz w prostych przypadkach (gdy liczba modułów wyliczających jest niewielka i nie są potrzebne żadne komentarze) można je wszystkie zdefiniować w jednej linii.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>Definicja typu dla <code>Color</code> kończy się średnikiem. Teraz w pełni zdefiniowaliśmy, jaki typ wyliczeniowy <code>Color</code> Jest!<p>Wewnątrz <code>main()</code>, tworzymy instancję trzech zmiennych typu <code>Color</code>: <code>apple</code> jest inicjowany kolorem <code>red</code>, <code>shirt</code> jest inicjowany kolorem <code>green</code>, I <code>cup</code> jest inicjowany kolorem <code>blue</code>. Dla każdego z tych obiektów przydzielana jest pamięć. Należy zauważyć, że inicjator typu wyliczeniowego musi być jednym ze zdefiniowanych modułów wyliczających dla tego typu. Zmienne <code>socks</code> i <code>hat</code> powodują błędy kompilacji, ponieważ inicjatory <code>white</code> i <code>2</code> nie są rachmistrzami <code>Color</code>.<p>Liczniki są domyślnie constexpr.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Przypomnienie<p>Aby szybko podsumować nazewnictwo:<ul><li>An <em>wyliczenie</em> lub <em>typem wyliczeniowym</em> jest typem zdefiniowanym przez program (np. <code>Color</code>).<li>An <em>licznik</em> jest konkretną nazwaną wartością należącą do wyliczenia (np. <code>red</code>).</ul></div><p class="cpp-section cpp-topline" style=clear:both>Nazewnictwo wyliczeń i enumeratorów<p>Zgodnie z konwencją nazwy typów wyliczeniowych zaczynają się od dużej litery (jak wszystkie typy zdefiniowane w programie).<div class="cpp-note cpp-lightredbackground"><p class="cpp-note-title cpp-bottomline">Ostrzeżenie<p>Wyliczenia nie muszą być nazwane, ale we współczesnym C++ należy unikać wyliczeń bez nazw.</div><p>Licznikom należy nadać nazwy. Niestety nie ma wspólnej konwencji nazewnictwa nazw modułów wyliczających. Typowe opcje obejmują rozpoczynanie od małych liter (np. czerwony), wielkie litery (Red), wielkie litery (RED), wszystkie wielkie litery z przedrostkiem (COLOR_RED) lub poprzedzone literą „k” i zakończone wielkimi literami (kColorRed).<p>Współczesne wytyczne dotyczące języka C++ zazwyczaj zalecają unikanie konwencji nazewnictwa wielkich liter, ponieważ wielkie litery są zwykle używane w makrach preprocesora i mogą powodować konflikty. Zalecamy również unikanie konwencji zaczynających się od dużej litery, ponieważ nazwy rozpoczynające się od dużej litery są zazwyczaj zarezerwowane dla typów zdefiniowanych w programie.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Nazwij wyliczone typy zaczynając od dużej litery. Nazwij swoje liczniki zaczynając od małej litery.</div><p class="cpp-section cpp-topline" style=clear:both>Typy wyliczone są różnymi typami<p>Każdy utworzony typ wyliczeniowy jest uważany za <strong>odrębny typ</strong>, co oznacza, że ​​kompilator może odróżnić go od innych typów (w przeciwieństwie do typedefs lub aliasów typów, które są uważane za nieróżniące się od typów, które aliasują).<p>Ponieważ typy wyliczeniowe są różne, modułów wyliczających zdefiniowanych jako część jednego typu wyliczeniowego nie można używać z obiektami innego typu wyliczeniowego:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">enum Pet
+}</code></pre><p>Zaczynamy nasz przykład od użycia słowa kluczowego <code>enum</code> , aby poinformować kompilator, że definiujemy wyliczenie bez zakresu, co oznacza, że nazwaliśmy <code>Color</code>.<p>W parze nawiasów klamrowych definiujemy moduły wyliczające dla typu <code>Color</code> : <code>red</code>, <code>green</code>, i <code>blue</code>. Te wyliczacze definiują konkretne wartości, do których ograniczony jest typ <code>Color</code> . Każdy moduł wyliczający musi być oddzielony przecinkiem (a nie średnikiem) — przecinek końcowy po ostatnim module wyliczającym jest opcjonalny, ale zalecany. spójność.<p>Najczęściej definiuje się jeden moduł wyliczający w jednej linii, lecz w prostych przypadkach (gdy liczba modułów wyliczających jest niewielka i nie są potrzebne żadne komentarze) można je wszystkie zdefiniować w jednej linii.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>Definicja typu dla <code>Color</code> kończy się średnikiem. Teraz w pełni zdefiniowaliśmy, jaki typ wyliczeniowy <code>Color</code> Jest!<p>Wewnątrz <code>main()</code>, tworzymy instancję trzech zmiennych typu <code>Color</code>: <code>apple</code> jest inicjowany kolorem <code>red</code>, <code>shirt</code> jest inicjowany kolorem <code>green</code>, i <code>cup</code> jest inicjowany kolorem <code>blue</code>. Dla każdego z tych obiektów przydzielana jest pamięć. Należy zauważyć, że inicjator typu wyliczeniowego musi być jednym ze zdefiniowanych modułów wyliczających dla tego typu. Zmienne <code>socks</code> i <code>hat</code> powodują błędy kompilacji, ponieważ inicjatory <code>white</code> i <code>2</code> nie są rachmistrzami <code>Color</code>.<p>Liczniki są domyślnie constexpr.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Przypomnienie<p>Aby szybko podsumować nazewnictwo:<ul><li><em>wyliczenie</em> lub <em>typem wyliczeniowym</em> jest typem zdefiniowanym przez program (np. <code>Color</code>).<li><em>licznik</em> jest konkretną nazwaną wartością należącą do wyliczenia (np. <code>red</code>).</ul></div><p class="cpp-section cpp-topline" style=clear:both>Nazewnictwo wyliczeń i enumeratorów<p>Zgodnie z konwencją nazwy typów wyliczeniowych zaczynają się od dużej litery (jak wszystkie typy zdefiniowane w programie).<div class="cpp-note cpp-lightredbackground"><p class="cpp-note-title cpp-bottomline">Ostrzeżenie<p>Wyliczenia nie muszą być nazwane, ale we współczesnym C++ należy unikać wyliczeń bez nazw.</div><p>Licznikom należy nadać nazwy. Niestety nie ma wspólnej konwencji nazewnictwa nazw modułów wyliczających. Typowe opcje obejmują rozpoczynanie od małych liter (np. czerwony), wielkie litery (Red), wielkie litery (RED), wszystkie wielkie litery z przedrostkiem (COLOR_RED) lub poprzedzone literą „k” i zakończone wielkimi literami (kColorRed).<p>Współczesne wytyczne dotyczące języka C++ zazwyczaj zalecają unikanie konwencji nazewnictwa wielkich liter, ponieważ wielkie litery są zwykle używane w makrach preprocesora i mogą powodować konflikty. Zalecamy również unikanie konwencji zaczynających się od dużej litery, ponieważ nazwy rozpoczynające się od dużej litery są zazwyczaj zarezerwowane dla typów zdefiniowanych w programie.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Nazwij wyliczone typy zaczynając od dużej litery. Nazwij swoje liczniki zaczynając od małej litery.</div><p class="cpp-section cpp-topline" style=clear:both>Typy wyliczone są różnymi typami<p>Każdy utworzony typ wyliczeniowy jest uważany za <strong>odrębny typ</strong>, co oznacza, że ​​kompilator może odróżnić go od innych typów (w przeciwieństwie do typedefs lub aliasów typów, które są uważane za nieróżniące się od typów, które aliasują).<p>Ponieważ typy wyliczeniowe są różne, modułów wyliczających zdefiniowanych jako część jednego typu wyliczeniowego nie można używać z obiektami innego typu wyliczeniowego:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">enum Pet
 {
     cat,
     dog,
@@ -81,8 +81,8 @@ enum Color
 
 int main()
 {
-    Pet myPet { black }; // compile error: black is not an enumerator of Pet
-    Color shirt { pig }; // compile error: pig is not an enumerator of Color
+    Pet myPet { black }; // błąd kompilacji: czarny nie jest modułem wyliczającym Pet
+    Color shirt { pig }; // błąd kompilacji: pig nie jest modułem wyliczającym Color
 
     return 0;
 }</code></pre><p>Prawdopodobnie i tak nie chciałeś koszulki ze świnią.<p class="cpp-section cpp-topline" style=clear:both>Wykorzystanie wyliczeń<p>Ponieważ moduły wyliczające mają charakter opisowy, są przydatne do ulepszania dokumentacji kodu i czytelności. Typów wyliczeniowych najlepiej używać, gdy masz niewielki zestaw powiązanych stałych, a obiekty muszą przechowywać tylko jedną z tych wartości na raz.<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>Powszechnie definiowane wyliczenia obejmują dni tygodnia, główne kierunki i kolory w talii kart:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">enum DaysOfWeek
@@ -144,7 +144,7 @@ FileReadResult readFileContents()
 }
 else
 {
-    // print error message
+    // drukuj komunikat o błędzie
 }</code></pre><p>Wyliczone typy można również dobrze wykorzystać w grach, aby zidentyfikować różne typy przedmiotów, potworów lub terenu. Zasadniczo wszystko, co jest małym zestawem powiązanych obiektów.<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><p>Na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">enum ItemType
 {
 	sword,
@@ -169,13 +169,13 @@ void sortData(SortOrder order)
     switch (order)
     {
         case alphabetical:
-            // sort data in forwards alphabetical order
+            // sortowanie danych w kolejności alfabetycznej w przód
             break;
         case alphabeticalReverse:
-            // sort data in backwards alphabetical order
+            // sortowanie danych w kolejności alfabetycznej wstecz
             break;
         case numerical:
-            // sort data numerically
+            // sortować dane numerycznie
             break;
     }
 }</code></pre><p>W wielu językach do definiowania wartości logicznych używa się wyliczeń — w końcu wartość logiczna jest po prostu wyliczeniem z dwoma modułami wyliczającymi: <code>false</code> i <code>true</code>! Jednakże w C++ <code>true</code> i <code>false</code> są definiowane jako słowa kluczowe, a nie moduły wyliczające.<p>Ponieważ wyliczenia są małe i niedrogie w kopiowaniu, dobrze jest przekazywać je (i zwracać) według wartości.<p>W lekcji <a href="../bit-flags-and-bit-manipulation-via-stdbitset/index.html">O.1 — Flagi bitowe i manipulacja bitami za pomocą std::bitset</a> omawialiśmy flagi bitowe. Wyliczeń można także używać do definiowania kolekcji powiązanych pozycji flag bitowych do użycia z <code>std::bitset</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;bitset&gt;
@@ -202,56 +202,56 @@ int main()
     me.set(Flags::isHappy);
     me.set(Flags::isLaughing);
 
-    std::cout &lt;&lt; std::boolalpha; // print bool as true/false
+    std::cout &lt;&lt; std::boolalpha; // wydrukuj bool jako prawda/fałsz
 
-    // Query a few states (we use the any() function to see if any bits remain set)
-    std::cout &lt;&lt; &#34;I am happy? &#34; &lt;&lt; me.test(Flags::isHappy) &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; &#34;I am laughing? &#34; &lt;&lt; me.test(Flags::isLaughing) &lt;&lt; &#39;\n&#39;;
+    // Zapytanie o kilka stanów (używamy any(), aby sprawdzić, czy jakieś bity pozostały ustawione)
+    std::cout &lt;&lt; "I am happy? " &lt;&lt; me.test(Flags::isHappy) &lt;&lt; '\n';
+    std::cout &lt;&lt; "I am laughing? " &lt;&lt; me.test(Flags::isLaughing) &lt;&lt; '\n';
 
     return 0;
-}</code></pre><p>Jeśli zastanawiasz się, w jaki sposób możemy użyć modułu wyliczającego, gdy oczekiwana jest wartość całkowita, moduły wyliczające bez zakresu zostaną niejawnie przekonwertowane na wartości całkowite. Zbadamy to szczegółowo w następnej lekcji (<a href="../unscoped-enumerator-integral-conversions/index.html">13.3 — Konwersje całkowe modułu wyliczającego bez zakresu</a>).<p class="cpp-section cpp-topline" style=clear:both>Zakres wyliczeń bez zakresu<p>Wyliczenia bez zakresu są nazywane w taki sposób, ponieważ umieszczają nazwy modułów wyliczających w tym samym zakresie, co sama definicja wyliczenia (w przeciwieństwie do tworzenia nowego obszaru zasięgu, jak ma to miejsce w przypadku przestrzeni nazw).<p>Na przykład, biorąc pod uwagę ten program:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">enum Color // this enum is defined in the global namespace
+}</code></pre><p>Jeśli zastanawiasz się, w jaki sposób możemy użyć modułu wyliczającego, gdy oczekiwana jest wartość całkowita, moduły wyliczające bez zakresu zostaną niejawnie przekonwertowane na wartości całkowite. Zbadamy to szczegółowo w następnej lekcji (<a href="../unscoped-enumerator-integral-conversions/index.html">13.3 — Konwersje całkowe modułu wyliczającego bez zakresu</a>).<p class="cpp-section cpp-topline" style=clear:both>Zakres wyliczeń bez zakresu<p>Wyliczenia bez zakresu są nazywane w taki sposób, ponieważ umieszczają nazwy modułów wyliczających w tym samym zakresie, co sama definicja wyliczenia (w przeciwieństwie do tworzenia nowego obszaru zasięgu, jak ma to miejsce w przypadku przestrzeni nazw).<p>Na przykład, biorąc pod uwagę ten program:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">enum Color // do obliczenia jest możliwa w globalnej przestrzeni nazw
 {
-    red, // so red is put into the global namespace
+    red, // więc kolor czerwony został umieszczony w globalnej przestrzeni nazw
     green,
     blue, 
 };
 
 int main()
 {
-    Color apple { red }; // my apple is red
+    Color apple { red }; // moje jabłko jest czerwone
 
     return 0;
-}</code></pre><p>Klasa <code>Color</code> wyliczenie jest zdefiniowane w zasięgu globalnym. Dlatego wszystkie nazwy wyliczeń (<code>red</code>, <code>green</code>, I <code>blue</code>) również wchodzą w zakres globalny. Zanieczyszcza to zakres globalny i znacznie zwiększa ryzyko kolizji nazw.<p>Jedną z konsekwencji jest to, że nazwa modułu wyliczającego nie może być używana w wielu wyliczeniach w tym samym zakresie:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">enum Color
+}</code></pre><p>Klasa <code>Color</code> wyliczenie jest zdefiniowane w zasięgu globalnym. Dlatego wszystkie nazwy wyliczeń (<code>red</code>, <code>green</code>, i <code>blue</code>) również wchodzą w zakres globalny. Zanieczyszcza to zakres globalny i znacznie zwiększa ryzyko kolizji nazw.<p>Jedną z konsekwencji jest to, że nazwa modułu wyliczającego nie może być używana w wielu wyliczeniach w tym samym zakresie:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">enum Color
 {
     red,
     green,
-    blue, // blue is put into the global namespace
+    blue, // niebieski jest umieszczany w globalnym przestrzeń nazw
 };
 
 enum Feeling
 {
     happy,
     tired,
-    blue, // error: naming collision with the above blue
+    blue, // błąd: kolizja nazewnictwa z powyższym niebieskim
 };
 
 int main()
 {
-    Color apple { red }; // my apple is red
-    Feeling me { happy }; // I&#39;m happy right now (even though my program doesn&#39;t compile)
+    Color apple { red }; // moje jabłko jest czerwone
+    Feeling me { happy }; // Jestem teraz szczęśliwy (mimo że mój program się nie kompiluje)
 
     return 0;
 }</code></pre><p>W powyższym przykładzie oba wyliczenia bez zakresu (<code>Color</code> i <code>Feeling</code>) umieszczają wyliczenia w tym samym zakresie. name <code>blue</code> do zakresu globalnego. Prowadzi to do kolizji nazewnictwa i późniejszego błędu kompilacji.<p>Wyliczenia bez zakresu udostępniają również nazwany region zakresu dla swoich modułów wyliczających (podobnie jak przestrzeń nazw działa jako nazwany region zakresu dla nazw zadeklarowanych wewnątrz). Oznacza to, że możemy uzyskać dostęp do modułów wyliczających wyliczenia bez zakresu w następujący sposób:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">enum Color
 {
     red,
     green,
-    blue, // blue is put into the global namespace
+    blue, // niebieski jest umieszczany w globalnym przestrzeń nazw
 };
 
 int main()
 {
-    Color apple { red }; // okay, accessing enumerator from global namespace
-    Color raspberry { Color::red }; // also okay, accessing enumerator from scope of Color
+    Color apple { red }; // OK, dostęp do modułu wyliczającego z globalnej przestrzeni nazw
+    Color raspberry { Color::red }; // również w porządku, dostęp do modułu wyliczającego z zakresu Color
 
     return 0;
 }</code></pre><p>Najczęściej dostęp do modułów wyliczających bez zakresu uzyskuje się bez użycia metody). operator rozpoznawania zakresu.<p class="cpp-section cpp-topline" style=clear:both>Unikanie kolizji nazewnictwa modułów wyliczających<p>Istnieje sporo typowych sposobów zapobiegania kolizjom nazewnictwa modułów wyliczających bez zakresu.<p>Jedną z opcji jest poprzedzenie każdego modułu wyliczającego nazwą samego wyliczenia:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">enum Color
@@ -265,7 +265,7 @@ enum Feeling
 {
     feeling_happy,
     feeling_tired,
-    feeling_blue, // no longer has a naming collision with color_blue
+    feeling_blue, // nie ma już kolizji nazw z color_blue
 };
 
 int main()
@@ -276,7 +276,7 @@ int main()
     return 0;
 }</code></pre><p>To nadal zanieczyszcza przestrzeń nazw, ale zmniejsza ryzyko kolizji nazewnictwa poprzez wydłużenie i zwiększenie nazw unikatowy.<p>Lepszą opcją jest umieszczenie typu wyliczeniowego w czymś, co zapewnia oddzielny obszar zasięgu, na przykład w przestrzeni nazw:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">namespace Color
 {
-    // The names Color, red, blue, and green are defined inside namespace Color
+    // Nazwy Kolor, czerwony, niebieski i zielony są zdefiniowane w przestrzeni nazw Kolor
     enum Color
     {
         red,
@@ -291,7 +291,7 @@ namespace Feeling
     {
         happy,
         tired,
-        blue, // Feeling::blue doesn&#39;t collide with Color::blue
+        blue, // Feeling::blue nie koliduje z Color::blue
     };
 }
 
@@ -314,10 +314,10 @@ int main()
 {
     Color shirt{ blue };
 
-    if (shirt == blue) // if the shirt is blue
-        std::cout &lt;&lt; &#34;Your shirt is blue!&#34;;
+    if (shirt == blue) // jeśli koszulka jest niebieska
+        std::cout &lt;&lt; "Your shirt is blue!";
     else
-        std::cout &lt;&lt; &#34;Your shirt is not blue!&#34;;
+        std::cout &lt;&lt; "Your shirt is not blue!";
 
     return 0;
 }</code></pre><p>W powyższym przykładzie używamy instrukcji if, aby sprawdzić, czy <code>shirt</code> jest równy modułowi wyliczającemu <code>blue</code>. Dzięki temu możemy warunkować zachowanie naszego programu w oparciu o moduł wyliczający, który zawiera nasze wyliczenie.<p>Wykorzystamy to częściej w następnej lekcji.<p class="cpp-section cpp-topline" style=clear:both>Czas quizu<p class=cpp-quiz-question style=clear:both>Pytanie nr 1<p>Zdefiniuj nieograniczony typ wyliczeniowy o nazwie MonsterType, aby wybierać pomiędzy następującymi rasami potworów: ork, goblin, troll, ogr i szkielet.<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_0 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">enum MonsterType
@@ -341,8 +341,8 @@ int main()
 
 int main()
 {
-    // We use [[maybe_unused]] to avoid warnings about unused variables
-    // You could also output the monster instead
+    // Używamy [[maybe_unused]], aby uniknąć ostrzeżeń o nieużywanych zmiennych
+    // Możesz też zamiast tego wyprowadzić potwora
     [[maybe_unused]] Monster::MonsterType monster{ Monster::troll };
 
     return 0;

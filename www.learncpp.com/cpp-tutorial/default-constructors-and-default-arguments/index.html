@@ -13,24 +13,24 @@
 <button class=searchsubmit><span class=screen-reader-text>Szukaj</span><i class=icon-search></i></button>
 <input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=25546></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="14.11 — Konstruktory domyślne i argumenty domyślne" src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-15343 class="post-15343 post type-post status-publish format-standard hentry category-cpp-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>14.11 — Konstruktory domyślne i argumenty domyślne</h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Autor></i><a class="url fn n" rel=author href=/www.learncpp.com/author/Alex/ title="Wyświetl wszystkie posty Alexa" itemprop=url><em itemprop=name>Alex</em></a></span>
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2023-09-11T12:21:03-07:00 itemprop=datePublished>11 września 2023, 12:21 czasu PDT</time>
-<time class=updated datetime=2024-09-16T16:14:22-07:00 itemprop=dateModified>16 września 2024 r</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>A <strong>konstruktorem domyślnym</strong> jest konstruktorem, który nie akceptuje żadnych argumentów. Zwykle jest to konstruktor zdefiniowany bez parametrów.<p>Oto przykład klasy, która ma domyślny konstruktor:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+<time class=updated datetime=2024-09-16T16:14:22-07:00 itemprop=dateModified>16 września 2024 r</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p><strong>konstruktorem domyślnym</strong> jest konstruktorem, który nie akceptuje żadnych argumentów. Zwykle jest to konstruktor zdefiniowany bez parametrów.<p>Oto przykład klasy, która ma domyślny konstruktor:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 class Foo
 {
 public:
     Foo() // default constructor
     {
-        std::cout &lt;&lt; &#34;Foo default constructed\n&#34;;
+        std::cout &lt;&lt; "Foo default constructed\n";
     }
 };
 
 int main()
 {
-    Foo foo{}; // No initialization values, calls Foo&#39;s default constructor
+    Foo foo{}; // Brak wartości inicjujących, wywołuje domyślny konstruktor Foo
 
     return 0;
 }</code></pre><p>Gdy powyższy program zostanie uruchomiony, obiekt typu <code>Foo</code> jest tworzony. Ponieważ nie podano żadnych wartości inicjujących, konstruktor domyślny <code>Foo()</code> nazywa się, co wypisuje:<pre>Foo default constructed
-</pre><p class="cpp-section cpp-topline" style=clear:both>Inicjalizacja wartości a inicjalizacja domyślna dla typów klas<p>Jeśli typ klasy ma konstruktor domyślny, zarówno inicjalizacja wartości, jak i inicjalizacja domyślna wywołają konstruktor domyślny. Zatem dla takiej klasy jak <code>Foo</code> class w powyższym przykładzie następujące są zasadniczo równoważne:<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    Foo foo{}; // value initialization, calls Foo() default constructor
+</pre><p class="cpp-section cpp-topline" style=clear:both>Inicjalizacja wartości a inicjalizacja domyślna dla typów klas<p>Jeśli typ klasy ma konstruktor domyślny, zarówno inicjalizacja wartości, jak i inicjalizacja domyślna wywołają konstruktor domyślny. Zatem dla takiej klasy jak <code>Foo</code> class w powyższym przykładzie następujące są zasadniczo równoważne:<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    Foo foo{}; // inicjalizacja wartości, wywołuje domyślny konstruktor Foo()
     Foo foo2;  // default initialization, calls Foo() default constructor</code></pre><p>Jednakże, jak już omawialiśmy na lekcji <a href="../non-static-member-initialization/index.html">13.9 — Domyślna inicjalizacja elementu członkowskiego</a>, inicjalizacja wartości jest bezpieczniejsza dla agregatów. Ponieważ trudno jest stwierdzić, czy typ klasy jest zagregowany, czy nie, bezpieczniej jest po prostu używać inicjalizacji wartości do wszystkiego i nie martwić się tym.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Preferuj inicjalizację wartości zamiast domyślnej inicjalizacji dla wszystkich typów klas.</div><p class="cpp-section cpp-topline" style=clear:both>Konstruktory z argumentami domyślnymi<p>Podobnie jak w przypadku wszystkich funkcji, parametry konstruktorów znajdujące się najbardziej na prawo mogą mieć argumenty domyślne.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Powiązana treść<p>Domyślne argumenty omówimy na lekcji <a href="../default-arguments/index.html">11.5 -- Domyślne argumenty</a>.</div><p>Na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 class Foo
@@ -40,17 +40,17 @@ private:
     int m_y { };
 
 public:
-    Foo(int x=0, int y=0) // has default arguments
+    Foo(int x=0, int y=0) // ma argumenty domyślne
         : m_x { x }
         , m_y { y }
     {
-        std::cout &lt;&lt; &#34;Foo(&#34; &lt;&lt; m_x &lt;&lt; &#34;, &#34; &lt;&lt; m_y &lt;&lt; &#34;) constructed\n&#34;;
+        std::cout &lt;&lt; "Foo(" &lt;&lt; m_x &lt;&lt; ", " &lt;&lt; m_y &lt;&lt; ") constructed\n";
     }
 };
 
 int main()
 {
-    Foo foo1{};     // calls Foo(int, int) constructor using default arguments
+    Foo foo1{};     // wywołuje konstruktor Foo(int, int) przy użyciu domyślnych argumentów
     Foo foo2{6, 7}; // calls Foo(int, int) constructor
 
     return 0;
@@ -67,13 +67,13 @@ private:
 public:
     Foo() // default constructor
     {
-        std::cout &lt;&lt; &#34;Foo constructed\n&#34;;
+        std::cout &lt;&lt; "Foo constructed\n";
     }
 
-    Foo(int x, int y) // non-default constructor
+    Foo(int x, int y) // konstruktor inny niż domyślny
         : m_x { x }, m_y { y }
     {
-        std::cout &lt;&lt; &#34;Foo(&#34; &lt;&lt; m_x &lt;&lt; &#34;, &#34; &lt;&lt; m_y &lt;&lt; &#34;) constructed\n&#34;;
+        std::cout &lt;&lt; "Foo(" &lt;&lt; m_x &lt;&lt; ", " &lt;&lt; m_y &lt;&lt; ") constructed\n";
     }
 };
 
@@ -94,22 +94,22 @@ private:
 public:
     Foo() // default constructor
     {
-        std::cout &lt;&lt; &#34;Foo constructed\n&#34;;
+        std::cout &lt;&lt; "Foo constructed\n";
     }
 
     Foo(int x=1, int y=2) // default constructor
         : m_x { x }, m_y { y }
     {
-        std::cout &lt;&lt; &#34;Foo(&#34; &lt;&lt; m_x &lt;&lt; &#34;, &#34; &lt;&lt; m_y &lt;&lt; &#34;) constructed\n&#34;;
+        std::cout &lt;&lt; "Foo(" &lt;&lt; m_x &lt;&lt; ", " &lt;&lt; m_y &lt;&lt; ") constructed\n";
     }
 };
 
 int main()
 {
-    Foo foo{}; // compile error: ambiguous constructor function call
+    Foo foo{}; // błąd kompilacji: niejednoznaczne wywołanie funkcji konstruktora
 
     return 0;
-}</code></pre><p>W powyższym przykładzie tworzymy instancję <code>foo</code> bez argumentów, więc kompilator będzie szukać konstruktora domyślnego. Znajdzie dwa i nie będzie w stanie jednoznacznie określić, którego konstruktora należy użyć. Spowoduje to błąd kompilacji.<p class="cpp-section cpp-topline" style=clear:both>Niejawny konstruktor domyślny<p>Jeśli obiekt typu klasy niezagregowanej nie ma konstruktorów zadeklarowanych przez użytkownika, kompilator wygeneruje publiczny konstruktor domyślny (dzięki czemu klasa może być inicjowana wartościowo lub domyślnie). Konstruktor ten nazywa się an <strong>niejawnym konstruktorem domyślnym</strong>.<p>Rozważ następujący przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+}</code></pre><p>W powyższym przykładzie tworzymy instancję <code>foo</code> bez argumentów, więc kompilator będzie szukać konstruktora domyślnego. Znajdzie dwa i nie będzie w stanie jednoznacznie określić, którego konstruktora należy użyć. Spowoduje to błąd kompilacji.<p class="cpp-section cpp-topline" style=clear:both>Niejawny konstruktor domyślny<p>Jeśli obiekt typu klasy niezagregowanej nie ma konstruktorów zadeklarowanych przez użytkownika, kompilator wygeneruje publiczny konstruktor domyślny (dzięki czemu klasa może być inicjowana wartościowo lub domyślnie). Konstruktor ten nazywa się <strong>niejawnym konstruktorem domyślnym</strong>.<p>Rozważ następujący przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 class Foo
 {
@@ -117,7 +117,7 @@ private:
     int m_x{};
     int m_y{};
 
-    // Note: no constructors declared
+    // Uwaga: nie zadeklarowano żadnych konstruktorów
 };
 
 int main()
@@ -126,9 +126,9 @@ int main()
 
     return 0;
 }</code></pre><p>Ta klasa nie ma konstruktorów zadeklarowanych przez użytkownika, więc kompilator wygeneruje dla nas niejawny konstruktor domyślny. Ten konstruktor zostanie użyty do utworzenia instancji <code>foo{}</code>.<p>Niejawny konstruktor domyślny jest odpowiednikiem konstruktora, który nie ma parametrów, listy inicjatorów składowych ani instrukcji w treści konstruktora. Innymi słowy, dla powyższego <code>Foo</code> class, kompilator generuje to:<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">public:
-    Foo() // implicitly generated default constructor
+    Foo() // niejawnie wygenerowany konstruktor domyślny
     {
-    }</code></pre><p>Niejawny konstruktor domyślny jest przydatny głównie wtedy, gdy mamy klasy, które nie mają elementów danych. Jeśli klasa zawiera elementy danych, prawdopodobnie będziemy chcieli umożliwić ich inicjalizację wartościami dostarczonymi przez użytkownika, a domyślny konstruktor domyślny nie będzie do tego wystarczający.<p class="cpp-section cpp-topline" style=clear:both>Użycie <code>= default</code> aby wygenerować jawnie domyślny konstruktor domyślny<p>W przypadkach, gdy napisalibyśmy domyślny konstruktor, który jest odpowiednikiem niejawnie wygenerowanego konstruktora domyślnego, możemy zamiast tego powiedzieć kompilatorowi, aby wygenerował dla nas konstruktor domyślny. Konstruktor ten nazywa się an <strong>jawnie domyślny konstruktor domyślny</strong>i można go wygenerować za pomocą metody <code>= default</code> składnia:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+    }</code></pre><p>Niejawny konstruktor domyślny jest przydatny głównie wtedy, gdy mamy klasy, które nie mają elementów danych. Jeśli klasa zawiera elementy danych, prawdopodobnie będziemy chcieli umożliwić ich inicjalizację wartościami dostarczonymi przez użytkownika, a domyślny konstruktor domyślny nie będzie do tego wystarczający.<p class="cpp-section cpp-topline" style=clear:both>Użycie <code>= default</code> aby wygenerować jawnie domyślny konstruktor domyślny<p>W przypadkach, gdy napisalibyśmy domyślny konstruktor, który jest odpowiednikiem niejawnie wygenerowanego konstruktora domyślnego, możemy zamiast tego powiedzieć kompilatorowi, aby wygenerował dla nas konstruktor domyślny. Konstruktor ten nazywa się <strong>jawnie domyślny konstruktor domyślny</strong>i można go wygenerować za pomocą metody <code>= default</code> składnia:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 class Foo
 {
@@ -137,12 +137,12 @@ private:
     int m_y {};
 
 public:
-    Foo() = default; // generates an explicitly defaulted default constructor
+    Foo() = default; // generuje jawnie domyślny konstruktor domyślny
 
     Foo(int x, int y)
         : m_x { x }, m_y { y }
     {
-        std::cout &lt;&lt; &#34;Foo(&#34; &lt;&lt; m_x &lt;&lt; &#34;, &#34; &lt;&lt; m_y &lt;&lt; &#34;) constructed\n&#34;;
+        std::cout &lt;&lt; "Foo(" &lt;&lt; m_x &lt;&lt; ", " &lt;&lt; m_y &lt;&lt; ") constructed\n";
     }
 };
 
@@ -156,11 +156,11 @@ int main()
 class User
 {
 private:
-    int m_a; // note: no default initialization value
+    int m_a; // uwaga: brak wartości domyślnej wartość inicjalizacyjna
     int m_b {};
 
 public:
-    User() {} // user-defined empty constructor
+    User() {} // pusty konstruktor zdefiniowany przez użytkownika
 
     int a() const { return m_a; }
     int b() const { return m_b; }
@@ -169,11 +169,11 @@ public:
 class Default
 {
 private:
-    int m_a; // note: no default initialization value
+    int m_a; // uwaga: brak wartości domyślnej wartość inicjalizacyjna
     int m_b {};
 
 public:
-    Default() = default; // explicitly defaulted default constructor
+    Default() = default; // jawnie domyślny konstruktor domyślny
 
     int a() const { return m_a; }
     int b() const { return m_b; }
@@ -182,11 +182,11 @@ public:
 class Implicit
 {
 private:
-    int m_a; // note: no default initialization value
+    int m_a; // uwaga: brak wartości domyślnej wartość inicjalizacyjna
     int m_b {};
 
 public:
-    // implicit default constructor
+    // niejawny konstruktor domyślny
 
     int a() const { return m_a; }
     int b() const { return m_b; }
@@ -195,13 +195,13 @@ public:
 int main()
 {
     User user{}; // default initialized
-    std::cout &lt;&lt; user.a() &lt;&lt; &#39; &#39; &lt;&lt; user.b() &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; user.a() &lt;&lt; ' ' &lt;&lt; user.b() &lt;&lt; '\n';
 
-    Default def{}; // zero initialized, then default initialized
-    std::cout &lt;&lt; def.a() &lt;&lt; &#39; &#39; &lt;&lt; def.b() &lt;&lt; &#39;\n&#39;;
+    Default def{}; // zainicjowane zero, następnie domyślnie zainicjowana
+    std::cout &lt;&lt; def.a() &lt;&lt; ' ' &lt;&lt; def.b() &lt;&lt; '\n';
 
-    Implicit imp{}; // zero initialized, then default initialized
-    std::cout &lt;&lt; imp.a() &lt;&lt; &#39; &#39; &lt;&lt; imp.b() &lt;&lt; &#39;\n&#39;;
+    Implicit imp{}; // zainicjowane zero, następnie domyślnie zainicjowana
+    std::cout &lt;&lt; imp.a() &lt;&lt; ' ' &lt;&lt; imp.b() &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Na komputerze autora wypisuje:<pre>782510864 0
@@ -225,7 +225,7 @@ public:
 
     void print() const
     {
-        std::cout &lt;&lt; &#34;Fraction(&#34; &lt;&lt; m_numerator &lt;&lt; &#34;, &#34; &lt;&lt; m_denominator &lt;&lt; &#34;)\n&#34;;
+        std::cout &lt;&lt; "Fraction(" &lt;&lt; m_numerator &lt;&lt; ", " &lt;&lt; m_denominator &lt;&lt; ")\n";
     }
 };
 
@@ -234,7 +234,7 @@ int main()
     Fraction f1 {3, 5};
     f1.print();
 
-    Fraction f2 {}; // will get Fraction 0/1
+    Fraction f2 {}; // otrzyma ułamek 0/1
     f2.print();
 
     return 0;
@@ -257,16 +257,16 @@ public:
 
     void print() const
     {
-        std::cout &lt;&lt; &#34;Employee(&#34; &lt;&lt; m_name &lt;&lt; &#34;, &#34; &lt;&lt; m_id &lt;&lt; &#34;)\n&#34;;
+        std::cout &lt;&lt; "Employee(" &lt;&lt; m_name &lt;&lt; ", " &lt;&lt; m_id &lt;&lt; ")\n";
     }
 };
 
 int main()
 {
-    Employee e1 { &#34;Joe&#34;, 1 };
+    Employee e1 { "Joe", 1 };
     e1.print();
 
-    Employee e2 {}; // compile error: no matching constructor
+    Employee e2 {}; // błąd kompilacji: brak pasującego konstruktora
     e2.print();
 
     return 0;

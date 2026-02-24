@@ -26,25 +26,25 @@ public:
 
     void print()
     {
-        std::cout &lt;&lt; m_value &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; m_value &lt;&lt; '\n';
     }
 };
 
 template&lt;&gt;
-void Storage&lt;double&gt;::print() // fully specialized for type double
+void Storage&lt;double&gt;::print() // w pełni wyspecjalizowana dla typu double
 {
-    std::cout &lt;&lt; std::scientific &lt;&lt; m_value &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; std::scientific &lt;&lt; m_value &lt;&lt; '\n';
 }
 
 int main()
 {
-    // Define some storage units
+    // Zdefiniuj niektóre jednostki przechowywania
     Storage i { 5 };
-    Storage d { 6.7 }; // will cause Storage&lt;double&gt; to be implicitly instantiated
+    Storage d { 6.7 }; // spowoduje niejawne utworzenie instancji Storage&lt;double&gt;
 
-    // Print out some values
-    i.print(); // calls Storage&lt;int&gt;::print (instantiated from Storage&lt;T&gt;)
-    d.print(); // calls Storage&lt;double&gt;::print (called from explicit specialization of Storage&lt;double&gt;::print())
+    // Wydrukuj niektóre wartości
+    i.print(); // wywołuje Storage&lt;int&gt;::print (utworzone z Storage&lt;T&gt;)
+    d.print(); // wywołuje Storage&lt;double&gt;::print (wywoływany z jawnej specjalizacji Storage&lt;double&gt;::print())
 }</code></pre><p>Jednak choć ta klasa jest prosta, ma ukrytą wadę: kompiluje się ale działa nieprawidłowo, gdy <code>T</code> jest typem wskaźnika. Na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
     double d { 1.2 };
@@ -70,21 +70,21 @@ public:
 
     void print()
     {
-        std::cout &lt;&lt; m_value &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; m_value &lt;&lt; '\n';
     }
 };
 
 template&lt;&gt;
-void Storage&lt;double*&gt;::print() // fully specialized for type double*
+void Storage&lt;double*&gt;::print() // w pełni wyspecjalizowana dla typu double*
 {
     if (m_value)
-        std::cout &lt;&lt; std::scientific &lt;&lt; *m_value &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; std::scientific &lt;&lt; *m_value &lt;&lt; '\n';
 }
 
 template&lt;&gt;
-void Storage&lt;double&gt;::print() // fully specialized for type double (for comparison, not used)
+void Storage&lt;double&gt;::print() // w pełni wyspecjalizowana dla typu double (dla porównania, nieużywana)
 {
-    std::cout &lt;&lt; std::scientific &lt;&lt; m_value &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; std::scientific &lt;&lt; m_value &lt;&lt; '\n';
 }
 
 int main()
@@ -93,7 +93,7 @@ int main()
     double *ptr { &amp;d };
 
     Storage s { ptr };
-    s.print(); // calls Storage&lt;double*&gt;::print()
+    s.print(); // wywołuje Storage&lt;double**&gt;::print()
     
     return 0;
 }</code></pre><p>To teraz wypisuje prawidłowy wynik:<pre>1.200000e+00
@@ -106,7 +106,7 @@ void Storage&lt;T*&gt;::print()
 }</code></pre><p>Taka funkcja jest częściowo wyspecjalizowaną funkcją szablonową, ponieważ ogranicza jaki typ <code>T</code> może być (do typu wskaźnikowego), ale <code>T</code> jest nadal szablonem typu parametr.<p>Niestety to nie działa z prostego powodu: w chwili pisania tego tekstu (C++23) funkcje nie mogą być częściowo wyspecjalizowane. Jak zauważyliśmy w lekcji <a href="../partial-template-specialization/index.html">26.5 — Częściowa specjalizacja szablonów</a>, tylko klasy mogą być częściowo specjalizowane.<p>Więc zamiast tego specjalizujmy się częściowo <code>Storage</code> klasę:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 template &lt;typename T&gt;
-class Storage // This is our primary template class (same as previous)
+class Storage // To jest nasza główna klasa szablonów (taka sama jak poprzednia)
 {
 private:
     T m_value {};
@@ -118,12 +118,12 @@ public:
 
     void print()
     {
-        std::cout &lt;&lt; m_value &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; m_value &lt;&lt; '\n';
     }
 };
 
-template &lt;typename T&gt; // we still have a type template parameter
-class Storage&lt;T*&gt; // This is partially specialized for T*
+template &lt;typename T&gt; // nadal mamy parametr szablonu typu
+class Storage&lt;T*&gt; // To jest częściowo wyspecjalizowane dla T*
 {
 private:
     T* m_value {};
@@ -137,10 +137,10 @@ public:
 };
 
 template &lt;typename T&gt;
-void Storage&lt;T*&gt;::print() // This is a non-specialized function of partially specialized class Storage&lt;T*&gt;
+void Storage&lt;T*&gt;::print() // To jest niewyspecjalizowana funkcja częściowo wyspecjalizowanej klasy Storage&lt;T*&gt;
 {
     if (m_value)
-        std::cout &lt;&lt; std::scientific &lt;&lt; *m_value &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; std::scientific &lt;&lt; *m_value &lt;&lt; '\n';
 }
 
 int main()
@@ -148,18 +148,18 @@ int main()
     double d { 1.2 };
     double *ptr { &amp;d };
 
-    Storage s { ptr }; // instantiates Storage&lt;double*&gt; from partially specialized class
-    s.print(); // calls Storage&lt;double*&gt;::print()
+    Storage s { ptr }; // tworzy instancję Storage&lt;double*&gt; z częściowo wyspecjalizowanej klasy
+    s.print(); // wywołuje Storage&lt;double**&gt;::print()
     
     return 0;
-}</code></pre><p>Zdefiniowaliśmy <code>Storage&lt;T*>::print()</code> poza klasą tylko po to, aby pokazać, jak to się robi i pokazać, że definicja jest identyczna z częściowo wyspecjalizowaną funkcja <code>Storage&lt;T*>::print()</code> która nie działała powyżej. Jednakże teraz, gdy <code>Storage&lt;T*></code> jest klasą częściowo wyspecjalizowaną, <code>Storage&lt;T*>::print()</code> nie jest już częściowo wyspecjalizowana — jest to funkcja niewyspecjalizowana i dlatego jest dozwolona.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>Warto zauważyć, że nasz parametr szablonu typu jest zdefiniowany jako <code>T</code>, nie <code>T*</code>. Oznacza to, że  <code>T</code> zostanie wydedukowany jako typ niewskaźnikowy, więc musimy użyć <code>T*</code> wszędzie tam, gdzie chcemy, aby wskaźnik był <code>T</code>. Warto również przypomnieć, że częściową specjalizację <code>Storage&lt;T*></code> należy zdefiniować po podstawowej klasie szablonu <code>Storage&lt;T></code>.<p class="cpp-section cpp-topline" style=clear:both>Kwestie własności i czasu życia<p>Powyższa częściowo wyspecjalizowana klasa <code>Storage&lt;T*></code> ma inny potencjalny problem. Ponieważ  <code>m_value</code> jest <code>T*</code> jest to wskaźnik do obiektu, który jest przekazywany. Jeśli obiekt ten zostanie następnie zniszczony, naszym <code>Storage&lt;T*></code> pozostaną wiszące.<p>głównym problemem jest to, że nasza implementacja <code>Storage&lt;T></code> ma semantykę kopiowania (co oznacza, że ​​tworzy kopię swojego inicjatora), ale <code>Storage&lt;T*></code> ma semantykę referencji (co oznacza, że ​​jest referencją do swojego inicjatora). Ta niespójność jest przepisem na błędy.<p>Istnieje kilka różnych sposobów radzenia sobie z takimi problemami (w kolejności rosnącej złożoności):<ol start=1><li>Wyjaśnij, naprawdę jasno, że <code>Storage&lt;T*></code> jest klasą widoku (z semantyką referencyjną), więc to dzwoniący musi upewnić się, że wskazywany obiekt pozostanie ważny tak długo, jak robi to  <code>Storage&lt;T*></code> . Niestety, ponieważ ta częściowo wyspecjalizowana klasa musi mieć taką samą nazwę jak podstawowa klasa szablonowa, nie możemy nadać jej nazwy typu  <code>StorageView</code>. Dlatego jesteśmy ograniczeni do używania komentarzy i innych rzeczy, które mogą zostać pominięte. Niezbyt dobra opcja.<li>Zapobiegaj używaniu <code>Storage&lt;T*></code> całkowicie. Prawdopodobnie nie potrzebujemy <code>Storage&lt;T*></code> istnieć, ponieważ osoba wywołująca może zawsze wyłuskać wskaźnik w momencie tworzenia instancji, aby użyć <code>Storage&lt;T></code> i utworzyć kopię wartości (która jest semantycznie odpowiednia dla klasy pamięci).</ol><p>Jednak chociaż możesz usunąć przeciążoną funkcję, C++ (od C++ 23) nie pozwoli ci usunąć klasy. Oczywistym rozwiązaniem jest częściowa specjalizacja <code>Storage&lt;T*></code> , a następnie zrobienie czegoś, aby się nie skompilował (np.  <code>static_assert</code>) po utworzeniu instancji szablonu. To podejście ma jedną poważną wadę:  <code>std::nullptr_t</code> nie jest typem wskaźnika, więc <code>Storage&lt;std::nullptr_t></code> nie będzie pasować <code>Storage&lt;T*></code>!<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>Lepszym rozwiązaniem jest całkowite uniknięcie częściowej specjalizacji i użycie  <code>static_assert</code> na naszym głównym szablonie aby upewnić się, że  <code>T</code> jest typem, z którym się zgadzamy. Oto przykład takiego podejścia:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
-#include &lt;type_traits&gt; // for std::is_pointer_v and std::is_null_pointer_v
+}</code></pre><p>Zdefiniowaliśmy <code>Storage&lt;T*>::print()</code> poza klasą tylko po to, aby pokazać, jak to się robi i pokazać, że definicja jest identyczna z częściowo wyspecjalizowaną funkcja <code>Storage&lt;T*>::print()</code> która nie działała powyżej. Jednakże teraz, gdy <code>Storage&lt;T*></code> jest klasą częściowo wyspecjalizowaną, <code>Storage&lt;T*>::print()</code> nie jest już częściowo wyspecjalizowana — jest to funkcja niewyspecjalizowana i dlatego jest dozwolona.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>Warto zauważyć, że nasz parametr szablonu typu jest zdefiniowany jako <code>T</code>, nie <code>T*</code>. Oznacza to, że  <code>T</code> zostanie wydedukowany jako typ niewskaźnikowy, więc musimy użyć <code>T*</code> wszędzie tam, gdzie chcemy, aby wskaźnik był <code>T</code>. Warto również przypomnieć, że częściową specjalizację <code>Storage&lt;T*></code> należy zdefiniować po podstawowej klasie szablonu <code>Storage&lt;T></code>.<p class="cpp-section cpp-topline" style=clear:both>Kwestie własności i czasu życia<p>Powyższa częściowo wyspecjalizowana klasa <code>Storage&lt;T*></code> ma inny potencjalny problem. Ponieważ  <code>m_value</code> jest <code>T*</code> jest to wskaźnik do obiektu, który jest przekazywany. Jeśli obiekt ten zostanie następnie zniszczony, naszym <code>Storage&lt;T*></code> pozostaną wiszące.<p>głównym problemem jest to, że nasza implementacja <code>Storage&lt;T></code> ma semantykę kopiowania (co oznacza, że ​​tworzy kopię swojego inicjatora), ale <code>Storage&lt;T*></code> ma semantykę referencji (co oznacza, że ​​jest referencją do swojego inicjatora). Ta niespójność jest przepisem na błędy.<p>Istnieje kilka różnych sposobów radzenia sobie z takimi problemami (w kolejności rosnącej złożoności):<ol start=1><li>Wyjaśnij, naprawdę jasno, że <code>Storage&lt;T*></code> jest klasą widoku (z semantyką referencyjną), więc to wywołujący musi upewnić się, że wskazywany obiekt pozostanie ważny tak długo, jak robi to  <code>Storage&lt;T*></code> . Niestety, ponieważ ta częściowo wyspecjalizowana klasa musi mieć taką samą nazwę jak podstawowa klasa szablonowa, nie możemy nadać jej nazwy typu  <code>StorageView</code>. Dlatego jesteśmy ograniczeni do używania komentarzy i innych rzeczy, które mogą zostać pominięte. Niezbyt dobra opcja.<li>Zapobiegaj używaniu <code>Storage&lt;T*></code> całkowicie. Prawdopodobnie nie potrzebujemy <code>Storage&lt;T*></code> istnieć, ponieważ osoba wywołująca może zawsze wyłuskać wskaźnik w momencie tworzenia instancji, aby użyć <code>Storage&lt;T></code> i utworzyć kopię wartości (która jest semantycznie odpowiednia dla klasy pamięci).</ol><p>Jednak chociaż możesz usunąć przeciążoną funkcję, C++ (od C++ 23) nie pozwoli ci usunąć klasy. Oczywistym rozwiązaniem jest częściowa specjalizacja <code>Storage&lt;T*></code> , a następnie zrobienie czegoś, aby się nie skompilował (np.  <code>static_assert</code>) po utworzeniu instancji szablonu. To podejście ma jedną poważną wadę:  <code>std::nullptr_t</code> nie jest typem wskaźnika, więc <code>Storage&lt;std::nullptr_t></code> nie będzie pasować <code>Storage&lt;T*></code>!<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>Lepszym rozwiązaniem jest całkowite uniknięcie częściowej specjalizacji i użycie  <code>static_assert</code> na naszym głównym szablonie aby upewnić się, że  <code>T</code> jest typem, z którym się zgadzamy. Oto przykład takiego podejścia:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+#include &lt;type_traits&gt; // dla std::is_pointer_v i std::is_null_pointer_v
 
 template &lt;typename T&gt;
 class Storage
 {
-    // Make sure T isn&#39;t a pointer or a std::nullptr_t
-    static_assert(!std::is_pointer_v&lt;T&gt; &amp;&amp; !std::is_null_pointer_v&lt;T&gt;, &#34;Storage&lt;T*&gt; and Storage&lt;nullptr&gt; disallowed&#34;);
+    // Upewnij się, że T nie jest wskaźnikiem ani a std::nullptr_t
+    static_assert(!std::is_pointer_v&lt;T&gt; &amp;&amp; !std::is_null_pointer_v&lt;T&gt;, "Storage&lt;T*&gt; and Storage&lt;nullptr&gt; disallowed");
 
 private:
     T m_value {};
@@ -172,7 +172,7 @@ public:
 
     void print()
     {
-        std::cout &lt;&lt; m_value &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; m_value &lt;&lt; '\n';
     }
 };
 
@@ -183,22 +183,22 @@ int main()
     Storage s1 { d }; // ok
     s1.print();
 
-    Storage s2 { &amp;d }; // static_assert because T is a pointer
+    Storage s2 { &amp;d }; // static_assert, ponieważ T jest wskaźnikiem
     s2.print();
 
-    Storage s3 { nullptr }; // static_assert because T is a nullptr
+    Storage s3 { nullptr }; // static_assert, ponieważ T jest nullptr
     s3.print();
     
     return 0;
 }</code></pre><ol start=3><li>Zwróć <code>Storage&lt;T*></code> wykonaj kopię obiektu na stercie. Jeśli sam zarządzasz całą pamięcią sterty, wymaga to przeciążenia konstruktora, konstruktora kopiującego, przypisania kopii i destruktora. Łatwiejszą alternatywą jest po prostu użycie <code>std::unique_ptr</code> (które omówimy w lekcji <a href="../stdunique_ptr/index.html">22.5 — std::unique_ptr</a>):</ol><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
-#include &lt;type_traits&gt; // for std::is_pointer_v and std::is_null_pointer_v
+#include &lt;type_traits&gt; // dla std::is_pointer_v i std::is_null_pointer_v
 #include &lt;memory&gt;
 
 template &lt;typename T&gt;
 class Storage
 {
-    // Make sure T isn&#39;t a pointer or a std::nullptr_t
-    static_assert(!std::is_pointer_v&lt;T&gt; &amp;&amp; !std::is_null_pointer_v&lt;T&gt;, &#34;Storage&lt;T*&gt; and Storage&lt;nullptr&gt; disallowed&#34;);
+    // Upewnij się, że T nie jest wskaźnikiem ani a std::nullptr_t
+    static_assert(!std::is_pointer_v&lt;T&gt; &amp;&amp; !std::is_null_pointer_v&lt;T&gt;, "Storage&lt;T*&gt; and Storage&lt;nullptr&gt; disallowed");
 
 private:
     T m_value {};
@@ -211,7 +211,7 @@ public:
 
     void print()
     {
-        std::cout &lt;&lt; m_value &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; m_value &lt;&lt; '\n';
     }
 };
 
@@ -219,18 +219,18 @@ template &lt;typename T&gt;
 class Storage&lt;T*&gt;
 {
 private:
-    std::unique_ptr&lt;T&gt; m_value {}; // use std::unique_ptr to automatically deallocate when Storage is destroyed
+    std::unique_ptr&lt;T&gt; m_value {}; // użyj std::unique_ptr, aby automatycznie zwolnić alokację w przypadku zniszczenia pamięci
 
 public:
     Storage(T* value)
-      : m_value { std::make_unique&lt;T&gt;(value ? *value : 0) } // or throw exception when !value
+      : m_value { std::make_unique&lt;T&gt;(value ? *value : 0) } // lub zgłoś wyjątek, gdy !wartość
     {
     }
 
     void print()
     {
         if (m_value)
-            std::cout &lt;&lt; *m_value &lt;&lt; &#39;\n&#39;;
+            std::cout &lt;&lt; *m_value &lt;&lt; '\n';
     }
 };
 
@@ -241,7 +241,7 @@ int main()
     Storage s1 { d }; // ok
     s1.print();
 
-    Storage s2 { &amp;d }; // ok, copies d on heap
+    Storage s2 { &amp;d }; // ok, kopiuje d na stertę
     s2.print();
 
     return 0;

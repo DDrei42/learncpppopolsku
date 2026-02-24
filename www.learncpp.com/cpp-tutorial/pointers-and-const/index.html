@@ -16,50 +16,50 @@
 <time class=updated datetime=2025-02-12T11:41:28-08:00 itemprop=dateModified>12 lutego 2025</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>Rozważ następujący fragment kodu:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
     int x { 5 };
-    int* ptr { &amp;x }; // ptr is a normal (non-const) pointer
+    int* ptr { &amp;x }; // ptr jest normalnym (nie stałym) wskaźnikiem
 
     int y { 6 };
-    ptr = &amp;y; // we can point at another value
+    ptr = &amp;y; // możemy wskazać inną wartość
 
-    *ptr = 7; // we can change the value at the address being held
+    *ptr = 7; // możemy zmienić wartość pod przechowywanym adresem
 
     return 0;
 }</code></pre><p>W przypadku normalnych (innych niż stałe) wskaźników możemy zmienić zarówno to, na co wskazuje wskaźnik (poprzez przypisanie wskaźnikowi nowego adresu do przechowywania), jak i zmienić wartość pod przechowywanym adresem (przypisując nową wartość do wyłuskanego wskaźnika).<p>Co się jednak stanie, jeśli wartość, na którą chcemy wskazać, to const?<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
-    const int x { 5 }; // x is now const
-    int* ptr { &amp;x };   // compile error: cannot convert from const int* to int*
+    const int x { 5 }; // x jest teraz const
+    int* ptr { &amp;x };   // błąd kompilacji: nie można przekonwertować ze const int* na int*
 
     return 0;
-}</code></pre><p>Powyższy fragment nie zostanie skompilowany — nie możemy ustawić normalnego wskaźnika tak, aby wskazywał na zmienną const. Ma to sens: zmienna const to taka, której wartości nie można zmienić. Zezwolenie programiście na ustawienie wskaźnika innego niż stały na wartość stałą umożliwiłoby programiście wyłuskanie wskaźnika i zmianę wartości. Naruszyłoby to stałość zmiennej.<p class="cpp-section cpp-topline" style=clear:both>Wskaźnik na wartość stałą<p>A <strong>wskaźnik do wartości stałej</strong> (czasami nazywany <code>pointer to const</code> w skrócie) jest (niestałym) wskaźnikiem, który wskazuje na wartość stałą.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Aby zadeklarować wskaźnik na wartość stałą, użyj słowa kluczowego <code>const</code> przed typem danych wskaźnika:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
+}</code></pre><p>Powyższy fragment nie zostanie skompilowany — nie możemy ustawić normalnego wskaźnika tak, aby wskazywał na zmienną const. Ma to sens: zmienna const to taka, której wartości nie można zmienić. Zezwolenie programiście na ustawienie wskaźnika innego niż stały na wartość stałą umożliwiłoby programiście wyłuskanie wskaźnika i zmianę wartości. Naruszyłoby to stałość zmiennej.<p class="cpp-section cpp-topline" style=clear:both>Wskaźnik na wartość stałą<p><strong>wskaźnik do wartości stałej</strong> (czasami nazywany <code>pointer to const</code> w skrócie) jest (niestałym) wskaźnikiem, który wskazuje na wartość stałą.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Aby zadeklarować wskaźnik na wartość stałą, użyj słowa kluczowego <code>const</code> przed typem danych wskaźnika:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
     const int x{ 5 };
-    const int* ptr { &amp;x }; // okay: ptr is pointing to a &#34;const int&#34;
+    const int* ptr { &amp;x }; // OK: ptr wskazuje na „const int”
 
-    *ptr = 6; // not allowed: we can&#39;t change a const value
+    *ptr = 6; // niedozwolone: nie możemy zmienić wartości stałej
 
     return 0;
 }</code></pre><p>W powyższym przykładzie <code>ptr</code> wskazuje na <code>const int</code>. Ponieważ wskazywanym typem danych jest const, nie można zmienić wskazywanej wartości.<p>Jednakże ponieważ wskaźnik do const sam w sobie nie jest const (po prostu wskazuje na wartość const), możemy zmienić to, na co wskazuje wskaźnik, przypisując mu nowy adres:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
     const int x{ 5 };
-    const int* ptr { &amp;x }; // ptr points to const int x
+    const int* ptr { &amp;x }; // ptr wskazuje na const int x
 
     const int y{ 6 };
-    ptr = &amp;y; // okay: ptr now points at const int y
+    ptr = &amp;y; // OK: ptr wskazuje teraz na const int y
 
     return 0;
 }</code></pre><p>Podobnie jak odwołanie do const, wskaźnik do const może również wskazywać na zmienne inne niż const. Wskaźnik do const traktuje wskazywaną wartość jako stałą, niezależnie od tego, czy obiekt pod tym adresem był początkowo zdefiniowany jako const, czy nie:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
     int x{ 5 }; // non-const
-    const int* ptr { &amp;x }; // ptr points to a &#34;const int&#34;
+    const int* ptr { &amp;x }; // ptr wskazuje na „const int”
 
-    *ptr = 6;  // not allowed: ptr points to a &#34;const int&#34; so we can&#39;t change the value through ptr
-    x = 6; // allowed: the value is still non-const when accessed through non-const identifier x
+    *ptr = 6;  // niedozwolone: ptr wskazuje na „const int”, więc nie możemy zmienić wartości ptr
+    x = 6; // dozwolony: wartość jest nadal non-const przy dostępie poprzez niestały identyfikator x
 
     return 0;
-}</code></pre><p class="cpp-section cpp-topline" style=clear:both>Wskaźniki const<p>Możemy również ustawić sam wskaźnik jako stały. A <strong>const wskaźnik</strong> jest wskaźnikiem, którego adresu nie można zmienić po inicjalizacji.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Aby zadeklarować wskaźnik const, użyj  <code>const</code> słowa kluczowego po gwiazdce w deklaracji wskaźnika:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
+}</code></pre><p class="cpp-section cpp-topline" style=clear:both>Wskaźniki const<p>Możemy również ustawić sam wskaźnik jako stały. <strong>const wskaźnik</strong> jest wskaźnikiem, którego adresu nie można zmienić po inicjalizacji.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Aby zadeklarować wskaźnik const, użyj  słowa kluczowego <code>const</code> po gwiazdce w deklaracji wskaźnika:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
     int x{ 5 };
-    int* const ptr { &amp;x }; // const after the asterisk means this is a const pointer
+    int* const ptr { &amp;x }; // const po gwiazdce oznacza, że jest to wskaźnik const
 
     return 0;
 }</code></pre><p>W powyższym przypadku <code>ptr</code> jest stałym wskaźnikiem do (innej niż stała) wartości int.<p>Podobnie jak zwykła zmienna const, wskaźnik const musi zostać zainicjowany przy definicji i tej wartości nie można zmienić za pomocą przypisanie:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
@@ -67,35 +67,35 @@
     int x{ 5 };
     int y{ 6 };
 
-    int* const ptr { &amp;x }; // okay: the const pointer is initialized to the address of x
-    ptr = &amp;y; // error: once initialized, a const pointer can not be changed.
+    int* const ptr { &amp;x }; // ok: wskaźnik const jest inicjowany na adres x
+    ptr = &amp;y; // błąd: po zainicjowaniu wskaźnik const nie może zostać zmieniony.
 
     return 0;
 }</code></pre><p>Jednakże, ponieważ wskazywana <em>wartości</em> nie jest stała, możliwa jest zmiana wskazywanej wartości poprzez wyłuskanie wskaźnika const:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
     int x{ 5 };
-    int* const ptr { &amp;x }; // ptr will always point to x
+    int* const ptr { &amp;x }; // ptr zawsze będzie wskazywał x
 
-    *ptr = 6; // okay: the value being pointed to is non-const
+    *ptr = 6; // OK: wskazywana wartość nie jest stała
 
     return 0;
-}</code></pre><p class="cpp-section cpp-topline" style=clear:both>Wskaźnik const na wartość stałą<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>Na koniec możliwe jest zadeklarowanie <strong>const wskaźnik do wartości stałej</strong> używając <code>const</code> słowa kluczowego zarówno przed typem, jak i po gwiazdka:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
+}</code></pre><p class="cpp-section cpp-topline" style=clear:both>Wskaźnik const na wartość stałą<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>Na koniec możliwe jest zadeklarowanie <strong>const wskaźnik do wartości stałej</strong> używając słowa kluczowego <code>const</code> zarówno przed typem, jak i po gwiazdka:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
     int value { 5 };
-    const int* const ptr { &amp;value }; // a const pointer to a const value
+    const int* const ptr { &amp;value }; // a const wskaźnik do const wartość
 
     return 0;
-}</code></pre><p>Nie można zmienić adresu stałego wskaźnika na wartość stałą, ani też wartości, którą wskazuje, nie można zmienić za pomocą wskaźnika. Można go wyłuskać jedynie w celu uzyskania wartości, na którą wskazuje.<p class="cpp-section cpp-topline" style=clear:both>Podsumowanie wskaźników i stałych<p>Podsumowując, wystarczy zapamiętać tylko 4 reguły, a są one całkiem logiczne:<ul><li>Wskaźnikowi niebędącemu stałym (np.  <code>int* ptr</code>) można przypisać inny adres, aby zmienić to, na co wskazuje.<li>A wskaźnik const (np.  <code>int* const ptr</code>) zawsze wskazuje na ten sam adres i adresu tego nie można zmienić.</ul><p><ul><li>Wskaźnik na wartość inną niż stała (np.  <code>int* ptr</code>) może zmienić wartość, na którą wskazuje. Nie mogą one wskazywać na wartość stałą.<li>Wskaźnik na wartość stałą (np.  <code>const int* ptr</code>) traktuje wartość jako stałą, gdy jest dostępny za pośrednictwem wskaźnika i dlatego nie może zmienić wartości, na którą wskazuje. Można je wskazać na stałe lub niestałe wartości l (ale nie na wartości r, które nie mają adresu). </ul><p>Utrzymanie prostej składni deklaracji może być pewnym wyzwaniem: <ul><li>A <code>const</code> zanim gwiazdka (np.  <code>const int* ptr</code>) zostanie powiązana ze wskazywanym typem. Jest to zatem wskaźnik do wartości stałej i wartości tej nie można modyfikować poprzez wskaźnik.<li>A <code>const</code> po gwiazdce (np. <code>int* const ptr</code>) jest ona powiązana z samym wskaźnikiem. Dlatego temu wskaźnikowi nie można przypisać nowego adresu.</ul><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
+}</code></pre><p>Nie można zmienić adresu stałego wskaźnika na wartość stałą, ani też wartości, którą wskazuje, nie można zmienić za pomocą wskaźnika. Można go wyłuskać jedynie w celu uzyskania wartości, na którą wskazuje.<p class="cpp-section cpp-topline" style=clear:both>Podsumowanie wskaźników i stałych<p>Podsumowując, wystarczy zapamiętać tylko 4 reguły, a są one całkiem logiczne:<ul><li>Wskaźnikowi niebędącemu stałym (np.  <code>int* ptr</code>) można przypisać inny adres, aby zmienić to, na co wskazuje.<li>A wskaźnik const (np.  <code>int* const ptr</code>) zawsze wskazuje na ten sam adres i adresu tego nie można zmienić.</ul><p><ul><li>Wskaźnik na wartość inną niż stała (np.  <code>int* ptr</code>) może zmienić wartość, na którą wskazuje. Nie mogą one wskazywać na wartość stałą.<li>Wskaźnik na wartość stałą (np.  <code>const int* ptr</code>) traktuje wartość jako stałą, gdy jest dostępny za pośrednictwem wskaźnika i dlatego nie może zmienić wartości, na którą wskazuje. Można je wskazać na stałe lub niestałe wartości l (ale nie na wartości r, które nie mają adresu). </ul><p>Utrzymanie prostej składni deklaracji może być pewnym wyzwaniem: <ul><li><code>const</code> zanim gwiazdka (np.  <code>const int* ptr</code>) zostanie powiązana ze wskazywanym typem. Jest to zatem wskaźnik do wartości stałej i wartości tej nie można modyfikować poprzez wskaźnik.<li><code>const</code> po gwiazdce (np. <code>int* const ptr</code>) jest ona powiązana z samym wskaźnikiem. Dlatego temu wskaźnikowi nie można przypisać nowego adresu.</ul><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
     int v{ 5 };
    
-    int* ptr0 { &amp;v };             // points to an &#34;int&#34; but is not const itself.  We can modify the value or the address.
-    const int* ptr1 { &amp;v };       // points to a &#34;const int&#34; but is not const itself.  We can only modify the address.
-    int* const ptr2 { &amp;v };       // points to an &#34;int&#34; and is const itself.   We can only modify the value.
-    const int* const ptr3 { &amp;v }; // points to a &#34;const int&#34; and is const itself.  We can&#39;t modify the value nor the address.
+    int* ptr0 { &amp;v };             // wskazuje na „int”, ale sama w sobie nie jest stałą. Możemy modyfikować wartość lub adres.
+    const int* ptr1 { &amp;v };       // wskazuje na „const int”, ale sama w sobie nie jest stałą. Możemy jedynie modyfikować adres.
+    int* const ptr2 { &amp;v };       // wskazuje na „int” i sam w sobie jest const. Możemy jedynie modyfikować wartość.
+    const int* const ptr3 { &amp;v }; // wskazują na „const int” i same w sobie są const. Nie możemy modyfikować wartości ani adresu.
 
-    // if the const is on the left side of the *, the const belongs to the value
-    // if the const is on the right side of the *, the const belongs to the pointer
+    // jeśli const znajduje się po lewej stronie *, const należy do wartość
+    // jeśli const znajduje się po prawej stronie *, const należy do wskaźnika
 
     return 0;
 }</code></pre><div class=prevnext><div class=prevnext-inline><a class=nav-link href="../pass-by-address/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>12.10</span>Przekazywanie przez adres</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../null-pointers/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>12.8</span>Wskaźniki zerowe</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/pointers-and-const/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../dynamic-memory-allocation-with-new-and-delete/index.html" rel=prev><span>19.1 — Dynamiczna alokacja pamięci za pomocą nowych i usuwania</span></a></div><div class=nav-next><em>Następny post</em><a href="../lvalue-references/index.html" rel=next><span>12.3 — Referencje Lvalue</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>

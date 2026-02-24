@@ -15,31 +15,31 @@
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2023-07-31T11:22:42-07:00 itemprop=datePublished>31 lipca 2023, 11:22 PDT</time>
 <time class=updated datetime=2024-12-09T21:06:39-08:00 itemprop=dateModified>9 grudnia 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>Funkcja i jej obiekt wywołujący komunikują się ze sobą za pomocą dwóch mechanizmów: parametrów i wartości zwracanych. Kiedy funkcja jest wywoływana, osoba wywołująca podaje argumenty, które funkcja otrzymuje poprzez swoje parametry. Argumenty te mogą być przekazywane przez wartość, referencję lub adres.<p>Zazwyczaj przekazujemy argumenty przez wartość lub przez stałą referencję. Są jednak chwile, kiedy możemy postąpić inaczej.<p class=cpp-section>W parametrach<p>W większości przypadków parametr funkcji służy tylko do otrzymania danych wejściowych od osoby wywołującej. Parametry, które są używane tylko do odbierania danych wejściowych od obiektu wywołującego, są czasami wywoływane <strong>w parametrach</strong>.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-void print(int x) // x is an in parameter
+void print(int x) // x jest parametrem w
 {
-    std::cout &lt;&lt; x &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; x &lt;&lt; '\n';
 }
 
-void print(const std::string&amp; s) // s is an in parameter
+void print(const std::string&amp; s) // s jest parametrem w
 {
-    std::cout &lt;&lt; s &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; s &lt;&lt; '\n';
 }
 
 int main()
 {
     print(5);
-    std::string s { &#34;Hello, world!&#34; };
+    std::string s { "Hello, world!" };
     print(s);
 
     return 0;
-}</code></pre><p>Parametry wejściowe są zwykle przekazywane przez wartość lub przez odwołanie do stałej.<p class="cpp-section cpp-topline" style=clear:both>Parametry wyjściowe<p>Argument funkcji przekazywany przez odwołanie inne niż stała (lub wskaźnik do innej niż stała) pozwala funkcji modyfikować wartość obiektu przekazanego jako argument. Umożliwia to funkcji zwrócenie danych z powrotem do wywołującego w przypadkach, gdy użycie wartości zwracanej z jakiegoś powodu nie jest wystarczające.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Parametr funkcji używany tylko w celu zwrócenia informacji z powrotem do wywołującego nazywany jest <strong>parametrem wyjściowym</strong>.<p>Na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cmath&gt;    // for std::sin() and std::cos()
+}</code></pre><p>Parametry wejściowe są zwykle przekazywane przez wartość lub przez odwołanie do stałej.<p class="cpp-section cpp-topline" style=clear:both>Parametry wyjściowe<p>Argument funkcji przekazywany przez odwołanie inne niż stała (lub wskaźnik do innej niż stała) pozwala funkcji modyfikować wartość obiektu przekazanego jako argument. Umożliwia to funkcji zwrócenie danych z powrotem do wywołującego w przypadkach, gdy użycie wartości zwracanej z jakiegoś powodu nie jest wystarczające.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Parametr funkcji używany tylko w celu zwrócenia informacji z powrotem do wywołującego nazywany jest <strong>parametrem wyjściowym</strong>.<p>Na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cmath&gt;    // dla std::sin() i std::cos()
 #include &lt;iostream&gt;
 
-// sinOut and cosOut are out parameters
+// sinOut i cosOut są wyłączone parametry
 void getSinCos(double degrees, double&amp; sinOut, double&amp; cosOut)
 {
-    // sin() and cos() take radians, not degrees, so we need to convert
-    constexpr double pi { 3.14159265358979323846 }; // the value of pi
+    // sin() i cos() przyjmują radiany, a nie stopnie, więc musimy przekonwertować
+    constexpr double pi { 3.14159265358979323846 }; // wartość pi
     double radians = degrees * pi / 180.0;
     sinOut = std::sin(radians);
     cosOut = std::cos(radians);
@@ -51,17 +51,17 @@ int main()
     double cos { 0.0 };
  
     double degrees{};
-    std::cout &lt;&lt; &#34;Enter the number of degrees: &#34;;
+    std::cout &lt;&lt; "Enter the number of degrees: ";
     std::cin &gt;&gt; degrees;
 
-    // getSinCos will return the sin and cos in variables sin and cos
+    // getSinCos zwróci sin i cos w zmiennych sin i cos
     getSinCos(degrees, sin, cos);
  
-    std::cout &lt;&lt; &#34;The sin is &#34; &lt;&lt; sin &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; &#34;The cos is &#34; &lt;&lt; cos &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "The sin is " &lt;&lt; sin &lt;&lt; '\n';
+    std::cout &lt;&lt; "The cos is " &lt;&lt; cos &lt;&lt; '\n';
 
     return 0;
-}</code></pre><p>Ta funkcja ma jeden parametr <code>degrees</code> (którego argument jest przekazywany przez wartość) jako wejście i „zwraca” dwa parametry (przez referencyjna) jako wyjście.<p>Nazwaliśmy te parametry wyjściowe przyrostkiem „out”, aby wskazać, że są to parametry wyjściowe. Pomaga to przypomnieć dzwoniącemu, że wartość początkowa przekazana do tych parametrów nie ma znaczenia i że powinniśmy spodziewać się ich nadpisania. Zgodnie z konwencją parametry wyjściowe są zazwyczaj parametrami znajdującymi się najbardziej na prawo.<p>Przyjrzyjmy się, jak to działa bardziej szczegółowo. Najpierw funkcja main tworzy zmienne lokalne <code>sin</code> i <code>cos</code>. Są one przekazywane do funkcji <code>getSinCos()</code> przez referencję (a nie przez wartość). Oznacza to, że funkcja <code>getSinCos()</code> ma dostęp do rzeczywistych <code>sin</code> i <code>cos</code> zmiennych w <code>main()</code>, a nie tylko kopiuje. <code>getSinCos()</code> odpowiednio przypisuje nowe wartości do <code>sin</code> i <code>cos</code> (odpowiednio poprzez odniesienia <code>sinOut</code> i <code>cosOut</code> ), co nadpisuje stare wartości w <code>sin</code> i <code>cos</code>. Funkcja <code>main()</code> następnie drukuje te zaktualizowane wartości.<p>Jeśli <code>sin</code> i <code>cos</code> został przekazany przez wartość zamiast odniesienia, <code>getSinCos()</code> zmieniłby kopie <code>sin</code> i <code>cos</code>, co spowodowałoby odrzucenie wszelkich zmian na końcu funkcji. Ponieważ jednak <code>sin</code> i <code>cos</code> przekazano przez odniesienie, wszelkie zmiany dokonane w <code>sin</code> lub <code>cos</code> (poprzez odniesienia) są utrwalane poza funkcją. Możemy zatem użyć tego mechanizmu do zwrócenia wartości z powrotem do obiektu wywołującego. <div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Na marginesie…<p><a href=https://stackoverflow.com/a/9779765>Ta odpowiedź na StackOverflow</a> jest interesującą lekturą, która wyjaśnia, dlaczego odniesienia do wartości innych niż stałe nie mogą wiązać się z wartościami/obiektami tymczasowymi (ze względu na niejawną konwersję typów powodującą nieoczekiwane zachowanie w połączeniu z parametrami zewnętrznymi).</div><p class="cpp-section cpp-topline" style=clear:both>Parametry zewnętrzne mają nienaturalne zastosowanie składnia<p>Parametry zewnętrzne, choć funkcjonalne, mają kilka wad.<p>Po pierwsze, obiekt wywołujący musi utworzyć instancję (i zainicjować) obiekty i przekazać je jako argumenty, nawet jeśli nie zamierza ich używać. Do tych obiektów musi istnieć możliwość przypisania, co oznacza, że nie można ich uczynić stałymi.<p>Po drugie, ponieważ obiekt wywołujący musi przekazywać obiekty, wartości te nie mogą być używane jako tymczasowe ani łatwo używane w pojedynczym wyrażeniu.<p>Poniższy przykład pokazuje obie te wady:<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+}</code></pre><p>Ta funkcja ma jeden parametr <code>degrees</code> (którego argument jest przekazywany przez wartość) jako wejście i „zwraca” dwa parametry (przez referencyjna) jako wyjście.<p>Nazwaliśmy te parametry wyjściowe przyrostkiem „out”, aby wskazać, że są to parametry wyjściowe. Pomaga to przypomnieć wywołującemu, że wartość początkowa przekazana do tych parametrów nie ma znaczenia i że powinniśmy spodziewać się ich nadpisania. Zgodnie z konwencją parametry wyjściowe są zazwyczaj parametrami znajdującymi się najbardziej na prawo.<p>Przyjrzyjmy się, jak to działa bardziej szczegółowo. Najpierw funkcja main tworzy zmienne lokalne <code>sin</code> i <code>cos</code>. Są one przekazywane do funkcji <code>getSinCos()</code> przez referencję (a nie przez wartość). Oznacza to, że funkcja <code>getSinCos()</code> ma dostęp do rzeczywistych <code>sin</code> i <code>cos</code> zmiennych w <code>main()</code>, a nie tylko kopiuje. <code>getSinCos()</code> odpowiednio przypisuje nowe wartości do <code>sin</code> i <code>cos</code> (odpowiednio poprzez odniesienia <code>sinOut</code> i <code>cosOut</code> ), co nadpisuje stare wartości w <code>sin</code> i <code>cos</code>. Funkcja <code>main()</code> następnie drukuje te zaktualizowane wartości.<p>Jeśli <code>sin</code> i <code>cos</code> został przekazany przez wartość zamiast odniesienia, <code>getSinCos()</code> zmieniłby kopie <code>sin</code> i <code>cos</code>, co spowodowałoby odrzucenie wszelkich zmian na końcu funkcji. Ponieważ jednak <code>sin</code> i <code>cos</code> przekazano przez odniesienie, wszelkie zmiany dokonane w <code>sin</code> lub <code>cos</code> (poprzez odniesienia) są utrwalane poza funkcją. Możemy zatem użyć tego mechanizmu do zwrócenia wartości z powrotem do obiektu wywołującego. <div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Na marginesie…<p><a href=https://stackoverflow.com/a/9779765>Ta odpowiedź na StackOverflow</a> jest interesującą lekturą, która wyjaśnia, dlaczego odniesienia do wartości innych niż stałe nie mogą wiązać się z wartościami/obiektami tymczasowymi (ze względu na niejawną konwersję typów powodującą nieoczekiwane zachowanie w połączeniu z parametrami zewnętrznymi).</div><p class="cpp-section cpp-topline" style=clear:both>Parametry zewnętrzne mają nienaturalne zastosowanie składnia<p>Parametry zewnętrzne, choć funkcjonalne, mają kilka wad.<p>Po pierwsze, obiekt wywołujący musi utworzyć instancję (i zainicjować) obiekty i przekazać je jako argumenty, nawet jeśli nie zamierza ich używać. Do tych obiektów musi istnieć możliwość przypisania, co oznacza, że nie można ich uczynić stałymi.<p>Po drugie, ponieważ obiekt wywołujący musi przekazywać obiekty, wartości te nie mogą być używane jako tymczasowe ani łatwo używane w pojedynczym wyrażeniu.<p>Poniższy przykład pokazuje obie te wady:<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 int getByValue()
 {
@@ -75,30 +75,30 @@ void getByReference(int&amp; x)
 
 int main()
 {
-    // return by value
-    [[maybe_unused]] int x{ getByValue() }; // can use to initialize object
-    std::cout &lt;&lt; getByValue() &lt;&lt; &#39;\n&#39;;      // can use temporary return value in expression
+    // zwróć według wartości
+    [[maybe_unused]] int x{ getByValue() }; // może użyć do inicjalizacji obiektu
+    std::cout &lt;&lt; getByValue() &lt;&lt; '\n';      // może użyć tymczasowej wartości zwracanej w wyrażeniu
 
-    // return by out parameter
-    int y{};                // must first allocate an assignable object
-    getByReference(y);      // then pass to function to assign the desired value
-    std::cout &lt;&lt; y &lt;&lt; &#39;\n&#39;; // and only then can we use that value
+    // powrót według parametru out
+    int y{};                // musi najpierw przydzielić obiekt, który można przypisać
+    getByReference(y);      // następnie przejdź do funkcji, aby przypisać żądane wartość
+    std::cout &lt;&lt; y &lt;&lt; '\n'; // i dopiero wtedy możemy użyć tej wartości
 
     return 0;
-}</code></pre><p>Jak widać, składnia używania parametrów zewnętrznych jest nieco nienaturalne.<p class="cpp-section cpp-topline" style=clear:both>Parametry zewnętrzne przez odniesienie nie świadczą o tym, że argumenty zostaną zmodyfikowane<p>Kiedy przypiszemy wartość zwracaną przez funkcję do obiektu, jasne jest, że wartość obiektu jest modyfikowana:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">x = getByValue(); // obvious that x is being modified</code></pre><p>To dobrze, ponieważ wyjaśnia, że powinniśmy spodziewać się zmiany wartości <code>x</code> .<p>Przyjrzyjmy się jednak jeszcze raz wywołaniu funkcji do <code>getSinCos()</code> w powyższym przykładzie:<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    getSinCos(degrees, sin, cos);</code></pre><p>Tak nie jest z tego wywołania funkcji jasno wynika, że <code>degrees</code> jest parametrem wejściowym, ale <code>sin</code> i <code>cos</code> są parametrami wyjściowymi. Jeśli osoba wywołująca nie zorientuje się, że <code>sin</code> i <code>cos</code> zostanie zmodyfikowana, prawdopodobnie wystąpi błąd semantyczny.<p>Użycie przekazywania adresu zamiast przekazywania przez referencję może w niektórych przypadkach sprawić, że parametry out będą bardziej oczywiste, wymagając od osoby wywołującej przekazania adresu obiektów jako argumentów.<p>Rozważ następujący przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">void foo1(int x);  // pass by value
-void foo2(int&amp; x); // pass by reference
-void foo3(int* x); // pass by address
+}</code></pre><p>Jak widać, składnia używania parametrów zewnętrznych jest nieco nienaturalne.<p class="cpp-section cpp-topline" style=clear:both>Parametry zewnętrzne przez odniesienie nie świadczą o tym, że argumenty zostaną zmodyfikowane<p>Kiedy przypiszemy wartość zwracaną przez funkcję do obiektu, jasne jest, że wartość obiektu jest modyfikowana:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">x = getByValue(); // oczywiste, że x jest modyfikowane</code></pre><p>To dobrze, ponieważ wyjaśnia, że powinniśmy spodziewać się zmiany wartości <code>x</code> .<p>Przyjrzyjmy się jednak jeszcze raz wywołaniu funkcji do <code>getSinCos()</code> w powyższym przykładzie:<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    getSinCos(degrees, sin, cos);</code></pre><p>Tak nie jest z tego wywołania funkcji jasno wynika, że <code>degrees</code> jest parametrem wejściowym, ale <code>sin</code> i <code>cos</code> są parametrami wyjściowymi. Jeśli osoba wywołująca nie zorientuje się, że <code>sin</code> i <code>cos</code> zostanie zmodyfikowana, prawdopodobnie wystąpi błąd semantyczny.<p>Użycie przekazywania adresu zamiast przekazywania przez referencję może w niektórych przypadkach sprawić, że parametry out będą bardziej oczywiste, wymagając od osoby wywołującej przekazania adresu obiektów jako argumentów.<p>Rozważ następujący przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">void foo1(int x);  // przekaż wartość
+void foo2(int&amp; x); // przekaż przez referencję
+void foo3(int* x); // przejść przez adres
 
 int main()
 {
     int i{};
  
-    foo1(i);  // can&#39;t modify i
-    foo2(i);  // can modify i (not obvious)
-    foo3(&amp;i); // can modify i
+    foo1(i);  // nie może modyfikować i
+    foo2(i);  // można modyfikować i (nie oczywiste)
+    foo3(&amp;i); // mogę modyfikować I
 
     int *ptr { &amp;i };
-    foo3(ptr); // can modify i (not obvious)
+    foo3(ptr); // można modyfikować i (nie oczywiste)
 
     return 0;
 }</code></pre><p>Zauważ, że w wywołaniu  <code>foo3(&amp;i)</code> musimy przekazać in <code>&amp;i</code> zamiast <code>i</code>, co pomaga wyjaśnić, że powinniśmy spodziewać się  <code>i</code>  modyfikacji.<p>Nie jest to jednak niezawodne, ponieważ <code>foo3(ptr)</code> pozwala <code>foo3()</code> w celu modyfikacji <code>i</code> i nie wymaga, aby osoba wywołująca przyjęła adres <code>ptr</code>.<p> Osoba wywołująca może również pomyśleć, że może przekazać <code>nullptr</code> lub wskaźnik zerowy jako prawidłowy argument, gdy tak jest niedozwolone. Funkcja ta jest teraz wymagana do sprawdzania i obsługi wskaźnika zerowego, co zwiększa złożoność. Ta potrzeba dodatkowej obsługi wskaźnika zerowego często powoduje więcej problemów niż tylko trzymanie się przekazywania przez referencję.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p>Z tych wszystkich powodów należy unikać parametrów wyjściowych, chyba że nie istnieją inne dobre opcje.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Unikaj parametrów wyjściowych (z wyjątkiem rzadkich przypadków, gdy nie ma lepszych opcji).<p>Preferuj przekazywanie przez referencje w przypadku nieopcjonalnych parametry wyjściowe.</div><p class="cpp-section cpp-topline" style=clear:both>Parametry wejściowe/wyjściowe<p>W rzadkich przypadkach funkcja faktycznie użyje wartości parametru wyjściowego przed nadpisaniem jego wartości. Taki parametr nazywany jest  <strong>parametrem wejścia-wyjścia</strong>. Parametry wejściowe-wyjściowe działają identycznie jak parametry wyjściowe i wiążą się z tymi samymi wyzwaniami.<p class="cpp-section cpp-topline" style=clear:both>Kiedy przekazywać referencje inne niż stałe<p>Jeśli zamierzasz przekazywać przez referencje, aby uniknąć tworzenia kopii argumentu, prawie zawsze powinieneś przekazywać referencje stałe.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nota autora<p>W poniższych przykładach użyjemy <code>Foo</code> do reprezentowania jakiegoś typu, na którym nam zależy. Na razie możesz sobie wyobrazić  <code>Foo</code> jako alias typu dla wybranego typu (np.  <code>std::string</code>).</div><p>Jednak istnieją dwa główne przypadki, w których przekazanie przez odwołanie inne niż stałe może być lepszym wyborem.<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>Po pierwsze użyj przekazania przez odwołanie inne niż stałe, gdy parametr jest parametrem wejściowym. Ponieważ przekazujemy już obiekt, którego potrzebujemy z powrotem, często jest to prostsze i wydajne, aby po prostu zmodyfikować ten obiekt.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">void someFcn(Foo&amp; inout)
@@ -109,7 +109,7 @@ int main()
 int main()
 {
     Foo foo{};
-    someFcn(foo); // foo modified after this call, may not be obvious
+    someFcn(foo); // foo zmodyfikowane po tym wywołaniu, może nie być oczywiste
 
     return 0;
 }</code></pre><p>Nadanie funkcji dobrej nazwy może pomóc:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">void modifyFoo(Foo&amp; inout)
@@ -120,12 +120,12 @@ int main()
 int main()
 {
     Foo foo{};
-    modifyFoo(foo); // foo modified after this call, slightly more obvious
+    modifyFoo(foo); // foo zmodyfikowane po tym wywołaniu, nieco bardziej oczywiste
 
     return 0;
 }</code></pre><p>Alternatywą jest przekazanie obiektu przez wartość lub odwołanie do stałej (jak zwykle) i zwrócenie nowego obiektu według wartości, którą osoba wywołująca może następnie przypisać z powrotem do oryginalnego obiektu:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">Foo someFcn(const Foo&amp; in)
 {
-    Foo foo { in }; // copy here
+    Foo foo { in }; // skopiuj tutaj
     // modify foo
     return foo;
 }
@@ -133,7 +133,7 @@ int main()
 int main()
 {
     Foo foo{};
-    foo = someFcn(foo); // makes it obvious foo is modified, but another copy made here
+    foo = someFcn(foo); // pokazuje, że foo zostało zmodyfikowane, ale kolejna kopia wykonana tutaj
 
     return 0;
 }</code></pre><p>Ma to tę zaletę, że używa bardziej konwencjonalnej składni zwracanej, ale wymaga wykonania 2 dodatkowych kopii (czasami kompilator może zoptymalizować jedną z tych kopii).<p>Po drugie, użyj przekazywania przez odwołanie inne niż stała, gdy w przeciwnym razie funkcja zwróciłaby obiekt według wartości do wywołującego, ale utworzenie kopii tego obiektu jest <em>niezwykle kosztowne</em> szczególnie, jeśli funkcja jest wywoływana wiele razy w sekcji kodu, która ma krytyczne znaczenie dla wydajności.<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">void generateExpensiveFoo(Foo&amp; out)
@@ -144,7 +144,7 @@ int main()
 int main()
 {
     Foo foo{};
-    generateExpensiveFoo(foo); // foo modified after this call
+    generateExpensiveFoo(foo); // foo zmodyfikowane po tym wywołaniu
 
     return 0;
 }</code></pre><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Dla zaawansowanych czytelników<p>Najczęstszym przykładem powyższego jest sytuacja, gdy funkcja musi wypełnić akcję. dużą tablicę w stylu C lub <code>std::array</code> z danymi, a tablica zawiera kosztowny w kopiowaniu element. Tablice omówimy w przyszłym rozdziale.</div><p>To powiedziawszy, kopiowanie obiektów rzadko jest tak drogie, że opłaca się uciekać do niekonwencjonalnych metod zwracania tych obiektów.<div class=prevnext><div class=prevnext-inline><a class=nav-link href="../type-deduction-with-pointers-references-and-const/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>12.14</span>Wpisz dedukcję ze wskaźnikami, referencjami i const</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../return-by-reference-and-return-by-address/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>12.12</span>Zwróć przez referencję i zwróć przez adres</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/in-and-out-parameters/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../pass-by-const-lvalue-reference/index.html" rel=prev><span>12.6 -- Przekaż stałą lwartość odniesienia</span></a></div><div class=nav-next><em>Następny post</em><a href="../introduction-to-destructors/index.html" rel=next><span>15.4 -- Wprowadzenie do destruktorów</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>

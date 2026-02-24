@@ -18,53 +18,53 @@
  
 int main()
 {
-    // ofstream is used for writing files
-    // We&#39;ll make a file called Sample.txt
-    std::ofstream outf{ &#34;Sample.txt&#34; };
+    // ofstream jest używany do zapisywania plików
+    // Utworzymy plik o nazwie Sample.txt
+    std::ofstream outf{ "Sample.txt" };
 
-    // If we couldn&#39;t open the output file stream for writing
+    // Jeśli nie mogliśmy otworzyć strumienia pliku wyjściowego do zapisu
     if (!outf)
     {
-        // Print an error and exit
-        std::cerr &lt;&lt; &#34;Uh oh, Sample.txt could not be opened for writing!\n&#34;;
+        // Wydrukuj błąd i wyjdź
+        std::cerr &lt;&lt; "Uh oh, Sample.txt could not be opened for writing!\n";
         return 1;
     }
 
-    // We&#39;ll write two lines into this file
-    outf &lt;&lt; &#34;This is line 1\n&#34;;
-    outf &lt;&lt; &#34;This is line 2\n&#34;;
+    // Zapisz dwie linie w tym pliku
+    outf &lt;&lt; "This is line 1\n";
+    outf &lt;&lt; "This is line 2\n";
 
     return 0;
 	
-    // When outf goes out of scope, the ofstream
-    // destructor will close the file
+    // Kiedy wychodzi poza zakres, ofstream
+    // destruktor zamknij plik
 }</code></pre><p>Jeśli zajrzysz do katalogu projektu, powinieneś zobaczyć plik o nazwie Sample.txt. Jeśli otworzysz go za pomocą edytora tekstu, zobaczysz, że rzeczywiście zawiera on dwie linie, które napisaliśmy do pliku.<p>Zauważ, że możliwe jest również użycie funkcji put() do zapisania pojedynczego znaku do pliku.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p><strong>Wprowadzenie pliku</strong><p>Teraz weźmiemy plik, który napisaliśmy w ostatnim przykładzie i wczytamy go ponownie z dysku. Zauważ, że ifstream zwraca 0, jeśli dotarliśmy do końca pliku (EOF). Wykorzystamy ten fakt, aby określić, ile przeczytać.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;fstream&gt;
 #include &lt;iostream&gt;
 #include &lt;string&gt;
 
 int main()
 {
-    // ifstream is used for reading files
-    // We&#39;ll read from a file called Sample.txt
-    std::ifstream inf{ &#34;Sample.txt&#34; };
+    // ifstream jest używany do odczytu plików
+    // Będziemy czytać z pliku o nazwie Sample.txt
+    std::ifstream inf{ "Sample.txt" };
 
-    // If we couldn&#39;t open the output file stream for reading
+    // Jeśli nie mogliśmy otworzyć strumienia pliku wyjściowego do odczytu
     if (!inf)
     {
-        // Print an error and exit
-        std::cerr &lt;&lt; &#34;Uh oh, Sample.txt could not be opened for reading!\n&#34;;
+        // Wydrukuj błąd i wyjdź
+        std::cerr &lt;&lt; "Uh oh, Sample.txt could not be opened for reading!\n";
         return 1;
     }
 
-    // While there&#39;s still stuff left to read
+    // Dopóki jest jeszcze coś do przetworzenia czytaj
     std::string strInput{};
     while (inf &gt;&gt; strInput)
-        std::cout &lt;&lt; strInput &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; strInput &lt;&lt; '\n';
     
     return 0;
 	
-    // When inf goes out of scope, the ifstream
-    // destructor will close the file
+    // Gdy w zasięgu poza zakresem, funkcja ifstream
+    // destruktor zamknij plik
 }</code></pre><p>Daje to wynik:<pre>This
 is
 line
@@ -79,66 +79,66 @@ line
 
 int main()
 {
-    // ifstream is used for reading files
-    // We&#39;ll read from a file called Sample.txt
-    std::ifstream inf{ &#34;Sample.txt&#34; };
+    // ifstream jest używany do odczytu plików
+    // Będziemy czytać z pliku o nazwie Sample.txt
+    std::ifstream inf{ "Sample.txt" };
 
-    // If we couldn&#39;t open the input file stream for reading
+    // Jeśli nie mogliśmy otworzyć strumienia pliku wejściowego do odczytu
     if (!inf)
     {
-        // Print an error and exit
-        std::cerr &lt;&lt; &#34;Uh oh, Sample.txt could not be opened for reading!\n&#34;;
+        // Wydrukuj błąd i wyjdź
+        std::cerr &lt;&lt; "Uh oh, Sample.txt could not be opened for reading!\n";
         return 1;
     }
 
-    // While there&#39;s still stuff left to read
+    // Dopóki jest jeszcze coś do przetworzenia czytaj
     std::string strInput{};
     while (std::getline(inf, strInput))
-	std::cout &lt;&lt; strInput &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; strInput &lt;&lt; '\n';
     
     return 0;
 	
-    // When inf goes out of scope, the ifstream
-    // destructor will close the file
+    // Gdy w zasięgu poza zakresem, funkcja ifstream
+    // destruktor zamknij plik
 }</code></pre><p>Daje to wynik:<pre>This is line 1
 This is line 2
-</pre><p><strong>Buforowane wyjście</strong><p>Wyjście w C++ może być buforowane. Oznacza to, że wszystko, co jest wysyłane do strumienia pliku, może nie zostać natychmiast zapisane na dysku. Zamiast tego można grupować i obsługiwać kilka operacji wyjściowych. Odbywa się to przede wszystkim ze względu na wydajność. Kiedy bufor jest zapisywany na dysk, nazywa się to <strong>opróżnianiem</strong> bufora. Jednym ze sposobów opróżnienia bufora jest zamknięcie pliku — zawartość bufora zostanie opróżniona na dysk, a następnie plik zostanie zamknięty.<p>Buforowanie zwykle nie stanowi problemu, ale w pewnych okolicznościach może powodować komplikacje dla nieostrożnych. Głównym winowajcą w tym przypadku jest sytuacja, gdy w buforze znajdują się dane, a następnie program natychmiast się kończy (albo przez awarię, albo przez wywołanie funkcji exit()). W takich przypadkach destruktory klas strumieni plików nie są wykonywane, co oznacza, że ​​pliki nigdy nie są zamykane, co oznacza, że ​​nigdy nie są opróżniane bufory. W takim przypadku dane znajdujące się w buforze nie zostaną zapisane na dysku i zostaną utracone bezpowrotnie. Dlatego zawsze dobrze jest jawnie zamknąć wszystkie otwarte pliki przed wywołaniem funkcji exit().<p>Możliwe jest ręczne opróżnienie bufora za pomocą funkcji ostream::flush() lub wysłanie std::flush do strumienia wyjściowego. Każda z tych metod może być użyteczna, aby zapewnić natychmiastowe zapisanie zawartości buforu na dysk, na wypadek awarii programu.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Jedną interesującą notatką jest to, że std::endl; opróżnia również strumień wyjściowy. W rezultacie nadmierne użycie std::endl (powodujące niepotrzebne opróżnianie buforów) może mieć wpływ na wydajność podczas wykonywania buforowanych operacji we/wy, gdzie opróżnianie jest kosztowne (np. zapisywanie do pliku). Z tego powodu programiści dbający o wydajność często używają „\n” zamiast std::endl, aby wstawić znak nowej linii do strumienia wyjściowego, aby uniknąć niepotrzebnego opróżniania bufora.<p><strong>Tryby plików</strong><p>Co się stanie, jeśli spróbujemy zapisać do pliku, który już istnieje? Ponowne uruchomienie przykładu wyjściowego pokazuje, że oryginalny plik jest całkowicie nadpisywany przy każdym uruchomieniu programu. A co jeśli zamiast tego chcielibyśmy dodać więcej danych na końcu pliku? Okazuje się, że konstruktory strumieni plików przyjmują opcjonalny drugi parametr, który pozwala określić informację o tym, jak plik powinien zostać otwarty. Ten parametr nazywa się mode, a akceptowane przez niego prawidłowe flagi znajdują się w klasie ios.<div class=cpp-table-wrapper><p><p><table class=cpp-table><tbody><tr><th>Tryb pliku Ios<th>Znaczenie<tr><td>app<td>Otwiera plik w trybie dopisywania<tr><td>ate<td>Wyszukuje koniec pliku przed odczyt/zapis<tr><td>binarny<td>Otwiera plik w trybie binarnym (zamiast w trybie tekstowym)<tr><td>w<td>Otwiera plik w trybie odczytu (domyślnie dla ifstream)<tr><td>out<td>Otwiera plik w trybie zapisu (domyślnie dla ofstream)<tr><td>trunc<td>Usuwa plik, jeśli już istnieje</table></div><p>Możliwe jest określenie wielu flag poprzez bitowe ORowanie ich razem (przy użyciu operatora |). ifstream domyślnie ma wartość std::ios::w trybie pliku. ofstream domyślnie pracuje w trybie pliku std::ios::out. A fstream domyślnie ma std::ios::in | tryb pliku std::ios::out, co oznacza, że ​​domyślnie możesz zarówno czytać, jak i zapisywać.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>Ze względu na sposób, w jaki zaprojektowano fstream, może on się nie powieść, jeśli zostanie użyte std::ios::in, a otwierany plik nie istnieje. Jeśli chcesz utworzyć nowy plik za pomocą fstream, użyj tylko trybu std::ios::out.</div><p>Napiszmy program, który doda dwie dodatkowe linie do utworzonego wcześniej pliku Sample.txt:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+</pre><p><strong>Buforowane wyjście</strong><p>Wyjście w C++ może być buforowane. Oznacza to, że wszystko, co jest wysyłane do strumienia pliku, może nie zostać natychmiast zapisane na dysku. Zamiast tego można grupować i obsługiwać kilka operacji wyjściowych. Odbywa się to przede wszystkim ze względu na wydajność. Kiedy bufor jest zapisywany na dysk, nazywa się to <strong>ovoidniem</strong> bufora. Jednym ze sposobów opróżnienia bufora jest zamknięcie pliku — zawartość bufora zostanie opróżniona na dysk, a następnie plik zostanie zamknięty.<p>Buforowanie zwykle nie stanowi problemu, ale w pewnych okolicznościach może powodować komplikacje dla nieostrożnych. Głównym winowajcą w tym przypadku jest sytuacja, gdy w buforze znajdują się dane, a następnie program natychmiast się kończy (albo przez awarię, albo przez wywołanie funkcji exit()). W takich przypadkach destruktory klas strumieni plików nie są wykonywane, co oznacza, że ​​pliki nigdy nie są zamykane, co oznacza, że ​​nigdy nie są ovoidne bufory. W takim przypadku dane znajdujące się w buforze nie zostaną zapisane na dysku i zostaną utracone bezpowrotnie. Dlatego zawsze dobrze jest jawnie zamknąć wszystkie otwarte pliki przed wywołaniem funkcji exit().<p>Możliwe jest ręczne opróżnienie bufora za pomocą funkcji ostream::flush() lub wysłanie std::flush do strumienia wyjściowego. Każda z tych metod może być użyteczna, aby zapewnić natychmiastowe zapisanie zawartości buforu na dysk, na wypadek awarii programu.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Jedną interesującą notatką jest to, że std::endl; ovoid również strumień wyjściowy. W rezultacie nadmierne użycie std::endl (powodujące niepotrzebne ovoidnie buforów) może mieć wpływ na wydajność podczas wykonywania buforowanych operacji we/wy, gdzie ovoidnie jest kosztowne (np. zapisywanie do pliku). Z tego powodu programiści dbający o wydajność często używają „\n” zamiast std::endl, aby wstawić znak nowej linii do strumienia wyjściowego, aby uniknąć niepotrzebnego ovoidnia bufora.<p><strong>Tryby plików</strong><p>Co się stanie, jeśli spróbujemy zapisać do pliku, który już istnieje? Ponowne uruchomienie przykładu wyjściowego pokazuje, że oryginalny plik jest całkowicie nadpisywany przy każdym uruchomieniu programu. A co jeśli zamiast tego chcielibyśmy dodać więcej danych na końcu pliku? Okazuje się, że konstruktory strumieni plików przyjmują opcjonalny drugi parametr, który pozwala określić informację o tym, jak plik powinien zostać otwarty. Ten parametr nazywa się mode, a akceptowane przez niego prawidłowe flagi znajdują się w klasie ios.<div class=cpp-table-wrapper><p><p><table class=cpp-table><tbody><tr><th>Tryb pliku Ios<th>Znaczenie<tr><td>app<td>Otwiera plik w trybie dopisywania<tr><td>ate<td>Wyszukuje koniec pliku przed odczyt/zapis<tr><td>binarny<td>Otwiera plik w trybie binarnym (zamiast w trybie tekstowym)<tr><td>w<td>Otwiera plik w trybie odczytu (domyślnie dla ifstream)<tr><td>out<td>Otwiera plik w trybie zapisu (domyślnie dla ofstream)<tr><td>trunc<td>Usuwa plik, jeśli już istnieje</table></div><p>Możliwe jest określenie wielu flag poprzez bitowe ORowanie ich razem (przy użyciu operatora |). ifstream domyślnie ma wartość std::ios::w trybie pliku. ofstream domyślnie pracuje w trybie pliku std::ios::out. A fstream domyślnie ma std::ios::in | tryb pliku std::ios::out, co oznacza, że ​​domyślnie możesz zarówno czytać, jak i zapisywać.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>Ze względu na sposób, w jaki zaprojektowano fstream, może on się nie powieść, jeśli zostanie użyte std::ios::in, a otwierany plik nie istnieje. Jeśli chcesz utworzyć nowy plik za pomocą fstream, użyj tylko trybu std::ios::out.</div><p>Napiszmy program, który doda dwie dodatkowe linie do utworzonego wcześniej pliku Sample.txt:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;fstream&gt;
 
 int main()
 {
-    // We&#39;ll pass the ios:app flag to tell the ofstream to append
-    // rather than rewrite the file. We do not need to pass in std::ios::out
-    // because ofstream defaults to std::ios::out
-    std::ofstream outf{ &#34;Sample.txt&#34;, std::ios::app };
+    // Przekażemy flagę ios:app, aby poinformować ofstream append
+    // zamiast przepisywania pliku. Nie musimy przekazywać std::ios::out
+    // ponieważ domyślnie ofstream to std::ios::out
+    std::ofstream outf{ "Sample.txt", std::ios::app };
 
-    // If we couldn&#39;t open the output file stream for writing
+    // Jeśli nie mogliśmy otworzyć strumienia pliku wyjściowego do zapisu
     if (!outf)
     {
-        // Print an error and exit
-        std::cerr &lt;&lt; &#34;Uh oh, Sample.txt could not be opened for writing!\n&#34;;
+        // Wydrukuj błąd i wyjdź
+        std::cerr &lt;&lt; "Uh oh, Sample.txt could not be opened for writing!\n";
         return 1;
     }
 
-    outf &lt;&lt; &#34;This is line 3\n&#34;;
-    outf &lt;&lt; &#34;This is line 4\n&#34;;
+    outf &lt;&lt; "This is line 3\n";
+    outf &lt;&lt; "This is line 4\n";
     
     return 0;
 	
-    // When outf goes out of scope, the ofstream
-    // destructor will close the file
+    // Kiedy wychodzi poza zakres, ofstream
+    // destruktor zamknij plik
 }</code></pre><p>Teraz, jeśli przyjrzymy się plikowi Sample.txt (używając jednego z powyższych przykładowych programów, który wypisuje jego zawartość lub ładując go do edytora tekstu), zobaczymy co następuje:<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre>This is line 1
 This is line 2
 This is line 3
 This is line 4
-</pre><p><strong>Jawne otwieranie plików przy użyciu metody open()</strong><p>Tak jak możliwe jest jawne zamknięcie strumienia plików przy użyciu metody Close(), możliwe jest również jawne otwarcie strumienia plików przy użyciu metody open(). open() działa podobnie jak konstruktory strumieni plików - pobiera nazwę pliku i opcjonalny tryb pliku.<p>Na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::ofstream outf{ &#34;Sample.txt&#34; };
-outf &lt;&lt; &#34;This is line 1\n&#34;;
-outf &lt;&lt; &#34;This is line 2\n&#34;;
-outf.close(); // explicitly close the file
+</pre><p><strong>Jawne otwieranie plików przy użyciu metody open()</strong><p>Tak jak możliwe jest jawne zamknięcie strumienia plików przy użyciu metody Close(), możliwe jest również jawne otwarcie strumienia plików przy użyciu metody open(). open() działa podobnie jak konstruktory strumieni plików - pobiera nazwę pliku i opcjonalny tryb pliku.<p>Na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::ofstream outf{ "Sample.txt" };
+outf &lt;&lt; "This is line 1\n";
+outf &lt;&lt; "This is line 2\n";
+outf.close(); // jawnie zamknij plik
 
-// Oops, we forgot something
-outf.open(&#34;Sample.txt&#34;, std::ios::app);
-outf &lt;&lt; &#34;This is line 3\n&#34;;
+// Ups, o czymś zapomnieliśmy
+outf.open("Sample.txt", std::ios::app);
+outf &lt;&lt; "This is line 3\n";
 outf.close();</code></pre><p>Więcej informacji na temat funkcji open() można znaleźć <a href=https://en.cppreference.com/w/cpp/io/basic_filebuf/open>tutaj</a>.<div class=prevnext><div class=prevnext-inline><a class=nav-link href="../random-file-io/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>28.7</span>Losowe we/wy pliku</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../stream-states-and-input-validation/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>28.5</span>Stany strumieni i sprawdzanie poprawności danych wejściowych</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/basic-file-io/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href=/www.learncpp.com/wordpress/tiga-and-wordpress-25/ rel=prev><span>Tiga i WordPress 2.5</span></a></div><div class=nav-next><em>Następny post</em><a href="../random-file-io/index.html" rel=next><span>28.7 — Losowe we/wy plików</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>
 <textarea id=wc-textarea-0_0 placeholder="Zostaw komentarz..." aria-label="Zostaw komentarz..." required name=wc_comment class="wc_comment wpd-field"></textarea></div><div class=wpd-editor-buttons-right></div></div></div></div><div class=wpd-form-foot><div class=wpdiscuz-textarea-foot><div class=wpdiscuz-button-actions></div></div><div class=wpd-form-row><div class=wpd-form-col-left><div class="wpdiscuz-item wc_name-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-user"></i></div><input id=wc_name-0_0 required aria-required=true class="wc_name wpd-field" name=wc_name placeholder=Imię* maxlength=50 pattern=.{3,50}>
 <label for=wc_name-0_0 class=wpdlb>Imię*</label></div><div class="wpdiscuz-item wc_email-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-at"></i></div><input id=wc_email-0_0 required aria-required=true class="wc_email wpd-field" type=email name=wc_email placeholder=E-mail*>

@@ -13,23 +13,23 @@
 <button class=searchsubmit><span class=screen-reader-text>Szukaj</span><i class=icon-search></i></button>
 <input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=86810></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="4.8 — Liczby zmiennoprzecinkowe" src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-46 class="post-46 post type-post status-publish format-standard hentry category-cpp-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>4.8 — Liczby zmiennoprzecinkowe</h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Autor></i><a class="url fn n" rel=author href=/www.learncpp.com/author/Alex/ title="Wyświetl wszystkie posty Alexa" itemprop=url><em itemprop=name>Alex</em></a></span>
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2007-06-09T12:07:34-07:00 itemprop=datePublished>9 czerwca 2007, 12:07 PDT</time>
-<time class=updated datetime=2024-11-24T23:41:41-08:00 itemprop=dateModified>24 listopada 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>Liczby całkowite doskonale nadają się do liczenia liczb całkowitych, ale czasami musimy przechowywać  <em>bardzo duże</em>  liczby (dodatnie lub ujemne) lub liczby ze składnikiem ułamkowym. Zmienna  <strong>zmiennoprzecinkowy</strong> to zmienna, która może przechowywać liczbę ze składnikiem ułamkowym, taką jak 4320,0, -3,33 lub 0,01226.  <em>zmienna</em> część nazwy <em>zmiennoprzecinkowy</em> odnosi się do faktu, że przecinek dziesiętny może „pływać” – to znaczy może obsługiwać zmienną liczbę cyfr przed i po przecinku. Dane zmiennoprzecinkowe są zawsze podpisane (mogą zawierać wartości dodatnie i ujemne).<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>Podczas zapisywania liczb zmiennoprzecinkowych w kodzie separatorem dziesiętnym musi być kropka dziesiętna. Jeśli pochodzisz z kraju, w którym używany jest przecinek dziesiętny, musisz przyzwyczaić się do używania zamiast niego kropki dziesiętnej.</div><p class="cpp-section cpp-topline" style=clear:both>Typy zmiennoprzecinkowe w C++<p>C++ ma trzy podstawowe typy danych zmiennoprzecinkowych: pojedynczą precyzję <code>float</code>, podwójną precyzję <code>double</code> i rozszerzoną precyzję <code>long double</code>. Podobnie jak w przypadku liczb całkowitych, C++ nie definiuje rzeczywistego rozmiaru tych typów.<div class=cpp-table-wrapper><p><p><table class=cpp-table><tbody><tr><th>Kategoria<th>Typ C++<th>Typowy rozmiar<tr><td>zmiennoprzecinkowy<td>float<p><td>4 bajty<tr><td><td>double<td>8 bajtów<tr><td><td>long double<td>8, 12 lub 16 bajty</table></div><p>W nowoczesnych architekturach typy zmiennoprzecinkowe są konwencjonalnie implementowane przy użyciu jednego z formatów zmiennoprzecinkowych zdefiniowanych w standardzie IEEE 754 (patrz <a href=https://en.wikipedia.org/wiki/IEEE_754>https://en.wikipedia.org/wiki/IEEE_754</a>). W efekcie  <code>float</code> ma prawie zawsze 4 bajty, a <code>double</code> prawie zawsze ma 8 bajtów.<p>Z drugiej strony  <code>long double</code> jest dziwnym typem. Na różnych platformach jego rozmiar może wahać się od 8 do 16 bajtów i może, ale nie musi, używać formatu zgodnego z IEEE 754. Zalecamy unikanie  <code>long double</code>.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>Ta seria tutoriali zakłada, że Twój kompilator używa formatu zgodnego z IEEE 754 dla <code>float</code> i <code>double</code>.<p>Możesz sprawdzić, czy typy zmiennoprzecinkowe są zgodne ze standardem IEEE 754 za pomocą następującego kodu:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+<time class=updated datetime=2024-11-24T23:41:41-08:00 itemprop=dateModified>24 listopada 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>Liczby całkowite doskonale nadają się do liczenia liczb całkowitych, ale czasami musimy przechowywać  <em>bardzo duże</em>  liczby (dodatnie lub ujemne) lub liczby ze składnikiem ułamkowym. Zmienna  <strong>zmiennoprzecinkowy</strong> to zmienna, która może przechowywać liczbę ze składnikiem ułamkowym, taką jak 4320,0, -3,33 lub 0,01226.  <em>zmienna</em> część nazwy <em>zmiennoprzecinkowy</em> odnosi się do faktu, że przecinek dziesiętny może „pływać” – to znaczy może obsługiwać zmienną liczbę cyfr przed i po przecinku. Dane zmiennoprzecinkowe są zawsze podpisane (mogą zawierać wartości dodatnie i ujemne).<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>Podczas zapisywania liczb zmiennoprzecinkowych w kodzie separatorem dziesiętnym musi być kropka dziesiętna. Jeśli pochodzisz z kraju, w którym używany jest przecinek dziesiętny, musisz przyzwyczaić się do używania zamiast niego kropki dziesiętnej.</div><p class="cpp-section cpp-topline" style=clear:both>Typy zmiennoprzecinkowe w C++<p>C++ ma trzy podstawowe typy danych zmiennoprzecinkowych: pojedynczą precyzję <code>float</code>, podwójną precyzję <code>double</code> i rozszerzoną precyzję <code>long double</code>. Podobnie jak w przypadku liczb całkowitych, C++ nie definiuje rzeczywistego rozmiaru tych typów.<div class=cpp-table-wrapper><p><p><table class=cpp-table><tbody><tr><th>Kategoria<th>Typ C++<th>Typowy rozmiar<tr><td>zmiennoprzecinkowy<td>float<p><td>4 bajty<tr><td><td>double<td>8 bajtów<tr><td><td>long double<td>8, 12 lub 16 bajty</table></div><p>W nowoczesnych architekturach typy zmiennoprzecinkowe są konwencjonalnie implementowane przy użyciu jednego z formatów zmiennoprzecinkowych zdefiniowanych w standardzie IEEE 754 (patrz <a href=https://en.wikipedia.org/wiki/IEEE_754>https://en.wikipedia.org/wiki/IEEE_754</a>). W efekcie  <code>float</code> ma prawie zawsze 4 bajty, <code>double</code> prawie zawsze ma 8 bajtów.<p>Z drugiej strony  <code>long double</code> jest dziwnym typem. Na różnych platformach jego rozmiar może wahać się od 8 do 16 bajtów i może, ale nie musi, używać formatu zgodnego z IEEE 754. Zalecamy unikanie  <code>long double</code>.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>Ta seria tutoriali zakłada, że Twój kompilator używa formatu zgodnego z IEEE 754 dla <code>float</code> i <code>double</code>.<p>Możesz sprawdzić, czy typy zmiennoprzecinkowe są zgodne ze standardem IEEE 754 za pomocą następującego kodu:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;limits&gt;
 
 int main()
 {
-    std::cout &lt;&lt; std::boolalpha; // print bool as true or false rather than 1 or 0
-    std::cout &lt;&lt; &#34;float: &#34; &lt;&lt; std::numeric_limits&lt;float&gt;::is_iec559 &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; &#34;double: &#34; &lt;&lt; std::numeric_limits&lt;double&gt;::is_iec559 &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; &#34;long double: &#34; &lt;&lt; std::numeric_limits&lt;long double&gt;::is_iec559 &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; std::boolalpha; // wypisz bool jako prawdę lub fałsz zamiast 1 lub 0
+    std::cout &lt;&lt; "float: " &lt;&lt; std::numeric_limits&lt;float&gt;::is_iec559 &lt;&lt; '\n';
+    std::cout &lt;&lt; "double: " &lt;&lt; std::numeric_limits&lt;double&gt;::is_iec559 &lt;&lt; '\n';
+    std::cout &lt;&lt; "long double: " &lt;&lt; std::numeric_limits&lt;long double&gt;::is_iec559 &lt;&lt; '\n';
 }</code></pre></div><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Dla zaawansowanych czytelników<p><code>float</code> jest prawie zawsze implementowany przy użyciu 4-bajtowego formatu pojedynczej precyzji IEEE 754.<br><code>double</code> jest prawie zawsze implementowany przy użyciu 8-bajtowy format podwójnej precyzji IEEE 754.<p>Jednak format używany do implementacji <code>long double</code> różni się w zależności od platformy. Typowe opcje obejmują:<ul><li>8-bajtowy format IEEE 754 o podwójnej precyzji (taki sam jak <code>double</code>).<li>80-bitowy (często do 12 lub 16 bajtów) x87 format o rozszerzonej precyzji (kompatybilny z IEEE 754).<li>16-bajtowy IEEE 754 o poczwórnej precyzji format.<li>16-bajtowy format double-double (niekompatybilny z IEEE 754).</ul></div><p class="cpp-section cpp-topline" style=clear:both>Zmienne i literały zmiennoprzecinkowe<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Oto kilka definicji zmiennych zmiennoprzecinkowych:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">float f;
 double d;
 long double ld;</code></pre><p>Jeśli używasz literałów zmiennoprzecinkowych, zawsze uwzględniaj co najmniej jedno miejsce dziesiętne (nawet jeśli liczba dziesiętna wynosi 0). liczba zmiennoprzecinkowa, a nie liczba całkowita.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int a { 5 };      // 5 means integer
-double b { 5.0 }; // 5.0 is a floating point literal (no suffix means double type by default)
-float c { 5.0f }; // 5.0 is a floating point literal, f suffix means float type
+double b { 5.0 }; // 5.0 to literał zmiennoprzecinkowy (brak sufiksu oznacza podwójny typ przez domyślnie)
+float c { 5.0f }; // 5.0 to literał zmiennoprzecinkowy, przyrostek f oznacza typ zmiennoprzecinkowy
 
-int d { 0 };      // 0 is an integer
-double e { 0.0 }; // 0.0 is a double</code></pre><p>Zauważ, że domyślnie literały zmiennoprzecinkowe domyślnie mają typ double. Do określenia literału typu float używany jest przyrostek <code>f</code> .<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Zawsze upewnij się, że typ literałów jest zgodny z typem zmiennych, do których są przypisane lub używane do inicjalizacji. W przeciwnym razie nastąpi niepotrzebna konwersja, która może spowodować utratę precyzja.</div><p class="cpp-section cpp-topline" style=clear:both>Drukowanie liczb zmiennoprzecinkowych<p>Rozważmy teraz prosty program:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+int d { 0 };      // 0 to liczba całkowita
+double e { 0.0 }; // 0,0 do podwojenia</code></pre><p>Zauważ, że domyślnie literały zmiennoprzecinkowe domyślnie mają typ double. Do określenia literału typu float używany jest przyrostek <code>f</code> .<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Zawsze upewnij się, że typ literałów jest zgodny z typem zmiennych, do których są przypisane lub używane do inicjalizacji. W przeciwnym razie nastąpi niepotrzebna konwersja, która może spowodować utratę precyzja.</div><p class="cpp-section cpp-topline" style=clear:both>Drukowanie liczb zmiennoprzecinkowych<p>Rozważmy teraz prosty program:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 int main()
 {
@@ -57,43 +57,43 @@ int main()
 987654
 9.87654e+006
 9.87654e-005
-</pre><p>Zauważ, że każda z nich ma tylko 6 cyfr znaczących.<p>Zauważ także, że std::cout w niektórych przypadkach przełączy się na wyświetlanie liczb w notacji naukowej. W zależności od kompilatora wykładnik będzie zazwyczaj dopełniany do minimalnej liczby cyfr. Nie martw się, 9.87654e+006 to to samo co 9.87654e6, tylko z pewnymi dopełnieniami zer. Minimalna liczba wyświetlanych cyfr wykładników zależy od kompilatora (Visual Studio używa 3, inne używają 2 zgodnie ze standardem C99).<p>Możemy zastąpić domyślną precyzję pokazywaną przez std::cout za pomocą <code>output manipulator</code> funkcji o nazwie <code>std::setprecision()</code>. <strong>Manipulatory wyjściowe</strong> zmieniają sposób wyprowadzania danych i są zdefiniowane w the <em>iomanip</em> .<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iomanip&gt; // for output manipulator std::setprecision()
+</pre><p>Zauważ, że każda z nich ma tylko 6 cyfr znaczących.<p>Zauważ także, że std::cout w niektórych przypadkach przełączy się na wyświetlanie liczb w notacji naukowej. W zależności od kompilatora wykładnik będzie zazwyczaj dopełniany do minimalnej liczby cyfr. Nie martw się, 9.87654e+006 to to samo co 9.87654e6, tylko z pewnymi dopełnieniami zer. Minimalna liczba wyświetlanych cyfr wykładników zależy od kompilatora (Visual Studio używa 3, inne używają 2 zgodnie ze standardem C99).<p>Możemy zastąpić domyślną precyzję pokazywaną przez std::cout za pomocą <code>output manipulator</code> funkcji o nazwie <code>std::setprecision()</code>. <strong>Manipulatory wyjściowe</strong> zmieniają sposób wyprowadzania danych i są zdefiniowane w the <em>iomanip</em> .<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iomanip&gt; // dla manipulatora wyjściowego std::setprecision()
 #include &lt;iostream&gt;
 
 int main()
 {
-    std::cout &lt;&lt; std::setprecision(17); // show 17 digits of precision
-    std::cout &lt;&lt; 3.33333333333333333333333333333333333333f &lt;&lt;&#39;\n&#39;; // f suffix means float
-    std::cout &lt;&lt; 3.33333333333333333333333333333333333333 &lt;&lt; &#39;\n&#39;; // no suffix means double
+    std::cout &lt;&lt; std::setprecision(17); // pokaż 17 cyfr precyzji
+    std::cout &lt;&lt; 3.33333333333333333333333333333333333333f &lt;&lt;'\n'; // przyrostek f oznacza float
+    std::cout &lt;&lt; 3.33333333333333333333333333333333333333 &lt;&lt; '\n'; // brak przyrostka oznacza podwójne
 
     return 0;
 }</code></pre><p>Wyjścia:<pre>3.3333332538604736
 3.3333333333333335
-</pre><p>Ponieważ za pomocą  <code>std::setprecision()</code> ustawiliśmy precyzję na 17 cyfr, każda z powyższych liczb jest drukowana z 17 cyframi. Ale, jak widać, liczby z pewnością nie są dokładne do 17 cyfr! A ponieważ liczby zmiennoprzecinkowe są mniej precyzyjne niż liczby podwójne, pływak ma więcej błędów.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>Manipulatory wyjściowe (i manipulatory wejściowe) są lepkie - co oznacza, że ​​jeśli je ustawisz, pozostaną ustawione.<p>Jedynym wyjątkiem jest <code>std::setw</code>. Resetowanie niektórych operacji IO <code>std::setw</code>, więc <code>std::setw</code> należy stosować za każdym razem, gdy jest to potrzebne.</div><p>Problemy z precyzją nie wpływają tylko na liczby ułamkowe, mają wpływ na każdą liczbę zawierającą zbyt wiele cyfr znaczących. Rozważmy dużą liczbę: <pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iomanip&gt; // for std::setprecision()
+</pre><p>Ponieważ za pomocą  <code>std::setprecision()</code> ustawiliśmy precyzję na 17 cyfr, każda z powyższych liczb jest drukowana z 17 cyframi. Ale, jak widać, liczby z pewnością nie są dokładne do 17 cyfr! A ponieważ liczby zmiennoprzecinkowe są mniej precyzyjne niż liczby podwójne, pływak ma więcej błędów.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>Manipulatory wyjściowe (i manipulatory wejściowe) są lepkie - co oznacza, że ​​jeśli je ustawisz, pozostaną ustawione.<p>Jedynym wyjątkiem jest <code>std::setw</code>. Resetowanie niektórych operacji IO <code>std::setw</code>, więc <code>std::setw</code> należy stosować za każdym razem, gdy jest to potrzebne.</div><p>Problemy z precyzją nie wpływają tylko na liczby ułamkowe, mają wpływ na każdą liczbę zawierającą zbyt wiele cyfr znaczących. Rozważmy dużą liczbę: <pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iomanip&gt; // dla std::setprecision()
 #include &lt;iostream&gt;
 
 int main()
 {
-    float f { 123456789.0f }; // f has 10 significant digits
-    std::cout &lt;&lt; std::setprecision(9); // to show 9 digits in f
-    std::cout &lt;&lt; f &lt;&lt; &#39;\n&#39;;
+    float f { 123456789.0f }; // f ma 10 cyfr znaczących
+    std::cout &lt;&lt; std::setprecision(9); // aby wyświetlić 9 cyfr w f
+    std::cout &lt;&lt; f &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Wyjście:<pre>123456792
-</pre><p>123456792 jest większa niż 123456789. Wartość 123456789.0 ma 10 cyfr znaczących, ale wartości zmiennoprzecinkowe mają zazwyczaj 7-cyfrową precyzję (a wynik 123456792 jest dokładny tylko do 7 cyfr znaczących). Straciliśmy trochę precyzji! Kiedy traci się precyzję, ponieważ nie można dokładnie zapisać liczby, nazywa się to a <strong>Błąd zaokrąglenia</strong>.<p>. W związku z tym należy zachować ostrożność podczas używania liczb zmiennoprzecinkowych, które wymagają większej precyzji, niż mogą pomieścić zmienne.<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Preferuj opcję double over float, chyba że przestrzeń jest na wagę złota, ponieważ brak precyzji w zmiennoprzecinkowej często prowadzi do niedokładności.</div><p class="cpp-section cpp-topline" style=clear:both>Błędy zaokrąglania powodują porównania zmiennoprzecinkowe trudne<p>Liczby zmiennoprzecinkowe są trudne w obsłudze ze względu na nieoczywiste różnice między liczbami binarnymi (w jaki sposób przechowywane są dane) i dziesiętnymi (w jaki sposób myślimy). Rozważmy ułamek 1/10. W systemie dziesiętnym można to łatwo przedstawić jako 0,1, a my jesteśmy przyzwyczajeni do myślenia o 0,1 jako o łatwej do przedstawienia liczbie z 1 cyfrą znaczącą. Jednak w systemie binarnym wartość dziesiętna 0,1 jest reprezentowana przez nieskończoną sekwencję: 0,00011001100110011… Z tego powodu, gdy przypiszemy 0,1 do liczby zmiennoprzecinkowej, napotkamy problemy z precyzją.<p>Efekty tego można zobaczyć w następującym programie:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iomanip&gt; // for std::setprecision()
+</pre><p>123456792 jest większa niż 123456789. Wartość 123456789.0 ma 10 cyfr znaczących, ale wartości zmiennoprzecinkowe mają zazwyczaj 7-cyfrową precyzję (a wynik 123456792 jest dokładny tylko do 7 cyfr znaczących). Straciliśmy trochę precyzji! Kiedy traci się precyzję, ponieważ nie można dokładnie zapisać liczby, nazywa się to <strong>Błąd zaokrąglenia</strong>.<p>. W związku z tym należy zachować ostrożność podczas używania liczb zmiennoprzecinkowych, które wymagają większej precyzji, niż mogą pomieścić zmienne.<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Preferuj opcję double over float, chyba że przestrzeń jest na wagę złota, ponieważ brak precyzji w zmiennoprzecinkowej często prowadzi do niedokładności.</div><p class="cpp-section cpp-topline" style=clear:both>Błędy zaokrąglania powodują porównania zmiennoprzecinkowe trudne<p>Liczby zmiennoprzecinkowe są trudne w obsłudze ze względu na nieoczywiste różnice między liczbami binarnymi (w jaki sposób przechowywane są dane) i dziesiętnymi (w jaki sposób myślimy). Rozważmy ułamek 1/10. W systemie dziesiętnym można to łatwo przedstawić jako 0,1, a my jesteśmy przyzwyczajeni do myślenia o 0,1 jako o łatwej do przedstawienia liczbie z 1 cyfrą znaczącą. Jednak w systemie binarnym wartość dziesiętna 0,1 jest reprezentowana przez nieskończoną sekwencję: 0,00011001100110011… Z tego powodu, gdy przypiszemy 0,1 do liczby zmiennoprzecinkowej, napotkamy problemy z precyzją.<p>Efekty tego można zobaczyć w następującym programie:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iomanip&gt; // dla std::setprecision()
 #include &lt;iostream&gt;
 
 int main()
 {
     double d{0.1};
-    std::cout &lt;&lt; d &lt;&lt; &#39;\n&#39;; // use default cout precision of 6
+    std::cout &lt;&lt; d &lt;&lt; '\n'; // użyj domyślnej precyzji cout wynoszącej 6
     std::cout &lt;&lt; std::setprecision(17);
-    std::cout &lt;&lt; d &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; d &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>To daje:<pre>0.1
 0.10000000000000001
-</pre><p>W górnym wierszu zostanie wydrukowane <code>std::cout</code>  zgodnie z oczekiwaniami wynosi 0,1.<p>W ostatecznym rozrachunku, gdzie <code>std::cout</code> pokazujemy nam 17 cyfr dokładności, widzimy, że <code>d</code> w rzeczywistości <em>niezupełnie</em> 0,1! Dzieje się tak, ponieważ sobowtór musiał obciąć przybliżenie ze względu na ograniczoną pamięć. Wynikiem jest liczba z dokładnością do 16 cyfr znaczących (co gwarantuje podwójną gwarancję), ale liczba ta nie jest <em>dokładnie </em> 0,1. Błędy zaokrągleń mogą spowodować, że liczba będzie nieco mniejsza lub nieco większa, w zależności od miejsca obcięcia.<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><p>Błędy zaokrąglenia mogą mieć nieoczekiwane konsekwencje:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iomanip&gt; // for std::setprecision()
+</pre><p>W górnym wierszu zostanie wydrukowane <code>std::cout</code>  zgodnie z oczekiwaniami wynosi 0,1.<p>W ostatecznym rozrachunku, gdzie <code>std::cout</code> pokazujemy nam 17 cyfr dokładności, widzimy, że <code>d</code> w rzeczywistości <em>niezupełnie</em> 0,1! Dzieje się tak, ponieważ sobowtór musiał obciąć przybliżenie ze względu na ograniczoną pamięć. Wynikiem jest liczba z dokładnością do 16 cyfr znaczących (co gwarantuje podwójną gwarancję), ale liczba ta nie jest <em>dokładnie </em> 0,1. Błędy zaokrągleń mogą spowodować, że liczba będzie nieco mniejsza lub nieco większa, w zależności od miejsca obcięcia.<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><p>Błędy zaokrąglenia mogą mieć nieoczekiwane konsekwencje:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iomanip&gt; // dla std::setprecision()
 #include &lt;iostream&gt;
 
 int main()
@@ -101,10 +101,10 @@ int main()
     std::cout &lt;&lt; std::setprecision(17);
 
     double d1{ 1.0 };
-    std::cout &lt;&lt; d1 &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; d1 &lt;&lt; '\n';
 	
     double d2{ 0.1 + 0.1 + 0.1 + 0.1 + 0.1 + 0.1 + 0.1 + 0.1 + 0.1 + 0.1 }; // should equal 1.0
-    std::cout &lt;&lt; d2 &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; d2 &lt;&lt; '\n';
 
     return 0;
 }</code></pre><pre>1
@@ -116,19 +116,19 @@ int main()
     double zero { 0.0 };
     
     double posinf { 5.0 / zero }; // positive infinity
-    std::cout &lt;&lt; posinf &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; posinf &lt;&lt; '\n';
 
     double neginf { -5.0 / zero }; // negative infinity
-    std::cout &lt;&lt; neginf &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; neginf &lt;&lt; '\n';
 
     double z1 { 0.0 / posinf }; // positive zero
-    std::cout &lt;&lt; z1 &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; z1 &lt;&lt; '\n';
 
     double z2 { -0.0 / posinf }; // negative zero
-    std::cout &lt;&lt; z2 &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; z2 &lt;&lt; '\n';
 
-    double nan { zero / zero }; // not a number (mathematically invalid)
-    std::cout &lt;&lt; nan &lt;&lt; &#39;\n&#39;;
+    double nan { zero / zero }; // nie liczba (nieprawidłowa matematycznie)
+    std::cout &lt;&lt; nan &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>I wyniki przy użyciu Clang:<pre>inf

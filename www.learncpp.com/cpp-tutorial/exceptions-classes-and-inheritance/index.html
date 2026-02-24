@@ -33,12 +33,12 @@ class Member
 public:
 	Member()
 	{
-		std::cerr &lt;&lt; &#34;Member allocated some resources\n&#34;;
+		std::cerr &lt;&lt; "Member allocated some resources\n";
 	}
 
 	~Member()
 	{
-		std::cerr &lt;&lt; &#34;Member cleaned up\n&#34;;
+		std::cerr &lt;&lt; "Member cleaned up\n";
 	}
 };
 
@@ -57,7 +57,7 @@ public:
 	
 	~A()
 	{
-		std::cerr &lt;&lt; &#34;~A\n&#34;; // should not be called
+		std::cerr &lt;&lt; "~A\n"; // nie powinna być wywoływana
 	}
 };
 
@@ -70,7 +70,7 @@ int main()
 	}
 	catch (int)
 	{
-		std::cerr &lt;&lt; &#34;Oops\n&#34;;
+		std::cerr &lt;&lt; "Oops\n";
 	}
 
 	return 0;
@@ -79,9 +79,9 @@ Member cleaned up
 Oops
 </pre><p>W powyższym programie, gdy klasa A zgłosi wyjątek, wszystkie elementy klasy A zostaną zniszczone. Wywoływany jest destruktor m_member, zapewniający możliwość oczyszczenia wszystkich przydzielonych mu zasobów.<p>Jest to jeden z powodów, dla których RAII (omówiony w lekcji <a href="../destructors/index.html">19.3 -- Destructors</a>) jest tak bardzo zalecany — nawet w wyjątkowych okolicznościach klasy implementujące RAII są w stanie po sobie posprzątać.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Jednak utworzenie niestandardowej klasy, takiej jak Member, aby zarządzanie alokacją zasobów nie jest efektywne. Na szczęście standardowa biblioteka C++ zawiera klasy zgodne z RAII do zarządzania typowymi typami zasobów, takimi jak pliki (std::fstream, omówione w lekcji <a href="../basic-file-io/index.html">28.6 — Podstawowe operacje we/wy plików</a>) i pamięć dynamiczna (std::unique_ptr i inne inteligentne wskaźniki omówione w <a href="../introduction-to-smart-pointers-move-semantics/index.html">22.1 -- Wprowadzenie do inteligentnych wskaźników i semantyki ruchów</a>).<p>Na przykład zamiast tego:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">class Foo
 private:
-    int* ptr; // Foo will handle allocation/deallocation</code></pre><p>Zrób to:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">class Foo
+    int* ptr; // Foo zajmie się alokacją/delokacją</code></pre><p>Zrób to:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">class Foo
 private:
-    std::unique_ptr&lt;int&gt; ptr; // std::unique_ptr will handle allocation/deallocation</code></pre><p>W pierwszym przypadku, jeśli konstruktor Foo zawiedzie po alokacji pamięci dynamicznej przez ptr, Foo będzie odpowiedzialny za czyszczenie, co może być trudne.W drugim przypadku, jeśli Konstruktor Foo zawiódłby po przydzieleniu przez ptr pamięci dynamicznej, destruktor ptr wykonałby i zwrócił tę pamięć do systemu. Foo nie musi wykonywać żadnego jawnego czyszczenia, gdy obsługa zasobów jest delegowana do elementów zgodnych z RAII!<p class="cpp-section cpp-topline" style=clear:both>Klasy wyjątków<p>Jednym z głównych problemów związanych z używaniem podstawowych typów danych (takich jak int) jako typów wyjątków jest to, że są one z natury niejasne wyjątek oznacza, że w bloku try znajduje się wiele instrukcji lub wywołań funkcji.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Using the IntArray overloaded operator[] above
+    std::unique_ptr&lt;int&gt; ptr; // std::unique_ptr will handle allocation/deallocation</code></pre><p>W pierwszym przypadku, jeśli konstruktor Foo zawiedzie po alokacji pamięci dynamicznej przez ptr, Foo będzie odpowiedzialny za czyszczenie, co może być trudne.W drugim przypadku, jeśli Konstruktor Foo zawiódłby po przydzieleniu przez ptr pamięci dynamicznej, destruktor ptr wykonałby i zwrócił tę pamięć do systemu. Foo nie musi wykonywać żadnego jawnego czyszczenia, gdy obsługa zasobów jest delegowana do elementów zgodnych z RAII!<p class="cpp-section cpp-topline" style=clear:both>Klasy wyjątków<p>Jednym z głównych problemów związanych z używaniem podstawowych typów danych (takich jak int) jako typów wyjątków jest to, że są one z natury niejasne wyjątek oznacza, że w bloku try znajduje się wiele instrukcji lub wywołań funkcji.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Użycie przeciążonego operatora IntArray[] powyżej
 
 try
 {
@@ -89,7 +89,7 @@ try
 }
 catch (int value)
 {
-    // What are we catching here?
+    // Co tu wyłapujemy?
 }</code></pre><p>Jeśli w tym przykładzie mamy przechwycić wyjątek typu int, co nam to tak naprawdę mówi? Czy jeden z indeksów tablicy był poza dopuszczalnym zakresem? Czy operator+ spowodował przepełnienie liczby całkowitej? Czy operator new zawiódł, ponieważ zabrakło mu pamięci? Niestety w tym przypadku nie ma prostego sposobu na ujednoznacznienie. Chociaż możemy zgłosić wyjątek const char*, aby rozwiązać problem identyfikacji CO poszło źle, to nadal nie daje nam możliwości obsługi wyjątków z różnych źródeł w różny sposób.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>Jednym ze sposobów rozwiązania tego problemu jest użycie klas wyjątków. <strong>Klasa wyjątków</strong> jest po prostu normalną klasą zaprojektowaną specjalnie do zgłaszania wyjątków. Zaprojektujmy prostą klasę wyjątków do użycia z naszą klasą IntArray:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;string&gt;
 #include &lt;string_view&gt;
 
@@ -126,7 +126,7 @@ public:
 class IntArray
 {
 private:
-	int m_data[3]{}; // assume array is length 3 for simplicity
+	int m_data[3]{}; // dla uproszczenia załóżmy, że tablica ma długość 3
 
 public:
 	IntArray() {}
@@ -136,7 +136,7 @@ public:
 	int&amp; operator[](const int index)
 	{
 		if (index &lt; 0 || index &gt;= getLength())
-			throw ArrayException{ &#34;Invalid index&#34; };
+			throw ArrayException{ "Invalid index" };
 
 		return m_data[index];
 	}
@@ -149,11 +149,11 @@ int main()
 
 	try
 	{
-		int value{ array[5] }; // out of range subscript
+		int value{ array[5] }; // indeks dolny poza zakresem
 	}
 	catch (const ArrayException&amp; exception)
 	{
-		std::cerr &lt;&lt; &#34;An array exception occurred (&#34; &lt;&lt; exception.getError() &lt;&lt; &#34;)\n&#34;;
+		std::cerr &lt;&lt; "An array exception occurred (" &lt;&lt; exception.getError() &lt;&lt; ")\n";
 	}
 }</code></pre><p>Używając takiej klasy, możemy sprawić, że wyjątek zwróci opis zaistniałego problemu, który zapewni kontekst tego, co poszło nie tak. A ponieważ ArrayException jest swoim własnym, unikalnym typem, możemy w szczególności wychwytywać wyjątki zgłaszane przez klasę tablicy i traktować je inaczej niż inne wyjątki, jeśli chcemy.<p>Pamiętaj, że procedury obsługi wyjątków powinny wyłapywać obiekty wyjątków klasy przez referencję, a nie przez wartość. Uniemożliwia to kompilatorowi utworzenie kopii wyjątku w miejscu, gdzie jest przechwytywany, co może być kosztowne, gdy wyjątek jest obiektem klasy, i zapobiega dzieleniu obiektu na kawałki w przypadku pochodnych klas wyjątków (o czym porozmawiamy za chwilę). Generalnie należy unikać przechwytywania wyjątków przez wskaźnik, chyba że masz ku temu konkretny powód.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Wyjątki typu podstawowego można wychwytywać według wartości, ponieważ są tanie w kopiowaniu.<br>Wyjątki typu klasy powinny być wychwytywane przez (const) referencję, aby zapobiec kosztownym kopiowanie i wycinanie.</div><p class="cpp-section cpp-topline" style=clear:both>Wyjątki i dziedziczenie<p>Ponieważ możliwe jest zgłaszanie klas jako wyjątków, a klasy można wyprowadzać z innych klas, musimy rozważyć, co się stanie, gdy użyjemy klas odziedziczonych jako wyjątków. Jak się okazuje, procedury obsługi wyjątków nie tylko dopasowują klasy określonego typu, ale także klasy wywodzące się z tego konkretnego typu. Rozważ następujące kwestie! przykład:<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
@@ -216,62 +216,62 @@ int main()
     }
 
     return 0;
-}	</code></pre><p>W ten sposób program obsługi Derived jako pierwszy będzie mógł przechwycić obiekty typu Derived (zanim moduł obsługi Base będzie mógł to zrobić). Obiekty typu Base nie będą pasować do procedury obsługi Derived (Derived to-a Base, ale Base nie jest Derived), w związku z czym „przejdą” do procedury obsługi Base.<div class="cpp-note cpp-lightpurplebackground"><p class="cpp-note-title cpp-bottomline">Reguła<p>Procedury obsługi pochodnych klas wyjątków powinny być wymienione przed procedurami obsługi klas bazowych.</div><p>Możliwość wykorzystania procedury obsługi do wychwytywania wyjątków typów pochodnych przy użyciu procedury obsługi dla klasy bazowej okazuje się niezwykle przydatna przydatne.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p class="cpp-section cpp-topline" style=clear:both>std::exception<p>Wiele klas i operatorów w bibliotece standardowej generuje klasy wyjątków w przypadku niepowodzenia. Na przykład operator new może zgłosić std::bad_alloc, jeśli nie jest w stanie przydzielić wystarczającej ilości pamięci. Niepowodzenie dynamic_cast spowoduje wyrzucenie std::bad_cast. I tak dalej. Począwszy od C++20, istnieje 28 różnych klas wyjątków, które można zgłosić, a w każdym kolejnym standardzie językowym dodawane są kolejne.<p>Dobrą wiadomością jest to, że wszystkie te klasy wyjątków wywodzą się z jednej klasy o nazwie <strong>std::exception</strong> (zdefiniowanej w nagłówku &lt;exception&gt;). std::exception to mała klasa interfejsu zaprojektowana, aby służyć jako klasa bazowa dla wszelkich wyjątków zgłaszanych przez standardową bibliotekę C++.<p>W większości przypadków, gdy biblioteka standardowa zgłasza wyjątek, nie obchodzi nas, czy jest to zła alokacja, zła obsada, czy coś innego. Obchodzi nas tylko to, że coś katastrofalnego poszło nie tak i teraz nasz program eksploduje. Dzięki std::exception możemy skonfigurować procedurę obsługi wyjątków, która przechwytuje wyjątki typu std::exception, co zakończy się przechwytywaniem std::exception i wszystkich pochodnych wyjątków w jednym miejscu. To proste!<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cstddef&gt; // for std::size_t
-#include &lt;exception&gt; // for std::exception
+}	</code></pre><p>W ten sposób program obsługi Derived jako pierwszy będzie mógł przechwycić obiekty typu Derived (zanim moduł obsługi Base będzie mógł to zrobić). Obiekty typu Base nie będą pasować do procedury obsługi Derived (Derived to-a Base, ale Base nie jest Derived), w związku z czym „przejdą” do procedury obsługi Base.<div class="cpp-note cpp-lightpurplebackground"><p class="cpp-note-title cpp-bottomline">Reguła<p>Procedury obsługi pochodnych klas wyjątków powinny być wymienione przed procedurami obsługi klas bazowych.</div><p>Możliwość wykorzystania procedury obsługi do wychwytywania wyjątków typów pochodnych przy użyciu procedury obsługi dla klasy bazowej okazuje się niezwykle przydatna przydatne.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p class="cpp-section cpp-topline" style=clear:both>std::exception<p>Wiele klas i operatorów w bibliotece standardowej generuje klasy wyjątków w przypadku niepowodzenia. Na przykład operator new może zgłosić std::bad_alloc, jeśli nie jest w stanie przydzielić wystarczającej ilości pamięci. Niepowodzenie dynamic_cast spowoduje wyrzucenie std::bad_cast. I tak dalej. Począwszy od C++20, istnieje 28 różnych klas wyjątków, które można zgłosić, a w każdym kolejnym standardzie językowym dodawane są kolejne.<p>Dobrą wiadomością jest to, że wszystkie te klasy wyjątków wywodzą się z jednej klasy o nazwie <strong>std::exception</strong> (zdefiniowanej w nagłówku &lt;exception&gt;). std::exception to mała klasa interfejsu zaprojektowana, aby służyć jako klasa bazowa dla wszelkich wyjątków zgłaszanych przez standardową bibliotekę C++.<p>W większości przypadków, gdy biblioteka standardowa zgłasza wyjątek, nie obchodzi nas, czy jest to zła alokacja, zła obsada, czy coś innego. Obchodzi nas tylko to, że coś katastrofalnego poszło nie tak i teraz nasz program eksploduje. Dzięki std::exception możemy skonfigurować procedurę obsługi wyjątków, która przechwytuje wyjątki typu std::exception, co zakończy się przechwytywaniem std::exception i wszystkich pochodnych wyjątków w jednym miejscu. To proste!<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cstddef&gt; // dla std::size_t
+#include &lt;exception&gt; // dla std::exception
 #include &lt;iostream&gt;
 #include &lt;limits&gt;
-#include &lt;string&gt; // for this example
+#include &lt;string&gt; // dla tego przykładu
 
 int main()
 {
     try
     {
-        // Your code using standard library goes here
-        // We&#39;ll trigger one of these exceptions intentionally for the sake of the example
+        // Twój kod korzystający ze standardowej biblioteki będzie tutaj
+        // Na potrzeby przykładu celowo uruchomimy jeden z tych wyjątków
         std::string s;
-        s.resize(std::numeric_limits&lt;std::size_t&gt;::max()); // will trigger a std::length_error or allocation exception
+        s.resize(std::numeric_limits&lt;std::size_t&gt;::max()); // wywoła std::length_error lub wyjątek alokacji
     }
-    // This handler will catch std::exception and all the derived exceptions too
+    // Ta funkcja obsługi przechwyci std::exception i wszystkie pochodne wyjątki
     catch (const std::exception&amp; exception)
     {
-        std::cerr &lt;&lt; &#34;Standard exception: &#34; &lt;&lt; exception.what() &lt;&lt; &#39;\n&#39;;
+        std::cerr &lt;&lt; "Standard exception: " &lt;&lt; exception.what() &lt;&lt; '\n';
     }
 
     return 0;
 }</code></pre><p>Na maszynie autora powyższy program wypisuje:<pre>Standard exception: string too long
 </pre><p>Powyższy przykład powinien być całkiem prosty. Jedyną rzeczą wartą odnotowania jest to, że std::exception ma wirtualną funkcję składową o nazwie <strong>what()</strong> , która zwraca ciąg znaków opisujący wyjątek w stylu C. Większość klas pochodnych zastępuje funkcję what() w celu zmiany komunikatu. Pamiętaj, że ten ciąg znaków jest przeznaczony wyłącznie do opisu tekstu — nie używaj go do porównań, ponieważ nie ma gwarancji, że będzie taki sam we wszystkich kompilatorach.<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>Czasami będziemy chcieli inaczej obsłużyć określony typ wyjątku. W tym przypadku możemy dodać procedurę obsługi dla tego konkretnego typu, a wszystkie pozostałe „przejdą” do procedury obsługi podstawowej. Rozważ: <pre class="language-cpp line-numbers"><code class="language-cpp match-braces">try
 {
-     // code using standard library goes here
+     // tutaj znajduje się kod korzystający ze standardowej biblioteki
 }
-// This handler will catch std::length_error (and any exceptions derived from it) here
+// Ta procedura obsługi przechwyci std::length_error (i wszelkie wyjątki z niego wywodzące się) tutaj
 catch (const std::length_error&amp; exception)
 {
-    std::cerr &lt;&lt; &#34;You ran out of memory!&#34; &lt;&lt; &#39;\n&#39;;
+    std::cerr &lt;&lt; "You ran out of memory!" &lt;&lt; '\n';
 }
-// This handler will catch std::exception (and any exception derived from it) that fall
-// through here
+// Ta procedura obsługi przechwyci std::exception (i każdy wyjątek z niego wywodzący się z niego)
+// tutaj
 catch (const std::exception&amp; exception)
 {
-    std::cerr &lt;&lt; &#34;Standard exception: &#34; &lt;&lt; exception.what() &lt;&lt; &#39;\n&#39;;
-}</code></pre><p>W tym przykładzie wyjątki typu std::length_error zostaną przechwycone przez pierwszą procedurę obsługi i tam obsługiwane. Wyjątki typu std::exception i wszystkie inne klasy pochodne zostaną przechwycone przez drugą procedurę obsługi.<p>Takie hierarchie dziedziczenia pozwalają nam używać określonych procedur obsługi do celowania w określone pochodne klasy wyjątków lub używać procedur obsługi klas podstawowych do przechwytywania całej hierarchii wyjątków. Pozwala nam to na dużą kontrolę nad rodzajem wyjątków, które chcemy obsłużyć, jednocześnie zapewniając, że nie musimy wkładać zbyt wiele pracy, aby wychwycić „wszystko inne” w hierarchii.<p class="cpp-section cpp-topline" style=clear:both>Bezpośrednie użycie standardowych wyjątków<p>Nic nie zgłasza bezpośrednio std::exception i Ty też nie powinieneś. Możesz jednak swobodnie wrzucać inne standardowe klasy wyjątków do biblioteki standardowej, jeśli odpowiednio reprezentują one Twoje potrzeby. Listę wszystkich standardowych wyjątków można znaleźć na stronie  <a href=http://en.cppreference.com/w/cpp/error/exception>cppreference</a>.<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><p>std::runtime_error (zawartej jako część nagłówka stdexcept) jest popularnym wyborem, ponieważ ma ogólną nazwę, a jego konstruktor pobiera dostosowywalny komunikat:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;exception&gt; // for std::exception
+    std::cerr &lt;&lt; "Standard exception: " &lt;&lt; exception.what() &lt;&lt; '\n';
+}</code></pre><p>W tym przykładzie wyjątki typu std::length_error zostaną przechwycone przez pierwszą procedurę obsługi i tam obsługiwane. Wyjątki typu std::exception i wszystkie inne klasy pochodne zostaną przechwycone przez drugą procedurę obsługi.<p>Takie hierarchie dziedziczenia pozwalają nam używać określonych procedur obsługi do celowania w określone pochodne klasy wyjątków lub używać procedur obsługi klas podstawowych do przechwytywania całej hierarchii wyjątków. Pozwala nam to na dużą kontrolę nad rodzajem wyjątków, które chcemy obsłużyć, jednocześnie zapewniając, że nie musimy wkładać zbyt wiele pracy, aby wychwycić „wszystko inne” w hierarchii.<p class="cpp-section cpp-topline" style=clear:both>Bezpośrednie użycie standardowych wyjątków<p>Nic nie zgłasza bezpośrednio std::exception i Ty też nie powinieneś. Możesz jednak swobodnie wrzucać inne standardowe klasy wyjątków do biblioteki standardowej, jeśli odpowiednio reprezentują one Twoje potrzeby. Listę wszystkich standardowych wyjątków można znaleźć na stronie  <a href=http://en.cppreference.com/w/cpp/error/exception>cppreference</a>.<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><p>std::runtime_error (zawartej jako część nagłówka stdexcept) jest popularnym wyborem, ponieważ ma ogólną nazwę, a jego konstruktor pobiera dostosowywalny komunikat:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;exception&gt; // dla std::exception
 #include &lt;iostream&gt;
-#include &lt;stdexcept&gt; // for std::runtime_error
+#include &lt;stdexcept&gt; // dla std::runtime_error
 
 int main()
 {
 	try
 	{
-		throw std::runtime_error(&#34;Bad things happened&#34;);
+		throw std::runtime_error("Bad things happened");
 	}
-	// This handler will catch std::exception and all the derived exceptions too
+	// Ta funkcja obsługi przechwyci std::exception i wszystkie pochodne wyjątki
 	catch (const std::exception&amp; exception)
 	{
-		std::cerr &lt;&lt; &#34;Standard exception: &#34; &lt;&lt; exception.what() &lt;&lt; &#39;\n&#39;;
+		std::cerr &lt;&lt; "Standard exception: " &lt;&lt; exception.what() &lt;&lt; '\n';
 	}
 
 	return 0;
 }</code></pre><p>Wypisuje:<pre>Standard exception: Bad things happened
-</pre><p class="cpp-section cpp-topline" style=clear:both>Wyprowadzanie własnych klas ze std::exception lub std::runtime_error<p>Możesz oczywiście wyprowadzić własne klasy z std::exception i zastąp wirtualną funkcję członkowską what() const. Oto ten sam program, co powyżej, z wyjątkiem ArrayException wywodzącym się ze std::exception:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;exception&gt; // for std::exception
+</pre><p class="cpp-section cpp-topline" style=clear:both>Wyprowadzanie własnych klas ze std::exception lub std::runtime_error<p>Możesz oczywiście wyprowadzić własne klasy z std::exception i zastąp wirtualną funkcję członkowską what() const. Oto ten sam program, co powyżej, z wyjątkiem ArrayException wywodzącym się ze std::exception:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;exception&gt; // dla std::exception
 #include &lt;iostream&gt;
 #include &lt;string&gt;
 #include &lt;string_view&gt;
@@ -279,7 +279,7 @@ int main()
 class ArrayException : public std::exception
 {
 private:
-	std::string m_error{}; // handle our own string
+	std::string m_error{}; // obsługa własnego ciągu znaków
 
 public:
 	ArrayException(std::string_view error)
@@ -287,14 +287,14 @@ public:
 	{
 	}
 
-	// std::exception::what() returns a const char*, so we must as well
+	// std::exception::what() zwraca stały znak*, więc też musimy
 	const char* what() const noexcept override { return m_error.c_str(); }
 };
 
 class IntArray
 {
 private:
-	int m_data[3] {}; // assume array is length 3 for simplicity
+	int m_data[3] {}; // dla uproszczenia załóżmy, że tablica ma długość 3
 
 public:
 	IntArray() {}
@@ -304,7 +304,7 @@ public:
 	int&amp; operator[](const int index)
 	{
 		if (index &lt; 0 || index &gt;= getLength())
-			throw ArrayException(&#34;Invalid index&#34;);
+			throw ArrayException("Invalid index");
 
 		return m_data[index];
 	}
@@ -319,37 +319,37 @@ int main()
 	{
 		int value{ array[5] };
 	}
-	catch (const ArrayException&amp; exception) // derived catch blocks go first
+	catch (const ArrayException&amp; exception) // wyprowadzone bloki catch idą pierwsze
 	{
-		std::cerr &lt;&lt; &#34;An array exception occurred (&#34; &lt;&lt; exception.what() &lt;&lt; &#34;)\n&#34;;
+		std::cerr &lt;&lt; "An array exception occurred (" &lt;&lt; exception.what() &lt;&lt; ")\n";
 	}
 	catch (const std::exception&amp; exception)
 	{
-		std::cerr &lt;&lt; &#34;Some other std::exception occurred (&#34; &lt;&lt; exception.what() &lt;&lt; &#34;)\n&#34;;
+		std::cerr &lt;&lt; "Some other std::exception occurred (" &lt;&lt; exception.what() &lt;&lt; ")\n";
 	}
-}</code></pre><p>Zauważ, że funkcja wirtualna what() ma specyfikator noexcept (co oznacza, że ​​funkcja sama obiecuje nie zgłaszać wyjątków). Dlatego też nasze zastąpienie powinno mieć także specyfikator noexcept.<p>Ponieważ std::runtime_error ma już możliwości obsługi ciągów znaków, jest to również popularna klasa bazowa dla pochodnych klas wyjątków. std::runtime_error może przyjmować parametr łańcuchowy w stylu C lub parametr  <code>const std::string&</code> .<p>Oto ten sam przykład wywodzący się z std::runtime_error:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;exception&gt; // for std::exception
+}</code></pre><p>Zauważ, że funkcja wirtualna what() ma specyfikator noexcept (co oznacza, że ​​funkcja sama obiecuje nie zgłaszać wyjątków). Dlatego też nasze zastąpienie powinno mieć także specyfikator noexcept.<p>Ponieważ std::runtime_error ma już możliwości obsługi ciągów znaków, jest to również popularna klasa bazowa dla pochodnych klas wyjątków. std::runtime_error może przyjmować parametr łańcuchowy w stylu C lub parametr  <code>const std::string&</code> .<p>Oto ten sam przykład wywodzący się z std::runtime_error:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;exception&gt; // dla std::exception
 #include &lt;iostream&gt;
-#include &lt;stdexcept&gt; // for std::runtime_error
+#include &lt;stdexcept&gt; // dla std::runtime_error
 #include &lt;string&gt;
 
 class ArrayException : public std::runtime_error
 {
 public:
-	// std::runtime_error takes either a null-terminated const char* or a const std::string&amp;.
-	// We will follow their lead and take a const std::string&amp;
+	// std::runtime_error pobiera albo const char* zakończony znakiem null, albo const std::string&amp;.
+	// Pójdziemy za ich przykładem i przyjmiemy const std::string&amp;
 	ArrayException(const std::string&amp; error)
-		: std::runtime_error{ error } // std::runtime_error will handle the string
+		: std::runtime_error{ error } // std::runtime_error obsłuży string
 	{
 	}
 
 
-        // no need to override what() since we can just use std::runtime_error::what()
+        // nie ma potrzeby zastępowania what() ponieważ możemy po prostu użyć std::runtime_error::what()
 };
 
 class IntArray
 {
 private:
-	int m_data[3]{}; // assume array is length 3 for simplicity
+	int m_data[3]{}; // dla uproszczenia załóżmy, że tablica ma długość 3
 
 public:
 	IntArray() {}
@@ -359,7 +359,7 @@ public:
 	int&amp; operator[](const int index)
 	{
 		if (index &lt; 0 || index &gt;= getLength())
-			throw ArrayException(&#34;Invalid index&#34;);
+			throw ArrayException("Invalid index");
 
 		return m_data[index];
 	}
@@ -374,13 +374,13 @@ int main()
 	{
 		int value{ array[5] };
 	}
-	catch (const ArrayException&amp; exception) // derived catch blocks go first
+	catch (const ArrayException&amp; exception) // wyprowadzone bloki catch idą pierwsze
 	{
-		std::cerr &lt;&lt; &#34;An array exception occurred (&#34; &lt;&lt; exception.what() &lt;&lt; &#34;)\n&#34;;
+		std::cerr &lt;&lt; "An array exception occurred (" &lt;&lt; exception.what() &lt;&lt; ")\n";
 	}
 	catch (const std::exception&amp; exception)
 	{
-		std::cerr &lt;&lt; &#34;Some other std::exception occurred (&#34; &lt;&lt; exception.what() &lt;&lt; &#34;)\n&#34;;
+		std::cerr &lt;&lt; "Some other std::exception occurred (" &lt;&lt; exception.what() &lt;&lt; ")\n";
 	}
 }</code></pre><p>To od Ciebie zależy, czy chcesz utworzyć własne samodzielne klasy wyjątków, użyć standardowych klas wyjątków, czy też wyprowadzić własne klasy wyjątków ze std::exception lub std::runtime_error. Wszystkie są prawidłowymi podejściami, w zależności od celów.<p class="cpp-section cpp-topline" style=clear:both>Czas istnienia wyjątków<p>Gdy zgłaszany jest wyjątek, zgłaszanym obiektem jest zazwyczaj zmienna tymczasowa lub lokalna, która została przydzielona na stosie. Jednakże proces obsługi wyjątków może zakończyć działanie funkcji, powodując zniszczenie wszystkich zmiennych lokalnych funkcji. Jak więc zgłaszany obiekt wyjątku przetrwa odwijanie stosu?<p>Gdy zostanie zgłoszony wyjątek, kompilator tworzy kopię obiektu wyjątku w jakiejś części nieokreślonej pamięci (poza stosem wywołań) zarezerwowanej do obsługi wyjątków. W ten sposób obiekt wyjątku zostanie utrwalony niezależnie od tego, czy i ile razy stos jest rozwijany. Wyjątek będzie istniał do czasu jego obsłużenia.<p>Oznacza to, że rzucane obiekty muszą być generalnie kopiowalne (nawet jeśli stos nie jest faktycznie rozwinięty). Inteligentne kompilatory mogą zamiast tego wykonać ruch lub całkowicie pominąć kopię w określonych okolicznościach.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>Obiekty wyjątków muszą być kopiowalne.</div><p>Oto przykład pokazujący, co się dzieje, gdy próbujemy rzucić obiekt Derived, którego nie można skopiować:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
@@ -395,7 +395,7 @@ class Derived : public Base
 public:
     Derived() {}
 
-    Derived(const Derived&amp;) = delete; // not copyable
+    Derived(const Derived&amp;) = delete; // nie jest kopiowalna
 };
 
 int main()
@@ -404,15 +404,15 @@ int main()
 
     try
     {
-        throw d; // compile error: Derived copy constructor was deleted
+        throw d; // błąd kompilacji: pochodny konstruktor kopiujący został usunięty
     }
     catch (const Derived&amp; derived)
     {
-        std::cerr &lt;&lt; &#34;caught Derived&#34;;
+        std::cerr &lt;&lt; "caught Derived";
     }
     catch (const Base&amp; base)
     {
-        std::cerr &lt;&lt; &#34;caught Base&#34;;
+        std::cerr &lt;&lt; "caught Base";
     }
 
     return 0;

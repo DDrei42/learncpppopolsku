@@ -13,7 +13,7 @@
 <button class=searchsubmit><span class=screen-reader-text>Szukaj</span><i class=icon-search></i></button>
 <input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=10643></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="20.x — podsumowanie rozdziału 20 i quiz" src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-3299 class="post-3299 post type-post status-publish format-standard hentry category-cpp-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>20.x — podsumowanie rozdziału 20 i quiz</h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Autor></i><a class="url fn n" rel=author href=/www.learncpp.com/author/Alex/ title="Wyświetl wszystkie posty Alexa" itemprop=url><em itemprop=name>Alex</em></a></span>
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2015-12-04T19:31:10-08:00 itemprop=datePublished>4 grudnia 2015, 19:31 czasu PST</time>
-<time class=updated datetime=2025-02-08T21:01:02-08:00 itemprop=dateModified>8 lutego 2025</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p class=cpp-section>Przegląd rozdziału<p>Kolejny rozdział za nami! Pozostaje tylko ten nieznośny quiz do rozwiązania…<p>Argumenty funkcji można przekazywać przez wartość, referencję lub adres. Użyj przekazywania wartości dla podstawowych typów danych i modułów wyliczających. Użyj przekazywania przez referencję dla struktur, klas lub gdy potrzebujesz funkcji do modyfikacji argumentu. Użyj adresu przekazywanego do przekazywania wskaźników lub tablic wbudowanych. W miarę możliwości spraw, aby Twoje podanie było stałe przez referencję i adres.<p>Wartości mogą być zwracane przez wartość, referencję lub adres. W większości przypadków zwrot przez wartość jest w porządku, jednak zwrot przez referencję lub adres może być przydatny podczas pracy z dynamicznie alokowanymi danymi, strukturami lub klasami. Jeśli zwracasz przez referencję lub adres, pamiętaj, aby upewnić się, że nie zwracasz czegoś, co wykracza poza zakres.<p>Wskaźniki funkcji pozwalają nam przekazać funkcję do innej funkcji. Może to być przydatne, aby umożliwić wywołującemu dostosowanie zachowania funkcji, na przykład sposobu sortowania listy.<p>Pamięć dynamiczna jest alokowana na stercie.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Stos wywołań śledzi wszystkie aktywne funkcje (te, które zostały wywołane, ale jeszcze nie zostały zakończone) od początku programu do bieżącego punktu wykonania. Zmienne lokalne są alokowane na stosie. Stos ma ograniczony rozmiar. std::vector może zostać użyty do zaimplementowania zachowania podobnego do stosu.<p>Funkcja rekurencyjna to funkcja, która wywołuje samą siebie. Wszystkie funkcje rekurencyjne wymagają warunku zakończenia.<p>Argumenty wiersza poleceń umożliwiają użytkownikom lub innym programom przekazywanie danych do naszego programu podczas uruchamiania. Argumenty wiersza poleceń są zawsze ciągami znaków w stylu C i jeśli pożądane są wartości liczbowe, należy je przekonwertować na liczby.<p>Elipsa umożliwia przekazywanie do funkcji zmiennej liczby argumentów. Jednak argumenty wielokropka wstrzymują sprawdzanie typu i nie wiedzą, ile argumentów zostało przekazanych. Śledzenie tych szczegółów zależy od programu.<p>Funkcje lambda to funkcje, które można zagnieżdżać w innych funkcjach. Nie potrzebują nazwy i są bardzo przydatne w połączeniu z biblioteką algorytmów.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Czas quizu<div class=quiz style=clear:both><p class=quiz-header>Pytanie nr 1<p>Napisz prototypy funkcji dla poniższych przypadków. Użyj const, jeśli/kiedy to konieczne.<p>a) Funkcja o nazwie max(), która przyjmuje dwie liczby podwójne i zwraca większą z nich.<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_0 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">double max(double x, double y);</code></pre></div><p>b) Funkcja o nazwie swap(), która zamienia dwie liczby całkowite.<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_1 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">void swap(int&amp; x, int&amp; y);</code></pre></div><p>c) Funkcja o nazwie getLargestElement(), która pobiera dynamicznie przydzieloną tablicę liczb całkowitych i zwraca największą liczbę w taki sposób, że osoba wywołująca może zmienić wartość zwrócony element (nie zapomnij o parametrze długości).<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_2'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_2 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Note: array can&#39;t be const in this case, because returning a non-const reference to a const element would be a const violation.
+<time class=updated datetime=2025-02-08T21:01:02-08:00 itemprop=dateModified>8 lutego 2025</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p class=cpp-section>Przegląd rozdziału<p>Kolejny rozdział za nami! Pozostaje tylko ten nieznośny quiz do rozwiązania…<p>Argumenty funkcji można przekazywać przez wartość, referencję lub adres. Użyj przekazywania wartości dla podstawowych typów danych i modułów wyliczających. Użyj przekazywania przez referencję dla struktur, klas lub gdy potrzebujesz funkcji do modyfikacji argumentu. Użyj adresu przekazywanego do przekazywania wskaźników lub tablic wbudowanych. W miarę możliwości spraw, aby Twoje podanie było stałe przez referencję i adres.<p>Wartości mogą być zwracane przez wartość, referencję lub adres. W większości przypadków zwrot przez wartość jest w porządku, jednak zwrot przez referencję lub adres może być przydatny podczas pracy z dynamicznie alokowanymi danymi, strukturami lub klasami. Jeśli zwracasz przez referencję lub adres, pamiętaj, aby upewnić się, że nie zwracasz czegoś, co wykracza poza zakres.<p>Wskaźniki funkcji pozwalają nam przekazać funkcję do innej funkcji. Może to być przydatne, aby umożliwić wywołującemu dostosowanie zachowania funkcji, na przykład sposobu sortowania listy.<p>Pamięć dynamiczna jest alokowana na stercie.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Stos wywołań śledzi wszystkie aktywne funkcje (te, które zostały wywołane, ale jeszcze nie zostały zakończone) od początku programu do bieżącego punktu wykonania. Zmienne lokalne są alokowane na stosie. Stos ma ograniczony rozmiar. std::vector może zostać użyty do zaimplementowania zachowania podobnego do stosu.<p>Funkcja rekurencyjna to funkcja, która wywołuje samą siebie. Wszystkie funkcje rekurencyjne wymagają warunku zakończenia.<p>Argumenty wiersza poleceń umożliwiają użytkownikom lub innym programom przekazywanie danych do naszego programu podczas uruchamiania. Argumenty wiersza poleceń są zawsze ciągami znaków w stylu C i jeśli pożądane są wartości liczbowe, należy je przekonwertować na liczby.<p>Elipsa umożliwia przekazywanie do funkcji zmiennej liczby argumentów. Jednak argumenty wielokropka wstrzymują sprawdzanie typu i nie wiedzą, ile argumentów zostało przekazanych. Śledzenie tych szczegółów zależy od programu.<p>Funkcje lambda to funkcje, które można zagnieżdżać w innych funkcjach. Nie potrzebują nazwy i są bardzo przydatne w połączeniu z biblioteką algorytmów.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Czas quizu<div class=quiz style=clear:both><p class=quiz-header>Pytanie nr 1<p>Napisz prototypy funkcji dla poniższych przypadków. Użyj const, jeśli/kiedy to konieczne.<p>a) Funkcja o nazwie max(), która przyjmuje dwie liczby podwójne i zwraca większą z nich.<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_0 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">double max(double x, double y);</code></pre></div><p>b) Funkcja o nazwie swap(), która zamienia dwie liczby całkowite.<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_1 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">void swap(int&amp; x, int&amp; y);</code></pre></div><p>c) Funkcja o nazwie getLargestElement(), która pobiera dynamicznie przydzieloną tablicę liczb całkowitych i zwraca największą liczbę w taki sposób, że osoba wywołująca może zmienić wartość zwrócony element (nie zapomnij o parametrze długości).<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_2'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_2 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Uwaga: w tym przypadku tablica nie może być stałą, ponieważ zwrócenie odwołania innego niż stała do elementu const byłoby stałą naruszenie.
 int&amp; getLargestElement(int* array, int length);</code></pre></div></div><div class=quiz style=clear:both><p class=quiz-header>Pytanie nr 2<p>Co jest nie tak z tymi programami?<p>A)<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int&amp; doSomething()
 {
     int array[]{ 1, 2, 3, 4, 5 };
@@ -52,11 +52,11 @@ int main(int argc, char* argv[])
 }</code></pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_7'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_7 style=display:none><p>argv[1] może nie istnieć. Jeśli tak, argv[1] jest argumentem w postaci ciągu znaków i nie można go przekonwertować na liczbę całkowitą poprzez przypisanie.</div><p></div><div class=quiz style=clear:both><p class=quiz-header>Pytanie nr 3<p>Najlepszy algorytm sprawdzania, czy wartość istnieje w posortowanej tablicy, nazywa się wyszukiwaniem binarnym.<p>Wyszukiwanie binarne działa w następujący sposób:<ul><li>Spójrz na środkowy element tablicy (jeśli tablica ma parzystą liczbę elementów, zaokrąglij w dół).<li>Jeśli środkowy element jest większy niż element docelowy, odrzuć górną połowę tablicy (lub wykonaj rekurs na dolną połowę)<li>Jeśli środkowy element jest mniejszy niż element docelowy, odrzuć dolną połowę tablicy (lub powtórz operację na górnej połowie).<li>Jeśli środkowy element jest równy element docelowy, zwróć indeks elementu centralnego.<li>Jeśli odrzucisz całą tablicę bez znalezienia elementu docelowego, zwróć wskaźnik reprezentujący „nie znaleziono” (w tym przypadku użyjemy -1, ponieważ jest to nieprawidłowy indeks tablicy).</ul><p>Ponieważ w każdej iteracji możemy wyrzucić połowę tablicy, algorytm ten jest bardzo szybki. Nawet w przypadku tablicy składającej się z miliona elementów wystarczy maksymalnie 20 iteracji, aby określić, czy wartość istnieje w tablicy, czy nie! Działa to jednak tylko na posortowanych tablicach.<p>Modyfikowanie tablicy (np. odrzucenie połowy elementów tablicy) jest kosztowne, dlatego zazwyczaj nie modyfikujemy tablicy. Zamiast tego używamy dwóch liczb całkowitych (min i max) do przechowywania indeksów minimalnego i maksymalnego elementu tablicy, którą chcemy zbadać.<p>Przyjrzyjmy się próbce działania tego algorytmu, biorąc pod uwagę tablicę { 3, 6, 7, 9, 12, 15, 18, 21, 24 } i wartość docelową 7. Na początku min = 0, max = 8, ponieważ przeszukujemy całą tablicę (tablica ma długość 9, więc indeks ostatniego elementu wynosi 8). <ul><li>Zaliczono 1) Obliczamy środek min (0) i max (8), czyli 4. Element nr 4 ma wartość 12, która jest większa niż nasza wartość docelowa. Ponieważ tablica jest posortowana, wiemy, że wszystkie elementy o indeksie równym lub większym od środka (4) muszą być za duże. Więc zostawiamy min w spokoju i ustawiamy max na 3.<li>Zaliczony 2) Obliczamy punkt środkowy min (0) i max (3), czyli 1. Element nr 1 ma wartość 6, która jest mniejsza niż nasza wartość docelowa. Ponieważ tablica jest posortowana, wiemy, że wszystkie elementy o indeksie równym lub mniejszym od środka (1) muszą być za małe. Zatem ustawiamy min na 2, a max zostawiamy w spokoju.<li>Zaliczono 3) Obliczamy punkt środkowy min (2) i max (3), czyli 2. Element nr 2 ma wartość 7, która jest naszą wartością docelową. Zwracamy więc 2.</ul><p>W C++20 obliczenie punktu środkowego można wykonać poprzez wywołanie <a href=https://en.cppreference.com/w/cpp/numeric/midpoint><code>std::midpoint</code></a>. Przed wersją C++20 musisz samodzielnie obliczyć punkt środkowy — w tym przypadku możesz użyć <code>min + ((max - min) / 2)</code> aby uniknąć przepełnienia (gdy min i max są dodatnie).<p>Biorąc pod uwagę następujący kod:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;iterator&gt;
 
-// array is the array to search over.
-// target is the value we&#39;re trying to determine exists or not.
-// min is the index of the lower bounds of the array we&#39;re searching.
-// max is the index of the upper bounds of the array we&#39;re searching.
-// binarySearch() should return the index of the target element if the target is found, -1 otherwise
+// array to tablica, którą należy przeszukać.
+// cel to wartość, którą próbujemy określić, czy istnieje, czy nie.
+// min to indeks dolnych granic tablicy, którą przeszukujemy.
+// max jest indeksem górnych granic tablicy, którą przeszukujemy.
+// binarySearch() powinna zwrócić indeks elementu docelowego, jeśli cel zostanie znaleziony, -1 w przeciwnym razie
 int binarySearch(const int* array, int target, int min, int max)
 {
 
@@ -66,61 +66,61 @@ int main()
 {
     constexpr int array[]{ 3, 6, 8, 12, 14, 17, 20, 21, 26, 32, 36, 37, 42, 44, 48 };
 
-    // We&#39;re going to test a bunch of values to see if the algorithm returns the result we expect
+    // Przetestujemy kilka wartości, aby sprawdzić, czy algorytm zwróci oczekiwany wynik
 
-    // Here are the test values
+    // Oto wartości testowe
     constexpr int testValues[]{ 0, 3, 12, 13, 22, 26, 43, 44, 48, 49 };
 
-    // And here are the results that we expect for those test values
+    // A oto wyniki, których oczekujemy dla tych wartości testowych
     int expectedResult[]{ -1, 0, 3, -1, -1, 8, -1, 13, 14, -1 };
 
-    // Make sure we have the same number of test values and expected results
+    // Upewnij się, że mamy tę samą liczbę wartości testowych i oczekiwanych wyników
     static_assert(std::size(testValues) == std::size(expectedResult));
 
     int numTestValues { std::size(testValues) };
-    // Loop through all of the test values
+    // Przejdź przez wszystkie wartości testowe
     for (int count{ 0 }; count &lt; numTestValues; ++count)
     {
-        // See if our test value is in the array
+        // Sprawdź, czy nasza wartość testowa znajduje się w tablicy
         int index{ binarySearch(array, testValues[count], 0, static_cast&lt;int&gt;(std::size(array)) - 1) };
-        // If it matches our expected value, then great!
+        // Jeśli odpowiada naszej oczekiwanej wartości, to świetnie!
         if (index == expectedResult[count])
-             std::cout &lt;&lt; &#34;test value &#34; &lt;&lt; testValues[count] &lt;&lt; &#34; passed!\n&#34;;
-        else // otherwise, our binarySearch() function must be broken
-             std::cout &lt;&lt; &#34;test value &#34; &lt;&lt; testValues[count] &lt;&lt; &#34; failed.  There&#39;s something wrong with your code!\n&#34;;
+             std::cout &lt;&lt; "test value " &lt;&lt; testValues[count] &lt;&lt; " passed!\n";
+        else // w przeciwnym razie nasza funkcja binarySearch() musi być zepsuty
+             std::cout &lt;&lt; "test value " &lt;&lt; testValues[count] &lt;&lt; " failed.  There's something wrong with your code!\n";
     }
 
     return 0;
 }</code></pre><p>a) Napisz iteracyjną wersję funkcji binarySearch.<p>Wskazówka: możesz bezpiecznie powiedzieć, że element docelowy nie istnieje, gdy indeks min jest większy niż maksymalny indeks.<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_8'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_8 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cassert&gt;
 #include &lt;iostream&gt;
-#include &lt;numeric&gt; // for std::midpoint
+#include &lt;numeric&gt; // dla std::midpoint
 
-// array is the array to search over.
-// target is the value we&#39;re trying to determine exists or not.
-// min is the index of the lower bounds of the array we&#39;re searching.
-// max is the index of the upper bounds of the array we&#39;re searching.
-// binarySearch() should return the index of the target element if the target is found, -1 otherwise
+// array to tablica, którą należy przeszukać.
+// cel to wartość, którą próbujemy określić, czy istnieje, czy nie.
+// min to indeks dolnych granic tablicy, którą przeszukujemy.
+// max jest indeksem górnych granic tablicy, którą przeszukujemy.
+// binarySearch() powinna zwrócić indeks elementu docelowego, jeśli cel zostanie znaleziony, -1 w przeciwnym razie
 int binarySearch(const int* array, int target, int min, int max)
 {
-    assert(array); // make sure array exists
+    assert(array); // upewnij się, że tablica istnieje
 
     while (min &lt;= max)
     {
-        // implement this iteratively
+        // zaimplementuj to iteracyjnie
         int midpoint{ std::midpoint(min, max) };
-        // Before C++20
-        // int midpoint{ min + ((max-min) / 2) }; // this way of calculating midpoint avoids overflow
+        // Przed C++20
+        // int punkt środkowy{ min + ((max-min) / 2) }; // ten sposób obliczania punktu środkowego pozwala uniknąć przepełnienia
 
         if (array[midpoint] &gt; target)
         {
-            // if array[midpoint] &gt; target, then we know the number must be in the lower half of the array
-            // we can use midpoint - 1 as the upper index, since we don&#39;t need to retest the midpoint next iteration
+            // jeśli tablica[punkt środkowy] &gt; cel, to wiemy, że liczba musi znajdować się w dolnej połowie tablicy
+            // możemy użyć punktu środkowego - 1 jako górnego indeksu, ponieważ nie musimy ponownie testować punktu środkowego w następnej iteracji
             max = midpoint - 1;
         }
         else if (array[midpoint] &lt; target)
         {
-            // if array[midpoint] &lt; target, then we know the number must be in the upper half of the array
-            // we can use midpoint + 1 as the lower index, since we don&#39;t need to retest the midpoint next iteration
+            // jeśli tablica[punkt środkowy] &lt; cel, to wiemy, że liczba musi znajdować się w górnej połowie tablicy
+            // możemy użyć punktu środkowego + 1 jako dolnego indeksu, ponieważ nie musimy ponownie testować punktu środkowego w następnej iteracji
             min = midpoint + 1;
         }
         else
@@ -131,25 +131,25 @@ int binarySearch(const int* array, int target, int min, int max)
     
     return -1;
 }</code></pre></div><p>b) Napisz rekurencyjną wersję funkcji binarySearch.<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_9'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_9 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cassert&gt;
-#include &lt;numeric&gt; // for std::midpoint
+#include &lt;numeric&gt; // dla std::midpoint
 
-// array is the array to search over.
-// target is the value we&#39;re trying to determine exists or not.
-// min is the index of the lower bounds of the array we&#39;re searching.
-// max is the index of the upper bounds of the array we&#39;re searching.
-// binarySearch() should return the index of the target element if the target is found, -1 otherwise
+// array to tablica, którą należy przeszukać.
+// cel to wartość, którą próbujemy określić, czy istnieje, czy nie.
+// min to indeks dolnych granic tablicy, którą przeszukujemy.
+// max jest indeksem górnych granic tablicy, którą przeszukujemy.
+// binarySearch() powinna zwrócić indeks elementu docelowego, jeśli cel zostanie znaleziony, -1 w przeciwnym razie
 int binarySearch(const int* array, int target, int min, int max)
 {
-    assert(array); // make sure array exists
+    assert(array); // upewnij się, że tablica istnieje
 
-    // implement this recursively
+    // zaimplementuj to rekurencyjnie
 
     if (min &gt; max)
         return -1;
 
     int midpoint{ std::midpoint(min, max) };
-    // Before C++20
-    // int midpoint{ min + ((max-min) / 2) }; // this way of calculating midpoint avoids overflow
+    // Przed C++20
+    // int punkt środkowy{ min + ((max-min) / 2) }; // ten sposób obliczania punktu środkowego pozwala uniknąć przepełnienia
 
     if (array[midpoint] &gt; target)
     {

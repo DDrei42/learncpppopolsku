@@ -13,20 +13,20 @@
 <button class=searchsubmit><span class=screen-reader-text>Szukaj</span><i class=icon-search></i></button>
 <input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=30829></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="5.3 — Systemy liczbowe (dziesiętny, binarny, szesnastkowy i ósemkowy)" src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-13201 class="post-13201 post type-post status-publish format-standard hentry category-cpp-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>5.3 — Systemy liczbowe (dziesiętny, binarny, szesnastkowy i ósemkowy)</h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Autor></i><a class="url fn n" rel=author href=/www.learncpp.com/author/Alex/ title="Wyświetl wszystkie posty Alexa" itemprop=url><em itemprop=name>Alex</em></a></span>
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2022-06-16T14:19:32-07:00 itemprop=datePublished>16 czerwca 2022 r., 14:19 czasu PDT</time>
-<time class=updated datetime=2025-02-11T19:19:23-08:00 itemprop=dateModified>11 lutego 2025</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nota autora<p>Ta lekcja jest opcjonalna.<p>Przyszłe lekcje odnoszą się do liczb szesnastkowych, dlatego przed kontynuowaniem powinieneś przynajmniej choć trochę zapoznać się z tą koncepcją.</div><p>W życiu codziennym liczymy  <strong>liczbami dziesiętnymi</strong> liczby, gdzie każda cyfra może wynosić 0, 1, 2, 3, 4, 5, 6, 7, 8 lub 9. Liczba dziesiętna jest również nazywana „o podstawie 10”, ponieważ istnieje 10 możliwych cyfr (od 0 do 9). W tym systemie liczymy tak: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,… Domyślnie w programach C++ przyjmuje się, że liczby są dziesiętne.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int x { 12 }; // 12 is assumed to be a decimal number</code></pre><p>W <strong>binarny</strong>, są tylko 2 cyfry: 0 i 1, więc nazywa się to „podstawą 2”. W systemie binarnym liczymy w ten sposób: 0, 1, 10, 11, 100, 101, 110, 111,… Aby ułatwić ich odczytanie, dłuższe liczby binarne są często oddzielane spacjami na grupy po 4 cyfry (np. 1101 0100).<p>Dziesiętny i binarny to dwa przykłady <strong>systemów liczbowych</strong>, co jest fantazyjną nazwą dla zbioru symboli (np. cyfr) używanych do reprezentowania liczb. W C++ dostępne są 4 główne systemy liczbowe. Według popularności są to: dziesiętny (podstawa 10), binarny (podstawa 2), szesnastkowy (podstawa 16) i ósemkowy (podstawa 8).<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nomenklatura<p>Zarówno w systemie dziesiętnym, jak i binarnym liczby <code>0</code> i <code>1</code> mają to samo znaczenie. W obu systemach nazywamy te liczby „zero” i „jeden”.<p>Ale co z liczbą <code>10</code>? <code>10</code> to liczba występująca po ostatniej jednocyfrowej liczbie w systemie liczbowym. W systemie dziesiętnym <code>10</code> jest równe dziewięć plus jeden. Nazywamy tę liczbę „dziesięć”.<p>W systemie binarnym <code>10</code> używa tych samych cyfr, ale jest równy jeden plus jeden (odpowiednik dwóch w systemie dziesiętnym). Nazywanie systemu binarnego <code>10</code> „dziesięcią” byłoby mylące, ponieważ „dziesięć” to dziewięć plus jeden, a to <code>10</code> jest jeden plus jeden.<p>Z tego powodu nazwy „dziesięć”, „jedenaście”, „dwanaście” itp. są zwykle zarezerwowane dla liczb dziesiętnych. W niedziesiętnych systemach liczbowych wolimy nazywać te liczby jeden-zero, jeden jeden, jeden-dwa itd. Binarny 101 to nie „sto jeden”, tylko „jeden-zero-jeden”.</div><p class=cpp-section>Literały ósemkowe i szesnastkowe<p><strong>Ośmkowy</strong> to podstawa 8 - czyli jedyne dostępne cyfry to: 0, 1, 2, 3, 4, 5, 6 i 7. W ósemkowym liczymy w ten sposób: 0, 1, 2, 3, 4, 5, 6, 7, 10, 11, 12, … (uwaga: nr 8 i 9, więc przeskakujemy od 7 do 10).<div class=cpp-table-wrapper><p><p><table class=cpp-table><tbody><tr><td>Dziesiętny<td>0<td>1<td>2<td>3<td>4<td>5<td>6<td>7<td>8<td>9<td>10<td>11<tr><td>Ośmkowy<td>0<td>1<td>2<td>3<td>4<td>5<td>6<td>7<td>10<td>11<td>12<td>13</table></div><p>Aby użyć literału ósemkowego, poprzedź literał 0 (zero):<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+<time class=updated datetime=2025-02-11T19:19:23-08:00 itemprop=dateModified>11 lutego 2025</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nota autora<p>Ta lekcja jest opcjonalna.<p>Przyszłe lekcje odnoszą się do liczb szesnastkowych, dlatego przed kontynuowaniem powinieneś przynajmniej choć trochę zapoznać się z tą koncepcją.</div><p>W życiu codziennym liczymy  <strong>liczbami dziesiętnymi</strong> liczby, gdzie każda cyfra może wynosić 0, 1, 2, 3, 4, 5, 6, 7, 8 lub 9. Liczba dziesiętna jest również nazywana „o podstawie 10”, ponieważ istnieje 10 możliwych cyfr (od 0 do 9). W tym systemie liczymy tak: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,… Domyślnie w programach C++ przyjmuje się, że liczby są dziesiętne.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int x { 12 }; // 12 przyjmuje się jako liczbę dziesiętną</code></pre><p>W <strong>binarny</strong>, są tylko 2 cyfry: 0 i 1, więc nazywa się to „podstawą 2”. W systemie binarnym liczymy w ten sposób: 0, 1, 10, 11, 100, 101, 110, 111,… Aby ułatwić ich odczytanie, dłuższe liczby binarne są często oddzielane spacjami na grupy po 4 cyfry (np. 1101 0100).<p>Dziesiętny i binarny to dwa przykłady <strong>systemów liczbowych</strong>, co jest fantazyjną nazwą dla zbioru symboli (np. cyfr) używanych do reprezentowania liczb. W C++ dostępne są 4 główne systemy liczbowe. Według popularności są to: dziesiętny (podstawa 10), binarny (podstawa 2), szesnastkowy (podstawa 16) i ósemkowy (podstawa 8).<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nomenklatura<p>Zarówno w systemie dziesiętnym, jak i binarnym liczby <code>0</code> i <code>1</code> mają to samo znaczenie. W obu systemach nazywamy te liczby „zero” i „jeden”.<p>Ale co z liczbą <code>10</code>? <code>10</code> to liczba występująca po ostatniej jednocyfrowej liczbie w systemie liczbowym. W systemie dziesiętnym <code>10</code> jest równe dziewięć plus jeden. Nazywamy tę liczbę „dziesięć”.<p>W systemie binarnym <code>10</code> używa tych samych cyfr, ale jest równy jeden plus jeden (odpowiednik dwóch w systemie dziesiętnym). Nazywanie systemu binarnego <code>10</code> „dziesięcią” byłoby mylące, ponieważ „dziesięć” to dziewięć plus jeden, a to <code>10</code> jest jeden plus jeden.<p>Z tego powodu nazwy „dziesięć”, „jedenaście”, „dwanaście” itp. są zwykle zarezerwowane dla liczb dziesiętnych. W niedziesiętnych systemach liczbowych wolimy nazywać te liczby jeden-zero, jeden jeden, jeden-dwa itd. Binarny 101 to nie „sto jeden”, tylko „jeden-zero-jeden”.</div><p class=cpp-section>Literały ósemkowe i szesnastkowe<p><strong>Ośmkowy</strong> to podstawa 8 - czyli jedyne dostępne cyfry to: 0, 1, 2, 3, 4, 5, 6 i 7. W ósemkowym liczymy w ten sposób: 0, 1, 2, 3, 4, 5, 6, 7, 10, 11, 12, … (uwaga: nr 8 i 9, więc przeskakujemy od 7 do 10).<div class=cpp-table-wrapper><p><p><table class=cpp-table><tbody><tr><td>Dziesiętny<td>0<td>1<td>2<td>3<td>4<td>5<td>6<td>7<td>8<td>9<td>10<td>11<tr><td>Ośmkowy<td>0<td>1<td>2<td>3<td>4<td>5<td>6<td>7<td>10<td>11<td>12<td>13</table></div><p>Aby użyć literału ósemkowego, poprzedź literał 0 (zero):<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 int main()
 {
-    int x{ 012 }; // 0 before the number means this is octal
-    std::cout &lt;&lt; x &lt;&lt; &#39;\n&#39;;
+    int x{ 012 }; // 0 przed liczbą oznaczającą, że jest to liczba ósemkowa
+    std::cout &lt;&lt; x &lt;&lt; '\n';
     return 0;
 }</code></pre><p>Ten program wypisuje:<pre>10
 </pre><p>Dlaczego 10 zamiast 12? Ponieważ liczby są domyślnie podawane w postaci dziesiętnej, a 12 ósemkowych = 10 dziesiętnych.<p>Osemkowy jest rzadko używany i zalecamy go unikać.<p><strong>Szesnastkowy</strong> to podstawa 16. W systemie szesnastkowym liczymy w ten sposób: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, A, B, C, D, E, F, 10, 11, 12, …<div class=cpp-table-wrapper><p><p><table class=cpp-table><tbody><tr><td>Dziesiętny<td>0<td>1<td>2<td>3<td>4<td>5<td>6<td>7<td>8<td>9<td>10<td>11<td>12<td>13<td>14<td>15<td>16<td>17<tr><td>Szesnastkowy<td>0<td>1<td>2<td>3<td>4<td>5<td>6<td>7<td>8<td>9<td>A<td>B<td>C<td>D<td>E<td>F<td>10<td>11</table></div><p>Możesz także użyć małych liter (chociaż duże są bardziej powszechne).<p>Aby użyć literału szesnastkowego, poprzedź go  <code>0x</code>:<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 int main()
 {
-    int x{ 0xF }; // 0x before the number means this is hexadecimal
-    std::cout &lt;&lt; x &lt;&lt; &#39;\n&#39;;
+    int x{ 0xF }; // 0x przed liczbą oznacza, że jest to liczba szesnastkowa
+    std::cout &lt;&lt; x &lt;&lt; '\n';
     return 0;
 }</code></pre><p>Ten program wypisuje:<pre>15
 </pre><p>Możesz także użyć przedrostka <code>0X</code> , ale <code>0x</code> jest konwencjonalny, ponieważ jest łatwiejszy do przeczytania.<p class="cpp-section cpp-topline" style=clear:both>Tabele systemów liczbowych<p>Oto cztery systemy liczbowe ułożone w kolejności, aby ułatwić sprawdzenie postępu w każdym z nich:<pre>Decimal         0     1     2     3     4     5     6     7     8     9    10    11    12    13    14    15
@@ -43,50 +43,50 @@ Hexadecimal    10    11    12    13    14    15    16    17    18    19    1A   
 
 int main()
 {
-    int bin{};    // assume 16-bit ints
-    bin = 0x0001; // assign binary 0000 0000 0000 0001 to the variable
-    bin = 0x0002; // assign binary 0000 0000 0000 0010 to the variable
-    bin = 0x0004; // assign binary 0000 0000 0000 0100 to the variable
-    bin = 0x0008; // assign binary 0000 0000 0000 1000 to the variable
-    bin = 0x0010; // assign binary 0000 0000 0001 0000 to the variable
-    bin = 0x0020; // assign binary 0000 0000 0010 0000 to the variable
-    bin = 0x0040; // assign binary 0000 0000 0100 0000 to the variable
-    bin = 0x0080; // assign binary 0000 0000 1000 0000 to the variable
-    bin = 0x00FF; // assign binary 0000 0000 1111 1111 to the variable
-    bin = 0x00B3; // assign binary 0000 0000 1011 0011 to the variable
-    bin = 0xF770; // assign binary 1111 0111 0111 0000 to the variable
+    int bin{};    // załóż 16-bitowe int
+    bin = 0x0001; // przypisz do zmiennej wartość binarną 0000 0000 0000 0001
+    bin = 0x0002; // przypisz do zmiennej wartość binarną 0000 0000 0000 0010
+    bin = 0x0004; // przypisz do zmiennej wartość binarną 0000 0000 0000 0100
+    bin = 0x0008; // przypisz wartość binarną 0000 0000 0000 1000 do zmiennej
+    bin = 0x0010; // przypisz do zmiennej wartość binarną 0000 0000 0001 0000
+    bin = 0x0020; // przypisz do zmiennej wartość binarną 0000 0000 0010 0000
+    bin = 0x0040; // przypisz do zmiennej wartość binarną 0000 0000 0100 0000
+    bin = 0x0080; // przypisz do zmiennej wartość binarną 0000 0000 1000 0000
+    bin = 0x00FF; // przypisz do zmiennej wartość binarną 0000 0000 1111 1111
+    bin = 0x00B3; // przypisz do zmiennej wartość binarną 0000 0000 1011 0011
+    bin = 0xF770; // przypisz do zmiennej wartość binarną 1111 0111 0111 0000
 
     return 0;
 }</code></pre><p>W C++14 i nowszych możemy używać literałów binarnych, używając przedrostka 0b:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 int main()
 {
-    int bin{};        // assume 16-bit ints
-    bin = 0b1;        // assign binary 0000 0000 0000 0001 to the variable
-    bin = 0b11;       // assign binary 0000 0000 0000 0011 to the variable
-    bin = 0b1010;     // assign binary 0000 0000 0000 1010 to the variable
-    bin = 0b11110000; // assign binary 0000 0000 1111 0000 to the variable
+    int bin{};        // załóż 16-bitowe int
+    bin = 0b1;        // przypisz do zmiennej wartość binarną 0000 0000 0000 0001
+    bin = 0b11;       // przypisz do zmiennej wartość binarną 0000 0000 0000 0011
+    bin = 0b1010;     // przypisz wartość binarną 0000 0000 0000 1010 do zmiennej
+    bin = 0b11110000; // przypisz do zmiennej wartość binarną 0000 0000 1111 0000
 
     return 0;
 }</code></pre><p class="cpp-section cpp-topline" style=clear:both>Separatory cyfr<p>Ponieważ długie literały mogą być trudne do odczytania, C++14 dodaje również możliwość używania cudzysłowu (‘) jako cyfry separator.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 int main()
 {
-    int bin { 0b1011&#39;0010 };  // assign binary 1011 0010 to the variable
-    long value { 2&#39;132&#39;673&#39;462 }; // much easier to read than 2132673462
+    int bin { 0b1011'0010 };  // assign binary 1011 0010 to the variable
+    long value { 2'132'673'462 }; // znacznie łatwiejsze do odczytania niż 2132673462
 
     return 0;
-}</code></pre><p>Pamiętaj również, że separator nie może występować przed pierwszą cyfrą wartości:<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    int bin { 0b&#39;1011&#39;0010 };  // error: &#39; used before first digit of value</code></pre><p>Separatory cyfr mają charakter wyłącznie wizualny i w żaden sposób nie wpływają na wartość dosłowną.<p class="cpp-section cpp-topline" style=clear:both>Wyprowadzanie wartości w postaci dziesiętnej, ósemkowej lub szesnastkowej<p>Domyślnie C++ wyprowadza wartości w postaci dziesiętnej. Można jednak zmienić format wyjściowy za pomocą <code>std::dec</code>, <code>std::oct</code>, I <code>std::hex</code> manipulatorów we/wy:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+}</code></pre><p>Pamiętaj również, że separator nie może występować przed pierwszą cyfrą wartości:<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    int bin { 0b'1011'0010 };  // błąd: ' użyty przed pierwszą cyfrą wartości</code></pre><p>Separatory cyfr mają charakter wyłącznie wizualny i w żaden sposób nie wpływają na wartość dosłowną.<p class="cpp-section cpp-topline" style=clear:both>Wyprowadzanie wartości w postaci dziesiętnej, ósemkowej lub szesnastkowej<p>Domyślnie C++ wyprowadza wartości w postaci dziesiętnej. Można jednak zmienić format wyjściowy za pomocą <code>std::dec</code>, <code>std::oct</code>, i <code>std::hex</code> manipulatorów we/wy:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 int main()
 {
     int x { 12 };
-    std::cout &lt;&lt; x &lt;&lt; &#39;\n&#39;; // decimal (by default)
-    std::cout &lt;&lt; std::hex &lt;&lt; x &lt;&lt; &#39;\n&#39;; // hexadecimal
-    std::cout &lt;&lt; x &lt;&lt; &#39;\n&#39;; // now hexadecimal
-    std::cout &lt;&lt; std::oct &lt;&lt; x &lt;&lt; &#39;\n&#39;; // octal
-    std::cout &lt;&lt; std::dec &lt;&lt; x &lt;&lt; &#39;\n&#39;; // return to decimal
-    std::cout &lt;&lt; x &lt;&lt; &#39;\n&#39;; // decimal
+    std::cout &lt;&lt; x &lt;&lt; '\n'; // decimal (by default)
+    std::cout &lt;&lt; std::hex &lt;&lt; x &lt;&lt; '\n'; // hexadecimal
+    std::cout &lt;&lt; x &lt;&lt; '\n'; // teraz szesnastkowo
+    std::cout &lt;&lt; std::oct &lt;&lt; x &lt;&lt; '\n'; // octal
+    std::cout &lt;&lt; std::dec &lt;&lt; x &lt;&lt; '\n'; // powróć do dziesiętnej
+    std::cout &lt;&lt; x &lt;&lt; '\n'; // decimal
 
     return 0;
 }</code></pre><p>Wypisuje:<pre>12
@@ -95,32 +95,32 @@ c
 14
 12
 12
-</pre><p>Zauważ, że po zastosowaniu manipulator we/wy pozostaje ustawiony na przyszłe dane wyjściowe, dopóki nie zostanie ponownie zmieniony.<p class="cpp-section cpp-topline" style=clear:both>Wyprowadzanie wartości binarnych<p>Wyprowadzanie wartości binarnych jest nieco trudniejsze, ponieważ <code>std::cout</code> nie jest to dostarczane wbudowane możliwości. Na szczęście standardowa biblioteka C++ zawiera typ o nazwie <code>std::bitset</code> , który zrobi to za nas (w nagłówku &lt;bitset&gt;).<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p>Aby użyć <code>std::bitset</code> możemy zdefiniować <code>std::bitset</code> zmienną i powiedzieć <code>std::bitset</code> ile bitów chcemy przechowywać. Liczba bitów musi być stałą czasową kompilacji. <code>std::bitset</code> można zainicjować wartością całkowitą (w dowolnym formacie, w tym dziesiętnym, ósemkowym, szesnastkowym lub binarnym).<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;bitset&gt; // for std::bitset
+</pre><p>Zauważ, że po zastosowaniu manipulator we/wy pozostaje ustawiony na przyszłe dane wyjściowe, dopóki nie zostanie ponownie zmieniony.<p class="cpp-section cpp-topline" style=clear:both>Wyprowadzanie wartości binarnych<p>Wyprowadzanie wartości binarnych jest nieco trudniejsze, ponieważ <code>std::cout</code> nie jest to dostarczane wbudowane możliwości. Na szczęście standardowa biblioteka C++ zawiera typ o nazwie <code>std::bitset</code> , który zrobi to za nas (w nagłówku &lt;bitset&gt;).<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p>Aby użyć <code>std::bitset</code> możemy zdefiniować <code>std::bitset</code> zmienną i powiedzieć <code>std::bitset</code> ile bitów chcemy przechowywać. Liczba bitów musi być stałą czasową kompilacji. <code>std::bitset</code> można zainicjować wartością całkowitą (w dowolnym formacie, w tym dziesiętnym, ósemkowym, szesnastkowym lub binarnym).<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;bitset&gt; // dla std::bitset
 #include &lt;iostream&gt;
 
 int main()
 {
-	// std::bitset&lt;8&gt; means we want to store 8 bits
-	std::bitset&lt;8&gt; bin1{ 0b1100&#39;0101 }; // binary literal for binary 1100 0101
+	// std::bitset&lt;8&gt; oznacza, że ​​chcemy przechowywać 8 bitów
+	std::bitset&lt;8&gt; bin1{ 0b1100'0101 }; // binary literal for binary 1100 0101
 	std::bitset&lt;8&gt; bin2{ 0xC5 }; // hexadecimal literal for binary 1100 0101
 
-	std::cout &lt;&lt; bin1 &lt;&lt; &#39;\n&#39; &lt;&lt; bin2 &lt;&lt; &#39;\n&#39;;
-	std::cout &lt;&lt; std::bitset&lt;4&gt;{ 0b1010 } &lt;&lt; &#39;\n&#39;; // create a temporary std::bitset and print it
+	std::cout &lt;&lt; bin1 &lt;&lt; '\n' &lt;&lt; bin2 &lt;&lt; '\n';
+	std::cout &lt;&lt; std::bitset&lt;4&gt;{ 0b1010 } &lt;&lt; '\n'; // create a temporary std::bitset and print it
 
 	return 0;
 }</code></pre><p>Wypisuje:<pre>11000101
 11000101
 1010
-</pre><p>W powyższym kodzie ta linia:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::cout &lt;&lt; std::bitset&lt;4&gt;{ 0b1010 } &lt;&lt; &#39;\n&#39;; // create a temporary std::bitset and print it</code></pre><p>tworzy tymczasowy (nienazwany) <code>std::bitset</code> obiekt z 4 bitami, inicjuje go binarnie literal <code>0b1010</code>, wypisuje wartość w formacie binarnym, a następnie odrzuca obiekt tymczasowy.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Powiązana treść<p>Szczegółowo omówimy std::bitset w lekcji <a href="../bit-flags-and-bit-manipulation-via-stdbitset/index.html">O.1 — Flagi bitowe i manipulacja bitami za pomocą std::bitset</a>.</div><p class="cpp-section cpp-topline" style=clear:both>Wyprowadzanie wartości w formacie binarnym przy użyciu biblioteki Format/Drukuj <span class="cpp-section-pill cpp-section-advanced">Zaawansowane</span><p>W C++20 i C++23 mamy lepsze opcje drukowania binarnego za pośrednictwem nowej Biblioteki formatów (C++20) i Biblioteki drukowania (C++23):<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;format&gt; // C++20
+</pre><p>W powyższym kodzie ta linia:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::cout &lt;&lt; std::bitset&lt;4&gt;{ 0b1010 } &lt;&lt; '\n'; // utwórz tymczasowy std::bitset i wydrukuj to</code></pre><p>tworzy tymczasowy (nienazwany) <code>std::bitset</code> obiekt z 4 bitami, inicjuje go binarnie literal <code>0b1010</code>, wypisuje wartość w formacie binarnym, a następnie odrzuca obiekt tymczasowy.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Powiązana treść<p>Szczegółowo omówimy std::bitset w lekcji <a href="../bit-flags-and-bit-manipulation-via-stdbitset/index.html">O.1 — Flagi bitowe i manipulacja bitami za pomocą std::bitset</a>.</div><p class="cpp-section cpp-topline" style=clear:both>Wyprowadzanie wartości w formacie binarnym przy użyciu biblioteki Format/Drukuj <span class="cpp-section-pill cpp-section-advanced">Zaawansowane</span><p>W C++20 i C++23 mamy lepsze opcje drukowania binarnego za pośrednictwem nowej Biblioteki formatów (C++20) i Biblioteki drukowania (C++23):<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;format&gt; // C++20
 #include &lt;iostream&gt;
 #include &lt;print&gt; // C++23
 
 int main()
 {
-    std::cout &lt;&lt; std::format(&#34;{:b}\n&#34;, 0b1010);  // C++20, {:b} formats the argument as binary digits
-    std::cout &lt;&lt; std::format(&#34;{:#b}\n&#34;, 0b1010); // C++20, {:#b} formats the argument as 0b-prefixed binary digits
+    std::cout &lt;&lt; std::format("{:b}\n", 0b1010);  // C++20, {:b} formatuje argument jako binarny cyfry
+    std::cout &lt;&lt; std::format("{:#b}\n", 0b1010); // C++20, {:#b} formatuje argument jako cyfry binarne z przedrostkiem 0b
 
-    std::println(&#34;{:b} {:#b}&#34;, 0b1010, 0b1010);  // C++23, format/print two arguments (same as above) and a newline
+    std::println("{:b} {:#b}", 0b1010, 0b1010);  // C++23, sformatuj/wypisz dwa argumenty (tak samo jak powyżej) i znak nowej linii
 
     return 0;
 }</code></pre><p>Wypisuje:<pre>1010

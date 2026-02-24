@@ -17,48 +17,48 @@
 
 int main()
 {
-    std::cout &lt;&lt; &#34;Enter a number: &#34;;
+    std::cout &lt;&lt; "Enter a number: ";
     int x{};
     std::cin &gt;&gt; x;
 
-    if (x &gt;= 0) // outer if statement
-        // it is bad coding style to nest if statements this way
-        if (x &lt;= 20) // inner if statement
-            std::cout &lt;&lt; x &lt;&lt; &#34; is between 0 and 20\n&#34;;
+    if (x &gt;= 0) // zewnętrzna instrukcja if
+        // zagnieżdżanie instrukcji if w ten sposób jest złym stylem
+        if (x &lt;= 20) // wewnętrzna instrukcja if
+            std::cout &lt;&lt; x &lt;&lt; " is between 0 and 20\n";
 
     return 0;
 }</code></pre><p>Rozważmy teraz następujący program:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 int main()
 {
-    std::cout &lt;&lt; &#34;Enter a number: &#34;;
+    std::cout &lt;&lt; "Enter a number: ";
     int x{};
     std::cin &gt;&gt; x;
 
-    if (x &gt;= 0) // outer if-statement
-        // it is bad coding style to nest if statements this way
-        if (x &lt;= 20) // inner if-statement
-            std::cout &lt;&lt; x &lt;&lt; &#34; is between 0 and 20\n&#34;;
+    if (x &gt;= 0) // zewnętrzna instrukcja if
+        // zagnieżdżanie instrukcji if w ten sposób jest złym stylem
+        if (x &lt;= 20) // wewnętrzna instrukcja if
+            std::cout &lt;&lt; x &lt;&lt; " is between 0 and 20\n";
 
-    // which if statement does this else belong to?
+    // do której instrukcji if należy to jeszcze?
     else
-        std::cout &lt;&lt; x &lt;&lt; &#34; is negative\n&#34;;
+        std::cout &lt;&lt; x &lt;&lt; " is negative\n";
 
     return 0;
 }</code></pre><p>Powyższy program wprowadza źródło potencjalnej niejednoznaczności zwane  <strong>zawieszenie else</strong> problem. Czy instrukcja else w powyższym programie jest dopasowana do zewnętrznej lub wewnętrznej instrukcji if?<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Odpowiedź jest taka, że ​​instrukcja else jest sparowana z ostatnią niedopasowaną instrukcją if w tym samym bloku. Zatem w powyższym programie instrukcja else jest dopasowywana do wewnętrznej instrukcji if, tak jakby program został napisany w ten sposób:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 int main()
 {
-    std::cout &lt;&lt; &#34;Enter a number: &#34;;
+    std::cout &lt;&lt; "Enter a number: ";
     int x{};
     std::cin &gt;&gt; x;
 
-    if (x &gt;= 0) // outer if statement
+    if (x &gt;= 0) // zewnętrzna instrukcja if
     {
-        if (x &lt;= 20) // inner if statement
-            std::cout &lt;&lt; x &lt;&lt; &#34; is between 0 and 20\n&#34;;
-        else // attached to inner if statement
-            std::cout &lt;&lt; x &lt;&lt; &#34; is negative\n&#34;;
+        if (x &lt;= 20) // wewnętrzna instrukcja if
+            std::cout &lt;&lt; x &lt;&lt; " is between 0 and 20\n";
+        else // dołączony do wewnętrznej instrukcji if
+            std::cout &lt;&lt; x &lt;&lt; " is negative\n";
     }
 
     return 0;
@@ -68,62 +68,62 @@ int main()
 
 int main()
 {
-    std::cout &lt;&lt; &#34;Enter a number: &#34;;
+    std::cout &lt;&lt; "Enter a number: ";
     int x{};
     std::cin &gt;&gt; x;
 
     if (x &gt;= 0)
     {
         if (x &lt;= 20)
-            std::cout &lt;&lt; x &lt;&lt; &#34; is between 0 and 20\n&#34;;
-        else // attached to inner if statement
-            std::cout &lt;&lt; x &lt;&lt; &#34; is greater than 20\n&#34;;
+            std::cout &lt;&lt; x &lt;&lt; " is between 0 and 20\n";
+        else // dołączony do wewnętrznej instrukcji if
+            std::cout &lt;&lt; x &lt;&lt; " is greater than 20\n";
     }
-    else // attached to outer if statement
-        std::cout &lt;&lt; x &lt;&lt; &#34; is negative\n&#34;;
+    else // dołączony do zewnętrznej instrukcji if
+        std::cout &lt;&lt; x &lt;&lt; " is negative\n";
 
     return 0;
 }</code></pre><p>Instrukcja else w bloku jest dołączana do wewnętrznej instrukcji if, a instrukcja else na zewnątrz bloku jest dołączana do zewnętrznej instrukcji if.<p class="cpp-section cpp-topline" style=clear:both>Spłaszczanie zagnieżdżonych instrukcji if<p>Zagnieżdżone instrukcje if mogą często być spłaszczane przez albo restrukturyzację logiki lub użycie operatorów logicznych (omówionych w lekcji <a href="../logical-operators/index.html">6.8 -- Operatory logiczne</a>). Kod mniej zagnieżdżony jest mniej podatny na błędy.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Na przykład powyższy przykład można spłaszczyć w następujący sposób:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 int main()
 {
-    std::cout &lt;&lt; &#34;Enter a number: &#34;;
+    std::cout &lt;&lt; "Enter a number: ";
     int x{};
     std::cin &gt;&gt; x;
 
     if (x &lt; 0)
-        std::cout &lt;&lt; x &lt;&lt; &#34; is negative\n&#34;;
-    else if (x &lt;= 20) // only executes if x &gt;= 0
-        std::cout &lt;&lt; x &lt;&lt; &#34; is between 0 and 20\n&#34;;
-    else // only executes if x &gt; 20
-        std::cout &lt;&lt; x &lt;&lt; &#34; is greater than 20\n&#34;;
+        std::cout &lt;&lt; x &lt;&lt; " is negative\n";
+    else if (x &lt;= 20) // wykonuje się tylko wtedy, gdy x &gt;= 0
+        std::cout &lt;&lt; x &lt;&lt; " is between 0 and 20\n";
+    else // wykonuje się tylko wtedy, gdy x &gt; 20
+        std::cout &lt;&lt; x &lt;&lt; " is greater than 20\n";
 
     return 0;
 }</code></pre><p>Oto kolejny przykład użycia operatorów logicznych do sprawdzenia wielu warunków w ramach jednej instrukcji if:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 int main()
 {
-    std::cout &lt;&lt; &#34;Enter an integer: &#34;;
+    std::cout &lt;&lt; "Enter an integer: ";
     int x{};
     std::cin &gt;&gt; x;
 
-    std::cout &lt;&lt; &#34;Enter another integer: &#34;;
+    std::cout &lt;&lt; "Enter another integer: ";
     int y{};
     std::cin &gt;&gt; y;
 
-    if (x &gt; 0 &amp;&amp; y &gt; 0) // &amp;&amp; is logical and -- checks if both conditions are true
-        std::cout &lt;&lt; &#34;Both numbers are positive\n&#34;;
-    else if (x &gt; 0 || y &gt; 0) // || is logical or -- checks if either condition is true
-        std::cout &lt;&lt; &#34;One of the numbers is positive\n&#34;;
+    if (x &gt; 0 &amp;&amp; y &gt; 0) // &amp;&amp; jest logiczna i -- sprawdza, czy oba warunki są spełnione
+        std::cout &lt;&lt; "Both numbers are positive\n";
+    else if (x &gt; 0 || y &gt; 0) // || jest logiczne lub -- sprawdza, czy którykolwiek z warunków jest prawdziwy
+        std::cout &lt;&lt; "One of the numbers is positive\n";
     else
-        std::cout &lt;&lt; &#34;Neither number is positive\n&#34;;
+        std::cout &lt;&lt; "Neither number is positive\n";
 
     return 0;
-}</code></pre><p class="cpp-section cpp-topline" style=clear:both>Instrukcje null<p>A <strong>instrukcja null</strong> to instrukcje wyrażeń składające się tylko ze średnika:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">if (x &gt; 10)
-    ; // this is a null statement</code></pre><p>Instrukcje null nic nie robią. Są one zwykle używane, gdy język wymaga istnienia instrukcji, ale programista jej nie potrzebuje. Aby zapewnić czytelność, instrukcje null są zwykle umieszczane w osobnych wierszach. Przykłady zamierzonych instrukcji null zobaczymy w dalszej części tego rozdziału, kiedy będziemy omawiać pętle.<p>Instrukcje null rzadko są celowo używane z instrukcjami if. Mogą jednak w sposób niezamierzony sprawić problemy nowym (lub nieostrożnym) programistom. Rozważmy następujący fragment:<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">if (nuclearCodesActivated()); // note the semicolon at the end of this line
+}</code></pre><p class="cpp-section cpp-topline" style=clear:both>Instrukcje null<p><strong>instrukcja null</strong> to instrukcje wyrażeń składające się tylko ze średnika:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">if (x &gt; 10)
+    ; // to jest instrukcja null</code></pre><p>Instrukcje null nic nie robią. Są one zwykle używane, gdy język wymaga istnienia instrukcji, ale programista jej nie potrzebuje. Aby zapewnić czytelność, instrukcje null są zwykle umieszczane w osobnych wierszach. Przykłady zamierzonych instrukcji null zobaczymy w dalszej części tego rozdziału, kiedy będziemy omawiać pętle.<p>Instrukcje null rzadko są celowo używane z instrukcjami if. Mogą jednak w sposób niezamierzony sprawić problemy nowym (lub nieostrożnym) programistom. Rozważmy następujący fragment:<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">if (nuclearCodesActivated()); // zwróć uwagę na średnik na końcu tej linii
     blowUpTheWorld();</code></pre><p>W powyższym fragmencie programista przypadkowo umieścił średnik na końcu instrukcji if (częsty błąd, ponieważ wiele instrukcji kończy się średnikami). Ten skromny błąd kompiluje się poprawnie i powoduje, że fragment kodu jest wykonywany tak, jakby został napisany w ten sposób:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">if (nuclearCodesActivated())
-    ; // the semicolon acts as a null statement
-blowUpTheWorld(); // and this line always gets executed!</code></pre><div class="cpp-note cpp-lightredbackground"><p class="cpp-note-title cpp-bottomline">Ostrzeżenie<p>Uważaj, aby nie „zakończyć” instrukcji if średnikiem, w przeciwnym razie instrukcje, które chcesz wykonać warunkowo, zostaną zamiast tego wykonane bezwarunkowo (nawet jeśli znajdują się w bloku).</div><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>W Pythonie słowo kluczowe <code>pass</code>  służy jako instrukcja zerowa. Często jest używany jako symbol zastępczy dla kodu, który zostanie zaimplementowany później. Ponieważ jest to słowo, a nie symbol,  <code>pass</code> jest mniej podatny na niezamierzone niewłaściwe użycie i łatwiejszy do przeszukiwania (co pozwala później łatwo znaleźć te symbole zastępcze).<pre>for x in [0, 1, 2]:
+    ; // średnik pełni funkcję instrukcji zerowej
+blowUpTheWorld(); // a ta linia zawsze zostanie wykonana!</code></pre><div class="cpp-note cpp-lightredbackground"><p class="cpp-note-title cpp-bottomline">Ostrzeżenie<p>Uważaj, aby nie „zakończyć” instrukcji if średnikiem, w przeciwnym razie instrukcje, które chcesz wykonać warunkowo, zostaną zamiast tego wykonane bezwarunkowo (nawet jeśli znajdują się w bloku).</div><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>W Pythonie słowo kluczowe <code>pass</code>  służy jako instrukcja zerowa. Często jest używany jako symbol zastępczy dla kodu, który zostanie zaimplementowany później. Ponieważ jest to słowo, a nie symbol,  <code>pass</code> jest mniej podatny na niezamierzone niewłaściwe użycie i łatwiejszy do przeszukiwania (co pozwala później łatwo znaleźć te symbole zastępcze).<pre>for x in [0, 1, 2]:
   pass               # To be completed in the future
 </pre><p>W C++ możemy naśladować <code>pass</code> używając preprocesora:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#define PASS
 
@@ -144,18 +144,18 @@ int main()
 
 int main()
 {
-    std::cout &lt;&lt; &#34;Enter 0 or 1: &#34;;
+    std::cout &lt;&lt; "Enter 0 or 1: ";
     int x{};
     std::cin &gt;&gt; x;
-    if (x = 0) // oops, we used an assignment here instead of a test for equality
-        std::cout &lt;&lt; &#34;You entered 0\n&#34;;
+    if (x = 0) // ups, użyliśmy tutaj przypisania zamiast testu dla równość
+        std::cout &lt;&lt; "You entered 0\n";
     else
-        std::cout &lt;&lt; &#34;You entered 1\n&#34;;
+        std::cout &lt;&lt; "You entered 1\n";
 
     return 0;
 }</code></pre><p>Ten program zostanie skompilowany i uruchomiony, ale w niektórych przypadkach da błędny wynik:<pre>Enter 0 or 1: 0
 You entered 1
-</pre><p>W rzeczywistości ten program zawsze wygeneruje wynik <code>You entered 1</code>. Dzieje się tak, ponieważ <code>x = 0</code> najpierw przypisuje wartość <code>0</code> Do <code>x</code>, następnie ocenia wartość <code>x</code>, która jest teraz <code>0</code>, czyli Boolean <code>false</code>. Ponieważ warunek jest zawsze <code>false</code>, instrukcja else zawsze jest wykonywana.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><div class=prevnext><div class=prevnext-inline><a class=nav-link href="../constexpr-if-statements/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>8.4</span>Constexpr if instrukcje</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../if-statements-and-blocks/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>8.2</span>If instrukcje i bloki</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/common-if-statement-problems/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../stdmove_if_noexcept/index.html" rel=prev><span>27.10 — std::move_if_noexcept</span></a></div><div class=nav-next><em>Następny post</em><a href="../switch-fallthrough-and-scoping/index.html" rel=next><span>&gt;8.6 — Przełączanie przełączania i określanie zakresu</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>
+</pre><p>W rzeczywistości ten program zawsze wygeneruje wynik <code>You entered 1</code>. Dzieje się tak, ponieważ <code>x = 0</code> najpierw przypisuje wartość <code>0</code> Do <code>x</code>, następnie ocenia wartość <code>x</code>, która jest teraz <code>0</code>, czyli Boolean <code>false</code>. Ponieważ warunek jest zawsze <code>false</code>, instrukcja else zawsze jest wykonywana.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><div class=prevnext><div class=prevnext-inline><a class=nav-link href="../constexpr-if-statements/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>8.4</span>Constexpr if instrukcje</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../if-statements-and-blocks/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>8.2</span>If instrukcje i bloki</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/common-if-statement-problems/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../stdmove_if_noexcept/index.html" rel=prev><span>27.10 — std::move_if_noexcept</span></a></div><div class=nav-next><em>Następny post</em><a href="../switch-fallthrough-and-scoping/index.html" rel=next><span>8.6 — Przełączanie przełączania i określanie zakresu</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>
 <textarea id=wc-textarea-0_0 placeholder="Zostaw komentarz..." aria-label="Zostaw komentarz..." required name=wc_comment class="wc_comment wpd-field"></textarea></div><div class=wpd-editor-buttons-right></div></div></div></div><div class=wpd-form-foot><div class=wpdiscuz-textarea-foot><div class=wpdiscuz-button-actions></div></div><div class=wpd-form-row><div class=wpd-form-col-left><div class="wpdiscuz-item wc_name-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-user"></i></div><input id=wc_name-0_0 required aria-required=true class="wc_name wpd-field" name=wc_name placeholder=Imię* maxlength=50 pattern=.{3,50}>
 <label for=wc_name-0_0 class=wpdlb>Imię*</label></div><div class="wpdiscuz-item wc_email-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-at"></i></div><input id=wc_email-0_0 required aria-required=true class="wc_email wpd-field" type=email name=wc_email placeholder=E-mail*>
 <label for=wc_email-0_0 class=wpdlb>E-mail*</label><div class=wpd-field-desc><i class="far fa-question-circle"></i><span>Twój adres e-mail nie zostanie wyświetlony</span></div></div><div class=cpp_correction_div style=padding-bottom:4px><div class=wpd-field-icon style=display:inline-block;width:20px><i style=opacity:.6 class="fas fa-regular fa-bug"></i></div>Znalazłeś błąd? Zostaw komentarz powyżej!<div class=wpd-field-desc><i class="far fa-question-circle"></i><span>Komentarze związane z poprawkami zostaną usunięte po przetworzeniu, aby pomóc zmniejszyć bałagan. Dziękujemy za pomoc w ulepszaniu witryny dla wszystkich!</span></div></div><div class=cpp_avatar_div style=padding-bottom:4px><div class=wpd-field-icon style=display:inline-block;width:20px><i style=opacity:.6 class="fas fa-user"></i></div>Awatary z <a target=_blank rel="noopener noreferrer" href=https://gravatar.com/>https://gravatar.com/</a> są połączone z podanym adresem e-mail.</div></div><div class=wpd-form-col-right><div class=wc-field-submit><span style=margin-top:6px>Powiadamiaj mnie o odpowiedziach:  </span>

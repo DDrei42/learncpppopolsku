@@ -13,12 +13,12 @@
 <button class=searchsubmit><span class=screen-reader-text>Szukaj</span><i class=icon-search></i></button>
 <input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=24928></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="16.4 — Zaliczenie std::vector" src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-15394 class="post-15394 post type-post status-publish format-standard hentry category-cpp-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>16.4 — Zaliczenie std::vector</h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Autor></i><a class="url fn n" rel=author href=/www.learncpp.com/author/Alex/ title="Wyświetl wszystkie posty Alexa" itemprop=url><em itemprop=name>Alex</em></a></span>
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2023-09-11T14:28:02-07:00 itemprop=datePublished>11 września 2023, 14:28 PDT</time>
-<time class=updated datetime=2024-03-21T15:34:34-07:00 itemprop=dateModified>21 marca 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>Obiekt typu <code>std::vector</code> można przekazać do funkcji, tak jak każdy inny obiekt. Oznacza to, że jeśli miniemy a <code>std::vector</code> według wartości zostanie wykonana kosztowna kopia. Dlatego zazwyczaj przechodzimy <code>std::vector</code> przez (const) odniesienie, aby uniknąć takich kopii.<p>Dzięki  <code>std::vector</code>, typ elementu jest częścią informacji o typie obiektu. Dlatego też, gdy używamy  <code>std::vector</code> jako parametru funkcji, musimy jawnie określić typ elementu:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+<time class=updated datetime=2024-03-21T15:34:34-07:00 itemprop=dateModified>21 marca 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>Obiekt typu <code>std::vector</code> można przekazać do funkcji, tak jak każdy inny obiekt. Oznacza to, że jeśli miniemy <code>std::vector</code> według wartości zostanie wykonana kosztowna kopia. Dlatego zazwyczaj przechodzimy <code>std::vector</code> przez (const) odniesienie, aby uniknąć takich kopii.<p>Dzięki  <code>std::vector</code>, typ elementu jest częścią informacji o typie obiektu. Dlatego też, gdy używamy  <code>std::vector</code> jako parametru funkcji, musimy jawnie określić typ elementu:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;vector&gt;
 
-void passByRef(const std::vector&lt;int&gt;&amp; arr) // we must explicitly specify &lt;int&gt; here
+void passByRef(const std::vector&lt;int&gt;&amp; arr) // musimy jawnie podaj tutaj &lt;int&gt;
 {
-    std::cout &lt;&lt; arr[0] &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; arr[0] &lt;&lt; '\n';
 }
 
 int main()
@@ -32,29 +32,29 @@ int main()
 
 void passByRef(const std::vector&lt;int&gt;&amp; arr)
 {
-    std::cout &lt;&lt; arr[0] &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; arr[0] &lt;&lt; '\n';
 }
 
 int main()
 {
     std::vector primes{ 2, 3, 5, 7, 11 };
-    passByRef(primes);  // ok: this is a std::vector&lt;int&gt;
+    passByRef(primes);  // ok: żartuję std::vector&lt;int&gt;
 
     std::vector dbl{ 1.1, 2.2, 3.3 };
-    passByRef(dbl); // compile error: std::vector&lt;double&gt; is not convertible to std::vector&lt;int&gt;
+    passByRef(dbl); // błąd kompilacji: std::vector&lt;double&gt; nie można konwertować na std::vector&lt;int&gt;
 
     return 0;
 }</code></pre><p>W C++ 17 lub nowszym możesz spróbować rozwiązać ten problem za pomocą CTAD problem:<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;vector&gt;
 
-void passByRef(const std::vector&amp; arr) // compile error: CTAD can&#39;t be used to infer function parameters
+void passByRef(const std::vector&amp; arr) // błąd kompilacji: nie można użyć CTAD do wnioskowania o parametrach funkcji
 {
-    std::cout &lt;&lt; arr[0] &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; arr[0] &lt;&lt; '\n';
 }
 
 int main()
 {
-    std::vector primes{ 2, 3, 5, 7, 11 }; // okay: use CTAD to infer std::vector&lt;int&gt;
+    std::vector primes{ 2, 3, 5, 7, 11 }; // OK: użyj CTAD, aby wywnioskować std::vector&lt;int&gt;
     passByRef(primes);
 
     return 0;
@@ -64,54 +64,54 @@ int main()
 template &lt;typename T&gt;
 void passByRef(const std::vector&lt;T&gt;&amp; arr)
 {
-    std::cout &lt;&lt; arr[0] &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; arr[0] &lt;&lt; '\n';
 }
 
 int main()
 {
     std::vector primes{ 2, 3, 5, 7, 11 };
-    passByRef(primes); // ok: compiler will instantiate passByRef(const std::vector&lt;int&gt;&amp;)
+    passByRef(primes); // ok: kompilator utworzy instancję passByRef(const std::vector&lt;int&gt;&amp;)
 
     std::vector dbl{ 1.1, 2.2, 3.3 };
-    passByRef(dbl);    // ok: compiler will instantiate passByRef(const std::vector&lt;double&gt;&amp;)
+    passByRef(dbl);    // ok: kompilator utworzy instancję passByRef(const std::vector&lt;double&gt;&amp;)
 
     return 0;
 }</code></pre><p>W powyższym przykładzie utworzyliśmy szablon pojedynczej funkcji o nazwie <code>passByRef()</code> , którego parametr typu <code>const std::vector&lt;T>&</code>. <code>T</code> jest zdefiniowany w deklaracji parametrów szablonu w poprzedniej linii: <code>template &lt;typename T</code>. <code>T</code> jest parametrem szablonu typu standardowego, który pozwala wywołującemu określić element type.<p>Dlatego, gdy wywołamy  <code>passByRef(primes)</code> z <code>main()</code> (gdzie <code>primes</code> jest zdefiniowane jako <code>std::vector&lt;int></code>), kompilator utworzy instancję i wywoła  <code>void passByRef(const std::vector&lt;int>& arr)</code>.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Kiedy wywołujemy  <code>passByRef(dbl)</code> z <code>main()</code> (gdzie <code>dbl</code> jest zdefiniowane jako <code>std::vector&lt;double></code>), kompilator utworzy instancję i wywoła  <code>void passByRef(const std::vector&lt;double>& arr)</code>.<p>W ten sposób stworzyliśmy pojedynczy szablon funkcji, który może tworzyć instancje funkcji do obsługi <code>std::vector</code> argumentów dowolnego typu i długości elementu!<p class="cpp-section cpp-topline" style=clear:both>Przekazywanie <code>std::vector</code> przy użyciu szablonu ogólnego lub skróconego szablonu funkcji<p>Możemy również utworzyć szablon funkcji, który zaakceptuje dowolny typ obiekt:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;vector&gt;
 
 template &lt;typename T&gt;
-void passByRef(const T&amp; arr) // will accept any type of object that has an overloaded operator[]
+void passByRef(const T&amp; arr) // zaakceptuje dowolny typ obiektu, który ma przeciążony operator[]
 {
-    std::cout &lt;&lt; arr[0] &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; arr[0] &lt;&lt; '\n';
 }
 
 int main()
 {
     std::vector primes{ 2, 3, 5, 7, 11 };
-    passByRef(primes); // ok: compiler will instantiate passByRef(const std::vector&lt;int&gt;&amp;)
+    passByRef(primes); // ok: kompilator utworzy instancję passByRef(const std::vector&lt;int&gt;&amp;)
 
     std::vector dbl{ 1.1, 2.2, 3.3 };
-    passByRef(dbl);    // ok: compiler will instantiate passByRef(const std::vector&lt;double&gt;&amp;)
+    passByRef(dbl);    // ok: kompilator utworzy instancję passByRef(const std::vector&lt;double&gt;&amp;)
 
     return 0;
 }</code></pre><p>W C++20 możemy użyć skróconego szablonu funkcji (poprzez parametr <code>auto</code> ), aby zrobić to samo:<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;vector&gt;
 
-void passByRef(const auto&amp; arr) // abbreviated function template
+void passByRef(const auto&amp; arr) // skrócona funkcja szablon
 {
-    std::cout &lt;&lt; arr[0] &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; arr[0] &lt;&lt; '\n';
 }
 
 int main()
 {
     std::vector primes{ 2, 3, 5, 7, 11 };
-    passByRef(primes); // ok: compiler will instantiate passByRef(const std::vector&lt;int&gt;&amp;)
+    passByRef(primes); // ok: kompilator utworzy instancję passByRef(const std::vector&lt;int&gt;&amp;)
 
     std::vector dbl{ 1.1, 2.2, 3.3 };
-    passByRef(dbl);    // ok: compiler will instantiate passByRef(const std::vector&lt;double&gt;&amp;)
+    passByRef(dbl);    // ok: kompilator utworzy instancję passByRef(const std::vector&lt;double&gt;&amp;)
 
     return 0;
-}</code></pre><p>Obydwa akceptują argument typu  <em>dowolnego</em> , który zostanie skompilowany. Może to być pożądane podczas pisania funkcji, na których chcielibyśmy operować nie tylko  <code>std::vector</code>. Na przykład powyższe funkcje będą działać również na <code>std::array</code>, a <code>std::string</code> lub innym typie, którego być może nawet nie rozważaliśmy.<p>Potencjalną wadą tej metody jest to, że może ona prowadzić do błędów, jeśli do funkcji zostanie przekazany obiekt typu, który się kompiluje, ale nie ma sensu semantycznie.<p class="cpp-section cpp-topline" style=clear:both>Twierdzenie na podstawie długości tablicy<p>Rozważ następującą funkcję szablonu, która jest podobna do tej przedstawionej powyżej:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+}</code></pre><p>Obydwa akceptują argument typu  <em>dowolnego</em> , który zostanie skompilowany. Może to być pożądane podczas pisania funkcji, na których chcielibyśmy operować nie tylko  <code>std::vector</code>. Na przykład powyższe funkcje będą działać również na <code>std::array</code>, <code>std::string</code> lub innym typie, którego być może nawet nie rozważaliśmy.<p>Potencjalną wadą tej metody jest to, że może ona prowadzić do błędów, jeśli do funkcji zostanie przekazany obiekt typu, który się kompiluje, ale nie ma sensu semantycznie.<p class="cpp-section cpp-topline" style=clear:both>Twierdzenie na podstawie długości tablicy<p>Rozważ następującą funkcję szablonu, która jest podobna do tej przedstawionej powyżej:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;vector&gt;
 
 template &lt;typename T&gt;
@@ -132,19 +132,19 @@ int main()
 template &lt;typename T&gt;
 void printElement3(const std::vector&lt;T&gt;&amp; arr)
 {
-    std::cout &lt;&lt; arr[3] &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; arr[3] &lt;&lt; '\n';
 }
 
 int main()
 {
-    std::vector arr{ 9, 7 }; // a 2-element array (valid indexes 0 and 1)
+    std::vector arr{ 9, 7 }; // tablica 2-elementowa (ważne indeksy 0 i 1)
     printElement3(arr);
 
     return 0;
-}</code></pre><p>Prowadzi to do niezdefiniowanego zachowanie.<p>Jedną z opcji jest tutaj potwierdzenie on <code>arr.size()</code>, które wyłapie takie błędy po uruchomieniu w konfiguracji kompilacji debugowania. Ponieważ  <code>std::vector::size()</code> nie jest funkcją constexpr, możemy tutaj wykonać jedynie asercję w czasie wykonywania.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>Lepszą opcją jest unikanie używania <code>std::vector</code>w przypadkach, gdy trzeba potwierdzić długość tablicy. Użycie typu obsługującego  <code>constexpr</code> tablice (np.  <code>std::array</code>) jest prawdopodobnie lepszym wyborem, ponieważ można  <code>static_assert</code> na długości tablicy constexpr. Omówimy to w przyszłej lekcji <a href="../passing-and-returning-stdarray/index.html">17.3 — Przekazywanie i zwracanie std::array</a>.</div><p>Najlepszą opcją jest unikanie pisania funkcji, które polegają na podaniu przez użytkownika wektora o minimalnej długości.<p><p class="cpp-section cpp-topline" style=clear:both>Czas quizu<p class=cpp-quiz-question style=clear:both>Pytanie nr 1<p><p>Napisz funkcję, która przyjmuje dwa parametry: a <code>std::vector</code> i indeks. Jeśli indeks jest poza zakresem, wydrukuj błąd. Jeżeli indeks mieści się w granicach, wypisz wartość elementu.<p>Następujący przykładowy program powinien się skompilować:<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+}</code></pre><p>Prowadzi to do niezdefiniowanego zachowanie.<p>Jedną z opcji jest tutaj potwierdzenie on <code>arr.size()</code>, które wyłapie takie błędy po uruchomieniu w konfiguracji kompilacji debugowania. Ponieważ  <code>std::vector::size()</code> nie jest funkcją constexpr, możemy tutaj wykonać jedynie asercję w czasie wykonywania.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>Lepszą opcją jest unikanie używania <code>std::vector</code>w przypadkach, gdy trzeba potwierdzić długość tablicy. Użycie typu obsługującego  <code>constexpr</code> tablice (np.  <code>std::array</code>) jest prawdopodobnie lepszym wyborem, ponieważ można  <code>static_assert</code> na długości tablicy constexpr. Omówimy to w przyszłej lekcji <a href="../passing-and-returning-stdarray/index.html">17.3 — Przekazywanie i zwracanie std::array</a>.</div><p>Najlepszą opcją jest unikanie pisania funkcji, które polegają na podaniu przez użytkownika wektora o minimalnej długości.<p><p class="cpp-section cpp-topline" style=clear:both>Czas quizu<p class=cpp-quiz-question style=clear:both>Pytanie nr 1<p><p>Napisz funkcję, która przyjmuje dwa parametry: <code>std::vector</code> i indeks. Jeśli indeks jest poza zakresem, wydrukuj błąd. Jeżeli indeks mieści się w granicach, wypisz wartość elementu.<p>Następujący przykładowy program powinien się skompilować:<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;vector&gt;
 
-// Write your printElement function here
+// Napisz swoją funkcję printElement tutaj
 
 int main()
 {
@@ -164,14 +164,14 @@ Invalid index
 </pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_0 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;vector&gt;
 
-// index needs to be an int, not a std::size_t, otherwise we won&#39;t be able to detect if the user passes in a negative index
+// indeks musi być int, a nie std::size_t, w przeciwnym razie możemy nie będzie w stanie wykryć, czy użytkownik przekazał ujemny indeks
 template &lt;typename T&gt;
 void printElement(const std::vector&lt;T&gt;&amp; arr, int index)
 {
-    if (index &lt; 0 || index &gt;= static_cast&lt;int&gt;(arr.size())) // In C++20, could use std::ssize(arr) to avoid the cast
-        std::cout &lt;&lt; &#34;Invalid index\n&#34;;
+    if (index &lt; 0 || index &gt;= static_cast&lt;int&gt;(arr.size())) // W C++20 można użyć std::ssize(arr), aby uniknąć cast
+        std::cout &lt;&lt; "Invalid index\n";
     else
-        std::cout &lt;&lt; &#34;The element has value &#34; &lt;&lt; arr[static_cast&lt;std::size_t&gt;(index)] &lt;&lt; &#39;\n&#39;;  
+        std::cout &lt;&lt; "The element has value " &lt;&lt; arr[static_cast&lt;std::size_t&gt;(index)] &lt;&lt; '\n';  
 }
 
 int main()

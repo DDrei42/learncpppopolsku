@@ -13,40 +13,40 @@
 <button class=searchsubmit><span class=screen-reader-text>Szukaj</span><i class=icon-search></i></button>
 <input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=60643></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="F.X — podsumowanie rozdziału F i quiz" src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-17932 class="post-17932 post type-post status-publish format-standard hentry category-cpp-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>F.X — podsumowanie rozdziału F i quiz</h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Autor></i><a class="url fn n" rel=author href=/www.learncpp.com/author/Alex/ title="Wyświetl wszystkie posty Alexa" itemprop=url><em itemprop=name>Alex</em></a></span>
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2024-12-02T11:32:07-08:00 itemprop=datePublished>2 grudnia 2024, 11:32 czasu PST</time>
-<time class=updated datetime=2024-12-02T11:32:07-08:00 itemprop=dateModified>2 grudnia 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>A <strong>constexpr</strong> funkcja to funkcja, którą można wywołać w wyrażeniu stałym. Aby uczynić funkcję funkcją constexpr, po prostu używamy słowa kluczowego  <code>constexpr</code>  przed typem zwracanym. Funkcje Constexpr mają gwarancję, że zostaną ocenione w czasie kompilacji tylko wtedy, gdy zostaną użyte w kontekście wymagającym stałego wyrażenia. W przeciwnym razie mogą być oceniane w czasie kompilacji (jeśli kwalifikują się) lub w czasie wykonywania. Funkcje Constexpr są domyślnie wbudowane i kompilator musi zobaczyć pełną definicję funkcji constexpr, aby wywołać ją w czasie kompilacji.<p>A <strong>Funkcja constexval</strong> to funkcja, która musi zostać obliczona w czasie kompilacji. W przeciwnym razie funkcje Consteval działają na tych samych zasadach, co funkcje constexpr.<p class="cpp-section cpp-topline" style=clear:both>Czas quizu<p class=cpp-quiz-question style=clear:both>Pytanie nr 1<p>Dodaj <code>const</code> i/lub <code>constexpr</code> do następującego programu:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+<time class=updated datetime=2024-12-02T11:32:07-08:00 itemprop=dateModified>2 grudnia 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p><strong>constexpr</strong> funkcja to funkcja, którą można wywołać w wyrażeniu stałym. Aby uczynić funkcję funkcją constexpr, po prostu używamy słowa kluczowego  <code>constexpr</code>  przed typem zwracanym. Funkcje Constexpr mają gwarancję, że zostaną ocenione w czasie kompilacji tylko wtedy, gdy zostaną użyte w kontekście wymagającym stałego wyrażenia. W przeciwnym razie mogą być oceniane w czasie kompilacji (jeśli kwalifikują się) lub w czasie wykonywania. Funkcje Constexpr są domyślnie wbudowane i kompilator musi zobaczyć pełną definicję funkcji constexpr, aby wywołać ją w czasie kompilacji.<p><strong>Funkcja constexval</strong> to funkcja, która musi zostać obliczona w czasie kompilacji. W przeciwnym razie funkcje Consteval działają na tych samych zasadach, co funkcje constexpr.<p class="cpp-section cpp-topline" style=clear:both>Czas quizu<p class=cpp-quiz-question style=clear:both>Pytanie nr 1<p>Dodaj <code>const</code> i/lub <code>constexpr</code> do następującego programu:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-// gets tower height from user and returns it
+// pobierze wysokość wieży od użytkownika i zwróci ją
 double getTowerHeight()
 {
-	std::cout &lt;&lt; &#34;Enter the height of the tower in meters: &#34;;
+	std::cout &lt;&lt; "Enter the height of the tower in meters: ";
 	double towerHeight{};
 	std::cin &gt;&gt; towerHeight;
 	return towerHeight;
 }
 
-// Returns ball height from ground after &#34;seconds&#34; seconds
+// Zwraca wysokość piłki od ziemi po „sekundach” sekundach
 double calculateBallHeight(double towerHeight, int seconds)
 {
 	double gravity{ 9.8 };
 
-	// Using formula: [ s = u * t + (a * t^2) / 2 ], here u(initial velocity) = 0
+	// Używając wzoru: [ s = u * t + (a * t^2) / 2 ], tutaj u(prędkość początkowa) = 0
 	double distanceFallen{ (gravity * (seconds * seconds)) / 2.0 };
 	double currentHeight{ towerHeight - distanceFallen };
 
 	return currentHeight;
 }
 
-// Prints ball height above ground
+// Drukuje wysokość piłki nad ziemią
 void printBallHeight(double ballHeight, int seconds)
 {
 	if (ballHeight &gt; 0.0)
-		std::cout &lt;&lt; &#34;At &#34; &lt;&lt; seconds &lt;&lt; &#34; seconds, the ball is at height: &#34; &lt;&lt; ballHeight &lt;&lt; &#34; meters\n&#34;;
+		std::cout &lt;&lt; "At " &lt;&lt; seconds &lt;&lt; " seconds, the ball is at height: " &lt;&lt; ballHeight &lt;&lt; " meters\n";
 	else
-		std::cout &lt;&lt; &#34;At &#34; &lt;&lt; seconds &lt;&lt; &#34; seconds, the ball is on the ground.\n&#34;;
+		std::cout &lt;&lt; "At " &lt;&lt; seconds &lt;&lt; " seconds, the ball is on the ground.\n";
 }
 
-// Calculates the current ball height and then prints it
-// This is a helper function to make it easier to do this
+// Oblicza aktualną wysokość kulki, a następnie ją drukuje
+// To jest funkcja pomocnicza ułatwiająca wykonanie tej operacji
 void printCalculatedBallHeight(double towerHeight, int seconds)
 {
 	double ballHeight{ calculateBallHeight(towerHeight, seconds) };
@@ -67,58 +67,58 @@ int main()
 	return 0;
 }</code></pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_0 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-// This function should not be made constexpr because output and input can only be done at runtime.
-// The versions of `operator&lt;&lt;` and `operator&gt;&gt;` that do output and input don&#39;t support constexpr.
+// Ta funkcja nie powinna być przekształcana w constexpr, ponieważ dane wyjściowe i wejściowe można wykonać tylko w czasie wykonywania.
+// Wersje `operator&lt;&lt;` i `operator&gt;&gt;`, które wykonują dane wyjściowe i wejściowe nie obsługują constexpr.
 double getTowerHeight()
 {
-	std::cout &lt;&lt; &#34;Enter the height of the tower in meters: &#34;;
+	std::cout &lt;&lt; "Enter the height of the tower in meters: ";
 	double towerHeight{};
 	std::cin &gt;&gt; towerHeight;
 	return towerHeight;
 }
 
-// Returns height from ground after &#34;seconds&#34; seconds
-// This function is made constepxr because it just calculates a value from its inputs and return it.
-// Arithmetic can be done at compile-time, and no non-constexpr functions are called.
-// Reminder: A constexpr function can be evaluated at compile-time or runtime.
-//   If its arguments are constexpr, it can be called at compile-time.
-//   In this case, it&#39;s called at runtime because the argument for towerHeight isn&#39;t constexpr.
-// If a function can be made constexpr, it should be.
-// Remember: function parameters are not constexpr, even in a constexpr function
+// Zwraca wysokość od ziemi po „sekundach” sekund
+// Ta funkcja jest consstepxr, ponieważ po prostu oblicza wartość ze swoich danych wejściowych i zwraca ją.
+// Arytmetykę można wykonywać w czasie kompilacji i nie są wykonywane żadne funkcje inne niż constexpr
+// Przypomnienie: Funkcję constexpr można ocenić w czasie kompilacji lub w czasie wykonywania.
+//   Jeśli jego argumentami są constexpr, można go wywołać w czasie kompilacji.
+//   W tym przypadku jest on wywoływany w czasie wykonywania, ponieważ argument towerHeight nie jest constexpr.
+// Jeśli funkcję można przekształcić w constexpr, powinno be.
+// Pamiętaj: parametry funkcji nie są constexpr, nawet w funkcji constexpr
 constexpr double calculateBallHeight(double towerHeight, int seconds)
 {
-	constexpr double gravity{ 9.8 }; // constexpr because it&#39;s a compile-time constant
+	constexpr double gravity{ 9.8 }; // constexpr, ponieważ jest to stała czasu kompilacji
 
-	// Using formula: [ s = u * t + (a * t^2) / 2 ], here u(initial velocity) = 0
-	// These variables can&#39;t be constexpr since their initializers aren&#39;t constant expressions
+	// Używając wzoru: [ s = u * t + (a * t^2) / 2 ], tutaj u(prędkość początkowa) = 0
+	// Te zmienne nie mogą być constexpr, ponieważ ich inicjatory nie są wyrażeniami stałymi
 	const double distanceFallen{ (gravity * (seconds * seconds)) / 2.0 };
 	const double currentHeight{ towerHeight - distanceFallen };
 
 	return currentHeight;
 }
 
-// This function should not be made constexpr because output and input can only be done at runtime.
-// The versions of `operator&lt;&lt;` and `operator&gt;&gt;` that do output and input don&#39;t support constexpr.
+// Ta funkcja nie powinna być przekształcana w constexpr, ponieważ dane wyjściowe i wejściowe można wykonać tylko w czasie wykonywania.
+// Wersje `operator&lt;&lt;` i `operator&gt;&gt;`, które wykonują dane wyjściowe i wejściowe nie obsługują constexpr.
 void printBallHeight(double ballHeight, int seconds)
 {
 	if (ballHeight &gt; 0.0)
-		std::cout &lt;&lt; &#34;At &#34; &lt;&lt; seconds &lt;&lt; &#34; seconds, the ball is at height: &#34; &lt;&lt; ballHeight &lt;&lt; &#34; meters\n&#34;;
+		std::cout &lt;&lt; "At " &lt;&lt; seconds &lt;&lt; " seconds, the ball is at height: " &lt;&lt; ballHeight &lt;&lt; " meters\n";
 	else
-		std::cout &lt;&lt; &#34;At &#34; &lt;&lt; seconds &lt;&lt; &#34; seconds, the ball is on the ground.\n&#34;;
+		std::cout &lt;&lt; "At " &lt;&lt; seconds &lt;&lt; " seconds, the ball is on the ground.\n";
 }
 
-// This function should not be made constexpr because output and input can only be done at runtime.
-// The versions of `operator&lt;&lt;` and `operator&gt;&gt;` that do output and input don&#39;t support constexpr.
+// Ta funkcja nie powinna być przekształcana w constexpr, ponieważ dane wyjściowe i wejściowe można wykonać tylko w czasie wykonywania.
+// Wersje `operator&lt;&lt;` i `operator&gt;&gt;`, które wykonują dane wyjściowe i wejściowe nie obsługują constexpr.
 void printCalculatedBallHeight(double towerHeight, int seconds)
 {
-	// height can only be const (not constexpr) because its initializer is not a constant expression
+	// wysokość może mieć tylko stałą (nie constexpr), ponieważ jej inicjator nie jest wyrażeniem stałym
 	const double ballHeight{ calculateBallHeight(towerHeight, seconds) };
 	printBallHeight(ballHeight, seconds);
 }
 
 int main()
 {
-	// towerHeight can only be const (not constexpr) because its initializer is not a constant expression
+	// towerHeight może być tylko const (nie constexpr), ponieważ jego inicjator nie jest wyrażeniem stałym.
 	const double towerHeight{ getTowerHeight() };
 
 	printCalculatedBallHeight(towerHeight, 0);

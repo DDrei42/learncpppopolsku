@@ -165,7 +165,7 @@ int main()
 
     return 0;
 }</code></pre><p>Kompilator wpada w szał i generuje mnóstwo komunikatów o błędach! Pierwszy komunikat o błędzie będzie mniej więcej taki:<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre>error C2679: binary &lt;&lt; : no operator found which takes a right-hand operand of type Cents (or there is no acceptable conversion)
-</pre><p>Pamiętaj ten <code>average()</code> zwraca a <code>Cents</code> obiekt i próbujemy przesłać strumieniowo ten obiekt do <code>std::cout</code> za pomocą <code>operator&lt;&lt;</code>. Jednak nie zdefiniowaliśmy jeszcze <code>operator&lt;&lt;</code> dla naszej <code>Cents</code> klasy. Zróbmy to:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+</pre><p>Pamiętaj ten <code>average()</code> zwraca <code>Cents</code> obiekt i próbujemy przesłać strumieniowo ten obiekt do <code>std::cout</code> za pomocą <code>operator&lt;&lt;</code>. Jednak nie zdefiniowaliśmy jeszcze <code>operator&lt;&lt;</code> dla naszej <code>Cents</code> klasy. Zróbmy to:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 template &lt;typename T&gt;
 T average(const T* myArray, int numValues)

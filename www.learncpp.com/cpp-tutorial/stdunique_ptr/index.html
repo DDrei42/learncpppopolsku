@@ -20,60 +20,60 @@ void someFunction()
     auto* ptr{ new Resource() };
  
     int x{};
-    std::cout &lt;&lt; &#34;Enter an integer: &#34;;
+    std::cout &lt;&lt; "Enter an integer: ";
     std::cin &gt;&gt; x;
  
     if (x == 0)
-        throw 0; // the function returns early, and ptr won’t be deleted!
+        throw 0; // funkcja wraca wcześniej, a ptr nie zostanie usunięty!
  
-    // do stuff with ptr here
+    // zrób coś z ptr tutaj
  
     delete ptr;
 }</code></pre><p>Teraz, gdy omówiliśmy podstawy semantyki przenoszenia, możemy wrócić do tematu klas inteligentnych wskaźników. Chociaż inteligentne wskaźniki mogą oferować inne funkcje, cechą charakterystyczną inteligentnego wskaźnika jest to, że zarządza on dynamicznie przydzielanymi zasobami dostarczonymi przez użytkownika inteligentnego wskaźnika i zapewnia prawidłowe czyszczenie dynamicznie przydzielonego obiektu w odpowiednim czasie (zwykle gdy inteligentny wskaźnik wykracza poza zakres).<p>Z tego powodu inteligentne wskaźniki nigdy nie powinny być same dynamicznie alokowane (w przeciwnym razie istnieje ryzyko, że inteligentny wskaźnik nie zostanie prawidłowo zwolniony, co oznacza, że jest to obiekt, którego jest właścicielem). nie zostanie zwolniony, co spowoduje wyciek pamięci). Zawsze przydzielając inteligentne wskaźniki na stosie (jako zmienne lokalne lub elementy kompozycji klasy), mamy gwarancję, że inteligentny wskaźnik prawidłowo wyjdzie poza zakres, gdy funkcja lub obiekt, w którym się zawiera, zakończy się, zapewniając prawidłowe zwolnienie obiektu, którego właścicielem jest inteligentny wskaźnik.<p>Standardowa biblioteka C++11 jest dostarczana z 4 klasami inteligentnych wskaźników: std::auto_ptr (usunięte w C++17), std::unique_ptr, std::shared_ptr i std::weak_ptr. std::unique_ptr jest zdecydowanie najczęściej używaną klasą inteligentnych wskaźników, więc omówimy ją w pierwszej kolejności. W kolejnych lekcjach omówimy std::shared_ptr i std::weak_ptr.<p class="cpp-section cpp-topline" style=clear:both>std::unique_ptr<p>std::unique_ptr to zamiennik std::auto_ptr w C++ 11. Należy go używać do zarządzania dowolnym dynamicznie przydzielanym obiektem, który nie jest współdzielony przez wiele obiektów. Oznacza to, że std::unique_ptr powinien całkowicie posiadać obiekt, którym zarządza, a nie dzielić się tą własnością z innymi klasami. std::unique_ptr znajduje się w nagłówku &lt;memory&gt;.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Przyjrzyjmy się prostemu przykładowi inteligentnego wskaźnika:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
-#include &lt;memory&gt; // for std::unique_ptr
+#include &lt;memory&gt; // dla std::unique_ptr
 
 class Resource
 {
 public:
-	Resource() { std::cout &lt;&lt; &#34;Resource acquired\n&#34;; }
-	~Resource() { std::cout &lt;&lt; &#34;Resource destroyed\n&#34;; }
+	Resource() { std::cout &lt;&lt; "Resource acquired\n"; }
+	~Resource() { std::cout &lt;&lt; "Resource destroyed\n"; }
 };
 
 int main()
 {
-	// allocate a Resource object and have it owned by std::unique_ptr
+	// przydziel obiekt zasobu i przekaż go w posiadaniu std::unique_ptr
 	std::unique_ptr&lt;Resource&gt; res{ new Resource() };
 
 	return 0;
-} // res goes out of scope here, and the allocated Resource is destroyed</code></pre><p>Ponieważ std::unique_ptr jest tutaj przydzielony na stosie, z pewnością ostatecznie wyjdzie poza zakres, a kiedy to nastąpi, usunie zasób, którym zarządza.<p>W przeciwieństwie do std::auto_ptr, std::unique_ptr poprawnie implementuje semantykę przenoszenia.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
-#include &lt;memory&gt; // for std::unique_ptr
-#include &lt;utility&gt; // for std::move
+} // res wykracza poza zakres tutaj, a przydzielony zasób jest zniszczone</code></pre><p>Ponieważ std::unique_ptr jest tutaj przydzielony na stosie, z pewnością ostatecznie wyjdzie poza zakres, a kiedy to nastąpi, usunie zasób, którym zarządza.<p>W przeciwieństwie do std::auto_ptr, std::unique_ptr poprawnie implementuje semantykę przenoszenia.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+#include &lt;memory&gt; // dla std::unique_ptr
+#include &lt;utility&gt; // dla std::move
 
 class Resource
 {
 public:
-	Resource() { std::cout &lt;&lt; &#34;Resource acquired\n&#34;; }
-	~Resource() { std::cout &lt;&lt; &#34;Resource destroyed\n&#34;; }
+	Resource() { std::cout &lt;&lt; "Resource acquired\n"; }
+	~Resource() { std::cout &lt;&lt; "Resource destroyed\n"; }
 };
 
 int main()
 {
-	std::unique_ptr&lt;Resource&gt; res1{ new Resource{} }; // Resource created here
-	std::unique_ptr&lt;Resource&gt; res2{}; // Start as nullptr
+	std::unique_ptr&lt;Resource&gt; res1{ new Resource{} }; // Zasób utworzony tutaj
+	std::unique_ptr&lt;Resource&gt; res2{}; // Rozpocznij jako nullptr
 
-	std::cout &lt;&lt; &#34;res1 is &#34; &lt;&lt; (res1 ? &#34;not null\n&#34; : &#34;null\n&#34;);
-	std::cout &lt;&lt; &#34;res2 is &#34; &lt;&lt; (res2 ? &#34;not null\n&#34; : &#34;null\n&#34;);
+	std::cout &lt;&lt; "res1 is " &lt;&lt; (res1 ? "not null\n" : "null\n");
+	std::cout &lt;&lt; "res2 is " &lt;&lt; (res2 ? "not null\n" : "null\n");
 
-	// res2 = res1; // Won&#39;t compile: copy assignment is disabled
-	res2 = std::move(res1); // res2 assumes ownership, res1 is set to null
+	// res2 = res1; // Nie zostanie skompilowany: przypisanie kopii jest wyłączone
+	res2 = std::move(res1); // res2 przejmuje własność, res1 jest ustawione na null
 
-	std::cout &lt;&lt; &#34;Ownership transferred\n&#34;;
+	std::cout &lt;&lt; "Ownership transferred\n";
 
-	std::cout &lt;&lt; &#34;res1 is &#34; &lt;&lt; (res1 ? &#34;not null\n&#34; : &#34;null\n&#34;);
-	std::cout &lt;&lt; &#34;res2 is &#34; &lt;&lt; (res2 ? &#34;not null\n&#34; : &#34;null\n&#34;);
+	std::cout &lt;&lt; "res1 is " &lt;&lt; (res1 ? "not null\n" : "null\n");
+	std::cout &lt;&lt; "res2 is " &lt;&lt; (res2 ? "not null\n" : "null\n");
 
 	return 0;
-} // Resource destroyed here when res2 goes out of scope</code></pre><p>Wypisuje:<pre>Resource acquired
+} // Zasób zniszczony tutaj, gdy res2 wykracza poza zakres</code></pre><p>Wypisuje:<pre>Resource acquired
 res1 is not null
 res2 is null
 Ownership transferred
@@ -81,18 +81,18 @@ res1 is null
 res2 is not null
 Resource destroyed
 </pre><p>Ponieważ std::unique_ptr został zaprojektowany z myślą o semantyce przenoszenia, inicjowanie kopiowania i przypisywanie kopii są wyłączone. Jeśli chcesz przenieść zawartość zarządzaną przez std::unique_ptr, musisz użyć semantyki przenoszenia. W powyższym programie osiągamy to poprzez std::move (który konwertuje res1 na wartość r, co wyzwala przypisanie przeniesienia zamiast przypisania kopii).<p class="cpp-section cpp-topline" style=clear:both>Dostęp do zarządzanego obiektu<p>std::unique_ptr ma przeciążone operatory* i operator-&gt;, których można użyć do zwrócenia zarządzanego zasobu. Operator* zwraca referencję do zarządzanego zasobu, a operator-&gt; zwraca wskaźnik.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Pamiętaj, że std::unique_ptr nie zawsze zarządza obiektem - albo dlatego, że został utworzony pusty (przy użyciu domyślnego konstruktora lub przekazując nullptr jako parametr), albo dlatego, że zarządzany zasób został przeniesiony do innego std::unique_ptr. Zanim więc użyjemy któregokolwiek z tych operatorów, powinniśmy sprawdzić, czy std::unique_ptr rzeczywiście ma zasób. Na szczęście jest to proste: std::unique_ptr rzutuje na wartość bool, która zwraca wartość true, jeśli std::unique_ptr zarządza zasobem.<p>Oto przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
-#include &lt;memory&gt; // for std::unique_ptr
+#include &lt;memory&gt; // dla std::unique_ptr
 
 class Resource
 {
 public:
-	Resource() { std::cout &lt;&lt; &#34;Resource acquired\n&#34;; }
-	~Resource() { std::cout &lt;&lt; &#34;Resource destroyed\n&#34;; }
+	Resource() { std::cout &lt;&lt; "Resource acquired\n"; }
+	~Resource() { std::cout &lt;&lt; "Resource destroyed\n"; }
 };
 
 std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const Resource&amp;)
 {
-	out &lt;&lt; &#34;I am a resource&#34;;
+	out &lt;&lt; "I am a resource";
 	return out;
 }
 
@@ -100,14 +100,14 @@ int main()
 {
 	std::unique_ptr&lt;Resource&gt; res{ new Resource{} };
 
-	if (res) // use implicit cast to bool to ensure res contains a Resource
-		std::cout &lt;&lt; *res &lt;&lt; &#39;\n&#39;; // print the Resource that res is owning
+	if (res) // użyj niejawnego rzutowania na bool, aby upewnić się, że res zawiera Zasób
+		std::cout &lt;&lt; *res &lt;&lt; '\n'; // wydrukuj zasób, który jest res właściciel
 
 	return 0;
 }</code></pre><p>Wypisuje:<pre>Resource acquired
 I am a resource
 Resource destroyed
-</pre><p>W powyższym programie używamy przeciążonego operatora*, aby uzyskać obiekt Resource będący własnością std::unique_ptr res, który następnie wysyłamy do std::cout drukowanie.<p class="cpp-section cpp-topline" style=clear:both>std::unique_ptr i tablice<p>W przeciwieństwie do std::auto_ptr, std::unique_ptr jest wystarczająco inteligentny, aby wiedzieć, czy użyć usuwania skalarnego, czy usunięcia tablicy, więc std::unique_ptr można używać zarówno z obiektami skalarnymi, jak i tablicami.<p>Jednak std::array lub std::vector (lub std::string) są prawie zawsze lepszym wyborem niż użycie std::unique_ptr z stała tablica, tablica dynamiczna lub ciąg w stylu C.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Preferuj std::array, std::vector lub std::string nad inteligentnym wskaźnikiem zarządzającym stałą tablicą, tablicą dynamiczną lub ciągiem w stylu C.</div><p class="cpp-section cpp-topline" style=clear:both>std::make_unique<p>C++ 14 jest wyposażony w dodatkową funkcję o nazwie std::make_unique(). Ta funkcja oparta na szablonie konstruuje obiekt typu szablon i inicjuje go argumentami przekazanymi do funkcji.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;memory&gt; // for std::unique_ptr and std::make_unique
+</pre><p>W powyższym programie używamy przeciążonego operatora*, aby uzyskać obiekt Resource będący własnością std::unique_ptr res, który następnie wysyłamy do std::cout drukowanie.<p class="cpp-section cpp-topline" style=clear:both>std::unique_ptr i tablice<p>W przeciwieństwie do std::auto_ptr, std::unique_ptr jest wystarczająco inteligentny, aby wiedzieć, czy użyć usuwania skalarnego, czy usunięcia tablicy, więc std::unique_ptr można używać zarówno z obiektami skalarnymi, jak i tablicami.<p>Jednak std::array lub std::vector (lub std::string) są prawie zawsze lepszym wyborem niż użycie std::unique_ptr z stała tablica, tablica dynamiczna lub ciąg w stylu C.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Preferuj std::array, std::vector lub std::string nad inteligentnym wskaźnikiem zarządzającym stałą tablicą, tablicą dynamiczną lub ciągiem w stylu C.</div><p class="cpp-section cpp-topline" style=clear:both>std::make_unique<p>C++ 14 jest wyposażony w dodatkową funkcję o nazwie std::make_unique(). Ta funkcja oparta na szablonie konstruuje obiekt typu szablon i inicjuje go argumentami przekazanymi do funkcji.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;memory&gt; // dla std::unique_ptr i std::make_unique
 #include &lt;iostream&gt;
 
 class Fraction
@@ -124,7 +124,7 @@ public:
 
 	friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const Fraction &amp;f1)
 	{
-		out &lt;&lt; f1.m_numerator &lt;&lt; &#39;/&#39; &lt;&lt; f1.m_denominator;
+		out &lt;&lt; f1.m_numerator &lt;&lt; '/' &lt;&lt; f1.m_denominator;
 		return out;
 	}
 };
@@ -132,19 +132,19 @@ public:
 
 int main()
 {
-	// Create a single dynamically allocated Fraction with numerator 3 and denominator 5
-	// We can also use automatic type deduction to good effect here
+	// Utwórz pojedynczy, dynamicznie przydzielany ułamek z licznikiem 3 i mianownikiem 5
+	// Możemy tu również z dobrym skutkiem zastosować automatyczne dedukowanie typów
 	auto f1{ std::make_unique&lt;Fraction&gt;(3, 5) };
-	std::cout &lt;&lt; *f1 &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; *f1 &lt;&lt; '\n';
 
-	// Create a dynamically allocated array of Fractions of length 4
+	// Utwórz dynamicznie przydzielaną tablicę Ułamków o długości 4
 	auto f2{ std::make_unique&lt;Fraction[]&gt;(4) };
-	std::cout &lt;&lt; f2[0] &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; f2[0] &lt;&lt; '\n';
 
 	return 0;
 }</code></pre><p>Powyższy kod wyświetla:<pre>3/5
 0/1
-</pre><p>Użycie std::make_unique() jest opcjonalne, ale jest zalecane zamiast samodzielnego tworzenia std::unique_ptr. Dzieje się tak dlatego, że kod używający std::make_unique jest prostszy, a także wymaga mniej pisania (w przypadku użycia z automatycznym odliczaniem typu). Co więcej, w C++14 rozwiązano problem związany z bezpieczeństwem wyjątków, który może wynikać z pozostawienia przez C++ kolejności oceniania argumentów funkcji nieokreślonej.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Użyj std::make_unique() zamiast tworzyć std::unique_ptr i samodzielnie używać new.</div><p class="cpp-section cpp-topline" style=clear:both><a name=smartpointerexceptionsafety></a>Bardziej szczegółowy problem bezpieczeństwa wyjątków <a href="index.html#smartpointerexceptionsafety"><i class="fa fa-link" style=font-size:.8em></i></a><p>Dla tych, którzy zastanawiają się, czym jest wspomniany powyżej „problem bezpieczeństwa wyjątku”, oto opis problem.<p>Rozważ wyrażenie takie jak to:<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">some_function(std::unique_ptr&lt;T&gt;(new T), function_that_can_throw_exception());</code></pre><p>Kompilator ma dużą elastyczność w zakresie obsługi tego wywołania. Może utworzyć nowy T, następnie wywołać funkcję Function_that_can_throw_exception(), a następnie utworzyć std::unique_ptr, który zarządza dynamicznie przydzielonym T. Jeśli funkcjafunction_that_can_throw_exception() zgłosi wyjątek, przydzielony T nie zostanie cofnięty, ponieważ inteligentny wskaźnik do przeprowadzenia dezalokacji nie został jeszcze utworzony. Prowadzi to do wycieku T.<p>std::make_unique() nie jest dotknięty tym problemem, ponieważ utworzenie obiektu T i utworzenie std::unique_ptr odbywa się wewnątrz funkcji std::make_unique(), gdzie nie ma dwuznaczności co do kolejności wykonywania.<p>Ten problem został rozwiązany w C++17, ponieważ nie można już oceniać argumentów funkcji przeplatane.<p class="cpp-section cpp-topline" style=clear:both>Zwracanie std::unique_ptr z funkcji<p>std::unique_ptr można bezpiecznie zwrócić z funkcji według wartości:<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;memory&gt; // for std::unique_ptr
+</pre><p>Użycie std::make_unique() jest opcjonalne, ale jest zalecane zamiast samodzielnego tworzenia std::unique_ptr. Dzieje się tak dlatego, że kod używający std::make_unique jest prostszy, a także wymaga mniej pisania (w przypadku użycia z automatycznym odliczaniem typu). Co więcej, w C++14 rozwiązano problem związany z bezpieczeństwem wyjątków, który może wynikać z pozostawienia przez C++ kolejności oceniania argumentów funkcji nieokreślonej.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Użyj std::make_unique() zamiast tworzyć std::unique_ptr i samodzielnie używać new.</div><p class="cpp-section cpp-topline" style=clear:both><a name=smartpointerexceptionsafety></a>Bardziej szczegółowy problem bezpieczeństwa wyjątków <a href="index.html#smartpointerexceptionsafety"><i class="fa fa-link" style=font-size:.8em></i></a><p>Dla tych, którzy zastanawiają się, czym jest wspomniany powyżej „problem bezpieczeństwa wyjątku”, oto opis problem.<p>Rozważ wyrażenie takie jak to:<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">some_function(std::unique_ptr&lt;T&gt;(new T), function_that_can_throw_exception());</code></pre><p>Kompilator ma dużą elastyczność w zakresie obsługi tego wywołania. Może utworzyć nowy T, następnie wywołać funkcję Function_that_can_throw_exception(), a następnie utworzyć std::unique_ptr, który zarządza dynamicznie przydzielonym T. Jeśli funkcjafunction_that_can_throw_exception() zgłosi wyjątek, przydzielony T nie zostanie cofnięty, ponieważ inteligentny wskaźnik do przeprowadzenia dezalokacji nie został jeszcze utworzony. Prowadzi to do wycieku T.<p>std::make_unique() nie jest dotknięty tym problemem, ponieważ utworzenie obiektu T i utworzenie std::unique_ptr odbywa się wewnątrz funkcji std::make_unique(), gdzie nie ma dwuznaczności co do kolejności wykonywania.<p>Ten problem został rozwiązany w C++17, ponieważ nie można już oceniać argumentów funkcji przeplatane.<p class="cpp-section cpp-topline" style=clear:both>Zwracanie std::unique_ptr z funkcji<p>std::unique_ptr można bezpiecznie zwrócić z funkcji według wartości:<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;memory&gt; // dla std::unique_ptr
 
 std::unique_ptr&lt;Resource&gt; createResource()
 {
@@ -159,78 +159,78 @@ int main()
 
     return 0;
 }</code></pre><p>W powyższym kodzie createResource() zwraca std::unique_ptr według wartości. Jeśli ta wartość nie jest do niczego przypisana, tymczasowa wartość zwracana wyjdzie poza zakres i zasób zostanie wyczyszczony. Jeśli jest przypisany (jak pokazano w funkcji main()), w języku C++ 14 lub starszym zostanie zastosowana semantyka przenoszenia w celu przeniesienia zasobu z wartości zwracanej do przypisanego obiektu (w powyższym przykładzie ptr), a w języku C++ 17 lub nowszym zwrot zostanie pominięty. To sprawia, że zwracanie zasobu przez std::unique_ptr jest znacznie bezpieczniejsze niż zwracanie surowych wskaźników!<p>Ogólnie rzecz biorąc, nie powinieneś zwracać std::unique_ptr przez wskaźnik (nigdy) lub referencję (chyba że masz ku temu konkretny powód).<p class="cpp-section cpp-topline" style=clear:both>Przekazywanie std::unique_ptr do funkcji<p>Jeśli chcesz, aby funkcja przejęła na własność zawartość wskaźnika, przekaż std::unique_ptr według wartości. Pamiętaj, że ponieważ semantyka kopiowania została wyłączona, będziesz musiał użyć std::move, aby faktycznie przekazać zmienną.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
-#include &lt;memory&gt; // for std::unique_ptr
-#include &lt;utility&gt; // for std::move
+#include &lt;memory&gt; // dla std::unique_ptr
+#include &lt;utility&gt; // dla std::move
 
 class Resource
 {
 public:
-	Resource() { std::cout &lt;&lt; &#34;Resource acquired\n&#34;; }
-	~Resource() { std::cout &lt;&lt; &#34;Resource destroyed\n&#34;; }
+	Resource() { std::cout &lt;&lt; "Resource acquired\n"; }
+	~Resource() { std::cout &lt;&lt; "Resource destroyed\n"; }
 };
 
 std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const Resource&amp;)
 {
-	out &lt;&lt; &#34;I am a resource&#34;;
+	out &lt;&lt; "I am a resource";
 	return out;
 }
 
-// This function takes ownership of the Resource, which isn&#39;t what we want
+// Ta funkcja przejmuje na własność zasobu, a nie tego chcemy
 void takeOwnership(std::unique_ptr&lt;Resource&gt; res)
 {
      if (res)
-          std::cout &lt;&lt; *res &lt;&lt; &#39;\n&#39;;
-} // the Resource is destroyed here
+          std::cout &lt;&lt; *res &lt;&lt; '\n';
+} // zasób jest tutaj niszczony
 
 int main()
 {
     auto ptr{ std::make_unique&lt;Resource&gt;() };
 
-//    takeOwnership(ptr); // This doesn&#39;t work, need to use move semantics
-    takeOwnership(std::move(ptr)); // ok: use move semantics
+//    takeOwnership(ptr); // To nie działa, należy użyć semantyki przenoszenia
+    takeOwnership(std::move(ptr)); // ok: użyj semantyki przenoszenia
 
-    std::cout &lt;&lt; &#34;Ending program\n&#34;;
+    std::cout &lt;&lt; "Ending program\n";
 
     return 0;
 }</code></pre><p>Powyższy program wypisuje:<pre>Resource acquired
 I am a resource
 Resource destroyed
 Ending program
-</pre><p>Pamiętaj, że w tym przypadku własność zasobu została przeniesiona do takeOwnership(), więc zasób został zniszczony na końcu takeOwnership(), a nie na końcu main().<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>Jednak w większości przypadków nie chcesz, aby funkcja przejęła na własność zasób.<p>Chociaż możesz przekazać std::unique_ptr przez stałą referencję (co pozwoli funkcji używać obiektu bez przejmowania własności), lepiej jest po prostu przekazać sam zasób (przez wskaźnik lub referencję, w zależności od tego, czy null jest poprawnym argumentem). Dzięki temu funkcja pozostaje niezależna od sposobu, w jaki wywołujący zarządza swoimi zasobami.<p>Aby uzyskać surowy wskaźnik z std::unique_ptr, możesz użyć funkcji członkowskiej get():<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;memory&gt; // for std::unique_ptr
+</pre><p>Pamiętaj, że w tym przypadku własność zasobu została przeniesiona do takeOwnership(), więc zasób został zniszczony na końcu takeOwnership(), a nie na końcu main().<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>Jednak w większości przypadków nie chcesz, aby funkcja przejęła na własność zasób.<p>Chociaż możesz przekazać std::unique_ptr przez stałą referencję (co pozwoli funkcji używać obiektu bez przejmowania własności), lepiej jest po prostu przekazać sam zasób (przez wskaźnik lub referencję, w zależności od tego, czy null jest poprawnym argumentem). Dzięki temu funkcja pozostaje niezależna od sposobu, w jaki wywołujący zarządza swoimi zasobami.<p>Aby uzyskać surowy wskaźnik z std::unique_ptr, możesz użyć funkcji członkowskiej get():<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;memory&gt; // dla std::unique_ptr
 #include &lt;iostream&gt;
 
 class Resource
 {
 public:
-	Resource() { std::cout &lt;&lt; &#34;Resource acquired\n&#34;; }
-	~Resource() { std::cout &lt;&lt; &#34;Resource destroyed\n&#34;; }
+	Resource() { std::cout &lt;&lt; "Resource acquired\n"; }
+	~Resource() { std::cout &lt;&lt; "Resource destroyed\n"; }
 };
 
 std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const Resource&amp;)
 {
-	out &lt;&lt; &#34;I am a resource&#34;;
+	out &lt;&lt; "I am a resource";
 	return out;
 }
 
-// The function only uses the resource, so we&#39;ll accept a pointer to the resource, not a reference to the whole std::unique_ptr&lt;Resource&gt;
+// Funkcja używa tylko zasobu, więc akceptujemy wskaźnik do zasobu, a nie odniesienie do całego std::unique_ptr&lt;Resource&gt;
 void useResource(const Resource* res)
 {
 	if (res)
-		std::cout &lt;&lt; *res &lt;&lt; &#39;\n&#39;;
+		std::cout &lt;&lt; *res &lt;&lt; '\n';
 	else
-		std::cout &lt;&lt; &#34;No resource\n&#34;;
+		std::cout &lt;&lt; "No resource\n";
 }
 
 int main()
 {
 	auto ptr{ std::make_unique&lt;Resource&gt;() };
 
-	useResource(ptr.get()); // note: get() used here to get a pointer to the Resource
+	useResource(ptr.get()); // uwaga: get() użyta tutaj w celu uzyskania wskaźnika do zasobu
 
-	std::cout &lt;&lt; &#34;Ending program\n&#34;;
+	std::cout &lt;&lt; "Ending program\n";
 
 	return 0;
-} // The Resource is destroyed here</code></pre><p>Powyższy program wypisuje:<pre>Resource acquired
+} // Zasób zostanie tutaj zniszczony</code></pre><p>Powyższy program wypisuje:<pre>Resource acquired
 I am a resource
 Ending program
 Resource destroyed
@@ -276,7 +276,7 @@ int main()
 	delete ptr;
 
 	return 0;
-}</code></pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_0 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;memory&gt; // for std::unique_ptr
+}</code></pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_0 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;memory&gt; // dla std::unique_ptr
 #include &lt;iostream&gt;
 
 class Fraction
@@ -293,19 +293,19 @@ public:
 
 	friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const Fraction &amp;f1)
 	{
-		out &lt;&lt; f1.m_numerator &lt;&lt; &#39;/&#39; &lt;&lt; f1.m_denominator;
+		out &lt;&lt; f1.m_numerator &lt;&lt; '/' &lt;&lt; f1.m_denominator;
 		return out;
 	}
 };
 
-// This function uses a Fraction object, so we just pass the Fraction itself
-// That way we don&#39;t have to worry about what kind of smart pointer (if any) the caller may be using
+// Ta funkcja wykorzystuje obiekt Fraction, więc po prostu przekazujemy sam ułamek
+// W ten sposób nie musimy się martwić, jakiego rodzaju inteligentnego wskaźnika (jeśli w ogóle) używa osoba wywołująca
 void printFraction(const Fraction* ptr)
 {
 	if (ptr)
-		std::cout &lt;&lt; *ptr &lt;&lt; &#39;\n&#39;;
+		std::cout &lt;&lt; *ptr &lt;&lt; '\n';
 	else
-		std::cout &lt;&lt; &#34;No fraction\n&#34;;
+		std::cout &lt;&lt; "No fraction\n";
 }
 
 int main()

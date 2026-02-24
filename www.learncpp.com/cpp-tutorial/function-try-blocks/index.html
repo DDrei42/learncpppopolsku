@@ -23,16 +23,16 @@ public:
 	A(int x) : m_x{x}
 	{
 		if (x &lt;= 0)
-			throw 1; // Exception thrown here
+			throw 1; // Zgłoszony tutaj wyjątek
 	}
 };
 
 class B : public A
 {
 public:
-	B(int x) : A{x} // A initialized in member initializer list of B
+	B(int x) : A{x} // Inicjowana na liście inicjatorów składowych B
 	{
-		// What happens if creation of A fails and we want to handle it here?
+		// Co się stanie, jeśli utworzenie A nie powiedzie się, a my chcemy się tym zająć tutaj?
 	}
 };
 
@@ -44,7 +44,7 @@ int main()
 	}
 	catch (int)
 	{
-		std::cout &lt;&lt; &#34;Oops\n&#34;;
+		std::cout &lt;&lt; "Oops\n";
 	}
 }</code></pre><p>W powyższym przykładzie klasa pochodna B wywołuje konstruktor klasy bazowej A, który może zgłosić wyjątek. Ponieważ utworzenie obiektu b zostało umieszczone wewnątrz bloku try (w funkcji main()), jeśli A zgłosi wyjątek, blok try main go przechwyci. W rezultacie ten program wypisuje:<pre>Oops
 </pre><p>Ale co, jeśli chcemy przechwycić wyjątek wewnątrz B? Wywołanie konstruktora bazowego A następuje poprzez listę inicjatorów składowych, przed wywołaniem treści konstruktora B. Nie ma możliwości owinięcia wokół niego standardowego bloku try.<p>W tej sytuacji musimy użyć nieco zmodyfikowanego bloku try zwanego <strong>blokiem try funkcji</strong>.<p class="cpp-section cpp-topline" style=clear:both>Bloki prób funkcji<p>Bloki funkcji try zostały zaprojektowane tak, aby umożliwić ustanowienie procedury obsługi wyjątków wokół treści całej funkcji, a nie wokół bloku kodu.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Składnia bloków try funkcji jest trochę trudna do opisania, więc pokażemy to przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -57,24 +57,24 @@ public:
 	A(int x) : m_x{x}
 	{
 		if (x &lt;= 0)
-			throw 1; // Exception thrown here
+			throw 1; // Zgłoszony tutaj wyjątek
 	}
 };
 
 class B : public A
 {
 public:
-	B(int x) try : A{x} // note addition of try keyword here
+	B(int x) try : A{x} // zwróć uwagę na dodanie tutaj słowa kluczowego try
 	{
 	}
-	catch (...) // note this is at same level of indentation as the function itself
+	catch (...) // zauważ, że jest to ten sam poziom wcięcia co sama funkcja
 	{
-                // Exceptions from member initializer list or
-                // from constructor body are caught here
+                // Wyjątki z listy inicjatorów składowych lub
+                // z treści konstruktora przechwytywane są tutaj
 
-                std::cerr &lt;&lt; &#34;Exception caught\n&#34;;
+                std::cerr &lt;&lt; "Exception caught\n";
 
-                throw; // rethrow the existing exception
+                throw; // ponownie zgłasza istniejący wyjątek
 	}
 };
 
@@ -86,7 +86,7 @@ int main()
 	}
 	catch (int)
 	{
-		std::cout &lt;&lt; &#34;Oops\n&#34;;
+		std::cout &lt;&lt; "Oops\n";
 	}
 }</code></pre><p>Gdy ten program jest uruchomiony, generuje wynik:<pre>Exception caught
 Oops
@@ -105,17 +105,17 @@ public:
 class B : public A
 {
 public:
-	B(int x) try : A{x} // note addition of try keyword here
+	B(int x) try : A{x} // zwróć uwagę na dodanie tutaj słowa kluczowego try
 	{
-		if (x &lt;= 0) // moved this from A to B
-			throw 1; // and this too
+		if (x &lt;= 0) // przeniosłem to z A do B
+			throw 1; // i to też
 	}
 	catch (...)
 	{
-                std::cerr &lt;&lt; &#34;Exception caught\n&#34;;
+                std::cerr &lt;&lt; "Exception caught\n";
 
-                // If an exception isn&#39;t explicitly thrown here,
-                // the current exception will be implicitly rethrown
+                // Jeśli wyjątek nie jest tutaj wyraźnie zgłoszony,
+                // bieżący wyjątek zostanie niejawnie ponownie zgłoszony
 	}
 };
 
@@ -127,7 +127,7 @@ int main()
 	}
 	catch (int)
 	{
-		std::cout &lt;&lt; &#34;Oops\n&#34;;
+		std::cout &lt;&lt; "Oops\n";
 	}
 }</code></pre><p>Otrzymujemy ten sam wynik:<pre>Exception caught
 Oops

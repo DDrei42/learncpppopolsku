@@ -13,20 +13,20 @@
 <button class=searchsubmit><span class=screen-reader-text>Szukaj</span><i class=icon-search></i></button>
 <input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=18387></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="12.12 — Powrót przez odniesienie i powrót przez adres" src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-187 class="post-187 post type-post status-publish format-standard hentry category-cpp-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>12.12 — Powrót przez odniesienie i powrót przez adres</h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Autor></i><a class="url fn n" rel=author href=/www.learncpp.com/author/Alex/ title="Wyświetl wszystkie posty Alexa" itemprop=url><em itemprop=name>Alex</em></a></span>
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2008-02-25T21:04:01-08:00 itemprop=datePublished>25 lutego 2008, 21:04 czasu PST</time>
-<time class=updated datetime=2025-01-03T16:20:20-08:00 itemprop=dateModified>3 stycznia 2025</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>W poprzednich lekcjach omawialiśmy, że podczas przekazywania argumentu przez wartość kopia argumentu jest tworzona do parametru funkcji. W przypadku typów podstawowych (które są tanie w kopiowaniu) jest to w porządku. Jednak kopiowanie jest zazwyczaj kosztowne w przypadku typów klas (takich jak  <code>std::string</code>). Możemy uniknąć kosztownej kopii, wykorzystując zamiast tego przekazywanie (const) referencji (lub przekazywanie adresu).<p>Podobną sytuację napotykamy podczas zwracania przez wartość: kopia zwracanej wartości jest przekazywana z powrotem do osoby wywołującej. Jeśli typem zwracanym funkcji jest typ klasowy, może to być kosztowne.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::string returnByValue(); // returns a copy of a std::string (expensive)</code></pre><p class="cpp-section cpp-topline" style=clear:both>Return by reference<p>W przypadkach, gdy przekazujemy typ klasy z powrotem do wywołującego, możemy (ale nie musimy) chcieć zwrócić zamiast tego przez referencję. <strong>Return by reference</strong> zwraca referencję powiązaną ze zwracanym obiektem, co pozwala uniknąć tworzenia kopii zwracanej wartości. Aby zwrócić przez referencję, po prostu definiujemy wartość zwracaną funkcji jako typ referencyjny:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::string&amp;       returnByReference(); // returns a reference to an existing std::string (cheap)
-const std::string&amp; returnByReferenceToConst(); // returns a const reference to an existing std::string (cheap)</code></pre><p>Oto program akademicki demonstrujący mechanikę powrotu przez referencję:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+<time class=updated datetime=2025-01-03T16:20:20-08:00 itemprop=dateModified>3 stycznia 2025</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>W poprzednich lekcjach omawialiśmy, że podczas przekazywania argumentu przez wartość kopia argumentu jest tworzona do parametru funkcji. W przypadku typów podstawowych (które są tanie w kopiowaniu) jest to w porządku. Jednak kopiowanie jest zazwyczaj kosztowne w przypadku typów klas (takich jak  <code>std::string</code>). Możemy uniknąć kosztownej kopii, wykorzystując zamiast tego przekazywanie (const) referencji (lub przekazywanie adresu).<p>Podobną sytuację napotykamy podczas zwracania przez wartość: kopia zwracanej wartości jest przekazywana z powrotem do osoby wywołującej. Jeśli typem zwracanym funkcji jest typ klasowy, może to być kosztowne.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::string returnByValue(); // zwraca kopię std::string (drogi)</code></pre><p class="cpp-section cpp-topline" style=clear:both>Return by reference<p>W przypadkach, gdy przekazujemy typ klasy z powrotem do wywołującego, możemy (ale nie musimy) chcieć zwrócić zamiast tego przez referencję. <strong>Return by reference</strong> zwraca referencję powiązaną ze zwracanym obiektem, co pozwala uniknąć tworzenia kopii zwracanej wartości. Aby zwrócić przez referencję, po prostu definiujemy wartość zwracaną funkcji jako typ referencyjny:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::string&amp;       returnByReference(); // zwraca odwołanie do istniejącego std::string (tani)
+const std::string&amp; returnByReferenceToConst(); // zwraca stałe odniesienie do istniejący std::string (tani)</code></pre><p>Oto program akademicki demonstrujący mechanikę powrotu przez referencję:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;string&gt;
 
-const std::string&amp; getProgramName() // returns a const reference
+const std::string&amp; getProgramName() // zwraca stałe odniesienie
 {
-    static const std::string s_programName { &#34;Calculator&#34; }; // has static duration, destroyed at end of program
+    static const std::string s_programName { "Calculator" }; // ma statyczny czas trwania, niszczony na końcu programu
 
     return s_programName;
 }
 
 int main()
 {
-    std::cout &lt;&lt; &#34;This program is named &#34; &lt;&lt; getProgramName();
+    std::cout &lt;&lt; "This program is named " &lt;&lt; getProgramName();
 
     return 0;
 }</code></pre><p>Ten program wypisuje:<pre>This program is named Calculator
@@ -35,21 +35,21 @@ int main()
 
 const std::string&amp; getProgramName()
 {
-    const std::string programName { &#34;Calculator&#34; }; // now a non-static local variable, destroyed when function ends
+    const std::string programName { "Calculator" }; // teraz niestatyczna zmienna lokalna, niszczona po zakończeniu funkcji
 
     return programName;
 }
 
 int main()
 {
-    std::cout &lt;&lt; &#34;This program is named &#34; &lt;&lt; getProgramName(); // undefined behavior
+    std::cout &lt;&lt; "This program is named " &lt;&lt; getProgramName(); // undefined behavior
 
     return 0;
 }</code></pre><p>Wynik tego programu jest niezdefiniowany. Kiedy <code>getProgramName()</code> powraca, zwracane jest odwołanie powiązane ze zmienną lokalną <code>programName</code> . Następnie, ponieważ  <code>programName</code> jest zmienną lokalną o automatycznym czasie trwania,  <code>programName</code> jest niszczona na końcu funkcji. Oznacza to, że zwrócona referencja jest teraz zawieszona, a użycie  <code>programName</code> w klasie <code>main()</code> funkcji skutkuje niezdefiniowanym zachowaniem.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Nowoczesne kompilatory zwrócą ostrzeżenie lub błąd, jeśli spróbujesz zwrócić zmienną lokalną przez referencję (więc powyższy program może nawet się nie skompilować), ale kompilatory czasami mają problemy z wykryciem bardziej skomplikowanych przypadków.<div class="cpp-note cpp-lightredbackground"><p class="cpp-note-title cpp-bottomline">Ostrzeżenie<p>Obiekty zwrócone przez referencję muszą wykraczać poza zakres funkcji zwracającej referencję, w przeciwnym razie spowoduje to zawieszanie się referencji. Nigdy nie zwracaj (niestatycznej) zmiennej lokalnej ani tymczasowej przez odniesienie.</div><p class="cpp-section cpp-topline" style=clear:both>Wydłużanie czasu życia nie działa poza granicami funkcji<p>Przyjrzyjmy się przykładowi, w którym zwracamy tymczasową zmienną przez odniesienie:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 const int&amp; returnByConstReference()
 {
-    return 5; // returns const reference to temporary object
+    return 5; // zwraca stałą referencję do obiektu tymczasowego
 }
 
 int main()
@@ -68,13 +68,13 @@ const int&amp; returnByConstReference(const int&amp; ref)
 
 int main()
 {
-    // case 1: direct binding
+    // przypadek 1: wiązanie bezpośrednie
     const int&amp; ref1 { 5 }; // extends lifetime
-    std::cout &lt;&lt; ref1 &lt;&lt; &#39;\n&#39;; // okay
+    std::cout &lt;&lt; ref1 &lt;&lt; '\n'; // okay
 
-    // case 2: indirect binding
-    const int&amp; ref2 { returnByConstReference(5) }; // binds to dangling reference
-    std::cout &lt;&lt; ref2 &lt;&lt; &#39;\n&#39;; // undefined behavior
+    // przypadek 2: wiązanie pośrednie
+    const int&amp; ref2 { returnByConstReference(5) }; // wiąże się z wiszącą referencją
+    std::cout &lt;&lt; ref2 &lt;&lt; '\n'; // undefined behavior
 
     return 0;
 }</code></pre><p>W przypadku 2 tworzony jest obiekt tymczasowy do przechowywania wartości <code>5</code>, z którą wiąże się parametr funkcji  <code>ref</code> . Funkcja po prostu zwraca to odwołanie z powrotem do wywołującego, który następnie używa tego odniesienia do inicjalizacji <code>ref2</code>. Ponieważ nie jest to bezpośrednie powiązanie z obiektem tymczasowym (ponieważ odwołanie zostało odesłane przez funkcję), przedłużenie okresu istnienia nie ma zastosowania. Pozostawia to <code>ref2</code> zawieszone, a jego późniejsze użycie jest niezdefiniowanym zachowaniem.<div class="cpp-note cpp-lightredbackground"><p class="cpp-note-title cpp-bottomline">Ostrzeżenie<p>Wydłużanie czasu istnienia referencji nie działa ponad granicami funkcji.</div><p class="cpp-section cpp-topline" style=clear:both>Nie zwracaj innych niż stałe statycznych zmiennych lokalnych przez referencję<p>W oryginalnym przykładzie powyżej zwróciliśmy stałą statyczną zmienną lokalną przez referencję, aby w prosty sposób zilustrować mechanikę zwrotu przez referencję. Jednakże zwracanie niestałych statycznych zmiennych lokalnych przez odwołanie jest dość nieidiomatyczne i generalnie należy go unikać. Oto uproszczony przykład ilustrujący jeden z takich problemów, który może wystąpić: <pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -82,17 +82,17 @@ int main()
 
 const int&amp; getNextId()
 {
-    static int s_x{ 0 }; // note: variable is non-const
-    ++s_x; // generate the next id
-    return s_x; // and return a reference to it
+    static int s_x{ 0 }; // uwaga: zmienna nie jest stałą
+    ++s_x; // wygeneruj następny identyfikator
+    return s_x; // i zwrócić do niego odniesienie
 }
 
 int main()
 {
-    const int&amp; id1 { getNextId() }; // id1 is a reference
-    const int&amp; id2 { getNextId() }; // id2 is a reference
+    const int&amp; id1 { getNextId() }; // id1 jest referencją
+    const int&amp; id2 { getNextId() }; // id2 jest referencją
 
-    std::cout &lt;&lt; id1 &lt;&lt; id2 &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; id1 &lt;&lt; id2 &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Ten program wypisuje:<pre>22
@@ -136,44 +136,44 @@ const int&amp; getNextId()
 
 int main()
 {
-    const int id1 { getNextId() }; // id1 is a normal variable now and receives a copy of the value returned by reference from getNextId()
-    const int id2 { getNextId() }; // id2 is a normal variable now and receives a copy of the value returned by reference from getNextId()
+    const int id1 { getNextId() }; // id1 jest normalną zmienną teraz i otrzymuje kopię wartości zwróconej przez referencję z getNextId()
+    const int id2 { getNextId() }; // id2 jest teraz normalną zmienną i otrzymuje kopię wartości zwróconej przez referencję z getNextId()
 
-    std::cout &lt;&lt; id1 &lt;&lt; id2 &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; id1 &lt;&lt; id2 &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>W powyższym przykładzie <code>getNextId()</code> zwraca odniesienie, ale <code>id1</code> i <code>id2</code> są zmiennymi niebędącymi odniesieniem. W takim przypadku wartość zwróconej referencji jest kopiowana do normalnej zmiennej. Zatem ten program wypisuje:<pre>12
 </pre><p>Zauważ także, że jeśli program zwróci zawieszone odniesienie, odniesienie to pozostanie nieaktualne przed wykonaniem kopii, co doprowadzi do niezdefiniowanego zachowania:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;string&gt;
 
-const std::string&amp; getProgramName() // will return a const reference
+const std::string&amp; getProgramName() // zwróci stałą referencję
 {
-    const std::string programName{ &#34;Calculator&#34; };
+    const std::string programName{ "Calculator" };
 
     return programName;
 }
 
 int main()
 {
-    std::string name { getProgramName() }; // makes a copy of a dangling reference
-    std::cout &lt;&lt; &#34;This program is named &#34; &lt;&lt; name &lt;&lt; &#39;\n&#39;; // undefined behavior
+    std::string name { getProgramName() }; // tworzy kopię wiszącego reference
+    std::cout &lt;&lt; "This program is named " &lt;&lt; name &lt;&lt; '\n'; // undefined behavior
 
     return 0;
 }</code></pre><p class="cpp-section cpp-topline" style=clear:both>Można zwrócić parametry odniesienia przez odniesienie<p>Jest sporo przypadków, w których zwracanie obiektów przez odniesienie ma sens i z wieloma z nich spotkamy się w przyszłych lekcjach. Istnieje jednak jeden przydatny przykład, który możemy teraz pokazać.<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>Jeśli parametr jest przekazywany do funkcji przez referencję, można bezpiecznie zwrócić ten parametr przez referencję. Ma to sens: aby przekazać argument do funkcji, argument musi istnieć w zasięgu wywołującego. Kiedy wywoływana funkcja powraca, obiekt ten musi nadal istnieć w zasięgu wywołującego.<p>Oto prosty przykład takiej funkcji:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;string&gt;
 
-// Takes two std::string objects, returns the one that comes first alphabetically
+// Pobiera dwa obiekty std::string, zwraca alfabetycznie ten, który jest pierwszy
 const std::string&amp; firstAlphabetical(const std::string&amp; a, const std::string&amp; b)
 {
-	return (a &lt; b) ? a : b; // We can use operator&lt; on std::string to determine which comes first alphabetically
+	return (a &lt; b) ? a : b; // Możemy użyj operatora&lt; na std::string, aby określić, co jest pierwsze w kolejności alfabetycznej
 }
 
 int main()
 {
-	std::string hello { &#34;Hello&#34; };
-	std::string world { &#34;World&#34; };
+	std::string hello { "Hello" };
+	std::string world { "World" };
 
-	std::cout &lt;&lt; firstAlphabetical(hello, world) &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; firstAlphabetical(hello, world) &lt;&lt; '\n';
 
 	return 0;
 }</code></pre><p>Wypisuje:<pre>Hello
@@ -182,7 +182,7 @@ int main()
 
 std::string getHello()
 {
-    return &#34;Hello&#34;; // implicit conversion to std::string
+    return "Hello"; // ukryta konwersacja na std::string
 }
 
 int main()
@@ -192,7 +192,7 @@ int main()
     std::cout &lt;&lt; s;
     
     return 0;
-}</code></pre><p>W tym przypadku <code>getHello()</code> zwraca a <code>std::string</code> według wartości, która jest wartością. Ta wartość jest następnie używana do inicjalizacji <code>s</code>. Po inicjalizacji <code>s</code> wyrażenie, w którym utworzono rwartość, zostało zakończone, a rwartość zostaje zniszczona.<p>Przyjrzyjmy się teraz temu podobnemu przykładowi:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+}</code></pre><p>W tym przypadku <code>getHello()</code> zwraca <code>std::string</code> według wartości, która jest wartością. Ta wartość jest następnie używana do inicjalizacji <code>s</code>. Po inicjalizacji <code>s</code> wyrażenie, w którym utworzono rwartość, zostało zakończone, a rwartość zostaje zniszczona.<p>Przyjrzyjmy się teraz temu podobnemu przykładowi:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;string&gt;
 
 const std::string&amp; foo(const std::string&amp; s)
@@ -202,7 +202,7 @@ const std::string&amp; foo(const std::string&amp; s)
 
 std::string getHello()
 {
-    return &#34;Hello&#34;; // implicit conversion to std::string
+    return "Hello"; // ukryta konwersacja na std::string
 }
 
 int main()
@@ -214,7 +214,7 @@ int main()
     return 0;
 }</code></pre><p>Jedyna różnica w tym przypadku polega na tym, że rwartość jest przekazywana przez stałą referencję do <code>foo()</code> , a następnie zwracana przez stałą referencję z powrotem do obiektu wywołującego, zanim zostanie użyta zainicjuj <code>s</code>. Wszystko inne działa identycznie.<p>Podobny przypadek omawiamy na lekcji <a href="../access-functions/index.html">14.6 — Funkcje dostępu</a>.<p class="cpp-section cpp-topline" style=clear:both>Osoba wywołująca może modyfikować wartości poprzez referencję<p>Gdy argument jest przekazywany do funkcji przez odwołanie inne niż stałe, funkcja może użyć referencji do zmodyfikowania wartości argumentu.<p>Podobnie, gdy z funkcji zostanie zwrócone odwołanie inne niż stałe, osoba wywołująca może użyć referencji do zmodyfikowania wartości zwracany.<p>Oto ilustrujący przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-// takes two integers by non-const reference, and returns the greater by reference
+// pobiera dwie liczby całkowite przez odniesienie inne niż stałe i zwraca większą przez odniesienie
 int&amp; max(int&amp; x, int&amp; y)
 {
     return (x &gt; y) ? x : y;
@@ -225,9 +225,9 @@ int main()
     int a{ 5 };
     int b{ 6 };
 
-    max(a, b) = 7; // sets the greater of a or b to 7
+    max(a, b) = 7; // ustawia większą z a lub b na 7
 
-    std::cout &lt;&lt; a &lt;&lt; b &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; a &lt;&lt; b &lt;&lt; '\n';
         
     return 0;
 }</code></pre><p>W powyższym programie <code>max(a, b)</code> wywołuje funkcję <code>max()</code> z <code>a</code> i <code>b</code> jako argumentami. Parametr referencyjny <code>x</code>  wiąże się z argumentem <code>a</code>, a parametr referencyjny <code>y</code>  wiąże się z argumentem <code>b</code>. Funkcja następnie określa, który z <code>x</code> (<code>5</code>) i <code>y</code> (<code>6</code>) jest większy. W tym przypadku jest to <code>y</code>, zatem funkcja zwraca <code>y</code> (która nadal jest powiązana z  <code>b</code>) z powrotem do obiektu wywołującego. Następnie obiekt wywołujący przypisuje wartość <code>7</code> do zwróconego odniesienia.<p>Dlatego wyrażenie <code>max(a, b) = 7</code> w rzeczywistości przekształca się w <code>b = 7</code>.<p>Wypisuje:<pre>57

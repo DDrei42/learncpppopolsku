@@ -18,17 +18,17 @@
 void printIDNumber(const int *id=nullptr)
 {
     if (id)
-        std::cout &lt;&lt; &#34;Your ID number is &#34; &lt;&lt; *id &lt;&lt; &#34;.\n&#34;;
+        std::cout &lt;&lt; "Your ID number is " &lt;&lt; *id &lt;&lt; ".\n";
     else
-        std::cout &lt;&lt; &#34;Your ID number is not known.\n&#34;;
+        std::cout &lt;&lt; "Your ID number is not known.\n";
 }
 
 int main()
 {
-    printIDNumber(); // we don&#39;t know the user&#39;s ID yet
+    printIDNumber(); // nie znamy jeszcze ID użytkownika
 
     int userid { 34 };
-    printIDNumber(&amp;userid); // we know the user&#39;s ID now
+    printIDNumber(&amp;userid); // znamy już identyfikator użytkownika
 
     return 0;
 }</code></pre><p>Ten przykład wyświetla:<pre>Your ID number is not known.
@@ -37,76 +37,76 @@ Your ID number is 34.
 
 void printIDNumber()
 {
-    std::cout &lt;&lt; &#34;Your ID is not known\n&#34;;
+    std::cout &lt;&lt; "Your ID is not known\n";
 }
 
 void printIDNumber(int id)
 {
-    std::cout &lt;&lt; &#34;Your ID is &#34; &lt;&lt; id &lt;&lt; &#34;\n&#34;;
+    std::cout &lt;&lt; "Your ID is " &lt;&lt; id &lt;&lt; "\n";
 }
 
 int main()
 {
-    printIDNumber(); // we don&#39;t know the user&#39;s ID yet
+    printIDNumber(); // nie znamy jeszcze ID użytkownika
 
     int userid { 34 };
-    printIDNumber(userid); // we know the user is 34
+    printIDNumber(userid); // wiemy, że użytkownik jest 34
 
-    printIDNumber(62); // now also works with rvalue arguments
+    printIDNumber(62); // teraz działa także z argumentami rvalue
     
     return 0;
 }</code></pre><p>Ma to wiele zalet: nie musimy się już martwić o dereferencje zerowe i możemy przekazywać literały lub inne rwartości jako argument.<p class="cpp-section cpp-topline" style=clear:both>Zmiana tego, na co wskazuje parametr wskaźnika<p>Kiedy przekazujemy adres do funkcji, adres ten jest kopiowany z argumentu do parametru wskaźnika (co jest w porządku, ponieważ kopiowanie adresu jest szybkie). Rozważmy teraz następujący program:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-// [[maybe_unused]] gets rid of compiler warnings about ptr2 being set but not used
+// [[maybe_unused]] eliminuje ostrzeżenia kompilatora o ustawieniu ptr2, ale nieużywanym
 void nullify([[maybe_unused]] int* ptr2) 
 {
-    ptr2 = nullptr; // Make the function parameter a null pointer
+    ptr2 = nullptr; // Ustaw parametr funkcji jako wskaźnik zerowy
 }
 
 int main()
 {
     int x{ 5 };
-    int* ptr{ &amp;x }; // ptr points to x
+    int* ptr{ &amp;x }; // ptr wskazuje na x
 
-    std::cout &lt;&lt; &#34;ptr is &#34; &lt;&lt; (ptr ? &#34;non-null\n&#34; : &#34;null\n&#34;);
+    std::cout &lt;&lt; "ptr is " &lt;&lt; (ptr ? "non-null\n" : "null\n");
 
     nullify(ptr);
 
-    std::cout &lt;&lt; &#34;ptr is &#34; &lt;&lt; (ptr ? &#34;non-null\n&#34; : &#34;null\n&#34;);
+    std::cout &lt;&lt; "ptr is " &lt;&lt; (ptr ? "non-null\n" : "null\n");
     return 0;
 }</code></pre><p>Ten program wypisuje:<pre>ptr is non-null
 ptr is non-null
 </pre><p>Jak widać zmiana adresu utrzymywanego przez parametr wskaźnika nie miała wpływu na adres utrzymywany w argumencie (<code>ptr</code> nadal wskazuje  <code>x</code>). Gdy funkcja <code>nullify()</code>  <code>ptr2</code> otrzymuje kopię przekazanego adresu (w tym przypadku adresu posiadanego przez  <code>ptr</code>, czyli adresu <code>x</code>). Kiedy funkcja zmienia to, na co <code>ptr2</code> wskazuje, wpływa to tylko na kopię przechowywaną przez <code>ptr2</code>.<p>A co jeśli chcemy pozwolić funkcji na zmianę tego, na co wskazuje argument wskaźnika?<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Przekazywanie adresu… przez odniesienie?<p>Tak, to jest coś. Podobnie jak możemy przekazać zwykłą zmienną przez referencję, możemy również przekazywać wskaźniki przez referencję. Oto ten sam program co powyżej, z <code>ptr2</code> zmienionym tak, aby był referencją do adresu:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-void nullify(int*&amp; refptr) // refptr is now a reference to a pointer
+void nullify(int*&amp; refptr) // refptr jest teraz referencją do a wskaźnik
 {
-    refptr = nullptr; // Make the function parameter a null pointer
+    refptr = nullptr; // Ustaw parametr funkcji jako wskaźnik zerowy
 }
 
 int main()
 {
     int x{ 5 };
-    int* ptr{ &amp;x }; // ptr points to x
+    int* ptr{ &amp;x }; // ptr wskazuje na x
 
-    std::cout &lt;&lt; &#34;ptr is &#34; &lt;&lt; (ptr ? &#34;non-null\n&#34; : &#34;null\n&#34;);
+    std::cout &lt;&lt; "ptr is " &lt;&lt; (ptr ? "non-null\n" : "null\n");
 
     nullify(ptr);
 
-    std::cout &lt;&lt; &#34;ptr is &#34; &lt;&lt; (ptr ? &#34;non-null\n&#34; : &#34;null\n&#34;);
+    std::cout &lt;&lt; "ptr is " &lt;&lt; (ptr ? "non-null\n" : "null\n");
     return 0;
 }</code></pre><p>Ten program wypisuje:<pre>ptr is non-null
 ptr is null
 </pre><p>Ponieważ <code>refptr</code> jest teraz referencją do wskaźnika, gdy  <code>ptr</code> jest przekazywany jako argument, <code>refptr</code> jest związany do <code>ptr</code>. Oznacza to, że wszelkie zmiany w <code>refptr</code> są wprowadzane w <code>ptr</code>.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Na marginesie…<p>Ponieważ odniesienia do wskaźników są dość rzadkie, łatwo może być pomieszanie składni (czy jest to <code>int*&</code> lub <code>int&*</code>?). Dobra wiadomość jest taka, że ​​jeśli zrobisz to od tyłu, kompilator popełni błąd, ponieważ nie możesz mieć wskaźnika do referencji (ponieważ wskaźniki muszą przechowywać adres obiektu, a referencje nie są obiektami). Następnie możesz to zmienić.</div><p class="cpp-section cpp-topline" style=clear:both>Dlaczego używanie <code>0</code> lub <code>NULL</code> nie jest już preferowane (opcjonalne)<p>W tym podrozdziale wyjaśnimy, dlaczego używanie <code>0</code> lub <code>NULL</code> nie jest już preferowane.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>Literał <code>0</code> można interpretować albo jako literał całkowity, albo jako literał wskaźnika zerowego. W niektórych przypadkach może być niejednoznaczne, które z nich zamierzamy - i w niektórych z tych przypadków kompilator może założyć, że mamy na myśli jedno, mając na myśli drugie - z niezamierzonymi konsekwencjami dla zachowania naszego programu.<p>Definicja makra preprocesora <code>NULL</code> nie jest zdefiniowana w standardzie językowym. Można ją zdefiniować jako <code>0</code>, <code>0L</code>, <code>((void*)0)</code> lub coś zupełnie innego.<p>W lekcji <a href="../introduction-to-function-overloading/index.html">11.1 -- Wprowadzenie do funkcji przeciążenie</a>, omawialiśmy, że funkcje mogą być przeciążane (wiele funkcji może mieć tę samą nazwę, o ile można je rozróżnić liczbą lub rodzajem parametrów). Kompilator może dowiedzieć się, jakiej przeciążonej funkcji potrzebujesz na podstawie argumentów przekazanych w ramach wywołania funkcji.<p>Podczas używania <code>0</code> lub <code>NULL</code>, może to powodować problemy:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
-#include &lt;cstddef&gt; // for NULL
+#include &lt;cstddef&gt; // dla NULL
 
-void print(int x) // this function accepts an integer
+void print(int x) // ta funkcja akceptuje liczbę całkowitą
 {
-	std::cout &lt;&lt; &#34;print(int): &#34; &lt;&lt; x &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; "print(int): " &lt;&lt; x &lt;&lt; '\n';
 }
 
-void print(int* ptr) // this function accepts an integer pointer
+void print(int* ptr) // ta funkcja akceptuje wskaźnik liczby całkowitej
 {
-	std::cout &lt;&lt; &#34;print(int*): &#34; &lt;&lt; (ptr ? &#34;non-null\n&#34; : &#34;null\n&#34;);
+	std::cout &lt;&lt; "print(int*): " &lt;&lt; (ptr ? "non-null\n" : "null\n");
 }
 
 int main()
@@ -114,15 +114,15 @@ int main()
 	int x{ 5 };
 	int* ptr{ &amp;x };
 
-	print(ptr);  // always calls print(int*) because ptr has type int* (good)
-	print(0);    // always calls print(int) because 0 is an integer literal (hopefully this is what we expected)
+	print(ptr);  // zawsze wywołuje print(int*), ponieważ ptr ma typ int* (dobrze)
+	print(0);    // zawsze wywołuje print(int), ponieważ 0 jest literał całkowity (miejmy nadzieję, że tego się spodziewaliśmy)
 
-	print(NULL); // this statement could do any of the following:
-	// call print(int) (Visual Studio does this)
-	// call print(int*)
-	// result in an ambiguous function call compilation error (gcc and Clang do this)
+	print(NULL); // ta instrukcja może wykonać dowolną z następujących czynności:
+	// wywołaj print(int) (Visual Studio to robi)
+	// wywołaj print(int*)
+	// powoduje niejednoznaczny błąd kompilacji wywołania funkcji (robią to gcc i Clang)
 
-	print(nullptr); // always calls print(int*)
+	print(nullptr); // zawsze wywołuje print(int*)
 
 	return 0;
 }</code></pre><p>Na maszynie autora (przy użyciu Visual Studio) zostanie wypisane:<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><pre>print(int*): non-null
@@ -130,32 +130,32 @@ print(int): 0
 print(int): 0
 print(int*): null
 </pre><p>Podczas przekazywania wartości całkowitej <code>0</code> jako parametru kompilator preferuje  <code>print(int)</code> za  <code>print(int*)</code>. Może to prowadzić do nieoczekiwanych rezultatów, gdy zamierzyliśmy <code>print(int*)</code> wywoływany z argumentem wskaźnika zerowego.<p>W przypadku, gdy <code>NULL</code> jest zdefiniowany jako wartość <code>0</code>, <code>print(NULL)</code> wywoła również <code>print(int)</code>, nie <code>print(int*)</code> jak można się spodziewać w przypadku literału wskaźnika zerowego. W przypadkach, gdy  <code>NULL</code> nie jest zdefiniowany jako <code>0</code>, może nastąpić inne zachowanie, takie jak wywołanie <code>print(int*)</code> lub błąd kompilacji.<p>Użycie <code>nullptr</code> usuwa tę niejednoznaczność (zawsze będzie wywoływać <code>print(int*)</code>), ponieważ <code>nullptr</code> będzie pasować tylko do typu wskaźnika.<p class="cpp-section cpp-topline" style=clear:both>std::nullptr_t (opcjonalnie)<p>Ponieważ <code>nullptr</code> można odróżnić od wartości całkowitych w przeciążeniach funkcji, musi mieć inny typ. Jaki więc jest typ <code>nullptr</code>? Odpowiedź jest taka, że <code>nullptr</code> ma typ <code>std::nullptr_t</code> (zdefiniowane w nagłówku &lt;cstddef&gt;). <code>std::nullptr_t</code> może zawierać tylko jedną wartość: <code>nullptr</code>! Choć może się to wydawać trochę głupie, jest przydatne w jednej sytuacji. Jeśli chcemy napisać funkcję, która akceptuje tylko argument  <code>nullptr</code> literalny, możemy ustawić parametr jako <code>std::nullptr_t</code>.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
-#include &lt;cstddef&gt; // for std::nullptr_t
+#include &lt;cstddef&gt; // dla std::nullptr_t
 
 void print(std::nullptr_t)
 {
-    std::cout &lt;&lt; &#34;in print(std::nullptr_t)\n&#34;;
+    std::cout &lt;&lt; "in print(std::nullptr_t)\n";
 }
 
 void print(int*)
 {
-    std::cout &lt;&lt; &#34;in print(int*)\n&#34;;
+    std::cout &lt;&lt; "in print(int*)\n";
 }
 
 int main()
 {
-    print(nullptr); // calls print(std::nullptr_t)
+    print(nullptr); // wywołuje print(std::nullptr_t)
 
     int x { 5 };
     int* ptr { &amp;x };
 
-    print(ptr); // calls print(int*)
+    print(ptr); // wywołuje print(int*)
 
     ptr = nullptr;
-    print(ptr); // calls print(int*) (since ptr has type int*)
+    print(ptr); // wywołuje print(int*) (ponieważ ptr ma typ int*)
 
     return 0;
-}</code></pre><p>W powyższym przykładzie wywołanie funkcji <code>print(nullptr)</code> rozwiązuje funkcję <code>print(std::nullptr_t)</code> za  <code>print(int*)</code> , ponieważ nie wymaga konwersji.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p>Jedynym przypadkiem, który może być nieco mylący, jest wywołanie funkcji  <code>print(ptr)</code> gdy <code>ptr</code>  wartość <code>nullptr</code>. Pamiętaj, że przeciążanie funkcji dopasowuje typy, a nie wartości i  <code>ptr</code> ma typ <code>int*</code>. Dlatego  <code>print(int*)</code> zostanie dopasowane. <code>print(std::nullptr_t)</code> w tym przypadku nie jest nawet brane pod uwagę, ponieważ typy wskaźników nie zostaną domyślnie przekonwertowane na a <code>std::nullptr_t</code>.<p>Prawdopodobnie nigdy nie będziesz musiał tego używać, ale dobrze jest wiedzieć na wszelki wypadek.<p class="cpp-section cpp-topline" style=clear:both>Jest tylko przekazywanie wartości<p>Teraz jeśli rozumiesz podstawowe różnice pomiędzy przekazywaniem przez referencję, adres i wartość, przejdźmy na chwilę do redukcjonizmu. :)<p>Chociaż kompilator często może całkowicie zoptymalizować odniesienia, istnieją przypadki, w których nie jest to możliwe i faktycznie potrzebne jest odniesienie. Odniesienia są zwykle implementowane przez kompilator za pomocą wskaźników. Oznacza to, że w tle przekazywanie przez referencję to w zasadzie tylko przekazywanie adresu.<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>W poprzedniej lekcji wspomnieliśmy, że przekazywanie adresu po prostu kopiuje adres od osoby wywołującej do wywoływanej funkcji - co oznacza po prostu przekazywanie adresu przez wartość.<p>Możemy zatem stwierdzić, że C++ naprawdę przekazuje wszystko według wartości! Właściwości przekazywania adresu (i odniesienia) wynikają wyłącznie z faktu, że możemy wyłuskać przekazany adres, aby zmienić argument, czego nie możemy zrobić w przypadku parametru o normalnej wartości!<div class=prevnext><div class=prevnext-inline><a class=nav-link href="../return-by-reference-and-return-by-address/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>12.12</span>Zwróć przez referencję i zwróć przez adres</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../pass-by-address/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>12.10</span>Przekazywanie przez adres</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/pass-by-address-part-2/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../value-categories-lvalues-and-rvalues/index.html" rel=prev><span>12.2 — Kategorie wartości (lwartości i rwartości)</span></a></div><div class=nav-next><em>Następny post</em><a href="../introduction-to-program-defined-user-defined-types/index.html" rel=next><span>13.1 -- Wprowadzenie do typów zdefiniowanych przez program (zdefiniowanych przez użytkownika)</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>
+}</code></pre><p>W powyższym przykładzie wywołanie funkcji <code>print(nullptr)</code> rozwiązuje funkcję <code>print(std::nullptr_t)</code> za  <code>print(int*)</code> , ponieważ nie wymaga konwersji.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p>Jedynym przypadkiem, który może być nieco mylący, jest wywołanie funkcji  <code>print(ptr)</code> gdy <code>ptr</code>  wartość <code>nullptr</code>. Pamiętaj, że przeciążanie funkcji dopasowuje typy, a nie wartości i  <code>ptr</code> ma typ <code>int*</code>. Dlatego  <code>print(int*)</code> zostanie dopasowane. <code>print(std::nullptr_t)</code> w tym przypadku nie jest nawet brane pod uwagę, ponieważ typy wskaźników nie zostaną domyślnie przekonwertowane na <code>std::nullptr_t</code>.<p>Prawdopodobnie nigdy nie będziesz musiał tego używać, ale dobrze jest wiedzieć na wszelki wypadek.<p class="cpp-section cpp-topline" style=clear:both>Jest tylko przekazywanie wartości<p>Teraz jeśli rozumiesz podstawowe różnice pomiędzy przekazywaniem przez referencję, adres i wartość, przejdźmy na chwilę do redukcjonizmu. :)<p>Chociaż kompilator często może całkowicie zoptymalizować odniesienia, istnieją przypadki, w których nie jest to możliwe i faktycznie potrzebne jest odniesienie. Odniesienia są zwykle implementowane przez kompilator za pomocą wskaźników. Oznacza to, że w tle przekazywanie przez referencję to w zasadzie tylko przekazywanie adresu.<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>W poprzedniej lekcji wspomnieliśmy, że przekazywanie adresu po prostu kopiuje adres od osoby wywołującej do wywoływanej funkcji - co oznacza po prostu przekazywanie adresu przez wartość.<p>Możemy zatem stwierdzić, że C++ naprawdę przekazuje wszystko według wartości! Właściwości przekazywania adresu (i odniesienia) wynikają wyłącznie z faktu, że możemy wyłuskać przekazany adres, aby zmienić argument, czego nie możemy zrobić w przypadku parametru o normalnej wartości!<div class=prevnext><div class=prevnext-inline><a class=nav-link href="../return-by-reference-and-return-by-address/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>12.12</span>Zwróć przez referencję i zwróć przez adres</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../pass-by-address/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>12.10</span>Przekazywanie przez adres</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/pass-by-address-part-2/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../value-categories-lvalues-and-rvalues/index.html" rel=prev><span>12.2 — Kategorie wartości (lwartości i rwartości)</span></a></div><div class=nav-next><em>Następny post</em><a href="../introduction-to-program-defined-user-defined-types/index.html" rel=next><span>13.1 -- Wprowadzenie do typów zdefiniowanych przez program (zdefiniowanych przez użytkownika)</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>
 <textarea id=wc-textarea-0_0 placeholder="Zostaw komentarz..." aria-label="Zostaw komentarz..." required name=wc_comment class="wc_comment wpd-field"></textarea></div><div class=wpd-editor-buttons-right></div></div></div></div><div class=wpd-form-foot><div class=wpdiscuz-textarea-foot><div class=wpdiscuz-button-actions></div></div><div class=wpd-form-row><div class=wpd-form-col-left><div class="wpdiscuz-item wc_name-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-user"></i></div><input id=wc_name-0_0 required aria-required=true class="wc_name wpd-field" name=wc_name placeholder=Imię* maxlength=50 pattern=.{3,50}>
 <label for=wc_name-0_0 class=wpdlb>Imię*</label></div><div class="wpdiscuz-item wc_email-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-at"></i></div><input id=wc_email-0_0 required aria-required=true class="wc_email wpd-field" type=email name=wc_email placeholder=E-mail*>
 <label for=wc_email-0_0 class=wpdlb>E-mail*</label><div class=wpd-field-desc><i class="far fa-question-circle"></i><span>Twój adres e-mail nie zostanie wyświetlony</span></div></div><div class=cpp_correction_div style=padding-bottom:4px><div class=wpd-field-icon style=display:inline-block;width:20px><i style=opacity:.6 class="fas fa-regular fa-bug"></i></div>Znalazłeś błąd? Zostaw komentarz powyżej!<div class=wpd-field-desc><i class="far fa-question-circle"></i><span>Komentarze związane z poprawkami zostaną usunięte po przetworzeniu, aby pomóc zmniejszyć bałagan. Dziękujemy za pomoc w ulepszaniu witryny dla wszystkich!</span></div></div><div class=cpp_avatar_div style=padding-bottom:4px><div class=wpd-field-icon style=display:inline-block;width:20px><i style=opacity:.6 class="fas fa-user"></i></div>Awatary z <a target=_blank rel="noopener noreferrer" href=https://gravatar.com/>https://gravatar.com/</a> są połączone z podanym adresem e-mail.</div></div><div class=wpd-form-col-right><div class=wc-field-submit><span style=margin-top:6px>Powiadamiaj mnie o odpowiedziach:  </span>

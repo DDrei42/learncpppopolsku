@@ -18,17 +18,17 @@
 class Base
 {
 public:
-    std::string_view sayHi() const { return &#34;Hi&#34;; } // a normal non-virtual function    
+    std::string_view sayHi() const { return "Hi"; } // normalna funkcja niewirtualna    
 
-    virtual std::string_view getName() const { return &#34;Base&#34;; } // a normal virtual function
+    virtual std::string_view getName() const { return "Base"; } // normalna funkcja wirtualna
 
-    virtual int getValue() const = 0; // a pure virtual function
+    virtual int getValue() const = 0; // czysta funkcja wirtualna
 
-    int doSomething() = 0; // Compile error: can not set non-virtual functions to 0
+    int doSomething() = 0; // Błąd kompilacji: nie można ustawić funkcji niewirtualnych na 0
 };</code></pre><p>Kiedy dodajemy do naszej klasy czysto wirtualną funkcję, w praktyce mówimy: „Zaimplementowanie tej funkcji należy do klas pochodnych”.<p>Używanie czystej funkcji wirtualnej ma dwie główne konsekwencje: Po pierwsze, wszelkie klasa z jedną lub większą liczbą czystych funkcji wirtualnych staje się <strong>abstrakcyjną klasą bazową</strong>, co oznacza, że nie można jej utworzyć! Zastanów się, co by się stało, gdybyśmy mogli utworzyć instancję Base:<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
-    Base base {}; // We can&#39;t instantiate an abstract base class, but for the sake of example, pretend this was allowed
-    base.getValue(); // what would this do?
+    Base base {}; // Nie możemy utwórz instancję abstrakcyjnej klasy bazowej, ale dla przykładu udawaj, że jest to dozwolone
+    base.getValue(); // co by to dało?
 
     return 0;
 }</code></pre><p>Ponieważ nie ma definicji getValue(), do czego rozwiązałaby się base.getValue()?<p>Po drugie, każda klasa pochodna musi definiować treść tej funkcji, w przeciwnym razie ta klasa pochodna również będzie uważana za abstrakcyjną klasę bazową.<p><strong>Przykład czystej funkcji wirtualnej</strong><p>Przyjrzyjmy się na przykładzie czystej funkcji wirtualnej w działaniu. W poprzedniej lekcji napisaliśmy prostą klasę bazową Animal i wyprowadziliśmy z niej klasę Cat i Dog. Oto kod w takiej postaci, w jakiej go zostawiliśmy:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;string&gt;
@@ -39,9 +39,9 @@ class Animal
 protected:
     std::string m_name {};
 
-    // We&#39;re making this constructor protected because
-    // we don&#39;t want people creating Animal objects directly,
-    // but we still want derived classes to be able to use it.
+    // Chronimy ten konstruktor, ponieważ
+    // nie chcemy, aby ludzie tworzyli bezpośrednio obiekty Animal,
+    // ale nadal chcemy, aby klasy pochodne mogły z niego korzystać.
     Animal(std::string_view name)
         : m_name{ name }
     {
@@ -49,7 +49,7 @@ protected:
 
 public:
     const std::string&amp; getName() const { return m_name; }
-    virtual std::string_view speak() const { return &#34;???&#34;; }
+    virtual std::string_view speak() const { return "???"; }
     
     virtual ~Animal() = default;
 };
@@ -62,7 +62,7 @@ public:
     {
     }
 
-    std::string_view speak() const override { return &#34;Meow&#34;; }
+    std::string_view speak() const override { return "Meow"; }
 };
 
 class Dog: public Animal
@@ -73,7 +73,7 @@ public:
     {
     }
 
-    std::string_view speak() const override { return &#34;Woof&#34;; }
+    std::string_view speak() const override { return "Woof"; }
 };</code></pre><p>Uniemożliwiliśmy ludziom przydzielanie obiektów typu Animal, chroniąc konstruktor. Jednak nadal możliwe jest tworzenie klas pochodnych, które nie definiują na nowo funkcji mówi().<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;string&gt;
 #include &lt;string_view&gt;
@@ -83,9 +83,9 @@ class Animal
 protected:
     std::string m_name {};
 
-    // We&#39;re making this constructor protected because
-    // we don&#39;t want people creating Animal objects directly,
-    // but we still want derived classes to be able to use it.
+    // Chronimy ten konstruktor, ponieważ
+    // nie chcemy, aby ludzie tworzyli bezpośrednio obiekty Animal,
+    // ale nadal chcemy, aby klasy pochodne mogły z niego korzystać.
     Animal(std::string_view name)
         : m_name{ name }
     {
@@ -93,7 +93,7 @@ protected:
 
 public:
     const std::string&amp; getName() const { return m_name; }
-    virtual std::string_view speak() const { return &#34;???&#34;; }
+    virtual std::string_view speak() const { return "???"; }
     
     virtual ~Animal() = default;
 };
@@ -106,20 +106,20 @@ public:
     {
     }
 
-    // We forgot to redefine speak
+    // Zapomnieliśmy przedefiniować mówić
 };
 
 int main()
 {
-    Cow cow{&#34;Betsy&#34;};
-    std::cout &lt;&lt; cow.getName() &lt;&lt; &#34; says &#34; &lt;&lt; cow.speak() &lt;&lt; &#39;\n&#39;;
+    Cow cow{"Betsy"};
+    std::cout &lt;&lt; cow.getName() &lt;&lt; " says " &lt;&lt; cow.speak() &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Wyświetli to:<pre>Betsy says ???
 </pre><p>Co się stało? Zapomnieliśmy przedefiniować funkcję mówić(), więc cow.Speak() została zmieniona na Animal.speak(), a nie o to nam chodziło.<p>Lepszym rozwiązaniem tego problemu jest użycie czysto wirtualnej funkcji:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;string&gt;
 #include &lt;string_view&gt;
 
-class Animal // This Animal is an abstract base class
+class Animal // To zwierzę jest abstrakcyjną bazą klasa
 {
 protected:
     std::string m_name {};
@@ -131,14 +131,14 @@ public:
     }
 
     const std::string&amp; getName() const { return m_name; }
-    virtual std::string_view speak() const = 0; // note that speak is now a pure virtual function
+    virtual std::string_view speak() const = 0; // zauważ, że mówienie jest teraz czysto wirtualną funkcją
     
     virtual ~Animal() = default;
 };</code></pre><p>Jest tu kilka rzeczy, na które warto zwrócić uwagę. Po pierwsze,peak() jest teraz funkcją czysto wirtualną. Oznacza to, że Animal jest teraz abstrakcyjną klasą bazową i nie można utworzyć jej instancji. W rezultacie nie musimy już chronić konstruktora (choć nie zaszkodzi). Po drugie, ponieważ nasza klasa Cow wywodzi się z klasy Animal, ale nie zdefiniowaliśmy Cow::speak(), Cow jest również abstrakcyjną klasą bazową. Teraz, gdy spróbujemy skompilować ten kod:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;string&gt;
 #include &lt;string_view&gt;
 
-class Animal // This Animal is an abstract base class
+class Animal // To zwierzę jest abstrakcyjną bazą klasa
 {
 protected:
     std::string m_name {};
@@ -150,7 +150,7 @@ public:
     }
 
     const std::string&amp; getName() const { return m_name; }
-    virtual std::string_view speak() const = 0; // note that speak is now a pure virtual function
+    virtual std::string_view speak() const = 0; // zauważ, że mówienie jest teraz czysto wirtualną funkcją
     
     virtual ~Animal() = default;
 };
@@ -163,13 +163,13 @@ public:
     {
     }
 
-    // We forgot to redefine speak
+    // Zapomnieliśmy przedefiniować mówić
 };
 
 int main()
 {
-    Cow cow{ &#34;Betsy&#34; };
-    std::cout &lt;&lt; cow.getName() &lt;&lt; &#34; says &#34; &lt;&lt; cow.speak() &lt;&lt; &#39;\n&#39;;
+    Cow cow{ "Betsy" };
+    std::cout &lt;&lt; cow.getName() &lt;&lt; " says " &lt;&lt; cow.speak() &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Kompilator zwróci nam błąd, ponieważ Cow jest abstrakcyjną klasą bazową i nie możemy utworzyć instancji abstrakcyjnych klas bazowych:<pre>prog.cc:35:9: error: variable type &#39;Cow&#39; is an abstract class
@@ -182,7 +182,7 @@ prog.cc:17:30: note: unimplemented pure virtual method &#39;speak&#39; in &#39;C
 #include &lt;string&gt;
 #include &lt;string_view&gt;
 
-class Animal // This Animal is an abstract base class
+class Animal // To zwierzę jest abstrakcyjną bazą klasa
 {
 protected:
     std::string m_name {};
@@ -194,7 +194,7 @@ public:
     }
 
     const std::string&amp; getName() const { return m_name; }
-    virtual std::string_view speak() const = 0; // note that speak is now a pure virtual function
+    virtual std::string_view speak() const = 0; // zauważ, że mówienie jest teraz czysto wirtualną funkcją
     
     virtual ~Animal() = default;
 };
@@ -207,28 +207,28 @@ public:
     {
     }
 
-    std::string_view speak() const override { return &#34;Moo&#34;; }
+    std::string_view speak() const override { return "Moo"; }
 };
 
 int main()
 {
-    Cow cow{ &#34;Betsy&#34; };
-    std::cout &lt;&lt; cow.getName() &lt;&lt; &#34; says &#34; &lt;&lt; cow.speak() &lt;&lt; &#39;\n&#39;;
+    Cow cow{ "Betsy" };
+    std::cout &lt;&lt; cow.getName() &lt;&lt; " says " &lt;&lt; cow.speak() &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Teraz program się skompiluje i print:<pre>Betsy says Moo
 </pre><p>Czysta funkcja wirtualna przydaje się, gdy mamy funkcję, którą chcemy umieścić w klasie bazowej, ale tylko klasy pochodne wiedzą, co powinna zwrócić. Czysta funkcja wirtualna sprawia, że ​​nie można utworzyć instancji klasy bazowej, a klasy pochodne są zmuszone do zdefiniowania tych funkcji, zanim będzie można je utworzyć. Pomaga to zapewnić, że klasy pochodne nie zapomną o przedefiniowaniu funkcji, których oczekiwała od nich klasa bazowa.<p>Podobnie jak w przypadku normalnych funkcji wirtualnych, czyste funkcje wirtualne można wywoływać za pomocą referencji (lub wskaźnika) do klasy bazowej:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
-    Cow cow{ &#34;Betsy&#34; };
+    Cow cow{ "Betsy" };
     Animal&amp; a{ cow };
 
-    std::cout &lt;&lt; a.speak(); // resolves to Cow::speak(), prints &#34;Moo&#34;
+    std::cout &lt;&lt; a.speak(); // przekształca się w Cow::speak(), wypisuje "Moo"
 
     return 0;
 }</code></pre><p>W powyższym przykładzie <code>a.speak()</code> rozwiązuje się do <code>Cow::speak()</code> poprzez rozpoznawanie funkcji wirtualnych.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Przypomnienie<p>Każda klasa z funkcjami czysto wirtualnymi powinna również mieć wirtualny destruktor.</div><p><strong>Funkcje czysto wirtualne z definicje</strong><p>Okazuje się, że możemy stworzyć funkcje czysto wirtualne posiadające definicje:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;string&gt;
 #include &lt;string_view&gt;
 
-class Animal // This Animal is an abstract base class
+class Animal // To zwierzę jest abstrakcyjną bazą klasa
 {
 protected:
     std::string m_name {};
@@ -240,14 +240,14 @@ public:
     }
 
     const std::string&amp; getName() { return m_name; }
-    virtual std::string_view speak() const = 0; // The = 0 means this function is pure virtual
+    virtual std::string_view speak() const = 0; // = 0 oznacza tę funkcję jest czysto wirtualny
     
     virtual ~Animal() = default;
 };
 
-std::string_view Animal::speak() const  // even though it has a definition
+std::string_view Animal::speak() const  // nawet jeśli ma definicję
 {
-    return &#34;buzz&#34;;
+    return "buzz";
 }</code></pre><p>W tym przypadku funkcjapeak() jest nadal uważana za funkcję czysto wirtualną ze względu na „= 0” (mimo że podano jej definicję), a Animal jest nadal uważana za abstrakcyjną klasę bazową (i dlatego nie można jej utworzyć). Każda klasa, która dziedziczy po Animal, musi podać własną definicję funkcjipeak(), w przeciwnym razie będzie również uważana za abstrakcyjną klasę bazową.<p>Podając definicję czystej funkcji wirtualnej, definicję należy podać osobno (nie wbudowaną).<div class="cpp-note cpp-lightyellowbackground"><p class="cpp-note-title cpp-bottomline">W przypadku użytkowników programu Visual Studio<p>Visual Studio pozwala, aby deklaracje funkcji czysto wirtualnych były definicjami, na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">virtual std::string_view speak() const = 0
 {
   return &#34;buzz&#34;;
@@ -255,7 +255,7 @@ std::string_view Animal::speak() const  // even though it has a definition
 #include &lt;string&gt;
 #include &lt;string_view&gt;
 
-class Animal // This Animal is an abstract base class
+class Animal // To zwierzę jest abstrakcyjną bazą klasa
 {
 protected:
     std::string m_name {};
@@ -267,14 +267,14 @@ public:
     }
 
     const std::string&amp; getName() const { return m_name; }
-    virtual std::string_view speak() const = 0; // note that speak is a pure virtual function
+    virtual std::string_view speak() const = 0; // zauważ, że mówienie jest czysto wirtualną funkcją
     
     virtual ~Animal() = default;
 };
 
 std::string_view Animal::speak() const
 {
-    return &#34;buzz&#34;; // some default implementation
+    return "buzz"; // jakaś domyślna implementacja
 }
 
 class Dragonfly: public Animal
@@ -286,20 +286,20 @@ public:
     {
     }
 
-    std::string_view speak() const override// this class is no longer abstract because we defined this function
+    std::string_view speak() const override// ta klasa nie jest już abstrakcyjna, ponieważ zdefiniowaliśmy tę funkcję
     {
-        return Animal::speak(); // use Animal&#39;s default implementation
+        return Animal::speak(); // użyj domyślnej implementacji Animala
     }
 };
 
 int main()
 {
-    Dragonfly dfly{&#34;Sally&#34;};
-    std::cout &lt;&lt; dfly.getName() &lt;&lt; &#34; says &#34; &lt;&lt; dfly.speak() &lt;&lt; &#39;\n&#39;;
+    Dragonfly dfly{"Sally"};
+    std::cout &lt;&lt; dfly.getName() &lt;&lt; " says " &lt;&lt; dfly.speak() &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Powyższy kod wypisuje:<pre>Sally says buzz
-</pre><p>Ta możliwość nie jest używana zbyt często.<p>Destruktor może być czysto wirtualny, ale musi mieć podaną definicję, aby można go było wywołać, gdy obiekt pochodny ulegnie zniszczeniu.<p><strong>Klasy interfejsu</strong><p>An <strong>klasa interfejsu</strong> to klasa, która nie ma zmiennych składowych, oraz gdzie <em>uniknąć</em> funkcje są czysto wirtualne! Interfejsy są przydatne, gdy chcesz zdefiniować funkcjonalność, którą klasy pochodne muszą implementować, ale szczegóły dotyczące sposobu, w jaki klasa pochodna implementuje tę funkcjonalność, pozostawiaj całkowicie klasie pochodnej.<p>Nazwy klas interfejsów często zaczynają się od litery I. Oto przykładowa klasa interfejsu:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;string_view&gt;
+</pre><p>Ta możliwość nie jest używana zbyt często.<p>Destruktor może być czysto wirtualny, ale musi mieć podaną definicję, aby można go było wywołać, gdy obiekt pochodny ulegnie zniszczeniu.<p><strong>Klasy interfejsu</strong><p><strong>klasa interfejsu</strong> to klasa, która nie ma zmiennych składowych, oraz gdzie <em>uniknąć</em> funkcje są czysto wirtualne! Interfejsy są przydatne, gdy chcesz zdefiniować funkcjonalność, którą klasy pochodne muszą implementować, ale szczegóły dotyczące sposobu, w jaki klasa pochodna implementuje tę funkcjonalność, pozostawiaj całkowicie klasie pochodnej.<p>Nazwy klas interfejsów często zaczynają się od litery I. Oto przykładowa klasa interfejsu:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;string_view&gt;
 
 class IErrorLog
 {
@@ -309,24 +309,24 @@ public:
 
     virtual bool writeError(std::string_view errorMessage) = 0;
 
-    virtual ~IErrorLog() {} // make a virtual destructor in case we delete an IErrorLog pointer, so the proper derived destructor is called
-};</code></pre><p>Każda klasa dziedzicząca z IErrorLog musi zapewniać implementacje wszystkich trzech funkcji, aby mogła zostać utworzona. Można utworzyć klasę o nazwie FileErrorLog, w której openLog() otwiera plik na dysku, closeLog() zamyka plik, a writeError() zapisuje komunikat do pliku. Można utworzyć inną klasę o nazwie ScreenErrorLog, w której openLog() i closeLog() nic nie robią, a writeError() wyświetla komunikat w wyskakującym okienku komunikatu na ekranie.<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>Załóżmy teraz, że musisz napisać kod korzystający z dziennika błędów. Jeśli napiszesz swój kod tak, aby zawierał bezpośrednio FileErrorLog lub ScreenErrorLog, w rzeczywistości utkniesz w korzystaniu z tego rodzaju dziennika błędów (przynajmniej bez przekodowania programu). Na przykład poniższa funkcja skutecznie zmusza osoby wywołujące mySqrt() do użycia FileErrorLog, który może być tym, czego chcą, ale nie musi.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cmath&gt; // for sqrt()
+    virtual ~IErrorLog() {} // utwórz wirtualny destruktor na wypadek, gdybyśmy usunęli wskaźnik IErrorLog, aby wywołany został odpowiedni destruktor pochodny
+};</code></pre><p>Każda klasa dziedzicząca z IErrorLog musi zapewniać implementacje wszystkich trzech funkcji, aby mogła zostać utworzona. Można utworzyć klasę o nazwie FileErrorLog, w której openLog() otwiera plik na dysku, closeLog() zamyka plik, a writeError() zapisuje komunikat do pliku. Można utworzyć inną klasę o nazwie ScreenErrorLog, w której openLog() i closeLog() nic nie robią, a writeError() wyświetla komunikat w wyskakującym okienku komunikatu na ekranie.<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>Załóżmy teraz, że musisz napisać kod korzystający z dziennika błędów. Jeśli napiszesz swój kod tak, aby zawierał bezpośrednio FileErrorLog lub ScreenErrorLog, w rzeczywistości utkniesz w korzystaniu z tego rodzaju dziennika błędów (przynajmniej bez przekodowania programu). Na przykład poniższa funkcja skutecznie zmusza osoby wywołujące mySqrt() do użycia FileErrorLog, który może być tym, czego chcą, ale nie musi.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cmath&gt; // dla sqrt()
 
 double mySqrt(double value, FileErrorLog&amp; log)
 {
     if (value &lt; 0.0)
     {
-        log.writeError(&#34;Tried to take square root of value less than 0&#34;);
+        log.writeError("Tried to take square root of value less than 0");
         return 0.0;
     }
 
     return std::sqrt(value);
-}</code></pre><p>Znacznie lepszym sposobem zaimplementowania tej funkcji jest użycie zamiast tego IErrorLog:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cmath&gt; // for sqrt()
+}</code></pre><p>Znacznie lepszym sposobem zaimplementowania tej funkcji jest użycie zamiast tego IErrorLog:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cmath&gt; // dla sqrt()
 double mySqrt(double value, IErrorLog&amp; log)
 {
     if (value &lt; 0.0)
     {
-        log.writeError(&#34;Tried to take square root of value less than 0&#34;);
+        log.writeError("Tried to take square root of value less than 0");
         return 0.0;
     }
 

@@ -351,11 +351,11 @@ int main()
 	  new Circle{Point{ 7, 8 }, 3}
 	};
 
-	// print each shape in vector v on its own line here
+	// drukuj każdy kształt wektorem v w osobnej linii tutaj
 
-	std::cout &lt;&lt; &#34;The largest radius is: &#34; &lt;&lt; getLargestRadius(v) &lt;&lt; &#39;\n&#39;; // write this function
+	std::cout &lt;&lt; "The largest radius is: " &lt;&lt; getLargestRadius(v) &lt;&lt; '\n'; // napisz tę funkcję
 
-	// delete each element in the vector here
+	// usuń tutaj każdy element wektora
 
 	return 0;
 }</code></pre><p>Program powinien wydrukować następujące informacje:<pre>Circle(Point(1, 2), radius 7)
@@ -364,7 +364,7 @@ Circle(Point(7, 8), radius 3)
 The largest radius is: 7
 </pre><p>Wskazówka: musisz dodać funkcję getRadius() do Circle i obniżyć Shape* do kółko*, aby uzyskać do niego dostęp.<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_8'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_8 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;vector&gt;
 #include &lt;iostream&gt;
-#include &lt;algorithm&gt; // for std::max
+#include &lt;algorithm&gt; // dla std::max
 
 class Point
 {
@@ -381,7 +381,7 @@ public:
 
 	friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const Point&amp; p)
 	{
-		return out &lt;&lt; &#34;Point(&#34; &lt;&lt; p.m_x &lt;&lt; &#34;, &#34; &lt;&lt; p.m_y &lt;&lt; &#39;)&#39;;
+		return out &lt;&lt; "Point(" &lt;&lt; p.m_x &lt;&lt; ", " &lt;&lt; p.m_y &lt;&lt; ')';
 	}
 };
 
@@ -412,7 +412,7 @@ public:
 
 	std::ostream&amp; print(std::ostream&amp; out) const override
 	{
-		return out &lt;&lt; &#34;Triangle(&#34; &lt;&lt; m_p1 &lt;&lt; &#34;, &#34; &lt;&lt; m_p2 &lt;&lt; &#34;, &#34; &lt;&lt; m_p3 &lt;&lt; &#39;)&#39;;
+		return out &lt;&lt; "Triangle(" &lt;&lt; m_p1 &lt;&lt; ", " &lt;&lt; m_p2 &lt;&lt; ", " &lt;&lt; m_p3 &lt;&lt; ')';
 	}
 };
 
@@ -431,23 +431,23 @@ public:
 
 	std::ostream&amp; print(std::ostream&amp; out) const override
 	{
-		out &lt;&lt; &#34;Circle(&#34; &lt;&lt; m_center &lt;&lt; &#34;, radius &#34; &lt;&lt; m_radius &lt;&lt; &#39;)&#39;;
+		out &lt;&lt; "Circle(" &lt;&lt; m_center &lt;&lt; ", radius " &lt;&lt; m_radius &lt;&lt; ')';
 		return out;
 	}
 
 	int getRadius() const { return m_radius; }
 };
 
-// h/t to reader Olivier for this updated solution
-// assumes radiuses are &gt;= 0
+// h/t czytelnikowi Olivierowi za zaktualizowane rozwiązanie
+// zakłada, że ​​promienie wynoszą &gt;= 0
 int getLargestRadius(const std::vector&lt;Shape*&gt;&amp; v)
 {
 	int largestRadius{ 0 };
 
-	// Loop through all the shapes in the vector
+	// Przejdź przez wszystkie kształty w wektor
 	for (const auto* element : v)
 	{
-		// // Ensure the dynamic cast succeeds by checking for a null pointer result
+		// // Upewnij się, że rzutowanie dynamiczne zakończyło się pomyślnie, sprawdzając wynik zerowego wskaźnika
 		if (auto* c { dynamic_cast&lt;const Circle*&gt;(element) })
 		{
 			largestRadius = std::max(largestRadius, c-&gt;getRadius());
@@ -464,10 +464,10 @@ int main()
 		  new Circle{Point{ 7, 8 }, 3}
 	};
 
-	for (const auto* element : v) // element will be a Shape*
-		std::cout &lt;&lt; *element &lt;&lt; &#39;\n&#39;;
+	for (const auto* element : v) // element będzie Kształt*
+		std::cout &lt;&lt; *element &lt;&lt; '\n';
 
-	std::cout &lt;&lt; &#34;The largest radius is: &#34; &lt;&lt; getLargestRadius(v) &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; "The largest radius is: " &lt;&lt; getLargestRadius(v) &lt;&lt; '\n';
 
 	for (const auto* element : v)
 		delete element;
@@ -475,7 +475,7 @@ int main()
 	return 0;
 }</code></pre></div><p>2d) Dodatkowy kredyt: Zaktualizuj wcześniejsze rozwiązanie, aby użyć <code>std::vector&lt;std::unique_ptr&lt;Shape>></code>. Pamiętaj, że <code>std::unique_ptr</code> nie można kopiować.<p>h/t, aby przeczytać ten pomysł surrealcereal.<p><a class=hint_link_show href=javascript:void(0) onclick="cppHintToggle(document.getElementById('cpp_hint_id_0'),this,'Show Hint','')">Pokaż wskazówkę</a><div class=wphint id=cpp_hint_id_0 style=display:none;margin-bottom:1em>Wskazówka: nie możesz zainicjować wektora za pomocą std::initializer_list, ponieważ wymaga to skopiowania elementów.</div><p><a class=hint_link_show href=javascript:void(0) onclick="cppHintToggle(document.getElementById('cpp_hint_id_1'),this,'Show Hint','')">Pokaż wskazówkę</a><div class=wphint id=cpp_hint_id_1 style=display:none;margin-bottom:1em>Wskazówka: std::unique_ptr::get() zwraca wskaźnik do zarządzanego element.</div><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_9'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_9 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;vector&gt;
 #include &lt;iostream&gt;
-#include &lt;algorithm&gt; // for std::max
+#include &lt;algorithm&gt; // dla std::max
 #include &lt;memory&gt;
 
 class Point
@@ -493,7 +493,7 @@ public:
 
 	friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const Point&amp; p)
 	{
-		return out &lt;&lt; &#34;Point(&#34; &lt;&lt; p.m_x &lt;&lt; &#34;, &#34; &lt;&lt; p.m_y &lt;&lt; &#39;)&#39;;
+		return out &lt;&lt; "Point(" &lt;&lt; p.m_x &lt;&lt; ", " &lt;&lt; p.m_y &lt;&lt; ')';
 	}
 };
 
@@ -524,7 +524,7 @@ public:
 
 	std::ostream&amp; print(std::ostream&amp; out) const override
 	{
-		return out &lt;&lt; &#34;Triangle(&#34; &lt;&lt; m_p1 &lt;&lt; &#34;, &#34; &lt;&lt; m_p2 &lt;&lt; &#34;, &#34; &lt;&lt; m_p3 &lt;&lt; &#39;)&#39;;
+		return out &lt;&lt; "Triangle(" &lt;&lt; m_p1 &lt;&lt; ", " &lt;&lt; m_p2 &lt;&lt; ", " &lt;&lt; m_p3 &lt;&lt; ')';
 	}
 };
 
@@ -543,7 +543,7 @@ public:
 
 	std::ostream&amp; print(std::ostream&amp; out) const override
 	{
-		out &lt;&lt; &#34;Circle(&#34; &lt;&lt; m_center &lt;&lt; &#34;, radius &#34; &lt;&lt; m_radius &lt;&lt; &#39;)&#39;;
+		out &lt;&lt; "Circle(" &lt;&lt; m_center &lt;&lt; ", radius " &lt;&lt; m_radius &lt;&lt; ')';
 		return out;
 	}
 
@@ -554,10 +554,10 @@ int getLargestRadius(const std::vector&lt;std::unique_ptr&lt;Shape&gt;&gt;&amp; 
 {
 	int largestRadius{ 0 };
 
-	// Loop through all the shapes in the vector
+	// Przejdź przez wszystkie kształty w wektor
 	for (const auto&amp; element : v)
 	{
-		// // Ensure the dynamic cast succeeds by checking for a null pointer result
+		// // Upewnij się, że rzutowanie dynamiczne zakończyło się pomyślnie, sprawdzając wynik zerowego wskaźnika
 		if (auto *c { dynamic_cast&lt;const Circle*&gt;(element.get()) })
 		{
 			largestRadius = std::max(largestRadius, c-&gt;getRadius());
@@ -574,9 +574,9 @@ int main()
 	v.push_back(std::make_unique&lt;Triangle&gt;(Point{1, 2}, Point{3, 4}, Point{5, 6}));
 	v.push_back(std::make_unique&lt;Circle&gt;(Point{7, 8}, 3));
 
-	for (const auto&amp; element : v) std::cout &lt;&lt; *element &lt;&lt; &#39;\n&#39;;
+	for (const auto&amp; element : v) std::cout &lt;&lt; *element &lt;&lt; '\n';
     
-	std::cout &lt;&lt; &#34;The largest radius is: &#34; &lt;&lt; getLargestRadius(v) &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; "The largest radius is: " &lt;&lt; getLargestRadius(v) &lt;&lt; '\n';
 }</code></pre></div><div class=prevnext><div class=prevnext-inline><a class=nav-link href="../template-classes/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>26.1</span>Klasy szablonowe</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../printing-inherited-classes-using-operator/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>25.11</span>Drukowanie klas odziedziczonych za pomocą operatora&lt;&lt;</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/chapter-25-summary-and-quiz/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../printing-inherited-classes-using-operator/index.html" rel=prev><span>25.11 — Drukowanie klas odziedziczonych za pomocą operatora&lt;&lt;</span></a></div><div class=nav-next><em>Następny post</em><a href="../function-template-specialization/index.html" rel=next><span>26.3 -- Specjalizacja szablonu funkcji</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>
 <textarea id=wc-textarea-0_0 placeholder="Zostaw komentarz..." aria-label="Zostaw komentarz..." required name=wc_comment class="wc_comment wpd-field"></textarea></div><div class=wpd-editor-buttons-right></div></div></div></div><div class=wpd-form-foot><div class=wpdiscuz-textarea-foot><div class=wpdiscuz-button-actions></div></div><div class=wpd-form-row><div class=wpd-form-col-left><div class="wpdiscuz-item wc_name-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-user"></i></div><input id=wc_name-0_0 required aria-required=true class="wc_name wpd-field" name=wc_name placeholder=Imię* maxlength=50 pattern=.{3,50}>
 <label for=wc_name-0_0 class=wpdlb>Imię*</label></div><div class="wpdiscuz-item wc_email-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-at"></i></div><input id=wc_email-0_0 required aria-required=true class="wc_email wpd-field" type=email name=wc_email placeholder=E-mail*>

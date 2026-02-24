@@ -16,12 +16,12 @@
 <time class=updated datetime=2025-01-21T20:06:19-08:00 itemprop=dateModified>21 stycznia 2025 r</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>W lekcji <a href="../type-deduction-for-objects-using-the-auto-keyword/index.html">10.8 -- Dedukcja typu dla obiektów korzystających z auto słowo kluczowe</a>, omówiliśmy, jak można użyć słowa kluczowego <code>auto</code> , aby kompilator wywnioskował typ zmiennej z inicjatora:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
     int a { 5 };
-    auto b { a }; // b deduced as an int
+    auto b { a }; // b wywnioskować jako int
 
     return 0;
 }</code></pre><p>Zauważyliśmy również, że poprzez domyślnie dedukcja typu zostanie usunięta <code>const</code> z typów:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
-    const double a { 7.8 }; // a has type const double
+    const double a { 7.8 }; // a ma typ const double
     auto b { a };           // b has type double (const dropped)
 
     constexpr double c { 7.8 }; // c has type const double (constexpr implicitly applies const)
@@ -30,80 +30,80 @@
     return 0;
 }</code></pre><p>Const (lub constexpr) można zastosować ponownie, dodając kwalifikator <code>const</code> (lub <code>constexpr</code>) do definicji wydedukowanego typu:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
-    double a { 7.8 };    // a has type double
+    double a { 7.8 };    // a ma typ double
     const auto b { a };  // b has type const double (const applied)
 
     constexpr double c { 7.8 }; // c has type const double (constexpr implicitly applies const)
-    const auto d { c };         // d is const double (const dropped, const reapplied)
-    constexpr auto e { c };     // e is constexpr double (const dropped, constexpr reapplied)
+    const auto d { c };         // d jest const double (const usunięty, const ponownie zastosowany)
+    constexpr auto e { c };     // e jest constexpr double (const usunięte, constexpr ponownie zastosowany)
 
     return 0;
 }</code></pre><p class="cpp-section cpp-topline" style=clear:both>Dedukcja typu usuwa odniesienia<p>Oprócz usunięcia const, dedukcja typu spowoduje również usunięcie referencji:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;string&gt;
 
-std::string&amp; getRef(); // some function that returns a reference
+std::string&amp; getRef(); // jakaś funkcja, która zwraca referencję
 
 int main()
 {
-    auto ref { getRef() }; // type deduced as std::string (not std::string&amp;)
+    auto ref { getRef() }; // typ wydedukowany jako std::string (nie std::string&amp;)
 
     return 0;
-}</code></pre><p>W powyższym przykładzie zmienna <code>ref</code> stosuje dedukcję typu. Chociaż funkcja <code>getRef()</code> zwraca a <code>std::string&</code>, kwalifikator odniesienia jest odrzucany, więc typ <code>ref</code> jest wydedukowany jako <code>std::string</code>.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Podobnie jak w przypadku usuniętego <code>const</code>, jeśli chcesz, aby wydedukowany typ był odniesieniem, możesz ponownie zastosować odniesienie w punkcie definicji:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;string&gt;
+}</code></pre><p>W powyższym przykładzie zmienna <code>ref</code> stosuje dedukcję typu. Chociaż funkcja <code>getRef()</code> zwraca <code>std::string&</code>, kwalifikator odniesienia jest odrzucany, więc typ <code>ref</code> jest wydedukowany jako <code>std::string</code>.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Podobnie jak w przypadku usuniętego <code>const</code>, jeśli chcesz, aby wydedukowany typ był odniesieniem, możesz ponownie zastosować odniesienie w punkcie definicji:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;string&gt;
 
-std::string&amp; getRef(); // some function that returns a reference
+std::string&amp; getRef(); // jakaś funkcja, która zwraca referencję
 
 int main()
 {
-    auto ref1 { getRef() };  // std::string (reference dropped)
-    auto&amp; ref2 { getRef() }; // std::string&amp; (reference dropped, reference reapplied)
+    auto ref1 { getRef() };  // std::string (usunięto odwołanie)
+    auto&amp; ref2 { getRef() }; // std::string&amp; (odniesienie usunięte, odniesienie ponownie zastosowane)
 
     return 0;
-}</code></pre><p class="cpp-section cpp-topline" style=clear:both>Stały najwyższy poziom i niski poziom const<p>A <strong>najwyższego poziomu const</strong> jest kwalifikatorem const, który ma zastosowanie do samego obiektu. Na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">const int x;    // this const applies to x, so it is top-level
-int* const ptr; // this const applies to ptr, so it is top-level
-// references don&#39;t have a top-level const syntax, as they are implicitly top-level const</code></pre><p>Z kolei <strong>stała niskiego poziomu</strong> jest kwalifikatorem stałej, który ma zastosowanie do obiektu, do którego odwołuje się lub na który wskazuje:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">const int&amp; ref; // this const applies to the object being referenced, so it is low-level
-const int* ptr; // this const applies to the object being pointed to, so it is low-level</code></pre><p>Odwołanie do wartości stałej jest zawsze stałą niskiego poziomu. Wskaźnik może mieć stałą najwyższego, niskiego poziomu lub oba rodzaje stałych:<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">const int* const ptr; // the left const is low-level, the right const is top-level</code></pre><p>Kiedy mówimy, że dedukcja typu pomija kwalifikatory const, pomija tylko stałe najwyższego poziomu. Stałe niskiego poziomu nie są usuwane. Za chwilę zobaczymy tego przykłady.<p class="cpp-section cpp-topline" style=clear:both>Dedukcja typu i odniesienia do stałych<p>Jeśli inicjatorem jest odwołanie do const, odwołanie jest najpierw usuwane (a następnie stosowane ponownie, jeśli ma to zastosowanie), a następnie z wyniku usuwane są wszelkie stałe najwyższego poziomu.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;string&gt;
+}</code></pre><p class="cpp-section cpp-topline" style=clear:both>Stały najwyższy poziom i niski poziom const<p><strong>najwyższego poziomu const</strong> jest kwalifikatorem const, który ma zastosowanie do samego obiektu. Na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">const int x;    // ta stała dotyczy x, więc jest najwyższego poziomu
+int* const ptr; // ta stała dotyczy ptr, więc tak jest najwyższego poziomu
+// referencje nie mają składni const najwyższego poziomu, ponieważ domyślnie są const najwyższego poziomu</code></pre><p>Z kolei <strong>stała niskiego poziomu</strong> jest kwalifikatorem stałej, który ma zastosowanie do obiektu, do którego odwołuje się lub na który wskazuje:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">const int&amp; ref; // ta stała dotyczy obiektu, do którego się odwołuje, więc jest niskiego poziomu
+const int* ptr; // ta stała dotyczy obiektu, na który wskazuje, więc jest niskiego poziomu</code></pre><p>Odwołanie do wartości stałej jest zawsze stałą niskiego poziomu. Wskaźnik może mieć stałą najwyższego, niskiego poziomu lub oba rodzaje stałych:<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">const int* const ptr; // lewa const jest na niskim poziomie, prawa const jest na najwyższym poziomie</code></pre><p>Kiedy mówimy, że dedukcja typu pomija kwalifikatory const, pomija tylko stałe najwyższego poziomu. Stałe niskiego poziomu nie są usuwane. Za chwilę zobaczymy tego przykłady.<p class="cpp-section cpp-topline" style=clear:both>Dedukcja typu i odniesienia do stałych<p>Jeśli inicjatorem jest odwołanie do const, odwołanie jest najpierw usuwane (a następnie stosowane ponownie, jeśli ma to zastosowanie), a następnie z wyniku usuwane są wszelkie stałe najwyższego poziomu.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;string&gt;
 
-const std::string&amp; getConstRef(); // some function that returns a reference to const
+const std::string&amp; getConstRef(); // jakaś funkcja, która zwraca referencję const
 
 int main()
 {
-    auto ref1{ getConstRef() }; // std::string (reference dropped, then top-level const dropped from result)
+    auto ref1{ getConstRef() }; // std::string (usunięto odwołanie, następnie usunięto stałą najwyższego poziomu z wyniku)
 
     return 0;
-}</code></pre><p>W powyższym przykładzie, ponieważ <code>getConstRef()</code> zwraca a <code>const std::string&</code>, odwołanie jest usuwane jako pierwsze, pozostawiając nas z a <code>const std::string</code>. Ta stała jest teraz stałą najwyższego poziomu, więc została również usunięta, pozostawiając wydedukowany typ jako <code>std::string</code>.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Usunięcie odniesienia może zmienić stałą niskiego poziomu na stałą najwyższego poziomu: <code>const std::string&</code> jest stałą niskiego poziomu, ale porzuca wydajność odniesienia <code>const std::string</code>, która jest stałą najwyższego poziomu.</div><p>Możemy ponownie zastosować odniesienie i/lub const:<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;string&gt;
+}</code></pre><p>W powyższym przykładzie, ponieważ <code>getConstRef()</code> zwraca <code>const std::string&</code>, odwołanie jest usuwane jako pierwsze, pozostawiając nas z <code>const std::string</code>. Ta stała jest teraz stałą najwyższego poziomu, więc została również usunięta, pozostawiając wydedukowany typ jako <code>std::string</code>.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Usunięcie odniesienia może zmienić stałą niskiego poziomu na stałą najwyższego poziomu: <code>const std::string&</code> jest stałą niskiego poziomu, ale porzuca wydajność odniesienia <code>const std::string</code>, która jest stałą najwyższego poziomu.</div><p>Możemy ponownie zastosować odniesienie i/lub const:<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;string&gt;
 
-const std::string&amp; getConstRef(); // some function that returns a const reference
+const std::string&amp; getConstRef(); // jakaś funkcja, która zwraca odwołanie do stałej
 
 int main()
 {
-    auto ref1{ getConstRef() };        // std::string (reference and top-level const dropped)
-    const auto ref2{ getConstRef() };  // const std::string (reference dropped, const dropped, const reapplied)
+    auto ref1{ getConstRef() };        // std::string (usunięto odwołanie i stałą najwyższego poziomu)
+    const auto ref2{ getConstRef() };  // const std::string (odniesienie zostało usunięte, const usunięte, const ponownie zastosowane)
 
-    auto&amp; ref3{ getConstRef() };       // const std::string&amp; (reference dropped and reapplied, low-level const not dropped)
-    const auto&amp; ref4{ getConstRef() }; // const std::string&amp; (reference dropped and reapplied, low-level const not dropped)
+    auto&amp; ref3{ getConstRef() };       // const std::string&amp; (odniesienie zostało usunięte i ponownie zastosowane, const niskiego poziomu nie zostało usunięte)
+    const auto&amp; ref4{ getConstRef() }; // const std::string&amp; (odniesienie zostało usunięte i ponownie zastosowane, const niskiego poziomu nie zostało usunięte)
 
     return 0;
 }</code></pre><p>Przypadek  <code>ref1</code> omówiliśmy w poprzednim przykładzie. W przypadku <code>ref2</code> jest to podobne do przypadku <code>ref1</code> , z tą różnicą, że ponownie stosujemy kwalifikator <code>const</code> , więc wydedukowany typ to <code>const std::string</code>.<p>Rzeczy stają się bardziej interesujące z <code>ref3</code>. Zwykle odniesienie zostałoby najpierw usunięte, ale ponieważ ponownie je zastosowaliśmy, nie jest ono usuwane. Oznacza to, że typem jest nadal <code>const std::string&</code>. A ponieważ ta stała jest stałą niskiego poziomu, nie jest ona usuwana. Zatem wydedukowany typ to <code>const std::string&</code>.<p>Klasa <code>ref4</code> działa podobnie do przypadku <code>ref3</code>, z tą różnicą, że ponownie zastosowaliśmy również kwalifikator <code>const</code> . Ponieważ typ został już wydedukowany jako odniesienie do const, ponowne zastosowanie <code>const</code> w tym miejscu jest zbędne. To powiedziawszy, użycie <code>const</code> w tym miejscu wyraźnie pokazuje, że nasz wynik będzie stały (podczas gdy w przypadku <code>ref3</code> stałość wyniku jest ukryta i nieoczywista).<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Jeśli chcesz odniesienia do stałej, zastosuj ponownie kwalifikator <code>const</code> nawet jeśli nie jest to absolutnie konieczne, ponieważ wyjaśnia to Twoje intencje i pomaga zapobiegać błędy.</div><p class="cpp-section cpp-topline" style=clear:both>A co z odniesieniami do constexpr?<p>Constexpr nie jest częścią typu wyrażenia, więc nie jest wywnioskowane przez <code>auto</code>.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Przypomnienie<p>Podczas definiowania odniesienia do const (np.  <code>const int&</code>), const odnosi się do obiektu, do którego się odwołuje, a nie do samego odniesienia.<p>Podczas definiowania odwołania constexpr do zmiennej const (np.  <code>constexpr const int&</code>), musimy zastosować oba <code>constexpr</code> (co dotyczy odniesienia), jak i <code>const</code> (co dotyczy typu, do którego się odwołujemy).<p>Jest to omówione w lekcji <a href="../lvalue-references-to-const/index.html">12.4 -- Odniesienia do wartości do const</a>.</div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;string_view&gt;
 #include &lt;iostream&gt;
 
-constexpr std::string_view hello { &#34;Hello&#34; };   // implicitly const
+constexpr std::string_view hello { "Hello" };   // implicitly const
 
-constexpr const std::string_view&amp; getConstRef() // function is constexpr, returns a const std::string_view&amp;
+constexpr const std::string_view&amp; getConstRef() // funkcja to constexpr, zwraca const std::string_view&amp;
 {
     return hello;
 }
 
 int main()
 {
-    auto ref1{ getConstRef() };                  // std::string_view (reference dropped and top-level const dropped)
-    constexpr auto ref2{ getConstRef() };        // constexpr const std::string_view (reference dropped and top-level const dropped, constexpr applied, implicitly const)
+    auto ref1{ getConstRef() };                  // std::string_view (odniesienie usunięte i usunięto stałą najwyższego poziomu)
+    constexpr auto ref2{ getConstRef() };        // constexpr const std::string_view (usunięto odwołanie i constexpr najwyższego poziomu, zastosowano constexpr, domyślnie const)
 
-    auto&amp; ref3{ getConstRef() };                 // const std::string_view&amp; (reference reapplied, low-level const not dropped)
-    constexpr const auto&amp; ref4{ getConstRef() }; // constexpr const std::string_view&amp; (reference reapplied, low-level const not dropped, constexpr applied)
+    auto&amp; ref3{ getConstRef() };                 // const std::string_view&amp; (ponownie zastosowano odwołanie, nie usunięto stałej niskiego poziomu)
+    constexpr const auto&amp; ref4{ getConstRef() }; // constexpr const std::string_view&amp; (ponownie zastosowano odwołanie, nie usunięto stałej niskiego poziomu, zastosowano constexpr)
     
     return 0;
 }</code></pre><p class="cpp-section cpp-topline" style=clear:both>Dukcja typu i wskaźniki<p>W przeciwieństwie do odniesień, dedukcja typu nie powoduje utraty wskaźników:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;string&gt;
 
-std::string* getPtr(); // some function that returns a pointer
+std::string* getPtr(); // jakaś funkcja, która zwraca wskaźnik
 
 int main()
 {
@@ -112,7 +112,7 @@ int main()
     return 0;
 }</code></pre><p>Możemy również użyć gwiazdki w połączeniu z dedukcją typu wskaźnika (<code>auto*</code>), aby było jaśniejsze, że wydedukowany typem jest wskaźnik:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;string&gt;
 
-std::string* getPtr(); // some function that returns a pointer
+std::string* getPtr(); // jakaś funkcja, która zwraca wskaźnik
 
 int main()
 {
@@ -122,45 +122,45 @@ int main()
     return 0;
 }</code></pre><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Powodem, dla którego referencje są odrzucane podczas dedukcji typu, ale wskaźniki nie są usuwane, jest to, że referencje i wskaźniki mają różną semantykę.<p>Kiedy oceniamy referencję, tak naprawdę oceniamy obiekt, do którego się odwołujemy. Dlatego też, dedukując typ, sensowne jest, abyśmy wydedukowali typ rzeczy, do której się odwołujemy, a nie samo odniesienie. Ponadto, ponieważ wydedukowaliśmy brak odniesienia, bardzo łatwo jest uczynić z niego odniesienie, używając  <code>auto&</code>. Jeśli zamiast tego dedukcja typu miałaby wydedukować referencję, składnia usuwania referencji, jeśli tego nie chcieliśmy, byłaby znacznie bardziej skomplikowana.<p>Z drugiej strony wskaźniki przechowują adres obiektu. Kiedy oceniamy wskaźnik, oceniamy wskaźnik, a nie obiekt, na który wskazujemy (jeśli chcemy, możemy wyłuskać wskaźnik). Dlatego sensowne jest, abyśmy wydedukowali typ wskaźnika, a nie rzecz, na którą wskazuje.</div><p class="cpp-section cpp-topline" style=clear:both>Różnica między auto i auto* <span class="cpp-section-pill cpp-section-optional">Opcjonalne</span><p>Kiedy używamy <code>auto</code> z inicjatorem typu wskaźnika, typ wydedukowany dla <code>auto</code> obejmuje wskaźnik. Tak więc dla  <code>ptr1</code> powyżej typ zostaje zastąpiony <code>auto</code> Jest <code>std::string*</code>.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p>Kiedy używamy <code>auto*</code> z inicjatorem typu wskaźnikowego, typ wydedukowany dla auto <em>nie</em> obejmuje wskaźnik - wskaźnik jest później stosowany ponownie po wydedukowaniu typu. Zatem w  <code>ptr2</code> powyżej typ zostaje zastąpiony <code>auto</code> Jest <code>std::string</code>, a następnie wskaźnik jest ponownie stosowany.<p>W większości przypadków praktyczny efekt jest taki sam (<code>ptr1</code> i <code>ptr2</code> oba wnioski wynikają z <code>std::string*</code> w powyższym przykładzie).<p>Jest jednak kilka różnic pomiędzy <code>auto</code> i <code>auto*</code> w praktyce. Po pierwsze, <code>auto*</code> musi zostać przekształcony w inicjator wskaźnika, w przeciwnym razie wystąpi błąd kompilacji:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;string&gt;
 
-std::string* getPtr(); // some function that returns a pointer
+std::string* getPtr(); // jakaś funkcja, która zwraca wskaźnik
 
 int main()
 {
-    auto ptr3{ *getPtr() };      // std::string (because we dereferenced getPtr())
-    auto* ptr4{ *getPtr() };     // does not compile (initializer not a pointer)
+    auto ptr3{ *getPtr() };      // std::string (ponieważ my dereferencja getPtr())
+    auto* ptr4{ *getPtr() };     // nie kompiluje się (inicjator nie jest wskaźnikiem)
 
     return 0;
 }</code></pre><p>Ma to sens: w <code>ptr4</code> przypadku <code>auto</code> wydedukuje się do <code>std::string</code>, a następnie wskaźnik zostanie ponownie zastosowany. Zatem <code>ptr4</code> ma typ <code>std::string*</code> i nie możemy zainicjować <code>std::string*</code> inicjatorem, który nie jest wskaźnikiem.<p>Po drugie, istnieją różnice w  <code>auto</code> i <code>auto*</code> zachowaniu, gdy wprowadzamy <code>const</code> do równania. Omówimy to poniżej.<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Wpisz dedukcję i wskaźniki const <span class="cpp-section-pill cpp-section-optional">Opcjonalne</span><p>Ponieważ wskaźniki nie są usuwane, nie musimy się tym martwić. Ale w przypadku wskaźników mamy do przemyślenia zarówno wskaźnik const, jak i wskaźnik do przypadków const, a także mamy  <code>auto</code> vs <code>auto*</code>. Podobnie jak w przypadku referencji, podczas dedukcji typu wskaźnika pomijana jest tylko stała najwyższego poziomu.<p>Zacznijmy od prostego przypadku:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;string&gt;
 
-std::string* getPtr(); // some function that returns a pointer
+std::string* getPtr(); // jakaś funkcja, która zwraca wskaźnik
 
 int main()
 {
-    const auto ptr1{ getPtr() };  // std::string* const
-    auto const ptr2 { getPtr() }; // std::string* const
+    const auto ptr1{ getPtr() };  // std::string* stała
+    auto const ptr2 { getPtr() }; // std::string* stała
 
-    const auto* ptr3{ getPtr() }; // const std::string*
-    auto* const ptr4{ getPtr() }; // std::string* const
+    const auto* ptr3{ getPtr() }; // stała std::string*
+    auto* const ptr4{ getPtr() }; // std::string* stała
 
     return 0;
-}</code></pre><p>Kiedy używamy jednego z  <code>auto const</code> lub <code>const auto</code>, mówimy: „uczyń wydedukowany wskaźnik wskaźnikiem stałym”. Zatem w przypadku <code>ptr1</code> i <code>ptr2</code> wydedukowanym typem jest <code>std::string*</code>, a następnie stosowana jest const, co daje ostateczny typ <code>std::string* const</code>. Jest to podobne do tego, jak <code>const int</code> i <code>int const</code> oznacza to samo.<p>Jednak gdy używamy <code>auto*</code>, kolejność kwalifikatora stałej ma znaczenie. A <code>const</code> po lewej stronie oznacza „uczyń wydedukowany wskaźnik wskaźnikiem do stałej”, podczas gdy a <code>const</code> po prawej oznacza „uczyń wydedukowany wskaźnik wskaźnikiem stałym”. Zatem <code>ptr3</code> kończy jako wskaźnik do const i <code>ptr4</code> jest wskaźnikiem const.<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><p>Przyjrzyjmy się teraz przykładowi, w którym inicjatorem jest wskaźnik const do const.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;string&gt;
+}</code></pre><p>Kiedy używamy jednego z  <code>auto const</code> lub <code>const auto</code>, mówimy: „uczyń wydedukowany wskaźnik wskaźnikiem stałym”. Zatem w przypadku <code>ptr1</code> i <code>ptr2</code> wydedukowanym typem jest <code>std::string*</code>, a następnie stosowana jest const, co daje ostateczny typ <code>std::string* const</code>. Jest to podobne do tego, jak <code>const int</code> i <code>int const</code> oznacza to samo.<p>Jednak gdy używamy <code>auto*</code>, kolejność kwalifikatora stałej ma znaczenie. <code>const</code> po lewej stronie oznacza „uczyń wydedukowany wskaźnik wskaźnikiem do stałej”, podczas gdy <code>const</code> po prawej oznacza „uczyń wydedukowany wskaźnik wskaźnikiem stałym”. Zatem <code>ptr3</code> kończy jako wskaźnik do const i <code>ptr4</code> jest wskaźnikiem const.<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><p>Przyjrzyjmy się teraz przykładowi, w którym inicjatorem jest wskaźnik const do const.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;string&gt;
 
 int main()
 {
     std::string s{};
     const std::string* const ptr { &amp;s };
 
-    auto ptr1{ ptr };  // const std::string*
-    auto* ptr2{ ptr }; // const std::string*
+    auto ptr1{ ptr };  // stała std::string*
+    auto* ptr2{ ptr }; // stała std::string*
 
-    auto const ptr3{ ptr };  // const std::string* const
-    const auto ptr4{ ptr };  // const std::string* const
+    auto const ptr3{ ptr };  // stała std::string* stała
+    const auto ptr4{ ptr };  // stała std::string* stała
 
-    auto* const ptr5{ ptr }; // const std::string* const
-    const auto* ptr6{ ptr }; // const std::string*
+    auto* const ptr5{ ptr }; // stała std::string* stała
+    const auto* ptr6{ ptr }; // stała std::string*
 
-    const auto const ptr7{ ptr };  // error: const qualifer can not be applied twice
-    const auto* const ptr8{ ptr }; // const std::string* const
+    const auto const ptr7{ ptr };  // błąd: const kwalifikatora nie można zastosować dwukrotnie
+    const auto* const ptr8{ ptr }; // stała std::string* stała
 
     return 0;
 }</code></pre><p>Klasa <code>ptr1</code> i <code>ptr2</code> przypadki są proste. Stała najwyższego poziomu (stała na samym wskaźniku) jest usuwana. Stała niskiego poziomu na wskazywanym obiekcie nie jest usuwana. Zatem w obu przypadkach ostateczny typ  <code>const std::string*</code>.<p>Klasa <code>ptr3</code> i <code>ptr4</code> przypadki są również proste. Stała najwyższego poziomu została usunięta, ale zastosujemy ją ponownie. Stała niskiego poziomu na wskazywanym obiekcie nie jest usuwana. Zatem w obu przypadkach ostateczny typ to <code>const std::string* const</code>.<p>Klasa <code>ptr5</code> i <code>ptr6</code> przypadki są analogiczne do przypadków, które pokazaliśmy w poprzednim przykładzie. W obu przypadkach stała najwyższego poziomu jest odrzucana. For <code>ptr5</code>, instrukcja <code>auto* const</code> ponownie stosuje stałą najwyższego poziomu, więc ostatecznym typem jest <code>const std::string* const</code>. Instancja for <code>ptr6</code>, instrukcja <code>const auto*</code> stosuje const do wskazywanego typu (który w tym przypadku był już const), więc końcowym typem jest <code>const std::string*</code>.<p>W <code>ptr7</code> w przypadku &lt;&lt;&lt;M0&gt;&gt;&gt;stosujemy kwalifikator const dwukrotnie, co jest niedozwolone i spowoduje błąd kompilacji.<p>I na koniec, w przypadku <code>ptr8</code> stosujemy const po obu stronach wskaźnika (co jest dozwolone, ponieważ <code>auto*</code> musi być typem wskaźnika), więc wynikowy typ to <code>const std::string* const</code>.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Jeśli chcesz wskaźnik const, wskaźnik do const lub wskaźnik const do const, zastosuj ponownie <code>const</code> kwalifikator(y), nawet jeśli nie jest to absolutnie konieczne, ponieważ wyjaśnia to intencje i pomaga zapobiegać błędom.</div><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>Rozważ użycie <code>auto*</code> przy dedukowaniu typu wskaźnika. Użycie <code>auto*</code> w tym przypadku wyjaśnia, że ​​dedukujemy typ wskaźnika, korzysta z pomocy kompilatora, aby upewnić się, że nie wydedukujemy typu innego niż wskaźnik, i daje większą kontrolę nad const.</div><p class="cpp-section cpp-topline" style=clear:both>Streszczenie<p>Przykro nam z powodu bólu głowy. Podsumujmy szybko najważniejsze punkty.<p>Stała najwyższego poziomu a stała niskiego poziomu:<ul><li>Stała najwyższego poziomu dotyczy samego obiektu (np.  <code>const int x</code> lub <code>int* const ptr</code>).<li>Stała niskiego poziomu dotyczy obiektu, do którego można uzyskać dostęp poprzez referencję lub wskaźnik (np.  <code>const int& ref</code>, <code>const int* ptr</code>).</ul><p>Jaki rodzaj dedukcji dedukuje:<ul><li>Typ dedukcji najpierw usuwa wszelkie referencje (chyba że wywnioskowany typ jest zdefiniowany jako odniesienie). W przypadku stałego odniesienia, usunięcie odniesienia spowoduje, że stała (niskiego poziomu) stanie się stałą najwyższego poziomu.<li>Dedukcja typu następnie usuwa wszelkie stałe najwyższego poziomu (chyba że wydedukowany typ jest zdefiniowany jako <code>const</code> lub <code>constexpr</code>).<li>Constexpr nie jest częścią systemu typów, więc nigdy nie jest wydedukowany. Zawsze musi być jawnie zastosowany do wydedukowanego typ.<li>Dedukcja typu nie powoduje utraty wskaźników.<li>Zawsze jawnie definiuj wydedukowany typ jako odniesienie, <code>const</code> lub <code>constexpr</code> (jeśli ma to zastosowanie), nawet jeśli te kwalifikatory są zbędne, ponieważ mogłyby zostać wydedukowane. Pomaga to uniknąć błędów i wyjaśnia, jaki jest Twój zamiar.</ul><p>Wpisz dedukcję i wskaźniki:<ul><li>Podczas używania <code>auto</code>, typ wydedukowany będzie wskaźnikiem tylko wtedy, gdy inicjatorem jest wskaźnik. W przypadku użycia <code>auto*</code> typ wydedukowany jest zawsze wskaźnikiem, nawet jeśli inicjatorem nie jest wskaźnik.<li><code>auto const</code> i <code>const auto</code> oba powodują, że wydedukowany wskaźnik jest wskaźnikiem stałym. Nie ma możliwości jawnego określenia stałej niskiego poziomu (wskaźnik do stałej) za pomocą <code>auto</code>.<li><code>auto* const</code> również powoduje wydedukowany wskaźnik. wskaźnik stałej. <code>const auto*</code> czyni z wydedukowanego wskaźnika wskaźnik do stałej. Jeśli są one trudne do zapamiętania, <code>int* const</code> jest wskaźnikiem stałej (do int), więc <code>auto* const</code> musi być wskaźnikiem stałej. <code>const int*</code> jest wskaźnikiem do stałej (int), więc <code>const auto*</code> musi być wskaźnikiem pointer-to-const)<li>Rozważ użycie <code>auto*</code> za  <code>auto</code> podczas dedukcji typu wskaźnika, ponieważ pozwala to na jawne ponowne zastosowanie zarówno stałej najwyższego, jak i niskiego poziomu, i spowoduje błąd, jeśli typ wskaźnika nie zostanie wydedukowany.</ul><div class=prevnext><div class=prevnext-inline><a class=nav-link href="../stdoptional/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>12.15</span>std::opcjonalne</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../in-and-out-parameters/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>12.13</span>Parametry wejściowe i wyjściowe</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/type-deduction-with-pointers-references-and-const/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../passing-and-returning-structs/index.html" rel=prev><span>13.10 -- Przekazywanie i zwracanie struktur</span></a></div><div class=nav-next><em>Następny post</em><a href="../introduction-to-random-number-generation/index.html" rel=next><span>8.13 — Wprowadzenie do generowania liczb losowych</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>

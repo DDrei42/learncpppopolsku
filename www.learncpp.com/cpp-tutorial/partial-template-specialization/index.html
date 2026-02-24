@@ -13,11 +13,11 @@
 <button class=searchsubmit><span class=screen-reader-text>Szukaj</span><i class=icon-search></i></button>
 <input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=22056></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="26.5 — Częściowa specjalizacja szablonów" src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-208 class="post-208 post type-post status-publish format-standard hentry category-cpp-tutorial tag-c tag-pointers tag-programming tag-specialization tag-templates tag-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>26.5 — Częściowa specjalizacja szablonów</h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Autor></i><a class="url fn n" rel=author href=/www.learncpp.com/author/Alex/ title="Wyświetl wszystkie posty Alexa" itemprop=url><em itemprop=name>Alex</em></a></span>
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2008-08-17T18:59:03-07:00 itemprop=datePublished>17 sierpnia 2008, 18:59 czasu PDT</time>
-<time class=updated datetime=2024-03-16T15:53:05-07:00 itemprop=dateModified>16 marca 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>Ta i następne lekcje są lekturą opcjonalną dla osób pragnących głębszej wiedzy o szablonach C++. Częściowa specjalizacja szablonów nie jest używana zbyt często (ale może być użyteczna w określonych przypadkach).<p>W lekcji <a href="../template-non-type-parameters/index.html">&gt;26.2 -- Parametry nietypowe szablonu</a>, wiesz, jak parametry wyrażeń mogą być używane do parametryzacji klas szablonów.<p>Przyjrzyjmy się jeszcze raz klasie Static Array, której użyliśmy w jednym z naszych poprzednich przykładów:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">template &lt;typename T, int size&gt; // size is the expression parameter
+<time class=updated datetime=2024-03-16T15:53:05-07:00 itemprop=dateModified>16 marca 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>Ta i następne lekcje są lekturą opcjonalną dla osób pragnących głębszej wiedzy o szablonach C++. Częściowa specjalizacja szablonów nie jest używana zbyt często (ale może być użyteczna w określonych przypadkach).<p>W lekcji <a href="../template-non-type-parameters/index.html">26.2 -- Parametry nietypowe szablonu</a>, wiesz, jak parametry wyrażeń mogą być używane do parametryzacji klas szablonów.<p>Przyjrzyjmy się jeszcze raz klasie Static Array, której użyliśmy w jednym z naszych poprzednich przykładów:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">template &lt;typename T, int size&gt; // size to parametr wyrażenia
 class StaticArray
 {
 private:
-    // The expression parameter controls the size of the array
+    // Parametr wyrażenia steruje rozmiarem tablicy
     T m_array[size]{};
  
 public:
@@ -32,7 +32,7 @@ void print(const StaticArray&lt;T, size&gt;&amp; array)
         std::cout &lt;&lt; array[count] &lt;&lt; &#39; &#39;;
 }</code></pre><p>Umożliwiłoby nam to wykonanie następujących czynności:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-template &lt;typename T, int size&gt; // size is a template non-type parameter
+template &lt;typename T, int size&gt; // rozmiar do parametru alternatywnego szablonu
 class StaticArray
 {
 private:
@@ -49,19 +49,19 @@ template &lt;typename T, int size&gt;
 void print(const StaticArray&lt;T, size&gt;&amp; array)
 {
 	for (int count{ 0 }; count &lt; size; ++count)
-		std::cout &lt;&lt; array[count] &lt;&lt; &#39; &#39;;
+		std::cout &lt;&lt; array[count] &lt;&lt; ' ';
 }
 
 int main()
 {
-	// declare an int array
+	// zadeklaruj tablicę int
 	StaticArray&lt;int, 4&gt; int4{};
 	int4[0] = 0;
 	int4[1] = 1;
 	int4[2] = 2;
 	int4[3] = 3;
 
-	// Print the array
+	// Wydrukuj tablicę
 	print(int4);
 
 	return 0;
@@ -72,14 +72,14 @@ int main()
 
 int main()
 {
-    // Declare a char array
+    // Zadeklaruj tablicę char
     StaticArray&lt;char, 14&gt; char14{};
 
-    // Copy some data into it
-    constexpr std::string_view hello{ &#34;Hello, world!&#34; };
+    // Kopiuj do niej część danych
+    constexpr std::string_view hello{ "Hello, world!" };
     std::copy_n(hello.begin(), hello.size(), char14.getArray());
 
-    // Print the array
+    // Wydrukuj tablicę
     print(char14);
 
     return 0;
@@ -88,11 +88,11 @@ int main()
 #include &lt;iostream&gt;
 #include &lt;string_view&gt;
 
-template &lt;typename T, int size&gt; // size is the expression parameter
+template &lt;typename T, int size&gt; // size to parametr wyrażenia
 class StaticArray
 {
 private:
-	// The expression parameter controls the size of the array
+	// Parametr wyrażenia steruje rozmiarem tablicy
 	T m_array[size]{};
 
 public:
@@ -106,10 +106,10 @@ template &lt;typename T, int size&gt;
 void print(const StaticArray&lt;T, size&gt;&amp; array)
 {
 	for (int count{ 0 }; count &lt; size; ++count)
-		std::cout &lt;&lt; array[count] &lt;&lt; &#39; &#39;;
+		std::cout &lt;&lt; array[count] &lt;&lt; ' ';
 }
 
-// Override print() for fully specialized StaticArray&lt;char, 14&gt;
+// Zastąp funkcję print() dla w pełni wyspecjalizowanej tablicy StaticArray&lt;char, 14&gt;
 template &lt;&gt;
 void print(const StaticArray&lt;char, 14&gt;&amp; array)
 {
@@ -119,34 +119,34 @@ void print(const StaticArray&lt;char, 14&gt;&amp; array)
 
 int main()
 {
-    // Declare a char array
+    // Zadeklaruj tablicę char
     StaticArray&lt;char, 14&gt; char14{};
 
-    // Copy some data into it
-    constexpr std::string_view hello{ &#34;Hello, world!&#34; };
+    // Kopiuj do niej część danych
+    constexpr std::string_view hello{ "Hello, world!" };
     std::copy_n(hello.begin(), hello.size(), char14.getArray());
 
-    // Print the array
+    // Wydrukuj tablicę
     print(char14);
 
     return 0;
 }</code></pre><p>Jak widać, udostępniliśmy teraz przeciążoną funkcję drukowania dla w pełni specjalizowanego <code>StaticArray&lt;char, 14></code>. Rzeczywiście, to wypisuje:<pre>Hello, world!
 </pre><p>Chociaż rozwiązuje to problem upewnienia się, że print() można wywołać za pomocą  <code>StaticArray&lt;char, 14></code>, pojawia się inny problem: użycie pełnej specjalizacji szablonu oznacza, że ​​musimy jawnie zdefiniować długość tablicy, którą ta funkcja zaakceptuje! Rozważmy następujący przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
-    // Declare a char array
+    // Zadeklaruj tablicę char
     StaticArray&lt;char, 12&gt; char12{};
 
-    // Copy some data into it
-    constexpr std::string_view hello{ &#34;Hello, mom!&#34; };
+    // Kopiuj do niej część danych
+    constexpr std::string_view hello{ "Hello, mom!" };
     std::copy_n(hello.begin(), hello.size(), char12.getArray());
 
-    // Print the array
+    // Wydrukuj tablicę
     print(char12);
 
     return 0;
-}</code></pre><p>Wywołanie <code>print()</code> z <code>char12</code> wywoła wersję <code>print()</code> która wymaga  <code>StaticArray&lt;T, size></code>, ponieważ <code>char12</code> jest typu <code>StaticArray&lt;char, 12></code>, a nasza przeciążona funkcja print() zostanie wywołana tylko po przekazaniu <code>StaticArray&lt;char, 14></code>.<p>Chociaż moglibyśmy utworzyć kopię print() obsługującą <code>StaticArray&lt;char, 12></code>, co się stanie, gdy będziemy chcieli wywołać print() z tablicą o rozmiarze 5 czy 22? Musielibyśmy skopiować funkcję dla każdego innego rozmiaru tablicy. To zbędne.<p>Oczywiście pełna specjalizacja szablonów jest tutaj zbyt restrykcyjnym rozwiązaniem. Rozwiązaniem, którego szukamy jest częściowa specjalizacja szablonów.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Częściowa specjalizacja szablonu<p>Częściowa specjalizacja szablonów pozwala nam na specjalizację klas (ale nie poszczególnych funkcji!), w których niektóre, ale nie wszystkie parametry szablonu zostały jawnie zdefiniowane. W przypadku powyższego wyzwania idealnym rozwiązaniem byłoby, gdyby nasza przeciążona funkcja drukowania działała ze StaticArray typu char, ale pozostawiłaby szablon wyrażenia długości, aby mógł się zmieniać w razie potrzeby. Częściowa specjalizacja szablonów właśnie to nam pozwala!<p>Oto nasz przykład z przeciążoną funkcją drukowania, która przyjmuje częściowo wyspecjalizowaną tablicę StaticArray:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// overload of print() function for partially specialized StaticArray&lt;char, size&gt;
-template &lt;int size&gt; // size is still a template non-type parameter
-void print(const StaticArray&lt;char, size&gt;&amp; array) // we&#39;re explicitly defining type char here
+}</code></pre><p>Wywołanie <code>print()</code> z <code>char12</code> wywoła wersję <code>print()</code> która wymaga  <code>StaticArray&lt;T, size></code>, ponieważ <code>char12</code> jest typu <code>StaticArray&lt;char, 12></code>, a nasza przeciążona funkcja print() zostanie wywołana tylko po przekazaniu <code>StaticArray&lt;char, 14></code>.<p>Chociaż moglibyśmy utworzyć kopię print() obsługującą <code>StaticArray&lt;char, 12></code>, co się stanie, gdy będziemy chcieli wywołać print() z tablicą o rozmiarze 5 czy 22? Musielibyśmy skopiować funkcję dla każdego innego rozmiaru tablicy. To zbędne.<p>Oczywiście pełna specjalizacja szablonów jest tutaj zbyt restrykcyjnym rozwiązaniem. Rozwiązaniem, którego szukamy jest częściowa specjalizacja szablonów.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Częściowa specjalizacja szablonu<p>Częściowa specjalizacja szablonów pozwala nam na specjalizację klas (ale nie poszczególnych funkcji!), w których niektóre, ale nie wszystkie parametry szablonu zostały jawnie zdefiniowane. W przypadku powyższego wyzwania idealnym rozwiązaniem byłoby, gdyby nasza przeciążona funkcja drukowania działała ze StaticArray typu char, ale pozostawiłaby szablon wyrażenia długości, aby mógł się zmieniać w razie potrzeby. Częściowa specjalizacja szablonów właśnie to nam pozwala!<p>Oto nasz przykład z przeciążoną funkcją drukowania, która przyjmuje częściowo wyspecjalizowaną tablicę StaticArray:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// przeciążenie funkcji print() dla częściowo wyspecjalizowanej StaticArray&lt;char, size&gt;
+template &lt;int size&gt; // size jest nadal parametrem innym niż typ szablonu
+void print(const StaticArray&lt;char, size&gt;&amp; array) // jawnie określmy typ char tutaj
 {
 	for (int count{ 0 }; count &lt; size; ++count)
 		std::cout &lt;&lt; array[count];
@@ -154,11 +154,11 @@ void print(const StaticArray&lt;char, size&gt;&amp; array) // we&#39;re explicit
 #include &lt;iostream&gt;
 #include &lt;string_view&gt;
 
-template &lt;typename T, int size&gt; // size is the expression parameter
+template &lt;typename T, int size&gt; // size to parametr wyrażenia
 class StaticArray
 {
 private:
-	// The expression parameter controls the size of the array
+	// Parametr wyrażenia steruje rozmiarem tablicy
 	T m_array[size]{};
 
 public:
@@ -172,10 +172,10 @@ template &lt;typename T, int size&gt;
 void print(const StaticArray&lt;T, size&gt;&amp; array)
 {
 	for (int count{ 0 }; count &lt; size; ++count)
-		std::cout &lt;&lt; array[count] &lt;&lt; &#39; &#39;;
+		std::cout &lt;&lt; array[count] &lt;&lt; ' ';
 }
 
-// overload of print() function for partially specialized StaticArray&lt;char, size&gt;
+// przeciążenie funkcji print() dla częściowo wyspecjalizowanej StaticArray&lt;char, size&gt;
 template &lt;int size&gt;
 void print(const StaticArray&lt;char, size&gt;&amp; array)
 {
@@ -185,26 +185,26 @@ void print(const StaticArray&lt;char, size&gt;&amp; array)
 
 int main()
 {
-	// Declare an char array of size 14
+	// Zadeklaruj tablicę znaków o rozmiarze 14
 	StaticArray&lt;char, 14&gt; char14{};
 
-	// Copy some data into it
-	constexpr std::string_view hello14{ &#34;Hello, world!&#34; };
+	// Kopiuj do niej część danych
+	constexpr std::string_view hello14{ "Hello, world!" };
 	std::copy_n(hello14.begin(), hello14.size(), char14.getArray());
 
-	// Print the array
+	// Wydrukuj tablicę
 	print(char14);
 
-	std::cout &lt;&lt; &#39; &#39;;
+	std::cout &lt;&lt; ' ';
 
-	// Now declare an char array of size 12
+	// Teraz zadeklaruj tablicę znaków o rozmiarze 12
 	StaticArray&lt;char, 12&gt; char12{};
 
-	// Copy some data into it
-	constexpr std::string_view hello12{ &#34;Hello, mom!&#34; };
+	// Kopiuj do niej część danych
+	constexpr std::string_view hello12{ "Hello, mom!" };
 	std::copy_n(hello12.begin(), hello12.size(), char12.getArray());
 
-	// Print the array
+	// Wydrukuj tablicę
 	print(char12);
 
 	return 0;
@@ -230,13 +230,13 @@ void StaticArray&lt;T, size&gt;::print() const
     for (int i{ 0 }; i &lt; size; ++i)
         std::cout &lt;&lt; m_array[i] &lt;&lt; &#39; &#39;;
     std::cout &lt;&lt; &#39;\n&#39;;
-}</code></pre><p>print() jest teraz funkcją składową klasy <code>StaticArray&lt;T, int></code>. Co więc się stanie, gdy chcemy częściowo wyspecjalizować funkcję print(), aby działała inaczej? Możesz spróbować tego:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Doesn&#39;t work, can&#39;t partially specialize functions
+}</code></pre><p>print() jest teraz funkcją składową klasy <code>StaticArray&lt;T, int></code>. Co więc się stanie, gdy chcemy częściowo wyspecjalizować funkcję print(), aby działała inaczej? Możesz spróbować tego:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Nie działa, nie można częściowo wyspecjalizować funkcji
 template &lt;int size&gt;
 void StaticArray&lt;double, size&gt;::print() const
 {
 	for (int i{ 0 }; i &lt; size; ++i)
-		std::cout &lt;&lt; std::scientific &lt;&lt; m_array[i] &lt;&lt; &#39; &#39;;
-	std::cout &lt;&lt; &#39;\n&#39;;
+		std::cout &lt;&lt; std::scientific &lt;&lt; m_array[i] &lt;&lt; ' ';
+	std::cout &lt;&lt; '\n';
 }</code></pre><p>Niestety to nie działa, ponieważ próbujemy częściowo wyspecjalizować funkcję, co jest niedozwolone.<p>Jak więc obejść ten problem? Jednym z oczywistych sposobów jest częściowa specjalizacja całej klasy:<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 template &lt;typename T, int size&gt;
@@ -258,11 +258,11 @@ template &lt;typename T, int size&gt;
 void StaticArray&lt;T, size&gt;::print() const
 {
 	for (int i{ 0 }; i &lt; size; ++i)
-		std::cout &lt;&lt; m_array[i] &lt;&lt; &#39; &#39;;
-	std::cout &lt;&lt; &#39;\n&#39;;
+		std::cout &lt;&lt; m_array[i] &lt;&lt; ' ';
+	std::cout &lt;&lt; '\n';
 }
 
-// Partially specialized class
+// Zajęcia częściowo specjalistyczne
 template &lt;int size&gt;
 class StaticArray&lt;double, size&gt;
 {
@@ -278,27 +278,27 @@ public:
 	void print() const;
 };
 
-// Member function of partially specialized class
+// Funkcja składowa częściowo wyspecjalizowanej klasy
 template &lt;int size&gt;
 void StaticArray&lt;double, size&gt;::print() const
 {
 	for (int i{ 0 }; i &lt; size; ++i)
-		std::cout &lt;&lt; std::scientific &lt;&lt; m_array[i] &lt;&lt; &#39; &#39;;
-	std::cout &lt;&lt; &#39;\n&#39;;
+		std::cout &lt;&lt; std::scientific &lt;&lt; m_array[i] &lt;&lt; ' ';
+	std::cout &lt;&lt; '\n';
 }
 
 int main()
 {
-	// declare an integer array with room for 6 integers
+	// zadeklaruj tablicę liczb całkowitych z miejscem na 6 liczb całkowitych
 	StaticArray&lt;int, 6&gt; intArray{};
 
-	// Fill it up in order, then print it
+	// Wypełnij w kolejności, a następnie wydrukuj
 	for (int count{ 0 }; count &lt; 6; ++count)
 		intArray[count] = count;
 
 	intArray.print();
 
-	// declare a double buffer with room for 4 doubles
+	// deklaracja podwójny bufor z miejscem na 4 doubles
 	StaticArray&lt;double, 4&gt; doubleArray{};
 
 	for (int count{ 0 }; count &lt; 4; ++count)
@@ -309,7 +309,7 @@ int main()
 	return 0;
 }</code></pre><p>Wypisuje:<pre>0 1 2 3 4 5
 4.000000e+00 4.100000e+00 4.200000e+00 4.300000e+00
-</pre><p>Działa to, ponieważ <code>StaticArray&lt;double, size>::print()</code> nie jest już częściowo wyspecjalizowaną funkcją - jest niewyspecjalizowanym członkiem częściowo wyspecjalizowanej klasy <code>StaticArray&lt;double, size></code>.<p>Nie jest to jednak świetne rozwiązanie, ponieważ musimy zduplikować dużo kodu z <code>StaticArray&lt;T, size></code> Do <code>StaticArray&lt;double, size></code>.<p>Gdyby tylko istniał jakiś sposób na ponowne wykorzystanie kodu w <code>StaticArray&lt;T, size></code> w <code>StaticArray&lt;double, size></code>. Brzmi jak zadanie związane z dziedziczeniem!<p>Możesz zacząć od próby napisania tego kodu w ten sposób:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">template &lt;int size&gt; // size is the expression parameter
+</pre><p>Działa to, ponieważ <code>StaticArray&lt;double, size>::print()</code> nie jest już częściowo wyspecjalizowaną funkcją - jest niewyspecjalizowanym członkiem częściowo wyspecjalizowanej klasy <code>StaticArray&lt;double, size></code>.<p>Nie jest to jednak świetne rozwiązanie, ponieważ musimy zduplikować dużo kodu z <code>StaticArray&lt;T, size></code> Do <code>StaticArray&lt;double, size></code>.<p>Gdyby tylko istniał jakiś sposób na ponowne wykorzystanie kodu w <code>StaticArray&lt;T, size></code> w <code>StaticArray&lt;double, size></code>. Brzmi jak zadanie związane z dziedziczeniem!<p>Możesz zacząć od próby napisania tego kodu w ten sposób:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">template &lt;int size&gt; // size to parametr wyrażenia
 class StaticArray&lt;double, size&gt;: public StaticArray&lt;T, size&gt;</code></pre><p>Ale to nie działa, ponieważ użyliśmy <code>T</code> bez jego definiowania. Nie ma składni, która pozwalałaby nam dziedziczyć w taki sposób.<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Na marginesie…<p>Nawet gdybyśmy mogli zdefiniować <code>T</code> jako parametr szablonu typu, podczas tworzenia instancji <code>StaticArray&lt;double, size></code> kompilator musiałby zastąpić <code>T</code> w <code>StaticArray&lt;T, size></code> rzeczywistym typem. Jakiego rzeczywistego typu by użył? Jedynym typem, który ma sens, jest  <code>T=double</code>, ale spowodowałoby to <code>StaticArray&lt;double, size></code> dziedziczenie po sobie!</div><p>Na szczęście istnieje obejście polegające na użyciu wspólnej klasy bazowej:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 template &lt;typename T, int size&gt;
@@ -327,11 +327,11 @@ public:
 	void print() const
 	{
 		for (int i{ 0 }; i &lt; size; ++i)
-			std::cout &lt;&lt; m_array[i] &lt;&lt; &#39; &#39;;
-		std::cout &lt;&lt; &#39;\n&#39;;
+			std::cout &lt;&lt; m_array[i] &lt;&lt; ' ';
+		std::cout &lt;&lt; '\n';
 	}
 
-	// Don&#39;t forget a virtual destructor if you&#39;re going to use virtual function resolution
+	// Nie zapomnij o wirtualnym destruktorze, jeśli masz zamiar używać wirtualnego rozpoznawania funkcji
 };
 
 template &lt;typename T, int size&gt;
@@ -347,25 +347,25 @@ public:
 	void print() const
 	{
 		for (int i{ 0 }; i &lt; size; ++i)
-			std::cout &lt;&lt; std::scientific &lt;&lt; this-&gt;m_array[i] &lt;&lt; &#39; &#39;;
-// note: The this-&gt; prefix in the above line is needed.
+			std::cout &lt;&lt; std::scientific &lt;&lt; this-&gt;m_array[i] &lt;&lt; ' ';
+// uwaga: przedrostek this-&gt; w powyższym wierszu jest potrzebny.
 // See https://stackoverflow.com/a/6592617 or https://isocpp.org/wiki/faq/templates#nondependent-name-lookup-members for more info on why.
-		std::cout &lt;&lt; &#39;\n&#39;;
+		std::cout &lt;&lt; '\n';
 	}
 };
 
 int main()
 {
-	// declare an integer array with room for 6 integers
+	// zadeklaruj tablicę liczb całkowitych z miejscem na 6 liczb całkowitych
 	StaticArray&lt;int, 6&gt; intArray{};
 
-	// Fill it up in order, then print it
+	// Wypełnij w kolejności, a następnie wydrukuj
 	for (int count{ 0 }; count &lt; 6; ++count)
 		intArray[count] = count;
 
 	intArray.print();
 
-	// declare a double buffer with room for 4 doubles
+	// deklaracja podwójny bufor z miejscem na 4 doubles
 	StaticArray&lt;double, 4&gt; doubleArray{};
 
 	for (int count{ 0 }; count &lt; 4; ++count)

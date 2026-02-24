@@ -13,7 +13,7 @@
 <button class=searchsubmit><span class=screen-reader-text>Szukaj</span><i class=icon-search></i></button>
 <input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=10830></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="11.9 — Nietypowe parametry szablonu" src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-14268 class="post-14268 post type-post status-publish format-standard hentry category-cpp-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>11.9 — Nietypowe parametry szablonu</h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Autor></i><a class="url fn n" rel=author href=/www.learncpp.com/author/Alex/ title="Wyświetl wszystkie posty Alexa" itemprop=url><em itemprop=name>Alex</em></a></span>
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2023-04-21T16:12:34-07:00 itemprop=datePublished>21 kwietnia 2023, 16:12 czasu PDT</time>
-<time class=updated datetime=2024-10-20T15:39:41-07:00 itemprop=dateModified>20 października 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>W poprzednich lekcjach omawialiśmy sposób tworzenia szablonów funkcji korzystających z parametrów szablonu typów. Parametr szablonu typu służy jako element zastępczy rzeczywistego typu, który jest przekazywany jako argument szablonu.<p>Chociaż parametry szablonu typu są zdecydowanie najczęściej używanym typem parametru szablonu, istnieje inny rodzaj parametru szablonu, o którym warto wiedzieć: parametr szablonu inny niż typ.<p class="cpp-section cpp-topline" style=clear:both>Szablon inny niż typ parametry<p>A <strong>nietypowym parametrem szablonu</strong> jest parametrem szablonu o stałym typie, który służy jako symbol zastępczy wartości constexpr przekazanej jako argument szablonu.<p>Parametr szablonu inny niż typ może należeć do dowolnego z następujących typów:<ul><li>Typ całkowity<li>Wyliczenie typ<li><code>std::nullptr_t</code><li>Typ zmiennoprzecinkowy (od C++20)<li>Wskaźnik lub odwołanie do obiektu<li>Wskaźnik lub odwołanie do funkcji<li>Wskaźnik lub odwołanie do funkcji składowej<li>Dosłowny typ klasy (od C++20)</ul><p>Pierwszy przykład parametru szablonu innego niż typ zobaczyliśmy, gdy omówione <code>std::bitset</code> w lekcji <a href="../bit-flags-and-bit-manipulation-via-stdbitset/index.html">O.1 — Flagi bitowe i manipulacja bitami za pomocą std::bitset</a>:<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;bitset&gt;
+<time class=updated datetime=2024-10-20T15:39:41-07:00 itemprop=dateModified>20 października 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>W poprzednich lekcjach omawialiśmy sposób tworzenia szablonów funkcji korzystających z parametrów szablonu typów. Parametr szablonu typu służy jako element zastępczy rzeczywistego typu, który jest przekazywany jako argument szablonu.<p>Chociaż parametry szablonu typu są zdecydowanie najczęściej używanym typem parametru szablonu, istnieje inny rodzaj parametru szablonu, o którym warto wiedzieć: parametr szablonu inny niż typ.<p class="cpp-section cpp-topline" style=clear:both>Szablon inny niż typ parametry<p><strong>nietypowym parametrem szablonu</strong> jest parametrem szablonu o stałym typie, który służy jako symbol zastępczy wartości constexpr przekazanej jako argument szablonu.<p>Parametr szablonu inny niż typ może należeć do dowolnego z następujących typów:<ul><li>Typ całkowity<li>Wyliczenie typ<li><code>std::nullptr_t</code><li>Typ zmiennoprzecinkowy (od C++20)<li>Wskaźnik lub odwołanie do obiektu<li>Wskaźnik lub odwołanie do funkcji<li>Wskaźnik lub odwołanie do funkcji składowej<li>Dosłowny typ klasy (od C++20)</ul><p>Pierwszy przykład parametru szablonu innego niż typ zobaczyliśmy, gdy omówione <code>std::bitset</code> w lekcji <a href="../bit-flags-and-bit-manipulation-via-stdbitset/index.html">O.1 — Flagi bitowe i manipulacja bitami za pomocą std::bitset</a>:<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;bitset&gt;
 
 int main()
 {
@@ -22,15 +22,15 @@ int main()
     return 0;
 }</code></pre><p>W przypadku <code>std::bitset</code>, parametr szablonu typu non-type służy do określenia <code>std::bitset</code> ile bitów, które chcemy przechowywać.<p class="cpp-section cpp-topline" style=clear:both>Definiowanie naszych własnych parametrów szablonu typu non-type<p>Oto prosty przykład funkcji, która wykorzystuje szablon typu int parametr:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-template &lt;int N&gt; // declare a non-type template parameter of type int named N
+template &lt;int N&gt; // zadeklaruj inny parametr szablonu typu w nazwie N
 void print()
 {
-    std::cout &lt;&lt; N &lt;&lt; &#39;\n&#39;; // use value of N here
+    std::cout &lt;&lt; N &lt;&lt; '\n'; // użyj tutaj wartości N
 }
 
 int main()
 {
-    print&lt;5&gt;(); // 5 is our non-type template argument
+    print&lt;5&gt;(); // 5 na nasz szablon alternatywny argument
 
     return 0;
 }</code></pre><p>Ten przykład wyświetla:<pre>5
@@ -39,14 +39,14 @@ void print&lt;5&gt;()
 {
     std::cout &lt;&lt; 5 &lt;&lt; &#39;\n&#39;;
 }</code></pre><p>W czasie wykonywania, gdy ta funkcja zostanie wywołana z <code>main()</code>, drukuje <code>5</code>.<p>Następnie program się kończy. Całkiem proste, prawda?<p>Podobnie jak  <code>T</code> jest zwykle używany jako nazwa pierwszego parametru szablonu typu, <code>N</code> jest konwencjonalnie używany jako nazwa parametru szablonu innego niż typ int.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Użyj <code>N</code> jako nazwa parametru szablonu innego niż typ int.</div><p class="cpp-section cpp-topline" style=clear:both>Jakie są przydatne parametry szablonu innego typu for?<p>Począwszy od C++20, parametry funkcji nie mogą być constexpr. Dotyczy to normalnych funkcji, funkcji constexpr (co ma sens, ponieważ muszą być możliwe do uruchomienia w czasie wykonywania) i, co może być zaskakujące, nawet funkcji consteval.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>Załóżmy, że mamy taką funkcję jak ta:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cassert&gt;
-#include &lt;cmath&gt; // for std::sqrt
+#include &lt;cmath&gt; // dla std::sqrt
 #include &lt;iostream&gt;
 
 double getSqrt(double d)
 {
-    assert(d &gt;= 0.0 &amp;&amp; &#34;getSqrt(): d must be non-negative&#34;);
+    assert(d &gt;= 0.0 &amp;&amp; "getSqrt(): d must be non-negative");
 
-    // The assert above will probably be compiled out in non-debug builds
+    // Powyższe potwierdzenie prawdopodobnie zostanie skompilowane w trybie innym niż debugowanie builds
     if (d &gt;= 0)
         return std::sqrt(d);
 
@@ -55,87 +55,87 @@ double getSqrt(double d)
 
 int main()
 {
-    std::cout &lt;&lt; getSqrt(5.0) &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; getSqrt(-5.0) &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; getSqrt(5.0) &lt;&lt; '\n';
+    std::cout &lt;&lt; getSqrt(-5.0) &lt;&lt; '\n';
 
     return 0;
-}</code></pre><p>Po uruchomieniu wywołanie  <code>getSqrt(-5.0)</code>  zostanie potwierdzone w czasie wykonywania. Chociaż jest to lepsze niż nic, ponieważ <code>-5.0</code> jest dosłownym (i domyślnie constexpr), byłoby lepiej, gdybyśmy mogli static_assert, aby błędy takie jak ten były wychwytywane w czasie kompilacji. Jednak static_assert wymaga stałego wyrażenia, a parametry funkcji nie mogą być constexpr…<p>Jeśli jednak zamiast tego zmienimy parametr funkcji na parametr szablonu niebędący typem, możemy zrobić dokładnie tak, jak chcemy:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cmath&gt; // for std::sqrt
+}</code></pre><p>Po uruchomieniu wywołanie  <code>getSqrt(-5.0)</code>  zostanie potwierdzone w czasie wykonywania. Chociaż jest to lepsze niż nic, ponieważ <code>-5.0</code> jest dosłownym (i domyślnie constexpr), byłoby lepiej, gdybyśmy mogli static_assert, aby błędy takie jak ten były wychwytywane w czasie kompilacji. Jednak static_assert wymaga stałego wyrażenia, a parametry funkcji nie mogą być constexpr…<p>Jeśli jednak zamiast tego zmienimy parametr funkcji na parametr szablonu niebędący typem, możemy zrobić dokładnie tak, jak chcemy:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cmath&gt; // dla std::sqrt
 #include &lt;iostream&gt;
 
-template &lt;double D&gt; // requires C++20 for floating point non-type parameters
+template &lt;double D&gt; // wymaga C++20 dla parametrów zmiennoprzecinkowych nietypowych
 double getSqrt()
 {
-    static_assert(D &gt;= 0.0, &#34;getSqrt(): D must be non-negative&#34;);
+    static_assert(D &gt;= 0.0, "getSqrt(): D must be non-negative");
 
-    if constexpr (D &gt;= 0) // ignore the constexpr here for this example
-        return std::sqrt(D); // strangely, std::sqrt isn&#39;t a constexpr function (until C++26)
+    if constexpr (D &gt;= 0) // zignoruj constexpr w tym przykładzie
+        return std::sqrt(D); // co dziwne, std::sqrt nie jest funkcją constexpr (do C++26)
 
     return 0.0;
 }
 
 int main()
 {
-    std::cout &lt;&lt; getSqrt&lt;5.0&gt;() &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; getSqrt&lt;-5.0&gt;() &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; getSqrt&lt;5.0&gt;() &lt;&lt; '\n';
+    std::cout &lt;&lt; getSqrt&lt;-5.0&gt;() &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Ta wersja nie zostanie skompilowana. Gdy kompilator napotka  <code>getSqrt&lt;-5.0>()</code>, utworzy instancję i wywoła funkcję, która wygląda mniej więcej tak:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">template &lt;&gt;
 double getSqrt&lt;-5.0&gt;()
 {
-    static_assert(-5.0 &gt;= 0.0, &#34;getSqrt(): D must be non-negative&#34;);
+    static_assert(-5.0 &gt;= 0.0, "getSqrt(): D must be non-negative");
 
-    if constexpr (-5.0 &gt;= 0) // ignore the constexpr here for this example
+    if constexpr (-5.0 &gt;= 0) // zignoruj constexpr w tym przykładzie
         return std::sqrt(-5.0);
 
     return 0.0;
 }</code></pre><p>Warunek static_assert jest fałszywy, więc kompilator potwierdza.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Parametry szablonu niebędące typem są używane głównie wtedy, gdy musimy przekazać wartości constexpr do funkcji (lub typów klas), aby można było ich używać w kontekstach wymagających stałego wyrażenia.<p>Klasa type <code>std::bitset</code> używa parametru szablonu innego niż typ do zdefiniowania liczby bitów do przechowywania, ponieważ liczba bitów musi być wartością constexpr.</div><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nota autora<p>Konieczność używania parametrów szablonu innych niż typ w celu obejścia ograniczenia mówiącego, że parametry funkcji nie mogą być constexpr, nie jest świetna. Ocenia się kilka różnych propozycji, które mogą pomóc w rozwiązaniu takich sytuacji. Spodziewam się, że możemy zobaczyć lepsze rozwiązanie tego problemu w przyszłym standardzie języka C++.</div><p class="cpp-section cpp-topline" style=clear:both>Niejawne konwersje dla argumentów szablonu niebędących typem <span class="cpp-section-pill cpp-section-optional">Opcjonalne</span><p>Niektóre argumenty szablonu niebędące typem mogą być niejawnie konwertowane w celu dopasowania parametrów szablonu innego typu niż inny typ. Na przykład: <pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-template &lt;int N&gt; // int non-type template parameter
+template &lt;int N&gt; // int parametr inny niż typ szablonu
 void print()
 {
-    std::cout &lt;&lt; N &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; N &lt;&lt; '\n';
 }
 
 int main()
 {
-    print&lt;5&gt;();   // no conversion necessary
-    print&lt;&#39;c&#39;&gt;(); // &#39;c&#39; converted to type int, prints 99
+    print&lt;5&gt;();   // nie jest konieczna konwersja
+    print&lt;'c'&gt;(); // „c” skonwertowane na typ int, wypisuje 99
 
     return 0;
 }</code></pre><p>Wypisuje:<pre>5
 99
 </pre><p>W powyższym przykładzie <code>'c'</code> jest konwertowany na <code>int</code> w celu dopasowania parametru szablonu innego niż typ szablonu funkcji <code>print()</code>, który następnie drukuje wartość jako <code>int</code>.<p>W tym kontekście dozwolone są tylko niektóre typy konwersji constexpr. Do najpowszechniejszych typów dozwolonych konwersji należą: <div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><ul><li>Promocje integralne (np.  <code>char</code> Do <code>int</code>)<li>Konwersje integralne (np.  <code>char</code> Do <code>long</code> lub <code>int</code> Do <code>char</code>)<li>konwersje zdefiniowane przez użytkownika (np. pewna klasa zdefiniowana przez program na  <code>int</code>)<li>lwartość na rwartość (np. jakaś zmienna <code>x</code> do wartości <code>x</code>)</ul><p>Należy pamiętać, że ta lista jest mniej liberalna niż typ niejawne konwersje dozwolone przy inicjalizacji listy. Na przykład możesz zainicjalizować zmienną typu  <code>double</code> użycie  <code>constexpr int</code>, ale <code>constexpr int</code> argument szablonu niebędący typem nie zostanie przekonwertowany na  <code>double</code> parametr szablonu innego typu.<p>Pełną listę dozwolonych konwersji można znaleźć <a href=https://en.cppreference.com/w/cpp/language/constant_expression>tutaj</a> w podsekcji „Przekształcone wyrażenie stałe”.<p>W przeciwieństwie do w przypadku normalnych funkcji algorytm dopasowywania wywołań szablonów funkcji do definicji szablonów funkcji nie jest skomplikowany, a niektóre dopasowania nie są traktowane priorytetowo w stosunku do innych w oparciu o typ wymaganej konwersji (lub jej brak). Oznacza to, że jeśli szablon funkcji jest przeciążony różnymi rodzajami parametrów szablonu niebędących typem, może to bardzo łatwo skutkować niejednoznacznym dopasowaniem:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-template &lt;int N&gt; // int non-type template parameter
+template &lt;int N&gt; // int parametr inny niż typ szablonu
 void print()
 {
-    std::cout &lt;&lt; N &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; N &lt;&lt; '\n';
 }
 
-template &lt;char N&gt; // char non-type template parameter
+template &lt;char N&gt; // char nietypowy parametr szablonu
 void print()
 {
-    std::cout &lt;&lt; N &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; N &lt;&lt; '\n';
 }
 
 int main()
 {
-    print&lt;5&gt;();   // ambiguous match with int N = 5 and char N = 5
-    print&lt;&#39;c&#39;&gt;(); // ambiguous match with int N = 99 and char N = &#39;c&#39;
+    print&lt;5&gt;();   // nie wyjątkowe ograniczenia z int N = 5 i char N = 5
+    print&lt;'c'&gt;(); // nie jednorazowe ograniczenia z int N = 99 i char N = 'c'
 
     return 0;
 }</code></pre><p>Być może, co zaskakujące, oba te wywołania  <code>print()</code>  dadzą niejednoznaczny wynik. dopasowania.<p class="cpp-section cpp-topline" style=clear:both>Dedukcja typu dla parametrów szablonu innego typu przy użyciu <code>auto</code> <span class="cpp-section-pill cpp-section-standard">C++17</span><div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>Począwszy od C++17, parametry szablonu innego typu mogą używać <code>auto</code> aby kompilator wydedukował parametr szablonu innego typu na podstawie argumentu szablonu:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-template &lt;auto N&gt; // deduce non-type template parameter from template argument
+template &lt;auto N&gt; // wydedukuj parametr szablonu niebędący typem z argumentu szablonu
 void print()
 {
-    std::cout &lt;&lt; N &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; N &lt;&lt; '\n';
 }
 
 int main()
 {
-    print&lt;5&gt;();   // N deduced as int `5`
-    print&lt;&#39;c&#39;&gt;(); // N deduced as char `c`
+    print&lt;5&gt;();   // N wydany jako int `5`
+    print&lt;'c'&gt;(); // N jest wyprowadzane jako znak „c”.
 
     return 0;
 }</code></pre><p>To kompiluje i daje oczekiwany wynik:<pre>5
@@ -145,28 +145,28 @@ c
 template &lt;auto N&gt;
 void print()
 {
-    std::cout &lt;&lt; N &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; N &lt;&lt; '\n';
 }
 
 template &lt;&gt;
-void print&lt;5&gt;() // note that this is print&lt;5&gt; and not print&lt;int&gt;
+void print&lt;5&gt;() // zauważ, że to jest print&lt;5&gt;, a nie print&lt;int&gt;
 {
-    std::cout &lt;&lt; 5 &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; 5 &lt;&lt; '\n';
 }
 
 template &lt;&gt;
-void print&lt;&#39;c&#39;&gt;() // note that this is print&lt;`c`&gt; and not print&lt;char&gt;
+void print&lt;'c'&gt;() // zauważ, że to jest print&lt;`c`&gt;, a nie print&lt;char&gt;
 {
-    std::cout &lt;&lt; &#39;c&#39; &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; 'c' &lt;&lt; '\n';
 }
 
 int main()
 {
-    print&lt;5&gt;();   // calls print&lt;5&gt;
-    print&lt;&#39;c&#39;&gt;(); // calls print&lt;&#39;c&#39;&gt;
+    print&lt;5&gt;();   // wywołuje drukowanie&lt;5&gt;
+    print&lt;'c'&gt;(); // wywołuje print&lt;'c'&gt;
 
     return 0;
-}</code></pre></div><p class="cpp-section cpp-topline" style=clear:both>Czas quizu<p class=cpp-quiz-question style=clear:both>Pytanie nr 1<p>Napisz szablon funkcji constexpr z parametrem szablonu innym niż typ, który zwraca silnię argument szablonu. Poniższy program nie powinien się skompilować, gdy osiągnie  <code>factorial&lt;-3>()</code>.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// define your factorial() function template here
+}</code></pre></div><p class="cpp-section cpp-topline" style=clear:both>Czas quizu<p class=cpp-quiz-question style=clear:both>Pytanie nr 1<p>Napisz szablon funkcji constexpr z parametrem szablonu innym niż typ, który zwraca silnię argument szablonu. Poniższy program nie powinien się skompilować, gdy osiągnie  <code>factorial&lt;-3>()</code>.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// zdefiniuj tutaj szablon funkcji silni()
 
 int main()
 {
@@ -174,7 +174,7 @@ int main()
     static_assert(factorial&lt;3&gt;() == 6);
     static_assert(factorial&lt;5&gt;() == 120);
 
-    factorial&lt;-3&gt;(); // should fail to compile
+    factorial&lt;-3&gt;(); // nie powinna się kompilować
 
     return 0;
 }</code></pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><div class=wpsolution id=cpp_solution_id_0 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">template &lt;int N&gt;
@@ -195,10 +195,10 @@ int main()
     static_assert(factorial&lt;3&gt;() == 6);
     static_assert(factorial&lt;5&gt;() == 120);
 
-    factorial&lt;-3&gt;(); // should fail to compile
+    factorial&lt;-3&gt;(); // nie powinna się kompilować
 
     return 0;
-}</code></pre></div><div class=prevnext><div class=prevnext-inline><a class=nav-link href="../using-function-templates-in-multiple-files/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>11.10</span>Używanie szablonów funkcji w wielu plikach</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../function-templates-with-multiple-template-types/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>11.8</span>Szablony funkcji z wieloma typami szablonów</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/non-type-template-parameters/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../chapter-21-project/index.html" rel=prev><span>21.y — Projekt rozdziału 21</span></a></div><div class=nav-next><em>Następny post</em><a href="../narrowing-conversions-list-initialization-and-constexpr-initializers/index.html" rel=next><span>&gt;10.4 — Konwersje zawężające, inicjowanie list i inicjatory constexpr</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>
+}</code></pre></div><div class=prevnext><div class=prevnext-inline><a class=nav-link href="../using-function-templates-in-multiple-files/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>11.10</span>Używanie szablonów funkcji w wielu plikach</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../function-templates-with-multiple-template-types/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>11.8</span>Szablony funkcji z wieloma typami szablonów</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/non-type-template-parameters/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../chapter-21-project/index.html" rel=prev><span>21.y — Projekt rozdziału 21</span></a></div><div class=nav-next><em>Następny post</em><a href="../narrowing-conversions-list-initialization-and-constexpr-initializers/index.html" rel=next><span>10.4 — Konwersje zawężające, inicjowanie list i inicjatory constexpr</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>
 <textarea id=wc-textarea-0_0 placeholder="Zostaw komentarz..." aria-label="Zostaw komentarz..." required name=wc_comment class="wc_comment wpd-field"></textarea></div><div class=wpd-editor-buttons-right></div></div></div></div><div class=wpd-form-foot><div class=wpdiscuz-textarea-foot><div class=wpdiscuz-button-actions></div></div><div class=wpd-form-row><div class=wpd-form-col-left><div class="wpdiscuz-item wc_name-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-user"></i></div><input id=wc_name-0_0 required aria-required=true class="wc_name wpd-field" name=wc_name placeholder=Imię* maxlength=50 pattern=.{3,50}>
 <label for=wc_name-0_0 class=wpdlb>Imię*</label></div><div class="wpdiscuz-item wc_email-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-at"></i></div><input id=wc_email-0_0 required aria-required=true class="wc_email wpd-field" type=email name=wc_email placeholder=E-mail*>
 <label for=wc_email-0_0 class=wpdlb>E-mail*</label><div class=wpd-field-desc><i class="far fa-question-circle"></i><span>Twój adres e-mail nie zostanie wyświetlony</span></div></div><div class=cpp_correction_div style=padding-bottom:4px><div class=wpd-field-icon style=display:inline-block;width:20px><i style=opacity:.6 class="fas fa-regular fa-bug"></i></div>Znalazłeś błąd? Zostaw komentarz powyżej!<div class=wpd-field-desc><i class="far fa-question-circle"></i><span>Komentarze związane z poprawkami zostaną usunięte po przetworzeniu, aby pomóc zmniejszyć bałagan. Dziękujemy za pomoc w ulepszaniu witryny dla wszystkich!</span></div></div><div class=cpp_avatar_div style=padding-bottom:4px><div class=wpd-field-icon style=display:inline-block;width:20px><i style=opacity:.6 class="fas fa-user"></i></div>Awatary z <a target=_blank rel="noopener noreferrer" href=https://gravatar.com/>https://gravatar.com/</a> są połączone z podanym adresem e-mail.</div></div><div class=wpd-form-col-right><div class=wc-field-submit><span style=margin-top:6px>Powiadamiaj mnie o odpowiedziach:  </span>

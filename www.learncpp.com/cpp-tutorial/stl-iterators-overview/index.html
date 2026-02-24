@@ -11,7 +11,7 @@
 <input type=search class=s placeholder=Search name=s></label>
 <button class=searchsubmit><span class=screen-reader-text>Szukaj</span><i class=icon-search></i></button></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="21.3 — Przegląd iteratorów STL" src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-536 class="post-536 post type-post status-publish format-standard hentry category-cpp-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>21.3 — Przegląd iteratorów STL</h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Autor></i><a class="url fn n" rel=author href=/www.learncpp.com/author/Alex/ title="Wyświetl wszystkie posty Alexa" itemprop=url><em itemprop=name>Alex</em></a></span>
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2011-09-11T15:44:00-07:00 itemprop=datePublished>11 września 2011, 15:44 czasu PDT</time>
-<time class=updated datetime=2023-01-27T10:27:10-08:00 itemprop=dateModified>27 stycznia 2023</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>An <strong>Iterator</strong> to obiekt, który może przechodzić (iterować po) klasie kontenera bez konieczności znajomości przez użytkownika kontenera wdrożony. W przypadku wielu klas (szczególnie list i klas asocjacyjnych) iteratory są głównym sposobem uzyskiwania dostępu do elementów tych klas.<p>Iterator najlepiej jest wizualizować jako wskaźnik do danego elementu w kontenerze, z zestawem przeciążonych operatorów zapewniających zestaw dobrze zdefiniowanych funkcji:<ul><li><strong>Operator*</strong> -- Wyłuskanie iteratora zwraca element, którym aktualnie się iterator zajmuje wskazując na.<li><strong>Operator++</strong> -- Przenosi iterator do następnego elementu w kontenerze. Większość iteratorów umożliwia również <code>Operator--</code> przejście do poprzedniego elementu.<li><strong>Operator== i Operator!=</strong> -- Podstawowe operatory porównania służące do określenia, czy dwa iteratory wskazują na ten sam element. Aby porównać wartości, na które wskazują dwa iteratory, należy najpierw wyrejestrować iteratory, a następnie użyć operatora porównania.<li><strong>Operator=</strong> -- Przypisz iterator do nowej pozycji (zazwyczaj początek lub koniec elementów kontenera). Aby przypisać wartość elementu, na który wskazuje iterator, należy najpierw wyrejestrować iterator, a następnie użyć operatora przypisania.</ul><p>Każdy kontener zawiera cztery podstawowe funkcje składowe do użycia z Operator=:<ul><li><strong>begin()</strong> zwraca iterator reprezentujący początek elementów w kontener.<li><strong>end()</strong> zwraca iterator reprezentujący element znajdujący się tuż za końcem elementów.<li><strong>cbegin()</strong> zwraca stały iterator (tylko do odczytu) reprezentujący początek elementów w kontenerze.<li><strong>cend()</strong> zwraca stałą iterator (tylko do odczytu) reprezentujący element znajdujący się tuż za końcem elementów.</ul><p>Może wydawać się dziwne, że end() nie wskazuje ostatniego elementu na liście, ale robi się to przede wszystkim po to, aby ułatwić wykonywanie pętli: iteracja po elementach może być kontynuowana, aż iterator dotrze do end() i wtedy będziesz wiedział, że skończyłeś.<p>W końcu wszystkie kontenery udostępniają (co najmniej) dwa typy iterators:<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><ul><li><strong>container::iterator</strong> zawiera iterator odczytu/zapisu<li><strong>container::const_iterator</strong> zapewnia iterator tylko do odczytu</ul><p>Przyjrzyjmy się kilku przykładom użycia iteratorów.<p><strong>Iteracja po wektor</strong><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+<time class=updated datetime=2023-01-27T10:27:10-08:00 itemprop=dateModified>27 stycznia 2023</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p><strong>Iterator</strong> to obiekt, który może przechodzić (iterować po) klasie kontenera bez konieczności znajomości przez użytkownika kontenera wdrożony. W przypadku wielu klas (szczególnie list i klas asocjacyjnych) iteratory są głównym sposobem uzyskiwania dostępu do elementów tych klas.<p>Iterator najlepiej jest wizualizować jako wskaźnik do danego elementu w kontenerze, z zestawem przeciążonych operatorów zapewniających zestaw dobrze zdefiniowanych funkcji:<ul><li><strong>Operator*</strong> -- Wyłuskanie iteratora zwraca element, którym aktualnie się iterator zajmuje wskazując na.<li><strong>Operator++</strong> -- Przenosi iterator do następnego elementu w kontenerze. Większość iteratorów umożliwia również <code>Operator--</code> przejście do poprzedniego elementu.<li><strong>Operator== i Operator!=</strong> -- Podstawowe operatory porównania służące do określenia, czy dwa iteratory wskazują na ten sam element. Aby porównać wartości, na które wskazują dwa iteratory, należy najpierw wyrejestrować iteratory, a następnie użyć operatora porównania.<li><strong>Operator=</strong> -- Przypisz iterator do nowej pozycji (zazwyczaj początek lub koniec elementów kontenera). Aby przypisać wartość elementu, na który wskazuje iterator, należy najpierw wyrejestrować iterator, a następnie użyć operatora przypisania.</ul><p>Każdy kontener zawiera cztery podstawowe funkcje składowe do użycia z Operator=:<ul><li><strong>begin()</strong> zwraca iterator reprezentujący początek elementów w kontener.<li><strong>end()</strong> zwraca iterator reprezentujący element znajdujący się tuż za końcem elementów.<li><strong>cbegin()</strong> zwraca stały iterator (tylko do odczytu) reprezentujący początek elementów w kontenerze.<li><strong>cend()</strong> zwraca stałą iterator (tylko do odczytu) reprezentujący element znajdujący się tuż za końcem elementów.</ul><p>Może wydawać się dziwne, że end() nie wskazuje ostatniego elementu na liście, ale robi się to przede wszystkim po to, aby ułatwić wykonywanie pętli: iteracja po elementach może być kontynuowana, aż iterator dotrze do end() i wtedy będziesz wiedział, że skończyłeś.<p>W końcu wszystkie kontenery udostępniają (co najmniej) dwa typy iterators:<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><ul><li><strong>container::iterator</strong> zawiera iterator odczytu/zapisu<li><strong>container::const_iterator</strong> zapewnia iterator tylko do odczytu</ul><p>Przyjrzyjmy się kilku przykładom użycia iteratorów.<p><strong>Iteracja po wektor</strong><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;vector&gt;
 
 int main()
@@ -20,15 +20,15 @@ int main()
     for (int count=0; count &lt; 6; ++count)
         vect.push_back(count);
 
-    std::vector&lt;int&gt;::const_iterator it; // declare a read-only iterator
-    it = vect.cbegin(); // assign it to the start of the vector
-    while (it != vect.cend()) // while it hasn&#39;t reach the end
+    std::vector&lt;int&gt;::const_iterator it; // zadeklaruj iterator tylko do odczytu
+    it = vect.cbegin(); // przypisz go do początku wektora
+    while (it != vect.cend()) // dopóki nie doszło do końca
     {
-        std::cout &lt;&lt; *it &lt;&lt; &#39; &#39;; // print the value of the element it points to
-        ++it; // and iterate to the next element
+        std::cout &lt;&lt; *it &lt;&lt; ' '; // wydrukuj wartość elementu, na który wskazuje
+        ++it; // i iteruj do następnego element
     }
 
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
 }</code></pre><p>To wypisuje następujący komunikat:<pre>0 1 2 3 4 5
 </pre><p><strong>Iteracja po liście</strong><p>Teraz zróbmy to samo z listą:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;list&gt;
@@ -40,15 +40,15 @@ int main()
     for (int count=0; count &lt; 6; ++count)
         li.push_back(count);
 
-    std::list&lt;int&gt;::const_iterator it; // declare an iterator
-    it = li.cbegin(); // assign it to the start of the list
-    while (it != li.cend()) // while it hasn&#39;t reach the end
+    std::list&lt;int&gt;::const_iterator it; // zadeklaruj iterator
+    it = li.cbegin(); // przypisz go na początek listy
+    while (it != li.cend()) // dopóki nie doszło do końca
     {
-        std::cout &lt;&lt; *it &lt;&lt; &#39; &#39;; // print the value of the element it points to
-        ++it; // and iterate to the next element
+        std::cout &lt;&lt; *it &lt;&lt; ' '; // wydrukuj wartość elementu, na który wskazuje
+        ++it; // i iteruj do następnego element
     }
 
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
 }</code></pre><p>Wypisuje:<pre>0 1 2 3 4 5
 </pre><p>Zauważ, że kod jest prawie identyczny jak w przypadku wektorów, mimo że wektory i listy mają prawie całkowicie różne wewnętrzne implementacje!<p><strong>Iteracja po zbiorze</strong><p>W poniższym przykładzie: utworzymy zbiór z 6 liczb i użyjemy iteratora do wydrukowania wartości w zestawie:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;set&gt;
@@ -63,15 +63,15 @@ int main()
     myset.insert(1);
     myset.insert(-4);
 
-    std::set&lt;int&gt;::const_iterator it; // declare an iterator
-    it = myset.cbegin(); // assign it to the start of the set
-    while (it != myset.cend()) // while it hasn&#39;t reach the end
+    std::set&lt;int&gt;::const_iterator it; // zadeklaruj iterator
+    it = myset.cbegin(); // przypisz go do początku zestawu
+    while (it != myset.cend()) // dopóki nie doszło do końca
     {
-        std::cout &lt;&lt; *it &lt;&lt; &#39; &#39;; // print the value of the element it points to
-        ++it; // and iterate to the next element
+        std::cout &lt;&lt; *it &lt;&lt; ' '; // wydrukuj wartość elementu, na który wskazuje
+        ++it; // i iteruj do następnego element
     }
 
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
 }</code></pre><p>Ten program daje następujący wynik:<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><pre>-6 -4 1 2 7 8
 </pre><p>Zauważ, że chociaż zapełnianie zbioru różni się od sposobu wypełniania wektora i listy, kod używany do iteracji po elementach zbioru był zasadniczo identyczny.<p><strong>Iteracja po mapie</strong><p>Ten jest trochę trudniejszy. Mapy i multimapy przyjmują pary elementów (zdefiniowane jako std::pair). Do łatwego tworzenia par używamy funkcji pomocniczej make_pair(). std::pair umożliwia dostęp do elementów pary za pośrednictwem pierwszego i drugiego elementu członkowskiego. Na naszej mapie używamy pierwszego jako klucza, a drugiego jako wartości.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;map&gt;
@@ -80,21 +80,21 @@ int main()
 int main()
 {
 	std::map&lt;int, std::string&gt; mymap;
-	mymap.insert(std::make_pair(4, &#34;apple&#34;));
-	mymap.insert(std::make_pair(2, &#34;orange&#34;));
-	mymap.insert(std::make_pair(1, &#34;banana&#34;));
-	mymap.insert(std::make_pair(3, &#34;grapes&#34;));
-	mymap.insert(std::make_pair(6, &#34;mango&#34;));
-	mymap.insert(std::make_pair(5, &#34;peach&#34;));
+	mymap.insert(std::make_pair(4, "apple"));
+	mymap.insert(std::make_pair(2, "orange"));
+	mymap.insert(std::make_pair(1, "banana"));
+	mymap.insert(std::make_pair(3, "grapes"));
+	mymap.insert(std::make_pair(6, "mango"));
+	mymap.insert(std::make_pair(5, "peach"));
 
-	auto it{ mymap.cbegin() }; // declare a const iterator and assign to start of vector
-	while (it != mymap.cend()) // while it hasn&#39;t reach the end
+	auto it{ mymap.cbegin() }; // deklaracja iteratora const i przypisanie do początku wektora
+	while (it != mymap.cend()) // dopóki nie doszło do końca
 	{
-		std::cout &lt;&lt; it-&gt;first &lt;&lt; &#39;=&#39; &lt;&lt; it-&gt;second &lt;&lt; &#39; &#39;; // print the value of the element it points to
-		++it; // and iterate to the next element
+		std::cout &lt;&lt; it-&gt;first &lt;&lt; '=' &lt;&lt; it-&gt;second &lt;&lt; ' '; // wydrukuj wartość elementu, na który wskazuje
+		++it; // i iteruj do następnego element
 	}
 
-	std::cout &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; '\n';
 }</code></pre><p>Ten program generuje wynik:<pre>1=banana 2=orange 3=grapes 4=apple 5=peach 6=mango
 </pre><p>Zauważ tutaj, jak łatwo iteratory ułatwiają przechodzenie przez każdy element kontenera. Nie musisz się w ogóle przejmować tym, jak mapa przechowuje swoje dane!<p><strong>Wnioski</strong><p>Iteratory umożliwiają łatwe przechodzenie przez elementy klasy kontenera bez konieczności zrozumienia sposobu implementacji klasy kontenera. W połączeniu z algorytmami STL i funkcjami składowymi klas kontenerów iteratory stają się jeszcze potężniejsze. W następnej lekcji zobaczysz przykład użycia iteratora do wstawiania elementów do listy (który nie zapewnia przeciążonego operatora [] umożliwiającego bezpośredni dostęp do jego elementów).<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>Jeden punkt warty odnotowania: Iteratory muszą być implementowane dla poszczególnych klas, ponieważ iterator musi wiedzieć, w jaki sposób dana klasa jest implementowana. W ten sposób iteratory są zawsze powiązane z określonymi klasami kontenerów.<div class=prevnext><div class=prevnext-inline><a class=nav-link href="../stl-algorithms-overview/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>21.4</span>Przegląd algorytmów STL</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../stl-containers-overview/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>21.2</span>Przegląd kontenerów STL</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/stl-iterators-overview/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../stl-containers-overview/index.html" rel=prev><span>21.2 — Przegląd kontenerów STL</span></a></div><div class=nav-next><em>Następny post</em><a href="../stl-algorithms-overview/index.html" rel=next><span>21.4 — Algorytmy STL przegląd</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>
 <textarea id=wc-textarea-0_0 placeholder="Zostaw komentarz..." aria-label="Zostaw komentarz..." required name=wc_comment class="wc_comment wpd-field"></textarea></div><div class=wpd-editor-buttons-right></div></div></div></div><div class=wpd-form-foot><div class=wpdiscuz-textarea-foot><div class=wpdiscuz-button-actions></div></div><div class=wpd-form-row><div class=wpd-form-col-left><div class="wpdiscuz-item wc_name-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-user"></i></div><input id=wc_name-0_0 required aria-required=true class="wc_name wpd-field" name=wc_name placeholder=Imię* maxlength=50 pattern=.{3,50}>

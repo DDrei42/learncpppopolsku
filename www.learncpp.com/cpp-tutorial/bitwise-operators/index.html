@@ -40,8 +40,8 @@ int main()
 int main()
 {
     unsigned int x { 0b0100 };
-    x = x &lt;&lt; 1; // use operator&lt;&lt; for left shift
-    std::cout &lt;&lt; std::bitset&lt;4&gt;{ x } &lt;&lt; &#39;\n&#39;; // use operator&lt;&lt; for output
+    x = x &lt;&lt; 1; // użyj operator&lt;&lt; dla lewego przesunięcia
+    std::cout &lt;&lt; std::bitset&lt;4&gt;{ x } &lt;&lt; '\n'; // użyj operatora&lt;&lt; dla wyjścia
 
     return 0;
 }</code></pre><p>Ten program wypisuje:<pre>1000
@@ -52,8 +52,8 @@ int main()
 {
 	std::bitset&lt;4&gt; x{ 0b0110 };
 
-	std::cout &lt;&lt; x &lt;&lt; 1 &lt;&lt; &#39;\n&#39;; // print value of x (0110), then 1
-	std::cout &lt;&lt; (x &lt;&lt; 1) &lt;&lt; &#39;\n&#39;; // print x left shifted by 1 (1100)
+	std::cout &lt;&lt; x &lt;&lt; 1 &lt;&lt; '\n'; // wypisz wartość x (0110), następnie 1
+	std::cout &lt;&lt; (x &lt;&lt; 1) &lt;&lt; '\n'; // wydrukuj x przesunięte w lewo o 1 (1100)
 
 	return 0;
 }</code></pre><p>Wypisuje:<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><pre>01101
@@ -65,19 +65,19 @@ int main()
 
 int main()
 {
-    std::bitset&lt;4&gt; b4{ 0b100 }; // b4 is 0100
-    std::bitset&lt;8&gt; b8{ 0b100 }; // b8 is 0000 0100
+    std::bitset&lt;4&gt; b4{ 0b100 }; // b4 wynosi 0100
+    std::bitset&lt;8&gt; b8{ 0b100 }; // b8 wynosi 0000 0100
 
-    std::cout &lt;&lt; &#34;Initial values:\n&#34;;
-    std::cout &lt;&lt; &#34;Bits: &#34; &lt;&lt; b4 &lt;&lt; &#39; &#39; &lt;&lt; b8 &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; &#34;Values: &#34; &lt;&lt; b4.to_ulong() &lt;&lt; &#39; &#39; &lt;&lt; b8.to_ulong() &lt;&lt; &#34;\n\n&#34;;    
+    std::cout &lt;&lt; "Initial values:\n";
+    std::cout &lt;&lt; "Bits: " &lt;&lt; b4 &lt;&lt; ' ' &lt;&lt; b8 &lt;&lt; '\n';
+    std::cout &lt;&lt; "Values: " &lt;&lt; b4.to_ulong() &lt;&lt; ' ' &lt;&lt; b8.to_ulong() &lt;&lt; "\n\n";    
 
-    b4 = ~b4; // flip b4 to 1011
-    b8 = ~b8; // flip b8 to 1111 1011
+    b4 = ~b4; // odwróć b4 na 1011
+    b8 = ~b8; // odwróć b8 do 1111 1011
     
-    std::cout &lt;&lt; &#34;After bitwise NOT:\n&#34;;
-    std::cout &lt;&lt; &#34;Bits: &#34; &lt;&lt; b4 &lt;&lt; &#39; &#39; &lt;&lt; b8 &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; &#34;Values: &#34; &lt;&lt; b4.to_ulong() &lt;&lt; &#39; &#39; &lt;&lt; b8.to_ulong() &lt;&lt; &#39;\n&#39;;    
+    std::cout &lt;&lt; "After bitwise NOT:\n";
+    std::cout &lt;&lt; "Bits: " &lt;&lt; b4 &lt;&lt; ' ' &lt;&lt; b8 &lt;&lt; '\n';
+    std::cout &lt;&lt; "Values: " &lt;&lt; b4.to_ulong() &lt;&lt; ' ' &lt;&lt; b8.to_ulong() &lt;&lt; '\n';    
 
     return 0;
 }</code></pre><p>Wypisuje:<pre>Initial values:
@@ -87,7 +87,7 @@ Values: 4 4
 After bitwise NOT:
 Bits: 1011 11111011
 Values: 11 251
-</pre><p>Początkowo <code>b4</code> i <code>b8</code> oba są ustawione na <code>0b100</code>. Po dodaniu zer wiodących  <code>b4</code> kończy się jako <code>0100</code> i <code>b8</code> jak <code>00000100</code>, co jest wypisywane w następnym wierszu.<p>Następnie używamy funkcji składowej <code>to_ulong()</code> do interpretacji wartości bitów, interpretowanej jako <code>long</code> liczba całkowita. Widać, że oba <code>b4</code> i <code>b8</code> drukują wartość <code>4</code>. Pomimo różnej liczby bitów, oba reprezentują tę samą wartość. Dzieje się tak, ponieważ początkowe bity zerowe nie wnoszą żadnej wartości do interpretowanej liczby całkowitej.<p>Następnie używamy bitowego NOT, aby odwrócić bity każdego z nich, więc <code>b4</code> teraz mamy bity <code>1011</code> i <code>b8</code> teraz mamy bity <code>1111 1011</code>. W przypadku wydrukowania jako liczba całkowita wyświetla wartości <code>11</code> i <code>251</code>. Jak widać, wartości te nie są już identyczne. Dzieje się tak, ponieważ jedynki wiodące rzeczywiście wnoszą wartość do interpretowanej liczby całkowitej, a <code>b8</code> ma więcej jedynek wiodących niż <code>b4</code>.</div><p class="cpp-section cpp-topline" style=clear:both>Bitowo LUB<p><strong>Bitowo LUB</strong> (|) działa podobnie jak jego logiczny odpowiednik OR. Jeśli pamiętasz, logiczne OR ma wartość <code>true</code> (<code>1</code>), jeśli którykolwiek z <em>operandów</em> są  <code>true</code>, w przeciwnym razie ma wartość <code>false</code> (<code>0</code>).<p>Jednakże, podczas gdy logiczne OR jest stosowane do całego operandu (w celu uzyskania pojedynczego wyniku prawdziwego lub fałszywego), bitowe OR jest stosowane do każdej pary bitów w operandach (w celu uzyskania pojedynczego prawdziwego lub fałszywego wyniku dla każdego bit).<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p>Zilustrujmy to przykładem. Rozważmy wyrażenie <code>0b0101 | 0b0110</code>.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>Aby ręcznie wykonać dowolną binarną operację bitową, najłatwiej jest ustawić oba operandy w następujący sposób:<pre>0 1 0 1 OR (or whatever bitwise operation you are doing)
+</pre><p>Początkowo <code>b4</code> i <code>b8</code> oba są ustawione na <code>0b100</code>. Po dodaniu zer wiodących  <code>b4</code> kończy się jako <code>0100</code> i <code>b8</code> jak <code>00000100</code>, co jest wypisywane w następnym wierszu.<p>Następnie używamy funkcji składowej <code>to_ulong()</code> do interpretacji wartości bitów, interpretowanej jako <code>long</code> liczba całkowita. Widać, że oba <code>b4</code> i <code>b8</code> drukują wartość <code>4</code>. Pomimo różnej liczby bitów, oba reprezentują tę samą wartość. Dzieje się tak, ponieważ początkowe bity zerowe nie wnoszą żadnej wartości do interpretowanej liczby całkowitej.<p>Następnie używamy bitowego NOT, aby odwrócić bity każdego z nich, więc <code>b4</code> teraz mamy bity <code>1011</code> i <code>b8</code> teraz mamy bity <code>1111 1011</code>. W przypadku wydrukowania jako liczba całkowita wyświetla wartości <code>11</code> i <code>251</code>. Jak widać, wartości te nie są już identyczne. Dzieje się tak, ponieważ jedynki wiodące rzeczywiście wnoszą wartość do interpretowanej liczby całkowitej, <code>b8</code> ma więcej jedynek wiodących niż <code>b4</code>.</div><p class="cpp-section cpp-topline" style=clear:both>Bitowo LUB<p><strong>Bitowo LUB</strong> (|) działa podobnie jak jego logiczny odpowiednik OR. Jeśli pamiętasz, logiczne OR ma wartość <code>true</code> (<code>1</code>), jeśli którykolwiek z <em>operandów</em> są  <code>true</code>, w przeciwnym razie ma wartość <code>false</code> (<code>0</code>).<p>Jednakże, podczas gdy logiczne OR jest stosowane do całego operandu (w celu uzyskania pojedynczego wyniku prawdziwego lub fałszywego), bitowe OR jest stosowane do każdej pary bitów w operandach (w celu uzyskania pojedynczego prawdziwego lub fałszywego wyniku dla każdego bit).<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p>Zilustrujmy to przykładem. Rozważmy wyrażenie <code>0b0101 | 0b0110</code>.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>Aby ręcznie wykonać dowolną binarną operację bitową, najłatwiej jest ustawić oba operandy w następujący sposób:<pre>0 1 0 1 OR (or whatever bitwise operation you are doing)
 0 1 1 0
 </pre><p>Następnie zastosuj tę operację do każdej <em>kolumny</em> bitów i zapisz wynik poniżej.</div><p>W pierwszej kolumna, <code>0</code> LUB <code>0</code> Jest <code>0</code>, więc pod linią wstawiamy 0.<pre>0 1 0 1 OR
 0 1 1 0
@@ -120,7 +120,7 @@ int main()
 
 	return 0;
 }</code></pre><p>Wypisuje:<pre>0111
-</pre><p class="cpp-section cpp-topline" style=clear:both>Bitowe AND<p><strong>Bitowe AND</strong> (&amp;) działa podobnie do powyższego, z tą różnicą, że używa logiki AND zamiast logiki OR. Oznacza to, że dla każdej pary bitów w operandach funkcja Bitowe ORAZ ustawia wynikowy bit na  <code>true</code> (<code>1</code>), jeśli oba sparowane bity są  <code>1</code>, I <code>false</code> (<code>0</code>). W przeciwnym razie.<p>Rozważ wyrażenie <code>0b0101 & 0b0110</code>. Wyrównanie każdego bitu i zastosowanie bitowego AND do każdej kolumny bitów:<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><pre>0 1 0 1 AND
+</pre><p class="cpp-section cpp-topline" style=clear:both>Bitowe AND<p><strong>Bitowe AND</strong> (&amp;) działa podobnie do powyższego, z tą różnicą, że używa logiki AND zamiast logiki OR. Oznacza to, że dla każdej pary bitów w operandach funkcja Bitowe ORAZ ustawia wynikowy bit na  <code>true</code> (<code>1</code>), jeśli oba sparowane bity są  <code>1</code>, i <code>false</code> (<code>0</code>). W przeciwnym razie.<p>Rozważ wyrażenie <code>0b0101 & 0b0110</code>. Wyrównanie każdego bitu i zastosowanie bitowego AND do każdej kolumny bitów:<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><pre>0 1 0 1 AND
 0 1 1 0
 --------
 0 1 0 0
@@ -147,7 +147,7 @@ int main()
 
 	return 0;
 }</code></pre><p>Wypisuje:<pre>0001
-</pre><p class="cpp-section cpp-topline" style=clear:both>Bitowego XOR<p>Ostatni operator to <strong>bitowego XOR</strong> (^), znany również jako <strong>wyłączny lub</strong>.<p>Dla każdej pary bitów w operandach Bitwise XOR ustawia wynikowy bit na  <code>true</code> (<code>1</code>), gdy dokładnie jeden z sparowanych bitów jest <code>1</code>, I <code>false</code> (<code>0</code>) w przeciwnym razie. Innymi słowy, Bitwise XOR ustawia wynikowy bit na <code>true</code> kiedy sparowane bity są różne (jeden to a <code>0</code> a drugi a <code>1</code>).<p>Rozważ wyrażenie <code>0b0110 ^ 0b0011</code>:<pre>0 1 1 0 XOR
+</pre><p class="cpp-section cpp-topline" style=clear:both>Bitowego XOR<p>Ostatni operator to <strong>bitowego XOR</strong> (^), znany również jako <strong>wyłączny lub</strong>.<p>Dla każdej pary bitów w operandach Bitwise XOR ustawia wynikowy bit na  <code>true</code> (<code>1</code>), gdy dokładnie jeden z sparowanych bitów jest <code>1</code>, i <code>false</code> (<code>0</code>) w przeciwnym razie. Innymi słowy, Bitwise XOR ustawia wynikowy bit na <code>true</code> kiedy sparowane bity są różne (jeden to <code>0</code> a drugi <code>1</code>).<p>Rozważ wyrażenie <code>0b0110 ^ 0b0011</code>:<pre>0 1 1 0 XOR
 0 0 1 1
 -------
 0 1 0 1
@@ -175,10 +175,10 @@ int main()
 {
     std::uint8_t c { 0b00001111 };
     
-    std::cout &lt;&lt; std::bitset&lt;32&gt;(~c) &lt;&lt; &#39;\n&#39;;     // incorrect: prints 11111111111111111111111111110000
-    std::cout &lt;&lt; std::bitset&lt;32&gt;(c &lt;&lt; 6) &lt;&lt; &#39;\n&#39;; // incorrect: prints 0000000000000000001111000000
-    std::uint8_t cneg { ~c };                     // error: narrowing conversion from unsigned int to std::uint8_t
-    c = ~c;                                       // possible warning: narrowing conversion from unsigned int to std::uint8_t
+    std::cout &lt;&lt; std::bitset&lt;32&gt;(~c) &lt;&lt; '\n';     // incorrect: prints 11111111111111111111111111110000
+    std::cout &lt;&lt; std::bitset&lt;32&gt;(c &lt;&lt; 6) &lt;&lt; '\n'; // incorrect: prints 0000000000000000001111000000
+    std::uint8_t cneg { ~c };                     // błąd: zawężenie konwersja z unsigned int na std::uint8_t
+    c = ~c;                                       // możliwe ostrzeżenie: zawężanie konwersji z unsigned int do std::uint8_t
  
     return 0;
 }</code></pre><p>Problemy te można rozwiązać, używając <code>static_cast</code> do konwersji wyniku operacji bitowej z powrotem na węższy typ całkowity. Poniższy program daje poprawne wyniki:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;bitset&gt;
@@ -219,19 +219,19 @@ Then:
 </pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>Pytanie nr 2<p>Obrót bitowy przypomina przesunięcie bitowe, z tą różnicą, że bity przesunięte z jednego końca są dodawane z powrotem na drugi koniec. Na przykład <code>0b1001 &lt;&lt; 1</code> byłoby <code>0b0010</code>, ale obrót w lewo o 1 skutkowałby zamiast tego  <code>0b0011</code> . Zaimplementuj funkcję, która wykonuje obrót w lewo na  <code>std::bitset&lt;4></code>. W tym przypadku dobrze jest użyć test() i set().<p>Należy wykonać następujący kod:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;bitset&gt;
 #include &lt;iostream&gt;
 
-// &#34;rotl&#34; stands for &#34;rotate left&#34;
+// "rotl" oznacza "obróć w lewo"
 std::bitset&lt;4&gt; rotl(std::bitset&lt;4&gt; bits)
 {
-// Your code here
+// Twój kod tutaj
 }
 
 int main()
 {
 	std::bitset&lt;4&gt; bits1{ 0b0001 };
-	std::cout &lt;&lt; rotl(bits1) &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; rotl(bits1) &lt;&lt; '\n';
 
 	std::bitset&lt;4&gt; bits2{ 0b1001 };
-	std::cout &lt;&lt; rotl(bits2) &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; rotl(bits2) &lt;&lt; '\n';
 
 	return 0;
 }</code></pre><p>i wydrukować następujący tekst:<pre>0010
@@ -241,14 +241,14 @@ int main()
 
 std::bitset&lt;4&gt; rotl(std::bitset&lt;4&gt; bits)
 {
-	// keep track of whether the leftmost bit was a 1
+	// śledź, czy skrajny lewy bit był argumentem o wartości 1
 	const bool leftbit{ bits.test(3) };
 
-	bits &lt;&lt;= 1; // do left shift (which shifts the leftmost bit off the end)
+	bits &lt;&lt;= 1; // zrób przesunięcie w lewo (które przesuwa skrajny lewy bit poza koniec)
 
-	// if the left bit was a 1
+	// jeśli lewy bit wynosił 1
 	if (leftbit)
-		bits.set(0); // set the rightmost bit to a 1
+		bits.set(0); // ustaw ekstremy prawy bit na 1
 
 	return bits;
 }
@@ -256,30 +256,30 @@ std::bitset&lt;4&gt; rotl(std::bitset&lt;4&gt; bits)
 int main()
 {
 	std::bitset&lt;4&gt; bits1{ 0b0001 };
-	std::cout &lt;&lt; rotl(bits1) &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; rotl(bits1) &lt;&lt; '\n';
 
 	std::bitset&lt;4&gt; bits2{ 0b1001 };
-	std::cout &lt;&lt; rotl(bits2) &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; rotl(bits2) &lt;&lt; '\n';
 
 	return 0;
 }</code></pre><p>Nazwaliśmy funkcję „rotl” zamiast „rotateLeft”, ponieważ „rotl” jest dobrze ugruntowaną nazwą w informatyce, a także nazwą standardowej funkcji, <a href=https://en.cppreference.com/w/cpp/numeric/rotl><code>std::rotl</code></a>.</div><p class="cpp-quiz-question cpp-topline" style=clear:both>Pytanie nr 3<p>Dodatkowy punkt: Powtórz quiz nr 2, ale nie używaj funkcji test i set (użyj funkcji bitowej operatory).<p><a class=hint_link_show href=javascript:void(0) onclick="cppHintToggle(document.getElementById('cpp_hint_id_0'),this,'Show Hint','')">Pokaż wskazówkę</a><div class=wphint id=cpp_hint_id_0 style=display:none;margin-bottom:1em>Wskazówka: Jak możemy ustawić bit skrajnie lewy w skrajnej prawej pozycji?</div><p><a class=hint_link_show href=javascript:void(0) onclick="cppHintToggle(document.getElementById('cpp_hint_id_1'),this,'Show Hint','')">Pokaż wskazówkę</a><div class=wphint id=cpp_hint_id_1 style=display:none;margin-bottom:1em>Wskazówka: Rozważ „przesunięcie” ze swojej perspektywy</div><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_5'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_5 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;bitset&gt;
 #include &lt;iostream&gt;
 
-// h/t to reader Chris for this solution
+// h/t do czytelnika Chrisa za to rozwiązanie
 std::bitset&lt;4&gt; rotl(std::bitset&lt;4&gt; bits)
 {
-	// bits &lt;&lt; 1 does the left shift
-	// bits &gt;&gt; 3 handle the rotation of the leftmost bit
+	// bity &lt;&lt; 1 robi w lewo shift
+	// bity &gt;&gt; 3 obsługują obrót skrajnego lewego bitu
 	return (bits&lt;&lt;1) | (bits&gt;&gt;3);
 }
 
 int main()
 {
 	std::bitset&lt;4&gt; bits1{ 0b0001 };
-	std::cout &lt;&lt; rotl(bits1) &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; rotl(bits1) &lt;&lt; '\n';
 
 	std::bitset&lt;4&gt; bits2{ 0b1001 };
-	std::cout &lt;&lt; rotl(bits2) &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; rotl(bits2) &lt;&lt; '\n';
 
 	return 0;
 }</code></pre></div><div class=prevnext><div class=prevnext-inline><a class=nav-link href="../bit-manipulation-with-bitwise-operators-and-bit-masks/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>O.3</span>Manipulacja bitami za pomocą operatorów bitowych i masek bitowych</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../bit-flags-and-bit-manipulation-via-stdbitset/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>O.1</span>Flagi bitowe i manipulacja bitami za pomocą std::bitset</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/bitwise-operators/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../converting-integers-between-binary-and-decimal-representation/index.html" rel=prev><span>O.4 -- Konwersja liczb całkowitych pomiędzy reprezentacją binarną i dziesiętną</span></a></div><div class=nav-next><em>Następny post</em><a href="../compound-statements-blocks/index.html" rel=next><span>7.1 -- Instrukcje złożone (bloki)</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>

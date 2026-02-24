@@ -15,18 +15,18 @@
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2007-06-27T17:20:41-07:00 itemprop=datePublished>27 czerwca 2007, 17:20 czasu PDT</time>
 <time class=updated datetime=2024-10-13T20:31:30-07:00 itemprop=dateModified>13 października 2024 r</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>Teraz, gdy już to omówiliśmy <code>std::vector</code> i <code>std::array</code>, uzupełnimy nasze omówienie tablic o ostatni typ tablicy: tablice w stylu C.<p>Jak wspomniano na lekcji <a href="../introduction-to-containers-and-arrays/index.html">16.1 — Wprowadzenie do kontenerów i tablic</a>, tablice w stylu C zostały odziedziczone z języka C i są wbudowane w rdzeń języka C++ (w przeciwieństwie do pozostałych typów tablic, które są standardowymi klasami kontenerów bibliotek). Oznacza to, że nie musimy #include pliku nagłówkowego, aby z nich skorzystać.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Na marginesie…<p>Ponieważ są to jedyne typy tablic natywnie obsługiwane przez język, standardowe typy kontenerów tablic bibliotek (np. <code>std::array</code> i <code>std::vector</code>) są zwykle implementowane przy użyciu tablicy w stylu C.</div><p class="cpp-section cpp-topline" style=clear:both>Deklarowanie tablicy w stylu C<p>Ponieważ są częścią języka podstawowego, tablice w stylu C mają własną składnię deklaracji specjalnych. W deklaracji tablicy w stylu C używamy nawiasów kwadratowych (<code>[]</code>), aby poinformować kompilator, że zadeklarowany obiekt jest tablicą w stylu C. Wewnątrz nawiasów kwadratowych możemy opcjonalnie podać długość tablicy, która jest wartością całkowitą typu <code>std::size_t</code> która mówi kompilatorowi, ile elementów znajduje się w tablicy.<p>Poniższa definicja tworzy zmienną tablicową w stylu C o nazwie <code>testScore</code> który zawiera 30 elementów typu <code>int</code>:<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
-    int testScore[30] {};      // Defines a C-style array named testScore that contains 30 value-initialized int elements (no include required)
+    int testScore[30] {};      // Definiuje tablicę w stylu C o nazwie testScore, która zawiera 30 elementów int inicjowanych wartością (nie jest wymagane uwzględnianie)
 
-//  std::array&lt;int, 30&gt; arr{}; // For comparison, here&#39;s a std::array of 30 value-initialized int elements (requires #including &lt;array&gt;)
+//  std::array&lt;int, 30&gt; arr{}; // Dla porównania oto std::array składający się z 30 elementów int z inicjowaną wartością (wymaga #włączania &lt;array&gt;)
 
     return 0;
-}</code></pre><p>Długość tablicy w stylu C musi wynosić co najmniej 1. Kompilator wyświetli błąd, jeśli długość tablicy będzie równa zero, będzie ujemna lub będzie niecałkowita.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Dla zaawansowanych czytelników<p>Tablice w stylu C dynamicznie przydzielane na stercie mogą mieć długość 0.</div><p class="cpp-section cpp-topline" style=clear:both>Długość tablicy w stylu c musi być wyrażeniem stałym<p>Po prostu podobnie jak  <code>std::array</code>, podczas deklarowania tablicy w stylu C długość tablicy musi być wyrażeniem stałym (typu <code>std::size_t</code>, chociaż zazwyczaj nie ma to znaczenia).<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>Niektóre kompilatory mogą umożliwiać tworzenie tablic o długościach innych niż constexpr, w celu zapewnienia zgodności z funkcją C99 zwaną tablicami o zmiennej długości (VLA).<p>Tablice o zmiennej długości nie są prawidłowymi językami C++ i nie powinny być używane w programach C++. Jeśli twój kompilator pozwala na te tablice, prawdopodobnie zapomniałeś wyłączyć rozszerzenia kompilatora (zobacz <a href="../configuring-your-compiler-compiler-extensions/comment-page-1/index.html">0.10 -- Konfigurowanie kompilatora: Rozszerzenia kompilatora</a>).</div><p class="cpp-section cpp-topline" style=clear:both>Subskrypcja tablicy w stylu C<p>Podobnie jak w przypadku A <code>std::array</code>, tablice w stylu C można indeksować za pomocą operatora indeksu dolnego (<code>operator[]</code>):<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+}</code></pre><p>Długość tablicy w stylu C musi wynosić co najmniej 1. Kompilator wyświetli błąd, jeśli długość tablicy będzie równa zero, będzie ujemna lub będzie niecałkowita.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Dla zaawansowanych czytelników<p>Tablice w stylu C dynamicznie przydzielane na stercie mogą mieć długość 0.</div><p class="cpp-section cpp-topline" style=clear:both>Długość tablicy w stylu c musi być wyrażeniem stałym<p>Po prostu podobnie jak  <code>std::array</code>, podczas deklarowania tablicy w stylu C długość tablicy musi być wyrażeniem stałym (typu <code>std::size_t</code>, chociaż zazwyczaj nie ma to znaczenia).<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>Niektóre kompilatory mogą umożliwiać tworzenie tablic o długościach innych niż constexpr, w celu zapewnienia zgodności z funkcją C99 zwaną tablicami o zmiennej długości (VLA).<p>Tablice o zmiennej długości nie są prawidłowymi językami C++ i nie powinny być używane w programach C++. Jeśli twój kompilator pozwala na te tablice, prawdopodobnie zapomniałeś wyłączyć rozszerzenia kompilatora (zobacz <a href="../configuring-your-compiler-compiler-extensions/comment-page-1/index.html">0.10 -- Konfigurowanie kompilatora: Rozszerzenia kompilatora</a>).</div><p class="cpp-section cpp-topline" style=clear:both>Subskrypcja tablicy w stylu C<p>Podobnie jak w przypadku <code>std::array</code>, tablice w stylu C można indeksować za pomocą operatora indeksu dolnego (<code>operator[]</code>):<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 int main()
 {
-    int arr[5]; // define an array of 5 int values
+    int arr[5]; // zdefiniuj tablicę 5 wartości typu int
 
-    arr[1] = 7; // use subscript operator to index array element 1
+    arr[1] = 7; // użyj operatora indeksu dolnego do indeksowania elementu tablicy 1
     std::cout &lt;&lt; arr[1]; // prints 7
 
     return 0;
@@ -37,85 +37,85 @@ int main()
     const int arr[] { 9, 8, 7, 6, 5 };
 
     int s { 2 };
-    std::cout &lt;&lt; arr[s] &lt;&lt; &#39;\n&#39;; // okay to use signed index
+    std::cout &lt;&lt; arr[s] &lt;&lt; '\n'; // OK, aby użyć indeksu ze znakiem
 
     unsigned int u { 2 };
-    std::cout &lt;&lt; arr[u] &lt;&lt; &#39;\n&#39;; // okay to use unsigned index
+    std::cout &lt;&lt; arr[u] &lt;&lt; '\n'; // OK, aby użyć indeksu bez znaku
 
     return 0;
 }   </code></pre><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>Tablice w stylu C akceptują indeksy ze znakiem lub bez znaku (lub wyliczenia bez zakresu).</div><p><code>operator[]</code> nie sprawdza żadnych granic, a przekazanie indeksu spoza zakresu spowoduje niezdefiniowane zachowanie.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Na marginesie…<p>Deklarując tablicę (np. <code>int arr[5]</code>), użycie <code>[]</code> jest częścią składni deklaracji, a nie wywołaniem operatora indeksu dolnego <code>operator[]</code>.</div><p class="cpp-section cpp-topline" style=clear:both>Zagregowana inicjalizacja tablic w stylu C<p>Po prostu podobnie jak  <code>std::array</code>, tablice w stylu C są agregowane, co oznacza, że ​​można je inicjować przy użyciu inicjalizacji agregowanej.<p>Krótko mówiąc, inicjalizacja agregatu pozwala nam bezpośrednio inicjować elementy agregatów. Aby to zrobić, udostępniamy listę inicjatorów, która jest ujętą w nawiasy klamrowe listą wartości inicjalizacyjnych oddzielonych przecinkami.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
-    int fibonnaci[6] = { 0, 1, 1, 2, 3, 5 }; // copy-list initialization using braced list
-    int prime[5] { 2, 3, 5, 7, 11 };         // list initialization using braced list (preferred)
+    int fibonnaci[6] = { 0, 1, 1, 2, 3, 5 }; // inicjalizacja listy kopiowania za pomocą nawiasów klamrowych lista
+    int prime[5] { 2, 3, 5, 7, 11 };         // inicjalizacja listy przy użyciu listy w nawiasach klamrowych (preferowana)
 
     return 0;
 }</code></pre><p>Każda z tych form inicjalizacji inicjuje elementy tablicy w kolejności, zaczynając od elementu 0.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>Jeśli nie podasz inicjatora dla tablicy w stylu C, elementy zostaną domyślnie zainicjowane. W większości przypadków spowoduje to pozostawienie elementów niezainicjowanych. Ponieważ generalnie chcemy, aby nasze elementy były inicjowane, tablice w stylu C powinny być inicjowane wartościami (przy użyciu pustych nawiasów klamrowych), gdy są zdefiniowane bez inicjatorów.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
-    int arr1[5];    // Members default initialized int elements are left uninitialized)
-    int arr2[5] {}; // Members value initialized (int elements are zero uninitialized) (preferred)
+    int arr1[5];    // Domyślnie inicjowane elementy składowe pozostają niezainicjowane)
+    int arr2[5] {}; // Zainicjalizowana wartość elementów (elementy int są niezainicjowane zerem) (preferowane)
 
     return 0;
 }</code></pre><p>Jeśli na liście inicjatorów podano więcej inicjatorów niż zdefiniowana długość tablicy, kompilator wystąpi błąd. Jeśli na liście inicjatorów znajduje się mniej inicjatorów niż zdefiniowana długość tablicy, pozostałe elementy bez inicjatorów są inicjowane wartościami:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
-    int a[4] { 1, 2, 3, 4, 5 }; // compile error: too many initializers
-    int b[4] { 1, 2 };          // arr[2] and arr[3] are value initialized
+    int a[4] { 1, 2, 3, 4, 5 }; // błąd kompilacji: zbyt wiele inicjatorów
+    int b[4] { 1, 2 };          // arr[2] i arr[3] są inicjowanymi wartościami
 
     return 0;
 }</code></pre><p>Jedną wadą używania tablicy w stylu C jest to, że typ elementu musi być jawnie określony. CTAD nie działa, ponieważ tablice w stylu C nie są szablonami klas. A użycie <code>auto</code> do próby wydedukowania typu elementu tablicy z listy inicjatorów również nie działa:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
-    auto squares[5] { 1, 4, 9, 16, 25 }; // compile error: can&#39;t use type deduction on C-style arrays
+    auto squares[5] { 1, 4, 9, 16, 25 }; // błąd kompilacji: nie można użyć dedukcji typu w tablicach w stylu C
 
     return 0;
 }</code></pre><p class="cpp-section cpp-topline" style=clear:both>Pominięta długość<p>W poniższej definicji tablicy występuje subtelna redundancja. Widzisz to?<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
-    const int prime[5] { 2, 3, 5, 7, 11 }; // prime has length 5
+    const int prime[5] { 2, 3, 5, 7, 11 }; // liczba pierwsza ma długość 5
 
     return 0;
 }</code></pre><p>Wyraźnie mówimy kompilatorowi, że tablica ma długość 5, a następnie inicjujemy ją również za pomocą 5 elementów. Kiedy inicjujemy tablicę w stylu C za pomocą listy inicjatorów, możemy pominąć długość (w definicji tablicy) i pozwolić kompilatorowi wydedukować długość tablicy na podstawie liczby inicjatorów.<p>Następujące definicje tablic zachowują się identycznie:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
-    const int prime1[5] { 2, 3, 5, 7, 11 }; // prime1 explicitly defined to have length 5
-    const int prime2[] { 2, 3, 5, 7, 11 };  // prime2 deduced by compiler to have length 5
+    const int prime1[5] { 2, 3, 5, 7, 11 }; // prime1 jawnie zdefiniowana jako długość 5
+    const int prime2[] { 2, 3, 5, 7, 11 };  // prime2 wydedukowana przez kompilator jako długość 5
 
     return 0;
 }</code></pre><p>Działa to tylko wtedy, gdy inicjatory są jawnie podane dla wszystkich elementów tablicy.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
-    int bad[] {}; // error: the compiler will deduce this to be a zero-length array, which is disallowed!
+    int bad[] {}; // błąd: kompilator wywnioskuje, że jest to tablica o zerowej długości, co jest niedozwolone!
 
     return 0;
 }</code></pre><p>W przypadku używania listy inicjatorów do inicjowania wszystkich elementów tablicy w stylu C, lepiej jest pominąć długość i pozwolić kompilatorowi obliczyć długość tablicy. W ten sposób, jeśli inicjatory zostaną dodane lub usunięte, długość tablicy zostanie automatycznie dostosowana i nie będziemy narażeni na ryzyko niezgodności pomiędzy zdefiniowaną długością tablicy a liczbą dostarczonych inicjatorów.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Wolę pomijać długość tablicy w stylu C podczas jawnego inicjowania każdego elementu tablicy wartością.</div><p class="cpp-section cpp-topline" style=clear:both>Tablice w stylu C const i constexpr<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p>Po prostu podobnie jak  <code>std::array</code>, tablice w stylu C mogą być <code>const</code> lub <code>constexpr</code>. Podobnie jak inne zmienne const, tablice const muszą zostać zainicjowane i wartości elementów nie można później zmienić.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 namespace ProgramData
 {
-    constexpr int squares[5] { 1, 4, 9, 16, 25 }; // an array of constexpr int
+    constexpr int squares[5] { 1, 4, 9, 16, 25 }; // tablica constexpr int
 }
 
 int main()
 {
-    const int prime[5] { 2, 3, 5, 7, 11 }; // an array of const int
-    prime[0] = 17; // compile error: can&#39;t change const int
+    const int prime[5] { 2, 3, 5, 7, 11 }; // tablica const int
+    prime[0] = 17; // błąd kompilacji: nie można zmienić stałego int
 
     return 0;
 }</code></pre><p class="cpp-section cpp-topline" style=clear:both>Rozmiar tablicy w stylu C<p>W poprzednich lekcjach używaliśmy operatora  <code>sizeof()</code> , aby uzyskać rozmiar obiektu lub wpisać w bajtach. Zastosowany do tablicy w stylu C, <code>sizeof()</code> zwraca liczbę bajtów wykorzystanych przez całą tablicę:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 int main()
 {
-    const int prime[] { 2, 3, 5, 7, 11 }; // the compiler will deduce prime to have length 5
+    const int prime[] { 2, 3, 5, 7, 11 }; // kompilator wywnioskuje, że liczba pierwsza ma długość 5
     
-    std::cout &lt;&lt; sizeof(prime); // prints 20 (assuming 4 byte ints)
+    std::cout &lt;&lt; sizeof(prime); // drukuje 20 (zakładając, że int ma 4 bajty)
 
     return 0;
 }</code></pre><p>Zakładając 4-bajtowe wartości całkowite, powyższy program wypisuje <code>20</code>. Słowo kluczowe <code>prime</code> tablicę zawierającą 5 <code>int</code> elementów po 4 bajty każdy, więc 5 * 4 = 20 bajtów.<p>Zauważ, że nie ma tu żadnych kosztów ogólnych. Obiekt tablicy w stylu C zawiera swoje elementy i nic więcej.<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Uzyskiwanie długości tablicy w stylu C<p>W C++17 możemy użyć  <code>std::size()</code> (zdefiniowanego w nagłówku &lt;iterator&gt;), który zwraca długość tablicy jako wartość całkowitą bez znaku (typu <code>std::size_t</code>). W C++20 możemy także użyć <code>std::ssize()</code>, który zwraca długość tablicy jako wartość całkowitą ze znakiem (dużego typu całkowitego ze znakiem, prawdopodobnie  <code>std::ptrdiff_t</code>).<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
-#include &lt;iterator&gt; // for std::size and std::ssize
+#include &lt;iterator&gt; // dla std::size i std::ssize
 
 int main()
 {
-    const int prime[] { 2, 3, 5, 7, 11 };   // the compiler will deduce prime to have length 5
+    const int prime[] { 2, 3, 5, 7, 11 };   // kompilator wywnioskuje, że liczba pierwsza ma długość 5
 
-    std::cout &lt;&lt; std::size(prime) &lt;&lt; &#39;\n&#39;;  // C++17, returns unsigned integral value 5
-    std::cout &lt;&lt; std::ssize(prime) &lt;&lt; &#39;\n&#39;; // C++20, returns signed integral value 5
+    std::cout &lt;&lt; std::size(prime) &lt;&lt; '\n';  // C++17, zwraca wartość całkowitą bez znaku 5
+    std::cout &lt;&lt; std::ssize(prime) &lt;&lt; '\n'; // C++20, zwraca wartość całkowitą ze znakiem 5
 
     return 0;
-}</code></pre><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>Kanoniczny nagłówek definicji <code>std::size()</code> i <code>std::ssize()</code> to &lt;iterator&gt;. Ponieważ jednak te funkcje są tak przydatne, udostępnia je również wiele innych nagłówków, w tym &lt;array&gt; i &lt;vector&gt;. Podczas używania <code>std::size()</code> lub <code>std::ssize()</code> na Tablica w stylu C, być może nie dołączyliśmy jeszcze jednego z pozostałych nagłówków. W takim przypadku nagłówek &lt;iterator&gt; jest tym, który jest zwykle dołączany.<p>Pełną listę nagłówków definiujących te funkcje można zobaczyć w <a href=https://en.cppreference.com/w/cpp/iterator/size>dokumentacji cppreference dla funkcji size</a>.</div><p class="cpp-section cpp-topline" style=clear:both>Uzyskiwanie długości tablicy w stylu C (C++14 lub starsze)<p>Przed C++17 nie było standardowej funkcji bibliotecznej umożliwiającej uzyskanie długości tablicy w stylu C.<p>Jeśli używasz C++11 lub C++14, możesz zamiast tego użyć tej funkcji:<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cstddef&gt; // for std::size_t
+}</code></pre><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>Kanoniczny nagłówek definicji <code>std::size()</code> i <code>std::ssize()</code> to &lt;iterator&gt;. Ponieważ jednak te funkcje są tak przydatne, udostępnia je również wiele innych nagłówków, w tym &lt;array&gt; i &lt;vector&gt;. Podczas używania <code>std::size()</code> lub <code>std::ssize()</code> na Tablica w stylu C, być może nie dołączyliśmy jeszcze jednego z pozostałych nagłówków. W takim przypadku nagłówek &lt;iterator&gt; jest tym, który jest zwykle dołączany.<p>Pełną listę nagłówków definiujących te funkcje można zobaczyć w <a href=https://en.cppreference.com/w/cpp/iterator/size>dokumentacji cppreference dla funkcji size</a>.</div><p class="cpp-section cpp-topline" style=clear:both>Uzyskiwanie długości tablicy w stylu C (C++14 lub starsze)<p>Przed C++17 nie było standardowej funkcji bibliotecznej umożliwiającej uzyskanie długości tablicy w stylu C.<p>Jeśli używasz C++11 lub C++14, możesz zamiast tego użyć tej funkcji:<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cstddef&gt; // dla std::size_t
 #include &lt;iostream&gt;
 
 template &lt;typename T, std::size_t N&gt;
@@ -127,7 +127,7 @@ constexpr std::size_t length(const T(&amp;)[N]) noexcept
 int main() {
 
 	int array[]{ 1, 1, 2, 3, 5, 8, 13, 21 };
-	std::cout &lt;&lt; &#34;The array has: &#34; &lt;&lt; length(array) &lt;&lt; &#34; elements\n&#34;;
+	std::cout &lt;&lt; "The array has: " &lt;&lt; length(array) &lt;&lt; " elements\n";
 
 	return 0;
 }</code></pre><p>Wykorzystuje szablon funkcji, który przyjmuje tablicę w stylu C przez odniesienie, a następnie zwraca parametr szablonu niebędący typem reprezentujący długość tablicy.<p>W znacznie starszych bazach kodu możesz zobaczyć długość tablicy w stylu C określoną przez podzielenie rozmiaru całej tablicy przez rozmiar elementu tablicy:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -141,19 +141,19 @@ int main()
 }</code></pre><p>Wypisuje:<pre>The array has: 8 elements
 </pre><p>Jak to działa? Po pierwsze, zauważ, że rozmiar całej tablicy jest równy długości tablicy pomnożonej przez rozmiar elementu. Mówiąc prościej: <code>array size = length * element size</code>.<p>Korzystając z algebry, możemy zmienić układ tego równania: <code>length = array size / element size</code>. Zwykle używamy  <code>sizeof(array[0])</code> dla rozmiaru elementu. Zatem długość = <code>sizeof(array) / sizeof(array[0])</code>. Czasami możesz zobaczyć tę formułę zapisaną jako <code>sizeof(array) / sizeof(*array)</code>, która robi to samo.<p>Jednakże, jak pokażemy ci w następnej lekcji, ta formuła może dość łatwo zawieść (po przekazaniu zniszczonej tablicy), powodując nieoczekiwane uszkodzenie programu. Obydwa szablony funkcji C++17 <code>std::size()</code> i <code>length()</code> pokazane powyżej będą w tym przypadku powodować błędy kompilacji, więc można ich bezpiecznie używać.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Powiązana treść<p>Rozpad tablic omówimy w następnej lekcji <a href="../c-style-array-decay/index.html">17.8 -- Zanikanie tablicy w stylu C</a>.</div><p class="cpp-section cpp-topline" style=clear:both>Tablice w stylu C nie obsługują przypisania<p>Być może, co zaskakujące, tablice C++ nie obsługują przypisania:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
-    int arr[] { 1, 2, 3 }; // okay: initialization is fine
-    arr[0] = 4;            // assignment to individual elements is fine
-    arr = { 5, 6, 7 };     // compile error: array assignment not valid
+    int arr[] { 1, 2, 3 }; // OK: inicjalizacja jest w porządku
+    arr[0] = 4;            // przypisanie do poszczególnych elementów jest w porządku
+    arr = { 5, 6, 7 };     // błąd kompilacji: nieprawidłowe przypisanie tablicy
 
     return 0;
-}</code></pre><p>Technicznie rzecz biorąc, to nie działa, ponieważ przypisanie wymaga lewy argument za modyfikowalną lwartość, a tablice w stylu C nie są uważane za modyfikowalne lwartości.<p>Jeśli chcesz przypisać nową listę wartości do tablicy w stylu C, najlepiej użyć zamiast tego a <code>std::vector</code> . Alternatywnie możesz przypisać nowe wartości do tablicy w stylu C element po elemencie lub użyć <code>std::copy</code> , aby skopiować istniejącą tablicę w stylu C:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;algorithm&gt; // for std::copy
+}</code></pre><p>Technicznie rzecz biorąc, to nie działa, ponieważ przypisanie wymaga lewy argument za modyfikowalną lwartość, a tablice w stylu C nie są uważane za modyfikowalne lwartości.<p>Jeśli chcesz przypisać nową listę wartości do tablicy w stylu C, najlepiej użyć zamiast tego <code>std::vector</code> . Alternatywnie możesz przypisać nowe wartości do tablicy w stylu C element po elemencie lub użyć <code>std::copy</code> , aby skopiować istniejącą tablicę w stylu C:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;algorithm&gt; // dla std::copy
 
 int main()
 {
     int arr[] { 1, 2, 3 };
     int src[] { 5, 6, 7 };
 
-    // Copy src into arr
+    // Kopiuj src do arr
     std::copy(std::begin(src), std::end(src), std::begin(arr));
 
     return 0;

@@ -19,15 +19,15 @@
 class Base
 {
 public:
-    std::string_view getName() const { return &#34;Base&#34;; }                // not virtual
-    virtual std::string_view getNameVirtual() const { return &#34;Base&#34;; } // virtual
+    std::string_view getName() const { return "Base"; }                // nie wirtualna
+    virtual std::string_view getNameVirtual() const { return "Base"; } // virtual
 };
 
 class Derived: public Base
 {
 public:
-    std::string_view getName() const { return &#34;Derived&#34;; }
-    virtual std::string_view getNameVirtual() const override { return &#34;Derived&#34;; }
+    std::string_view getName() const { return "Derived"; }
+    virtual std::string_view getNameVirtual() const override { return "Derived"; }
 };
 
 int main()
@@ -35,8 +35,8 @@ int main()
     Derived derived {};
     Base&amp; base { derived };
 
-    std::cout &lt;&lt; &#34;base has static type &#34; &lt;&lt; base.getName() &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; &#34;base has dynamic type &#34; &lt;&lt; base.getNameVirtual() &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "base has static type " &lt;&lt; base.getName() &lt;&lt; '\n';
+    std::cout &lt;&lt; "base has dynamic type " &lt;&lt; base.getNameVirtual() &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Najpierw przyjrzyjmy się wywołaniu  <code>base.getName()</code>. Ponieważ jest to funkcja niewirtualna, kompilator może użyć rzeczywistego typu  <code>base</code> (<code>Base</code>), aby określić (w czasie kompilacji), że powinna ona zostać rozwiązana na  <code>Base::getName()</code>.<p>Chociaż wygląda prawie identycznie, wywołanie  <code>base.getNameVirtual()</code>  musi zostać rozwiązane inaczej. Ponieważ jest to wywołanie funkcji wirtualnej, kompilator musi użyć typu dynamicznego  <code>base</code> , aby rozwiązać wywołanie, a typ dynamiczny  <code>base</code>  jest znany dopiero w czasie wykonywania. Dlatego dopiero w czasie wykonywania zostanie ustalone, że to konkretne wywołanie <code>base.getNameVirtual()</code> rozwiązuje się do <code>Derived::getNameVirtual()</code>, nie <code>Base::getNameVirtual()</code>.<p>Jak więc właściwie działają funkcje wirtualne?<p class="cpp-section cpp-topline" style=clear:both>Wirtualna tabela<p>Standard C++ nie określa, w jaki sposób powinny być implementowane funkcje wirtualne (ten szczegół pozostaje w gestii implementacji).<p>Jednak implementacje C++ zazwyczaj implementują funkcje wirtualne przy użyciu formy późnego wiązania znanej jako tabela wirtualna.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Klasa <strong>wirtualna table</strong> to tabela przeglądowa funkcji używana do rozwiązywania wywołań funkcji w sposób dynamicznego/późnego wiązania. Wirtualna tabela czasami nosi inne nazwy, takie jak „vtable”, „tabela funkcji wirtualnych”, „tabela metod wirtualnych” lub „tabela wysyłkowa”. W C++ czasami nazywa się rozpoznawanie funkcji wirtualnych <strong>dynamiczne wysyłanie</strong>.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nomenklatura<p>Oto łatwiejszy sposób myślenia o tym w C++:<br>Wczesne wiązanie/wysyłanie statyczne = rozwiązywanie przeciążenia bezpośredniego wywołania funkcji<br>Późne wiązanie = rozwiązywanie pośrednich wywołań funkcji<br>Dynamiczne wysyłanie = rozwiązywanie nadpisań funkcji wirtualnych</div><p>Ponieważ wiedza o tym, jak działa wirtualna tabela, nie jest konieczna, aby używać wirtualnej funkcji, tę sekcję można uznać za lekturę opcjonalną.<p>Wirtualna tabela jest w rzeczywistości dość prosta, chociaż opisanie jej słowami jest nieco skomplikowane. Po pierwsze, każda klasa korzystająca z funkcji wirtualnych (lub wywodząca się z klasy korzystającej z funkcji wirtualnych) ma odpowiednią tabelę wirtualną. Ta tabela jest po prostu statyczną tablicą, którą kompilator konfiguruje w czasie kompilacji. Tabela wirtualna zawiera jeden wpis dla każdej funkcji wirtualnej, którą mogą wywołać obiekty tej klasy. Każdy wpis w tej tabeli jest po prostu wskaźnikiem funkcji, który wskazuje na najczęściej pochodną funkcję dostępną dla tej klasy.<p>Po drugie, kompilator dodaje również ukryty wskaźnik będący członkiem klasy bazowej, który nazwiemy <code>*__vptr</code>. <code>*__vptr</code> jest ustawiany (automatycznie) podczas tworzenia obiektu klasy tak, aby wskazywał na wirtualną tabelę tej klasy. W przeciwieństwie do wskaźnika <code>this</code> , który w rzeczywistości jest parametrem funkcji używanym przez kompilator do rozpoznawania odwołań do siebie,  <code>*__vptr</code> jest rzeczywistym elementem wskaźnika. W rezultacie powoduje to, że każdy przydzielony obiekt klasy jest większy o rozmiar jednego wskaźnika. Oznacza to również, że <code>*__vptr</code> jest dziedziczony przez klasy pochodne, co jest ważne.<p>Do tej pory prawdopodobnie nie wiesz, jak te rzeczy do siebie pasują, więc spójrzmy na prosty przykład:<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">class Base

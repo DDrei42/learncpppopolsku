@@ -17,39 +17,39 @@
 
 void print(int x)
 {
-     std::cout &lt;&lt; x &lt;&lt; &#39;\n&#39;;
+     std::cout &lt;&lt; x &lt;&lt; '\n';
 }
 
 void print(double d)
 {
-     std::cout &lt;&lt; d &lt;&lt; &#39;\n&#39;;
+     std::cout &lt;&lt; d &lt;&lt; '\n';
 }
 
 int main()
 {
-     print(5); // 5 is an int, so this matches print(int)
-     print(6.7); // 6.7 is a double, so this matches print(double)
+     print(5); // 5 to int, więc odpowiada to print(int)
+     print(6.7); // 6.7 to double, więc to pasuje print(double)
 
      return 0;
 }</code></pre><p>Ale co się dzieje w przypadkach, gdy typy argumentów w wywołaniu funkcji nie odpowiadają dokładnie typom parametrów w którejkolwiek z przeciążonych funkcji? Na przykład: <div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 void print(int x)
 {
-     std::cout &lt;&lt; x &lt;&lt; &#39;\n&#39;;
+     std::cout &lt;&lt; x &lt;&lt; '\n';
 }
 
 void print(double d)
 {
-     std::cout &lt;&lt; d &lt;&lt; &#39;\n&#39;;
+     std::cout &lt;&lt; d &lt;&lt; '\n';
 }
 
 int main()
 {
-     print(&#39;a&#39;); // char does not match int or double, so what happens?
-     print(5L); // long does not match int or double, so what happens?
+     print('a'); // char nie pasuje do int ani double, więc co się dzieje?
+     print(5L); // long nie pasuje do int ani double, więc co z tego się dzieje?
 
      return 0;
-}</code></pre><p>To, że nie ma tutaj dokładnego dopasowania, nie oznacza, że ​​nie można znaleźć dopasowania — w końcu a <code>char</code> lub <code>long</code> można niejawnie przekonwertować na typ <code>int</code> lub a <code>double</code>. Ale jaką konwersję najlepiej wykonać w każdym przypadku?<p>W tej lekcji przyjrzymy się, jak kompilator dopasowuje wywołanie danej funkcji do określonej przeciążonej funkcji.<p class="cpp-section cpp-topline" style=clear:both>Rozwiązywanie przeciążonych wywołań funkcji<p>Gdy wywoływana jest funkcja do przeciążonej funkcji, kompilator przechodzi przez sekwencję reguł, aby określić, która (jeśli w ogóle) z przeciążonych funkcji najlepiej pasuje (omówimy te kroki w następnej sekcji poniżej).<p>Na każdym kroku kompilator stosuje kilka różnych konwersji typów do argumentów w wywołaniu funkcji. Dla każdej zastosowanej konwersji kompilator sprawdza, czy którakolwiek z przeciążonych funkcji jest teraz zgodna. Po zastosowaniu wszystkich konwersji różnych typów i sprawdzeniu dopasowań, krok jest zakończony. Wynikiem będzie jeden z trzech możliwych wyników:<ul><li>Nie znaleziono pasujących funkcji. Kompilator przechodzi do następnego kroku w sekwencji.<li>Znaleziono pojedynczą pasującą funkcję. Ta funkcja jest uważana za najlepiej dopasowaną. Proces dopasowywania został zakończony, a kolejne kroki nie są wykonywane.<li>Znaleziono więcej niż jedną pasującą funkcję. Kompilator wyświetli niejednoznaczny błąd kompilacji dopasowania. Omówimy ten przypadek za chwilę.</ul><p>Jeśli kompilator dotrze do końca całej sekwencji bez znalezienia dopasowania, wygeneruje błąd kompilacji informujący, że dla wywołania funkcji nie można znaleźć pasującej przeciążonej funkcji.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Sekwencja dopasowania argumentów<p>Krok 1) Kompilator próbuje znaleźć dokładne dopasowanie. Dzieje się to w dwóch fazach. Najpierw kompilator sprawdzi, czy istnieje przeciążona funkcja, w której typ argumentów w wywołaniu funkcji jest dokładnie zgodny z typem parametrów w przeciążonych funkcjach. Na przykład: <pre class="language-cpp line-numbers"><code class="language-cpp match-braces">void foo(int)
+}</code></pre><p>To, że nie ma tutaj dokładnego dopasowania, nie oznacza, że ​​nie można znaleźć dopasowania — w końcu <code>char</code> lub <code>long</code> można niejawnie przekonwertować na typ <code>int</code> lub <code>double</code>. Ale jaką konwersję najlepiej wykonać w każdym przypadku?<p>W tej lekcji przyjrzymy się, jak kompilator dopasowuje wywołanie danej funkcji do określonej przeciążonej funkcji.<p class="cpp-section cpp-topline" style=clear:both>Rozwiązywanie przeciążonych wywołań funkcji<p>Gdy wywoływana jest funkcja do przeciążonej funkcji, kompilator przechodzi przez sekwencję reguł, aby określić, która (jeśli w ogóle) z przeciążonych funkcji najlepiej pasuje (omówimy te kroki w następnej sekcji poniżej).<p>Na każdym kroku kompilator stosuje kilka różnych konwersji typów do argumentów w wywołaniu funkcji. Dla każdej zastosowanej konwersji kompilator sprawdza, czy którakolwiek z przeciążonych funkcji jest teraz zgodna. Po zastosowaniu wszystkich konwersji różnych typów i sprawdzeniu dopasowań, krok jest zakończony. Wynikiem będzie jeden z trzech możliwych wyników:<ul><li>Nie znaleziono pasujących funkcji. Kompilator przechodzi do następnego kroku w sekwencji.<li>Znaleziono pojedynczą pasującą funkcję. Ta funkcja jest uważana za najlepiej dopasowaną. Proces dopasowywania został zakończony, a kolejne kroki nie są wykonywane.<li>Znaleziono więcej niż jedną pasującą funkcję. Kompilator wyświetli niejednoznaczny błąd kompilacji dopasowania. Omówimy ten przypadek za chwilę.</ul><p>Jeśli kompilator dotrze do końca całej sekwencji bez znalezienia dopasowania, wygeneruje błąd kompilacji informujący, że dla wywołania funkcji nie można znaleźć pasującej przeciążonej funkcji.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Sekwencja dopasowania argumentów<p>Krok 1) Kompilator próbuje znaleźć dokładne dopasowanie. Dzieje się to w dwóch fazach. Najpierw kompilator sprawdzi, czy istnieje przeciążona funkcja, w której typ argumentów w wywołaniu funkcji jest dokładnie zgodny z typem parametrów w przeciążonych funkcjach. Na przykład: <pre class="language-cpp line-numbers"><code class="language-cpp match-braces">void foo(int)
 {
 }
 
@@ -59,39 +59,39 @@ void foo(double)
 
 int main()
 {
-    foo(0);   // exact match with foo(int)
-    foo(3.4); // exact match with foo(double)
+    foo(0);   // dokładne dopasowanie do foo(int)
+    foo(3.4); // dokładne dopasowanie z foo(double)
 
     return 0;
 }</code></pre><p>Ponieważ <code>0</code> w wywołaniu funkcji <code>foo(0)</code> jest int, kompilator sprawdzi, czy zadeklarowano <code>foo(int)</code> przeciążenie. Ponieważ tak jest, kompilator określa, że <code>foo(int)</code> jest dokładnym dopasowaniem.<p>Po drugie, kompilator zastosuje szereg trywialnych konwersji do argumentów w wywołaniu funkcji.  <strong>Trywialne konwersje</strong> to zestaw konkretnych reguł konwersji, które modyfikują typy (bez modyfikowania wartości) w celu znalezienia dopasowania. Należą do nich:<ul><li>konwersje lwartości na rwartość<li>konwersje kwalifikacyjne (np. non-const na const)<li>konwersje bez odniesienia do referencji</ul><p>Na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">void foo(const int)
 {
 }
 
-void foo(const double&amp;) // double&amp; is a reference to a double
+void foo(const double&amp;) // double&amp; jest odniesieniem do podwójnego
 {
 }
 
 int main()
 {
     int x { 1 };
-    foo(x); // x trivially converted from int to const int
+    foo(x); // x w prosty sposób przekonwertowany z int na const int
 
     double d { 2.3 };
-    foo(d); // d trivially converted from double to const double&amp; (non-ref to ref conversion)
+    foo(d); // d prosto konwertowane z double na const double&amp; (konwersja inna niż ref)
 
     return 0;
-}</code></pre><p>W powyższym przykładzie wywołaliśmy  <code>foo(x)</code>, gdzie <code>x</code> jest <code>int</code>. Kompilator w prosty sposób przekonwertuje <code>x</code> z <code>int</code> do  <code>const int</code>, który następnie dopasuje <code>foo(const int)</code>. Zadzwoniliśmy także do <code>foo(d)</code>, gdzie <code>d</code> jest <code>double</code>. Kompilator w prosty sposób przekonwertuje <code>d</code> z a <code>double</code> do <code>const double&</code>, który następnie dopasuje <code>foo(const double&)</code>.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Powiązana treść<p>Odniesienia omówimy w lekcji <a href="../lvalue-references/index.html">12.3 -- Odniesienia do wartości</a>.</div><p>Dopasowania dokonane poprzez trywialne konwersje są uważane za dokładne dopasowania. Oznacza to, że następujący program daje niejednoznaczne dopasowanie:<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">void foo(int)
+}</code></pre><p>W powyższym przykładzie wywołaliśmy  <code>foo(x)</code>, gdzie <code>x</code> jest <code>int</code>. Kompilator w prosty sposób przekonwertuje <code>x</code> z <code>int</code> do  <code>const int</code>, który następnie dopasuje <code>foo(const int)</code>. Zadzwoniliśmy także do <code>foo(d)</code>, gdzie <code>d</code> jest <code>double</code>. Kompilator w prosty sposób przekonwertuje <code>d</code> z <code>double</code> do <code>const double&</code>, który następnie dopasuje <code>foo(const double&)</code>.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Powiązana treść<p>Odniesienia omówimy w lekcji <a href="../lvalue-references/index.html">12.3 -- Odniesienia do wartości</a>.</div><p>Dopasowania dokonane poprzez trywialne konwersje są uważane za dokładne dopasowania. Oznacza to, że następujący program daje niejednoznaczne dopasowanie:<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">void foo(int)
 {
 }
 
-void foo(const int&amp;) // int&amp; is a reference to a int
+void foo(const int&amp;) // int&amp; jest odwołaniem do int
 {
 }
 
 int main()
 {
     int x { 1 };
-    foo(x); // ambiguous match with foo(int) and foo(const int&amp;)
+    foo(x); // niejednoznaczne dopasowanie z foo(int) i foo(const int&amp;)
 
     return 0;
 }</code></pre><p>Krok 2) Jeśli nie zostanie znalezione dokładne dopasowanie, kompilator próbuje znaleźć dopasowanie, stosując promocję numeryczną do argumentu(ów). Na lekcji (<a href="../implicit-type-conversion/index.html">10.1 -- Niejawna konwersja typów</a>) omówiliśmy, w jaki sposób niektóre wąskie typy całkowe i zmiennoprzecinkowe mogą być automatycznie awansowane do szerszych typów, takich jak <code>int</code> lub <code>double</code>. Jeśli po promocji liczbowej zostanie znalezione dopasowanie, wywołanie funkcji zostanie rozwiązane.<p>Na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">void foo(int)
@@ -104,12 +104,12 @@ void foo(double)
 
 int main()
 {
-    foo(&#39;a&#39;);  // promoted to match foo(int)
-    foo(true); // promoted to match foo(int)
-    foo(4.5f); // promoted to match foo(double)
+    foo('a');  // promowane do dopasowania foo(int)
+    foo(true); // promowane do dopasowania foo(int)
+    foo(4.5f); // promowane do dopasowania foo(double)
 
     return 0;
-}</code></pre><p>For <code>foo('a')</code>, ponieważ w poprzednim kroku nie można było znaleźć dokładnego dopasowania dla <code>foo(char)</code> , kompilator promuje znak char <code>'a'</code> na <code>int</code> i szuka dopasowania. To pasuje do <code>foo(int)</code>, więc wywołanie funkcji kończy się  <code>foo(int)</code>.<p>Krok 3) Jeśli nie zostanie znalezione dopasowanie poprzez promocję numeryczną, kompilator próbuje znaleźć dopasowanie, stosując konwersję numeryczną (<a href="../numeric-conversions/index.html">10.3 -- Konwersje liczbowe</a>) do argumentów.<p>Na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;string&gt; // for std::string
+}</code></pre><p>For <code>foo('a')</code>, ponieważ w poprzednim kroku nie można było znaleźć dokładnego dopasowania dla <code>foo(char)</code> , kompilator promuje znak char <code>'a'</code> na <code>int</code> i szuka dopasowania. To pasuje do <code>foo(int)</code>, więc wywołanie funkcji kończy się  <code>foo(int)</code>.<p>Krok 3) Jeśli nie zostanie znalezione dopasowanie poprzez promocję numeryczną, kompilator próbuje znaleźć dopasowanie, stosując konwersję numeryczną (<a href="../numeric-conversions/index.html">10.3 -- Konwersje liczbowe</a>) do argumentów.<p>Na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;string&gt; // dla std::string
 
 void foo(double)
 {
@@ -121,14 +121,14 @@ void foo(std::string)
 
 int main()
 {
-    foo(&#39;a&#39;); // &#39;a&#39; converted to match foo(double)
+    foo('a'); // 'a' skonwertowane na foo(double)
 
     return 0;
-}</code></pre><p>W tym przypadku, ponieważ nie ma  <code>foo(char)</code> (dokładnego dopasowania) i no <code>foo(int)</code> (dopasowanie promocji),  <code>'a'</code> jest numerycznie konwertowane na wartość podwójną i dopasowywane z <code>foo(double)</code>.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Dopasowania dokonane poprzez zastosowanie promocji numerycznych mają pierwszeństwo przed wszystkimi dopasowaniami uzyskanymi poprzez zastosowanie konwersji numerycznych.</div><p>Krok 4) Jeśli w wyniku konwersji liczbowej nie zostanie znalezione dopasowanie, kompilator spróbuje znaleźć dopasowanie poprzez konwersje zdefiniowane przez użytkownika. Chociaż nie omówiliśmy jeszcze konwersji zdefiniowanych przez użytkownika, niektóre typy (np. klasy) mogą definiować konwersje na inne typy, które można wywołać niejawnie. Oto przykład, żeby zilustrować o co chodzi:<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// We haven&#39;t covered classes yet, so don&#39;t worry if this doesn&#39;t make sense
-class X // this defines a new type called X
+}</code></pre><p>W tym przypadku, ponieważ nie ma  <code>foo(char)</code> (dokładnego dopasowania) i no <code>foo(int)</code> (dopasowanie promocji),  <code>'a'</code> jest numerycznie konwertowane na wartość podwójną i dopasowywane z <code>foo(double)</code>.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Dopasowania dokonane poprzez zastosowanie promocji numerycznych mają pierwszeństwo przed wszystkimi dopasowaniami uzyskanymi poprzez zastosowanie konwersji numerycznych.</div><p>Krok 4) Jeśli w wyniku konwersji liczbowej nie zostanie znalezione dopasowanie, kompilator spróbuje znaleźć dopasowanie poprzez konwersje zdefiniowane przez użytkownika. Chociaż nie omówiliśmy jeszcze konwersji zdefiniowanych przez użytkownika, niektóre typy (np. klasy) mogą definiować konwersje na inne typy, które można wywołać niejawnie. Oto przykład, żeby zilustrować o co chodzi:<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Nie omówiliśmy jeszcze klas, więc nie martw się, jeśli nie ma to sensu
+class X // to nowy typ o nazwie X
 {
 public:
-    operator int() { return 0; } // Here&#39;s a user-defined conversion from X to int
+    operator int() { return 0; } // Oto zdefiniowana przez użytkownika konwersja z X na int
 };
 
 void foo(int)
@@ -141,8 +141,8 @@ void foo(double)
 
 int main()
 {
-    X x; // Here, we&#39;re creating an object of type X (named x)
-    foo(x); // x is converted to type int using the user-defined conversion from X to int
+    X x; // Tutaj tworzymy obiekt typu X (o nazwie x)
+    foo(x); // x jest konwertowane na typ int przy użyciu zdefiniowanej przez użytkownika konwersji z X na int
 
     return 0;
 }</code></pre><p>W tym przykładzie kompilator najpierw sprawdzi, czy istnieje dokładne dopasowanie do <code>foo(X)</code> . Nie zdefiniowaliśmy żadnego. Następnie kompilator sprawdzi, czy  <code>x</code> można promować numerycznie, czego nie można. Kompilator sprawdzi następnie, czy <code>x</code> można przekonwertować numerycznie, czego również nie można. Na koniec kompilator będzie szukać wszelkich konwersji zdefiniowanych przez użytkownika. Ponieważ zdefiniowaliśmy konwersję zdefiniowaną przez użytkownika z <code>X</code> Do <code>int</code>, kompilator dokona konwersji <code>X</code> na <code>int</code> w celu dopasowania <code>foo(int)</code>.<p>Po zastosowaniu konwersji zdefiniowanej przez użytkownika kompilator może zastosować dodatkowe ukryte promocje lub konwersje, aby znaleźć dopasowanie. Zatem gdyby nasza konwersja zdefiniowana przez użytkownika polegała na wpisaniu <code>char</code> zamiast <code>int</code>, kompilator użyłby konwersji zdefiniowanej przez użytkownika na <code>char</code> , a następnie promował wynik do <code>int</code> w celu dopasowania.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Powiązana treść<p>Omawiamy, jak tworzyć konwersje zdefiniowane przez użytkownika dla typów klas (poprzez przeciążanie operatorów rzutowania typów) w lekcji <a href="../overloading-typecasts/index.html">21.11 -- Przeciążanie typecasts</a>.</div><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Dla zaawansowanych czytelników<p>Konstruktor klasy działa również jako zdefiniowana przez użytkownika konwersja z innych typów na ten typ klasy i może zostać wykorzystana w tym kroku do znalezienia pasujących funkcji.</div><p>Krok 5) Jeśli w wyniku konwersji zdefiniowanej przez użytkownika nie zostanie znalezione żadne dopasowanie, kompilator będzie szukać pasującej funkcji używającej wielokropka.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Powiązana treść<p>Elipsę omówimy w lekcji <a href="../ellipsis-and-why-to-avoid-them/index.html">20.5 -- Elipsa (i dlaczego jej unikać)</a>.</div><p>Krok 6) Jeśli do tego momentu nie znaleziono żadnych dopasowań, kompilator poddaje się i zgłosi błąd kompilacji w związku z niemożnością znalezienia pasującej funkcji.<p class="cpp-section cpp-topline" style=clear:both>Niejednoznaczne dopasowania<p>W przypadku funkcji nieprzeciążonych każde wywołanie funkcji albo zostanie przekształcone w funkcję, albo nie zostanie znalezione żadne dopasowanie i kompilator zgłosi błąd kompilacji:<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">void foo()
@@ -151,11 +151,11 @@ int main()
 
 int main()
 {
-     foo(); // okay: match found
-     goo(); // compile error: no match found
+     foo(); // OK: znaleziono dopasowanie
+     goo(); // kompilacja błąd: nie znaleziono dopasowania
 
      return 0;
-}</code></pre><p>W przypadku przeciążonych funkcji istnieje trzeci możliwy wynik: można znaleźć  <code>ambiguous match</code> . An <strong>dopasowaniem niejednoznacznym</strong> występuje, gdy kompilator znajdzie dwie lub więcej funkcji, które można dopasować w tym samym kroku. Kiedy to nastąpi, kompilator przestanie dopasowywać i zgłosi błąd kompilacji informujący, że znalazł niejednoznaczne wywołanie funkcji.<p>Ponieważ każda przeciążona funkcja musi zostać rozróżniona w celu kompilacji, możesz się zastanawiać, jak to możliwe, że wywołanie funkcji może skutkować więcej niż jednym dopasowaniem. Przyjrzyjmy się przykładowi, który to ilustruje:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">void foo(int)
+}</code></pre><p>W przypadku przeciążonych funkcji istnieje trzeci możliwy wynik: można znaleźć  <code>ambiguous match</code> . <strong>dopasowaniem niejednoznacznym</strong> występuje, gdy kompilator znajdzie dwie lub więcej funkcji, które można dopasować w tym samym kroku. Kiedy to nastąpi, kompilator przestanie dopasowywać i zgłosi błąd kompilacji informujący, że znalazł niejednoznaczne wywołanie funkcji.<p>Ponieważ każda przeciążona funkcja musi zostać rozróżniona w celu kompilacji, możesz się zastanawiać, jak to możliwe, że wywołanie funkcji może skutkować więcej niż jednym dopasowaniem. Przyjrzyjmy się przykładowi, który to ilustruje:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">void foo(int)
 {
 }
 
@@ -165,7 +165,7 @@ void foo(double)
 
 int main()
 {
-    foo(5L); // 5L is type long
+    foo(5L); // 5L do długiego pisania
 
     return 0;
 }</code></pre><p>Ponieważ literał <code>5L</code> jest typu <code>long</code>, kompilator najpierw sprawdzi, czy może znaleźć dokładne dopasowanie dla <code>foo(long)</code>, ale go nie znajdzie. Następnie kompilator spróbuje promować numerycznie, ale wartości typu <code>long</code> nie mogą być promowane, więc tutaj również nie ma dopasowania.<p>Następnie kompilator spróbuje znaleźć dopasowanie, stosując konwersje numeryczne do argumentu <code>long</code> . W procesie sprawdzania wszystkich reguł konwersji liczbowej kompilator znajdzie dwa potencjalne dopasowania. Jeśli argument <code>long</code>  zostanie przekonwertowany numerycznie na  <code>int</code>, wówczas wywołanie funkcji będzie pasować <code>foo(int)</code>. Jeśli zamiast tego argument <code>long</code> zostanie przekonwertowany na <code>double</code>, zamiast tego będzie pasował <code>foo(double)</code> . Ponieważ znaleziono dwa możliwe dopasowania poprzez konwersję numeryczną, wywołanie funkcji jest uważane za niejednoznaczne.<p>W programie Visual Studio 2019 powoduje to następujący komunikat o błędzie:<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><pre>error C2668: &#39;foo&#39;: ambiguous call to overloaded function
@@ -182,12 +182,12 @@ void foo(float)
 
 int main()
 { 
-    foo(0);       // int can be numerically converted to unsigned int or to float
-    foo(3.14159); // double can be numerically converted to unsigned int or to float
+    foo(0);       // int można konwertować numerycznie na unsigned int lub float
+    foo(3.14159); // double można numerycznie przekonwertować na unsigned int lub na float
 
     return 0;
-}</code></pre><p>Chociaż można się spodziewać <code>0</code> rozwiązać  <code>foo(unsigned int)</code> i <code>3.14159</code> rozwiązać  <code>foo(float)</code>, oba te wywołania dają niejednoznaczne dopasowanie.  <code>int</code> wartości <code>0</code> można numerycznie przekonwertować na <code>unsigned int</code> lub a <code>float</code>, więc każde przeciążenie pasuje równie dobrze, a wynikiem jest niejednoznaczne wywołanie funkcji.<p>To samo dotyczy konwersji a <code>double</code> na albo a <code>float</code> lub <code>unsigned int</code>. Obie są konwersjami numerycznymi, więc każde przeciążenie pasuje równie dobrze, a wynik znów jest niejednoznaczny.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Dla zaawansowanych czytelników<p>Domyślne argumenty mogą również powodować niejednoznaczne dopasowania. Omówimy takie przypadki w lekcji <a href="../default-arguments/index.html">11.5 -- Domyślne argumenty</a>.</div><p class="cpp-section cpp-topline" style=clear:both>Rozwiązywanie niejednoznacznych dopasowań<p>Ponieważ dopasowania niejednoznaczne są błędem w czasie kompilacji, niejednoznaczne dopasowanie musi zostać ujednoznacznione przed skompilowaniem programu. Istnieje kilka sposobów rozwiązywania niejednoznacznych dopasowań:<ol start=1><li>Często najlepszym sposobem jest po prostu zdefiniowanie nowej przeciążonej funkcji, która przyjmuje parametry dokładnie tego typu, z którym próbujesz wywołać tę funkcję. Wtedy C++ będzie mógł znaleźć dokładne dopasowanie dla wywołania funkcji.<li>Alternatywnie, jawnie rzuć niejednoznaczne argumenty, aby pasowały do ​​typu funkcji, którą chcesz wywołać. Na przykład, aby  <code>foo(0)</code> dopasować <code>foo(unsigned int)</code> w powyższym przykładzie, możesz zrobić tak:</ol><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int x{ 0 };
-foo(static_cast&lt;unsigned int&gt;(x)); // will call foo(unsigned int)</code></pre><ol start=3><li>Jeśli argument jest literałem, możesz użyć sufiksu literału, aby upewnić się, że literał zostanie zinterpretowany jako poprawny typ:</ol><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">foo(0u); // will call foo(unsigned int) since &#39;u&#39; suffix is unsigned int, so this is now an exact match</code></pre><p>Lista najczęściej używanych przyrostków znajduje się w lekcji <a href="../literals/index.html">5.2 -- Literały</a>.<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Dopasowywanie dla funkcji z wieloma argumenty<p>Jeśli istnieje wiele argumentów, kompilator stosuje reguły dopasowywania do każdego argumentu po kolei. Wybrana funkcja to ta, dla której każdy argument pasuje co najmniej tak dobrze, jak wszystkie inne funkcje, przy czym co najmniej jeden argument pasuje lepiej niż wszystkie inne funkcje. Innymi słowy, wybrana funkcja musi zapewniać lepsze dopasowanie niż wszystkie inne funkcje kandydujące w przypadku co najmniej jednego parametru i nie gorsze w przypadku wszystkich pozostałych parametrów.<p>W przypadku znalezienia takiej funkcji jest to zdecydowanie i jednoznacznie najlepszy wybór. Jeżeli nie zostanie znaleziona taka funkcja, wywołanie zostanie uznane za niejednoznaczne (lub niezgodne).<p>Na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+}</code></pre><p>Chociaż można się spodziewać <code>0</code> rozwiązać  <code>foo(unsigned int)</code> i <code>3.14159</code> rozwiązać  <code>foo(float)</code>, oba te wywołania dają niejednoznaczne dopasowanie.  <code>int</code> wartości <code>0</code> można numerycznie przekonwertować na <code>unsigned int</code> lub <code>float</code>, więc każde przeciążenie pasuje równie dobrze, a wynikiem jest niejednoznaczne wywołanie funkcji.<p>To samo dotyczy konwersji <code>double</code> na albo <code>float</code> lub <code>unsigned int</code>. Obie są konwersjami numerycznymi, więc każde przeciążenie pasuje równie dobrze, a wynik znów jest niejednoznaczny.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Dla zaawansowanych czytelników<p>Domyślne argumenty mogą również powodować niejednoznaczne dopasowania. Omówimy takie przypadki w lekcji <a href="../default-arguments/index.html">11.5 -- Domyślne argumenty</a>.</div><p class="cpp-section cpp-topline" style=clear:both>Rozwiązywanie niejednoznacznych dopasowań<p>Ponieważ dopasowania niejednoznaczne są błędem w czasie kompilacji, niejednoznaczne dopasowanie musi zostać ujednoznacznione przed skompilowaniem programu. Istnieje kilka sposobów rozwiązywania niejednoznacznych dopasowań:<ol start=1><li>Często najlepszym sposobem jest po prostu zdefiniowanie nowej przeciążonej funkcji, która przyjmuje parametry dokładnie tego typu, z którym próbujesz wywołać tę funkcję. Wtedy C++ będzie mógł znaleźć dokładne dopasowanie dla wywołania funkcji.<li>Alternatywnie, jawnie rzuć niejednoznaczne argumenty, aby pasowały do ​​typu funkcji, którą chcesz wywołać. Na przykład, aby  <code>foo(0)</code> dopasować <code>foo(unsigned int)</code> w powyższym przykładzie, możesz zrobić tak:</ol><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int x{ 0 };
+foo(static_cast&lt;unsigned int&gt;(x)); // wywoła foo(unsigned int)</code></pre><ol start=3><li>Jeśli argument jest literałem, możesz użyć sufiksu literału, aby upewnić się, że literał zostanie zinterpretowany jako poprawny typ:</ol><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">foo(0u); // wywoła foo(unsigned int), ponieważ sufiks „u” jest int bez znaku, więc jest to teraz dokładne dopasowanie</code></pre><p>Lista najczęściej używanych przyrostków znajduje się w lekcji <a href="../literals/index.html">5.2 -- Literały</a>.<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Dopasowywanie dla funkcji z wieloma argumenty<p>Jeśli istnieje wiele argumentów, kompilator stosuje reguły dopasowywania do każdego argumentu po kolei. Wybrana funkcja to ta, dla której każdy argument pasuje co najmniej tak dobrze, jak wszystkie inne funkcje, przy czym co najmniej jeden argument pasuje lepiej niż wszystkie inne funkcje. Innymi słowy, wybrana funkcja musi zapewniać lepsze dopasowanie niż wszystkie inne funkcje kandydujące w przypadku co najmniej jednego parametru i nie gorsze w przypadku wszystkich pozostałych parametrów.<p>W przypadku znalezienia takiej funkcji jest to zdecydowanie i jednoznacznie najlepszy wybór. Jeżeli nie zostanie znaleziona taka funkcja, wywołanie zostanie uznane za niejednoznaczne (lub niezgodne).<p>Na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 void print(char, int)
 {

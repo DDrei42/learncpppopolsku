@@ -19,20 +19,20 @@
 #include &lt;chrono&gt;
 #include &lt;random&gt;
 
-// This header-only Random namespace implements a self-seeding Mersenne Twister.
-// Requires C++17 or newer.
-// It can be #included into as many code files as needed (The inline keyword avoids ODR violations)
+// To tylko nagłówek Losowa przestrzeń nazw implementuje samozasysający Mersenne Twister.
+// Wymaga C++17 lub nowszy.
+// Można #włączyć do dowolnej liczby plików z kodem (słowo kluczowe inline pozwala uniknąć naruszeń ODR)
 // Freely redistributable, courtesy of learncpp.com (/www.learncpp.com/cpp-tutorial/global-random-numbers-random-h/)
 namespace Random
 {
-	// Returns a seeded Mersenne Twister
-	// Note: we&#39;d prefer to return a std::seed_seq (to initialize a std::mt19937), but std::seed can&#39;t be copied, so it can&#39;t be returned by value.
-	// Instead, we&#39;ll create a std::mt19937, seed it, and then return the std::mt19937 (which can be copied).
+	// Zwraca zaszczepionego Mersenne Twistera
+	// Uwaga: wolelibyśmy zwrócić std::seed_seq (aby zainicjować std::mt19937), ale std::seed nie może zostać skopiowane, więc nie może zostać zwrócone przez wartość.
+	// Zamiast tego utworzymy std::mt19937, zaszczepimy go, a następnie zwrócimy std::mt19937 (który można skopiować).
 	inline std::mt19937 generate()
 	{
 		std::random_device rd{};
 
-		// Create seed_seq with clock and 7 random numbers from std::random_device
+		// Utwórz seq_seq z zegarem i 7 losowymi liczbami z std::random_device
 		std::seed_seq ss{
 			static_cast&lt;std::seed_seq::result_type&gt;(std::chrono::steady_clock::now().time_since_epoch().count()),
 				rd(), rd(), rd(), rd(), rd(), rd(), rd() };
@@ -40,43 +40,43 @@ namespace Random
 		return std::mt19937{ ss };
 	}
 
-	// Here&#39;s our global std::mt19937 object.
-	// The inline keyword means we only have one global instance for our whole program.
-	inline std::mt19937 mt{ generate() }; // generates a seeded std::mt19937 and copies it into our global object
+	// Oto nasz globalny obiekt std::mt19937.
+	// Wbudowane słowo kluczowe oznacza, że mamy tylko jedną globalną instancję dla całego programu.
+	inline std::mt19937 mt{ generate() }; // zarazi się std::mt19937 i kopiuje go do naszego obiektu globalnego
 
-	// Generate a random int between [min, max] (inclusive)
-        // * also handles cases where the two arguments have different types but can be converted to int
+	// Wygeneruj losową wartość int pomiędzy [min, max] (włącznie)
+        // * obsługuje również przypadki, gdy dwa argumenty mają różne typy, ale można je przekonwertować na int
 	inline int get(int min, int max)
 	{
 		return std::uniform_int_distribution{min, max}(mt);
 	}
 
-	// The following function templates can be used to generate random numbers in other cases
+	// Następujące szablony funkcji mogą być użyte do generowania liczb losowych w innych przypadkach
 
 	// See /www.learncpp.com/cpp-tutorial/function-template-instantiation/
-	// You can ignore these if you don&#39;t understand them
+	// Możesz je zignorować, jeśli ich nie rozumiesz
 
-	// Generate a random value between [min, max] (inclusive)
-	// * min and max must have the same type
-	// * return value has same type as min and max
+	// Wygeneruj losową wartość pomiędzy [min, max] (włącznie)
+	// * min i max muszą mieć wartość tego samego typu
+	// * wartość zwracana ma ten sam typ co min i max
 	// * Supported types:
-	// *    short, int, long, long long
-	// *    unsigned short, unsigned int, unsigned long, or unsigned long long
-	// Sample call: Random::get(1L, 6L);             // returns long
-	// Sample call: Random::get(1u, 6u);             // returns unsigned int
+	// * krótki, całkowity, długi, długi, długi
+	// * unsigned krótki, unsigned int, unsigned long lub unsigned long long
+	// Przykładowe wywołanie: Losowo::get(1L, 6L); // zwraca long
+	// Przykładowe wywołanie: Random::get(1u, 6u); // zwraca unsigned int
 	template &lt;typename T&gt;
 	T get(T min, T max)
 	{
 		return std::uniform_int_distribution&lt;T&gt;{min, max}(mt);
 	}
 
-	// Generate a random value between [min, max] (inclusive)
-	// * min and max can have different types
-        // * return type must be explicitly specified as a template argument
-	// * min and max will be converted to the return type
-	// Sample call: Random::get&lt;std::size_t&gt;(0, 6);  // returns std::size_t
-	// Sample call: Random::get&lt;std::size_t&gt;(0, 6u); // returns std::size_t
-	// Sample call: Random::get&lt;std::int&gt;(0, 6u);    // returns int
+	// Wygeneruj losową wartość pomiędzy [min, max] (włącznie)
+	// * min i max mogą mieć różne typy
+        // * typ zwracany musi być jawnie określony jako argument szablonu
+	// * min i max zostaną skonwertowane na typ zwracany
+	// Przykładowe wywołanie: Random::get&lt;std::size_t&gt;(0, 6); // zwraca std::size_t
+	// Przykładowe wywołanie: Random::get&lt;std::size_t&gt;(0, 6u); // zwraca std::size_t
+	// Przykładowe wywołanie: Random::get&lt;std::int&gt;(0, 6u); // zwraca int
 	template &lt;typename R, typename S, typename T&gt;
 	R get(S min, T max)
 	{
@@ -84,36 +84,36 @@ namespace Random
 	}
 }
 
-#endif</code></pre><p class="cpp-section cpp-topline" style=clear:both>Using Random.h<p>Generowanie liczb losowych przy użyciu powyższego jest tak proste, jak wykonanie tych trzech kroków:<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><ol start=1><li>Skopiuj/wklej powyższy kod do pliku o nazwie <code>Random.h</code> w katalogu projektu i zapisz go. Opcjonalnie dodaj Random.h do swojego projektu.<li><code>#include "Random.h"</code> z dowolnego pliku .cpp w swoim projekcie, który musi generować liczby losowe.<li>Wywołaj <code>Random::get(min, max)</code> aby wygenerować losową liczbę z zakresu <code>min</code> i <code>max</code> (włącznie). Nie jest wymagana żadna inicjalizacja ani konfiguracja.</ol><p>Oto przykładowy program demonstrujący różne zastosowania Random.h:<p>main.cpp:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &#34;Random.h&#34; // defines Random::mt, Random::get(), and Random::generate()
-#include &lt;cstddef&gt; // for std::size_t
+#endif</code></pre><p class="cpp-section cpp-topline" style=clear:both>Using Random.h<p>Generowanie liczb losowych przy użyciu powyższego jest tak proste, jak wykonanie tych trzech kroków:<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><ol start=1><li>Skopiuj/wklej powyższy kod do pliku o nazwie <code>Random.h</code> w katalogu projektu i zapisz go. Opcjonalnie dodaj Random.h do swojego projektu.<li><code>#include "Random.h"</code> z dowolnego pliku .cpp w swoim projekcie, który musi generować liczby losowe.<li>Wywołaj <code>Random::get(min, max)</code> aby wygenerować losową liczbę z zakresu <code>min</code> i <code>max</code> (włącznie). Nie jest wymagana żadna inicjalizacja ani konfiguracja.</ol><p>Oto przykładowy program demonstrujący różne zastosowania Random.h:<p>main.cpp:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include "Random.h" // określenie Random::mt, Random::get() i Random::generate()
+#include &lt;cstddef&gt; // dla std::size_t
 #include &lt;iostream&gt;
 
 int main()
 {
-	// We can call Random::get() to generate random integral values
-	// If the two arguments have the same type, the returned value will have that same type.
-	std::cout &lt;&lt; Random::get(1, 6) &lt;&lt; &#39;\n&#39;;   // returns int between 1 and 6
-	std::cout &lt;&lt; Random::get(1u, 6u) &lt;&lt; &#39;\n&#39;; // returns unsigned int between 1 and 6
+	// Możemy wywołać Random::get() w celu wygenerowania losowych wartości całkowitych
+	// Jeśli oba argumenty mają ten sam typ, zwrócona wartość będzie miała ten sam typ.
+	std::cout &lt;&lt; Random::get(1, 6) &lt;&lt; '\n';   // zwraca wartość int pomiędzy 1 a 6
+	std::cout &lt;&lt; Random::get(1u, 6u) &lt;&lt; '\n'; // zwraca wartość int bez znaku pomiędzy 1 a 6
 
-        // In cases where we have two arguments with different types
-        // and/or if we want the return type to be different than the argument types
-        // We must specify the return type using a template type argument (between the angled brackets)
+        // W przypadkach, gdy mamy dwa argumenty różnych typów
+        // i/lub jeśli chcemy, aby typ zwracany był inny niż typy argumentów
+        // Musimy określić typ zwracany za pomocą argumentu typu szablonu (między nawiasami ostrymi)
 	// See /www.learncpp.com/cpp-tutorial/function-template-instantiation/
-	std::cout &lt;&lt; Random::get&lt;std::size_t&gt;(1, 6u) &lt;&lt; &#39;\n&#39;; // returns std::size_t between 1 and 6
+	std::cout &lt;&lt; Random::get&lt;std::size_t&gt;(1, 6u) &lt;&lt; '\n'; // zwraca std::size_t od 1 do 6
 
-	// If we have our own distribution, we can access Random::mt directly
+	// Jeśli mamy własną dystrybucję, możemy uzyskać dostęp Random::mt bezpośrednio
 
-	// Let&#39;s create a reusable random number generator that generates uniform numbers between 1 and 6
-	std::uniform_int_distribution die6{ 1, 6 }; // for C++14, use std::uniform_int_distribution&lt;&gt; die6{ 1, 6 };
+	// Utwórzmy generator liczb losowych wielokrotnego użytku, który generuje liczby jednolite od 1 do 6
+	std::uniform_int_distribution die6{ 1, 6 }; // dla C++14 użyj std::uniform_int_distribution&lt;&gt; die6{ 1, 6 };
 	for (int count{ 1 }; count &lt;= 10; ++count)
 	{
-		std::cout &lt;&lt; die6(Random::mt) &lt;&lt; &#39;\t&#39;; // generate a roll of the die here
+		std::cout &lt;&lt; die6(Random::mt) &lt;&lt; '\t'; // wygeneruj tutaj rzut kostką
 	}
 
-	std::cout &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; '\n';
 
 	return 0;
-}</code></pre><p class="cpp-section cpp-topline" style=clear:both>Kilka uwag na temat implementacji Random.h <span class="cpp-section-pill cpp-section-optional">Opcjonalne</span><p>Zwykle zdefiniowanie zmiennych i funkcji w pliku nagłówkowym spowodowałoby naruszenie reguły jednej definicji (ODR), gdy ten plik nagłówkowy zostałby zawarty w więcej niż jednym pliku źródłowym. Jednakże stworzyliśmy nasze <code>mt</code> zmienne i funkcje pomocnicze <code>inline</code>, co pozwala nam na powielanie definicji bez naruszania ODR, o ile wszystkie te definicje są identyczne. Ponieważ #uwzględniamy te definicje z pliku nagłówkowego (zamiast wpisywać je ręcznie lub kopiować/wklejać), możemy zapewnić, że są identyczne. Funkcje i zmienne wbudowane zostały dodane do języka głównie po to, aby umożliwić tego rodzaju funkcjonalność obejmującą tylko nagłówek.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Powiązana treść<p>Funkcje i zmienne wbudowane omówimy na lekcji <a href="../inline-functions-and-variables/index.html">7.9 -- Funkcje wbudowane i zmienne</a>.</div><p>Innym wyzwaniem, któremu musimy sprostać, jest sposób inicjalizacji naszego obiektu globalnego <code>Random::mt</code> , ponieważ chcemy, aby był on samozasysający, abyśmy nie musieli pamiętać o jawnym wywołaniu funkcji inicjującej, aby działał poprawnie. Nasz inicjator musi być wyrażeniem. Aby jednak zainicjować a <code>std::mt19937</code>, potrzebujemy kilku obiektów pomocniczych (a <code>std::random_device</code> oraz a <code>std::seed_seq</code>), które muszą być zdefiniowane jako instrukcje. Tutaj z pomocą przychodzi funkcja pomocnicza. Wywołanie funkcji jest wyrażeniem, dlatego możemy użyć wartości zwracanej przez funkcję jako inicjatora. Wewnątrz samej funkcji możemy mieć dowolną kombinację instrukcji, których potrzebujemy. Zatem nasza <code>generate()</code> funkcja tworzy i zwraca w pełni obsadzony <code>std::mt19937</code> obiekt (zaszczepiony przy użyciu zarówno zegara systemowego, jak i <code>std::random_device</code>), którego używamy jako inicjatora naszego globalnego <code>Random::mt</code> obiektem.<div class=prevnext><div class=prevnext-inline><a class=nav-link href="../chapter-8-summary-and-quiz/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>8.x</span>Rozdział 8, podsumowanie i quiz</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../generating-random-numbers-using-mersenne-twister/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>8.14</span>Generowanie liczb losowych za pomocą Mersenne'a Twister</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/global-random-numbers-random-h/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../chapter-9-summary-and-quiz/index.html" rel=prev><span>9.x — Podsumowanie i quiz rozdziału 9</span></a></div><div class=nav-next><em>Następny post</em><a href="../chapter-11-summary-and-quiz/index.html" rel=next><span>11.x — podsumowanie rozdziału 11 i quiz</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>
+}</code></pre><p class="cpp-section cpp-topline" style=clear:both>Kilka uwag na temat implementacji Random.h <span class="cpp-section-pill cpp-section-optional">Opcjonalne</span><p>Zwykle zdefiniowanie zmiennych i funkcji w pliku nagłówkowym spowodowałoby naruszenie reguły jednej definicji (ODR), gdy ten plik nagłówkowy zostałby zawarty w więcej niż jednym pliku źródłowym. Jednakże stworzyliśmy nasze <code>mt</code> zmienne i funkcje pomocnicze <code>inline</code>, co pozwala nam na powielanie definicji bez naruszania ODR, o ile wszystkie te definicje są identyczne. Ponieważ #uwzględniamy te definicje z pliku nagłówkowego (zamiast wpisywać je ręcznie lub kopiować/wklejać), możemy zapewnić, że są identyczne. Funkcje i zmienne wbudowane zostały dodane do języka głównie po to, aby umożliwić tego rodzaju funkcjonalność obejmującą tylko nagłówek.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Powiązana treść<p>Funkcje i zmienne wbudowane omówimy na lekcji <a href="../inline-functions-and-variables/index.html">7.9 -- Funkcje wbudowane i zmienne</a>.</div><p>Innym wyzwaniem, któremu musimy sprostać, jest sposób inicjalizacji naszego obiektu globalnego <code>Random::mt</code> , ponieważ chcemy, aby był on samozasysający, abyśmy nie musieli pamiętać o jawnym wywołaniu funkcji inicjującej, aby działał poprawnie. Nasz inicjator musi być wyrażeniem. Aby jednak zainicjować <code>std::mt19937</code>, potrzebujemy kilku obiektów pomocniczych (<code>std::random_device</code> oraz <code>std::seed_seq</code>), które muszą być zdefiniowane jako instrukcje. Tutaj z pomocą przychodzi funkcja pomocnicza. Wywołanie funkcji jest wyrażeniem, dlatego możemy użyć wartości zwracanej przez funkcję jako inicjatora. Wewnątrz samej funkcji możemy mieć dowolną kombinację instrukcji, których potrzebujemy. Zatem nasza <code>generate()</code> funkcja tworzy i zwraca w pełni obsadzony <code>std::mt19937</code> obiekt (zaszczepiony przy użyciu zarówno zegara systemowego, jak i <code>std::random_device</code>), którego używamy jako inicjatora naszego globalnego <code>Random::mt</code> obiektem.<div class=prevnext><div class=prevnext-inline><a class=nav-link href="../chapter-8-summary-and-quiz/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>8.x</span>Rozdział 8, podsumowanie i quiz</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../generating-random-numbers-using-mersenne-twister/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>8.14</span>Generowanie liczb losowych za pomocą Mersenne'a Twister</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/global-random-numbers-random-h/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../chapter-9-summary-and-quiz/index.html" rel=prev><span>9.x — Podsumowanie i quiz rozdziału 9</span></a></div><div class=nav-next><em>Następny post</em><a href="../chapter-11-summary-and-quiz/index.html" rel=next><span>11.x — podsumowanie rozdziału 11 i quiz</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>
 <textarea id=wc-textarea-0_0 placeholder="Zostaw komentarz..." aria-label="Zostaw komentarz..." required name=wc_comment class="wc_comment wpd-field"></textarea></div><div class=wpd-editor-buttons-right></div></div></div></div><div class=wpd-form-foot><div class=wpdiscuz-textarea-foot><div class=wpdiscuz-button-actions></div></div><div class=wpd-form-row><div class=wpd-form-col-left><div class="wpdiscuz-item wc_name-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-user"></i></div><input id=wc_name-0_0 required aria-required=true class="wc_name wpd-field" name=wc_name placeholder=Imię* maxlength=50 pattern=.{3,50}>
 <label for=wc_name-0_0 class=wpdlb>Imię*</label></div><div class="wpdiscuz-item wc_email-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-at"></i></div><input id=wc_email-0_0 required aria-required=true class="wc_email wpd-field" type=email name=wc_email placeholder=E-mail*>
 <label for=wc_email-0_0 class=wpdlb>E-mail*</label><div class=wpd-field-desc><i class="far fa-question-circle"></i><span>Twój adres e-mail nie zostanie wyświetlony</span></div></div><div class=cpp_correction_div style=padding-bottom:4px><div class=wpd-field-icon style=display:inline-block;width:20px><i style=opacity:.6 class="fas fa-regular fa-bug"></i></div>Znalazłeś błąd? Zostaw komentarz powyżej!<div class=wpd-field-desc><i class="far fa-question-circle"></i><span>Komentarze związane z poprawkami zostaną usunięte po przetworzeniu, aby pomóc zmniejszyć bałagan. Dziękujemy za pomoc w ulepszaniu witryny dla wszystkich!</span></div></div><div class=cpp_avatar_div style=padding-bottom:4px><div class=wpd-field-icon style=display:inline-block;width:20px><i style=opacity:.6 class="fas fa-user"></i></div>Awatary z <a target=_blank rel="noopener noreferrer" href=https://gravatar.com/>https://gravatar.com/</a> są połączone z podanym adresem e-mail.</div></div><div class=wpd-form-col-right><div class=wc-field-submit><span style=margin-top:6px>Powiadamiaj mnie o odpowiedziach:  </span>

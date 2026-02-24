@@ -19,23 +19,23 @@
 class A
 {
 public:
-	virtual std::string_view getName1(int x) { return &#34;A&#34;; }
-	virtual std::string_view getName2(int x) { return &#34;A&#34;; }
+	virtual std::string_view getName1(int x) { return "A"; }
+	virtual std::string_view getName2(int x) { return "A"; }
 };
 
 class B : public A
 {
 public:
-	virtual std::string_view getName1(short x) { return &#34;B&#34;; } // note: parameter is a short
-	virtual std::string_view getName2(int x) const { return &#34;B&#34;; } // note: function is const
+	virtual std::string_view getName1(short x) { return "B"; } // uwaga: parametr jest krótki
+	virtual std::string_view getName2(int x) const { return "B"; } // uwaga: funkcja do const
 };
 
 int main()
 {
 	B b{};
 	A&amp; rBase{ b };
-	std::cout &lt;&lt; rBase.getName1(1) &lt;&lt; &#39;\n&#39;;
-	std::cout &lt;&lt; rBase.getName2(2) &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; rBase.getName1(1) &lt;&lt; '\n';
+	std::cout &lt;&lt; rBase.getName2(2) &lt;&lt; '\n';
 
 	return 0;
 }</code></pre><p>Ponieważ rBase jest referencją A do obiektu B, zamierzeniem jest tutaj użycie funkcji wirtualnych w celu uzyskania dostępu do B::getName1() i B::getName2(). Jednakże, ponieważ B::getName1() przyjmuje inny parametr (short zamiast int), nie jest to uważane za przesłonięcie A::getName1(). Bardziej podstępnie, ponieważ B::getName2() jest stałą, a A::getName2() nie, B::getName2() nie jest uważana za przesłonięcie A::getName2().<p>W rezultacie ten program wypisuje:<pre>A
@@ -45,17 +45,17 @@ A
 class A
 {
 public:
-	virtual std::string_view getName1(int x) { return &#34;A&#34;; }
-	virtual std::string_view getName2(int x) { return &#34;A&#34;; }
-	virtual std::string_view getName3(int x) { return &#34;A&#34;; }
+	virtual std::string_view getName1(int x) { return "A"; }
+	virtual std::string_view getName2(int x) { return "A"; }
+	virtual std::string_view getName3(int x) { return "A"; }
 };
 
 class B : public A
 {
 public:
-	std::string_view getName1(short int x) override { return &#34;B&#34;; } // compile error, function is not an override
-	std::string_view getName2(int x) const override { return &#34;B&#34;; } // compile error, function is not an override
-	std::string_view getName3(int x) override { return &#34;B&#34;; } // okay, function is an override of A::getName3(int)
+	std::string_view getName1(short int x) override { return "B"; } // błąd kompilacji, funkcja nie jest przesłonięciem
+	std::string_view getName2(int x) const override { return "B"; } // błąd kompilacji, funkcja nie jest przesłonięciem
+	std::string_view getName3(int x) override { return "B"; } // OK, funkcja jest zastąpieniem A::getName3(int)
 
 };
 
@@ -67,56 +67,56 @@ int main()
 class A
 {
 public:
-	virtual std::string_view getName() const { return &#34;A&#34;; }
+	virtual std::string_view getName() const { return "A"; }
 };
 
 class B : public A
 {
 public:
-	// note use of final specifier on following line -- that makes this function not able to be overridden in derived classes
-	std::string_view getName() const override final { return &#34;B&#34;; } // okay, overrides A::getName()
+	// zwróć uwagę na użycie końcowego specyfikatora następujący wiersz -- sprawia, że tej funkcji nie można zastąpić w klasach pochodnych
+	std::string_view getName() const override final { return "B"; } // okay, overrides A::getName()
 };
 
 class C : public B
 {
 public:
-	std::string_view getName() const override { return &#34;C&#34;; } // compile error: overrides B::getName(), which is final
+	std::string_view getName() const override { return "C"; } // błąd kompilacji: zastępuje B::getName(), który jest końcowy
 };</code></pre><p>W powyższym kodzie B::getName() zastępuje A::getName(), co jest w porządku. Ale B::getName() ma ostateczny specyfikator, co oznacza, że ​​wszelkie dalsze przesłonięcia tej funkcji należy uznać za błąd. I rzeczywiście, C::getName() próbuje przesłonić B::getName() (specyfikator przesłonięcia nie ma tutaj znaczenia, służy jedynie dobrej praktyce), więc kompilator zwróci błąd kompilacji.<p>W przypadku, gdy chcemy zapobiec dziedziczeniu z klasy, ostateczny specyfikator jest stosowany po nazwie klasy:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;string_view&gt;
 
 class A
 {
 public:
-	virtual std::string_view getName() const { return &#34;A&#34;; }
+	virtual std::string_view getName() const { return "A"; }
 };
 
-class B final : public A // note use of final specifier here
+class B final : public A // zwróć uwagę na użycie tutaj końcowego specyfikatora
 {
 public:
-	std::string_view getName() const override { return &#34;B&#34;; }
+	std::string_view getName() const override { return "B"; }
 };
 
-class C : public B // compile error: cannot inherit from final class
+class C : public B // błąd kompilacji: nie można dziedziczyć z klasy końcowej
 {
 public:
-	std::string_view getName() const override { return &#34;C&#34;; }
+	std::string_view getName() const override { return "C"; }
 };</code></pre><p>W powyższym przykładzie klasa B jest uznawana za ostateczną. Zatem, gdy C będzie próbował dziedziczyć po B, kompilator zwróci błąd kompilacji.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Kowariantne typy zwracanych wartości<p>Istnieje jeden szczególny przypadek, w którym przesłonięcie funkcji wirtualnej klasy pochodnej może mieć inny typ zwracany niż klasa bazowa i nadal być uważane za pasujące przesłonięcie. Jeśli typem zwracanym przez funkcję wirtualną jest wskaźnik lub odwołanie do jakiejś klasy, funkcje przesłaniające mogą zwrócić wskaźnik lub odwołanie do klasy pochodnej. Są to tak zwane <strong>kowariantne typy zwrotów</strong>. Oto przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;string_view&gt;
 
 class Base
 {
 public:
-	// This version of getThis() returns a pointer to a Base class
-	virtual Base* getThis() { std::cout &lt;&lt; &#34;called Base::getThis()\n&#34;; return this; }
-	void printType() { std::cout &lt;&lt; &#34;returned a Base\n&#34;; }
+	// Ta wersja getThis() zwraca wskaźnik do klasy Base
+	virtual Base* getThis() { std::cout &lt;&lt; "called Base::getThis()\n"; return this; }
+	void printType() { std::cout &lt;&lt; "returned a Base\n"; }
 };
 
 class Derived : public Base
 {
 public:
-	// Normally override functions have to return objects of the same type as the base function
-	// However, because Derived is derived from Base, it&#39;s okay to return Derived* instead of Base*
-	Derived* getThis() override { std::cout &lt;&lt; &#34;called Derived::getThis()\n&#34;;  return this; }
-	void printType() { std::cout &lt;&lt; &#34;returned a Derived\n&#34;; }
+	// Normalnie funkcje przesłaniające muszą zwracać obiekty tego samego typu jako funkcja bazowa
+	// Jednakże, ponieważ Derived wywodzi się z Base, można zwrócić Derived* zamiast Base*
+	Derived* getThis() override { std::cout &lt;&lt; "called Derived::getThis()\n";  return this; }
+	void printType() { std::cout &lt;&lt; "returned a Derived\n"; }
 };
 
 int main()
@@ -131,18 +131,18 @@ int main()
 returned a Derived
 called Derived::getThis()
 returned a Base
-</pre><p>Interesująca uwaga na temat kowariantnych typów zwracanych wartości: C++ nie może dynamicznie wybierać typów, więc zawsze otrzymasz typ pasujący do aktualnej wersji wywoływanej funkcji.<p>W powyższym przykładzie najpierw wywołujemy d.getThis(). Ponieważ d jest obiektem pochodnym, wywołuje to metodę Derived::getThis(), która zwraca a <code>Derived*</code>. To <code>Derived*</code> jest następnie używane do wywoływania funkcji niewirtualnej Derived::printType().<p>Teraz interesujący przypadek. Następnie wywołujemy b-&gt;getThis(). Zmienna b jest wskaźnikiem bazowym do obiektu pochodnego. Base::getThis() jest funkcją wirtualną, dlatego wywołuje Derived::getThis(). Chociaż Derived::getThis() zwraca a <code>Derived*</code>, ponieważ podstawowa wersja funkcji zwraca a <code>Base*</code>, zwrócona funkcja Derived* jest rzutowana w górę do a <code>Base*</code>. Ponieważ Base::printType() nie jest wirtualna, wywoływana jest Base::printType().<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>Innymi słowy, w powyższym przykładzie  <code>Derived*</code>  otrzymasz&lt;&lt;&lt;M19&gt;&gt;&gt;&gt;jeśli wywołasz getThis() z obiektem, który jest wpisany jako obiekt pochodny w pierwszej kolejności.<p>Zauważ, że jeśli printType() byłoby wirtualne, a nie niewirtualne, wynikiem b-&gt;getThis() (obiekt typu  <code>Base*</code>) zostałby poddany rozwiązaniu funkcji wirtualnej i zostałaby wywołana funkcja Derived::printType().<p>Kowariantne typy zwracane są często używane w przypadkach, gdy wirtualna funkcja składowa zwraca wskaźnik lub odwołanie do klasy zawierającej funkcję składową (np. Base::getThis() zwraca a <code>Base*</code>, a Derived::getThis() zwraca a <code>Derived*</code>). Jednak nie jest to absolutnie konieczne. Kowariantnych typów zwracanych można używać w każdym przypadku, gdy typ zwracany przez zastępującą funkcję członkowską jest wyprowadzany z typu zwracanego przez bazową wirtualną funkcję składową.<p class="cpp-section cpp-topline" style=clear:both>Czas quizu<p class=cpp-quiz-question style=clear:both>Pytanie nr 1<p>Co daje poniższy program?<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+</pre><p>Interesująca uwaga na temat kowariantnych typów zwracanych wartości: C++ nie może dynamicznie wybierać typów, więc zawsze otrzymasz typ pasujący do aktualnej wersji wywoływanej funkcji.<p>W powyższym przykładzie najpierw wywołujemy d.getThis(). Ponieważ d jest obiektem pochodnym, wywołuje to metodę Derived::getThis(), która zwraca <code>Derived*</code>. To <code>Derived*</code> jest następnie używane do wywoływania funkcji niewirtualnej Derived::printType().<p>Teraz interesujący przypadek. Następnie wywołujemy b-&gt;getThis(). Zmienna b jest wskaźnikiem bazowym do obiektu pochodnego. Base::getThis() jest funkcją wirtualną, dlatego wywołuje Derived::getThis(). Chociaż Derived::getThis() zwraca <code>Derived*</code>, ponieważ podstawowa wersja funkcji zwraca <code>Base*</code>, zwrócona funkcja Derived* jest rzutowana w górę do <code>Base*</code>. Ponieważ Base::printType() nie jest wirtualna, wywoływana jest Base::printType().<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>Innymi słowy, w powyższym przykładzie  <code>Derived*</code>  otrzymasz&lt;&lt;&lt;M19&gt;&gt;&gt;&gt;jeśli wywołasz getThis() z obiektem, który jest wpisany jako obiekt pochodny w pierwszej kolejności.<p>Zauważ, że jeśli printType() byłoby wirtualne, a nie niewirtualne, wynikiem b-&gt;getThis() (obiekt typu  <code>Base*</code>) zostałby poddany rozwiązaniu funkcji wirtualnej i zostałaby wywołana funkcja Derived::printType().<p>Kowariantne typy zwracane są często używane w przypadkach, gdy wirtualna funkcja składowa zwraca wskaźnik lub odwołanie do klasy zawierającej funkcję składową (np. Base::getThis() zwraca <code>Base*</code>, a Derived::getThis() zwraca <code>Derived*</code>). Jednak nie jest to absolutnie konieczne. Kowariantnych typów zwracanych można używać w każdym przypadku, gdy typ zwracany przez zastępującą funkcję członkowską jest wyprowadzany z typu zwracanego przez bazową wirtualną funkcję składową.<p class="cpp-section cpp-topline" style=clear:both>Czas quizu<p class=cpp-quiz-question style=clear:both>Pytanie nr 1<p>Co daje poniższy program?<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 class A
 {
 public:
     void print()
     {
-        std::cout &lt;&lt; &#34;A&#34;;
+        std::cout &lt;&lt; "A";
     }
     virtual void vprint()
     {
-        std::cout &lt;&lt; &#34;A&#34;;
+        std::cout &lt;&lt; "A";
     }
 };
 class B : public A
@@ -150,11 +150,11 @@ class B : public A
 public:
     void print()
     {
-        std::cout &lt;&lt; &#34;B&#34;;
+        std::cout &lt;&lt; "B";
     }
     void vprint() override
     {
-        std::cout &lt;&lt; &#34;B&#34;;
+        std::cout &lt;&lt; "B";
     }
 };
 
@@ -177,7 +177,7 @@ private:
     B m_b{};
 
 public:
-    B&amp; get() override // covariant return type
+    B&amp; get() override // kowariantny typ zwrotu
     {
         return m_b;
     }
@@ -189,25 +189,25 @@ int main()
     D d {};
     d.get().print();
     d.get().vprint();
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
  
     // case 2
     C c {};
     c.get().print();
     c.get().vprint();
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
 
     // case 3
     C&amp; ref{ d };
     ref.get().print();
     ref.get().vprint();
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><div class=wpsolution id=cpp_solution_id_0 style=display:none><pre>BB
 AA
 AB
-</pre><p>We wszystkich przypadkach, ponieważ <code>get()</code> ma kowariantny typ powrotu, typ zwracany <code>get()</code> będzie typem zwracanym przez funkcję składową <code>get()</code>  obiekt ukryty.<p>Przypadek 1 jest prosty. W obu instrukcjach  <code>d.get()</code> wywołania <code>D::get()</code>, co zwraca <code>m_b</code>. Ponieważ  <code>get()</code> jest wywoływana na <code>d</code>, który jest typu <code>D</code>, używany jest typ zwracany <code>D::get()</code> , czyli typ <code>B&</code>. Wywołania  <code>print()</code> i <code>vprint()</code> resolve do <code>B::print()</code> i <code>B::vprint()</code> .<p>Przypadku 2 są również proste. W obu instrukcjach  <code>c.get()</code> wywołania <code>C::get()</code>, co zwraca <code>m_a</code>. Ponieważ  <code>get()</code> jest wywoływana na <code>c</code>, który jest typu <code>C</code>, używany jest typ zwracany <code>C::get()</code> , czyli typ <code>A&</code>. Wywołania  <code>print()</code> i <code>vprint()</code> resolve do <code>A::print()</code> i <code>A::vprint()</code> .<p>Przypadek 3 są interesujące. <code>ref</code> jest <code>C&</code> odwołanie do <code>D</code>. <code>ref.get()</code> jest funkcją wirtualną, więc <code>ref.get()</code> praktycznie prowadzi do <code>D::get()</code>, co zwraca <code>m_b</code>. Jednak <code>get()</code> ma kowariantny typ zwracany, więc typ zwracany <code>get()</code> jest określany przez typ niejawnego obiektu, który <code>get()</code> jest wywoływany. Ponieważ <code>ref</code> jest <code>C&</code>, używany jest typ zwracany <code>C::get()</code> , co oznacza typ zwracany <code>ref.get()</code> Jest <code>A&</code> (obiekt odwołujący się <code>m_b</code>, czyli a <code>B</code>).<p>Ponieważ typ zwracany <code>ref.get()</code> jest <code>A&</code>, wywołanie funkcji niewirtualnej <code>ref.get().print()</code> rozwiązuje się do <code>A::print()</code>.<p>W przypadku wywołania funkcji wirtualnej <code>ref.get().vprint()</code> , używane jest rozpoznawanie funkcji wirtualnych. Chociaż zwracany typ  <code>ref.get()</code> jest <code>A&</code>, obiekt, do którego się odwołujemy, to w rzeczywistości a <code>B</code>. Dlatego  <code>B::vprint()</code> .</div><p class="cpp-quiz-question cpp-topline" style=clear:both>Pytanie nr 2<p>Kiedy użylibyśmy przeciążania funkcji, a kiedy przesłaniania funkcji?<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_1 style=display:none><p>Przeciążania funkcji używamy, gdy potrzebujemy, aby funkcja składowa lub niebędąca składową zachowywała się inaczej po przekazaniu parametrów różnych typów.<p>Przesłanianie funkcji jest używane, gdy potrzebujemy, aby funkcja składowa zachowywała się inaczej, gdy obiekt niejawny jest pochodny klasa.</div><div class=prevnext><div class=prevnext-inline><a class=nav-link href="../virtual-destructors-virtual-assignment-and-overriding-virtualization/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>25.4</span>Wirtualne destruktory, wirtualne przypisanie i wirtualizacja przesłonięcia</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../virtual-functions/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>25.2</span>Funkcje wirtualne i polimorfizm</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/the-override-and-final-specifiers-and-covariant-return-types/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../11-x-chapter-11-comprehensive-quiz/comment-page-5/index.html" rel=prev><span>24.x — Podsumowanie i quiz z rozdziału 24</span></a></div><div class=nav-next><em>Następny post</em><a href="../naming-collisions-and-an-introduction-to-namespaces/index.html" rel=next><span>2.9 — Kolizje nazw i wprowadzenie do przestrzeni nazw</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>
+</pre><p>We wszystkich przypadkach, ponieważ <code>get()</code> ma kowariantny typ powrotu, typ zwracany <code>get()</code> będzie typem zwracanym przez funkcję składową <code>get()</code>  obiekt ukryty.<p>Przypadek 1 jest prosty. W obu instrukcjach  <code>d.get()</code> wywołania <code>D::get()</code>, co zwraca <code>m_b</code>. Ponieważ  <code>get()</code> jest wywoływana na <code>d</code>, który jest typu <code>D</code>, używany jest typ zwracany <code>D::get()</code> , czyli typ <code>B&</code>. Wywołania  <code>print()</code> i <code>vprint()</code> resolve do <code>B::print()</code> i <code>B::vprint()</code> .<p>Przypadku 2 są również proste. W obu instrukcjach  <code>c.get()</code> wywołania <code>C::get()</code>, co zwraca <code>m_a</code>. Ponieważ  <code>get()</code> jest wywoływana na <code>c</code>, który jest typu <code>C</code>, używany jest typ zwracany <code>C::get()</code> , czyli typ <code>A&</code>. Wywołania  <code>print()</code> i <code>vprint()</code> resolve do <code>A::print()</code> i <code>A::vprint()</code> .<p>Przypadek 3 są interesujące. <code>ref</code> jest <code>C&</code> odwołanie do <code>D</code>. <code>ref.get()</code> jest funkcją wirtualną, więc <code>ref.get()</code> praktycznie prowadzi do <code>D::get()</code>, co zwraca <code>m_b</code>. Jednak <code>get()</code> ma kowariantny typ zwracany, więc typ zwracany <code>get()</code> jest określany przez typ niejawnego obiektu, który <code>get()</code> jest wywoływany. Ponieważ <code>ref</code> jest <code>C&</code>, używany jest typ zwracany <code>C::get()</code> , co oznacza typ zwracany <code>ref.get()</code> Jest <code>A&</code> (obiekt odwołujący się <code>m_b</code>, czyli <code>B</code>).<p>Ponieważ typ zwracany <code>ref.get()</code> jest <code>A&</code>, wywołanie funkcji niewirtualnej <code>ref.get().print()</code> rozwiązuje się do <code>A::print()</code>.<p>W przypadku wywołania funkcji wirtualnej <code>ref.get().vprint()</code> , używane jest rozpoznawanie funkcji wirtualnych. Chociaż zwracany typ  <code>ref.get()</code> jest <code>A&</code>, obiekt, do którego się odwołujemy, to w rzeczywistości <code>B</code>. Dlatego  <code>B::vprint()</code> .</div><p class="cpp-quiz-question cpp-topline" style=clear:both>Pytanie nr 2<p>Kiedy użylibyśmy przeciążania funkcji, a kiedy przesłaniania funkcji?<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_1 style=display:none><p>Przeciążania funkcji używamy, gdy potrzebujemy, aby funkcja składowa lub niebędąca składową zachowywała się inaczej po przekazaniu parametrów różnych typów.<p>Przesłanianie funkcji jest używane, gdy potrzebujemy, aby funkcja składowa zachowywała się inaczej, gdy obiekt niejawny jest pochodny klasa.</div><div class=prevnext><div class=prevnext-inline><a class=nav-link href="../virtual-destructors-virtual-assignment-and-overriding-virtualization/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>25.4</span>Wirtualne destruktory, wirtualne przypisanie i wirtualizacja przesłonięcia</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../virtual-functions/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>25.2</span>Funkcje wirtualne i polimorfizm</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/the-override-and-final-specifiers-and-covariant-return-types/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../11-x-chapter-11-comprehensive-quiz/comment-page-5/index.html" rel=prev><span>24.x — Podsumowanie i quiz z rozdziału 24</span></a></div><div class=nav-next><em>Następny post</em><a href="../naming-collisions-and-an-introduction-to-namespaces/index.html" rel=next><span>2.9 — Kolizje nazw i wprowadzenie do przestrzeni nazw</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>
 <textarea id=wc-textarea-0_0 placeholder="Zostaw komentarz..." aria-label="Zostaw komentarz..." required name=wc_comment class="wc_comment wpd-field"></textarea></div><div class=wpd-editor-buttons-right></div></div></div></div><div class=wpd-form-foot><div class=wpdiscuz-textarea-foot><div class=wpdiscuz-button-actions></div></div><div class=wpd-form-row><div class=wpd-form-col-left><div class="wpdiscuz-item wc_name-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-user"></i></div><input id=wc_name-0_0 required aria-required=true class="wc_name wpd-field" name=wc_name placeholder=Imię* maxlength=50 pattern=.{3,50}>
 <label for=wc_name-0_0 class=wpdlb>Imię*</label></div><div class="wpdiscuz-item wc_email-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-at"></i></div><input id=wc_email-0_0 required aria-required=true class="wc_email wpd-field" type=email name=wc_email placeholder=E-mail*>
 <label for=wc_email-0_0 class=wpdlb>E-mail*</label><div class=wpd-field-desc><i class="far fa-question-circle"></i><span>Twój adres e-mail nie zostanie wyświetlony</span></div></div><div class=cpp_correction_div style=padding-bottom:4px><div class=wpd-field-icon style=display:inline-block;width:20px><i style=opacity:.6 class="fas fa-regular fa-bug"></i></div>Znalazłeś błąd? Zostaw komentarz powyżej!<div class=wpd-field-desc><i class="far fa-question-circle"></i><span>Komentarze związane z poprawkami zostaną usunięte po przetworzeniu, aby pomóc zmniejszyć bałagan. Dziękujemy za pomoc w ulepszaniu witryny dla wszystkich!</span></div></div><div class=cpp_avatar_div style=padding-bottom:4px><div class=wpd-field-icon style=display:inline-block;width:20px><i style=opacity:.6 class="fas fa-user"></i></div>Awatary z <a target=_blank rel="noopener noreferrer" href=https://gravatar.com/>https://gravatar.com/</a> są połączone z podanym adresem e-mail.</div></div><div class=wpd-form-col-right><div class=wc-field-submit><span style=margin-top:6px>Powiadamiaj mnie o odpowiedziach:  </span>

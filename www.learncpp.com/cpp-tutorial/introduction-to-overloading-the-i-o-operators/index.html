@@ -55,33 +55,33 @@ constexpr std::string_view getColorName(Color color)
 {
     switch (color)
     {
-    case black: return &#34;black&#34;;
-    case red:   return &#34;red&#34;;
-    case blue:  return &#34;blue&#34;;
-    default:    return &#34;???&#34;;
+    case black: return "black";
+    case red:   return "red";
+    case blue:  return "blue";
+    default:    return "???";
     }
 }
 
-// Teach operator&lt;&lt; how to print a Color
-// std::ostream is the type of std::cout, std::cerr, etc...
-// The return type and parameter type are references (to prevent copies from being made)
+// Ucz operatora&lt;&lt; jak aby wydrukować kolor
+// std::ostream na typ std::cout, std::cerr itp.
+// Typ zwracany i typ parametru są referencjami (aby zapobiec tworzeniu kopii)
 std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, Color color)
 {
-    out &lt;&lt; getColorName(color); // print our color&#39;s name to whatever output stream out 
+    out &lt;&lt; getColorName(color); // wydrukuj nazwę naszego koloru na dowolnym strumieniu wyjściowym 
     return out;                 // operator&lt;&lt; conventionally returns its left operand
 
-    // The above can be condensed to the following single line:
+    // Powyższe można streścić w następującej pojedynczej linii:
     // return out &lt;&lt; getColorName(color)
 }
 
 int main()
 {
 	Color shirt{ blue };
-	std::cout &lt;&lt; &#34;Your shirt is &#34; &lt;&lt; shirt &lt;&lt; &#39;\n&#39;; // it works!
+	std::cout &lt;&lt; "Your shirt is " &lt;&lt; shirt &lt;&lt; '\n'; // działa!
 
 	return 0;
 }</code></pre><p>Wypisuje:<pre>Your shirt is blue
-</pre><p>Rozpakujmy trochę naszą przeciążoną funkcję operatora. Po pierwsze, nazwa funkcji to <code>operator&lt;&lt;</code>, ponieważ jest to nazwa operatora, który przeciążamy. <code>operator&lt;&lt;</code> ma dwa parametry. Lewy parametr (który zostanie dopasowany do lewego operandu) to nasz strumień wyjściowy, który ma typ <code>std::ostream</code>. Używamy tutaj referencji typu pass by non-const, ponieważ nie chcemy tworzyć kopii obiektu <code>std::ostream</code> po wywołaniu funkcji, ale  <code>std::ostream</code> obiekt musi zostać zmodyfikowany, aby móc wykonać dane wyjściowe. Właściwym parametrem (który zostanie dopasowany do odpowiedniego operandu) jest nasz <code>Color</code> obiekt. Ponieważ <code>operator&lt;&lt;</code> konwencjonalnie zwraca swój lewy operand, typ zwracany jest zgodny z typem lewego operandu, czyli <code>std::ostream&</code>.<p>Przyjrzyjmy się teraz implementacji. Obiekt <code>std::ostream</code> wie już jak wydrukować <code>std::string_view</code> za pomocą <code>operator&lt;&lt;</code> (jest to część standardowej biblioteki). Zatem  <code>out &lt;&lt; getColorName(color)</code> po prostu pobiera nazwę naszego koloru jako a <code>std::string_view</code> , a następnie wypisuje ją do strumienia wyjściowego.<p>Zauważ, że nasza implementacja używa parametru <code>out</code> zamiast <code>std::cout</code> , ponieważ chcemy pozwolić wywołującemu określić, do którego strumienia wyjściowego będzie wysyłany (np.  <code>std::cerr &lt;&lt; color</code> powinien wysyłać do  <code>std::cerr</code>, nie <code>std::cout</code>).<p>Zwrócenie lewego operandu to również łatwe. Lewy operand to parametr <code>out</code>, więc po prostu wracamy <code>out</code>.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>Składając wszystko w całość: kiedy wywołamy  <code>std::cout &lt;&lt; shirt</code>, kompilator zobaczy, że jesteśmy przeciążeni <code>operator&lt;&lt;</code> do pracy z obiektami typu <code>Color</code>. Nasza przeciążona funkcja <code>operator&lt;&lt;</code> jest następnie wywoływana z  <code>std::cout</code> as parametr <code>out</code> , a nasza <code>shirt</code> zmienna (która ma wartość <code>blue</code>) jako parametr <code>color</code>. Ponieważ <code>out</code> jest odniesieniem do <code>std::cout</code>, I <code>color</code> jest kopią modułu wyliczającego <code>blue</code>, wyrażenie <code>out &lt;&lt; getColorName(color)</code> wypisuje <code>"blue"</code> do konsoli Na koniec <code>out</code> jest zwracane z powrotem do wywołującego, jeśli tego chcemy łańcuch dodatkowych wyników.<p class="cpp-section cpp-topline" style=clear:both><a name=extraction></a>Przeciążenie <code>operator>></code> wprowadzanie wyliczenia <a href="index.html#extraction"><i class="fa fa-link" style=font-size:.8em></i></a><p>Podobnie jak nauczyliśmy <code>operator&lt;&lt;</code> wyprowadzania wyliczenia powyżej, możemy również nauczyć <code>operator>></code> jak wprowadzić wyliczenie:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+</pre><p>Rozpakujmy trochę naszą przeciążoną funkcję operatora. Po pierwsze, nazwa funkcji to <code>operator&lt;&lt;</code>, ponieważ jest to nazwa operatora, który przeciążamy. <code>operator&lt;&lt;</code> ma dwa parametry. Lewy parametr (który zostanie dopasowany do lewego operandu) to nasz strumień wyjściowy, który ma typ <code>std::ostream</code>. Używamy tutaj referencji typu pass by non-const, ponieważ nie chcemy tworzyć kopii obiektu <code>std::ostream</code> po wywołaniu funkcji, ale  <code>std::ostream</code> obiekt musi zostać zmodyfikowany, aby móc wykonać dane wyjściowe. Właściwym parametrem (który zostanie dopasowany do odpowiedniego operandu) jest nasz <code>Color</code> obiekt. Ponieważ <code>operator&lt;&lt;</code> konwencjonalnie zwraca swój lewy operand, typ zwracany jest zgodny z typem lewego operandu, czyli <code>std::ostream&</code>.<p>Przyjrzyjmy się teraz implementacji. Obiekt <code>std::ostream</code> wie już jak wydrukować <code>std::string_view</code> za pomocą <code>operator&lt;&lt;</code> (jest to część standardowej biblioteki). Zatem  <code>out &lt;&lt; getColorName(color)</code> po prostu pobiera nazwę naszego koloru jako <code>std::string_view</code> , a następnie wypisuje ją do strumienia wyjściowego.<p>Zauważ, że nasza implementacja używa parametru <code>out</code> zamiast <code>std::cout</code> , ponieważ chcemy pozwolić wywołującemu określić, do którego strumienia wyjściowego będzie wysyłany (np.  <code>std::cerr &lt;&lt; color</code> powinien wysyłać do  <code>std::cerr</code>, nie <code>std::cout</code>).<p>Zwrócenie lewego operandu to również łatwe. Lewy operand to parametr <code>out</code>, więc po prostu wracamy <code>out</code>.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>Składając wszystko w całość: kiedy wywołamy  <code>std::cout &lt;&lt; shirt</code>, kompilator zobaczy, że jesteśmy przeciążeni <code>operator&lt;&lt;</code> do pracy z obiektami typu <code>Color</code>. Nasza przeciążona funkcja <code>operator&lt;&lt;</code> jest następnie wywoływana z  <code>std::cout</code> as parametr <code>out</code> , a nasza <code>shirt</code> zmienna (która ma wartość <code>blue</code>) jako parametr <code>color</code>. Ponieważ <code>out</code> jest odniesieniem do <code>std::cout</code>, i <code>color</code> jest kopią modułu wyliczającego <code>blue</code>, wyrażenie <code>out &lt;&lt; getColorName(color)</code> wypisuje <code>"blue"</code> do konsoli Na koniec <code>out</code> jest zwracane z powrotem do wywołującego, jeśli tego chcemy łańcuch dodatkowych wyników.<p class="cpp-section cpp-topline" style=clear:both><a name=extraction></a>Przeciążenie <code>operator>></code> wprowadzanie wyliczenia <a href="index.html#extraction"><i class="fa fa-link" style=font-size:.8em></i></a><p>Podobnie jak nauczyliśmy <code>operator&lt;&lt;</code> wyprowadzania wyliczenia powyżej, możemy również nauczyć <code>operator>></code> jak wprowadzić wyliczenie:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;limits&gt;
 #include &lt;optional&gt;
 #include &lt;string&gt;
@@ -99,43 +99,43 @@ constexpr std::string_view getPetName(Pet pet)
 {
     switch (pet)
     {
-    case cat:   return &#34;cat&#34;;
-    case dog:   return &#34;dog&#34;;
-    case pig:   return &#34;pig&#34;;
-    case whale: return &#34;whale&#34;;
-    default:    return &#34;???&#34;;
+    case cat:   return "cat";
+    case dog:   return "dog";
+    case pig:   return "pig";
+    case whale: return "whale";
+    default:    return "???";
     }
 }
 
 constexpr std::optional&lt;Pet&gt; getPetFromString(std::string_view sv)
 {
-    if (sv == &#34;cat&#34;)   return cat;
-    if (sv == &#34;dog&#34;)   return dog;
-    if (sv == &#34;pig&#34;)   return pig;
-    if (sv == &#34;whale&#34;) return whale;
+    if (sv == "cat")   return cat;
+    if (sv == "dog")   return dog;
+    if (sv == "pig")   return pig;
+    if (sv == "whale") return whale;
 
     return {};
 }
 
-// pet is an in/out parameter
+// pet to parametr wejścia/wyjścia
 std::istream&amp; operator&gt;&gt;(std::istream&amp; in, Pet&amp; pet)
 {
     std::string s{};
-    in &gt;&gt; s; // get input string from user
+    in &gt;&gt; s; // pobierz ciąg wejściowy od użytkownika
 
     std::optional&lt;Pet&gt; match { getPetFromString(s) };
-    if (match) // if we found a match
+    if (match) // jeśli znaleźliśmy dopasowanie
     {
-        pet = *match; // dereference std::optional to get matching enumerator
+        pet = *match; // dereferencja std::opcjonalny, aby uzyskać pasujący moduł wyliczający
         return in;
     }
 
-    // We didn&#39;t find a match, so input must have been invalid
-    // so we will set input stream to fail state
+    // Nie znaleźliśmy dopasowania, więc dane wejściowe musiały być nieprawidłowe
+    // więc ustawimy strumień wejściowy na niepowodzenie stan
     in.setstate(std::ios_base::failbit);
     
-    // On an extraction failure, operator&gt;&gt; zero-initializes fundamental types
-    // Uncomment the following line to make this operator do the same thing
+    // W przypadku niepowodzenia ekstrakcji operator&gt;&gt; zero inicjuje wartość podstawową typy
+    // Odkomentuj następujący wiersz, aby ten operator zrobił to samo
     // pet = {};
 
     return in;
@@ -143,17 +143,17 @@ std::istream&amp; operator&gt;&gt;(std::istream&amp; in, Pet&amp; pet)
 
 int main()
 {
-    std::cout &lt;&lt; &#34;Enter a pet: cat, dog, pig, or whale: &#34;;
+    std::cout &lt;&lt; "Enter a pet: cat, dog, pig, or whale: ";
     Pet pet{};
     std::cin &gt;&gt; pet;
         
-    if (std::cin) // if we found a match
-        std::cout &lt;&lt; &#34;You chose: &#34; &lt;&lt; getPetName(pet) &lt;&lt; &#39;\n&#39;;
+    if (std::cin) // jeśli znaleźliśmy dopasowanie
+        std::cout &lt;&lt; "You chose: " &lt;&lt; getPetName(pet) &lt;&lt; '\n';
     else
     {
-        std::cin.clear(); // reset the input stream to good
-        std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), &#39;\n&#39;);
-        std::cout &lt;&lt; &#34;Your pet was not valid\n&#34;;
+        std::cin.clear(); // zresetuj strumień wejściowy do dobrego
+        std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), '\n');
+        std::cout &lt;&lt; "Your pet was not valid\n";
     }
 
     return 0;

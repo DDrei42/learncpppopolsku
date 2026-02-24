@@ -16,17 +16,17 @@
 <time class=updated datetime=2023-09-11T11:08:42-07:00 itemprop=dateModified>Wrzesień 11, 2023</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>W poprzednich lekcjach w tym rozdziale nauczyłeś się trochę o tym, jak działa dziedziczenie bazowe. We wszystkich naszych dotychczasowych przykładach korzystaliśmy z dziedziczenia publicznego. Oznacza to, że nasza klasa pochodna publicznie dziedziczy klasę bazową.<p>W tej lekcji przyjrzymy się bliżej dziedziczeniu publicznemu, a także dwóm innym rodzajom dziedziczenia (prywatnemu i chronionemu). Zbadamy także, w jaki sposób różne rodzaje dziedziczenia współdziałają ze specyfikatorami dostępu, aby umożliwić lub ograniczyć dostęp członkom.<p>Do tego momentu poznaliśmy specyfikatory dostępu prywatnego i publicznego, które określają, kto może uzyskać dostęp do członków klasy. Dla przypomnienia, dostęp do członków publicznych może uzyskać każdy. Dostęp do członków prywatnych mogą uzyskać jedynie funkcje członkowskie tej samej klasy lub znajomi. Oznacza to, że klasy pochodne nie mają bezpośredniego dostępu do prywatnych elementów klasy bazowej!<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">class Base
 {
 private:
-    int m_private {}; // can only be accessed by Base members and friends (not derived classes)
+    int m_private {}; // dostępne są tylko dla członków Bazy i przyjaciół (nie klas pochodnych)
 public:
-    int m_public {}; // can be accessed by anybody
+    int m_public {}; // może uzyskać dostęp każdy
 };</code></pre><p>Jest to całkiem proste i powinieneś już się do tego przyzwyczaić.<p class="cpp-section cpp-topline" style=clear:both>Specyfikator dostępu chronionego<p>W przypadku klas dziedziczonych sytuacja staje się nieco bardziej skomplikowana.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>C++ ma trzeci specyfikator dostępu, o którym jeszcze nie rozmawialiśmy, ponieważ jest przydatny tylko w kontekście dziedziczenia. Specyfikator dostępu <strong>protected</strong> umożliwia klasie, do której należy element członkowski, przyjaciołom i klasom pochodnym na dostęp do elementu członkowskiego. Jednakże elementy chronione nie są dostępne spoza klasy.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">class Base
 {
 public:
-    int m_public {}; // can be accessed by anybody
+    int m_public {}; // może uzyskać dostęp każdy
 protected:
-    int m_protected {}; // can be accessed by Base members, friends, and derived classes
+    int m_protected {}; // Dostęp do nich mogą uzyskać członkowie Base, przyjaciele i klasy pochodne
 private:
-    int m_private {}; // can only be accessed by Base members and friends (but not derived classes)
+    int m_private {}; // dostępne są tylko dla członków Bazy i przyjaciół (ale nie klas pochodnych)
 };
 
 class Derived: public Base
@@ -34,36 +34,36 @@ class Derived: public Base
 public:
     Derived()
     {
-        m_public = 1; // allowed: can access public base members from derived class
-        m_protected = 2; // allowed: can access protected base members from derived class
-        m_private = 3; // not allowed: can not access private base members from derived class
+        m_public = 1; // dozwolony: może uzyskać dostęp do publicznych elementów bazy z klasy pochodnej
+        m_protected = 2; // dozwolony: może uzyskać dostęp do chronionych elementów podstawowych z klasy pochodnej
+        m_private = 3; // niedozwolone: nie można uzyskać dostępu do prywatnych elementów bazowych z klasy pochodnej
     }
 };
 
 int main()
 {
     Base base;
-    base.m_public = 1; // allowed: can access public members from outside class
-    base.m_protected = 2; // not allowed: can not access protected members from outside class
-    base.m_private = 3; // not allowed: can not access private members from outside class
+    base.m_public = 1; // dozwolony: może uzyskać dostęp do elementów publicznych z zewnątrz klasy
+    base.m_protected = 2; // niedozwolone: nie można uzyskać dostępu do chronionych elementów spoza klasy
+    base.m_private = 3; // niedozwolone: nie można uzyskać dostępu do prywatnych elementów spoza klasy
 
     return 0;
-}</code></pre><p>W powyższym przykładzie widać, że chroniony element bazowy m_protected jest bezpośrednio dostępny dla klasy pochodnej, ale nie publicznie.<p class="cpp-section cpp-topline" style=clear:both>Kiedy więc powinienem używać specyfikatora dostępu chronionego?<p>Dzięki atrybutowi chronionemu w klasie bazowej klasy pochodne mogą uzyskać bezpośredni dostęp do tego elementu. Oznacza to, że jeśli później zmienisz cokolwiek w tym chronionym atrybucie (typ, znaczenie wartości itp.), prawdopodobnie będziesz musiał zmienić zarówno klasę bazową ORAZ wszystkie klasy pochodne.<p>Dlatego użycie specyfikatora dostępu chronionego jest najbardziej przydatne, gdy ty (lub twój zespół) będziecie wywodzić się z własnych klas, a liczba klas pochodnych jest rozsądna. W ten sposób, jeśli dokonasz zmian w implementacji klasy bazowej i w rezultacie konieczne będą aktualizacje klas pochodnych, możesz dokonać aktualizacji samodzielnie (i nie będzie to trwało wiecznie, ponieważ liczba klas pochodnych jest ograniczona). <div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Uznaczenie twoich członków jako prywatnych oznacza, że ​​klasy publiczne i pochodne nie mogą bezpośrednio wprowadzać zmian w klasie bazowej. Jest to dobre do izolowania klas publicznych lub pochodnych od zmian w implementacji i do zapewnienia prawidłowego utrzymania niezmienników. Oznacza to jednak również, że Twoja klasa może potrzebować większego publicznego (lub chronionego) interfejsu do obsługi wszystkich funkcji potrzebnych do działania klas publicznych lub pochodnych, co wiąże się z własnymi kosztami budowy, testowania i utrzymania.<p>Ogólnie rzecz biorąc, jeśli to możliwe, lepiej ustawić członków prywatnych, jeśli to możliwe, i używać chronionych tylko wtedy, gdy planowane są klasy pochodne, a koszt zbudowania i utrzymania interfejsu dla tych członków prywatnych jest zbyt wysoki.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Preferuj członków prywatnych zamiast chronionych członków.</div><p class="cpp-section cpp-topline" style=clear:both>Różne rodzaje dziedziczenia i ich wpływ na dostęp<p>Po pierwsze, istnieją trzy różne sposoby dziedziczenia klas z innych klas: publiczne, chronione i prywatne.<p>Aby to zrobić, po prostu określ, jaki typ dostępu chcesz wybrać przy wyborze klasy, z której chcesz dziedziczyć:<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Inherit from Base publicly
+}</code></pre><p>W powyższym przykładzie widać, że chroniony element bazowy m_protected jest bezpośrednio dostępny dla klasy pochodnej, ale nie publicznie.<p class="cpp-section cpp-topline" style=clear:both>Kiedy więc powinienem używać specyfikatora dostępu chronionego?<p>Dzięki atrybutowi chronionemu w klasie bazowej klasy pochodne mogą uzyskać bezpośredni dostęp do tego elementu. Oznacza to, że jeśli później zmienisz cokolwiek w tym chronionym atrybucie (typ, znaczenie wartości itp.), prawdopodobnie będziesz musiał zmienić zarówno klasę bazową ORAZ wszystkie klasy pochodne.<p>Dlatego użycie specyfikatora dostępu chronionego jest najbardziej przydatne, gdy ty (lub twój zespół) będziecie wywodzić się z własnych klas, a liczba klas pochodnych jest rozsądna. W ten sposób, jeśli dokonasz zmian w implementacji klasy bazowej i w rezultacie konieczne będą aktualizacje klas pochodnych, możesz dokonać aktualizacji samodzielnie (i nie będzie to trwało wiecznie, ponieważ liczba klas pochodnych jest ograniczona). <div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Uznaczenie twoich członków jako prywatnych oznacza, że ​​klasy publiczne i pochodne nie mogą bezpośrednio wprowadzać zmian w klasie bazowej. Jest to dobre do izolowania klas publicznych lub pochodnych od zmian w implementacji i do zapewnienia prawidłowego utrzymania niezmienników. Oznacza to jednak również, że Twoja klasa może potrzebować większego publicznego (lub chronionego) interfejsu do obsługi wszystkich funkcji potrzebnych do działania klas publicznych lub pochodnych, co wiąże się z własnymi kosztami budowy, testowania i utrzymania.<p>Ogólnie rzecz biorąc, jeśli to możliwe, lepiej ustawić członków prywatnych, jeśli to możliwe, i używać chronionych tylko wtedy, gdy planowane są klasy pochodne, a koszt zbudowania i utrzymania interfejsu dla tych członków prywatnych jest zbyt wysoki.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Preferuj członków prywatnych zamiast chronionych członków.</div><p class="cpp-section cpp-topline" style=clear:both>Różne rodzaje dziedziczenia i ich wpływ na dostęp<p>Po pierwsze, istnieją trzy różne sposoby dziedziczenia klas z innych klas: publiczne, chronione i prywatne.<p>Aby to zrobić, po prostu określ, jaki typ dostępu chcesz wybrać przy wyborze klasy, z której chcesz dziedziczyć:<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Dziedzicz z bazy publicznej
 class Pub: public Base
 {
 };
 
-// Inherit from Base protectedly
+// Dziedzicz z bazy w sposób chroniony
 class Pro: protected Base
 {
 };
 
-// Inherit from Base privately
+// Dziedzicz z bazy prywatnie
 class Pri: private Base
 {
 };
 
-class Def: Base // Defaults to private inheritance
+class Def: Base // Domyślnie dziedziczenie prywatne
 {
 };</code></pre><p>Jeśli nie wybierzesz typu dziedziczenia, domyślnie C++ do dziedziczenia prywatnego (tak jak członkowie domyślnie mają dostęp prywatny, jeśli nie określisz inaczej).<p>To daje nam 9 kombinacji: 3 specyfikatory dostępu członków (publiczne, prywatne i chronione) oraz 3 typy dziedziczenia (publiczne, prywatne i chronione).<p>Jaka jest więc między nimi różnica? W skrócie, gdy elementy są dziedziczone, specyfikator dostępu dla dziedziczonego elementu może zostać zmieniony (tylko w klasie pochodnej) w zależności od rodzaju zastosowanego dziedziczenia. Innymi słowy, elementy członkowskie, które były publiczne lub chronione w klasie bazowej, mogą zmieniać specyfikatory dostępu w klasie pochodnej.<p>Może to wydawać się nieco zagmatwane, ale nie jest tak źle. Resztę tej lekcji spędzimy na szczegółowym badaniu tego.<p>Przechodząc przez przykłady, pamiętaj o następujących zasadach:<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><ul><li>Klasa może zawsze uzyskać dostęp do swoich własnych (niedziedziczonych) elementów.<li>Osoby publiczne uzyskują dostęp do elementów klasy w oparciu o specyfikatory dostępu klasy, do której uzyskuje dostęp.<li>Klasa pochodna uzyskuje dostęp do odziedziczonych elementów w oparciu o dostęp specyfikator dziedziczony z klasy nadrzędnej. Różni się to w zależności od specyfikatora dostępu i rodzaju zastosowanego dziedziczenia.</ul><p class="cpp-section cpp-topline" style=clear:both>Dziedziczenie publiczne<p>Dziedziczenie publiczne jest zdecydowanie najczęściej używanym rodzajem dziedziczenia. W rzeczywistości bardzo rzadko będziesz widzieć lub używać innych typów dziedziczenia, dlatego powinieneś skupić się przede wszystkim na zrozumieniu tej sekcji. Na szczęście dziedziczenie publiczne jest również najłatwiejsze do zrozumienia. Kiedy dziedziczysz klasę bazową publicznie, odziedziczone publiczne elementy członkowskie pozostają publiczne, a odziedziczone chronione elementy członkowskie pozostają chronione. Dziedziczone prywatne składowe, które były niedostępne, ponieważ były prywatne w klasie bazowej, pozostają niedostępne.<div class=cpp-table-wrapper><p><p><table class=cpp-table><tbody><tr><th>Specyfikator dostępu w klasie bazowej<th>Specyfikator dostępu w przypadku dziedziczenia publicznego<tr><td>Publiczny<td>Publiczny<tr><td>Chroniony<td>Chroniony<tr><td>Prywatny<td>Niedostępny</table></div><p>Oto przykład pokazujący, jak to działa:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">class Base
 {
@@ -75,33 +75,33 @@ private:
     int m_private {};
 };
 
-class Pub: public Base // note: public inheritance
+class Pub: public Base // uwaga: dziedzictwo publiczne
 {
-    // Public inheritance means:
-    // Public inherited members stay public (so m_public is treated as public)
-    // Protected inherited members stay protected (so m_protected is treated as protected)
-    // Private inherited members stay inaccessible (so m_private is inaccessible)
+    // Dziedziczenie publiczne oznacza:
+    // Publiczne odziedziczeni członkowie pozostają publiczni (więc m_public jest traktowane jako publiczne)
+    // Chronieni dziedziczeni członkowie pozostają chronieni (więc m_protected jest traktowane jako prywatne) chroniony)
+    // Prywatni odziedziczeni członkowie pozostają niedostępni (więc m_private jest niedostępny)
 public:
     Pub()
     {
-        m_public = 1; // okay: m_public was inherited as public
-        m_protected = 2; // okay: m_protected was inherited as protected
-        m_private = 3; // not okay: m_private is inaccessible from derived class
+        m_public = 1; // okay: m_public został odziedziczony jako publiczny
+        m_protected = 2; // ok: m_protected został odziedziczony jako chroniony
+        m_private = 3; // nie w porządku: m_private jest niedostępny z klasy pochodnej
     }
 };
 
 int main()
 {
-    // Outside access uses the access specifiers of the class being accessed.
+    // Dostęp zewnętrzny wykorzystuje specyfikatory dostępu klasy, do której uzyskuje się dostęp.
     Base base;
-    base.m_public = 1; // okay: m_public is public in Base
-    base.m_protected = 2; // not okay: m_protected is protected in Base
-    base.m_private = 3; // not okay: m_private is private in Base
+    base.m_public = 1; // OK: m_public jest ekspertem w Base
+    base.m_protected = 2; // nie w porządku: m_protected jest chroniony w Base
+    base.m_private = 3; // nie w porządku: m_private jest prywatny w Base
 
     Pub pub;
-    pub.m_public = 1; // okay: m_public is public in Pub
-    pub.m_protected = 2; // not okay: m_protected is protected in Pub
-    pub.m_private = 3; // not okay: m_private is inaccessible in Pub
+    pub.m_public = 1; // ok: m_public jest profesor w Pub
+    pub.m_protected = 2; // nie w porządku: m_protected jest chroniony w Pub
+    pub.m_private = 3; // nie w porządku: m_private jest niedostępny w Pub
 
     return 0;
 }</code></pre><p>To jest to samo, co w powyższym przykładzie, w którym wprowadziliśmy specyfikator dostępu chronionego, z tą różnicą, że utworzyliśmy także instancję klasy pochodnej, aby pokazać, że w przypadku dziedziczenia publicznego wszystko działa identycznie w bazowej i pochodnej class.<p>Dziedziczenie publiczne jest tym, czego powinieneś używać, chyba że masz konkretny powód, aby tego nie robić.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Używaj dziedziczenia publicznego, jeśli nie masz konkretnego powodu, aby zrobić inaczej.</div><p class="cpp-section cpp-topline" style=clear:both>Dziedziczenie chronione<p>Dziedziczenie chronione jest najrzadziej spotykaną metodą dziedziczenia. Prawie nigdy nie jest używany, z wyjątkiem bardzo szczególnych przypadków. W przypadku dziedziczenia chronionego chronione są elementy publiczne i chronione, a elementy prywatne pozostają niedostępne.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p>Ponieważ ta forma dziedziczenia jest tak rzadka, pominiemy przykład i po prostu podsumujemy w tabeli:<div class=cpp-table-wrapper><p><p><table class=cpp-table><tbody><tr><th>Specyfikator dostępu w klasie bazowej<th>Specyfikator dostępu w przypadku dziedziczenia chronionego<tr><td>Publiczny<td>Chroniony<tr><td>Chroniony<td>Chroniony<tr><td>Prywatny<td>Niedostępny</table></div><p class="cpp-section cpp-topline" style=clear:both>Dziedziczenie prywatne<p>W przypadku dziedziczenia prywatnego wszyscy członkowie z klasy bazowej są dziedziczeni jako prywatni. Oznacza to, że elementy prywatne są niedostępne, a elementy chronione i publiczne stają się prywatne.<p>Zauważ, że nie ma to wpływu na sposób, w jaki klasa pochodna uzyskuje dostęp do elementów odziedziczonych od swojego rodzica! Wpływa tylko na kod próbujący uzyskać dostęp do tych elementów poprzez klasę pochodną.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">class Base
@@ -114,34 +114,34 @@ private:
     int m_private {};
 };
 
-class Pri: private Base // note: private inheritance
+class Pri: private Base // uwaga: spadek prywatny
 {
-    // Private inheritance means:
-    // Public inherited members become private (so m_public is treated as private)
-    // Protected inherited members become private (so m_protected is treated as private)
-    // Private inherited members stay inaccessible (so m_private is inaccessible)
+    // Dziedziczenie prywatne oznacza:
+    // Odziedziczone publicznie elementy członkowskie stają się prywatne (więc m_public jest traktowane jako prywatne)
+    // Chronieni dziedziczeni członkowie staną się prywatnymi (więc m_protected jest traktowany jako prywatny)
+    // Prywatni odziedziczeni członkowie pozostają niedostępni (więc m_private jest niedostępny)
 public:
     Pri()
     {
-        m_public = 1; // okay: m_public is now private in Pri
-        m_protected = 2; // okay: m_protected is now private in Pri
-        m_private = 3; // not okay: derived classes can&#39;t access private members in the base class
+        m_public = 1; // ok: m_public jest teraz prywatny w Pri
+        m_protected = 2; // OK: m_protected jest teraz prywatny w Pri
+        m_private = 3; // nie w porządku: klasy pochodne nie mają dostępu do prywatnych elementów klasy bazowej
     }
 };
 
 int main()
 {
-    // Outside access uses the access specifiers of the class being accessed.
-    // In this case, the access specifiers of base.
+    // Dostęp zewnętrzny wykorzystuje specyfikatory dostępu klasy, do której uzyskuje się dostęp.
+    // W tym przypadku specyfikatory dostępu base.
     Base base;
-    base.m_public = 1; // okay: m_public is public in Base
-    base.m_protected = 2; // not okay: m_protected is protected in Base
-    base.m_private = 3; // not okay: m_private is private in Base
+    base.m_public = 1; // OK: m_public jest ekspertem w Base
+    base.m_protected = 2; // nie w porządku: m_protected jest chroniony w Base
+    base.m_private = 3; // nie w porządku: m_private jest prywatny w Base
 
     Pri pri;
-    pri.m_public = 1; // not okay: m_public is now private in Pri
-    pri.m_protected = 2; // not okay: m_protected is now private in Pri
-    pri.m_private = 3; // not okay: m_private is inaccessible in Pri
+    pri.m_public = 1; // nie w porządku: m_public jest teraz prywatny w Pri
+    pri.m_protected = 2; // nie w porządku: m_protected jest teraz prywatny w Pri
+    pri.m_private = 3; // nie w porządku: m_private jest niedostępny w Pri
 
     return 0;
 }</code></pre><p>Podsumowując w formie tabeli:<div class=cpp-table-wrapper><p><p><table class=cpp-table><tbody><tr><th>Specyfikator dostępu w klasie bazowej<th>Specyfikator dostępu w przypadku dziedziczenia prywatnego<tr><td>Publiczny<td>Prywatny<tr><td>Chroniony<td>Prywatny<tr><td>Prywatny<td>Niedostępny</table></div><p>Dziedziczenie prywatne może być przydatne, gdy klasa pochodna nie ma oczywistego związku z klasą bazową, ale używa klasy bazowej do wewnętrznej implementacji. W takim przypadku prawdopodobnie nie chcemy, aby publiczny interfejs klasy bazowej był eksponowany przez obiekty klasy pochodnej (tak by było, gdybyśmy dziedziczyli publicznie).<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>W praktyce dziedziczenie prywatne jest rzadko stosowane.<p class="cpp-section cpp-topline" style=clear:both>Ostatni przykład<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">class Base
@@ -152,12 +152,12 @@ protected:
 	int m_protected {};
 private:
 	int m_private {};
-};</code></pre><p>Base może uzyskać dostęp do swoich własnych składowych bez ograniczeń. Publiczność może uzyskać dostęp tylko do m_public. Klasy pochodne mają dostęp do m_public i m_protected.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">class D2 : private Base // note: private inheritance
+};</code></pre><p>Base może uzyskać dostęp do swoich własnych składowych bez ograniczeń. Publiczność może uzyskać dostęp tylko do m_public. Klasy pochodne mają dostęp do m_public i m_protected.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">class D2 : private Base // uwaga: spadek prywatny
 {
-	// Private inheritance means:
-	// Public inherited members become private
-	// Protected inherited members become private
-	// Private inherited members stay inaccessible
+	// Dziedziczenie prywatne oznacza:
+	// Odziedziczone publicznie elementy członkowskie stają się prywatne
+	// Ochroneni dziedziczeni członkowie staną się prywatnymi
+	// Prywatni odziedziczeni członkowie pozostają niedostępni
 public:
 	int m_public2 {};
 protected:
@@ -166,10 +166,10 @@ private:
 	int m_private2 {};
 };</code></pre><p>D2 może uzyskać dostęp do swoich członków bez ograniczeń. D2 może uzyskać dostęp do członków m_public i m_protected Base, ale nie m_private. Ponieważ D2 odziedziczył Base prywatnie, m_public i m_protected są teraz uważane za prywatne, gdy są dostępne przez D2. Oznacza to, że społeczeństwo nie może uzyskać dostępu do tych zmiennych podczas korzystania z obiektu D2, podobnie jak żadne klasy wywodzące się z D2.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">class D3 : public D2
 {
-	// Public inheritance means:
-	// Public inherited members stay public
-	// Protected inherited members stay protected
-	// Private inherited members stay inaccessible
+	// Dziedziczenie publiczne oznacza:
+	// Odziedziczone publicznie elementy członkowskie pozostają publiczne
+	// Ochroneni dziedziczeni członkowie pozostają chronieni
+	// Prywatni odziedziczeni członkowie pozostają niedostępni
 public:
 	int m_public3 {};
 protected:

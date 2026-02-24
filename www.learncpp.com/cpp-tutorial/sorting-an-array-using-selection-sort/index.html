@@ -20,9 +20,9 @@ int main()
 {
     int x{ 2 };
     int y{ 4 };
-    std::cout &lt;&lt; &#34;Before swap: x = &#34; &lt;&lt; x &lt;&lt; &#34;, y = &#34; &lt;&lt; y &lt;&lt; &#39;\n&#39;;
-    std::swap(x, y); // swap the values of x and y
-    std::cout &lt;&lt; &#34;After swap:  x = &#34; &lt;&lt; x &lt;&lt; &#34;, y = &#34; &lt;&lt; y &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "Before swap: x = " &lt;&lt; x &lt;&lt; ", y = " &lt;&lt; y &lt;&lt; '\n';
+    std::swap(x, y); // zamień wartości x i y
+    std::cout &lt;&lt; "After swap:  x = " &lt;&lt; x &lt;&lt; ", y = " &lt;&lt; y &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Ten program wypisuje:<pre>Before swap: x = 2, y = 4
@@ -36,38 +36,38 @@ int main()
 	int array[]{ 30, 50, 20, 10, 40 };
 	constexpr int length{ static_cast&lt;int&gt;(std::size(array)) };
 
-	// Step through each element of the array
-	// (except the last one, which will already be sorted by the time we get there)
+	// Przejdź przez każdy element tablicy
+	// (z wyjątkiem ostatniego, który będzie już posortowany, zanim tam dotrzemy)
 	for (int startIndex{ 0 }; startIndex &lt; length - 1; ++startIndex)
 	{
-		// smallestIndex is the index of the smallest element we’ve encountered this iteration
-		// Start by assuming the smallest element is the first element of this iteration
+		// smallestIndex to indeks najmniejszego elementu, jaki napotkaliśmy w tej iteracji
+		// Zacznij od założenia, że najmniejszy element jest pierwszym elementem tej iteracji
 		int smallestIndex{ startIndex };
 
-		// Then look for a smaller element in the rest of the array
+		// Następnie poszukaj mniejszego elementu w pozostałej części tablicy
 		for (int currentIndex{ startIndex + 1 }; currentIndex &lt; length; ++currentIndex)
 		{
-			// If we&#39;ve found an element that is smaller than our previously found smallest
+			// Jeśli znaleźliśmy element mniejszy niż poprzednio znaleziony najmniejszy
 			if (array[currentIndex] &lt; array[smallestIndex])
-				// then keep track of it
+				// następnie ją śledź
 				smallestIndex = currentIndex;
 		}
 
-		// smallestIndex is now the index of the smallest element in the remaining array
-                // swap our start element with our smallest element (this sorts it into the correct place)
+		// smallestIndex jest teraz indeks najmniejszego elementu pozostałej tablicy
+                // zamień nasz element początkowy z naszym najmniejszym elementem (to sortuje go do prawidłowego miejsce)
 		std::swap(array[startIndex], array[smallestIndex]);
 	}
 
-	// Now that the whole array is sorted, print our sorted array as proof it works
+	// Teraz, gdy cała tablica jest posortowana, wypisz naszą posortowaną tablicę jako dowód, że działa
 	for (int index{ 0 }; index &lt; length; ++index)
-		std::cout &lt;&lt; array[index] &lt;&lt; &#39; &#39;;
+		std::cout &lt;&lt; array[index] &lt;&lt; ' ';
 
-	std::cout &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; '\n';
 
 	return 0;
-}</code></pre><p>Najbardziej mylącą częścią tego algorytmu jest pętla wewnątrz innej pętli (tzw.  <strong>pętla zagnieżdżona</strong>). Zewnętrzna pętla (startIndex) iteruje po każdym elemencie jeden po drugim. Dla każdej iteracji pętli zewnętrznej do znalezienia najmniejszego elementu w pozostałej tablicy (zaczynając od startIndex+1) używana jest pętla wewnętrzna (currentIndex). najmniejszyIndex śledzi indeks najmniejszego elementu znalezionego przez pętlę wewnętrzną. Następnie najmniejszy indeks jest zamieniany na startIndex. Na koniec zewnętrzna pętla (startIndex) przesuwa jeden element do przodu i proces się powtarza.<p>Wskazówka: Jeśli nie wiesz, jak działa powyższy program, pomocne może być przejrzenie przykładowego przypadku na kartce papieru. Zapisz początkowe (nieposortowane) elementy tablicy poziomo na górze kartki. Narysuj strzałki wskazujące, które elementy startIndex, currentIndex i najmniejszyIndex są indeksowane. Ręcznie prześledź program i przerysuj strzałki w miarę zmiany indeksów. Dla każdej iteracji zewnętrznej pętli rozpoczynaj nową linię pokazującą bieżący stan tablicy.<p>Sortowanie nazw działa przy użyciu tego samego algorytmu. Po prostu zmień typ tablicy z int na std::string i zainicjalizuj odpowiednimi wartościami.<p class="cpp-section cpp-topline" style=clear:both><a name=stdsort></a>std::sort <a href="index.html#stdsort"><i class="fa fa-link" style=font-size:.8em></i></a><p>Ponieważ sortowanie tablic jest tak powszechne, standardowa biblioteka C++ zawiera funkcję sortowania o nazwie <code>std::sort</code>. <code>std::sort</code> żyjącą w nagłówku &lt;algorithm&gt; i można ją wywołać dla takiej tablicy:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;algorithm&gt; // for std::sort
+}</code></pre><p>Najbardziej mylącą częścią tego algorytmu jest pętla wewnątrz innej pętli (tzw.  <strong>pętla zagnieżdżona</strong>). Zewnętrzna pętla (startIndex) iteruje po każdym elemencie jeden po drugim. Dla każdej iteracji pętli zewnętrznej do znalezienia najmniejszego elementu w pozostałej tablicy (zaczynając od startIndex+1) używana jest pętla wewnętrzna (currentIndex). najmniejszyIndex śledzi indeks najmniejszego elementu znalezionego przez pętlę wewnętrzną. Następnie najmniejszy indeks jest zamieniany na startIndex. Na koniec zewnętrzna pętla (startIndex) przesuwa jeden element do przodu i proces się powtarza.<p>Wskazówka: Jeśli nie wiesz, jak działa powyższy program, pomocne może być przejrzenie przykładowego przypadku na kartce papieru. Zapisz początkowe (nieposortowane) elementy tablicy poziomo na górze kartki. Narysuj strzałki wskazujące, które elementy startIndex, currentIndex i najmniejszyIndex są indeksowane. Ręcznie prześledź program i przerysuj strzałki w miarę zmiany indeksów. Dla każdej iteracji zewnętrznej pętli rozpoczynaj nową linię pokazującą bieżący stan tablicy.<p>Sortowanie nazw działa przy użyciu tego samego algorytmu. Po prostu zmień typ tablicy z int na std::string i zainicjalizuj odpowiednimi wartościami.<p class="cpp-section cpp-topline" style=clear:both><a name=stdsort></a>std::sort <a href="index.html#stdsort"><i class="fa fa-link" style=font-size:.8em></i></a><p>Ponieważ sortowanie tablic jest tak powszechne, standardowa biblioteka C++ zawiera funkcję sortowania o nazwie <code>std::sort</code>. <code>std::sort</code> żyjącą w nagłówku &lt;algorithm&gt; i można ją wywołać dla takiej tablicy:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;algorithm&gt; // dla std::sort
 #include &lt;iostream&gt;
-#include &lt;iterator&gt; // for std::size
+#include &lt;iterator&gt; // dla std::size
 
 int main()
 {
@@ -76,103 +76,103 @@ int main()
 	std::sort(std::begin(array), std::end(array));
 
 	for (int i{ 0 }; i &lt; static_cast&lt;int&gt;(std::size(array)); ++i)
-		std::cout &lt;&lt; array[i] &lt;&lt; &#39; &#39;;
+		std::cout &lt;&lt; array[i] &lt;&lt; ' ';
 
-	std::cout &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; '\n';
 
 	return 0;
 }</code></pre><p>Domyślnie std::sort sortuje w kolejności rosnącej za pomocą operatora&lt; do porównywania par elementów i zamiany ich, jeśli to konieczne (podobnie jak w naszym przykładzie sortowania przez wybór powyżej).<p>Porozmawiamy więcej o <code>std::sort</code> w następnym rozdziale.<p class="cpp-section cpp-topline" style=clear:both>Czas quizu<div class=quiz style=clear:both><p class=quiz-header>Pytanie nr 1<p>Ręcznie pokaż, jak działa sortowanie przez wybór w następującej tablicy: { 30, 60, 20, 50, 40, 10 }. Pokaż tablicę po każdej przeprowadzonej zamianie.<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_0 style=display:none><p>30 60 20 50 40 10<br><strong>10</strong> 60 20 50 40 <strong>30</strong><br>10 <strong>20</strong> <strong>60</strong> 50 40 30<br>10 20 <strong>30</strong> 50 40 <strong>60</strong><br>10 20 30 <strong>40</strong> <strong>50</strong> 60<br>10 20 30 40 <strong>50</strong> 60 (samodzielna zamiana)<br>10 20 30 40 50 <strong>60</strong> (samodzielna zamiana)</div><p></div><div class=quiz style=clear:both><p class=quiz-header>Pytanie nr 2<p>Przepisz powyższy kod sortowania wyboru, aby posortować w kolejności malejącej (najpierw największe liczby). Chociaż może się to wydawać skomplikowane, w rzeczywistości jest zaskakująco proste.<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_1 style=display:none><p>Po prostu zmień:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">        if (array[currentIndex] &lt; array[smallestIndex])</code></pre><p>na:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">        if (array[currentIndex] &gt; array[smallestIndex])</code></pre><p>smallestIndex powinien prawdopodobnie również zmienić nazwę na największyIndex.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
-#include &lt;iterator&gt; // for std::size
+#include &lt;iterator&gt; // dla std::size
 #include &lt;utility&gt;
 
 int main()
 {
     int array[]{ 30, 50, 20, 10, 40 };
     constexpr int length{ static_cast&lt;int&gt;(std::size(array)) }; // C++17
-//  constexpr int length{ sizeof(array) / sizeof(array[0]) }; // use instead if not C++17 capable
+//  constexpr int długość{ sizeof(array) / sizeof(array[0]) }; // zamiast tego użyj, jeśli nie obsługuje C++17
 
-    // Step through each element of the array except the last
+    // Przejdź przez każdy element tablicy z wyjątkiem ostatniego
     for (int startIndex{ 0 }; startIndex &lt; length - 1; ++startIndex)
     {
-        // largestIndex is the index of the largest element we&#39;ve encountered so far.
+        // largestIndex to indeks największego elementu, jaki napotkaliśmy do tej pory.
         int largestIndex{ startIndex };
 
-        // Search through every element starting at startIndex + 1
+        // Przeszukaj każdy element zaczynając od startIndex + 1
         for (int currentIndex{ startIndex + 1 }; currentIndex &lt; length; ++currentIndex)
         {
-            // If the current element is larger than our previously found largest
+            // Jeśli bieżący element jest większy niż nasz poprzednio znaleziony największy
             if (array[currentIndex] &gt; array[largestIndex])
-                // This is the new largest number for this iteration
+                // To jest nowy największy numer tej funkcji iteracja
                 largestIndex = currentIndex;
         }
 
-        // Swap our start element with our largest element
+        // Zamień nasz element początkowy z naszym największym elementem
         std::swap(array[startIndex], array[largestIndex]);
     }
 
-    // Now print our sorted array as proof it works
+    // Teraz wydrukuj naszą posortowaną tablicę jako dowód, że działa
     for (int index{ 0 }; index &lt; length; ++index)
-        std::cout &lt;&lt; array[index] &lt;&lt; &#39; &#39;;
+        std::cout &lt;&lt; array[index] &lt;&lt; ' ';
 
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
 
     return 0;
 }</code></pre></div></div><div class=quiz style=clear:both><p class=quiz-header>Pytanie nr 3<p>To będzie trudne, więc bądź ostrożny.<p>Inne proste sortowanie nazywa się „sortowaniem bąbelkowym”. Sortowanie bąbelkowe polega na porównaniu sąsiadujących par elementów i zamianie ich, jeśli spełnione są kryteria, tak aby elementy „bąbelkowały” do końca tablicy. Chociaż istnieje kilka sposobów optymalizacji sortowania bąbelkowego, w tym quizie pozostaniemy przy niezoptymalizowanej wersji, ponieważ jest najprostsza.<p>Niezoptymalizowane sortowanie bąbelkowe wykonuje następujące kroki, aby posortować tablicę od najmniejszej do największej:<br>A) Porównaj element tablicy 0 z elementem tablicy 1. Jeśli element 0 jest większy, zamień go z elementem 1.<br>B) Teraz wykonaj to samo dla elementów 1 i 2 oraz każdej kolejnej pary elementów, aż dojdziesz do końca tablicy. W tym momencie zostanie posortowany ostatni element tablicy.<br>&gt;C) Powtórz pierwsze dwa kroki jeszcze raz, aż tablica zostanie posortowana.<p>Napisz kod, który bąbelek sortuje następującą tablicę zgodnie z powyższymi regułami:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int array[]{ 6, 3, 2, 9, 7, 1, 5, 4, 8 };</code></pre><p>Wydrukuj posortowane elementy tablicy na końcu programu.<p>Wskazówka: jeśli uda nam się posortować jeden element w każdej iteracji, oznacza to, że będziemy musieli wykonaj iterację mniej więcej tyle razy, ile jest liczb w naszej tablicy, aby zagwarantować, że cała tablica zostanie posortowana.<br>Wskazówka: Porównując pary elementów, uważaj na zakres tablicy.<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_2'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_2 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
-#include &lt;iterator&gt; // for std::size
+#include &lt;iterator&gt; // dla std::size
 #include &lt;utility&gt;
 
 int main()
 {
     int array[]{ 6, 3, 2, 9, 7, 1, 5, 4, 8 };
     constexpr int length{ static_cast&lt;int&gt;(std::size(array)) }; // C++17
-//  constexpr int length{ sizeof(array) / sizeof(array[0]) }; // use instead if not C++17 capable
+//  constexpr int długość{ sizeof(array) / sizeof(array[0]) }; // zamiast tego użyj, jeśli nie obsługuje C++17
 
-    // Step through each element of the array (except the last, which will already be sorted by the time we get to it)
+    // Przejdź przez każdy znak element tablicy (z wyjątkiem ostatniego, który będzie już posortowany, zanim do niego dotrzemy)
     for (int iteration{ 0 }; iteration &lt; length-1; ++iteration)
     {
-        // Search through all elements up to the end of the array - 1
-        // The last element has no pair to compare against
+        // Przeszukaj wszystkie elementy aż do końca tablicy - 1
+        // Ostatni element nie ma pary do porównania
         for (int currentIndex{ 0 }; currentIndex &lt; length - 1; ++currentIndex)
         {
-            // If the current element is larger than the element after it, swap them
+            // Jeśli bieżący element jest większy niż element po nim, zamień je
             if (array[currentIndex] &gt; array[currentIndex+1])
                 std::swap(array[currentIndex], array[currentIndex + 1]);
         }
     }
 
-    // Now print our sorted array as proof it works
+    // Teraz wydrukuj naszą posortowaną tablicę jako dowód, że działa
     for (int index{ 0 }; index &lt; length; ++index)
-        std::cout &lt;&lt; array[index] &lt;&lt; &#39; &#39;;
+        std::cout &lt;&lt; array[index] &lt;&lt; ' ';
 
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
 
     return 0;
 }</code></pre></div></div><div class=quiz style=clear:both><p class=quiz-header>Pytanie nr 4<p>Dodaj dwie optymalizacje do algorytmu sortowania bąbelkowego, który napisałeś w poprzednim pytaniu quizu:<ul><li>Zauważ, że przy każdej iteracji sortowania bąbelkowego największa pozostała liczba jest umieszczana na końcu tablicy. Po pierwszej iteracji sortowany jest ostatni element tablicy. Po drugiej iteracji sortowany jest także przedostatni element tablicy. I tak dalej… Przy każdej iteracji nie musimy ponownie sprawdzać elementów, o których wiemy, że są już posortowane. Zmień pętlę tak, aby nie sprawdzała ponownie elementów, które zostały już posortowane.<li>Jeśli przejdziemy przez całą iterację bez wykonywania zamiany, będziemy wiedzieć, że tablica musi być już posortowana. Zaimplementuj sprawdzenie, czy w tej iteracji dokonano jakichkolwiek zamian, a jeśli nie, zakończ pętlę wcześniej. Jeżeli pętla została zakończona wcześniej, wypisz, w której iteracji sortowanie zakończyło się wcześniej.</ul><p>Twoje dane wyjściowe powinny pasować do tego:<pre>Early termination on iteration 6
 1 2 3 4 5 6 7 8 9
 </pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_3'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_3 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
-#include &lt;iterator&gt; // for std::size
+#include &lt;iterator&gt; // dla std::size
 #include &lt;utility&gt;
 
 int main()
 {
     int array[]{ 6, 3, 2, 9, 7, 1, 5, 4, 8 };
     constexpr int length{ static_cast&lt;int&gt;(std::size(array)) }; // C++17
-//  constexpr int length{ sizeof(array) / sizeof(array[0]) }; // use instead if not C++17 capable
+//  constexpr int długość{ sizeof(array) / sizeof(array[0]) }; // zamiast tego użyj, jeśli nie obsługuje C++17
 
-    // Step through each element of the array except the last
+    // Przejdź przez każdy element tablicy z wyjątkiem ostatniego
     for (int iteration{ 0 }; iteration &lt; length-1; ++iteration)
     {
-        // Account for the fact that the last element is already sorted with each subsequent iteration
-        // so our array &#34;ends&#34; one element sooner
+        // Uwzględnij fakt, że ostatni element jest już posortowany przy każdej kolejnej iteracji
+        // aby nasza tablica „kończyła” jeden element wcześniej
         int endOfArrayIndex{ length - iteration };
 
-        bool swapped{ false }; // Keep track of whether any elements were swapped this iteration
+        bool swapped{ false }; // Śledź, czy jakiekolwiek elementy zostały zamienione iteracja
 
-        // Search through all elements up to the end of the array - 1
-        // The last element has no pair to compare against
+        // Przeszukaj wszystkie elementy aż do końca tablicy - 1
+        // Ostatni element nie ma pary do porównania
         for (int currentIndex{ 0 }; currentIndex &lt; endOfArrayIndex - 1; ++currentIndex)
         {
-            // If the current element is larger than the element after it
+            // Jeśli bieżący element jest większy niż element po nim
             if (array[currentIndex] &gt; array[currentIndex + 1])
             {
                 // Swap them
@@ -181,20 +181,20 @@ int main()
             }
         }
 
-        // If we haven&#39;t swapped any elements this iteration, we&#39;re done early
+        // Jeśli w tej iteracji nie zamieniliśmy żadnych elementów, kończymy wcześniej
         if (!swapped)
         {
-            // iteration is 0 based, but counting iterations is 1-based.  So add 1 here to adjust.
-            std::cout &lt;&lt; &#34;Early termination on iteration: &#34; &lt;&lt; iteration+1 &lt;&lt; &#39;\n&#39;;
+            // iteracja opiera się na 0, ale liczenie iteracji opiera się na 1. Zatem dodaj tutaj 1, aby dostosować.
+            std::cout &lt;&lt; "Early termination on iteration: " &lt;&lt; iteration+1 &lt;&lt; '\n';
             break;
         }
     }
 
-    // Now print our sorted array as proof it works
+    // Teraz wydrukuj naszą posortowaną tablicę jako dowód, że działa
     for (int index{ 0 }; index &lt; length; ++index)
-        std::cout &lt;&lt; array[index] &lt;&lt; &#39; &#39;;
+        std::cout &lt;&lt; array[index] &lt;&lt; ' ';
 
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
 
     return 0;
 }</code></pre></div></div><div class=prevnext><div class=prevnext-inline><a class=nav-link href="../introduction-to-iterators/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>18.2</span>Wprowadzenie do iteratorów</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../chapter-17-summary-and-quiz/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>17.x</span>Podsumowanie rozdziału 17 i quiz</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/sorting-an-array-using-selection-sort/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../arrays-and-loops/index.html" rel=prev><span>16.6 -- Tablice i pętle</span></a></div><div class=nav-next><em>Następny post</em><a href="../a3-using-libraries-with-codeblocks/index.html" rel=next><span>A.3 — Używanie bibliotek w Code::Blocks</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>

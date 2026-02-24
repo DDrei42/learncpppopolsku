@@ -48,7 +48,7 @@ public:
 Base* getObject(bool returnDerived)
 {
 	if (returnDerived)
-		return new Derived{1, &#34;Apple&#34;};
+		return new Derived{1, "Apple"};
 	else
 		return new Base{2};
 }
@@ -57,7 +57,7 @@ int main()
 {
 	Base* b{ getObject(true) };
 
-	// how do we print the Derived object&#39;s name here, having only a Base pointer?
+	// jak wydrukować tutaj nazwę obiektu Derived, mając tylko wskaźnik bazowy?
 
 	delete b;
 
@@ -66,9 +66,9 @@ int main()
 {
 	Base* b{ getObject(true) };
 
-	Derived* d{ dynamic_cast&lt;Derived*&gt;(b) }; // use dynamic cast to convert Base pointer into Derived pointer
+	Derived* d{ dynamic_cast&lt;Derived*&gt;(b) }; // użyj dynamicznego rzutowania, aby przekonwertować wskaźnik bazowy na wskaźnik pochodny
 
-	std::cout &lt;&lt; &#34;The name of the Derived is: &#34; &lt;&lt; d-&gt;getName() &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; "The name of the Derived is: " &lt;&lt; d-&gt;getName() &lt;&lt; '\n';
 
 	delete b;
 
@@ -78,10 +78,10 @@ int main()
 {
 	Base* b{ getObject(true) };
 
-	Derived* d{ dynamic_cast&lt;Derived*&gt;(b) }; // use dynamic cast to convert Base pointer into Derived pointer
+	Derived* d{ dynamic_cast&lt;Derived*&gt;(b) }; // użyj dynamicznego rzutowania, aby przekonwertować wskaźnik bazowy na wskaźnik pochodny
 
-	if (d) // make sure d is non-null
-		std::cout &lt;&lt; &#34;The name of the Derived is: &#34; &lt;&lt; d-&gt;getName() &lt;&lt; &#39;\n&#39;;
+	if (d) // upewnij się, że d nie jest null
+		std::cout &lt;&lt; "The name of the Derived is: " &lt;&lt; d-&gt;getName() &lt;&lt; '\n';
 
 	delete b;
 
@@ -90,12 +90,12 @@ int main()
 #include &lt;string&gt;
 #include &lt;string_view&gt;
 
-// Class identifier
+// Identyfikator klasy
 enum class ClassID
 {
 	base,
 	derived
-	// Others can be added here later
+	// Inne można dodać tutaj później
 };
 
 class Base
@@ -132,7 +132,7 @@ public:
 Base* getObject(bool bReturnDerived)
 {
 	if (bReturnDerived)
-		return new Derived{1, &#34;Apple&#34;};
+		return new Derived{1, "Apple"};
 	else
 		return new Base{2};
 }
@@ -143,9 +143,9 @@ int main()
 
 	if (b-&gt;getClassID() == ClassID::derived)
 	{
-		// We already proved b is pointing to a Derived object, so this should always succeed
+		// Udowodniliśmy już, że b wskazuje na obiekt Derived, więc to zawsze powinno się udać
 		Derived* d{ static_cast&lt;Derived*&gt;(b) };
-		std::cout &lt;&lt; &#34;The name of the Derived is: &#34; &lt;&lt; d-&gt;getName() &lt;&lt; &#39;\n&#39;;
+		std::cout &lt;&lt; "The name of the Derived is: " &lt;&lt; d-&gt;getName() &lt;&lt; '\n';
 	}
 
 	delete b;
@@ -185,11 +185,11 @@ public:
 
 int main()
 {
-	Derived apple{1, &#34;Apple&#34;}; // create an apple
-	Base&amp; b{ apple }; // set base reference to object
-	Derived&amp; d{ dynamic_cast&lt;Derived&amp;&gt;(b) }; // dynamic cast using a reference instead of a pointer
+	Derived apple{1, "Apple"}; // utwórz jabłko
+	Base&amp; b{ apple }; // ustawa bazowa odniesienie do obiektu
+	Derived&amp; d{ dynamic_cast&lt;Derived&amp;&gt;(b) }; // dynamicznego rzutowania przy użyciu odniesienia zamiast wskaźnika
 
-	std::cout &lt;&lt; &#34;The name of the Derived is: &#34; &lt;&lt; d.getName() &lt;&lt; &#39;\n&#39;; // we can access Derived::getName through d
+	std::cout &lt;&lt; "The name of the Derived is: " &lt;&lt; d.getName() &lt;&lt; '\n'; // możemy uzyskać dostęp do Derived::getName przez d
 
 	return 0;
 }</code></pre><p>Ponieważ C++ nie ma „odniesienia zerowego”, dynamic_cast nie może zwrócić odniesienia zerowego w przypadku niepowodzenia. Zamiast tego, jeśli dynamic_cast odniesienia nie powiedzie się, zgłaszany jest wyjątek typu std::bad_cast. O wyjątkach porozmawiamy w dalszej części tego samouczka.<p><strong>dynamic_cast a static_cast</strong><p>Nowi programiści czasami nie wiedzą, kiedy używać static_cast a kiedy dynamic_cast. Odpowiedź jest dość prosta: użyj static_cast, chyba że używasz downcastingu, w takim przypadku dynamic_cast jest zwykle lepszym wyborem. Jednakże powinieneś także rozważyć całkowite unikanie rzutowania i korzystanie po prostu z funkcji wirtualnych.<p><strong>Downcasting a funkcje wirtualne</strong><p>Niektórzy programiści uważają, że dynamic_cast jest zły i wskazuje na zły projekt klasy. Zamiast tego ci programiści mówią, że powinieneś używać funkcji wirtualnych.<p>Ogólnie rzecz biorąc, korzystanie z funkcji wirtualnej <em>powinieneś</em> jest preferowane zamiast downcastingu. Są jednak chwile, kiedy rzutowanie w dół jest lepszym wyborem:<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><ul><li>Kiedy nie możesz zmodyfikować klasy bazowej w celu dodania funkcji wirtualnej (np. ponieważ klasa bazowa jest częścią standardowej biblioteki)<li>Gdy potrzebujesz dostępu do czegoś, co jest specyficzne dla klasy pochodnej (np. funkcji dostępu, która istnieje tylko w klasie pochodnej)<li>Gdy dodanie funkcji wirtualnej do klasy bazowej nie ma sensu (np. nie ma odpowiedniej wartości, którą klasa bazowa mogłaby zwrócić). Użycie czystej funkcji wirtualnej może być tutaj opcją, jeśli nie ma potrzeby tworzenia instancji klasy bazowej.</ul><p><strong>Ostrzeżenie o dynamic_cast i RTTI</strong><p>Informacje o typie czasu wykonania (RTTI) to funkcja języka C++, która udostępnia informacje o typie danych obiektu w czasie wykonywania. Ta funkcja jest wykorzystywana przez dynamic_cast. Ponieważ RTTI wiąże się z dość znacznym kosztem wydajności przestrzennej, niektóre kompilatory umożliwiają wyłączenie RTTI w ramach optymalizacji. Nie trzeba dodawać, że jeśli to zrobisz, dynamic_cast nie będzie działać poprawnie.<div class=prevnext><div class=prevnext-inline><a class=nav-link href="../printing-inherited-classes-using-operator/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>25.11</span>Drukowanie klas odziedziczonych za pomocą operatora&lt;&lt;</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../object-slicing/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>25.9</span>Przecinanie obiektów</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/dynamic-casting/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../object-slicing/index.html" rel=prev><span>25,9 — Krojenie obiektów</span></a></div><div class=nav-next><em>Następny post</em><a href="../printing-inherited-classes-using-operator/index.html" rel=next><span>25.11 — Drukowanie klas odziedziczonych za pomocą operatora&lt;&lt;</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>

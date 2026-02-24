@@ -15,11 +15,11 @@
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2008-06-19T19:07:22-07:00 itemprop=datePublished>19 czerwca 2008, 19:07 czasu PDT</time>
 <time class=updated datetime=2023-09-11T11:00:48-07:00 itemprop=dateModified>Wrzesień 11, 2023</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>W poprzednich lekcjach nauczyłeś się używać parametrów typu szablonu do tworzenia funkcji i klas niezależnych od typu. Parametr typu szablonu jest typem zastępczym, który zastępuje typ przekazywany jako argument.<p>Parametry typu szablonu nie są jednak jedynym dostępnym typem parametrów szablonu. Klasy i funkcje szablonu mogą korzystać z innego rodzaju parametrów szablonu, znanego jako parametr inny niż typ.<p><strong>Parametry inne niż typ</strong><p>Parametr nietypowy szablonu to parametr szablonu, w którym typ parametru jest predefiniowany i zastępuje wartość constexpr przekazywaną jako argument.<p>Parametr inny niż typ może być dowolnego z następujących typów:<ul><li>Typ całkowity<li>Wyliczenie typ<li>Wskaźnik lub odwołanie do klasy obiekt<li>Wskaźnik lub odwołanie do funkcji<li>Wskaźnik lub odwołanie do funkcji składowej klasy<li>std::nullptr_t<li>Typ zmiennoprzecinkowy (od C++20)</ul><p>W poniższym przykładzie tworzymy niedynamiczną (statyczną) klasę tablicową, która używa zarówno parametru typu, jak i parametru innego niż typ. Parametr type kontroluje typ danych tablicy statycznej, a całkowy parametr nietypowy kontroluje wielkość tablicy statycznej.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-template &lt;typename T, int size&gt; // size is an integral non-type parameter
+template &lt;typename T, int size&gt; // size to całkowy parametr nietypowy
 class StaticArray
 {
 private:
-    // The non-type parameter controls the size of the array
+    // Parametr non-type kontrolowany rozmiar tablicy
     T m_array[size] {};
 
 public:
@@ -31,7 +31,7 @@ public:
     }
 };
 
-// Showing how a function for a class with a non-type parameter is defined outside of the class
+// Pokazanie, jak funkcja dla klasy z parametrem innym niż typ jest zdefiniowana poza class
 template &lt;typename T, int size&gt;
 T* StaticArray&lt;T, size&gt;::getArray()
 {
@@ -40,25 +40,25 @@ T* StaticArray&lt;T, size&gt;::getArray()
 
 int main()
 {
-    // declare an integer array with room for 12 integers
+    // zadeklaruj tablicę liczb całkowitych z miejscem na 12 liczb całkowitych
     StaticArray&lt;int, 12&gt; intArray;
 
-    // Fill it up in order, then print it backwards
+    // Wypełnij w kolejności, a następnie wydrukuj wstecz
     for (int count { 0 }; count &lt; 12; ++count)
         intArray[count] = count;
 
     for (int count { 11 }; count &gt;= 0; --count)
-        std::cout &lt;&lt; intArray[count] &lt;&lt; &#39; &#39;;
-    std::cout &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; intArray[count] &lt;&lt; ' ';
+    std::cout &lt;&lt; '\n';
 
-    // declare a double buffer with room for 4 doubles
+    // deklaracja podwójny bufor z miejscem na 4 doubles
     StaticArray&lt;double, 4&gt; doubleArray;
 
     for (int count { 0 }; count &lt; 4; ++count)
         doubleArray[count] = 4.4 + 0.1 * count;
 
     for (int count { 0 }; count &lt; 4; ++count)
-        std::cout &lt;&lt; doubleArray[count] &lt;&lt; &#39; &#39;;
+        std::cout &lt;&lt; doubleArray[count] &lt;&lt; ' ';
 
     return 0;
 }</code></pre><p>Kod ten generuje następujące informacje:<pre>11 10 9 8 7 6 5 4 3 2 1 0
@@ -70,8 +70,8 @@ class Foo
 
 int main()
 {
-    int x{ 4 }; // x is non-constexpr
-    Foo&lt;x&gt; f; // error: the template non-type argument must be constexpr
+    int x{ 4 }; // x nie jest constexpr
+    Foo&lt;x&gt; f; // błąd: argument nietypowy szablonu musi być constexpr
 
     return 0;
 }</code></pre><p>W takim przypadku kompilator zgłosi błąd.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><div class=prevnext><div class=prevnext-inline><a class=nav-link href="../function-template-specialization/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>26.3</span>Specjalizacja szablonu funkcji</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../template-classes/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>26.1</span>Klasy szablonowe</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/template-non-type-parameters/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../template-classes/index.html" rel=prev><span>26.1 — Klasy szablonowe</span></a></div><div class=nav-next><em>Następny post</em><a href="../class-template-specialization/index.html" rel=next><span>26.4 — Specjalizacja szablonu klasy</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>

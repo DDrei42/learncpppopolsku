@@ -13,32 +13,32 @@
 <button class=searchsubmit><span class=screen-reader-text>Szukaj</span><i class=icon-search></i></button>
 <input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=1997></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="7.14 — Nienazwane i wbudowane przestrzenie nazw" src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-9423 class="post-9423 post type-post status-publish format-standard hentry category-cpp-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>7.14 — Nienazwane i wbudowane przestrzenie nazw</h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Autor></i><a class="url fn n" rel=author href=/www.learncpp.com/author/Alex/ title="Wyświetl wszystkie posty Alexa" itemprop=url><em itemprop=name>Alex</em></a></span>
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2020-01-03T13:12:51-08:00 itemprop=datePublished>3 stycznia 2020, 13:12 czasu PST</time>
-<time class=updated datetime=2024-11-26T16:53:03-08:00 itemprop=dateModified>26 listopada 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>C++ obsługuje dwa warianty przestrzeni nazw, o których warto przynajmniej wiedzieć. Nie będziemy się na nich opierać, więc potraktuj tę lekcję na razie jako opcjonalną.<p class="cpp-section cpp-topline" style=clear:both>Nienazwane (anonimowe) przestrzenie nazw<p>An <strong>nienazwana przestrzeń nazw</strong> (zwany także <strong>anonimowa przestrzeń nazw</strong>) to przestrzeń nazw zdefiniowana bez nazwy w następujący sposób:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+<time class=updated datetime=2024-11-26T16:53:03-08:00 itemprop=dateModified>26 listopada 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>C++ obsługuje dwa warianty przestrzeni nazw, o których warto przynajmniej wiedzieć. Nie będziemy się na nich opierać, więc potraktuj tę lekcję na razie jako opcjonalną.<p class="cpp-section cpp-topline" style=clear:both>Nienazwane (anonimowe) przestrzenie nazw<p><strong>nienazwana przestrzeń nazw</strong> (zwany także <strong>anonimowa przestrzeń nazw</strong>) to przestrzeń nazw zdefiniowana bez nazwy w następujący sposób:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 namespace // unnamed namespace
 {
-    void doSomething() // can only be accessed in this file
+    void doSomething() // dostępne są tylko w tym pliku
     {
-        std::cout &lt;&lt; &#34;v1\n&#34;;
+        std::cout &lt;&lt; "v1\n";
     }
 }
 
 int main()
 {
-    doSomething(); // we can call doSomething() without a namespace prefix
+    doSomething(); // możemy wywołać doSomething() bez prefiksu przestrzeni nazw
 
     return 0;
 }</code></pre><p>Wypisuje:<pre>v1
 </pre><p>Cała treść zadeklarowana w nienazwanej przestrzeni nazw jest traktowana tak, jakby była częścią nadrzędnej przestrzeni nazw. Zatem mimo że funkcja <code>doSomething()</code> jest zdefiniowana w nienazwanej przestrzeni nazw, sama funkcja jest dostępna z nadrzędnej przestrzeni nazw (która w tym przypadku jest globalną przestrzenią nazw), dlatego możemy wywoływać <code>doSomething()</code> z <code>main()</code> bez żadnych kwalifikatorów.<p>Może to sprawić, że nienazwane przestrzenie nazw będą wydawać się bezużyteczne. Ale innym efektem nienazwanych przestrzeni nazw jest to, że wszystkie identyfikatory w nienazwanej przestrzeni nazw są traktowane tak, jakby miały wewnętrzne powiązanie, co oznacza, że ​​zawartości nienazwanej przestrzeni nazw nie można zobaczyć poza plikiem, w którym zdefiniowana jest nienazwana przestrzeń nazw.<p>W przypadku funkcji jest to w rzeczywistości to samo, co zdefiniowanie wszystkich funkcji w nienazwanej przestrzeni nazw jako funkcji statycznych. Poniższy program jest w rzeczywistości identyczny z powyższym:<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-static void doSomething() // can only be accessed in this file
+static void doSomething() // dostępne są tylko w tym pliku
 {
-    std::cout &lt;&lt; &#34;v1\n&#34;;
+    std::cout &lt;&lt; "v1\n";
 }
 
 int main()
 {
-    doSomething(); // we can call doSomething() without a namespace prefix
+    doSomething(); // możemy wywołać doSomething() bez prefiksu przestrzeni nazw
 
     return 0;
 }</code></pre><p>Nienazwane przestrzenie nazw są zwykle używane, gdy masz dużo treści, które chcesz mieć pewność, że pozostaną lokalne dla danej jednostki tłumaczeniowej, ponieważ łatwiej jest zgrupować taką treść w jednej nienazwanej przestrzeni nazw, niż indywidualnie oznaczać wszystkie deklaracje jako <code>static</code>. Nienazwane przestrzenie nazw będą również przechowywać typy zdefiniowane w programie (coś, co omówimy w późniejszej lekcji) lokalnie w jednostce tłumaczącej, co jest czymś, dla czego nie ma alternatywnego równoważnego mechanizmu.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>Jeśli jesteś hardkorem, możesz zastosować odwrotne podejście — umieść całą zawartość, która nie jest jawnie przeznaczona do eksportu/zewnętrznego, w nienazwanej przestrzeni nazw.</div><p>Nienazwane przestrzenie nazw zasadniczo nie powinny być używane w nagłówku  <a href=https://wiki.sei.cmu.edu/confluence/display/cplusplus/DCL59-CPP.+Do+not+define+an+unnamed+namespace+in+a+header+file>SEI CERT (zasada DCL59-CPP)</a> podaje kilka dobrych przykładów wyjaśniających dlaczego.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Preferuj nienazwane przestrzenie nazw, jeśli masz treść, którą chcesz zachować lokalnie w stosunku do jednostki tłumaczenia.<p>Unikaj nienazwanych przestrzeni nazw w plikach nagłówkowych.</div><p class="cpp-section cpp-topline" style=clear:both>Inline przestrzenie nazw<p>Rozważmy teraz następujący program:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -54,30 +54,30 @@ int main()
 
     return 0;
 }</code></pre><p>Wypisuje:<pre>v1
-</pre><p>To całkiem proste, prawda?<p>Ale powiedzmy, że nie jesteś zadowolony z <code>doSomething()</code> i chcesz go ulepszyć w jakiś sposób, który zmieni jego zachowanie. Ale jeśli to zrobisz, ryzykujesz uszkodzeniem istniejących programów przy użyciu starszej wersji. Jak sobie z tym poradzić?<p>Jednym ze sposobów byłoby utworzenie nowej wersji funkcji o innej nazwie. Jednak w wyniku wielu zmian możesz otrzymać cały zestaw funkcji o niemal identycznych nazwach (<code>doSomething</code>, <code>doSomething_v2</code>, <code>doSomething_v3</code> itd.).<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Alternatywą jest użycie wbudowanej przestrzeni nazw.  <strong>wbudowana przestrzeń nazw</strong> to przestrzeń nazw, która jest zwykle używana do wersjonowania treści. Podobnie jak w przypadku nienazwanej przestrzeni nazw, wszystko zadeklarowane w wbudowanej przestrzeni nazw jest uważane za część nadrzędnej przestrzeni nazw. Jednak w przeciwieństwie do nienazwanych przestrzeni nazw, wbudowane przestrzenie nazw nie wpływają na powiązania.<p>Aby zdefiniować wewnętrzną przestrzeń nazw, używamy <code>inline</code> słowem kluczowym:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+</pre><p>To całkiem proste, prawda?<p>Ale powiedzmy, że nie jesteś zadowolony z <code>doSomething()</code> i chcesz go ulepszyć w jakiś sposób, który zmieni jego zachowanie. Ale jeśli to zrobisz, ryzykujesz uszkodzeniem istniejących programów przy użyciu starszej wersji. Jak sobie z tym poradzić?<p>Jednym ze sposobów byłoby utworzenie nowej wersji funkcji o innej nazwie. Jednak w wyniku wielu zmian możesz otrzymać cały zestaw funkcji o niemal identycznych nazwach (<code>doSomething</code>, <code>doSomething_v2</code>, <code>doSomething_v3</code> itd.).<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Alternatywą jest użycie wbudowanej przestrzeni nazw.  <strong>wbudowana przestrzeń nazw</strong> to przestrzeń nazw, która jest zwykle używana do wersjonowania treści. Podobnie jak w przypadku nienazwanej przestrzeni nazw, wszystko zadeklarowane w wbudowanej przestrzeni nazw jest uważane za część nadrzędnej przestrzeni nazw. Jednak w przeciwieństwie do nienazwanych przestrzeni nazw, wbudowane przestrzenie nazw nie wpływają na powiązania.<p>Aby zdefiniować wewnętrzną przestrzeń nazw, używamy słowem kluczowym <code>inline</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-inline namespace V1 // declare an inline namespace named V1
+inline namespace V1 // zadeklaruj wbudowaną przestrzeń nazw o nazwie V1
 {
     void doSomething()
     {
-        std::cout &lt;&lt; &#34;V1\n&#34;;
+        std::cout &lt;&lt; "V1\n";
     }
 }
 
-namespace V2 // declare a normal namespace named V2
+namespace V2 // zadeklaruj normalną przestrzeń nazw o nazwie V2
 {
     void doSomething()
     {
-        std::cout &lt;&lt; &#34;V2\n&#34;;
+        std::cout &lt;&lt; "V2\n";
     }
 }
 
 int main()
 {
-    V1::doSomething(); // calls the V1 version of doSomething()
-    V2::doSomething(); // calls the V2 version of doSomething()
+    V1::doSomething(); // wywołuje wersję V1 metody doSomething()
+    V2::doSomething(); // wywołuje wersję V2 metody doSomething()
 
-    doSomething(); // calls the inline version of doSomething() (which is V1)
+    doSomething(); // wywołuje wbudowaną wersję doSomething() (czyli V1)
  
     return 0;
 }</code></pre><p>Wypisuje:<pre>V1
@@ -85,28 +85,28 @@ V2
 V1
 </pre><p>W powyższym przykładzie osoby wywołujące <code>doSomething()</code> dostaną wersję V1 (wersję wbudowaną) <code>doSomething()</code>. Osoby wywołujące, które chcą korzystać z nowszej wersji, mogą jawnie wywołać  <code>V2::doSomething()</code>. Zachowuje to funkcje istniejących programów, jednocześnie umożliwiając nowszym programom korzystanie z nowszych/lepszych odmian.<p>Alternatywnie, jeśli chcesz opublikować nowszą wersję:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-namespace V1 // declare a normal namespace named V1
+namespace V1 // zadeklaruj normalną przestrzeń nazw o nazwie V1
 {
     void doSomething()
     {
-        std::cout &lt;&lt; &#34;V1\n&#34;;
+        std::cout &lt;&lt; "V1\n";
     }
 }
 
-inline namespace V2 // declare an inline namespace named V2
+inline namespace V2 // zadeklaruj wbudowaną przestrzeń nazw o nazwie V2
 {
     void doSomething()
     {
-        std::cout &lt;&lt; &#34;V2\n&#34;;
+        std::cout &lt;&lt; "V2\n";
     }
 }
 
 int main()
 {
-    V1::doSomething(); // calls the V1 version of doSomething()
-    V2::doSomething(); // calls the V2 version of doSomething()
+    V1::doSomething(); // wywołuje wersję V1 metody doSomething()
+    V2::doSomething(); // wywołuje wersję V2 metody doSomething()
 
-    doSomething(); // calls the inline version of doSomething() (which is V2)
+    doSomething(); // wywołuje wbudowaną wersję doSomething() (która jest wersją 2)
  
     return 0;
 }</code></pre><p>Wypisuje:<pre>V1
@@ -114,47 +114,47 @@ V2
 V2
 </pre><p>W tym przykładzie wszyscy wywołujący  <code>doSomething()</code> domyślnie otrzymają wersję v2 (nowszą i lepszą wersję). Użytkownicy, którzy nadal chcą starszej wersji  <code>doSomething()</code> , mogą jawnie wywołać  <code>V1::doSomething()</code> , aby uzyskać dostęp do starego zachowania. Oznacza to, że istniejące programy, które chcą wersji V1, będą musiały globalnie zastąpić  <code>doSomething</code> z <code>V1::doSomething</code>, ale zazwyczaj nie będzie to problematyczne, jeśli funkcje będą dobrze nazwane.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Mieszanie wbudowanej i nienazwanej przestrzeni nazw <span class="cpp-section-pill cpp-section-optional">Opcjonalne</span><p>Przestrzeń nazw może być zarówno wbudowana, jak i nienazwana:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-namespace V1 // declare a normal namespace named V1
+namespace V1 // zadeklaruj normalną przestrzeń nazw o nazwie V1
 {
     void doSomething()
     {
-        std::cout &lt;&lt; &#34;V1\n&#34;;
+        std::cout &lt;&lt; "V1\n";
     }
 }
 
-inline namespace // declare an inline unnamed namespace
+inline namespace // zadeklaruj wbudowaną przestrzeń nazw bez nazwy przestrzeń nazw
 {
-    void doSomething() // has internal linkage
+    void doSomething() // ma powiązania wewnętrzne
     {
-        std::cout &lt;&lt; &#34;V2\n&#34;;
+        std::cout &lt;&lt; "V2\n";
     }
 }
 
 int main()
 {
-    V1::doSomething(); // calls the V1 version of doSomething()
-    // there is no V2 in this example, so we can&#39;t use V2:: as a namespace prefix
+    V1::doSomething(); // wywołuje wersję V1 metody doSomething()
+    // w tym przykładzie nie ma V2, więc nie możemy użyć V2:: jako przedrostka przestrzeni nazw
 
-    doSomething(); // calls the inline version of doSomething() (which is the anonymous one)
+    doSomething(); // wywołuje wbudowaną wersję doSomething() (która jest anonimowa)
 
     return 0;
 }</code></pre><p>Jednak w takich przypadkach prawdopodobnie lepiej jest zagnieździć anonimową przestrzeń nazw w wbudowanej przestrzeni nazw. Ma to ten sam efekt (wszystkie funkcje wewnątrz anonimowej przestrzeni nazw mają domyślnie wewnętrzne powiązania), ale nadal daje wyraźną nazwę przestrzeni nazw, której możesz użyć:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-namespace V1 // declare a normal namespace named V1
+namespace V1 // zadeklaruj normalną przestrzeń nazw o nazwie V1
 {
     void doSomething()
     {
-        std::cout &lt;&lt; &#34;V1\n&#34;;
+        std::cout &lt;&lt; "V1\n";
     }
 }
 
-inline namespace V2 // declare an inline namespace named V2
+inline namespace V2 // zadeklaruj wbudowaną przestrzeń nazw o nazwie V2
 {
     namespace // unnamed namespace
     {
-        void doSomething() // has internal linkage
+        void doSomething() // ma powiązania wewnętrzne
         {
-            std::cout &lt;&lt; &#34;V2\n&#34;;
+            std::cout &lt;&lt; "V2\n";
         }
 
     }
@@ -162,10 +162,10 @@ inline namespace V2 // declare an inline namespace named V2
 
 int main()
 {
-    V1::doSomething(); // calls the V1 version of doSomething()
-    V2::doSomething(); // calls the V2 version of doSomething()
+    V1::doSomething(); // wywołuje wersję V1 metody doSomething()
+    V2::doSomething(); // wywołuje wersję V2 metody doSomething()
 
-    doSomething(); // calls the inline version of doSomething() (which is V2)
+    doSomething(); // wywołuje wbudowaną wersję doSomething() (która jest wersją 2)
 
     return 0;
 }</code></pre><div class=prevnext><div class=prevnext-inline><a class=nav-link href="../chapter-7-summary-and-quiz/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>7.x</span>Rozdział 7 Podsumowanie i quiz</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../using-declarations-and-using-directives/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>7.13</span>Używanie deklaracji i używanie dyrektywy</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/unnamed-and-inline-namespaces/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../variable-shadowing-name-hiding/index.html" rel=prev><span>7.5 — Cieniowanie zmiennych (ukrywanie nazw)</span></a></div><div class=nav-next><em>Następny post</em><a href="../chapter-13-summary-and-quiz/index.html" rel=next><span>13.x — Podsumowanie i quiz rozdziału 13</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>

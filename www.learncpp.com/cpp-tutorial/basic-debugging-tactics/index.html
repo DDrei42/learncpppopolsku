@@ -15,18 +15,18 @@
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2019-02-01T11:56:56-08:00 itemprop=datePublished>1 lutego, 2019, 11:56 czasu PST</time>
 <time class=updated datetime=2024-12-30T19:55:29-08:00 itemprop=dateModified>30 grudnia 2024 r.</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>W poprzedniej lekcji omawialiśmy strategię wyszukiwania problemów poprzez uruchamianie naszych programów i domyślanie się, gdzie występuje problem. Podczas tej lekcji omówimy kilka podstawowych taktyk umożliwiających domyślanie się i zbieranie informacji pomocnych w znajdowaniu problemów.<p class=cpp-section>Taktyka debugowania nr 1: komentowanie kodu<p>Zacznijmy od łatwego. Jeśli Twój program zachowuje się błędnie, jednym ze sposobów zmniejszenia ilości kodu, który musisz przeszukiwać, jest dodanie komentarza do kodu i sprawdzenie, czy problem nadal występuje. Jeśli problem pozostaje niezmieniony, prawdopodobnie zakomentowany kod nie jest za to odpowiedzialny.<p>Rozważ następujący kod:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
-    getNames(); // ask user to enter a bunch of names
-    doMaintenance(); // do some random stuff
-    sortNames(); // sort them in alphabetical order
-    printNames(); // print the sorted list of names
+    getNames(); // poproś użytkownika o wprowadzenie kilku nazw
+    doMaintenance(); // zrób jakieś przypadkowe rzeczy
+    sortNames(); // sortowanie w kolejności alfabetycznej
+    printNames(); // wydrukuj posortowaną listę nazw
 
     return 0;
 }</code></pre><p>Powiedzmy, że ten program ma drukować nazwy wprowadzone przez użytkownika w kolejności alfabetycznej, ale drukuje je w odwrotnej kolejności alfabetycznej. Gdzie jest problem? Czy <em>getNames</em> wpisuje nazwy niepoprawnie? Czy <em>sortNames</em> sortuje je wstecz? Czy <em>printNames</em> drukuje je wstecz? Może to być dowolna z tych rzeczy. Możemy jednak podejrzewać, że funkcja doMaintenance() nie ma nic wspólnego z problemem, więc skomentujmy to.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
-    getNames(); // ask user to enter a bunch of names
+    getNames(); // poproś użytkownika o wprowadzenie kilku nazw
 //    doMaintenance(); // do some random stuff
-    sortNames(); // sort them in alphabetical order
-    printNames(); // print the sorted list of names
+    sortNames(); // sortowanie w kolejności alfabetycznej
+    printNames(); // wydrukuj posortowaną listę nazw
 
     return 0;
 }</code></pre><p>Istnieją trzy prawdopodobne wyniki:<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><ul><li>Jeśli problem zniknie, przyczyną problemu musi być  <em>doMaintenance</em>  i na tym powinniśmy skupić swoją uwagę.<li>Jeśli problem pozostaje niezmieniony (co jest bardziej prawdopodobne), to możemy rozsądnie założyć, że  <em>doMaintenance</em> nie zawinił i możemy na razie wykluczyć całą funkcję z naszych poszukiwań. Nie pomaga nam to zrozumieć, czy rzeczywisty problem występuje przed, czy po wywołaniu  <em>doMaintenance</em>, ale zmniejsza ilość kodu, który musimy później przeglądać.<li>Jeśli skomentowanie <em>doMaintenance</em>  powoduje, że problem przekształca się w inny powiązany problem (np. program przestaje drukować nazwy), to prawdopodobne jest, że <em>doMaintenance</em> robi coś pożytecznego, od czego zależny jest jakiś inny kod. W takim przypadku prawdopodobnie nie jesteśmy w stanie stwierdzić, czy problem dotyczy <em>doMaintenance</em> czy gdzie indziej, więc możemy odkomentować <em>doMaintenance</em> i spróbować innego podejścia.</ul><div class="cpp-note cpp-lightredbackground"><p class="cpp-note-title cpp-bottomline">Ostrzeżenie<p>Nie zapomnij, które funkcje skomentowałeś, aby móc je odkomentować później!<p>Po wprowadzeniu wielu zmian związanych z debugowaniem bardzo łatwo jest przegapić cofnięcie jednej lub dwóch. Jeśli tak się stanie, naprawisz jeden błąd, ale wprowadzisz inne!<p>Posiadanie dobrego systemu kontroli wersji jest tutaj niezwykle przydatne, ponieważ możesz porównać swój kod z gałęzią główną, aby zobaczyć wszystkie wprowadzone zmiany związane z debugowaniem (i upewnić się, że zostaną one cofnięte przed zatwierdzeniem zmiany).</div><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>Alternatywnym podejściem do wielokrotnego dodawania/usuwania lub odkomentowywania/komentowania instrukcji debugowania jest użycie biblioteki innej firmy, która będzie pozwalają pozostawić instrukcje debugowania w kodzie, ale skompilować je w trybie wydania za pomocą makra preprocesora. <a href=https://github.com/sharkdp/dbg-macro/blob/master/dbg.h>dbg</a> to jedna z takich bibliotek zawierających tylko nagłówek, która istnieje, aby pomóc to ułatwić (poprzez <code>DBG_MACRO_DISABLE</code> makro preprocesora).<p>Biblioteki zawierające tylko nagłówek omawiamy w lekcji <a href="../inline-functions-and-variables/index.html">7.9 -- Funkcje wbudowane i zmienne</a>.</div><p class="cpp-section cpp-topline" style=clear:both>Taktyka debugowania nr 2: Walidacja przepływu kodu<p>Kolejnym problemem powszechnym w bardziej złożonych programach jest to, że program wywołuje funkcję zbyt wiele lub zbyt mało razy (w tym wcale).<p>W takich przypadkach pomocne może być umieszczenie instrukcji na górze funkcji, aby wydrukować nazwę funkcji. Dzięki temu po uruchomieniu programu możesz zobaczyć, które funkcje są wywoływane.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>Podczas drukowania informacji w celu debugowania użyj <code>std::cerr</code> zamiast <code>std::cout</code>. Jednym z powodów jest to, że <code>std::cout</code> może być buforowany, co oznacza, że ​​może upłynąć trochę czasu pomiędzy poproszeniem  <code>std::cout</code>  o wypisanie tekstu a momentem, w którym faktycznie to nastąpi. Jeśli wysyłasz dane za pomocą  <code>std::cout</code> , a następnie program ulega awarii natychmiast po tym,  <code>std::cout</code> może jeszcze nie wykonać wyjścia. Może to wprowadzić Cię w błąd co do tego, gdzie leży problem. Z drugiej strony  <code>std::cerr</code> jest niebuforowany, co oznacza, że ​​wszystko, co do niego wyślesz, zostanie natychmiast wysłane. Pomaga to zapewnić, że wszystkie wyniki debugowania pojawią się tak szybko, jak to możliwe (kosztem pewnej wydajności, na którą zwykle nie zwracamy uwagi podczas debugowania).<p>Użycie <code>std::cerr</code> pomaga także wyjaśnić, że generowane informacje dotyczą przypadku błędu, a nie normalnego przypadku.<p>Omawiamy, kiedy używać <code>std::cout</code> vs <code>std::cerr</code> w dalszej części lekcji <a href="../712-handling-errors-assert-cerr-exit-and-exceptions/index.html">9.4 — Wykrywanie i obsługa błędów</a>.</div><p>Rozważ następujący prosty program, który nie działa poprawnie:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -57,22 +57,22 @@ std::cerr &lt;&lt; &#34;main() called\n&#34;;
     std::cout &lt;&lt; getValue &lt;&lt; &#39;\n&#39;;
 
     return 0;
-}</code></pre><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>Podczas dodawania tymczasowych instrukcji debugowania pomocne może być niewcinanie ich. Ułatwia to ich późniejsze odnalezienie i usunięcie.<p>Jeśli używasz formatu clang do sformatowania kodu, spróbuje on automatycznie dodać wcięcie w tych liniach. Możesz wyłączyć automatyczne formatowanie w ten sposób:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// clang-format off
-std::cerr &lt;&lt; &#34;main() called\n&#34;;
-// clang-format on</code></pre></div><p>Teraz, gdy te funkcje zostaną wykonane, wyświetli się ich nazwa, wskazując, że zostały wywołane:<pre>main() called
+}</code></pre><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>Podczas dodawania tymczasowych instrukcji debugowania pomocne może być niewcinanie ich. Ułatwia to ich późniejsze odnalezienie i usunięcie.<p>Jeśli używasz formatu clang do sformatowania kodu, spróbuje on automatycznie dodać wcięcie w tych liniach. Możesz wyłączyć automatyczne formatowanie w ten sposób:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// format clang wyłączony
+std::cerr &lt;&lt; "main() called\n";
+// włączony format clang</code></pre></div><p>Teraz, gdy te funkcje zostaną wykonane, wyświetli się ich nazwa, wskazując, że zostały wywołane:<pre>main() called
 1
 </pre><p>Teraz widzimy, że funkcja <em>getValue</em> nie została wywołana. Musi występować jakiś problem z kodem wywołującym funkcję. Przyjrzyjmy się bliżej tej linijce:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    std::cout &lt;&lt; getValue &lt;&lt; &#39;\n&#39;;</code></pre><p>Och, spójrz, zapomnieliśmy o nawiasie w wywołaniu funkcji. Powinno to wyglądać następująco:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 int getValue()
 {
-std::cerr &lt;&lt; &#34;getValue() called\n&#34;;
+std::cerr &lt;&lt; "getValue() called\n";
 	return 4;
 }
 
 int main()
 {
-std::cerr &lt;&lt; &#34;main() called\n&#34;;
-    std::cout &lt;&lt; getValue() &lt;&lt; &#39;\n&#39;; // added parenthesis here
+std::cerr &lt;&lt; "main() called\n";
+    std::cout &lt;&lt; getValue() &lt;&lt; '\n'; // dodano tutaj nawias
 
     return 0;
 }</code></pre><p>To teraz wygeneruje poprawny wynik<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre>main() called
@@ -271,36 +271,36 @@ The answer is: 5
 
 int add(int x, int y)
 {
-std::cerr &lt;&lt; &#34;add() called (x=&#34; &lt;&lt; x &lt;&lt; &#34;, y=&#34; &lt;&lt; y &lt;&lt; &#34;)\n&#34;;
+std::cerr &lt;&lt; "add() called (x=" &lt;&lt; x &lt;&lt; ", y=" &lt;&lt; y &lt;&lt; ")\n";
 	return x + y;
 }
 
 void printResult(int z)
 {
-std::cerr &lt;&lt; &#34;printResult() called (z=&#34; &lt;&lt; z &lt;&lt; &#34;)\n&#34;;
-	std::cout &lt;&lt; &#34;The answer is: &#34; &lt;&lt; z &lt;&lt; &#39;\n&#39;;
+std::cerr &lt;&lt; "printResult() called (z=" &lt;&lt; z &lt;&lt; ")\n";
+	std::cout &lt;&lt; "The answer is: " &lt;&lt; z &lt;&lt; '\n';
 }
 
 int getUserInput()
 {
-std::cerr &lt;&lt; &#34;getUserInput() called\n&#34;;
-	std::cout &lt;&lt; &#34;Enter a number: &#34;;
+std::cerr &lt;&lt; "getUserInput() called\n";
+	std::cout &lt;&lt; "Enter a number: ";
 	int x{};
 	std::cin &gt;&gt; x;
-std::cerr &lt;&lt; &#34;getUserInput::x = &#34; &lt;&lt; x &lt;&lt; &#39;\n&#39;; // added this additional line of debugging
+std::cerr &lt;&lt; "getUserInput::x = " &lt;&lt; x &lt;&lt; '\n'; // dodano tę dodatkową linię debugowania
 	return --x;
 }
 
 int main()
 {
-std::cerr &lt;&lt; &#34;main() called\n&#34;;
+std::cerr &lt;&lt; "main() called\n";
 	int x{ getUserInput() };
-std::cerr &lt;&lt; &#34;main::x = &#34; &lt;&lt; x &lt;&lt; &#39;\n&#39;;
+std::cerr &lt;&lt; "main::x = " &lt;&lt; x &lt;&lt; '\n';
 	int y{ getUserInput() };
-std::cerr &lt;&lt; &#34;main::y = &#34; &lt;&lt; y &lt;&lt; &#39;\n&#39;;
+std::cerr &lt;&lt; "main::y = " &lt;&lt; y &lt;&lt; '\n';
 
 	int z{ add(x, y) };
-std::cerr &lt;&lt; &#34;main::z = &#34; &lt;&lt; z &lt;&lt; &#39;\n&#39;;
+std::cerr &lt;&lt; "main::z = " &lt;&lt; z &lt;&lt; '\n';
 	printResult(z);
 
 	return 0;
@@ -317,40 +317,40 @@ add() called (x=3, y=2)
 main::z = 5
 printResult() called (z=5)
 The answer is: 5
-</pre><p>Dzięki tej dodatkowej linii debugowania możemy zobaczyć, że dane wejściowe użytkownika są poprawnie odbierane do zmiennej getUserInput <em>x</em>. A jednak w jakiś sposób zmienna main <em>x</em> otrzymuje niewłaściwą wartość. Problem musi leżeć pomiędzy tymi dwoma punktami. Jedynym winowajcą pozostaje wartość zwracana przez funkcję <em>getUserInput</em>. Przyjrzyjmy się tej linii bliżej.<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">	return --x;</code></pre><p>Hmmm, to dziwne. Co to za <code>--</code> symbol przed x? Nie omawialiśmy tego jeszcze w tych samouczkach, więc nie martw się, jeśli nie wiesz, co to znaczy. Ale nawet nie wiedząc, co to oznacza, dzięki debugowaniu możesz być całkiem pewien, że przyczyną problemu jest ta konkretna linia — a zatem prawdopodobne jest, że przyczyną problemu jest <code>--</code> symbol.<p>Ponieważ naprawdę chcemy, aby  <em>getUserInput</em> zwracała tylko wartość <em>x</em>, usuńmy the <code>--</code> i zobacz co się stanie:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+</pre><p>Dzięki tej dodatkowej linii debugowania możemy zobaczyć, że dane wejściowe użytkownika są poprawnie odbierane do zmiennej getUserInput <em>x</em>. A jednak w jakiś sposób zmienna main <em>x</em> otrzymuje niewłaściwą wartość. Problem musi leżeć pomiędzy tymi dwoma punktami. Jedynym winowajcą pozostaje wartość zwracana przez funkcję <em>getUserInput</em>. Przyjrzyjmy się tej linii bliżej.<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">	return --x;</code></pre><p>Hmmm, to dziwne. Co to za <code>--</code> symbol przed x? Nie omawialiśmy tego jeszcze w tych samouczkach, więc nie martw się, jeśli nie wiesz, co to znaczy. Ale nawet nie wiedząc, co to oznacza, dzięki debugowaniu możesz być całkiem pewien, że przyczyną problemu jest ta konkretna linia — a zatem prawdopodobne jest, że przyczyną problemu jest <code>--</code> symbol.<p>Ponieważ naprawdę chcemy, aby  <em>getUserInput</em> zwracała tylko wartość <em>x</em>, usuńmy <code>--</code> i zobacz co się stanie:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 int add(int x, int y)
 {
-std::cerr &lt;&lt; &#34;add() called (x=&#34; &lt;&lt; x &lt;&lt; &#34;, y=&#34; &lt;&lt; y &lt;&lt; &#34;)\n&#34;;
+std::cerr &lt;&lt; "add() called (x=" &lt;&lt; x &lt;&lt; ", y=" &lt;&lt; y &lt;&lt; ")\n";
 	return x + y;
 }
 
 void printResult(int z)
 {
-std::cerr &lt;&lt; &#34;printResult() called (z=&#34; &lt;&lt; z &lt;&lt; &#34;)\n&#34;;
-	std::cout &lt;&lt; &#34;The answer is: &#34; &lt;&lt; z &lt;&lt; &#39;\n&#39;;
+std::cerr &lt;&lt; "printResult() called (z=" &lt;&lt; z &lt;&lt; ")\n";
+	std::cout &lt;&lt; "The answer is: " &lt;&lt; z &lt;&lt; '\n';
 }
 
 int getUserInput()
 {
-std::cerr &lt;&lt; &#34;getUserInput() called\n&#34;;
-	std::cout &lt;&lt; &#34;Enter a number: &#34;;
+std::cerr &lt;&lt; "getUserInput() called\n";
+	std::cout &lt;&lt; "Enter a number: ";
 	int x{};
 	std::cin &gt;&gt; x;
-std::cerr &lt;&lt; &#34;getUserInput::x = &#34; &lt;&lt; x &lt;&lt; &#39;\n&#39;;
-	return x; // removed -- before x
+std::cerr &lt;&lt; "getUserInput::x = " &lt;&lt; x &lt;&lt; '\n';
+	return x; // usunięto -- przed x
 }
 
 int main()
 {
-std::cerr &lt;&lt; &#34;main() called\n&#34;;
+std::cerr &lt;&lt; "main() called\n";
 	int x{ getUserInput() };
-std::cerr &lt;&lt; &#34;main::x = &#34; &lt;&lt; x &lt;&lt; &#39;\n&#39;;
+std::cerr &lt;&lt; "main::x = " &lt;&lt; x &lt;&lt; '\n';
 	int y{ getUserInput() };
-std::cerr &lt;&lt; &#34;main::y = &#34; &lt;&lt; y &lt;&lt; &#39;\n&#39;;
+std::cerr &lt;&lt; "main::y = " &lt;&lt; y &lt;&lt; '\n';
 
 	int z{ add(x, y) };
-std::cerr &lt;&lt; &#34;main::z = &#34; &lt;&lt; z &lt;&lt; &#39;\n&#39;;
+std::cerr &lt;&lt; "main::z = " &lt;&lt; z &lt;&lt; '\n';
 	printResult(z);
 
 	return 0;

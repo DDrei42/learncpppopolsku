@@ -23,18 +23,18 @@ public:
 
 int main()
 {
-    std::cout &lt;&lt; Something::s_value; // s_value is public, we can access it directly
+    std::cout &lt;&lt; Something::s_value; // wartość_s jest publiczna, możemy uzyskać do niej bezpośredni dostęp
 }</code></pre><p>A co, jeśli statyczna zmienna składowa jest prywatna? Rozważmy następujący przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 class Something
 {
-private: // now private
+private: // teraz prywatne
     static inline int s_value { 1 };
 };
 
 int main()
 {
-    std::cout &lt;&lt; Something::s_value; // error: s_value is private and can&#39;t be accessed directly outside the class
+    std::cout &lt;&lt; Something::s_value; // błąd: wartość_s jest prywatna i nie można uzyskać do niej dostępu bezpośrednio poza klasą
 }</code></pre><p>W tym przypadku nie możemy uzyskać dostępu <code>Something::s_value</code> bezpośrednio z  <code>main()</code>, ponieważ jest to sprawa prywatna. Zwykle uzyskujemy dostęp do członków prywatnych poprzez funkcje członków publicznych. Chociaż moglibyśmy stworzyć normalną publiczną funkcję członkowską, aby uzyskać dostęp do <code>s_value</code>, musielibyśmy następnie utworzyć instancję obiektu typu klasy, aby móc korzystać z tej funkcji!<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 class Something
@@ -49,7 +49,7 @@ public:
 int main()
 {
     Something s{};
-    std::cout &lt;&lt; s.getValue(); // works, but requires us to instantiate an object to call getValue()
+    std::cout &lt;&lt; s.getValue(); // działa, ale wymaga od nas utworzenia instancji obiektu w celu wywołania metody getValue()
 }</code></pre><p>Możemy zrobić to lepiej.<p class="cpp-section cpp-topline" style=clear:both>Statyczne funkcje składowe<p>Zmienne składowe nie są jedynym typem składowej, który może być statyczny. Funkcje członkowskie mogą być również statyczne. Oto powyższy przykład z akcesorem statycznej funkcji składowej:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 class Something
@@ -58,12 +58,12 @@ private:
     static inline int s_value { 1 };
 
 public:
-    static int getValue() { return s_value; } // static member function
+    static int getValue() { return s_value; } // statyczna funkcja składowa
 };
 
 int main()
 {
-    std::cout &lt;&lt; Something::getValue() &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; Something::getValue() &lt;&lt; '\n';
 }</code></pre><p>Ponieważ statyczne funkcje składowe nie są powiązane z konkretnym obiektem, można je wywołać bezpośrednio, używając nazwy klasy i operatora rozpoznawania zakresu (np.  <code>Something::getValue()</code>). Podobnie jak statyczne zmienne składowe, można je również wywoływać poprzez obiekty typu klasy, chociaż nie jest to zalecane.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Statyczne funkcje składowe nie mają <code>this</code> wskaźnik<p>Statyczne funkcje składowe mają dwie interesujące dziwactwa, na które warto zwrócić uwagę. Po pierwsze, ponieważ statyczne funkcje składowe nie są dołączone do obiektu, nie mają <code>this</code> wskaźnika! Ma to sens, jeśli się nad tym zastanowić — wskaźnik <code>this</code> zawsze wskazuje obiekt, nad którym pracuje funkcja składowa. Statyczne funkcje składowe nie działają na obiekcie, więc <code>this</code> wskaźnik nie jest potrzebny.<p>Po drugie, statyczne funkcje składowe mogą bezpośrednio uzyskiwać dostęp do innych statycznych elementów (zmiennych lub funkcji), ale nie niestatycznych elementów. Dzieje się tak dlatego, że elementy niestatyczne muszą należeć do obiektu klasy, a statyczne funkcje składowe nie mają obiektu klasy, z którym można pracować!<p class="cpp-section cpp-topline" style=clear:both>Statyczne elementy członkowskie zdefiniowane poza definicją klasy<p>Statyczne funkcje składowe można również definiować poza deklaracją klasy. Działa to w taki sam sposób, jak w przypadku zwykłych funkcji składowych.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 class IDGenerator
@@ -72,16 +72,16 @@ private:
     static inline int s_nextID { 1 };
 
 public:
-     static int getNextID(); // Here&#39;s the declaration for a static function
+     static int getNextID(); // Oto deklaracja funkcji statycznej
 };
 
-// Here&#39;s the definition of the static function outside of the class.  Note we don&#39;t use the static keyword here.
+// Oto definicja funkcji statycznej spoza klasy. Zauważ, że nie używamy tutaj słowa kluczowego static.
 int IDGenerator::getNextID() { return s_nextID++; } 
 
 int main()
 {
     for (int count{ 0 }; count &lt; 5; ++count)
-        std::cout &lt;&lt; &#34;The next ID is: &#34; &lt;&lt; IDGenerator::getNextID() &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; "The next ID is: " &lt;&lt; IDGenerator::getNextID() &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Ten program wypisuje:<pre>The next ID is: 1
@@ -102,12 +102,12 @@ struct Chars
 
 struct MyClass
 {
-	static inline Chars s_mychars { &#39;a&#39;, &#39;e&#39;, &#39;i&#39;, &#39;o&#39;, &#39;u&#39; }; // initialize static variable at point of definition
+	static inline Chars s_mychars { 'a', 'e', 'i', 'o', 'u' }; // zainicjuj zmienną statyczną w punkcie definicji
 };
 
 int main()
 {
-    std::cout &lt;&lt; MyClass::s_mychars.third; // print i
+    std::cout &lt;&lt; MyClass::s_mychars.third; // drukuj i
 
     return 0;
 }</code></pre><p>Jeśli inicjowanie statycznej zmiennej składowej wymaga wykonania kodu (np. pętli), można to zrobić na wiele różnych, nieco niejasnych sposobów. Jednym ze sposobów, który działa ze wszystkimi zmiennymi, statycznymi lub nie, jest użycie funkcji do utworzenia obiektu, wypełnienia go danymi i zwrócenia go wywołującemu. Tę zwróconą wartość można skopiować do inicjowanego obiektu.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -126,23 +126,23 @@ class MyClass
 private:
     static Chars generate()
     {
-        Chars c{}; // create an object
-        c.first = &#39;a&#39;; // fill it with values however you like
-        c.second = &#39;e&#39;;
-        c.third = &#39;i&#39;;
-        c.fourth = &#39;o&#39;;
-        c.fifth = &#39;u&#39;;
+        Chars c{}; // utwórz obiekt
+        c.first = 'a'; // wypełnij ją dowolnie wybranymi wartościami
+        c.second = 'e';
+        c.third = 'i';
+        c.fourth = 'o';
+        c.fifth = 'u';
         
-        return c; // return the object
+        return c; // zwróć obiekt
     }
 
 public:
-	static inline Chars s_mychars { generate() }; // copy the returned object into s_mychars
+	static inline Chars s_mychars { generate() }; // skopiuj zwrócony obiekt do s_mychars
 };
 
 int main()
 {
-    std::cout &lt;&lt; MyClass::s_mychars.third; // print i
+    std::cout &lt;&lt; MyClass::s_mychars.third; // drukuj i
 
     return 0;
 }</code></pre><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Powiązana treść<p>Można do tego również użyć lambdy.</div><p>Praktyczny przykład tej metodologii pokazujemy na lekcji <a href="../global-random-numbers-random-h/index.html#RandomH">8.15 -- Globalne liczby losowe (Random.h)</a> (chociaż robimy to z przestrzenią nazw, a nie klasą statyczną, działa to w ten sam sposób)<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Czas quizu<p class=cpp-quiz-question style=clear:both>Pytanie nr 1<p>Przekonwertuj  <code>Random</code> przestrzeń nazw w poniższym przykładzie na klasę ze statyczną członkowie:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;chrono&gt;
@@ -155,7 +155,7 @@ namespace Random
 	{
 		std::random_device rd{};
 
-		// Create seed_seq with high-res clock and 7 random numbers from std::random_device
+		// Utwórz seed_seq z zegarem o wysokiej rozdzielczości i 7 losowymi liczbami ze std::random_device
 		std::seed_seq ss{
 			static_cast&lt;std::seed_seq::result_type&gt;(std::chrono::steady_clock::now().time_since_epoch().count()),
 				rd(), rd(), rd(), rd(), rd(), rd(), rd() };
@@ -163,9 +163,9 @@ namespace Random
 		return std::mt19937{ ss };
 	}
 
-	inline std::mt19937 mt{ generate() }; // generates a seeded std::mt19937 and copies it into our global object
+	inline std::mt19937 mt{ generate() }; // zarazi się std::mt19937 i kopiuje go do naszego obiektu globalnego
 
-	// Generate a random int between [min, max] (inclusive)
+	// Wygeneruj losową wartość int pomiędzy [min, max] (włącznie)
 	inline int get(int min, int max)
 	{
 		return std::uniform_int_distribution{min, max}(mt);
@@ -174,11 +174,11 @@ namespace Random
 
 int main()
 {
-	// Print a bunch of random numbers
+	// Wydrukuj kilka losowych liczb
 	for (int count{ 1 }; count &lt;= 10; ++count)
-		std::cout &lt;&lt; Random::get(1, 6) &lt;&lt; &#39;\t&#39;;
+		std::cout &lt;&lt; Random::get(1, 6) &lt;&lt; '\t';
 
-	std::cout &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; '\n';
 
 	return 0;
 }</code></pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_0 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;chrono&gt;
@@ -187,12 +187,12 @@ int main()
 
 class Random
 {
-private: // could be public if we want these to be accessible
+private: // może być publiczne, jeśli chcemy, aby były dostępne
 	static std::mt19937 generate()
 	{
 		std::random_device rd{};
 
-		// Create seed_seq with high-res clock and 7 random numbers from std::random_device
+		// Utwórz seed_seq z zegarem o wysokiej rozdzielczości i 7 losowymi liczbami ze std::random_device
 		std::seed_seq ss{
 			static_cast&lt;std::seed_seq::result_type&gt;(std::chrono::steady_clock::now().time_since_epoch().count()),
 				rd(), rd(), rd(), rd(), rd(), rd(), rd() };
@@ -200,10 +200,10 @@ private: // could be public if we want these to be accessible
 		return std::mt19937{ ss };
 	}
 
-	static inline std::mt19937 mt{ generate() }; // generates a seeded std::mt19937 and copies it into our global object
+	static inline std::mt19937 mt{ generate() }; // zarazi się std::mt19937 i kopiuje go do naszego obiektu globalnego
 
 public:
-	// Generate a random int between [min, max] (inclusive)
+	// Wygeneruj losową wartość int pomiędzy [min, max] (włącznie)
 	static int get(int min, int max)
 	{
 		return std::uniform_int_distribution{min, max}(mt);
@@ -212,11 +212,11 @@ public:
 
 int main()
 {
-	// Print a bunch of random numbers
+	// Wydrukuj kilka losowych liczb
 	for (int count{ 1 }; count &lt;= 10; ++count)
-		std::cout &lt;&lt; Random::get(1, 6) &lt;&lt; &#39;\t&#39;;
+		std::cout &lt;&lt; Random::get(1, 6) &lt;&lt; '\t';
 
-	std::cout &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; '\n';
 
 	return 0;
 }</code></pre><p>Każdy obiekt zadeklarowany w przestrzeni nazw jest zmienną globalną. Kiedy deklarujemy <code>inline std::mt19937 mt</code> w przestrzeni nazw, deklarujemy <code>mt</code> jako wbudowaną zmienną globalną. Dzięki temu cały program może używać pojedynczej instancji <code>std::mt19937</code> (poprzez zmienną globalną <code>mt</code>).<p>Z drugiej strony, gdy tworzona jest instancja obiektu klasy, ten obiekt klasy zawiera kopię każdego niestatycznego składowego danych. Nie chcemy, aby każdy obiekt klasy miał własną kopię <code>std::mt19937</code>. Dlatego deklarujemy <code>static inline std::mt19937 mt</code>, który informuje kompilator, że pojedyncza instancja of <code>std::mt19937</code> powinien istnieć jako część klasy <code>Random</code> . Zdefiniowanie <code>mt</code> jak <code>static inline</code>  czyni z niej zmienną wbudowaną, co pozwala nam zainicjować ją w definicji klasy (omówiliśmy ten punkt w lekcji <a href="../static-member-variables/index.html">15.6 -- Statyczne zmienne składowe</a>).<p>Tworzymy również funkcje składowe <code>static</code> , aby można było uzyskać do nich dostęp bez tworzenia instancji <code>Random</code> obiektem.</div><div class=prevnext><div class=prevnext-inline><a class=nav-link href="../friend-non-member-functions/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>15.8</span>Przyjazne funkcje niebędące członkami</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../static-member-variables/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>15.6</span>Statyczne zmienne składowe</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/static-member-functions/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../static-member-variables/index.html" rel=prev><span>15.6 -- Statyczne zmienne składowe</span></a></div><div class=nav-next><em>Następny post</em><a href="../friend-non-member-functions/index.html" rel=next><span>15.8 -- Funkcje niebędące członkami znajomych</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>

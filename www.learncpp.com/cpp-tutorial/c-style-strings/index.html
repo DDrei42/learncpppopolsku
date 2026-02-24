@@ -13,20 +13,20 @@
 <button class=searchsubmit><span class=screen-reader-text>Szukaj</span><i class=icon-search></i></button>
 <input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=1289></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="17.10 — ciągi znaków w stylu C" src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-86 class="post-86 post type-post status-publish format-standard hentry category-cpp-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>17.10 — ciągi znaków w stylu C</h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Autor></i><a class="url fn n" rel=author href=/www.learncpp.com/author/Alex/ title="Wyświetl wszystkie posty Alexa" itemprop=url><em itemprop=name>Alex</em></a></span>
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2007-07-09T16:35:54-07:00 itemprop=datePublished>9 lipca 2007, 16:35 czasu PDT</time>
-<time class=updated datetime=2024-05-25T16:20:02-07:00 itemprop=dateModified>25 maja 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>W lekcji <a href="../introduction-to-c-style-arrays/index.html">17.7 -- Wprowadzenie do tablic w stylu C</a> wprowadziliśmy tablice w stylu C, które pozwalają nam zdefiniować sekwencyjny zbiór elementów:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    int testScore[30] {}; // an array of 30 ints, indices 0 through 29</code></pre><p>W lekcji <a href="../literals/index.html">5.2 -- Literały</a> zdefiniowaliśmy ciąg jako zbiór kolejnych znaków (takich jak „Witaj, świecie!”) i wprowadziliśmy literały łańcuchowe w stylu C. Zauważyliśmy również, że literał łańcuchowy w stylu C „Hello, world!” ma typ <code>const char[14]</code> (13 jawnych znaków plus 1 ukryty znak zakończenia zerowego).<p>Jeśli wcześniej nie połączyłeś kropek, powinno być teraz oczywiste, że ciągi znaków w stylu C są po prostu tablicami w stylu C, których typ elementu to <code>char</code> lub <code>const char</code>!<p>Chociaż literały ciągów w stylu C można używać w naszym kodzie, obiekty łańcuchowe w stylu C wypadły z łask we współczesnych czasach C++, ponieważ są trudne w użyciu i niebezpieczne ( <code>std::string</code> i <code>std::string_view</code> będą nowoczesnymi zamiennikami). Niezależnie od tego, w starszym kodzie nadal możesz natknąć się na zastosowania obiektów łańcuchowych w stylu C, a my nie omówiliśmy ich w ogóle.<p>Dlatego w tej lekcji przyjrzymy się najważniejszym punktom dotyczącym obiektów łańcuchowych w stylu C we współczesnym C++.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Definiowanie ciągów w stylu C<p>Aby zdefiniować zmienną łańcuchową w stylu C, po prostu zadeklaruj zmienną tablicową w stylu C of <code>char</code> (lub <code>const char</code> / <code>constexpr char</code>):<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">char str1[8]{};                    // an array of 8 char, indices 0 through 7
+<time class=updated datetime=2024-05-25T16:20:02-07:00 itemprop=dateModified>25 maja 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>W lekcji <a href="../introduction-to-c-style-arrays/index.html">17.7 -- Wprowadzenie do tablic w stylu C</a> wprowadziliśmy tablice w stylu C, które pozwalają nam zdefiniować sekwencyjny zbiór elementów:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    int testScore[30] {}; // tablica 30 intów, indeksy od 0 do 29</code></pre><p>W lekcji <a href="../literals/index.html">5.2 -- Literały</a> zdefiniowaliśmy ciąg jako zbiór kolejnych znaków (takich jak „Witaj, świecie!”) i wprowadziliśmy literały łańcuchowe w stylu C. Zauważyliśmy również, że literał łańcuchowy w stylu C „Hello, world!” ma typ <code>const char[14]</code> (13 jawnych znaków plus 1 ukryty znak zakończenia zerowego).<p>Jeśli wcześniej nie połączyłeś kropek, powinno być teraz oczywiste, że ciągi znaków w stylu C są po prostu tablicami w stylu C, których typ elementu to <code>char</code> lub <code>const char</code>!<p>Chociaż literały ciągów w stylu C można używać w naszym kodzie, obiekty łańcuchowe w stylu C wypadły z łask we współczesnych czasach C++, ponieważ są trudne w użyciu i niebezpieczne ( <code>std::string</code> i <code>std::string_view</code> będą nowoczesnymi zamiennikami). Niezależnie od tego, w starszym kodzie nadal możesz natknąć się na zastosowania obiektów łańcuchowych w stylu C, a my nie omówiliśmy ich w ogóle.<p>Dlatego w tej lekcji przyjrzymy się najważniejszym punktom dotyczącym obiektów łańcuchowych w stylu C we współczesnym C++.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Definiowanie ciągów w stylu C<p>Aby zdefiniować zmienną łańcuchową w stylu C, po prostu zadeklaruj zmienną tablicową w stylu C of <code>char</code> (lub <code>const char</code> / <code>constexpr char</code>):<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">char str1[8]{};                    // tablica 8 znaków, indeksy od 0 do 7
 
-const char str2[]{ &#34;string&#34; };     // an array of 7 char, indices 0 through 6
-constexpr char str3[] { &#34;hello&#34; }; // an array of 6 const char, indices 0 through 5</code></pre><p>Pamiętaj, że potrzebujemy dodatkowego znaku dla niejawnego terminatora zerowego.<p>Definiując ciągi w stylu C za pomocą inicjatora, zdecydowanie zalecamy pominięcie długości tablicy i pozostawienie kompilatorowi obliczenia długości. Dzięki temu, jeśli inicjator zmieni się w przyszłości, nie będziesz musiał pamiętać o aktualizowaniu długości i nie ma ryzyka, że zapomnisz o dołączeniu dodatkowego elementu do przechowywania terminator zerowy.<p class="cpp-section cpp-topline" style=clear:both>Ciągi w stylu C będą zanikać<p>W lekcji <a href="../c-style-array-decay/index.html">17.8 -- Zanikanie tablicy w stylu C</a> omówiliśmy, jak tablice w stylu C będą w większości przypadków rozpadać się na wskaźnik. Ponieważ ciągi w stylu C są tablicami w stylu C, ulegną rozpadowi -- Litery ciągu w stylu C rozpadają się na a <code>const char*</code>, oraz Tablice ciągów w stylu C rozpadają się na a <code>const char*</code> lub <code>char*</code> w zależności od tego, czy tablica jest stała. A kiedy ciąg w stylu C rozpada się na wskaźnik, długość ciągu (zakodowana w informacjach o typie) zostaje utracona.<p>Ta informacja o utracie długości jest powodem, dla którego ciągi w stylu C mają terminator zerowy. Długość łańcucha może być (nieefektywnie) regenerowana przez zliczanie liczba elementów pomiędzy początkiem łańcucha a terminatorem zerowym.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Wyprowadzanie ciągu w stylu C<p>Podczas wysyłania ciągu w stylu C, <code>std::cout</code> wyprowadza znaki aż do napotkania terminatora zerowego. Ten terminator zerowy oznacza koniec ciągu, tak że zepsute ciągi (które utraciły informację o długości) nadal mogą być drukowane.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+const char str2[]{ "string" };     // tablica 7 znaków, indeksy od 0 do 6
+constexpr char str3[] { "hello" }; // tablica 6 znaków const, indeksy od 0 do 5</code></pre><p>Pamiętaj, że potrzebujemy dodatkowego znaku dla niejawnego terminatora zerowego.<p>Definiując ciągi w stylu C za pomocą inicjatora, zdecydowanie zalecamy pominięcie długości tablicy i pozostawienie kompilatorowi obliczenia długości. Dzięki temu, jeśli inicjator zmieni się w przyszłości, nie będziesz musiał pamiętać o aktualizowaniu długości i nie ma ryzyka, że zapomnisz o dołączeniu dodatkowego elementu do przechowywania terminator zerowy.<p class="cpp-section cpp-topline" style=clear:both>Ciągi w stylu C będą zanikać<p>W lekcji <a href="../c-style-array-decay/index.html">17.8 -- Zanikanie tablicy w stylu C</a> omówiliśmy, jak tablice w stylu C będą w większości przypadków rozpadać się na wskaźnik. Ponieważ ciągi w stylu C są tablicami w stylu C, ulegną rozpadowi -- Litery ciągu w stylu C rozpadają się na <code>const char*</code>, oraz Tablice ciągów w stylu C rozpadają się na <code>const char*</code> lub <code>char*</code> w zależności od tego, czy tablica jest stała. A kiedy ciąg w stylu C rozpada się na wskaźnik, długość ciągu (zakodowana w informacjach o typie) zostaje utracona.<p>Ta informacja o utracie długości jest powodem, dla którego ciągi w stylu C mają terminator zerowy. Długość łańcucha może być (nieefektywnie) regenerowana przez zliczanie liczba elementów pomiędzy początkiem łańcucha a terminatorem zerowym.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Wyprowadzanie ciągu w stylu C<p>Podczas wysyłania ciągu w stylu C, <code>std::cout</code> wyprowadza znaki aż do napotkania terminatora zerowego. Ten terminator zerowy oznacza koniec ciągu, tak że zepsute ciągi (które utraciły informację o długości) nadal mogą być drukowane.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 void print(char ptr[])
 {
-    std::cout &lt;&lt; ptr &lt;&lt; &#39;\n&#39;; // output string
+    std::cout &lt;&lt; ptr &lt;&lt; '\n'; // ciąg wyjściowy
 }
 
 int main()
 {
-    char str[]{ &#34;string&#34; };
-    std::cout &lt;&lt; str &lt;&lt; &#39;\n&#39;; // outputs string
+    char str[]{ "string" };
+    std::cout &lt;&lt; str &lt;&lt; '\n'; // ciąg wyjściowy
 
     print(str);
 
@@ -35,25 +35,25 @@ int main()
 
 int main()
 {
-    char rolls[255] {}; // declare array large enough to hold 254 characters + null terminator
-    std::cout &lt;&lt; &#34;Enter your rolls: &#34;;
+    char rolls[255] {}; // zadeklaruj tablicę wystarczająco dużą, aby pomieścić 254 znaki + null terminator
+    std::cout &lt;&lt; "Enter your rolls: ";
     std::cin &gt;&gt; rolls;
-    std::cout &lt;&lt; &#34;You entered: &#34; &lt;&lt; rolls &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "You entered: " &lt;&lt; rolls &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Przed C++20 <code>std::cin >> rolls</code> wyodrębnialiśmy jak najwięcej znaków do <code>rolls</code> (zatrzymując się na pierwszym niewiodącym białym znaku). Nic nie stoi na przeszkodzie, aby użytkownik wprowadził więcej niż 254 znaki (nieumyślnie lub złośliwie). Jeśli tak się stanie, dane wejściowe użytkownika przepełnią <code>rolls</code> tablicę, co spowoduje niezdefiniowane zachowanie.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p><strong>Przepełnienie tablicy</strong> lub <strong>przepełnienie bufora</strong> to problem związany z bezpieczeństwem komputera, który występuje, gdy do pamięci masowej kopiuje się więcej danych, niż może ona pomieścić. W takich przypadkach pamięć znajdująca się tuż za pamięcią zostanie nadpisana, co prowadzi do niezdefiniowanego zachowania. Złośliwi aktorzy mogą potencjalnie wykorzystać takie wady do nadpisania zawartości pamięci, mając nadzieję na zmianę zachowania programu w jakiś korzystny sposób.</div><p>W C++20 <code>operator>></code> zostało to zmienione tak, że działa tylko przy wprowadzaniu niezniszczonych ciągów w stylu C. Pozwala to <code>operator>></code> wyodrębnić tylko tyle znaków, na ile pozwala długość łańcucha w stylu C, zapobiegając przepełnieniu. Ale oznacza to również, że nie można już używać <code>operator>></code> do wprowadzania danych do zniszczonych ciągów w stylu C.<p>Zalecany sposób czytania ciągów w stylu C przy użyciu <code>std::cin</code> jest następujący:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
-#include &lt;iterator&gt; // for std::size
+#include &lt;iterator&gt; // dla std::size
 
 int main()
 {
-    char rolls[255] {}; // declare array large enough to hold 254 characters + null terminator
-    std::cout &lt;&lt; &#34;Enter your rolls: &#34;;
+    char rolls[255] {}; // zadeklaruj tablicę wystarczająco dużą, aby pomieścić 254 znaki + null terminator
+    std::cout &lt;&lt; "Enter your rolls: ";
     std::cin.getline(rolls, std::size(rolls));
-    std::cout &lt;&lt; &#34;You entered: &#34; &lt;&lt; rolls &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "You entered: " &lt;&lt; rolls &lt;&lt; '\n';
 
     return 0;
-}</code></pre><p>To wywołanie  <code>cin.getline()</code>  wczyta do  <code>rolls</code> do 254 znaków (łącznie ze spacjami). Wszelkie nadmiarowe znaki zostaną odrzucone. Ponieważ <code>getline()</code> zajmuje dużo czasu, możemy podać maksymalną liczbę akceptowanych znaków. W przypadku tablicy, która nie uległa rozkładowi, jest to łatwe — możemy użyć  <code>std::size()</code> , aby uzyskać długość tablicy. W przypadku tablicy z rozkładem musimy określić długość w inny sposób. A jeśli podamy niewłaściwą długość, nasz program może działać nieprawidłowo lub mieć problemy z bezpieczeństwem.<p>We współczesnym C++, podczas przechowywania tekstu wprowadzonego przez użytkownika, bezpieczniej jest używać <code>std::string</code>, ponieważ <code>std::string</code> dostosuje się automatycznie tak, aby pomieścić tyle znaków, ile potrzeba.<p class="cpp-section cpp-topline" style=clear:both>Modyfikowanie ciągów w stylu C<p>Warto zauważyć, że po ciągach w stylu C te same zasady, co tablice w stylu C. Oznacza to, że możesz zainicjować ciąg podczas tworzenia, ale nie możesz później przypisać do niego wartości za pomocą operatora przypisania!<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">char str[]{ &#34;string&#34; }; // ok
-str = &#34;rope&#34;;           // not ok!</code></pre><p>To sprawia, że używanie ciągów w stylu C jest nieco niewygodne.<p>Ponieważ ciągi w stylu C są tablicami, możesz użyć operatora [], aby zmienić poszczególne znaki w ciągu:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+}</code></pre><p>To wywołanie  <code>cin.getline()</code>  wczyta do  <code>rolls</code> do 254 znaków (łącznie ze spacjami). Wszelkie nadmiarowe znaki zostaną odrzucone. Ponieważ <code>getline()</code> zajmuje dużo czasu, możemy podać maksymalną liczbę akceptowanych znaków. W przypadku tablicy, która nie uległa rozkładowi, jest to łatwe — możemy użyć  <code>std::size()</code> , aby uzyskać długość tablicy. W przypadku tablicy z rozkładem musimy określić długość w inny sposób. A jeśli podamy niewłaściwą długość, nasz program może działać nieprawidłowo lub mieć problemy z bezpieczeństwem.<p>We współczesnym C++, podczas przechowywania tekstu wprowadzonego przez użytkownika, bezpieczniej jest używać <code>std::string</code>, ponieważ <code>std::string</code> dostosuje się automatycznie tak, aby pomieścić tyle znaków, ile potrzeba.<p class="cpp-section cpp-topline" style=clear:both>Modyfikowanie ciągów w stylu C<p>Warto zauważyć, że po ciągach w stylu C te same zasady, co tablice w stylu C. Oznacza to, że możesz zainicjować ciąg podczas tworzenia, ale nie możesz później przypisać do niego wartości za pomocą operatora przypisania!<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">char str[]{ "string" }; // ok
+str = "rope";           // nie ok!</code></pre><p>To sprawia, że używanie ciągów w stylu C jest nieco niewygodne.<p>Ponieważ ciągi w stylu C są tablicami, możesz użyć operatora [], aby zmienić poszczególne znaki w ciągu:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 int main()
 {
@@ -69,63 +69,63 @@ spring
 
 int main()
 {
-    char str[255]{ &#34;string&#34; }; // 6 characters + null terminator
-    std::cout &lt;&lt; &#34;length = &#34; &lt;&lt; std::size(str) &lt;&lt; &#39;\n&#39;; // prints length = 255
+    char str[255]{ "string" }; // 6 znaków + terminator zerowy
+    std::cout &lt;&lt; "length = " &lt;&lt; std::size(str) &lt;&lt; '\n'; // prints length = 255
 
     char *ptr { str };
-    std::cout &lt;&lt; &#34;length = &#34; &lt;&lt; std::size(ptr) &lt;&lt; &#39;\n&#39;; // compile error
+    std::cout &lt;&lt; "length = " &lt;&lt; std::size(ptr) &lt;&lt; '\n'; // compile error
 
     return 0;
-}</code></pre><p>Alternatywne rozwiązanie polega na użyciu funkcji <code>strlen()</code> , która znajduje się w nagłówku <code>&lt;cstring></code> . <code>strlen()</code> będzie działać na uszkodzonych tablicach, i zwraca długość przechowywanego łańcucha, z wyłączeniem terminatora zerowego:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cstring&gt; // for std::strlen
+}</code></pre><p>Alternatywne rozwiązanie polega na użyciu funkcji <code>strlen()</code> , która znajduje się w nagłówku <code>&lt;cstring></code> . <code>strlen()</code> będzie działać na uszkodzonych tablicach, i zwraca długość przechowywanego łańcucha, z wyłączeniem terminatora zerowego:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cstring&gt; // dla std::strlen
 #include &lt;iostream&gt;
 
 int main()
 {
-    char str[255]{ &#34;string&#34; }; // 6 characters + null terminator
-    std::cout &lt;&lt; &#34;length = &#34; &lt;&lt; std::strlen(str) &lt;&lt; &#39;\n&#39;; // prints length = 6
+    char str[255]{ "string" }; // 6 znaków + terminator zerowy
+    std::cout &lt;&lt; "length = " &lt;&lt; std::strlen(str) &lt;&lt; '\n'; // prints length = 6
 
     char *ptr { str };
-    std::cout &lt;&lt; &#34;length = &#34; &lt;&lt; std::strlen(ptr) &lt;&lt; &#39;\n&#39;;   // prints length = 6
+    std::cout &lt;&lt; "length = " &lt;&lt; std::strlen(ptr) &lt;&lt; '\n';   // prints length = 6
 
     return 0;
 }</code></pre><p>Jednak <code>std::strlen()</code> jest powolny, ponieważ musi przejść przez całą tablicę, zliczając znaki, aż trafi na terminator zerowy.<p class="cpp-section cpp-topline" style=clear:both>Inne funkcje manipulacji ciągami w stylu C<p>Ponieważ ciągi w stylu C są podstawowym typem ciągów w C, język C zapewnia wiele funkcji dla manipulowanie ciągami znaków w stylu C. Funkcje te zostały odziedziczone przez C++ jako część nagłówka <code>&lt;cstring></code> .<p>Oto kilka najbardziej przydatnych funkcji, które możesz zobaczyć w starszym kodzie:<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><ul><li>strlen() -- zwraca długość łańcucha w stylu C<li>strcpy(), strncpy(), strcpy_s() -- zastępuje jeden ciąg w stylu C inny<li>strcat(), strncat() -- Dołącza jeden ciąg w stylu C na koniec innego<li>strcmp(), strncmp() -- Porównuje dwa ciągi w stylu C (zwraca <code>0</code> jeśli jest równy)</ul><p>Z wyjątkiem <code>strlen()</code>, generalnie zalecamy ich unikanie.<p class="cpp-section cpp-topline" style=clear:both>Unikaj niestałych obiektów łańcuchowych w stylu C<p>Jeśli nie masz konkretnego, ważnego powodu, aby używać niestałych ciągów w stylu C, najlepiej ich unikać, ponieważ są niewygodne w obsłudze i są podatne na przekroczenia, co powoduje niezdefiniowane zachowanie (i stanowią potencjalne bezpieczeństwo <p>W rzadkich przypadkach, gdy musisz pracować z ciągami w stylu C lub stałymi rozmiarami buforów (np. w przypadku urządzeń o ograniczonej pamięci), zalecamy użycie dobrze przetestowanej biblioteki ciągów o stałej długości innej firmy, zaprojektowanej do tego celu.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Unikaj niestałych obiektów łańcuchowych w stylu C na korzyść <code>std::string</code>.</div><p class="cpp-section cpp-topline" style=clear:both>Czas quizu<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><p class=cpp-quiz-question style=clear:both>Pytanie nr 1<p>Napisz funkcję, która drukuje ciąg znaków w stylu C znak po znaku. Użyj wskaźnika i arytmetyki wskaźników, aby przejść przez każdy znak ciągu i wydrukować ten znak. Napisz <code>main</code> funkcję testującą funkcję za pomocą literału łańcuchowego „Hello, world!”.<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_0 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-// str will point to the first letter of the C-style string.
-// Note that str points to a const char, so we can not change the values it points to.
-// However, we can point str at something else.  This does not change the value of the argument.
+// str wskaże pierwszą literę ciągu w stylu C.
+// Zauważ, że str wskazuje na stały znak, więc nie możemy zmienić wartości na to wskazuje.
+// Możemy jednak wskazać str na coś innego. Nie zmienia to wartości argumentu.
 void printCString(const char str[])
 {
-    // While we haven&#39;t encountered a null terminator
-    while (*str != &#39;\0&#39;)
+    // Chociaż nie napotkaliśmy terminatora zerowego
+    while (*str != '\0')
     {
-        // print the current character
+        // wydrukuj bieżący znak
         std::cout &lt;&lt; *str;
 
-        // and use pointer arithmetic to move str to the next character
+        // i użyj arytmetyki wskaźników, aby przenieść str do następnej znak
         ++str;
     }
 }
 
 int main()
 {
-    printCString(&#34;Hello world!&#34;);
+    printCString("Hello world!");
 
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
 
     return 0;
 }</code></pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>Pytanie nr 2<p>Powtórz quiz nr 1, ale tym razem funkcja powinna wyświetlić ciąg znaków od tyłu.<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_1 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 void printCStringBackwards(const char str[])
 {
-    // We can&#39;t modify str this time (we need it later)
-    // So we&#39;ll define a new pointer with the same address as str
+    // Tym razem nie możemy zmodyfikować str (potrzebujemy tego później)
+    // Zdefiniujemy więc nowy wskaźnik z tym samym adresem co str
     const char *ptr{ str };
 
-    // Find the null terminator
-    while (*ptr != &#39;\0&#39;)
+    // Znajdź terminator zerowy
+    while (*ptr != '\0')
         ++ptr;
 
-    // Now walk backwards and print characters until ptr reaches str again
+    // Teraz chodź wstecz i drukuj znaki, aż ptr ponownie osiągnie str
     while (ptr-- != str)
     {
         std::cout &lt;&lt; *ptr;
@@ -134,9 +134,9 @@ void printCStringBackwards(const char str[])
 
 int main()
 {
-    printCStringBackwards(&#34;Hello world!&#34;);
+    printCStringBackwards("Hello world!");
 
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
 
     return 0;
 }</code></pre></div><div class=prevnext><div class=prevnext-inline><a class=nav-link href="../c-style-string-symbolic-constants/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>17.11</span>Stałe symboliczne ciągu w stylu C</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../pointer-arithmetic-and-subscripting/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>17.9</span>Arytmetyka wskaźników i indeksowanie dolne</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/c-style-strings/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href=/www.learncpp.com/gaming/an-early-review-of-fury/ rel=prev><span>Wczesna recenzja wersji beta nadchodzącej gry PvP online Fury</span></a></div><div class=nav-next><em>Następny post</em><a href=/www.learncpp.com/general-programming/a-php-script-to-unzip-files-with-file-overwriting/ rel=next><span>Skrypt PHP do rozpakowywania plików z nadpisywaniem plików</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>

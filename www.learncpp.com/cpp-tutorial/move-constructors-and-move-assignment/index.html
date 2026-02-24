@@ -30,26 +30,26 @@ public:
 		delete m_ptr;
 	}
 
-	// Copy constructor
-	// Do deep copy of a.m_ptr to m_ptr
+	// Kopiuj konstruktor
+	// Wykonaj głęboką kopię a.m_ptr do m_ptr
 	Auto_ptr3(const Auto_ptr3&amp; a)
 	{
 		m_ptr = new T;
 		*m_ptr = *a.m_ptr;
 	}
 
-	// Copy assignment
-	// Do deep copy of a.m_ptr to m_ptr
+	// Kopiuj przypisanie
+	// Wykonaj głęboką kopię a.m_ptr do m_ptr
 	Auto_ptr3&amp; operator=(const Auto_ptr3&amp; a)
 	{
-		// Self-assignment detection
+		// Wykrywanie samodzielnego przypisania
 		if (&amp;a == this)
 			return *this;
 
-		// Release any resource we&#39;re holding
+		// Zwolnij wszystkie posiadane zasoby
 		delete m_ptr;
 
-		// Copy the resource
+		// Kopiuj zasób
 		m_ptr = new T;
 		*m_ptr = *a.m_ptr;
 
@@ -64,20 +64,20 @@ public:
 class Resource
 {
 public:
-	Resource() { std::cout &lt;&lt; &#34;Resource acquired\n&#34;; }
-	~Resource() { std::cout &lt;&lt; &#34;Resource destroyed\n&#34;; }
+	Resource() { std::cout &lt;&lt; "Resource acquired\n"; }
+	~Resource() { std::cout &lt;&lt; "Resource destroyed\n"; }
 };
 
 Auto_ptr3&lt;Resource&gt; generateResource()
 {
 	Auto_ptr3&lt;Resource&gt; res{new Resource};
-	return res; // this return value will invoke the copy constructor
+	return res; // ta wartość zwracana wywoła konstruktor kopiujący
 }
 
 int main()
 {
 	Auto_ptr3&lt;Resource&gt; mainres;
-	mainres = generateResource(); // this assignment will invoke the copy assignment
+	mainres = generateResource(); // to przypisanie wywoła kopię przypisanie
 
 	return 0;
 }</code></pre><p>W tym programie używamy funkcji o nazwie generateResource() do tworzenia zasobu zawartego w inteligentnym wskaźniku, który jest następnie przekazywany z powrotem do funkcji main(). Funkcja main() następnie przypisuje to do istniejącego obiektu Auto_ptr3.<p>Po uruchomieniu tego programu wypisuje:<pre>Resource acquired
@@ -103,8 +103,8 @@ public:
 		delete m_ptr;
 	}
 
-	// Copy constructor
-	// Do deep copy of a.m_ptr to m_ptr
+	// Kopiuj konstruktor
+	// Wykonaj głęboką kopię a.m_ptr do m_ptr
 	Auto_ptr4(const Auto_ptr4&amp; a)
 	{
 		m_ptr = new T;
@@ -112,25 +112,25 @@ public:
 	}
 
 	// Move constructor
-	// Transfer ownership of a.m_ptr to m_ptr
+	// Przenieś własność a.m_ptr na m_ptr
 	Auto_ptr4(Auto_ptr4&amp;&amp; a) noexcept
 		: m_ptr { a.m_ptr }
 	{
-		a.m_ptr = nullptr; // we&#39;ll talk more about this line below
+		a.m_ptr = nullptr; // więcej o tej linii porozmawiamy poniżej
 	}
 
-	// Copy assignment
-	// Do deep copy of a.m_ptr to m_ptr
+	// Kopiuj przypisanie
+	// Wykonaj głęboką kopię a.m_ptr do m_ptr
 	Auto_ptr4&amp; operator=(const Auto_ptr4&amp; a)
 	{
-		// Self-assignment detection
+		// Wykrywanie samodzielnego przypisania
 		if (&amp;a == this)
 			return *this;
 
-		// Release any resource we&#39;re holding
+		// Zwolnij wszystkie posiadane zasoby
 		delete m_ptr;
 
-		// Copy the resource
+		// Kopiuj zasób
 		m_ptr = new T;
 		*m_ptr = *a.m_ptr;
 
@@ -138,19 +138,19 @@ public:
 	}
 
 	// Move assignment
-	// Transfer ownership of a.m_ptr to m_ptr
+	// Przenieś własność a.m_ptr na m_ptr
 	Auto_ptr4&amp; operator=(Auto_ptr4&amp;&amp; a) noexcept
 	{
-		// Self-assignment detection
+		// Wykrywanie samodzielnego przypisania
 		if (&amp;a == this)
 			return *this;
 
-		// Release any resource we&#39;re holding
+		// Zwolnij wszystkie posiadane zasoby
 		delete m_ptr;
 
-		// Transfer ownership of a.m_ptr to m_ptr
+		// Przenieś własność a.m_ptr na m_ptr
 		m_ptr = a.m_ptr;
-		a.m_ptr = nullptr; // we&#39;ll talk more about this line below
+		a.m_ptr = nullptr; // więcej o tej linii porozmawiamy poniżej
 
 		return *this;
 	}
@@ -163,25 +163,25 @@ public:
 class Resource
 {
 public:
-	Resource() { std::cout &lt;&lt; &#34;Resource acquired\n&#34;; }
-	~Resource() { std::cout &lt;&lt; &#34;Resource destroyed\n&#34;; }
+	Resource() { std::cout &lt;&lt; "Resource acquired\n"; }
+	~Resource() { std::cout &lt;&lt; "Resource destroyed\n"; }
 };
 
 Auto_ptr4&lt;Resource&gt; generateResource()
 {
 	Auto_ptr4&lt;Resource&gt; res{new Resource};
-	return res; // this return value will invoke the move constructor
+	return res; // ta wartość zwracana wywoła przeniesienie konstruktor
 }
 
 int main()
 {
 	Auto_ptr4&lt;Resource&gt; mainres;
-	mainres = generateResource(); // this assignment will invoke the move assignment
+	mainres = generateResource(); // to przypisanie wywoła przypisanie ruchu
 
 	return 0;
 }</code></pre><p>Konstruktor przenoszenia i operator przypisania przenoszenia są proste. Zamiast głęboko kopiować obiekt źródłowy (<code>a</code>) do obiektu docelowego (obiekt ukryty), po prostu przenosimy (kradniemy) zasoby obiektu źródłowego. Wiąże się to z płytkim skopiowaniem wskaźnika źródła do ukrytego obiektu, a następnie ustawieniem wskaźnika źródła na wartość null.<p>Po uruchomieniu ten program wypisuje:<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><pre>Resource acquired
 Resource destroyed
-</pre><p>Tak jest znacznie lepiej!<p>Przebieg programu jest dokładnie taki sam jak poprzednio. Jednak zamiast wywoływać konstruktor kopiujący i operatory przypisania kopiowania, program ten wywołuje konstruktor przenoszenia i operatory przypisania przenoszenia. Patrząc nieco głębiej:<ol start=1><li>W środku generateResource() tworzona jest zmienna lokalna res, która jest inicjalizowana dynamicznie przydzielanym zasobem, co powoduje pierwszy „Zdobyty zasób”.<li>Res jest zwracany z powrotem do main() według wartości. Res to przeniesienie skonstruowane do obiektu tymczasowego, przeniesienie dynamicznie utworzonego obiektu przechowywanego w res do obiektu tymczasowego. Poniżej porozmawiamy o tym, dlaczego tak się dzieje.<li>Res wykracza poza zakres. Ponieważ res nie zarządza już wskaźnikiem (został przeniesiony do tymczasowego), nie dzieje się tu nic ciekawego.<li>Obiekt tymczasowy jest przenoszony do mainres. Spowoduje to przeniesienie dynamicznie utworzonego obiektu przechowywanego w pliku tymczasowym do pliku mainres.<li>Wyrażenie przypisania kończy się, a obiekt tymczasowy wychodzi poza zakres wyrażenia i ulega zniszczeniu. Ponieważ jednak element tymczasowy nie zarządza już wskaźnikiem (został przeniesiony do mainres), również tutaj nie dzieje się nic ciekawego.<li>Pod koniec funkcji main() mainres wychodzi poza zakres i wyświetla się nasz końcowy „Zasób zniszczony”.</ol><p>Zamiast więc kopiować nasz zasób dwa razy (raz dla konstruktora kopiującego i raz dla przypisania kopii), przesyłamy go dwukrotnie. Jest to bardziej wydajne, ponieważ zasób jest budowany i niszczony tylko raz, a nie trzy razy.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Powiązana treść<p>Konstruktory przenoszenia i przypisanie przenoszenia powinny być oznaczone jako <code>noexcept</code>. Mówi to kompilatorowi, że te funkcje nie będą zgłaszać wyjątków.<p>Wprowadzamy <code>noexcept</code> w lekcji <a href="../exception-specifications-and-noexcept/index.html">27,9 — specyfikacje wyjątków i noexcept</a> i omawiamy, dlaczego konstruktory przenoszenia i przypisanie przenoszenia są oznaczone jako <code>noexcept</code> w lekcji <a href="../stdmove_if_noexcept/index.html">27.10 — std::move_if_noexcept</a>.</div><p class="cpp-section cpp-topline" style=clear:both>Kiedy wywoływany jest konstruktor przenoszenia i przypisanie przenoszenia?<p>Konstruktor przenoszenia i przypisanie przenoszenia są wywoływane, gdy te funkcje są zdefiniowane, a argumentem konstrukcji lub przypisania jest wartość. Najczęściej ta wartość będzie wartością dosłowną lub tymczasową.<p>Konstruktor kopiujący i przypisanie kopii są używane w inny sposób (kiedy argument jest wartością lub gdy argument jest wartością, a konstruktor przenoszenia lub funkcje przypisania przenoszenia nie są zdefiniowane).<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Niejawny konstruktor przenoszenia i operator przypisania przenoszenia<p>Kompilator utworzy niejawny konstruktor przenoszenia i operator przypisania przenoszenia, jeśli spełnione są wszystkie poniższe warunki prawda:<ul><li>Nie ma zadeklarowanych przez użytkownika konstruktorów kopiujących ani operatorów przypisania kopiowania.<li>Nie ma zadeklarowanych przez użytkownika konstruktorów przenoszenia ani operatorów przypisania przenoszenia.<li>Nie ma destruktora zadeklarowanego przez użytkownika.</ul><p>Te funkcje wykonują przenoszenie członowe, które zachowuje się w następujący sposób:<ul><li>Jeśli element ma konstruktor przenoszenia lub przypisanie ruchu (w zależności od przypadku), zostanie to wykonane zostanie wywołany.<li>W przeciwnym razie element zostanie skopiowany.</ul><p>W szczególności oznacza to, że wskaźniki zostaną skopiowane, a nie przeniesione!<div class="cpp-note cpp-lightredbackground"><p class="cpp-note-title cpp-bottomline">Ostrzeżenie<p>Niejawny konstruktor przenoszenia i przypisanie przenoszenia skopiują wskaźniki, a nie je przeniosą. Jeśli chcesz przenieść element wskaźnikowy, musisz samodzielnie zdefiniować konstruktor przenoszenia i przypisanie przeniesienia.</div><p class="cpp-section cpp-topline" style=clear:both>Kluczowe informacje dotyczące semantyki przenoszenia<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>Masz teraz wystarczający kontekst, aby zrozumieć kluczowe informacje stojące za semantyką przenoszenia.<p>Jeśli konstruujemy obiekt lub wykonujemy zadanie, w którym argumentem jest wartość l, jedyne, co możemy rozsądnie zrobić, to skopiować wartość l. Nie możemy założyć, że zmiana wartości l jest bezpieczna, ponieważ może ona zostać ponownie użyta w dalszej części programu. Jeśli mamy wyrażenie „a = b” (gdzie b jest lwartością), nie moglibyśmy rozsądnie oczekiwać, że b zostanie w jakikolwiek sposób zmienione.<p>Jeśli jednak skonstruujemy obiekt lub wykonamy zadanie, w którym argumentem jest wartość r, to wiemy, że wartość r jest tylko pewnego rodzaju obiektem tymczasowym. Zamiast go kopiować (co może być kosztowne), możemy po prostu przenieść jego zasoby (co jest tanie) na obiekt, który konstruujemy lub przydzielamy. Jest to bezpieczne, ponieważ element tymczasowy i tak zostanie zniszczony na końcu wyrażenia, więc mamy pewność, że nigdy więcej nie zostanie użyty!<p>C++ 11, poprzez odniesienia do wartości r, daje nam możliwość zapewnienia różnych zachowań, gdy argumentem jest wartość r w porównaniu z wartością l, umożliwiając nam podejmowanie mądrzejszych i skuteczniejszych decyzji dotyczących zachowania naszych obiektów.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Semantyka ruchu jest optymalizacją okazja.</div><p class="cpp-section cpp-topline" style=clear:both>Funkcje przenoszenia powinny zawsze pozostawiać oba obiekty w prawidłowym stanie<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><p>W powyższych przykładach zarówno konstruktor przenoszenia, jak i funkcje przypisania przenoszenia ustawiają a.m_ptr na nullptr. Może się to wydawać niepotrzebne -- w końcu, jeśli <code>a</code> jest tymczasową wartością r, po co zawracać sobie głowę „czyszczeniem”, jeśli parametr <code>a</code> i tak ma zostać zniszczony?<p>Odpowiedź jest prosta: Kiedy <code>a</code> wyjdzie poza zakres, zostanie wywołany destruktor dla <code>a</code> , a <code>a.m_ptr</code> zostanie usunięty. Jeśli w tym momencie <code>a.m_ptr</code> wciąż wskazuje na ten sam obiekt, co <code>m_ptr</code>, wówczas  <code>m_ptr</code> zostanie pozostawiony jako wiszący wskaźnik. Kiedy obiekt zawierający <code>m_ptr</code> zostanie w końcu użyty (lub zniszczony), otrzymamy niezdefiniowane zachowanie.<p>Wdrażając semantykę przenoszenia, ważne jest, aby upewnić się, że przenoszony obiekt pozostaje w prawidłowym stanie, tak aby uległ prawidłowemu zniszczeniu (bez tworzenia niezdefiniowanego zachowania).<p class="cpp-section cpp-topline" style=clear:both>Automatyczne l-wartości zwracane przez wartość mogą być przenoszone zamiast kopiowane<p>W generateResource() z powyższego przykładu Auto_ptr4, gdy zmienna res jest zwracana przez wartość, jest ona przenoszona zamiast kopiowana, nawet jeśli res jest wartością l. Specyfikacja C++ ma specjalną regułę, która mówi, że automatyczne obiekty zwracane przez funkcję według wartości można przenosić, nawet jeśli są to l-wartości. Ma to sens, ponieważ res i tak miał zostać zniszczony na końcu funkcji! Równie dobrze moglibyśmy ukraść jego zasoby, zamiast tworzyć kosztowną i niepotrzebną kopię.<p>Chociaż kompilator może przenosić zwracane wartości o wartości l, w niektórych przypadkach może zrobić to jeszcze lepiej, po prostu całkowicie pomijając kopię (co pozwala uniknąć konieczności tworzenia kopii lub wykonywania jakichkolwiek ruchów). W takim przypadku nie zostanie wywołany ani konstruktor kopiujący, ani konstruktor przenoszący.<p class="cpp-section cpp-topline" style=clear:both>Wyłączenie kopiowania<p>W powyższej klasie Auto_ptr4 pozostawiliśmy konstruktor kopiujący i operator przypisania dla celów porównawczych. Jednak w klasach umożliwiających przenoszenie czasami pożądane jest usunięcie konstruktora kopiującego i funkcji przypisania kopii, aby mieć pewność, że kopie nie zostaną utworzone. W przypadku naszej klasy Auto_ptr nie chcemy kopiować naszego szablonowego obiektu T - zarówno dlatego, że jest drogi, jak i każda klasa T może nawet nie obsługiwać kopiowania!<p>Oto wersja Auto_ptr, która obsługuje semantykę przenoszenia, ale nie semantykę kopiowania:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+</pre><p>Tak jest znacznie lepiej!<p>Przebieg programu jest dokładnie taki sam jak poprzednio. Jednak zamiast wywoływać konstruktor kopiujący i operatory przypisania kopiowania, program ten wywołuje konstruktor przenoszenia i operatory przypisania przenoszenia. Patrząc nieco głębiej:<ol start=1><li>W środku generateResource() tworzona jest zmienna lokalna res, która jest inicjalizowana dynamicznie przydzielanym zasobem, co powoduje pierwszy „Zdobyty zasób”.<li>Res jest zwracany z powrotem do main() według wartości. Res to przeniesienie skonstruowane do obiektu tymczasowego, przeniesienie dynamicznie utworzonego obiektu przechowywanego w res do obiektu tymczasowego. Poniżej porozmawiamy o tym, dlaczego tak się dzieje.<li>Res wykracza poza zakres. Ponieważ res nie zarządza już wskaźnikiem (został przeniesiony do tymczasowego), nie dzieje się tu nic ciekawego.<li>Obiekt tymczasowy jest przenoszony do mainres. Spowoduje to przeniesienie dynamicznie utworzonego obiektu przechowywanego w pliku tymczasowym do pliku mainres.<li>Wyrażenie przypisania kończy się, a obiekt tymczasowy wychodzi poza zakres wyrażenia i ulega zniszczeniu. Ponieważ jednak element tymczasowy nie zarządza już wskaźnikiem (został przeniesiony do mainres), również tutaj nie dzieje się nic ciekawego.<li>Pod koniec funkcji main() mainres wychodzi poza zakres i wyświetla się nasz końcowy „Zasób zniszczony”.</ol><p>Zamiast więc kopiować nasz zasób dwa razy (raz dla konstruktora kopiującego i raz dla przypisania kopii), przesyłamy go dwukrotnie. Jest to bardziej wydajne, ponieważ zasób jest budowany i niszczony tylko raz, a nie trzy razy.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Powiązana treść<p>Konstruktory przenoszenia i przypisanie przenoszenia powinny być oznaczone jako <code>noexcept</code>. Mówi to kompilatorowi, że te funkcje nie będą zgłaszać wyjątków.<p>Wprowadzamy <code>noexcept</code> w lekcji <a href="../exception-specifications-and-noexcept/index.html">27,9 — specyfikacje wyjątków i noexcept</a> i omawiamy, dlaczego konstruktory przenoszenia i przypisanie przenoszenia są oznaczone jako <code>noexcept</code> w lekcji <a href="../stdmove_if_noexcept/index.html">27.10 — std::move_if_noexcept</a>.</div><p class="cpp-section cpp-topline" style=clear:both>Kiedy wywoływany jest konstruktor przenoszenia i przypisanie przenoszenia?<p>Konstruktor przenoszenia i przypisanie przenoszenia są wywoływane, gdy te funkcje są zdefiniowane, a argumentem konstrukcji lub przypisania jest wartość. Najczęściej ta wartość będzie wartością dosłowną lub tymczasową.<p>Konstruktor kopiujący i przypisanie kopii są używane w inny sposób (kiedy argument jest wartością lub gdy argument jest wartością, a konstruktor przenoszenia lub funkcje przypisania przenoszenia nie są zdefiniowane).<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Niejawny konstruktor przenoszenia i operator przypisania przenoszenia<p>Kompilator utworzy niejawny konstruktor przenoszenia i operator przypisania przenoszenia, jeśli spełnione są wszystkie poniższe warunki prawda:<ul><li>Nie ma zadeklarowanych przez użytkownika konstruktorów kopiujących ani operatorów przypisania kopiowania.<li>Nie ma zadeklarowanych przez użytkownika konstruktorów przenoszenia ani operatorów przypisania przenoszenia.<li>Nie ma destruktora zadeklarowanego przez użytkownika.</ul><p>Te funkcje wykonują przenoszenie członowe, które zachowuje się w następujący sposób:<ul><li>Jeśli element ma konstruktor przenoszenia lub przypisanie ruchu (w zależności od przypadku), zostanie to wykonane zostanie wywołany.<li>W przeciwnym razie element zostanie skopiowany.</ul><p>W szczególności oznacza to, że wskaźniki zostaną skopiowane, a nie przeniesione!<div class="cpp-note cpp-lightredbackground"><p class="cpp-note-title cpp-bottomline">Ostrzeżenie<p>Niejawny konstruktor przenoszenia i przypisanie przenoszenia skopiują wskaźniki, a nie je przeniosą. Jeśli chcesz przenieść element wskaźnikowy, musisz samodzielnie zdefiniować konstruktor przenoszenia i przypisanie przeniesienia.</div><p class="cpp-section cpp-topline" style=clear:both>Kluczowe informacje dotyczące semantyki przenoszenia<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>Masz teraz wystarczający kontekst, aby zrozumieć kluczowe informacje stojące za semantyką przenoszenia.<p>Jeśli konstruujemy obiekt lub wykonujemy zadanie, w którym argumentem jest wartość l, jedyne, co możemy rozsądnie zrobić, to skopiować wartość l. Nie możemy założyć, że zmiana wartości l jest bezpieczna, ponieważ może ona zostać ponownie użyta w dalszej części programu. Jeśli mamy wyrażenie „a = b” (gdzie b jest lwartością), nie moglibyśmy rozsądnie oczekiwać, że b zostanie w jakikolwiek sposób zmienione.<p>Jeśli jednak skonstruujemy obiekt lub wykonamy zadanie, w którym argumentem jest wartość r, to wiemy, że wartość r jest tylko pewnego rodzaju obiektem tymczasowym. Zamiast go kopiować (co może być kosztowne), możemy po prostu przenieść jego zasoby (co jest tanie) na obiekt, który konstruujemy lub przydzielamy. Jest to bezpieczne, ponieważ element tymczasowy i tak zostanie zniszczony na końcu wyrażenia, więc mamy pewność, że nigdy więcej nie zostanie użyty!<p>C++ 11, poprzez odniesienia do wartości r, daje nam możliwość zapewnienia różnych zachowań, gdy argumentem jest wartość r w porównaniu z wartością l, umożliwiając nam podejmowanie mądrzejszych i skuteczniejszych decyzji dotyczących zachowania naszych obiektów.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Semantyka ruchu jest optymalizacją okazja.</div><p class="cpp-section cpp-topline" style=clear:both>Funkcje przenoszenia powinny zawsze pozostawiać oba obiekty w prawidłowym stanie<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><p>W powyższych przykładach zarówno konstruktor przenoszenia, jak i funkcje przypisania przenoszenia ustawiają a.m_ptr na nullptr. Może się to wydawać niepotrzebne -- w końcu, jeśli <code>a</code> jest tymczasową wartością r, po co zawracać sobie głowę „czyszczeniem”, jeśli parametr <code>a</code> i tak ma zostać zniszczony?<p>Odpowiedź jest prosta: Kiedy <code>a</code> wyjdzie poza zakres, zostanie wywołany destruktor dla <code>a</code> , <code>a.m_ptr</code> zostanie usunięty. Jeśli w tym momencie <code>a.m_ptr</code> wciąż wskazuje na ten sam obiekt, co <code>m_ptr</code>, wówczas  <code>m_ptr</code> zostanie pozostawiony jako wiszący wskaźnik. Kiedy obiekt zawierający <code>m_ptr</code> zostanie w końcu użyty (lub zniszczony), otrzymamy niezdefiniowane zachowanie.<p>Wdrażając semantykę przenoszenia, ważne jest, aby upewnić się, że przenoszony obiekt pozostaje w prawidłowym stanie, tak aby uległ prawidłowemu zniszczeniu (bez tworzenia niezdefiniowanego zachowania).<p class="cpp-section cpp-topline" style=clear:both>Automatyczne l-wartości zwracane przez wartość mogą być przenoszone zamiast kopiowane<p>W generateResource() z powyższego przykładu Auto_ptr4, gdy zmienna res jest zwracana przez wartość, jest ona przenoszona zamiast kopiowana, nawet jeśli res jest wartością l. Specyfikacja C++ ma specjalną regułę, która mówi, że automatyczne obiekty zwracane przez funkcję według wartości można przenosić, nawet jeśli są to l-wartości. Ma to sens, ponieważ res i tak miał zostać zniszczony na końcu funkcji! Równie dobrze moglibyśmy ukraść jego zasoby, zamiast tworzyć kosztowną i niepotrzebną kopię.<p>Chociaż kompilator może przenosić zwracane wartości o wartości l, w niektórych przypadkach może zrobić to jeszcze lepiej, po prostu całkowicie pomijając kopię (co pozwala uniknąć konieczności tworzenia kopii lub wykonywania jakichkolwiek ruchów). W takim przypadku nie zostanie wywołany ani konstruktor kopiujący, ani konstruktor przenoszący.<p class="cpp-section cpp-topline" style=clear:both>Wyłączenie kopiowania<p>W powyższej klasie Auto_ptr4 pozostawiliśmy konstruktor kopiujący i operator przypisania dla celów porównawczych. Jednak w klasach umożliwiających przenoszenie czasami pożądane jest usunięcie konstruktora kopiującego i funkcji przypisania kopii, aby mieć pewność, że kopie nie zostaną utworzone. W przypadku naszej klasy Auto_ptr nie chcemy kopiować naszego szablonowego obiektu T - zarówno dlatego, że jest drogi, jak i każda klasa T może nawet nie obsługiwać kopiowania!<p>Oto wersja Auto_ptr, która obsługuje semantykę przenoszenia, ale nie semantykę kopiowania:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 template&lt;typename T&gt;
 class Auto_ptr5
@@ -198,32 +198,32 @@ public:
 		delete m_ptr;
 	}
 
-	// Copy constructor -- no copying allowed!
+	// Kopiuj konstruktor — kopiowanie nie jest oczyszczane!
 	Auto_ptr5(const Auto_ptr5&amp; a) = delete;
 
 	// Move constructor
-	// Transfer ownership of a.m_ptr to m_ptr
+	// Przenieś własność a.m_ptr na m_ptr
 	Auto_ptr5(Auto_ptr5&amp;&amp; a) noexcept
 		: m_ptr { a.m_ptr }
 	{
 		a.m_ptr = nullptr;
 	}
 
-	// Copy assignment -- no copying allowed!
+	// Kopiuj przypisanie — kopiowanie jest zabronione!
 	Auto_ptr5&amp; operator=(const Auto_ptr5&amp; a) = delete;
 
 	// Move assignment
-	// Transfer ownership of a.m_ptr to m_ptr
+	// Przenieś własność a.m_ptr na m_ptr
 	Auto_ptr5&amp; operator=(Auto_ptr5&amp;&amp; a) noexcept
 	{
-		// Self-assignment detection
+		// Wykrywanie samodzielnego przypisania
 		if (&amp;a == this)
 			return *this;
 
-		// Release any resource we&#39;re holding
+		// Zwolnij wszystkie posiadane zasoby
 		delete m_ptr;
 
-		// Transfer ownership of a.m_ptr to m_ptr
+		// Przenieś własność a.m_ptr na m_ptr
 		m_ptr = a.m_ptr;
 		a.m_ptr = nullptr;
 
@@ -233,7 +233,7 @@ public:
 	T&amp; operator*() const { return *m_ptr; }
 	T* operator-&gt;() const { return m_ptr; }
 	bool isNull() const { return m_ptr == nullptr; }
-};</code></pre><p>Gdybyś próbował przekazać wartość l Auto_ptr5 do funkcji według wartości, kompilator narzekałby, że konstruktor kopiujący wymagany do inicjacji parametru funkcji został usunięty. To dobrze, ponieważ prawdopodobnie i tak powinniśmy przekazywać Auto_ptr5 przez odwołanie do wartości l const!<p>Auto_ptr5 jest (wreszcie) dobrą klasą inteligentnego wskaźnika. I tak naprawdę standardowa biblioteka zawiera klasę bardzo podobną do tej (której zamiast tego powinieneś używać) o nazwie std::unique_ptr. Porozmawiamy więcej o std::unique_ptr w dalszej części tego rozdziału.<p class="cpp-section cpp-topline" style=clear:both>Kolejny przykład<p>Przyjrzyjmy się innej klasie korzystającej z pamięci dynamicznej: prostej dynamicznej tablicy z szablonami. Ta klasa zawiera konstruktor kopiujący głęboko kopiujący i operator przypisania kopiowania.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cstddef&gt; // for std::size_t
+};</code></pre><p>Gdybyś próbował przekazać wartość l Auto_ptr5 do funkcji według wartości, kompilator narzekałby, że konstruktor kopiujący wymagany do inicjacji parametru funkcji został usunięty. To dobrze, ponieważ prawdopodobnie i tak powinniśmy przekazywać Auto_ptr5 przez odwołanie do wartości l const!<p>Auto_ptr5 jest (wreszcie) dobrą klasą inteligentnego wskaźnika. I tak naprawdę standardowa biblioteka zawiera klasę bardzo podobną do tej (której zamiast tego powinieneś używać) o nazwie std::unique_ptr. Porozmawiamy więcej o std::unique_ptr w dalszej części tego rozdziału.<p class="cpp-section cpp-topline" style=clear:both>Kolejny przykład<p>Przyjrzyjmy się innej klasie korzystającej z pamięci dynamicznej: prostej dynamicznej tablicy z szablonami. Ta klasa zawiera konstruktor kopiujący głęboko kopiujący i operator przypisania kopiowania.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cstddef&gt; // dla std::size_t
 
 template &lt;typename T&gt;
 class DynamicArray
@@ -258,14 +258,14 @@ public:
 		delete[] m_array;
 	}
 
-	// Copy constructor
+	// Kopiuj konstruktor
 	DynamicArray(const DynamicArray &amp;arr)
 	{
 		alloc(arr.m_length);
-		std::copy_n(arr.m_array, m_length, m_array); // copy m_length elements from arr to m_array
+		std::copy_n(arr.m_array, m_length, m_array); // skopiuj elementy m_length z arr do m_array
 	}
 
-	// Copy assignment
+	// Kopiuj przypisanie
 	DynamicArray&amp; operator=(const DynamicArray &amp;arr)
 	{
 		if (&amp;arr == this)
@@ -275,7 +275,7 @@ public:
 
 		alloc(arr.m_length);
 
-		std::copy_n(arr.m_array, m_length, m_array); // copy m_length elements from arr to m_array
+		std::copy_n(arr.m_array, m_length, m_array); // skopiuj elementy m_length z arr do m_array
 
 		return *this;
 	}
@@ -283,16 +283,16 @@ public:
 	int getLength() const { return m_length; }
 	T&amp; operator[](int index) { return m_array[index]; }
 	const T&amp; operator[](int index) const { return m_array[index]; }
-};</code></pre><p>Teraz użyjmy tej klasy w programie. Aby pokazać, jak ta klasa radzi sobie, gdy alokujemy milion liczb całkowitych na stercie, wykorzystamy klasę Timer, którą opracowaliśmy w lekcji  <a href="../timing-your-code/index.html">18.4 — Synchronizacja kodu</a>. Użyjemy klasy Timer, aby zmierzyć szybkość działania naszego kodu i pokazać różnicę w wydajności pomiędzy kopiowaniem a przenoszeniem.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;algorithm&gt; // for std::copy_n
-#include &lt;chrono&gt; // for std::chrono functions
+};</code></pre><p>Teraz użyjmy tej klasy w programie. Aby pokazać, jak ta klasa radzi sobie, gdy alokujemy milion liczb całkowitych na stercie, wykorzystamy klasę Timer, którą opracowaliśmy w lekcji  <a href="../timing-your-code/index.html">18.4 — Synchronizacja kodu</a>. Użyjemy klasy Timer, aby zmierzyć szybkość działania naszego kodu i pokazać różnicę w wydajności pomiędzy kopiowaniem a przenoszeniem.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;algorithm&gt; // dla std::copy_n
+#include &lt;chrono&gt; // dla funkcji std::chrono
 #include &lt;iostream&gt;
 
-// Uses the above DynamicArray class
+// Używa powyższej klasy DynamicArray
 
 class Timer
 {
 private:
-	// Type aliases to make accessing nested type easier
+	// Aliasy typów, aby ułatwić dostęp do typu zagnieżdżonego
 	using Clock = std::chrono::high_resolution_clock;
 	using Second = std::chrono::duration&lt;double, std::ratio&lt;1&gt; &gt;;
 	
@@ -310,7 +310,7 @@ public:
 	}
 };
 
-// Return a copy of arr with all of the values doubled
+// Zwróć kopię arr z podwojonymi wszystkimi wartościami
 DynamicArray&lt;int&gt; cloneArrayAndDouble(const DynamicArray&lt;int&gt; &amp;arr)
 {
 	DynamicArray&lt;int&gt; dbl(arr.getLength());
@@ -332,7 +332,7 @@ int main()
 	arr = cloneArrayAndDouble(arr);
 
 	std::cout &lt;&lt; t.elapsed();
-}</code></pre><p>Na jednej z maszyn autora, w trybie wydania, program ten wykonał się w 0,00825559 sekundy.<p>Teraz zaktualizujemy <code>DynamicArray</code> zastępując konstruktor kopiujący i przypisanie kopiowania konstruktorem przenoszenia i przypisaniem przenoszenia, a następnie uruchom program ponownie:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cstddef&gt; // for std::size_t
+}</code></pre><p>Na jednej z maszyn autora, w trybie wydania, program ten wykonał się w 0,00825559 sekundy.<p>Teraz zaktualizujemy <code>DynamicArray</code> zastępując konstruktor kopiujący i przypisanie kopiowania konstruktorem przenoszenia i przypisaniem przenoszenia, a następnie uruchom program ponownie:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cstddef&gt; // dla std::size_t
 
 template &lt;typename T&gt;
 class DynamicArray
@@ -357,10 +357,10 @@ public:
 		delete[] m_array;
 	}
 
-	// Copy constructor
+	// Kopiuj konstruktor
 	DynamicArray(const DynamicArray &amp;arr) = delete;
 
-	// Copy assignment
+	// Kopiuj przypisanie
 	DynamicArray&amp; operator=(const DynamicArray &amp;arr) = delete;
 
 	// Move constructor
@@ -393,12 +393,12 @@ public:
 };
 
 #include &lt;iostream&gt;
-#include &lt;chrono&gt; // for std::chrono functions
+#include &lt;chrono&gt; // dla funkcji std::chrono
 
 class Timer
 {
 private:
-	// Type aliases to make accessing nested type easier
+	// Aliasy typów, aby ułatwić dostęp do typu zagnieżdżonego
 	using Clock = std::chrono::high_resolution_clock;
 	using Second = std::chrono::duration&lt;double, std::ratio&lt;1&gt; &gt;;
 	
@@ -416,7 +416,7 @@ public:
 	}
 };
 
-// Return a copy of arr with all of the values doubled
+// Zwróć kopię arr z podwojonymi wszystkimi wartościami
 DynamicArray&lt;int&gt; cloneArrayAndDouble(const DynamicArray&lt;int&gt; &amp;arr)
 {
 	DynamicArray&lt;int&gt; dbl(arr.getLength());
@@ -462,10 +462,10 @@ public:
 
 int main()
 {
-    Name n1{ &#34;Alex&#34; };
-    n1 = Name{ &#34;Joe&#34; }; // error: move assignment deleted
+    Name n1{ "Alex" };
+    n1 = Name{ "Joe" }; // błąd: usunięto przypisanie przeniesienia
 
-    std::cout &lt;&lt; n1.get() &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; n1.get() &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Jeśli usuniesz konstruktor kopiujący, kompilator nie wygeneruje ukrytego konstruktora przenoszenia (co sprawi, że obiektów nie będzie można kopiować ani przenosić). Dlatego też podczas usuwania konstruktora kopiującego warto jasno określić, jakiego zachowania oczekujesz od konstruktorów przenoszenia. Usuń je jawnie (jasno, że jest to pożądane zachowanie) lub domyślnie je (uczyń klasę tylko przenoszeniem).<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Klasa <strong>reguły pięciu</strong> mówi, że jeśli konstruktor kopiujący, przypisanie kopiujące, konstruktor przenoszenia, przypisanie przenoszenia lub destruktor są zdefiniowane lub usunięte, wówczas każda z tych funkcji powinna zostać zdefiniowana lub usunięta.</div><p>Usunięcie tylko konstruktora przenoszenia i przypisania przenoszenia może wydawać się dobrym pomysłem, jeśli chcesz mieć obiekt, który można kopiować, ale nie można przenosić, ma to tę niefortunną konsekwencję, że klasa nie może zostać zwrócona według wartości w przypadkach, gdy nie ma zastosowania obowiązkowe usuwanie kopii. Dzieje się tak, ponieważ usunięty konstruktor przenoszenia jest nadal zadeklarowaną funkcją i dlatego kwalifikuje się do rozpoznawania przeciążenia. Zwrócenie według wartości będzie faworyzowało usunięty konstruktor przenoszenia w stosunku do nieusuniętego konstruktora kopiującego. Ilustruje to następujący program:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -493,15 +493,15 @@ public:
 
 Name getJoe()
 {
-    Name joe{ &#34;Joe&#34; };
-    return joe; // error: Move constructor was deleted
+    Name joe{ "Joe" };
+    return joe; // błąd: Konstruktor przenoszenia został usunięty
 }
 
 int main()
 {
     Name n{ getJoe() };
 
-    std::cout &lt;&lt; n.get() &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; n.get() &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p class="cpp-section cpp-topline" style=clear:both>Problemy z semantyką przenoszenia oraz <code>std::swap</code> <span class="cpp-section-pill cpp-section-advanced">Zaawansowane</span><p>W lekcji <a href="../overloading-the-assignment-operator/index.html">21.12 — Przeciążanie operatora przypisania</a>, wspomnieliśmy o idiomie kopiowania i zamiany. Kopiowanie i zamiana działają również w przypadku semantyki przenoszenia, co oznacza, że ​​możemy zaimplementować nasz konstruktor przenoszenia i przypisanie przenoszenia, zamieniając zasoby z obiektem, który zostanie zniszczony.<p>Ma to dwie zalety:<ul><li>Trwały obiekt kontroluje teraz zasoby, które wcześniej były własnością umierającego obiektu (co było naszym głównym celem).<li>Umierający obiekt kontroluje teraz zasoby, które wcześniej były własnością trwałego obiektu. Kiedy umierający obiekt faktycznie umrze, może dokonać dowolnego rodzaju oczyszczenia tych zasobów.</ul><p>Kiedy myślisz o wymianie, pierwszą rzeczą, która przychodzi na myśl jest zwykle <code>std::swap()</code>. Jednak implementacja konstruktora przenoszenia i przypisania przenoszenia za pomocą <code>std::swap()</code> jest problematyczna, ponieważ <code>std::swap()</code> wywołuje zarówno konstruktor przenoszenia, jak i przypisanie przenoszenia obiektów obsługujących przesuwanie. Spowoduje to nieskończony problem rekurencji.<p>Możesz to zobaczyć w następującym przykładzie:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -511,7 +511,7 @@ int main()
 class Name
 {
 private:
-    std::string m_name {}; // std::string is move capable
+    std::string m_name {}; // std::string może przenosić
 
 public:
     Name(std::string_view name) : m_name{ name }
@@ -523,14 +523,14 @@ public:
 
     Name(Name&amp;&amp; name) noexcept
     {
-        std::cout &lt;&lt; &#34;Move ctor\n&#34;;
+        std::cout &lt;&lt; "Move ctor\n";
 
         std::swap(*this, name); // bad!
     }
 
     Name&amp; operator=(Name&amp;&amp; name) noexcept
     {
-        std::cout &lt;&lt; &#34;Move assign\n&#34;;
+        std::cout &lt;&lt; "Move assign\n";
 
         std::swap(*this, name); // bad!
 
@@ -542,10 +542,10 @@ public:
 
 int main()
 {
-    Name n1{ &#34;Alex&#34; };   
-    n1 = Name{&#34;Joe&#34;}; // invokes move assignment
+    Name n1{ "Alex" };   
+    n1 = Name{"Joe"}; // wywołuje przypisanie ruchu
 
-    std::cout &lt;&lt; n1.get() &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; n1.get() &lt;&lt; '\n';
     
     return 0;
 }</code></pre><p>Wypisuje:<pre>Move assign
@@ -570,26 +570,26 @@ public:
     Name(const Name&amp; name) = delete;
     Name&amp; operator=(const Name&amp; name) = delete;
     
-    // Create our own swap friend function to swap the members of Name
+    // Utwórz własną funkcję wymiany znajomych, aby zamienić człony Imię
     friend void swap(Name&amp; a, Name&amp; b) noexcept
     {
-        // We avoid recursive calls by invoking std::swap on the std::string member,
-        // not on Name
+        // Unikamy wywołań rekurencyjnych poprzez wywoływanie std::swap na elemencie std::string,
+        // nie w Imię
         std::swap(a.m_name, b.m_name);
     }
 
     Name(Name&amp;&amp; name) noexcept
     {
-        std::cout &lt;&lt; &#34;Move ctor\n&#34;;
+        std::cout &lt;&lt; "Move ctor\n";
 
-        swap(*this, name); // Now calling our swap, not std::swap
+        swap(*this, name); // Teraz wywołujemy naszą zamianę, a nie std::swap
     }
 
     Name&amp; operator=(Name&amp;&amp; name) noexcept
     {
-        std::cout &lt;&lt; &#34;Move assign\n&#34;;
+        std::cout &lt;&lt; "Move assign\n";
 
-        swap(*this, name); // Now calling our swap, not std::swap
+        swap(*this, name); // Teraz wywołujemy naszą zamianę, a nie std::swap
 
         return *this;
     }
@@ -599,10 +599,10 @@ public:
 
 int main()
 {
-    Name n1{ &#34;Alex&#34; };   
-    n1 = Name{&#34;Joe&#34;}; // invokes move assignment
+    Name n1{ "Alex" };   
+    n1 = Name{"Joe"}; // wywołuje przypisanie ruchu
 
-    std::cout &lt;&lt; n1.get() &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; n1.get() &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Działa to zgodnie z oczekiwaniami i wypisuje:<pre>Move assign

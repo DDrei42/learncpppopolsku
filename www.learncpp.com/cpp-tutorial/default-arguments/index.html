@@ -13,22 +13,22 @@
 <button class=searchsubmit><span class=screen-reader-text>Szukaj</span><i class=icon-search></i></button>
 <input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=62657></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="11.5 — Argumenty domyślne" src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-118 class="post-118 post type-post status-publish format-standard hentry category-cpp-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>11.5 — Argumenty domyślne</h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Autor></i><a class="url fn n" rel=author href=/www.learncpp.com/author/Alex/ title="Wyświetl wszystkie posty Alexa" itemprop=url><em itemprop=name>Alex</em></a></span>
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2007-08-06T16:38:06-07:00 itemprop=datePublished>6 sierpnia, 2007, 16:38 PDT</time>
-<time class=updated datetime=2024-11-10T09:10:51-08:00 itemprop=dateModified>10 listopada 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>A <strong>argument domyślny</strong> to domyślna wartość podana dla parametru funkcji. Na przykład: <pre class="language-cpp line-numbers"><code class="language-cpp match-braces">void print(int x, int y=10) // 10 is the default argument
+<time class=updated datetime=2024-11-10T09:10:51-08:00 itemprop=dateModified>10 listopada 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p><strong>argument domyślny</strong> to domyślna wartość podana dla parametru funkcji. Na przykład: <pre class="language-cpp line-numbers"><code class="language-cpp match-braces">void print(int x, int y=10) // 10 jest argumentem domyślnym
 {
-    std::cout &lt;&lt; &#34;x: &#34; &lt;&lt; x &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; &#34;y: &#34; &lt;&lt; y &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "x: " &lt;&lt; x &lt;&lt; '\n';
+    std::cout &lt;&lt; "y: " &lt;&lt; y &lt;&lt; '\n';
 }</code></pre><p>Podczas wykonywania wywołania funkcji osoba wywołująca może opcjonalnie podać argument dla dowolnego parametru funkcji, który ma argument domyślny. Jeżeli wywołujący poda argument, używana jest wartość argumentu z wywołania funkcji. Jeżeli osoba wywołująca nie poda argumentu, używana jest wartość argumentu domyślnego.<p>Rozważ następujący program:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-void print(int x, int y=4) // 4 is the default argument
+void print(int x, int y=4) // 4 jest argumentem domyślnym
 {
-    std::cout &lt;&lt; &#34;x: &#34; &lt;&lt; x &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; &#34;y: &#34; &lt;&lt; y &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "x: " &lt;&lt; x &lt;&lt; '\n';
+    std::cout &lt;&lt; "y: " &lt;&lt; y &lt;&lt; '\n';
 }
 
 int main()
 {
-    print(1, 2); // y will use user-supplied argument 2
-    print(3); // y will use default argument 4, as if we had called print(3, 4)
+    print(1, 2); // y użyje dostarczonego przez użytkownika argumentu 2
+    print(3); // y użyje domyślnego argumentu 4, tak jak gdybyśmy wywołali print(3, 4)
 
     return 0;
 }</code></pre><p>Ten program generuje następujące dane wyjściowe:<pre>x: 1
@@ -42,53 +42,53 @@ void openLogFile(std::string filename=&#34;default.log&#34;);</code></pre><div c
 
 void print(int x=10, int y=20, int z=30)
 {
-    std::cout &lt;&lt; &#34;Values: &#34; &lt;&lt; x &lt;&lt; &#34; &#34; &lt;&lt; y &lt;&lt; &#34; &#34; &lt;&lt; z &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "Values: " &lt;&lt; x &lt;&lt; " " &lt;&lt; y &lt;&lt; " " &lt;&lt; z &lt;&lt; '\n';
 }
 
 int main()
 {
-    print(1, 2, 3); // all explicit arguments
-    print(1, 2); // rightmost argument defaulted
-    print(1); // two rightmost arguments defaulted
-    print(); // all arguments defaulted
+    print(1, 2, 3); // wszystkie jasne argumenty
+    print(1, 2); // Domyślny argument znajdujący się najbardziej na prawo
+    print(1); // domyślnie dwa skrajne prawe argumenty
+    print(); // wszystkie argumenty domyślnie
 
     return 0;
 }</code></pre><p>Wygenerowane zostaną następujące dane wyjściowe:<pre>Values: 1 2 3
 Values: 1 2 30
 Values: 1 20 30
 Values: 10 20 30
-</pre><p>C++ nie (od C++23) obsługują składnię wywołań funkcji, taką jak <code>print(,,3)</code> (w celu zapewnienia jawnej wartości <code>z</code> podczas używania domyślnych argumentów dla <code>x</code> i <code>y</code>. Ma to trzy główne konsekwencje:<ol start=1><li>W wywołaniu funkcji wszelkie jawnie podane argumenty muszą być argumentami znajdującymi się skrajnie po lewej stronie (argumentów z wartościami domyślnymi nie można pominąć).</ol><p>Na przykład:<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">void print(std::string_view sv=&#34;Hello&#34;, double d=10.0);
+</pre><p>C++ nie (od C++23) obsługują składnię wywołań funkcji, taką jak <code>print(,,3)</code> (w celu zapewnienia jawnej wartości <code>z</code> podczas używania domyślnych argumentów dla <code>x</code> i <code>y</code>. Ma to trzy główne konsekwencje:<ol start=1><li>W wywołaniu funkcji wszelkie jawnie podane argumenty muszą być argumentami znajdującymi się skrajnie po lewej stronie (argumentów z wartościami domyślnymi nie można pominąć).</ol><p>Na przykład:<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">void print(std::string_view sv="Hello", double d=10.0);
 
 int main()
 {
-    print();           // okay: both arguments defaulted
-    print(&#34;Macaroni&#34;); // okay: d defaults to 10.0
-    print(20.0);       // error: does not match above function (cannot skip argument for sv)
+    print();           // okej: oba argumenty ustawione domyślnie
+    print("Macaroni"); // ok: d domyślnie 10.0
+    print(20.0);       // błąd: nie pasują do powyższej funkcji (nie można pominąć argumentu dla sv)
 
     return 0;
-}</code></pre><ol start=2><li>Jeśli parametrowi podano argument domyślny, wszystkie kolejne parametry (po prawej) również muszą mieć podane argumenty domyślne.</ol><p>Niedozwolone jest:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">void print(int x=10, int y); // not allowed</code></pre><div class="cpp-note cpp-lightpurplebackground"><p class="cpp-note-title cpp-bottomline">Reguła<p>Jeśli parametrowi podano argument domyślny, wszystkie kolejne parametry (po prawej) również muszą mieć podane argumenty domyślne.</div><ol start=3><li>Jeśli więcej niż jeden parametr ma argument domyślny, parametr znajdujący się najbardziej po lewej stronie powinien być tym, który najprawdopodobniej zostanie jawnie ustawiony przez użytkownika.</ol><p class="cpp-section cpp-topline" style=clear:both>Argumenty domyślne nie mogą być ponownie zadeklarowane i muszą zostać zadeklarowane przed użyciem.<p>Po zadeklarowaniu argumentu domyślnego nie można ponownie zadeklarować w tej samej jednostce tłumaczenia. Oznacza to, że w przypadku funkcji z deklaracją forward i definicją funkcji argument domyślny można zadeklarować albo w deklaracji forward, albo w definicji funkcji, ale nie w obu przypadkach.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+}</code></pre><ol start=2><li>Jeśli parametrowi podano argument domyślny, wszystkie kolejne parametry (po prawej) również muszą mieć podane argumenty domyślne.</ol><p>Niedozwolone jest:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">void print(int x=10, int y); // nie dozwolone</code></pre><div class="cpp-note cpp-lightpurplebackground"><p class="cpp-note-title cpp-bottomline">Reguła<p>Jeśli parametrowi podano argument domyślny, wszystkie kolejne parametry (po prawej) również muszą mieć podane argumenty domyślne.</div><ol start=3><li>Jeśli więcej niż jeden parametr ma argument domyślny, parametr znajdujący się najbardziej po lewej stronie powinien być tym, który najprawdopodobniej zostanie jawnie ustawiony przez użytkownika.</ol><p class="cpp-section cpp-topline" style=clear:both>Argumenty domyślne nie mogą być ponownie zadeklarowane i muszą zostać zadeklarowane przed użyciem.<p>Po zadeklarowaniu argumentu domyślnego nie można ponownie zadeklarować w tej samej jednostce tłumaczenia. Oznacza to, że w przypadku funkcji z deklaracją forward i definicją funkcji argument domyślny można zadeklarować albo w deklaracji forward, albo w definicji funkcji, ale nie w obu przypadkach.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 void print(int x, int y=4); // forward declaration
 
-void print(int x, int y=4) // compile error: redefinition of default argument
+void print(int x, int y=4) // błąd kompilacji: redefinicja domyślnego argumentu
 {
-    std::cout &lt;&lt; &#34;x: &#34; &lt;&lt; x &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; &#34;y: &#34; &lt;&lt; y &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "x: " &lt;&lt; x &lt;&lt; '\n';
+    std::cout &lt;&lt; "y: " &lt;&lt; y &lt;&lt; '\n';
 }</code></pre><p>Argument domyślny musi zostać również zadeklarowany w jednostce translacyjnej, zanim będzie można go użyć:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-void print(int x, int y); // forward declaration, no default argument
+void print(int x, int y); // deklaracja do przodu, brak argumentu domyślnego
 
 int main()
 {
-    print(3); // compile error: default argument for y hasn&#39;t been defined yet
+    print(3); // błąd kompilacji: domyślny argument dla y nie został jeszcze zdefiniowany
 
     return 0;    
 }
 
 void print(int x, int y=4)
 {
-    std::cout &lt;&lt; &#34;x: &#34; &lt;&lt; x &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; &#34;y: &#34; &lt;&lt; y &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "x: " &lt;&lt; x &lt;&lt; '\n';
+    std::cout &lt;&lt; "y: " &lt;&lt; y &lt;&lt; '\n';
 }</code></pre><p>Najlepszą praktyką jest deklarowanie domyślnego argumentu w deklaracji forward, a nie w definicji funkcji, ponieważ jest bardziej prawdopodobne, że deklaracja forward będzie widoczna w innych plikach i uwzględniona przed użyciem (szczególnie jeśli znajduje się w nagłówku) plik).<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>in foo.h:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#ifndef FOO_H
 #define FOO_H
 void print(int x, int y=4);
@@ -111,24 +111,24 @@ int main()
 
 void print(std::string_view s)
 {
-    std::cout &lt;&lt; s &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; s &lt;&lt; '\n';
 }
 
-void print(char c = &#39; &#39;)
+void print(char c = ' ')
 {
-    std::cout &lt;&lt; c &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; c &lt;&lt; '\n';
 }
 
 int main()
 {
-    print(&#34;Hello, world&#34;); // resolves to print(std::string_view)
-    print(&#39;a&#39;);            // resolves to print(char)
-    print();               // resolves to print(char)
+    print("Hello, world"); // rozpoczynanie drukowania(std::string_view)
+    print('a');            // rozwiązuje do print(char)
+    print();               // rozwiązuje do print(char)
 
     return 0;
-}</code></pre><p>Wywołanie funkcji <code>print()</code> faktycznie wywołuje <code>print(char)</code>, co działa tak, jakby użytkownik jawnie wywołał <code>print(' ')</code>.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p>Rozważmy teraz następujący przypadek:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">void print(int x);                  // signature print(int)
-void print(int x, int y = 10);      // signature print(int, int)
-void print(int x, double y = 20.5); // signature print(int, double) </code></pre><p>Wartości domyślne nie są częścią sygnatury funkcji, więc te deklaracje funkcji są zróżnicowanymi przeciążeniami.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Powiązana treść<p>Omawiamy przeciążenie funkcji zróżnicowanie na lekcji <a href="../function-overload-differentiation/index.html">11.2 -- Różnicowanie przeciążenia funkcji</a></div><p class="cpp-section cpp-topline" style=clear:both>Domyślne argumenty mogą prowadzić do niejednoznacznych dopasowań<p>Domyślne argumenty mogą łatwo prowadzić do niejednoznacznych wywołań funkcji:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">void foo(int x = 0)
+}</code></pre><p>Wywołanie funkcji <code>print()</code> faktycznie wywołuje <code>print(char)</code>, co działa tak, jakby użytkownik jawnie wywołał <code>print(' ')</code>.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p>Rozważmy teraz następujący przypadek:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">void print(int x);                  // wydruk podpisu (int)
+void print(int x, int y = 10);      // podpis print(int, int)
+void print(int x, double y = 20.5); // podpis print(int, double) </code></pre><p>Wartości domyślne nie są częścią sygnatury funkcji, więc te deklaracje funkcji są zróżnicowanymi przeciążeniami.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Powiązana treść<p>Omawiamy przeciążenie funkcji zróżnicowanie na lekcji <a href="../function-overload-differentiation/index.html">11.2 -- Różnicowanie przeciążenia funkcji</a></div><p class="cpp-section cpp-topline" style=clear:both>Domyślne argumenty mogą prowadzić do niejednoznacznych dopasowań<p>Domyślne argumenty mogą łatwo prowadzić do niejednoznacznych wywołań funkcji:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">void foo(int x = 0)
 {
 }
 
@@ -138,18 +138,18 @@ void foo(double d = 0.0)
 
 int main()
 {
-    foo(); // ambiguous function call
+    foo(); // niejednoznaczne wywołanie funkcji
 
     return 0;
-}</code></pre><p>W tym przykładzie kompilator nie jest w stanie stwierdzić, czy <code>foo()</code>  powinno zakończyć się na  <code>foo(0)</code> lub <code>foo(0.0)</code>.<p>Oto nieco bardziej złożony przykład: <div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">void print(int x);                  // signature print(int)
-void print(int x, int y = 10);      // signature print(int, int)
-void print(int x, double y = 20.5); // signature print(int, double) 
+}</code></pre><p>W tym przykładzie kompilator nie jest w stanie stwierdzić, czy <code>foo()</code>  powinno zakończyć się na  <code>foo(0)</code> lub <code>foo(0.0)</code>.<p>Oto nieco bardziej złożony przykład: <div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">void print(int x);                  // wydruk podpisu (int)
+void print(int x, int y = 10);      // podpis print(int, int)
+void print(int x, double y = 20.5); // podpis print(int, double) 
 
 int main()
 {
-    print(1, 2);   // will resolve to print(int, int)
-    print(1, 2.5); // will resolve to print(int, double) 
-    print(1);      // ambiguous function call
+    print(1, 2);   // zdecyduje się wydrukować (int, int)
+    print(1, 2.5); // zdecyduje się wydrukować (int, double) 
+    print(1);      // niejednoznaczne wywołanie funkcji
 
     return 0;
 }</code></pre><p>W przypadku wywołania <code>print(1)</code>, kompilator nie jest w stanie stwierdzić, czy ma to rozwiązanie  <code>print(int)</code>, <code>print(int, int)</code> lub <code>print(int, double)</code>.<p>W przypadku, gdy chcemy wywołać  <code>print(int, int)</code> lub <code>print(int, double)</code> , zawsze możemy jawnie określić drugi parametr. A co jeśli będziemy chcieli zadzwonić <code>print(int)</code>? Nie jest oczywiste, jak możemy to zrobić.<p class="cpp-section cpp-topline" style=clear:both>Domyślne argumenty nie działają w przypadku funkcji wywoływanych poprzez wskaźniki funkcji <span class="cpp-section-pill cpp-section-advanced">Zaawansowane</span><p>Omówimy ten temat w lekcji <a href="../function-pointers/index.html">20.1 -- Wskaźniki funkcji</a>. Ponieważ przy użyciu tej metody nie są uwzględniane argumenty domyślne, zapewnia to również obejście umożliwiające wywołanie funkcji, która w innym przypadku byłaby niejednoznaczna ze względu na argumenty domyślne.<div class=prevnext><div class=prevnext-inline><a class=nav-link href="../function-templates/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>11.6</span>Szablony funkcji</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../deleting-functions/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>11.4</span>Usuwanie funkcji</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/default-arguments/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../introduction-to-function-overloading/index.html" rel=prev><span>11.1 — Wprowadzenie do przeciążania funkcji</span></a></div><div class=nav-next><em>Następny post</em><a href="../function-pointers/index.html" rel=next><span>20.1 -- Wskaźniki funkcji</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>

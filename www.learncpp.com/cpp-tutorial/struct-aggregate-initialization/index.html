@@ -17,23 +17,23 @@
 
 struct Employee
 {
-    int id; // note: no initializer here
+    int id; // uwaga: brak tutaj inijatora
     int age;
     double wage;
 };
 
 int main()
 {
-    Employee joe; // note: no initializer here either
-    std::cout &lt;&lt; joe.id &lt;&lt; &#39;\n&#39;;
+    Employee joe; // uwaga: brak tutaj również inicjatora
+    std::cout &lt;&lt; joe.id &lt;&lt; '\n';
 
     return 0;
-}</code></pre><p>Ponieważ nie udostępniliśmy żadnych inicjatorów, po utworzeniu instancji  <code>joe</code> wszystkie  <code>joe.id</code>, <code>joe.age</code>, I <code>joe.wage</code> nie zostaną zainicjowane. Otrzymamy wtedy niezdefiniowane zachowanie, gdy spróbujemy wydrukować wartość <code>joe.id</code>.<p>Jednak zanim pokażemy, jak zainicjować strukturę, zróbmy krótką wycieczkę.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p class="cpp-section cpp-topline" style=clear:both><a name=aggregate></a>Co to jest agregacja? <a href="index.html#aggregate"><i class="fa fa-link" style=font-size:.8em></i></a><p>W ogólnym programowaniu  <strong>zagregowany typ danych</strong> (zwany także <strong>agregatem</strong>) to dowolny typ, który może zawierać wiele elementów danych. Niektóre typy agregatów umożliwiają członkom posiadanie różnych typów (np. struktur), podczas gdy inne wymagają, aby wszyscy członkowie byli jednego typu (np. tablice).<p>W C++ definicja agregatu jest węższa i nieco bardziej skomplikowana.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nota autora<p>W tej serii tutoriali, kiedy używamy terminu „agregat” (lub „nieagregat”), będziemy mieli na myśli definicję C++ agregat.</div><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Dla zaawansowanych czytelników<p>Agregat w C++ jest albo tablicą w stylu C (<a href="../introduction-to-c-style-arrays/index.html">17.7 -- Wprowadzenie do tablic w stylu C</a>), albo typem klasy (struktura, klasa lub unia), który ma:<ul><li>Brak konstruktorów zadeklarowanych przez użytkownika (<a href="../introduction-to-constructors/index.html">14.9 -- Wprowadzenie do konstruktorów</a>)<li>Brak prywatnych lub chronionych niestatycznych elementów danych (<a href="../public-and-private-members-and-access-specifiers/index.html">14.5 -- Członkowie publiczni i prywatni oraz specyfikatory dostępu</a>)<li>Brak funkcji wirtualnych (<a href="../virtual-functions/index.html">25.2 -- Funkcje wirtualne i polimorfizm</a>)</ul><p>Popularny typ <code>std::array</code> (<a href="../introduction-to-stdarray/index.html">17.1 — Wprowadzenie do std::array</a>) jest również agregatem.<p>Można znaleźć dokładną definicję agregatu C++ <a href=https://en.cppreference.com/w/cpp/language/aggregate_initialization>tutaj</a>.</div><p>Kluczową rzeczą do zrozumienia w tym miejscu jest to, że struktury zawierające tylko elementy danych są agregatami.<p class="cpp-section cpp-topline" style=clear:both>Agregowana inicjalizacja struktury<p>Ponieważ normalna zmienna może tylko przechowywać pojedynczą wartość, musimy zapewnić tylko jeden inicjator:<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int x { 5 };</code></pre><p>Jednak struktura może mieć wiele elementów:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">struct Employee
+}</code></pre><p>Ponieważ nie udostępniliśmy żadnych inicjatorów, po utworzeniu instancji  <code>joe</code> wszystkie  <code>joe.id</code>, <code>joe.age</code>, i <code>joe.wage</code> nie zostaną zainicjowane. Otrzymamy wtedy niezdefiniowane zachowanie, gdy spróbujemy wydrukować wartość <code>joe.id</code>.<p>Jednak zanim pokażemy, jak zainicjować strukturę, zróbmy krótką wycieczkę.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p class="cpp-section cpp-topline" style=clear:both><a name=aggregate></a>Co to jest agregacja? <a href="index.html#aggregate"><i class="fa fa-link" style=font-size:.8em></i></a><p>W ogólnym programowaniu  <strong>zagregowany typ danych</strong> (zwany także <strong>agregatem</strong>) to dowolny typ, który może zawierać wiele elementów danych. Niektóre typy agregatów umożliwiają członkom posiadanie różnych typów (np. struktur), podczas gdy inne wymagają, aby wszyscy członkowie byli jednego typu (np. tablice).<p>W C++ definicja agregatu jest węższa i nieco bardziej skomplikowana.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nota autora<p>W tej serii tutoriali, kiedy używamy terminu „agregat” (lub „nieagregat”), będziemy mieli na myśli definicję C++ agregat.</div><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Dla zaawansowanych czytelników<p>Agregat w C++ jest albo tablicą w stylu C (<a href="../introduction-to-c-style-arrays/index.html">17.7 -- Wprowadzenie do tablic w stylu C</a>), albo typem klasy (struktura, klasa lub unia), który ma:<ul><li>Brak konstruktorów zadeklarowanych przez użytkownika (<a href="../introduction-to-constructors/index.html">14.9 -- Wprowadzenie do konstruktorów</a>)<li>Brak prywatnych lub chronionych niestatycznych elementów danych (<a href="../public-and-private-members-and-access-specifiers/index.html">14.5 -- Członkowie publiczni i prywatni oraz specyfikatory dostępu</a>)<li>Brak funkcji wirtualnych (<a href="../virtual-functions/index.html">25.2 -- Funkcje wirtualne i polimorfizm</a>)</ul><p>Popularny typ <code>std::array</code> (<a href="../introduction-to-stdarray/index.html">17.1 — Wprowadzenie do std::array</a>) jest również agregatem.<p>Można znaleźć dokładną definicję agregatu C++ <a href=https://en.cppreference.com/w/cpp/language/aggregate_initialization>tutaj</a>.</div><p>Kluczową rzeczą do zrozumienia w tym miejscu jest to, że struktury zawierające tylko elementy danych są agregatami.<p class="cpp-section cpp-topline" style=clear:both>Agregowana inicjalizacja struktury<p>Ponieważ normalna zmienna może tylko przechowywać pojedynczą wartość, musimy zapewnić tylko jeden inicjator:<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int x { 5 };</code></pre><p>Jednak struktura może mieć wiele elementów:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">struct Employee
 {
     int id {};
     int age {};
     double wage {};
-};</code></pre><p>Gdy definiujemy obiekt o typie struktury, potrzebujemy sposobu na zainicjowanie wielu elementów w czasie inicjalizacji:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">Employee joe; // how do we initialize joe.id, joe.age, and joe.wage?</code></pre><p>Agregaty korzystają z formy inicjalizacji zwanej <strong>inicjowaniem agregatu</strong>, która pozwala nam bezpośrednio inicjować elementy agregatów. Aby to zrobić, jako inicjator podajemy <strong>lista inicjatorów</strong> jako inicjator, który jest po prostu listą wartości oddzielonych przecinkami w nawiasach klamrowych.<p>Istnieją 2 podstawowe formy agregacji inicjalizacja:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">struct Employee
+};</code></pre><p>Gdy definiujemy obiekt o typie struktury, potrzebujemy sposobu na zainicjowanie wielu elementów w czasie inicjalizacji:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">Employee joe; // jak zainicjalizować joe.id, joe.age i joe.wage?</code></pre><p>Agregaty korzystają z formy inicjalizacji zwanej <strong>inicjowaniem agregatu</strong>, która pozwala nam bezpośrednio inicjować elementy agregatów. Aby to zrobić, jako inicjator podajemy <strong>lista inicjatorów</strong> jako inicjator, który jest po prostu listą wartości oddzielonych przecinkami w nawiasach klamrowych.<p>Istnieją 2 podstawowe formy agregacji inicjalizacja:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">struct Employee
 {
     int id {};
     int age {};
@@ -42,11 +42,11 @@ int main()
 
 int main()
 {
-    Employee frank = { 1, 32, 60000.0 }; // copy-list initialization using braced list
-    Employee joe { 2, 28, 45000.0 };     // list initialization using braced list (preferred)
+    Employee frank = { 1, 32, 60000.0 }; // inicjalizacja listy kopiowania za pomocą nawiasów klamrowych lista
+    Employee joe { 2, 28, 45000.0 };     // inicjalizacja listy przy użyciu listy w nawiasach klamrowych (preferowana)
 
     return 0;
-}</code></pre><p>Każda z tych form inicjalizacji wykonuje <strong>inicjalizację członową</strong>, co oznacza, że każdy element w strukturze jest inicjowany w kolejności deklaracji. Zatem <code>Employee joe { 2, 28, 45000.0 };</code> najpierw inicjuje <code>joe.id</code> o wartości <code>2</code>, wówczas  <code>joe.age</code> o wartości <code>28</code>, I <code>joe.wage</code> o wartości <code>45000.0</code> ostatni.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Preferuj (niekopiowaną) formę listy z nawiasami klamrowymi podczas inicjowania agregatów.</div><p>In C++20, możemy także inicjować (niektóre) agregaty przy użyciu listy wartości w nawiasach:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    Employee robert ( 3, 45, 62500.0 );  // direct initialization using parenthesized list (C++20)</code></pre><p>Zalecamy unikanie tej ostatniej formy w jak największym stopniu, ponieważ obecnie nie działa ona z agregatami korzystającymi z eliminacji nawiasów (w szczególności <code>std::array</code>).<p class="cpp-section cpp-topline" style=clear:both>Brakujące inicjatory na liście inicjatorów<p>Jeśli agregat jest inicjowany, ale liczba wartości inicjujących jest mniejsza niż liczba elementów członkowskich, wówczas każdy element bez jawny inicjator jest inicjowany w następujący sposób:<ul><li>Jeśli element ma domyślny inicjator elementu, który jest używany.<li>W przeciwnym razie element jest inicjowany przez kopiowanie z pustej listy inicjatorów. W większości przypadków spowoduje to inicjalizację wartości na tych elementach (w typach klas spowoduje to wywołanie konstruktora domyślnego, nawet jeśli istnieje konstruktor listy).</ul><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">struct Employee
+}</code></pre><p>Każda z tych form inicjalizacji wykonuje <strong>inicjalizację członową</strong>, co oznacza, że każdy element w strukturze jest inicjowany w kolejności deklaracji. Zatem <code>Employee joe { 2, 28, 45000.0 };</code> najpierw inicjuje <code>joe.id</code> o wartości <code>2</code>, wówczas  <code>joe.age</code> o wartości <code>28</code>, i <code>joe.wage</code> o wartości <code>45000.0</code> ostatni.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Preferuj (niekopiowaną) formę listy z nawiasami klamrowymi podczas inicjowania agregatów.</div><p>In C++20, możemy także inicjować (niektóre) agregaty przy użyciu listy wartości w nawiasach:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    Employee robert ( 3, 45, 62500.0 );  // bezpośrednia inicjalizacja za pomocą listy w nawiasach (C++20)</code></pre><p>Zalecamy unikanie tej ostatniej formy w jak największym stopniu, ponieważ obecnie nie działa ona z agregatami korzystającymi z eliminacji nawiasów (w szczególności <code>std::array</code>).<p class="cpp-section cpp-topline" style=clear:both>Brakujące inicjatory na liście inicjatorów<p>Jeśli agregat jest inicjowany, ale liczba wartości inicjujących jest mniejsza niż liczba elementów członkowskich, wówczas każdy element bez jawny inicjator jest inicjowany w następujący sposób:<ul><li>Jeśli element ma domyślny inicjator elementu, który jest używany.<li>W przeciwnym razie element jest inicjowany przez kopiowanie z pustej listy inicjatorów. W większości przypadków spowoduje to inicjalizację wartości na tych elementach (w typach klas spowoduje to wywołanie konstruktora domyślnego, nawet jeśli istnieje konstruktor listy).</ul><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">struct Employee
 {
     int id {};
     int age {};
@@ -56,10 +56,10 @@ int main()
 
 int main()
 {
-    Employee joe { 2, 28 }; // joe.whatever will be value-initialized to 0.0
+    Employee joe { 2, 28 }; // joe.cokolwiek zostanie zainicjalizowana wartością 0,0
 
     return 0;
-}</code></pre><p>W powyższym przykładzie <code>joe.id</code> zostanie zainicjowana wartością <code>2</code> i <code>joe.age</code> zostanie zainicjowana wartością <code>28</code>. Ponieważ  <code>joe.wage</code> nie ma jawnego inicjatora, ale ma domyślny inicjator elementu członkowskiego, <code>joe.wage</code> zostanie zainicjowana do <code>76000.0</code>. I wreszcie, ponieważ <code>joe.whatever</code> nie otrzymał jawnego inicjatora, <code>joe.whatever</code> jest inicjowana wartością do <code>0.0</code>.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>To oznacza ogólnie możemy użyć pustej listy inicjalizacyjnej do zainicjowania wartości wszystkich elementów struktury:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">Employee joe {}; // value-initialize all members</code></pre></div><p class="cpp-section cpp-topline" style=clear:both>Przeciążenie <code>operator&lt;&lt;</code> aby wydrukować strukturę<p>W lekcji <a href="../introduction-to-overloading-the-i-o-operators/index.html">13.5 — Wprowadzenie do przeciążania operatorów I/O</a>, pokazaliśmy, jak przeciążyć <code>operator&lt;&lt;</code> aby wydrukować wyliczenie. Przydaje się także przeciążenie <code>operator&lt;&lt;</code> dla struktur.<p>Oto ten sam przykład, co w poprzedniej sekcji, teraz z przeciążoną <code>operator&lt;&lt;</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+}</code></pre><p>W powyższym przykładzie <code>joe.id</code> zostanie zainicjowana wartością <code>2</code> i <code>joe.age</code> zostanie zainicjowana wartością <code>28</code>. Ponieważ  <code>joe.wage</code> nie ma jawnego inicjatora, ale ma domyślny inicjator elementu członkowskiego, <code>joe.wage</code> zostanie zainicjowana do <code>76000.0</code>. I wreszcie, ponieważ <code>joe.whatever</code> nie otrzymał jawnego inicjatora, <code>joe.whatever</code> jest inicjowana wartością do <code>0.0</code>.<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>To oznacza ogólnie możemy użyć pustej listy inicjalizacyjnej do zainicjowania wartości wszystkich elementów struktury:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">Employee joe {}; // wartość-inicjalizacja wszystkich elementów</code></pre></div><p class="cpp-section cpp-topline" style=clear:both>Przeciążenie <code>operator&lt;&lt;</code> aby wydrukować strukturę<p>W lekcji <a href="../introduction-to-overloading-the-i-o-operators/index.html">13.5 — Wprowadzenie do przeciążania operatorów I/O</a>, pokazaliśmy, jak przeciążyć <code>operator&lt;&lt;</code> aby wydrukować wyliczenie. Przydaje się także przeciążenie <code>operator&lt;&lt;</code> dla struktur.<p>Oto ten sam przykład, co w poprzedniej sekcji, teraz z przeciążoną <code>operator&lt;&lt;</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 struct Employee
 {
@@ -70,14 +70,14 @@ struct Employee
 
 std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const Employee&amp; e)
 {
-    out &lt;&lt; e.id &lt;&lt; &#39; &#39; &lt;&lt; e.age &lt;&lt; &#39; &#39; &lt;&lt; e.wage;
+    out &lt;&lt; e.id &lt;&lt; ' ' &lt;&lt; e.age &lt;&lt; ' ' &lt;&lt; e.wage;
     return out;
 }
 
 int main()
 {
-    Employee joe { 2, 28 }; // joe.wage will be value-initialized to 0.0
-    std::cout &lt;&lt; joe &lt;&lt; &#39;\n&#39;;
+    Employee joe { 2, 28 }; // joe.wage zostanie zainicjalizowana wartością 0,0
+    std::cout &lt;&lt; joe &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Wypisuje:<pre>2 28 0
@@ -92,14 +92,14 @@ struct Employee
 
 std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const Employee&amp; e)
 {
-    out &lt;&lt; &#34;id: &#34; &lt;&lt; e.id &lt;&lt; &#34; age: &#34; &lt;&lt; e.age &lt;&lt; &#34; wage: &#34; &lt;&lt; e.wage;
+    out &lt;&lt; "id: " &lt;&lt; e.id &lt;&lt; " age: " &lt;&lt; e.age &lt;&lt; " wage: " &lt;&lt; e.wage;
     return out;
 }
 
 int main()
 {
-    Employee joe { 2, 28 }; // joe.wage will be value-initialized to 0.0
-    std::cout &lt;&lt; joe &lt;&lt; &#39;\n&#39;;
+    Employee joe { 2, 28 }; // joe.wage zostanie zainicjalizowana wartością 0,0
+    std::cout &lt;&lt; joe &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>To teraz wypisuje:<pre>id: 2 age: 28 wage: 0
@@ -112,7 +112,7 @@ int main()
 int main()
 {
     const Rectangle unit { 1.0, 1.0 };
-    const Rectangle zero { }; // value-initialize all members
+    const Rectangle zero { }; // wartość-inicjalizacja wszystkich elementów
 
     return 0;
 }</code></pre><p class="cpp-section cpp-topline" style=clear:both>Wyznaczone inicjatory <span class="cpp-section-pill cpp-section-standard">C++20</span><p>Podczas inicjowania struktury z listy wartości, inicjatory są stosowane do elementów w kolejności deklaracji.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">struct Foo
@@ -135,7 +135,7 @@ int main()
 
 int main()
 {
-    Foo f { 1, 3 }; // now, f.a = 1, f.b = 3, f.c = 0
+    Foo f { 1, 3 }; // teraz, f.a = 1, f.b = 3, f.c = 0
 
     return 0;
 }</code></pre><p>Teraz wszystkie wartości inicjalizacyjne uległy przesunięciu, a co gorsza, kompilator może nie wykryć tego jako błędu (w końcu składnia jest nadal prawidłowa).<p>Aby tego uniknąć, C++20 dodaje nowy sposób inicjalizacji elementów składowych struktury, zwany  <strong>wyznaczonymi inicjatorami</strong> Wyznaczone inicjatory pozwalają jawnie zdefiniować, do których wartości inicjalizacyjnych są mapowane Elementy członkowskie można inicjować za pomocą inicjalizacji listy lub kopiowania i muszą być inicjowane w tej samej kolejności, w jakiej zostały zadeklarowane w strukturze, w przeciwnym razie spowoduje to ostrzeżenie lub błąd. Elementy członkowskie, które nie są wyznaczone jako inicjator, zostaną zainicjowane jako wartości.<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">struct Foo
@@ -147,9 +147,9 @@ int main()
 
 int main()
 {
-    Foo f1{ .a{ 1 }, .c{ 3 } }; // ok: f1.a = 1, f1.b = 0 (value initialized), f1.c = 3
-    Foo f2{ .a = 1, .c = 3 };   // ok: f2.a = 1, f2.b = 0 (value initialized), f2.c = 3
-    Foo f3{ .b{ 2 }, .a{ 1 } }; // error: initialization order does not match order of declaration in struct
+    Foo f1{ .a{ 1 }, .c{ 3 } }; // ok: f1.a = 1, f1.b = 0 (wartość zainicjowana), f1.c = 3
+    Foo f2{ .a = 1, .c = 3 };   // ok: f2.a = 1, f2.b = 0 (wartość zainicjalizowana), f2.c = 3
+    Foo f3{ .b{ 2 }, .a{ 1 } }; // błąd: kolejność inicjalizacji nie jest zgodna z kolejnością deklaracji w struct
 
     return 0;
 }</code></pre><div class="cpp-note cpp-lightyellowbackground"><p class="cpp-note-title cpp-bottomline">Dla użytkowników Clang<p>Podczas wykonywania wyznaczonych inicjatorów pojedynczych wartości przy użyciu nawiasów klamrowych, Clang nieprawidłowo wyświetla ostrzeżenie „nawiasy klamrowe wokół inicjatora skalarnego”. wkrótce.</div><p>Wyznaczone inicjatory są przydatne, ponieważ zapewniają pewien poziom samodokumentacji i pomagają uniknąć przypadkowego pomylenia kolejności wartości inicjalizacyjnych. Jednak wyznaczone inicjatory również znacznie zaśmiecają listę inicjatorów, dlatego nie zalecamy ich obecnie stosowania jako najlepszej praktyki.<p>Ponadto dlatego, że nie ma żadnego wymuszania, aby wyznaczone inicjatory były używane wszędzie, gdzie agregat jest używany. inicjowany, dobrze jest unikać dodawania nowych członków na środku istniejącej definicji agregacji, aby uniknąć ryzyka przesunięcia inicjatora.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Dodając nowego członka do agregacji, najbezpieczniej jest dodać go na dół listy definicji, aby inicjatory pozostałych członków nie uległy przesunięciu.</div><p class="cpp-section cpp-topline" style=clear:both>Przypisanie z listą inicjatorów<p>Jak pokazano w poprzedniej lekcji, możemy przypisać wartości do poszczególnych elementów struktur:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">struct Employee
@@ -163,8 +163,8 @@ int main()
 {
     Employee joe { 1, 32, 60000.0 };
 
-    joe.age  = 33;      // Joe had a birthday
-    joe.wage = 66000.0; // and got a raise
+    joe.age  = 33;      // Joe miał urodziny
+    joe.wage = 66000.0; // i dostałem podbicie
 
     return 0;
 }</code></pre><p>Jest to dobre rozwiązanie w przypadku pojedynczych elementów, ale nie jest idealne, gdy chcemy zaktualizować wiele elementów. Podobnie do inicjowania struktury za pomocą listy inicjatorów, możesz także przypisywać wartości do struktur za pomocą listy inicjatorów (która wykonuje przypisanie elementów):<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">struct Employee
@@ -177,7 +177,7 @@ int main()
 int main()
 {
     Employee joe { 1, 32, 60000.0 };
-    joe = { joe.id, 33, 66000.0 }; // Joe had a birthday and got a raise
+    joe = { joe.id, 33, 66000.0 }; // Joe miał urodziny i dostał podwyżkę
 
     return 0;
 }</code></pre><p>Pamiętaj, że ponieważ nie chcieliśmy zmieniać <code>joe.id</code>, musieliśmy podać bieżącą wartość for <code>joe.id</code> na naszej liście jako element zastępczy, tak aby przypisanie członków mogło przypisać <code>joe.id</code> Do <code>joe.id</code>. Jest to trochę brzydkie.<p class="cpp-section cpp-topline" style=clear:both>Przypisanie z wyznaczonymi inicjatorami <span class="cpp-section-pill cpp-section-standard">C++20</span><p>Wyznaczone inicjatory mogą być również użyte w przypisaniu listy:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">struct Employee
@@ -190,7 +190,7 @@ int main()
 int main()
 {
     Employee joe { 1, 32, 60000.0 };
-    joe = { .id = joe.id, .age = 33, .wage = 66000.0 }; // Joe had a birthday and got a raise
+    joe = { .id = joe.id, .age = 33, .wage = 66000.0 }; // Joe miał urodziny i dostał podwyżkę
 
     return 0;
 }</code></pre><p>Do wszystkich elementów, które nie są wyznaczone w takim przypisaniu, zostanie przypisana wartość, która byłaby używana jako wartość inicjalizacja. Gdybyśmy nie określili wyznaczonego inicjatora dla <code>joe.id</code>, <code>joe.id</code> przypisanoby mu wartość 0.<p class="cpp-section cpp-topline" style=clear:both>Inicjowanie struktury inną strukturą tego samego typu<p>Struktura może być również zainicjowana przy użyciu innej struktury tego samego typu:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -204,7 +204,7 @@ struct Foo
 
 std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const Foo&amp; f)
 {
-    out &lt;&lt; f.a &lt;&lt; &#39; &#39; &lt;&lt; f.b &lt;&lt; &#39; &#39; &lt;&lt; f.c;
+    out &lt;&lt; f.a &lt;&lt; ' ' &lt;&lt; f.b &lt;&lt; ' ' &lt;&lt; f.c;
     return out;
 }
 
@@ -212,13 +212,13 @@ int main()
 {
     Foo foo { 1, 2, 3 };
 
-    Foo x = foo; // copy-initialization
+    Foo x = foo; // kopiuj-inicjalizację
     Foo y(foo);  // direct-initialization
-    Foo z {foo}; // direct-list-initialization
+    Foo z {foo}; // bezpośrednia inicjalizacja listy
 
-    std::cout &lt;&lt; x &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; y &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; z &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; x &lt;&lt; '\n';
+    std::cout &lt;&lt; y &lt;&lt; '\n';
+    std::cout &lt;&lt; z &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Powyższe wypisuje:<pre>1 2 3

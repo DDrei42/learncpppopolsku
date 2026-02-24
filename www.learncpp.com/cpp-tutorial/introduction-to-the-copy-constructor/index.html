@@ -30,14 +30,14 @@ public:
 
     void print() const
     {
-        std::cout &lt;&lt; &#34;Fraction(&#34; &lt;&lt; m_numerator &lt;&lt; &#34;, &#34; &lt;&lt; m_denominator &lt;&lt; &#34;)\n&#34;;
+        std::cout &lt;&lt; "Fraction(" &lt;&lt; m_numerator &lt;&lt; ", " &lt;&lt; m_denominator &lt;&lt; ")\n";
     }
 };
 
 int main()
 {
     Fraction f { 5, 3 };  // Calls Fraction(int, int) constructor
-    Fraction fCopy { f }; // What constructor is used here?
+    Fraction fCopy { f }; // Jakiego konstruktora tu użyto?
 
     f.print();
     fCopy.print();
@@ -45,7 +45,7 @@ int main()
     return 0;
 }</code></pre><p>Możesz być zaskoczony, gdy zauważysz, że ten program kompiluje się dobrze i daje wynik:<pre>Fraction(5, 3)
 Fraction(5, 3)
-</pre><p>Przyjrzyjmy się bliżej, jak działa ten program.<p>Inicjalizacja zmienna <code>f</code> jest po prostu standardową inicjalizacją nawiasów klamrowych, która wywołuje <code>Fraction(int, int)</code> konstruktor.<p>Ale co z następną linią? Inicjalizacja zmiennej <code>fCopy</code> jest również w oczywisty sposób inicjalizacją, a wiadomo, że do inicjowania klas służą funkcje konstruktora. Jaki więc konstruktor wywołuje ta linia?<p>Odpowiedź brzmi: konstruktor kopiujący.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Konstruktor kopiujący<p>A <strong>konstruktor kopiujący</strong> jest konstruktorem używanym do inicjowania obiektu istniejącym obiektem tego samego typu. Po wykonaniu konstruktora kopiującego nowo utworzony obiekt powinien być kopią obiektu przekazanego jako inicjator.<p class="cpp-section cpp-topline" style=clear:both>Niejawny konstruktor kopiujący<p>Jeśli nie podasz konstruktora kopiującego dla swoich klas, C++ utworzy dla ciebie publiczny <strong>niejawny konstruktor kopiujący</strong> . W powyższym przykładzie instrukcja <code>Fraction fCopy { f };</code> wywołuje niejawny konstruktor kopiujący w celu zainicjowania <code>fCopy</code> z <code>f</code>.<p>Domyślnie niejawny konstruktor kopiujący wykona inicjalizację członkowską. Oznacza to, że każdy członek zostanie zainicjowany przy użyciu odpowiedniego członka klasy przekazanego jako inicjator. W powyższym przykładzie  <code>fCopy.m_numerator</code> jest inicjowany za pomocą <code>f.m_numerator</code> (która ma wartość <code>5</code>) i <code>fCopy.m_denominator</code> jest inicjowany za pomocą <code>f.m_denominator</code> (która ma wartość <code>3</code>).<p>Po wykonaniu konstruktora kopiującego elementy  <code>f</code> i <code>fCopy</code>  mają te same wartości, więc  <code>fCopy</code> jest kopią <code>f</code>. Zatem wywołanie <code>print()</code> obu z nich daje ten sam rezultat.<p class="cpp-section cpp-topline" style=clear:both>Definiowanie własnego konstruktora kopiującego<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Możemy również jawnie zdefiniować nasz własny konstruktor kopiujący. W tej lekcji sprawimy, że nasz konstruktor kopiujący wydrukuje komunikat, abyśmy mogli pokazać, że rzeczywiście jest wykonywany podczas tworzenia kopii.<p>Konstruktor kopiujący wygląda tak, jak można się spodziewać:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+</pre><p>Przyjrzyjmy się bliżej, jak działa ten program.<p>Inicjalizacja zmienna <code>f</code> jest po prostu standardową inicjalizacją nawiasów klamrowych, która wywołuje <code>Fraction(int, int)</code> konstruktor.<p>Ale co z następną linią? Inicjalizacja zmiennej <code>fCopy</code> jest również w oczywisty sposób inicjalizacją, a wiadomo, że do inicjowania klas służą funkcje konstruktora. Jaki więc konstruktor wywołuje ta linia?<p>Odpowiedź brzmi: konstruktor kopiujący.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Konstruktor kopiujący<p><strong>konstruktor kopiujący</strong> jest konstruktorem używanym do inicjowania obiektu istniejącym obiektem tego samego typu. Po wykonaniu konstruktora kopiującego nowo utworzony obiekt powinien być kopią obiektu przekazanego jako inicjator.<p class="cpp-section cpp-topline" style=clear:both>Niejawny konstruktor kopiujący<p>Jeśli nie podasz konstruktora kopiującego dla swoich klas, C++ utworzy dla ciebie publiczny <strong>niejawny konstruktor kopiujący</strong> . W powyższym przykładzie instrukcja <code>Fraction fCopy { f };</code> wywołuje niejawny konstruktor kopiujący w celu zainicjowania <code>fCopy</code> z <code>f</code>.<p>Domyślnie niejawny konstruktor kopiujący wykona inicjalizację członkowską. Oznacza to, że każdy członek zostanie zainicjowany przy użyciu odpowiedniego członka klasy przekazanego jako inicjator. W powyższym przykładzie  <code>fCopy.m_numerator</code> jest inicjowany za pomocą <code>f.m_numerator</code> (która ma wartość <code>5</code>) i <code>fCopy.m_denominator</code> jest inicjowany za pomocą <code>f.m_denominator</code> (która ma wartość <code>3</code>).<p>Po wykonaniu konstruktora kopiującego elementy  <code>f</code> i <code>fCopy</code>  mają te same wartości, więc  <code>fCopy</code> jest kopią <code>f</code>. Zatem wywołanie <code>print()</code> obu z nich daje ten sam rezultat.<p class="cpp-section cpp-topline" style=clear:both>Definiowanie własnego konstruktora kopiującego<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Możemy również jawnie zdefiniować nasz własny konstruktor kopiujący. W tej lekcji sprawimy, że nasz konstruktor kopiujący wydrukuje komunikat, abyśmy mogli pokazać, że rzeczywiście jest wykonywany podczas tworzenia kopii.<p>Konstruktor kopiujący wygląda tak, jak można się spodziewać:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
  
 class Fraction
 {
@@ -60,25 +60,25 @@ public:
     {
     }
 
-    // Copy constructor
+    // Kopiuj konstruktor
     Fraction(const Fraction&amp; fraction)
-        // Initialize our members using the corresponding member of the parameter
+        // Zainicjuj nasze elementy za pomocą odpowiedniego elementu parametru
         : m_numerator{ fraction.m_numerator }
         , m_denominator{ fraction.m_denominator }
     {
-        std::cout &lt;&lt; &#34;Copy constructor called\n&#34;; // just to prove it works
+        std::cout &lt;&lt; "Copy constructor called\n"; // tylko żeby udowodnić, że to działa
     }
 
     void print() const
     {
-        std::cout &lt;&lt; &#34;Fraction(&#34; &lt;&lt; m_numerator &lt;&lt; &#34;, &#34; &lt;&lt; m_denominator &lt;&lt; &#34;)\n&#34;;
+        std::cout &lt;&lt; "Fraction(" &lt;&lt; m_numerator &lt;&lt; ", " &lt;&lt; m_denominator &lt;&lt; ")\n";
     }
 };
 
 int main()
 {
     Fraction f { 5, 3 };  // Calls Fraction(int, int) constructor
-    Fraction fCopy { f }; // Calls Fraction(const Fraction&amp;) copy constructor
+    Fraction fCopy { f }; // Wywołuje Fraction(const Konstruktor kopiujący ułamek&amp;)
 
     f.print();
     fCopy.print();
@@ -102,21 +102,21 @@ public:
     {
     }
 
-    // Copy constructor
+    // Kopiuj konstruktor
     Fraction(const Fraction&amp; fraction)
         : m_numerator{ fraction.m_numerator }
         , m_denominator{ fraction.m_denominator }
     {
-        std::cout &lt;&lt; &#34;Copy constructor called\n&#34;;
+        std::cout &lt;&lt; "Copy constructor called\n";
     }
 
     void print() const
     {
-        std::cout &lt;&lt; &#34;Fraction(&#34; &lt;&lt; m_numerator &lt;&lt; &#34;, &#34; &lt;&lt; m_denominator &lt;&lt; &#34;)\n&#34;;
+        std::cout &lt;&lt; "Fraction(" &lt;&lt; m_numerator &lt;&lt; ", " &lt;&lt; m_denominator &lt;&lt; ")\n";
     }
 };
 
-void printFraction(Fraction f) // f is pass by value
+void printFraction(Fraction f) // f jest przekazywane przez wartość
 {
     f.print();
 }
@@ -125,12 +125,12 @@ int main()
 {
     Fraction f{ 5, 3 };
 
-    printFraction(f); // f is copied into the function parameter using copy constructor
+    printFraction(f); // f jest kopiowane do parametru funkcji przy użyciu konstruktora kopiującego
 
     return 0;
 }</code></pre><p>Na komputerze autora ten przykład wypisuje:<pre>Copy constructor called
 Fraction(5, 3)
-</pre><p>W powyższym przykładzie wywołanie <code>printFraction(f)</code> przekazuje <code>f</code> przez wartość. Konstruktor kopiujący jest wywoływany w celu copy <code>f</code> z <code>main</code> do <code>f</code> parametru funkcji <code>printFraction()</code>.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Return by value, a konstruktor kopiujący<p>W lekcji <a href="../introduction-to-local-scope/index.html">&gt;2.5 — Wprowadzenie do zakresu lokalnego</a>. Zauważyliśmy, że return by value tworzy obiekt tymczasowy (przetrzymujący kopię wartości zwracanej), który jest przekazywany z powrotem do obiektu wywołującego. Gdy typ zwracany i wartość zwracana są tego samego typu klasy, obiekt tymczasowy jest inicjowany przez niejawne wywołanie konstruktora kopiującego.<p>Na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+</pre><p>W powyższym przykładzie wywołanie <code>printFraction(f)</code> przekazuje <code>f</code> przez wartość. Konstruktor kopiujący jest wywoływany w celu copy <code>f</code> z <code>main</code> do <code>f</code> parametru funkcji <code>printFraction()</code>.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Return by value, a konstruktor kopiujący<p>W lekcji <a href="../introduction-to-local-scope/index.html">2.5 — Wprowadzenie do zakresu lokalnego</a>. Zauważyliśmy, że return by value tworzy obiekt tymczasowy (przetrzymujący kopię wartości zwracanej), który jest przekazywany z powrotem do obiektu wywołującego. Gdy typ zwracany i wartość zwracana są tego samego typu klasy, obiekt tymczasowy jest inicjowany przez niejawne wywołanie konstruktora kopiującego.<p>Na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 class Fraction
 {
@@ -145,21 +145,21 @@ public:
     {
     }
 
-    // Copy constructor
+    // Kopiuj konstruktor
     Fraction(const Fraction&amp; fraction)
         : m_numerator{ fraction.m_numerator }
         , m_denominator{ fraction.m_denominator }
     {
-        std::cout &lt;&lt; &#34;Copy constructor called\n&#34;;
+        std::cout &lt;&lt; "Copy constructor called\n";
     }
 
     void print() const
     {
-        std::cout &lt;&lt; &#34;Fraction(&#34; &lt;&lt; m_numerator &lt;&lt; &#34;, &#34; &lt;&lt; m_denominator &lt;&lt; &#34;)\n&#34;;
+        std::cout &lt;&lt; "Fraction(" &lt;&lt; m_numerator &lt;&lt; ", " &lt;&lt; m_denominator &lt;&lt; ")\n";
     }
 };
 
-void printFraction(Fraction f) // f is pass by value
+void printFraction(Fraction f) // f jest przekazywane przez wartość
 {
     f.print();
 }
@@ -172,12 +172,12 @@ Fraction generateFraction(int n, int d)
 
 int main()
 {
-    Fraction f2 { generateFraction(1, 2) }; // Fraction is returned using copy constructor
+    Fraction f2 { generateFraction(1, 2) }; // Ułamek jest zwracany przy użyciu konstruktora kopiującego
 
-    printFraction(f2); // f2 is copied into the function parameter using copy constructor
+    printFraction(f2); // f2 jest kopiowana do parametru funkcji za pomocą konstruktora kopiującego
 
     return 0;
-}</code></pre><p>Po wywołaniu <code>generateFraction</code> zwraca a <code>Fraction</code> wróć do <code>main</code>, tworzony jest obiekt tymczasowy <code>Fraction</code> i inicjowany przy użyciu konstruktora kopiującego.<p>Ponieważ ten tymczasowy jest używany do inicjalizacji <code>Fraction f2</code>, powoduje to ponowne wywołanie konstruktora kopiującego w celu skopiowania tymczasowe do <code>f2</code>.<p>A kiedy <code>f2</code> jest przekazywane do <code>printFraction()</code>, konstruktor kopiujący wywoływany jest po raz trzeci.<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>Tak więc na maszynie autora ten przykład wypisuje:<pre>Copy constructor called
+}</code></pre><p>Po wywołaniu <code>generateFraction</code> zwraca <code>Fraction</code> wróć do <code>main</code>, tworzony jest obiekt tymczasowy <code>Fraction</code> i inicjowany przy użyciu konstruktora kopiującego.<p>Ponieważ ten tymczasowy jest używany do inicjalizacji <code>Fraction f2</code>, powoduje to ponowne wywołanie konstruktora kopiującego w celu skopiowania tymczasowe do <code>f2</code>.<p>A kiedy <code>f2</code> jest przekazywane do <code>printFraction()</code>, konstruktor kopiujący wywoływany jest po raz trzeci.<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>Tak więc na maszynie autora ten przykład wypisuje:<pre>Copy constructor called
 Copy constructor called
 Copy constructor called
 Fraction(1, 2)
@@ -196,12 +196,12 @@ public:
     {
     }
 
-    // Explicitly request default copy constructor
+    // Wyraźnie zażądaj domyślnego konstruktora kopiującego
     Fraction(const Fraction&amp; fraction) = default;
 
     void print() const
     {
-        std::cout &lt;&lt; &#34;Fraction(&#34; &lt;&lt; m_numerator &lt;&lt; &#34;, &#34; &lt;&lt; m_denominator &lt;&lt; &#34;)\n&#34;;
+        std::cout &lt;&lt; "Fraction(" &lt;&lt; m_numerator &lt;&lt; ", " &lt;&lt; m_denominator &lt;&lt; ")\n";
     }
 };
 
@@ -229,19 +229,19 @@ public:
     {
     }
 
-    // Delete the copy constructor so no copies can be made
+    // Usuń konstruktor kopiujący, aby nie można było wykonać kopii
     Fraction(const Fraction&amp; fraction) = delete;
 
     void print() const
     {
-        std::cout &lt;&lt; &#34;Fraction(&#34; &lt;&lt; m_numerator &lt;&lt; &#34;, &#34; &lt;&lt; m_denominator &lt;&lt; &#34;)\n&#34;;
+        std::cout &lt;&lt; "Fraction(" &lt;&lt; m_numerator &lt;&lt; ", " &lt;&lt; m_denominator &lt;&lt; ")\n";
     }
 };
 
 int main()
 {
     Fraction f { 5, 3 };
-    Fraction fCopy { f }; // compile error: copy constructor has been deleted
+    Fraction fCopy { f }; // błąd kompilacji: konstruktor kopiujący został usunięty
 
     return 0;
 }</code></pre><p>W przykładzie, gdy kompilator będzie szukał konstruktora do inicjalizacji <code>fCopy</code> z <code>f</code>, zobaczy, że konstruktor kopiujący został usunięty. Spowoduje to wyemitowanie błędu kompilacji.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Na marginesie…<p>Możesz także uniemożliwić publiczne tworzenie kopii obiektu klasy, ustawiając konstruktor kopiujący jako prywatny (ponieważ funkcje prywatne nie mogą być używane przez publiczność). Jednak prywatny konstruktor kopiujący <em>możesz</em> w dalszym ciągu jest używany przez innych członków klasy, więc to rozwiązanie nie jest zalecane, chyba że jest to pożądane.</div><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Dla zaawansowanych czytelników<p>Klasa <strong>Reguła trzech</strong> jest dobrze znaną zasadą C++, która stwierdza, że ​​jeśli klasa wymaga zdefiniowanego przez użytkownika konstruktora kopiującego, destruktora lub operatora przypisania kopii, to prawdopodobnie wymaga wszystkich trzech. W C++ 11 zostało to rozszerzone do <strong>reguły pięciu</strong>, która dodaje do listy konstruktor przenoszenia i operator przypisania przenoszenia.<p>Nieprzestrzeganie reguły trzech/reguły pięciu prawdopodobnie doprowadzi do nieprawidłowego działania kodu. Do zasad trzech i pięciu wrócimy, gdy będziemy omawiać dynamiczną alokację pamięci.<p>Destruktory omawiamy na lekcji <a href="../introduction-to-destructors/index.html">15.4 -- Wprowadzenie do destruktorów</a> i <a href="../destructors/index.html">19.3 -- Destructors</a>, a przypisywanie kopii na lekcji <a href="../overloading-the-assignment-operator/index.html">21.12 — Przeciążanie operatora przypisania</a>.</div><p class="cpp-section cpp-topline" style=clear:both>Czas quizu<p class=cpp-quiz-question style=clear:both>Pytanie nr 1<p>W powyższej lekcji zauważyliśmy, że parametr konstruktora kopiującego musi być (stałym) odniesieniem. Dlaczego nie wolno nam używać przekazywania przez wartość?<p><a class=hint_link_show href=javascript:void(0) onclick="cppHintToggle(document.getElementById('cpp_hint_id_0'),this,'Show Hint','')">Pokaż wskazówkę</a><div class=wphint id=cpp_hint_id_0 style=display:none;margin-bottom:1em>Wskazówka: Zastanów się, co się stanie, gdy przekażemy argument typu klasy przez wartość.</div><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_0 style=display:none><p>Gdy przekazujemy argument typu klasy przez wartość, konstruktor kopiujący jest niejawnie wywoływany w celu skopiowania argumentu do parametru.<p>Jeśli konstruktor kopiujący przekazał wartość, konstruktor kopiujący musiałby wywołać sam siebie, aby skopiować argument inicjatora do parametru konstruktora kopiującego. Ale to wywołanie konstruktora kopiującego również zostanie przekazane przez wartość, więc konstruktor kopiujący zostanie wywołany ponownie w celu skopiowania argumentu do parametru funkcji. Prowadziłoby to do nieskończonego łańcucha wywołań konstruktora kopiującego.</div><div class=prevnext><div class=prevnext-inline><a class=nav-link href="../class-initialization-and-copy-elision/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>14.15</span>Inicjowanie klasy i elizja kopiowania</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../temporary-class-objects/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>14.13</span>Tymczasowe obiekty klasy</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/introduction-to-the-copy-constructor/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../overloading-typecasts/index.html" rel=prev><span>21.11 — Przeciążanie typecastów</span></a></div><div class=nav-next><em>Następny post</em><a href="../shallow-vs-deep-copying/index.html" rel=next><span>21.13 — Kopiowanie płytkie i głębokie</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>

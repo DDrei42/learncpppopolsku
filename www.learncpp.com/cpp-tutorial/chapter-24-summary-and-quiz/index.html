@@ -13,7 +13,7 @@
 <button class=searchsubmit><span class=screen-reader-text>Szukaj</span><i class=icon-search></i></button>
 <input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=41553></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="24.x — Podsumowanie i quiz z rozdziału 24" src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-4814 class="post-4814 post type-post status-publish format-standard hentry category-cpp-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>24.x — Podsumowanie i quiz z rozdziału 24</h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Autor></i><a class="url fn n" rel=author href=/www.learncpp.com/author/Alex/ title="Wyświetl wszystkie posty Alexa" itemprop=url><em itemprop=name>Alex</em></a></span>
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2016-10-29T15:32:33-07:00 itemprop=datePublished>29 października 2016, 15:32 PDT</time>
-<time class=updated datetime=2024-01-31T23:20:47-08:00 itemprop=dateModified>31 stycznia 2024 r</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p class="cpp-section cpp-topline" style=clear:both>Streszczenie<p>Dziedziczenie pozwala nam modelować relację jest pomiędzy dwoma obiektami. Obiekt, z którego dziedziczony jest, nazywany jest klasą nadrzędną, klasą bazową lub nadklasą. Obiekt dziedziczący nazywany jest klasą potomną, klasą pochodną lub podklasą.<p>Kiedy klasa pochodna dziedziczy z klasy bazowej, klasa pochodna nabywa wszystkie elementy klasy bazowej.<p style=clear:both><p><p>Kiedy tworzona jest klasa pochodna, najpierw tworzona jest część podstawowa klasy, a następnie część pochodna. Bardziej szczegółowo:<ol><li>Pamięć dla klasy pochodnej jest rezerwowana (wystarczająca zarówno dla części podstawowej, jak i pochodnej).<li>Wywoływany jest odpowiedni konstruktor klasy pochodnej.<li>Obiekt klasy bazowej jest najpierw konstruowany przy użyciu odpowiedniego konstruktora klasy bazowej. Jeśli nie określono konstruktora klasy bazowej, zostanie użyty konstruktor domyślny.<li>Lista inicjalizacyjna klasy pochodnej inicjuje elementy klasy pochodnej.<li>Wykonywana jest treść konstruktora klasy pochodnej.<li>Kontrola zostaje zwrócona dzwoniącemu.</ol><p>Zniszczenie następuje w odwrotnej kolejności, od klasy najbardziej pochodnej do klasy najbardziej podstawowej.<p>C++ ma 3 specyfikatory dostępu: publiczny, prywatny i chroniony. Specyfikator dostępu chronionego pozwala klasie, do której należy członek, przyjaciołom i klasom pochodnym na dostęp do chronionych członków, ale nie do publiczności.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Klasy mogą dziedziczyć z innej klasy publicznie, prywatnie lub chronicznie. Klasy prawie zawsze dziedziczą publicznie.<p>Oto tabela wszystkich kombinacji specyfikatorów dostępu i typów dziedziczenia:<div class=cpp-table-wrapper><p><p><table class=cpp-table><tbody><tr><th>Specyfikator dostępu w klasie bazowej<th>Specyfikator dostępu w przypadku dziedziczenia publicznego<th>Specyfikator dostępu w przypadku dziedziczenia prywatnego<th>Specyfikator dostępu w przypadku dziedziczenia chronionego<tr><td>Publiczny<td>Publiczny<td>Prywatny<td>Chroniony<tr><td>Prywatny<td>Niedostępny<td>Niedostępny<td>Niedostępny<tr><td>Chroniony<td>Chroniony<td>Prywatny<td>Chroniony</table></div><p>Klasy pochodne mogą dodawać nowe funkcje, zmieniać sposób, w jaki funkcje istniejące w klasie bazowej działają w klasie pochodnej, zmieniać poziom dostępu dziedziczonego elementu członkowskiego lub ukrywać funkcjonalność.<p>Dziedziczenie wielokrotne umożliwia klasie pochodnej dziedziczenie elementów od więcej niż jednego elementu nadrzędnego. Ogólnie rzecz biorąc, należy unikać wielokrotnego dziedziczenia, chyba że alternatywy prowadzą do większej złożoności.<p class="cpp-section cpp-topline" style=clear:both>Czas quizu<div class=quiz style=clear:both><p class=quiz-header>Pytanie nr 1<p>Dla każdego z poniższych programów określ, co generują dane wyjściowe, a jeśli nie chcą się skompilować, wskaż dlaczego. To ćwiczenie należy wykonać w drodze inspekcji, więc nie kompiluj ich (w przeciwnym razie odpowiedzi będą trywialne).<p>A)<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+<time class=updated datetime=2024-01-31T23:20:47-08:00 itemprop=dateModified>31 stycznia 2024 r</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p class="cpp-section cpp-topline" style=clear:both>Streszczenie<p>Dziedziczenie pozwala nam modelować relację jest pomiędzy dwoma obiektami. Obiekt, z którego dziedziczony jest, nazywany jest klasą nadrzędną, klasą bazową lub nadklasą. Obiekt dziedziczący nazywany jest klasą potomną, klasą pochodną lub podklasą.<p>Kiedy klasa pochodna dziedziczy z klasy bazowej, klasa pochodna nabywa wszystkie elementy klasy bazowej.<p style=clear:both><p><p>Kiedy tworzona jest klasa pochodna, najpierw tworzona jest część podstawowa klasy, a następnie część pochodna. Bardziej szczegółowo:<ol><li>Pamięć dla klasy pochodnej jest rezerwowana (wystarczająca zarówno dla części podstawowej, jak i pochodnej).<li>Wywoływany jest odpowiedni konstruktor klasy pochodnej.<li>Obiekt klasy bazowej jest najpierw konstruowany przy użyciu odpowiedniego konstruktora klasy bazowej. Jeśli nie określono konstruktora klasy bazowej, zostanie użyty konstruktor domyślny.<li>Lista inicjalizacyjna klasy pochodnej inicjuje elementy klasy pochodnej.<li>Wykonywana jest treść konstruktora klasy pochodnej.<li>Kontrola zostaje zwrócona wywołującemu.</ol><p>Zniszczenie następuje w odwrotnej kolejności, od klasy najbardziej pochodnej do klasy najbardziej podstawowej.<p>C++ ma 3 specyfikatory dostępu: publiczny, prywatny i chroniony. Specyfikator dostępu chronionego pozwala klasie, do której należy członek, przyjaciołom i klasom pochodnym na dostęp do chronionych członków, ale nie do publiczności.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Klasy mogą dziedziczyć z innej klasy publicznie, prywatnie lub chronicznie. Klasy prawie zawsze dziedziczą publicznie.<p>Oto tabela wszystkich kombinacji specyfikatorów dostępu i typów dziedziczenia:<div class=cpp-table-wrapper><p><p><table class=cpp-table><tbody><tr><th>Specyfikator dostępu w klasie bazowej<th>Specyfikator dostępu w przypadku dziedziczenia publicznego<th>Specyfikator dostępu w przypadku dziedziczenia prywatnego<th>Specyfikator dostępu w przypadku dziedziczenia chronionego<tr><td>Publiczny<td>Publiczny<td>Prywatny<td>Chroniony<tr><td>Prywatny<td>Niedostępny<td>Niedostępny<td>Niedostępny<tr><td>Chroniony<td>Chroniony<td>Prywatny<td>Chroniony</table></div><p>Klasy pochodne mogą dodawać nowe funkcje, zmieniać sposób, w jaki funkcje istniejące w klasie bazowej działają w klasie pochodnej, zmieniać poziom dostępu dziedziczonego elementu członkowskiego lub ukrywać funkcjonalność.<p>Dziedziczenie wielokrotne umożliwia klasie pochodnej dziedziczenie elementów od więcej niż jednego elementu nadrzędnego. Ogólnie rzecz biorąc, należy unikać wielokrotnego dziedziczenia, chyba że alternatywy prowadzą do większej złożoności.<p class="cpp-section cpp-topline" style=clear:both>Czas quizu<div class=quiz style=clear:both><p class=quiz-header>Pytanie nr 1<p>Dla każdego z poniższych programów określ, co generują dane wyjściowe, a jeśli nie chcą się skompilować, wskaż dlaczego. To ćwiczenie należy wykonać w drodze inspekcji, więc nie kompiluj ich (w przeciwnym razie odpowiedzi będą trywialne).<p>A)<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 class Base
 {
@@ -184,14 +184,14 @@ protected:
 public:
 	Base(int x): m_x{ x }
 	{
-		std::cout &lt;&lt; &#34;Base()\n&#34;;
+		std::cout &lt;&lt; "Base()\n";
 	}
 	~Base()
 	{
-		std::cout &lt;&lt; &#34;~Base()\n&#34;;
+		std::cout &lt;&lt; "~Base()\n";
 	}
 
-	void print() const { std::cout &lt;&lt; &#34;Base: &#34; &lt;&lt; m_x &lt;&lt; &#39;\n&#39;;  }
+	void print() const { std::cout &lt;&lt; "Base: " &lt;&lt; m_x &lt;&lt; '\n';  }
 };
 
 class Derived: public Base
@@ -199,14 +199,14 @@ class Derived: public Base
 public:
 	Derived(int y):  Base{ y }
 	{
-		std::cout &lt;&lt; &#34;Derived()\n&#34;;
+		std::cout &lt;&lt; "Derived()\n";
 	}
 	~Derived()
 	{
-		std::cout &lt;&lt; &#34;~Derived()\n&#34;;
+		std::cout &lt;&lt; "~Derived()\n";
 	}
 
-	void print() const { std::cout &lt;&lt; &#34;Derived: &#34; &lt;&lt; m_x &lt;&lt; &#39;\n&#39;; }
+	void print() const { std::cout &lt;&lt; "Derived: " &lt;&lt; m_x &lt;&lt; '\n'; }
 };
 
 class D2 : public Derived
@@ -214,14 +214,14 @@ class D2 : public Derived
 public:
 	D2(int z): Derived{ z }
 	{
-		std::cout &lt;&lt; &#34;D2()\n&#34;;
+		std::cout &lt;&lt; "D2()\n";
 	}
 	~D2()
 	{
-		std::cout &lt;&lt; &#34;~D2()\n&#34;;
+		std::cout &lt;&lt; "~D2()\n";
 	}
 
-        // note: no print() function here
+        // uwaga: brak tutaj funkcji print()
 };
 
 int main()
@@ -324,17 +324,17 @@ public:
 
 class Apple: public Fruit
 {
-// The previous constructor we used for Apple had a fixed name (&#34;apple&#34;).
-// We need a new constructor for GrannySmith to use to set the name of the fruit
-protected: // protected so only derived classes can access
+// Poprzedni konstruktor, którego używaliśmy dla Apple, miał stałą nazwę („jabłko”).
+// Potrzebujemy nowego konstruktora, którego GrannySmith będzie mógł użyć do ustawienia nazwy funkcji owoce
+protected: // chronione, więc dostęp tylko klasy pochodne mają dostęp
 	Apple(std::string_view name, std::string_view color)
 		: Fruit{ name, color }
 	{
 	}
 
 public:
-	Apple(std::string_view color=&#34;red&#34;)
-		: Fruit{ &#34;apple&#34;, color }
+	Apple(std::string_view color="red")
+		: Fruit{ "apple", color }
 	{
 	}
 };
@@ -343,7 +343,7 @@ class Banana : public Fruit
 {
 public:
 	Banana()
-		: Fruit{ &#34;banana&#34;, &#34;yellow&#34; }
+		: Fruit{ "banana", "yellow" }
 	{
 	}
 };
@@ -352,20 +352,20 @@ class GrannySmith : public Apple
 {
 public:
 	GrannySmith()
-		: Apple{ &#34;granny smith apple&#34;, &#34;green&#34; }
+		: Apple{ "granny smith apple", "green" }
 	{
 	}
 };
 
 int main()
 {
-	Apple a{ &#34;red&#34; };
+	Apple a{ "red" };
 	Banana b;
 	GrannySmith c;
 
-	std::cout &lt;&lt; &#34;My &#34; &lt;&lt; a.getName() &lt;&lt; &#34; is &#34; &lt;&lt; a.getColor() &lt;&lt; &#34;.\n&#34;;
-	std::cout &lt;&lt; &#34;My &#34; &lt;&lt; b.getName() &lt;&lt; &#34; is &#34; &lt;&lt; b.getColor() &lt;&lt; &#34;.\n&#34;;
-	std::cout &lt;&lt; &#34;My &#34; &lt;&lt; c.getName() &lt;&lt; &#34; is &#34; &lt;&lt; c.getColor() &lt;&lt; &#34;.\n&#34;;
+	std::cout &lt;&lt; "My " &lt;&lt; a.getName() &lt;&lt; " is " &lt;&lt; a.getColor() &lt;&lt; ".\n";
+	std::cout &lt;&lt; "My " &lt;&lt; b.getName() &lt;&lt; " is " &lt;&lt; b.getColor() &lt;&lt; ".\n";
+	std::cout &lt;&lt; "My " &lt;&lt; c.getName() &lt;&lt; " is " &lt;&lt; c.getColor() &lt;&lt; ".\n";
 
 	return 0;
 }</code></pre></div></div><div class=quiz style=clear:both><p class=quiz-header>Pytanie nr 3<p>Czas na wyzwanie! Poniższe pytanie quizowe jest trudniejsze i dłuższe. Mamy zamiar napisać prostą grę, w której walczysz z potworami. Celem gry jest zebranie jak największej ilości złota, zanim umrzesz lub osiągniesz poziom 20.<p>Nasz program będzie składał się z 3 klas: klasy Creature, klasy Player i klasy Monster. Zarówno Gracz, jak i Potwór dziedziczą po Stworzeniu.<p>a) Najpierw utwórz klasę Creature. Stworzenia mają 5 atrybutów: nazwę (std::string), symbol (a char), ilość zdrowia (int), ilość obrażeń zadawanych przez atak (int) i ilość złota, które noszą (int). Zaimplementuj je jako członkowie klasy. Napisz pełny zestaw modułów pobierających (funkcja get dla każdego elementu członkowskiego). Dodaj trzy inne funkcje: void lessHealth(int) zmniejsza zdrowie stworzenia o liczbę całkowitą. bool isDead() zwraca wartość true, gdy zdrowie stworzenia wynosi 0 lub mniej. void addGold(int) dodaje złoto do stworzenia.<p>Powinien uruchomić się następujący program:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -427,7 +427,7 @@ Welcome, Alex.
 You have 10 health and are carrying 0 gold.
 </pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_8'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_8 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;string&gt;
-#include &lt;string_view&gt; // std::string_view requires C++17
+#include &lt;string_view&gt; // std::string_view wymaga C++ 17
 
 class Creature
 {
@@ -465,7 +465,7 @@ class Player : public Creature
 
 public:
 	Player(std::string_view name)
-		: Creature{ name, &#39;@&#39;, 10, 1, 0 }
+		: Creature{ name, '@', 10, 1, 0 }
 	{
 	}
 
@@ -481,17 +481,17 @@ public:
 
 int main()
 {
-	std::cout &lt;&lt; &#34;Enter your name: &#34;;
+	std::cout &lt;&lt; "Enter your name: ";
 	std::string playerName;
 	std::cin &gt;&gt; playerName;
 
 	Player p{ playerName };
-	std::cout &lt;&lt; &#34;Welcome, &#34; &lt;&lt; p.getName() &lt;&lt; &#34;.\n&#34;;
+	std::cout &lt;&lt; "Welcome, " &lt;&lt; p.getName() &lt;&lt; ".\n";
 
-	std::cout &lt;&lt; &#34;You have &#34; &lt;&lt; p.getHealth() &lt;&lt; &#34; health and are carrying &#34; &lt;&lt; p.getGold() &lt;&lt; &#34; gold.\n&#34;;
+	std::cout &lt;&lt; "You have " &lt;&lt; p.getHealth() &lt;&lt; " health and are carrying " &lt;&lt; p.getGold() &lt;&lt; " gold.\n";
 
 	return 0;
-}</code></pre></div><p>c) Następna w kolejce jest klasa Monster. Potwór dziedziczy także po Stworzeniu. Potwory nie mają niedziedziczonych zmiennych składowych.<p>Najpierw napisz pustą klasę Monster dziedziczącą po Creature, a następnie dodaj wyliczenie wewnątrz klasy Monster o nazwie Type, które zawiera moduły wyliczające dla 3 potworów, które będziemy mieć w tej grze: <code>dragon</code>, <code>orc</code>, I <code>slime</code> (będziesz także chciał <code>max_types</code> licznik, bo to się za chwilę przyda).<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_9'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_9 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">class Monster : public Creature
+}</code></pre></div><p>c) Następna w kolejce jest klasa Monster. Potwór dziedziczy także po Stworzeniu. Potwory nie mają niedziedziczonych zmiennych składowych.<p>Najpierw napisz pustą klasę Monster dziedziczącą po Creature, a następnie dodaj wyliczenie wewnątrz klasy Monster o nazwie Type, które zawiera moduły wyliczające dla 3 potworów, które będziemy mieć w tej grze: <code>dragon</code>, <code>orc</code>, i <code>slime</code> (będziesz także chciał <code>max_types</code> licznik, bo to się za chwilę przyda).<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_9'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_9 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">class Monster : public Creature
 {
 public:
 	enum Type
@@ -597,7 +597,7 @@ int main()
     std::cout &lt;&lt; &#34;A &#34; &lt;&lt; m.getName() &lt;&lt; &#34; (&#34; &lt;&lt; m.getSymbol() &lt;&lt; &#34;) was created.\n&#34;;
  
   return 0;
-}</code></pre></div><p>e) Na koniec dodaj a <code>static</code> funkcję do potwora o nazwie <code>getRandomMonster()</code>. Ta funkcja powinna wybrać losową liczbę z <code>0</code> Do <code>max_types-1</code> i zwróć z tym potwora (według wartości) <code>Type</code> (musisz  <code>static_cast</code>  <code>int</code> do <code>Type</code> aby przekazać go do <code>Monster</code> konstruktora).<p>Lekcja <a href="../global-random-numbers-random-h/index.html#RandomH">8.15 -- Globalne liczby losowe (Random.h)</a> zawiera kod, którego możesz użyć do wybrania losowej liczby.<p>Powinna zostać uruchomiona następująca funkcja główna:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+}</code></pre></div><p>e) Na koniec dodaj <code>static</code> funkcję do potwora o nazwie <code>getRandomMonster()</code>. Ta funkcja powinna wybrać losową liczbę z <code>0</code> Do <code>max_types-1</code> i zwróć z tym potwora (według wartości) <code>Type</code> (musisz  <code>static_cast</code>  <code>int</code> do <code>Type</code> aby przekazać go do <code>Monster</code> konstruktora).<p>Lekcja <a href="../global-random-numbers-random-h/index.html#RandomH">8.15 -- Globalne liczby losowe (Random.h)</a> zawiera kod, którego możesz użyć do wybrania losowej liczby.<p>Powinna zostać uruchomiona następująca funkcja główna:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;string&gt;
 
 int main()
@@ -705,7 +705,7 @@ int main()
     }
  
   return 0;
-}</code></pre></div><p>f) Wreszcie jesteśmy gotowi do napisania naszej logiki gry!<p>Oto zasady gry:<p>Gracz napotyka losowo wygenerowaną liczbę potwora na raz.<br>Dla każdego potwora gracz ma dwie możliwości: (R)un lub (F)ight.<br>Jeśli gracz zdecyduje się na ucieczkę, ma 50% szans na ucieczkę.<br>Jeśli gracz ucieknie, przechodzi do następnego spotkania bez żadnych negatywnych skutków.<br>Jeśli gracz nie ucieknie, potwór otrzymuje darmowy atak, a gracz wybiera następną akcję.<br>Jeśli gracz zdecyduje się walczyć, atakuje jako pierwszy. Zdrowie potwora jest zmniejszone o obrażenia zadawane przez gracza.<br>Jeśli potwór umrze, gracz otrzymuje całe złoto, które potwór niesie. Gracz również awansuje, zwiększając swój poziom i obrażenia o 1.<br>Jeśli potwór nie umrze, potwór ponownie atakuje gracza. Zdrowie gracza zostaje zmniejszone w wyniku obrażeń zadawanych przez potwora.<br>Gra kończy się, gdy gracz umrze (przegrana) lub osiągnie poziom 20 (wygrana)<br>Jeśli gracz umrze, gra powinna poinformować go, jaki był poziom i ile posiadał złota.<br>Jeśli gracz wygra, gra powinna poinformować go, że wygrał i ile posiadał złota<p>Oto przykładowa sesja gry:<p>Wpisz swoje imię: Alex<br>Witaj, Alex<br>Napotkałeś śluz.<br>(R)un lub (F)ight: f<br>Uderzyłeś śluza zadając 1 obrażenia.<br>Zabiłeś śluz.<br>Jesteś teraz poziom 2.<br>Znalazłeś 10 sztuk złota.<br>Napotkałeś smoka (D).<br>(R)un lub (F)ight: r<br>Nie udało Ci się uciekaj.<br>Smok zadał ci 4 obrażenia.<br>(R)un lub (F)ight: r<br>Udało ci się uciec.<br>Napotkałeś orka (o).<br>(R)un lub (F)ight: f<br>Uderzyłeś orka, zadając 2 obrażenia.<br>Ork uderzył cię, zadając 2 obrażenia.<br>(R)un lub (F)ight: f<br>Uderzyłeś orka, zadając 2 obrażenia.<br>Zabiłeś orka.<br>Masz teraz poziom 3.<br>Znalazłeś 25 sztuk złota.<br>Napotkałeś smoka (D).<br>(R)un lub (F)ight: r<br>Nie udało Ci się uciekaj.<br>Smok zadał ci 4 obrażenia.<br>Umarłeś na poziomie 3 i mając 35 sztuk złota.<br>Szkoda, że nie możesz zabrać go ze sobą!<p>Wskazówka: Utwórz 4 funkcje:<ul><li>Funkcja main() powinna obsługiwać konfigurację gry (tworzenie Gracza) i grę główną pętla.<li>fightMonster() obsługuje walkę pomiędzy Graczem a pojedynczym Potworem, w tym zadaje graczowi pytanie, co chce zrobić, obsługuje przypadki ucieczki lub walki.<li>attackMonster() obsługuje gracza atakującego potwora, w tym awansuje na wyższy poziom.<li>attackPlayer() obsługuje potwora atakującego gracza.</ul><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_12'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_12 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &#34;Random.h&#34; // /www.learncpp.com/cpp-tutorial/global-random-numbers-random-h/
+}</code></pre></div><p>f) Wreszcie jesteśmy gotowi do napisania naszej logiki gry!<p>Oto zasady gry:<p>Gracz napotyka losowo wygenerowaną liczbę potwora na raz.<br>Dla każdego potwora gracz ma dwie możliwości: (R)un lub (F)ight.<br>Jeśli gracz zdecyduje się na ucieczkę, ma 50% szans na ucieczkę.<br>Jeśli gracz ucieknie, przechodzi do następnego spotkania bez żadnych negatywnych skutków.<br>Jeśli gracz nie ucieknie, potwór otrzymuje darmowy atak, a gracz wybiera następną akcję.<br>Jeśli gracz zdecyduje się walczyć, atakuje jako pierwszy. Zdrowie potwora jest zmniejszone o obrażenia zadawane przez gracza.<br>Jeśli potwór umrze, gracz otrzymuje całe złoto, które potwór niesie. Gracz również awansuje, zwiększając swój poziom i obrażenia o 1.<br>Jeśli potwór nie umrze, potwór ponownie atakuje gracza. Zdrowie gracza zostaje zmniejszone w wyniku obrażeń zadawanych przez potwora.<br>Gra kończy się, gdy gracz umrze (przegrana) lub osiągnie poziom 20 (wygrana)<br>Jeśli gracz umrze, gra powinna poinformować go, jaki był poziom i ile posiadał złota.<br>Jeśli gracz wygra, gra powinna poinformować go, że wygrał i ile posiadał złota<p>Oto przykładowa sesja gry:<p>Wpisz swoje imię: Alex<br>Witaj, Alex<br>Napotkałeś śluz.<br>(R)un lub (F)ight: f<br>Uderzyłeś śluza zadając 1 obrażenia.<br>Zabiłeś śluz.<br>Jesteś teraz poziom 2.<br>Znalazłeś 10 sztuk złota.<br>Napotkałeś smoka (D).<br>(R)un lub (F)ight: r<br>Nie udało Ci się uciekaj.<br>Smok zadał ci 4 obrażenia.<br>(R)un lub (F)ight: r<br>Udało ci się uciec.<br>Napotkałeś orka (o).<br>(R)un lub (F)ight: f<br>Uderzyłeś orka, zadając 2 obrażenia.<br>Ork uderzył cię, zadając 2 obrażenia.<br>(R)un lub (F)ight: f<br>Uderzyłeś orka, zadając 2 obrażenia.<br>Zabiłeś orka.<br>Masz teraz poziom 3.<br>Znalazłeś 25 sztuk złota.<br>Napotkałeś smoka (D).<br>(R)un lub (F)ight: r<br>Nie udało Ci się uciekaj.<br>Smok zadał ci 4 obrażenia.<br>Umarłeś na poziomie 3 i mając 35 sztuk złota.<br>Szkoda, że nie możesz zabrać go ze sobą!<p>Wskazówka: Utwórz 4 funkcje:<ul><li>Funkcja main() powinna obsługiwać konfigurację gry (tworzenie Gracza) i grę główną pętla.<li>fightMonster() obsługuje walkę pomiędzy Graczem a pojedynczym Potworem, w tym zadaje graczowi pytanie, co chce zrobić, obsługuje przypadki ucieczki lub walki.<li>attackMonster() obsługuje gracza atakującego potwora, w tym awansuje na wyższy poziom.<li>attackPlayer() obsługuje potwora atakującego gracza.</ul><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_12'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_12 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include "Random.h" // /www.learncpp.com/cpp-tutorial/global-random-numbers-random-h/
 #include &lt;array&gt;
 #include &lt;iostream&gt;
 #include &lt;string&gt;
@@ -745,7 +745,7 @@ class Player : public Creature
  
 public:
     Player(const std::string&amp; name)
-        : Creature{ name, &#39;@&#39;, 10, 1, 0 }
+        : Creature{ name, '@', 10, 1, 0 }
     {
     }
  
@@ -772,9 +772,9 @@ public:
  
 private:
     inline static Creature monsterData[] {
-        Creature { &#34;dragon&#34;, &#39;D&#39;, 20, 4, 100 },
-        Creature { &#34;orc&#34;, &#39;o&#39;, 4, 2, 25 },
-        Creature { &#34;slime&#34;, &#39;s&#39;, 1, 1, 10 }
+        Creature { "dragon", 'D', 20, 4, 100 },
+        Creature { "orc", 'o', 4, 2, 25 },
+        Creature { "slime", 's', 1, 1, 10 }
         };
 
     static_assert(std::size(monsterData) == max_types);
@@ -792,74 +792,74 @@ public:
     }
 };
  
-// This function handles the player attacking the monster
+// Ta funkcja obsługuje gracza atakującego potwora
 void attackMonster(Player&amp; player, Monster&amp; monster)
 {
-    // If the player is dead, we can&#39;t attack the monster
+    // Jeśli gracz jest martwy, nie możemy zaatakować potwora
     if (player.isDead())
         return;
 
-    std::cout &lt;&lt; &#34;You hit the &#34; &lt;&lt; monster.getName() &lt;&lt; &#34; for &#34; &lt;&lt; player.getDamage() &lt;&lt; &#34; damage.\n&#34;;
+    std::cout &lt;&lt; "You hit the " &lt;&lt; monster.getName() &lt;&lt; " for " &lt;&lt; player.getDamage() &lt;&lt; " damage.\n";
 
-    // Reduce the monster&#39;s health by the player&#39;s damage
+    // Zmniejsz zdrowie potwora o obrażenia gracza
     monster.reduceHealth(player.getDamage());
 
-    // If the monster is now dead, level the player up
+    // Jeśli potwór jest teraz martwy, awansuj gracza na wyższy poziom
     if (monster.isDead())
     {
-        std::cout &lt;&lt; &#34;You killed the &#34; &lt;&lt; monster.getName() &lt;&lt; &#34;.\n&#34;;
+        std::cout &lt;&lt; "You killed the " &lt;&lt; monster.getName() &lt;&lt; ".\n";
         player.levelUp();
-        std::cout &lt;&lt; &#34;You are now level &#34; &lt;&lt; player.getLevel() &lt;&lt; &#34;.\n&#34;;
-        std::cout &lt;&lt; &#34;You found &#34; &lt;&lt; monster.getGold() &lt;&lt; &#34; gold.\n&#34;;
+        std::cout &lt;&lt; "You are now level " &lt;&lt; player.getLevel() &lt;&lt; ".\n";
+        std::cout &lt;&lt; "You found " &lt;&lt; monster.getGold() &lt;&lt; " gold.\n";
         player.addGold(monster.getGold());
     }
 }
 
-// This function handles the monster attacking the player
+// Ta funkcja obsługuje potwora atakującego gracza
 void attackPlayer(const Monster&amp; monster, Player&amp; player)
 {
-    // If the monster is dead, it can&#39;t attack the player
+    // Jeśli potwór jest martwy, nie może zaatakować gracza
     if (monster.isDead())
         return;
 
-    // Reduce the player&#39;s health by the monster&#39;s damage
+    // Zmniejsz zdrowie gracza o obrażenia potwora uszkodzenia
     player.reduceHealth(monster.getDamage());
-    std::cout &lt;&lt; &#34;The &#34; &lt;&lt; monster.getName() &lt;&lt; &#34; hit you for &#34; &lt;&lt; monster.getDamage() &lt;&lt; &#34; damage.\n&#34;;
+    std::cout &lt;&lt; "The " &lt;&lt; monster.getName() &lt;&lt; " hit you for " &lt;&lt; monster.getDamage() &lt;&lt; " damage.\n";
 }
 
-// This function handles the entire fight between a player and a randomly generated monster
+// Ta funkcja obsługuje całą walkę pomiędzy graczem a losowo wygenerowanym potworem
 void fightMonster(Player&amp; player)
 {
-    // First randomly generate a monster
+    // Najpierw losowo wygeneruj potwora
     Monster monster{ Monster::getRandomMonster() };
-    std::cout &lt;&lt; &#34;You have encountered a &#34; &lt;&lt; monster.getName() &lt;&lt; &#34; (&#34; &lt;&lt; monster.getSymbol() &lt;&lt; &#34;).\n&#34;;
+    std::cout &lt;&lt; "You have encountered a " &lt;&lt; monster.getName() &lt;&lt; " (" &lt;&lt; monster.getSymbol() &lt;&lt; ").\n";
 
-    // While the monster isn&#39;t dead and the player isn&#39;t dead, the fight continues
+    // Dopóki potwór nie jest martwy i gracz nie jest martwy, walka trwa
     while (!monster.isDead() &amp;&amp; !player.isDead())
     {
-        std::cout &lt;&lt; &#34;(R)un or (F)ight: &#34;;
+        std::cout &lt;&lt; "(R)un or (F)ight: ";
         char input{};
         std::cin &gt;&gt; input;
-        if (input == &#39;R&#39; || input == &#39;r&#39;)
+        if (input == 'R' || input == 'r')
         {
-            // 50% chance of fleeing successfully
+            // 50% szans na pomyślną ucieczkę
             if (Random::get(1, 2) == 1)
             {
-                std::cout &lt;&lt; &#34;You successfully fled.\n&#34;;
-                return; // success ends the encounter
+                std::cout &lt;&lt; "You successfully fled.\n";
+                return; // sukces kończy spotkanie
             }
             else
             {
-                // Failure to flee gives the monster a free attack on the player
-                std::cout &lt;&lt; &#34;You failed to flee.\n&#34;;
+                // Brak praktycznego potwora, który daje darmowy atak na użytkownika
+                std::cout &lt;&lt; "You failed to flee.\n";
                 attackPlayer(monster, player);
                 continue;
             }
         }
 
-        if (input == &#39;F&#39; || input == &#39;f&#39;)
+        if (input == 'F' || input == 'f')
         {
-            // Player attacks first, monster attacks second
+            // Gracz atakuje pierwszy, potwór atakuje jako drugi
             attackMonster(player, monster);
             attackPlayer(monster, player);
         }
@@ -868,26 +868,26 @@ void fightMonster(Player&amp; player)
 
 int main()
 {
-    std::cout &lt;&lt; &#34;Enter your name: &#34;;
+    std::cout &lt;&lt; "Enter your name: ";
     std::string playerName;
     std::cin &gt;&gt; playerName;
 
     Player player{ playerName };
-    std::cout &lt;&lt; &#34;Welcome, &#34; &lt;&lt; player.getName() &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "Welcome, " &lt;&lt; player.getName() &lt;&lt; '\n';
 
-    // If the player isn&#39;t dead and hasn&#39;t won yet, the game continues
+    // Jeśli gracz nie umarł i jeszcze nie wygrał, gra jest kontynuowana
     while (!player.isDead() &amp;&amp; !player.hasWon())
         fightMonster(player);
 
-    // At this point, the player is either dead or has won
+    // W tym momencie gracz albo jest martwy, albo wygrał
     if (player.isDead())
     {
-        std::cout &lt;&lt; &#34;You died at level &#34; &lt;&lt; player.getLevel() &lt;&lt; &#34; and with &#34; &lt;&lt; player.getGold() &lt;&lt; &#34; gold.\n&#34;;
-        std::cout &lt;&lt; &#34;Too bad you can&#39;t take it with you!\n&#34;;
+        std::cout &lt;&lt; "You died at level " &lt;&lt; player.getLevel() &lt;&lt; " and with " &lt;&lt; player.getGold() &lt;&lt; " gold.\n";
+        std::cout &lt;&lt; "Too bad you can't take it with you!\n";
     }
     else
     {
-        std::cout &lt;&lt; &#34;You won the game with &#34; &lt;&lt; player.getGold() &lt;&lt; &#34; gold!\n&#34;;
+        std::cout &lt;&lt; "You won the game with " &lt;&lt; player.getGold() &lt;&lt; " gold!\n";
     }
 
   return 0;
@@ -901,7 +901,7 @@ You found a mythical potion! Do you want to drink it? [y/n]: y
 You drank a Medium potion of Poison
 You died at level 2 and with 10 gold.
 Too bad you can&#39;t take it with you!
-</pre><p><a class=hint_link_show href=javascript:void(0) onclick="cppHintToggle(document.getElementById('cpp_hint_id_0'),this,'Show Hint','')">Pokaż wskazówkę</a><div class=wphint id=cpp_hint_id_0 style=display:none;margin-bottom:1em>Wskazówka: Dodaj klasę mikstury, która ma zmienną składową typu i rozmiaru, wraz z funkcją składową zwracającą jej nazwę oraz statyczną funkcją składową, która tworzy klasę mikstury losowa mikstura, podobna do funkcji getRandomMonster().<br>W klasie Player dodaj funkcję składową drinkPotion(), która zastosuje efekt mikstury.</div><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_13'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_13 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &#34;Random.h&#34; // /www.learncpp.com/cpp-tutorial/global-random-numbers-random-h/
+</pre><p><a class=hint_link_show href=javascript:void(0) onclick="cppHintToggle(document.getElementById('cpp_hint_id_0'),this,'Show Hint','')">Pokaż wskazówkę</a><div class=wphint id=cpp_hint_id_0 style=display:none;margin-bottom:1em>Wskazówka: Dodaj klasę mikstury, która ma zmienną składową typu i rozmiaru, wraz z funkcją składową zwracającą jej nazwę oraz statyczną funkcją składową, która tworzy klasę mikstury losowa mikstura, podobna do funkcji getRandomMonster().<br>W klasie Player dodaj funkcję składową drinkPotion(), która zastosuje efekt mikstury.</div><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_13'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_13 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include "Random.h" // /www.learncpp.com/cpp-tutorial/global-random-numbers-random-h/
 #include &lt;array&gt;
 #include &lt;iostream&gt;
 #include &lt;sstream&gt;
@@ -911,14 +911,14 @@ Too bad you can&#39;t take it with you!
 class Potion
 {
 public:
-    // All possible types of potions
+    // Wszystkie możliwe typy mikstur
     enum Type
     {
         health,
         strength,
         poison,
 
-        // For random potion generation
+        // Do losowego generowania mikstur
         max_type
     };
 
@@ -946,14 +946,14 @@ public:
     Type getType() const { return m_type; }
     Size getSize() const { return m_size; }
 
-    // The names of potions are compile-time literals, we can
-    // return a std::string_view.
+    // Nazwy mikstur są literałami czasu kompilacji, możemy
+    // zwracane std::string_view.
     static std::string_view getPotionTypeName(Type type)
     {
         static constexpr std::string_view names[] {
-          &#34;Health&#34;,
-          &#34;Strength&#34;,
-          &#34;Poison&#34;
+          "Health",
+          "Strength",
+          "Poison"
         };
 
         return names[type];
@@ -962,9 +962,9 @@ public:
     static std::string_view getPotionSizeName(Size size)
     {
         static constexpr std::string_view names[] {
-          &#34;Small&#34;,
-          &#34;Medium&#34;,
-          &#34;Large&#34;
+          "Small",
+          "Medium",
+          "Large"
         };
 
         return names[size];
@@ -972,15 +972,15 @@ public:
 
     std::string getName() const
     {
-        // We use a std::stringstream, but this could also be solved using
+        // Używamy std::stringstream, ale można to również rozwiązać za pomocą
         // std::string.
-        // We first used std::stringstream in lesson 7.13.
+        // Po raz pierwszy użyliśmy std::stringstream w lekcji 7.13.
         std::stringstream result{};
 
-        result &lt;&lt; getPotionSizeName(getSize()) &lt;&lt; &#34; potion of &#34; &lt;&lt; getPotionTypeName(getType());
+        result &lt;&lt; getPotionSizeName(getSize()) &lt;&lt; " potion of " &lt;&lt; getPotionTypeName(getType());
 
-        // We can extract the string from an std::stringstream by using the str()
-        // member function.
+        // Możemy wyodrębnić ciąg znaków z std::stringstream za pomocą str()
+        // funkcję składową.
         return result.str();
     }
 
@@ -1027,7 +1027,7 @@ class Player : public Creature
  
 public:
     Player(const std::string&amp; name)
-        : Creature{ name, &#39;@&#39;, 10, 1, 0 }
+        : Creature{ name, '@', 10, 1, 0 }
     {
     }
  
@@ -1037,14 +1037,14 @@ public:
         ++m_damage;
     }
 
-    // Applies a potion&#39;s effect to the player
+    // Stosuje efekt mikstury do przygotowania
     void drinkPotion(const Potion&amp; potion)
     {
         switch (potion.getType())
         {
         case Potion::health:
-            // Only a health potion&#39;s size affects its power. All other
-            // potions are independent of size.
+            // Tylko rozmiar mikstury zdrowia wpływa na jej moc. Wszystkie inne
+            // mikstury są niezależne od rozmiaru.
             m_health += ((potion.getSize() == Potion::large) ? 5 : 2);
             break;
         case Potion::strength:
@@ -1053,9 +1053,9 @@ public:
         case Potion::poison:
             reduceHealth(1);
             break;
-            // Handle max_type to silence the compiler warning. Don&#39;t use default:
-            // because we want the compiler to warn us if we add a new potion but
-            // forget to implement its effect.
+            // Obsługa max_type, aby wyciszyć ostrzeżenie kompilatora. Nie używaj domyślnych:
+            // ponieważ chcemy, aby kompilator ostrzegał nas, jeśli dodamy nową miksturę, ale
+            // zapomnij o zaimplementowaniu jego skutku.
         case Potion::max_type:
             break;
         }
@@ -1078,9 +1078,9 @@ public:
  
 private:
     inline static Creature monsterData[] {
-        Creature { &#34;dragon&#34;, &#39;D&#39;, 20, 4, 100 },
-        Creature { &#34;orc&#34;, &#39;o&#39;, 4, 2, 25 },
-        Creature { &#34;slime&#34;, &#39;s&#39;, 1, 1, 10 }
+        Creature { "dragon", 'D', 20, 4, 100 },
+        Creature { "orc", 'o', 4, 2, 25 },
+        Creature { "slime", 's', 1, 1, 10 }
         };
 
     static_assert(std::size(monsterData) == max_types);
@@ -1098,101 +1098,101 @@ public:
     }
 };
 
-// We moved this out of attackMonster() to keep the function shorter.
+// Przenieśliśmy tę funkcję z atakuMonster(), aby funkcja była krótsza.
 void onMonsterKilled(Player&amp; player, const Monster&amp; monster)
 {
-    std::cout &lt;&lt; &#34;You killed the &#34; &lt;&lt; monster.getName() &lt;&lt; &#34;.\n&#34;;
+    std::cout &lt;&lt; "You killed the " &lt;&lt; monster.getName() &lt;&lt; ".\n";
     player.levelUp();
-    std::cout &lt;&lt; &#34;You are now level &#34; &lt;&lt; player.getLevel() &lt;&lt; &#34;.\n&#34;;
-    std::cout &lt;&lt; &#34;You found &#34; &lt;&lt; monster.getGold() &lt;&lt; &#34; gold.\n&#34;;
+    std::cout &lt;&lt; "You are now level " &lt;&lt; player.getLevel() &lt;&lt; ".\n";
+    std::cout &lt;&lt; "You found " &lt;&lt; monster.getGold() &lt;&lt; " gold.\n";
     player.addGold(monster.getGold());
 
-    // 30% chance of finding a potion
+    // 30% szans na znalezienie mikstury
     constexpr int potionChance{ 30 };
     if (Random::get(1, 100) &lt;= potionChance)
     {
-        // Generate a random potion
+        // Wygeneruj losową miksturę
         auto potion{ Potion::getRandomPotion() };
 
-        std::cout &lt;&lt; &#34;You found a mythical potion! Do you want to drink it? [y/n]: &#34;;
+        std::cout &lt;&lt; "You found a mythical potion! Do you want to drink it? [y/n]: ";
         char choice{};
         std::cin &gt;&gt; choice;
 
-        if (choice == &#39;Y&#39; || choice == &#39;y&#39;)
+        if (choice == 'Y' || choice == 'y')
         {
-            // Apply the effect
+            // Zastosuj efekt
             player.drinkPotion(potion);
-            // Reveal the potion type and size
-            std::cout &lt;&lt; &#34;You drank a &#34; &lt;&lt; potion.getName() &lt;&lt; &#34;.\n&#34;;
+            // Pokaż typ i rozmiar mikstury
+            std::cout &lt;&lt; "You drank a " &lt;&lt; potion.getName() &lt;&lt; ".\n";
         }
     }
 }
 
-// This function handles the player attacking the monster
+// Ta funkcja obsługuje gracza atakującego potwora
 void attackMonster(Player&amp; player, Monster&amp; monster)
 {
-    // If the player is dead, we can&#39;t attack the monster
+    // Jeśli gracz jest martwy, nie możemy zaatakować potwora
     if (player.isDead())
         return;
 
-    std::cout &lt;&lt; &#34;You hit the &#34; &lt;&lt; monster.getName() &lt;&lt; &#34; for &#34; &lt;&lt; player.getDamage() &lt;&lt; &#34; damage.\n&#34;;
+    std::cout &lt;&lt; "You hit the " &lt;&lt; monster.getName() &lt;&lt; " for " &lt;&lt; player.getDamage() &lt;&lt; " damage.\n";
 
-    // Reduce the monster&#39;s health by the player&#39;s damage
+    // Zmniejsz zdrowie potwora o obrażenia gracza
     monster.reduceHealth(player.getDamage());
 
-    // If the monster is now dead, level the player up
+    // Jeśli potwór jest teraz martwy, awansuj gracza na wyższy poziom
     if (monster.isDead())
     {
-        // Reward the player
+        // Nagradzaj gracza
         onMonsterKilled(player, monster);
     }
 }
 
-// This function handles the monster attacking the player
+// Ta funkcja obsługuje potwora atakującego gracza
 void attackPlayer(const Monster&amp; monster, Player&amp; player)
 {
-    // If the monster is dead, it can&#39;t attack the player
+    // Jeśli potwór jest martwy, nie może zaatakować gracza
     if (monster.isDead())
         return;
 
-    // Reduce the player&#39;s health by the monster&#39;s damage
+    // Zmniejsz zdrowie gracza o obrażenia potwora uszkodzenia
     player.reduceHealth(monster.getDamage());
-    std::cout &lt;&lt; &#34;The &#34; &lt;&lt; monster.getName() &lt;&lt; &#34; hit you for &#34; &lt;&lt; monster.getDamage() &lt;&lt; &#34; damage.\n&#34;;
+    std::cout &lt;&lt; "The " &lt;&lt; monster.getName() &lt;&lt; " hit you for " &lt;&lt; monster.getDamage() &lt;&lt; " damage.\n";
 }
 
-// This function handles the entire fight between a player and a randomly generated monster
+// Ta funkcja obsługuje całą walkę pomiędzy graczem a losowo wygenerowanym potworem
 void fightMonster(Player&amp; player)
 {
-    // First randomly generate a monster
+    // Najpierw losowo wygeneruj potwora
     Monster monster{ Monster::getRandomMonster() };
-    std::cout &lt;&lt; &#34;You have encountered a &#34; &lt;&lt; monster.getName() &lt;&lt; &#34; (&#34; &lt;&lt; monster.getSymbol() &lt;&lt; &#34;).\n&#34;;
+    std::cout &lt;&lt; "You have encountered a " &lt;&lt; monster.getName() &lt;&lt; " (" &lt;&lt; monster.getSymbol() &lt;&lt; ").\n";
 
-    // While the monster isn&#39;t dead and the player isn&#39;t dead, the fight continues
+    // Dopóki potwór nie jest martwy i gracz nie jest martwy, walka trwa
     while (!monster.isDead() &amp;&amp; !player.isDead())
     {
-        std::cout &lt;&lt; &#34;(R)un or (F)ight: &#34;;
+        std::cout &lt;&lt; "(R)un or (F)ight: ";
         char input{};
         std::cin &gt;&gt; input;
-        if (input == &#39;R&#39; || input == &#39;r&#39;)
+        if (input == 'R' || input == 'r')
         {
-            // 50% chance of fleeing successfully
+            // 50% szans na pomyślną ucieczkę
             if (Random::get(1, 2) == 1)
             {
-                std::cout &lt;&lt; &#34;You successfully fled.\n&#34;;
-                return; // success ends the encounter
+                std::cout &lt;&lt; "You successfully fled.\n";
+                return; // sukces kończy spotkanie
             }
             else
             {
-                // Failure to flee gives the monster a free attack on the player
-                std::cout &lt;&lt; &#34;You failed to flee.\n&#34;;
+                // Brak praktycznego potwora, który daje darmowy atak na użytkownika
+                std::cout &lt;&lt; "You failed to flee.\n";
                 attackPlayer(monster, player);
                 continue;
             }
         }
 
-        if (input == &#39;F&#39; || input == &#39;f&#39;)
+        if (input == 'F' || input == 'f')
         {
-            // Player attacks first, monster attacks second
+            // Gracz atakuje pierwszy, potwór atakuje jako drugi
             attackMonster(player, monster);
             attackPlayer(monster, player);
         }
@@ -1201,26 +1201,26 @@ void fightMonster(Player&amp; player)
 
 int main()
 {
-    std::cout &lt;&lt; &#34;Enter your name: &#34;;
+    std::cout &lt;&lt; "Enter your name: ";
     std::string playerName;
     std::cin &gt;&gt; playerName;
 
     Player player{ playerName };
-    std::cout &lt;&lt; &#34;Welcome, &#34; &lt;&lt; player.getName() &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "Welcome, " &lt;&lt; player.getName() &lt;&lt; '\n';
 
-    // If the player isn&#39;t dead and hasn&#39;t won yet, the game continues
+    // Jeśli gracz nie umarł i jeszcze nie wygrał, gra jest kontynuowana
     while (!player.isDead() &amp;&amp; !player.hasWon())
         fightMonster(player);
 
-    // At this point, the player is either dead or has won
+    // W tym momencie gracz albo jest martwy, albo wygrał
     if (player.isDead())
     {
-        std::cout &lt;&lt; &#34;You died at level &#34; &lt;&lt; player.getLevel() &lt;&lt; &#34; and with &#34; &lt;&lt; player.getGold() &lt;&lt; &#34; gold.\n&#34;;
-        std::cout &lt;&lt; &#34;Too bad you can&#39;t take it with you!\n&#34;;
+        std::cout &lt;&lt; "You died at level " &lt;&lt; player.getLevel() &lt;&lt; " and with " &lt;&lt; player.getGold() &lt;&lt; " gold.\n";
+        std::cout &lt;&lt; "Too bad you can't take it with you!\n";
     }
     else
     {
-        std::cout &lt;&lt; &#34;You won the game with &#34; &lt;&lt; player.getGold() &lt;&lt; &#34; gold!\n&#34;;
+        std::cout &lt;&lt; "You won the game with " &lt;&lt; player.getGold() &lt;&lt; " gold!\n";
     }
 
   return 0;

@@ -38,19 +38,19 @@ int main()
 
 int main()
 {
-    { // the block here ensures block scope for i
-        int i{ 1 }; // our init-statement
+    { // blok tutaj zapewnia zakres prywatny dla i
+        int i{ 1 }; // nasza instrukcja init
         while (i &lt;= 10) // our condition
         {
-            std::cout &lt;&lt; i &lt;&lt; &#39; &#39;; // our statement
-            ++i; // our end-expression
+            std::cout &lt;&lt; i &lt;&lt; ' '; // our statement
+            ++i; // nasze wyrażenie końcowe
         }
     }
 
-    std::cout &lt;&lt; &#39;\n&#39;;
-}</code></pre><p>Nie wygląda to tak źle, prawda? Należy zauważyć, że zewnętrzne nawiasy klamrowe są tutaj konieczne, ponieważ <code>i</code> wychodzą poza zakres, gdy pętla się kończy.<p>Pętle for mogą być trudne do odczytania dla nowych programistów — jednak doświadczeni programiści je uwielbiają, ponieważ stanowią bardzo kompaktowy sposób wykonywania pętli z licznikiem, ze wszystkimi niezbędnymi informacjami o zmiennych pętli, warunkach pętli i modyfikatorach zmiennych pętli przedstawionymi na początku. Pomaga to ograniczyć błędy.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Więcej przykładów pętli for<p>Oto przykład funkcji, która wykorzystuje pętlę for do obliczania wykładników całkowitych:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cstdint&gt; // for fixed-width integers
+    std::cout &lt;&lt; '\n';
+}</code></pre><p>Nie wygląda to tak źle, prawda? Należy zauważyć, że zewnętrzne nawiasy klamrowe są tutaj konieczne, ponieważ <code>i</code> wychodzą poza zakres, gdy pętla się kończy.<p>Pętle for mogą być trudne do odczytania dla nowych programistów — jednak doświadczeni programiści je uwielbiają, ponieważ stanowią bardzo kompaktowy sposób wykonywania pętli z licznikiem, ze wszystkimi niezbędnymi informacjami o zmiennych pętli, warunkach pętli i modyfikatorach zmiennych pętli przedstawionymi na początku. Pomaga to ograniczyć błędy.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Więcej przykładów pętli for<p>Oto przykład funkcji, która wykorzystuje pętlę for do obliczania wykładników całkowitych:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cstdint&gt; // dla liczb całkowitych o stałej szerokości
 
-// returns the value base ^ exponent -- watch out for overflow!
+// zwraca wykładnik podstawy wartości ^ -- uważaj na przepełnienie!
 std::int64_t pow(int base, int exponent)
 {
     std::int64_t total{ 1 };
@@ -74,10 +74,10 @@ int main()
 
 int main()
 {
-    for (int i{ 0 }; i &lt;= 10; i += 2) // increment by 2 each iteration
-        std::cout &lt;&lt; i &lt;&lt; &#39; &#39;;
+    for (int i{ 0 }; i &lt;= 10; i += 2) // zwiększanie o 2 każdy iteracja
+        std::cout &lt;&lt; i &lt;&lt; ' ';
 
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>To wypisuje wynik:<pre>0 2 4 6 8 10
@@ -96,16 +96,16 @@ int main()
 
 int main()
 {
-    for (int i { 0 }; i &lt; 10; ++i) // uses &lt;, still terminates
+    for (int i { 0 }; i &lt; 10; ++i) // używa &lt;, nadal kończy
     {
          std::cout &lt;&lt; i;
-         if (i == 9) ++i; // jump over value 10
+         if (i == 9) ++i; // przeskok o wartość 10
     }
 
-    for (int i { 0 }; i != 10; ++i) // uses !=, infinite loop
+    for (int i { 0 }; i != 10; ++i) // używa !=, nieskończona pętla
     {
          std::cout &lt;&lt; i;
-         if (i == 9) ++i; // jump over value 10
+         if (i == 9) ++i; // przeskok o wartość 10
     }
 
      return 0;
@@ -113,13 +113,13 @@ int main()
 
 int main()
 {
-    // oops, we used operator&lt; instead of operator&lt;=
+    // ups, użyliśmy operatora&lt; zamiast operatora&lt;=
     for (int i{ 1 }; i &lt; 5; ++i)
     {
-        std::cout &lt;&lt; i &lt;&lt; &#39; &#39;;
+        std::cout &lt;&lt; i &lt;&lt; ' ';
     }
 
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Ten program powinien wydrukować <code>1 2 3 4 5</code>, ale wypisuje tylko  <code>1 2 3 4</code> , ponieważ użyliśmy nieprawidłowy operator relacyjny.<p>Chociaż najczęstszą przyczyną tych błędów jest użycie niewłaściwego operatora relacyjnego, czasami mogą one wystąpić w przypadku użycia wstępnego zwiększania lub wstępnego zmniejszania zamiast późniejszego zwiększania lub zmniejszania lub odwrotnie.<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Pominięte wyrażenia<p>Możliwe jest zapisanie <em>dla pętli</em> które pomijają dowolne lub wszystkie instrukcje lub wyrażenia. Na przykład w poniższym przykładzie pominiemy instrukcję init i wyrażenie end, pozostawiając jedynie warunek:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -127,16 +127,16 @@ int main()
 int main()
 {
     int i{ 0 };
-    for ( ; i &lt; 10; ) // no init-statement or end-expression
+    for ( ; i &lt; 10; ) // brak instrukcji init lub wyrażenia końcowego
     {
-        std::cout &lt;&lt; i &lt;&lt; &#39; &#39;;
+        std::cout &lt;&lt; i &lt;&lt; ' ';
         ++i;
     }
 
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
 
     return 0;
-}</code></pre><p>This <em>pętlę for</em> da wynik:<pre>0 1 2 3 4 5 6 7 8 9
+}</code></pre><p>To <em>pętlę for</em> da wynik:<pre>0 1 2 3 4 5 6 7 8 9
 </pre><p>Zamiast wykonywać  <em>pętlę for</em> inicjalizację i inkrementację, zrobiliśmy to ręcznie. W tym przykładzie zrobiliśmy to wyłącznie w celach akademickich, ale są przypadki, w których pożądane jest niedefiniowanie zmiennej pętli (ponieważ już ją masz) lub nie zwiększanie jej w wyrażeniu końcowym (ponieważ zwiększasz ją w inny sposób).<p>Chociaż nie widzisz tego zbyt często, warto zauważyć, że poniższy przykład tworzy nieskończoną pętlę:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">for (;;)
     statement;</code></pre><p>Powyższy przykład jest równoważny do:<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">while (true)
     statement;</code></pre><p>Może to być trochę nieoczekiwane, ponieważ prawdopodobnie można by się spodziewać, że pominięte wyrażenie-warunek zostanie potraktowane jako <code>false</code>. Jednak standard C++ wyraźnie (i niekonsekwentnie) definiuje, że pominięte wyrażenie warunku w pętli for powinno być traktowane jako  <code>true</code>.<p>Zalecamy całkowite unikanie tej formy pętli for i używanie  <code>while (true)</code> .<p class="cpp-section cpp-topline" style=clear:both>pętli For z wieloma licznikami<p>Chociaż pętle for zazwyczaj iterują tylko po jednej zmiennej, czasami pętle for muszą pracować z wieloma zmiennymi. Aby to ułatwić, programista może zdefiniować wiele zmiennych w instrukcji init i może użyć operatora przecinka do zmiany wartości wielu zmiennych w wyrażeniu końcowym:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -161,14 +161,14 @@ int main()
 
 int main()
 {
-	for (char c{ &#39;a&#39; }; c &lt;= &#39;e&#39;; ++c) // outer loop on letters
+	for (char c{ 'a' }; c &lt;= 'e'; ++c) // zewnętrzna pętla na literach
 	{
-		std::cout &lt;&lt; c; // print our letter first
+		std::cout &lt;&lt; c; // wydrukuj najpierw naszą literę
 		
-		for (int i{ 0 }; i &lt; 3; ++i) // inner loop on all numbers
+		for (int i{ 0 }; i &lt; 3; ++i) // wewnętrzna pętla na wszystkich liczbach
 			std::cout &lt;&lt; i;
 
-		std::cout &lt;&lt; &#39;\n&#39;;
+		std::cout &lt;&lt; '\n';
 	}
 
 	return 0;
@@ -177,19 +177,19 @@ b012
 c012
 d012
 e012
-</pre><p>Oto więcej szczegółów na temat tego, co się tutaj dzieje. Pętla zewnętrzna jest uruchamiana jako pierwsza, a char <code>c</code> jest inicjowany do <code>'a'</code>. Następnie <code>c &lt;= 'e'</code> jest oceniany, czyli <code>true</code>, zatem zostaje wykonane ciało pętli. Ponieważ <code>c</code> ustawiono na  <code>'a'</code>, to najpierw drukuje <code>a</code>. Następnie pętla wewnętrzna wykonuje się w całości (co powoduje wypisanie  <code>0</code>, <code>1</code>, I <code>2</code>). Następnie drukowany jest znak nowej linii. Teraz korpus pętli zewnętrznej jest gotowy, więc pętla zewnętrzna powraca na górę, <code>c</code> zwiększy się do <code>'b'</code>, a warunek pętli jest ponownie oceniany. Ponieważ warunek pętli jest nadal <code>true</code> rozpoczyna się następna iteracja pętli zewnętrznej. Spowoduje to wydrukowanie <code>b012\n</code>. I tak dalej.<p class="cpp-section cpp-topline" style=clear:both>Zmienne używane tylko wewnątrz pętli należy zdefiniować wewnątrz pętli<p>Nowi programiści często uważają, że tworzenie zmiennych jest kosztowne, dlatego lepiej stworzyć zmienną raz (a potem przypisać do niej wartości), niż tworzyć ją wielokrotnie (i stosować inicjalizację). Prowadzi to do pętli, które wyglądają jak odmiany poniższego:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+</pre><p>Oto więcej szczegółów na temat tego, co się tutaj dzieje. Pętla zewnętrzna jest uruchamiana jako pierwsza, a char <code>c</code> jest inicjowany do <code>'a'</code>. Następnie <code>c &lt;= 'e'</code> jest oceniany, czyli <code>true</code>, zatem zostaje wykonane ciało pętli. Ponieważ <code>c</code> ustawiono na  <code>'a'</code>, to najpierw drukuje <code>a</code>. Następnie pętla wewnętrzna wykonuje się w całości (co powoduje wypisanie  <code>0</code>, <code>1</code>, i <code>2</code>). Następnie drukowany jest znak nowej linii. Teraz korpus pętli zewnętrznej jest gotowy, więc pętla zewnętrzna powraca na górę, <code>c</code> zwiększy się do <code>'b'</code>, a warunek pętli jest ponownie oceniany. Ponieważ warunek pętli jest nadal <code>true</code> rozpoczyna się następna iteracja pętli zewnętrznej. Spowoduje to wydrukowanie <code>b012\n</code>. I tak dalej.<p class="cpp-section cpp-topline" style=clear:both>Zmienne używane tylko wewnątrz pętli należy zdefiniować wewnątrz pętli<p>Nowi programiści często uważają, że tworzenie zmiennych jest kosztowne, dlatego lepiej stworzyć zmienną raz (a potem przypisać do niej wartości), niż tworzyć ją wielokrotnie (i stosować inicjalizację). Prowadzi to do pętli, które wyglądają jak odmiany poniższego:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 int main()
 {
-    int i {}; // i defined outside loop
-    for (i = 0; i &lt; 10; ++i) // i assigned value
+    int i {}; // zdefiniowałem pętlę zewnętrzną
+    for (i = 0; i &lt; 10; ++i) // przypisano mi wartość
     {
-        std::cout &lt;&lt; i &lt;&lt; &#39; &#39;;        
+        std::cout &lt;&lt; i &lt;&lt; ' ';        
     }
 
-    // i can still be accessed here
+    // nadal mogę tu uzyskać dostęp
 
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Jednak utworzenie zmiennej nie wiąże się z żadnymi kosztami — kosztem jest inicjalizacja i zazwyczaj nie ma różnicy w kosztach pomiędzy inicjalizacją a przypisaniem. Powyższy przykład umożliwia  <code>i</code> dostępność poza pętlą. O ile nie jest wymagane użycie zmiennej poza pętlą, zdefiniowanie zmiennej poza pętlą może mieć dwie konsekwencje:<ol start=1><li>To sprawia, że nasz program jest bardziej złożony, ponieważ musimy przeczytać więcej kodu, aby zobaczyć, gdzie zmienna jest używana.<li>W rzeczywistości może to być wolniejsze, ponieważ kompilator może nie być w stanie skutecznie zoptymalizować zmiennej o większym zakresie.</ol><p>Zgodnie z naszą najlepszą praktyką dotyczącą definiowania zmiennych w możliwie najmniejszym rozsądnym zakresie, a zmienna używana tylko w pętli powinna być definiowana wewnątrz pętli, a nie na zewnątrz.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Zmienne używane tylko wewnątrz pętli powinny być definiowane wewnątrz zakresu pętli.</div><p class="cpp-section cpp-topline" style=clear:both>Wnioski<p>Instrukcje for są najczęściej używanymi pętlami w języku C++, ponieważ umieszczają wszystkie niezbędne informacje o zmiennych pętli, stanie pętli i modyfikacjach zmiennej pętli na górze pętli, co pomaga zmniejszyć błędy. Mimo że jej składnia jest zazwyczaj nieco myląca dla nowych programistów, pętle for będziesz spotykać tak często, że zrozumiesz je w mgnieniu oka!<p>Instrukcje For doskonale sprawdzają się, gdy masz zmienną licznikową. Jeśli nie masz licznika, prawdopodobnie lepszym wyborem będzie instrukcja while.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Preferuj pętle for zamiast pętli while, gdy istnieje oczywista zmienna pętli.<br>Preferuj pętle while zamiast pętli for, gdy nie ma oczywistej zmiennej pętli.</div><p class="cpp-section cpp-topline" style=clear:both>Czas quizu<p class=cpp-quiz-question style=clear:both>Pytanie nr 1<p>Napisz pętlę for, która wypisuje każdą liczbę parzystą od 0 do 20.<p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_0 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">for (int i{ 0 }; i &lt;= 20; i += 2)
@@ -200,9 +200,9 @@ int main()
         total += i;
 
     return total;
-}</code></pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>Pytanie nr 3<p>Co jest nie tak z następującą pętlą for?<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Print all numbers from 9 to 0
+}</code></pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>Pytanie nr 3<p>Co jest nie tak z następującą pętlą for?<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Wydrukuj całą liczbę od 9 do 0
 for (unsigned int i{ 9 }; i &gt;= 0; --i)
-    std::cout &lt;&lt; i&lt;&lt; &#39; &#39;;</code></pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_2'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_2 style=display:none><p>Ta pętla for jest wykonywana tak długo, jak <code>i >= 0</code>. Innymi słowy, działa dopóki  <code>i</code> nie będzie ujemna. Jednakże, ponieważ <code>i</code> jest bez znaku, <code>i</code> nigdy nie może być ujemne. W rezultacie ta pętla będzie działać wiecznie (ha ha)! Ogólnie rzecz biorąc, dobrym pomysłem jest unikanie zapętlania zmiennych bez znaku, chyba że jest to konieczne.</div><p class="cpp-quiz-question cpp-topline" style=clear:both>Pytanie nr 4<p><a href=https://en.m.wikipedia.org/wiki/Fizz_buzz>Fizz Buzz</a> to prosta gra matematyczna służąca do nauczania dzieci o podzielności. Czasami jest również używane jako pytanie podczas rozmowy kwalifikacyjnej w celu oceny podstawowych umiejętności programowania.<p>Zasady gry są proste: zaczynając od 1 i licząc w górę, dowolną liczbę podzielną tylko przez trzy zamień słowem „fizz”, każdą liczbę podzielną tylko przez pięć słowem „buzz”, a każdą liczbę podzielną przez 3 i 5 słowem „fizzbuzz”.<p>Zaimplementuj tę grę wewnątrz funkcji o nazwie <code>fizzbuzz()</code> , który przyjmuje parametr określający, do jakiej liczby należy zliczać. Użyj pętli for i pojedynczego łańcucha if-else (co oznacza, że ​​możesz użyć dowolnej liczby else-if, ile chcesz). <p>Wyjście  <code>fizzbuzz(15)</code> powinno być zgodne z poniższym:<pre>1
+    std::cout &lt;&lt; i&lt;&lt; ' ';</code></pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_2'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_2 style=display:none><p>Ta pętla for jest wykonywana tak długo, jak <code>i >= 0</code>. Innymi słowy, działa dopóki  <code>i</code> nie będzie ujemna. Jednakże, ponieważ <code>i</code> jest bez znaku, <code>i</code> nigdy nie może być ujemne. W rezultacie ta pętla będzie działać wiecznie (ha ha)! Ogólnie rzecz biorąc, dobrym pomysłem jest unikanie zapętlania zmiennych bez znaku, chyba że jest to konieczne.</div><p class="cpp-quiz-question cpp-topline" style=clear:both>Pytanie nr 4<p><a href=https://en.m.wikipedia.org/wiki/Fizz_buzz>Fizz Buzz</a> to prosta gra matematyczna służąca do nauczania dzieci o podzielności. Czasami jest również używane jako pytanie podczas rozmowy kwalifikacyjnej w celu oceny podstawowych umiejętności programowania.<p>Zasady gry są proste: zaczynając od 1 i licząc w górę, dowolną liczbę podzielną tylko przez trzy zamień słowem „fizz”, każdą liczbę podzielną tylko przez pięć słowem „buzz”, a każdą liczbę podzielną przez 3 i 5 słowem „fizzbuzz”.<p>Zaimplementuj tę grę wewnątrz funkcji o nazwie <code>fizzbuzz()</code> , który przyjmuje parametr określający, do jakiej liczby należy zliczać. Użyj pętli for i pojedynczego łańcucha if-else (co oznacza, że ​​możesz użyć dowolnej liczby else-if, ile chcesz). <p>Wyjście  <code>fizzbuzz(15)</code> powinno być zgodne z poniższym:<pre>1
 2
 fizz
 4
@@ -217,7 +217,7 @@ fizz
 13
 14
 fizzbuzz
-</pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_3'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_3 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// h/t to reader Waldo for suggesting this quiz
+</pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_3'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_3 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// h/t czytelnikowi Waldo za zasugerowanie tego quizu
 #include &lt;iostream&gt;
 
 void fizzbuzz(int count)
@@ -226,21 +226,21 @@ void fizzbuzz(int count)
 	{
 		if (i % 3 == 0 &amp;&amp; i % 5 == 0)
 		{
-			std::cout &lt;&lt; &#34;fizzbuzz\n&#34;;
+			std::cout &lt;&lt; "fizzbuzz\n";
 		}
 		else if (i % 3 == 0)
 		{
-			std::cout &lt;&lt; &#34;fizz\n&#34;;
+			std::cout &lt;&lt; "fizz\n";
 		}
 		else if (i % 5 == 0)
 		{
-			std::cout &lt;&lt; &#34;buzz\n&#34;;
+			std::cout &lt;&lt; "buzz\n";
 		}
 		else
 		{
-			std::cout &lt;&lt; i &lt;&lt; &#39;\n&#39;;
+			std::cout &lt;&lt; i &lt;&lt; '\n';
 		}
-	} // end for loop
+	} // koniec pętli
 }
 
 int main()
@@ -260,7 +260,7 @@ fizzpop
 </pre><pre>104
 fizzbuzzpop
 106
-</pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_4'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_4 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// h/t to reader Waldo for suggesting this quiz
+</pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_4'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_4 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// h/t czytelnikowi Waldo za zasugerowanie tego quizu
 #include &lt;iostream&gt;
 
 void fizzbuzz(int count)
@@ -270,25 +270,25 @@ void fizzbuzz(int count)
 		bool printed{ false };
 		if (i % 3 == 0)
 		{
-			std::cout &lt;&lt; &#34;fizz&#34;;
+			std::cout &lt;&lt; "fizz";
 			printed = true;
 		}
 		if (i % 5 == 0)
 		{
-			std::cout &lt;&lt; &#34;buzz&#34;;
+			std::cout &lt;&lt; "buzz";
 			printed = true;
 		}
 		if (i % 7 == 0)
 		{
-			std::cout &lt;&lt; &#34;pop&#34;;
+			std::cout &lt;&lt; "pop";
 			printed = true;
 		}
 
 		if (!printed)
 			std::cout &lt;&lt; i;
 
-		std::cout &lt;&lt; &#39;\n&#39;;
-	} // end for loop
+		std::cout &lt;&lt; '\n';
+	} // koniec pętli
 }
 
 int main()

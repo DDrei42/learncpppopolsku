@@ -17,30 +17,30 @@
 {
 // Your code here
 }
-</pre><p>Chociaż pokazaliśmy przykłady funkcji, które mają typ zwracany <code>void</code>, nie omawialiśmy, co to oznacza. W tej lekcji omówimy funkcje zwracane przez typ  <code>void</code>.<p class="cpp-section cpp-topline" style=clear:both>Void zwracane wartości<p>Funkcje nie są wymagane do zwracania wartości do obiektu wywołującego. Aby poinformować kompilator, że funkcja nie zwraca wartości, używany jest typ zwracany <strong>próżnia</strong> . Na przykład: funkcja <pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+</pre><p>Chociaż pokazaliśmy przykłady funkcji, które mają typ zwracany <code>void</code>, nie omawialiśmy, co to oznacza. W tej lekcji omówimy funkcje zwracane przez typ  <code>void</code>.<p class="cpp-section cpp-topline" style=clear:both>Void zwracane wartości<p>Funkcje nie są wymagane do zwracania wartości do obiektu wywołującego. Aby poinformować kompilator, że funkcja nie zwraca wartości, używany jest typ zwracany <strong>void</strong> . Na przykład: funkcja <pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-// void means the function does not return a value to the caller
+// void oznacza, że funkcja nie zwraca wartości wywołującemu
 void printHi()
 {
-    std::cout &lt;&lt; &#34;Hi&#34; &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "Hi" &lt;&lt; '\n';
 
-    // This function does not return a value so no return statement is needed
+    // Ta funkcja nie zwraca wartości, więc nie ma instrukcji return potrzebne
 }
 
 int main()
 {
-    printHi(); // okay: function printHi() is called, no value is returned
+    printHi(); // OK: funkcja printHi() jest wywoływana, żadna wartość nie jest zwracana
 
     return 0;
-}</code></pre><p>W powyższym przykładzie funkcja <code>printHi</code>  ma przydatne zachowanie (wypisuje „Cześć”), ale nie musi zwracać niczego do osoby wywołującej. Dlatego  <code>printHi</code> otrzymuje <code>void</code> typ powrotu.<p>Po wywołaniu <code>main</code> wywołania <code>printHi</code>, kod w <code>printHi</code> wykonuje się i zostaje wydrukowane „Hi”. Na koniec <code>printHi</code> sterowanie powraca do <code>main</code> i program kontynuuje działanie.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Funkcja, która nie zwraca wartości, nazywa się a <strong>funkcja nie zwracająca wartości</strong> (lub  <strong>funkcja pusta</strong>).<p class="cpp-section cpp-topline" style=clear:both>Funkcja Void nie potrzebuje instrukcji return<p>Funkcja void automatycznie powróci do osoby wywołującej na końcu funkcji. Nie ma instrukcji return. wymagane.<p>Instrukcja return (bez wartości zwracanej) może zostać użyta w funkcji void -- taka instrukcja spowoduje powrót funkcji do osoby wywołującej w momencie wykonania instrukcji return. To samo dzieje się na końcu funkcji. W związku z tym umieszczanie pustej instrukcji return na końcu funkcji void jest zbędne:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+}</code></pre><p>W powyższym przykładzie funkcja <code>printHi</code>  ma przydatne zachowanie (wypisuje „Cześć”), ale nie musi zwracać niczego do osoby wywołującej. Dlatego  <code>printHi</code> otrzymuje <code>void</code> typ powrotu.<p>Po wywołaniu <code>main</code> wywołania <code>printHi</code>, kod w <code>printHi</code> wykonuje się i zostaje wydrukowane „Hi”. Na koniec <code>printHi</code> sterowanie powraca do <code>main</code> i program kontynuuje działanie.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Funkcja, która nie zwraca wartości, nazywa się <strong>funkcja nie zwracająca wartości</strong> (lub  <strong>funkcja pusta</strong>).<p class="cpp-section cpp-topline" style=clear:both>Funkcja Void nie potrzebuje instrukcji return<p>Funkcja void automatycznie powróci do osoby wywołującej na końcu funkcji. Nie ma instrukcji return. wymagane.<p>Instrukcja return (bez wartości zwracanej) może zostać użyta w funkcji void -- taka instrukcja spowoduje powrót funkcji do osoby wywołującej w momencie wykonania instrukcji return. To samo dzieje się na końcu funkcji. W związku z tym umieszczanie pustej instrukcji return na końcu funkcji void jest zbędne:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-// void means the function does not return a value to the caller
+// void oznacza, że funkcja nie zwraca wartości wywołującemu
 void printHi()
 {
-    std::cout &lt;&lt; &#34;Hi&#34; &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "Hi" &lt;&lt; '\n';
 
-    return; // tell compiler to return to the caller -- this is redundant since the return will happen at the end of the function anyway!
-} // function will return to caller here
+    return; // powiedz kompilatorowi, aby wrócił do wywołującego - jest to zbędne, ponieważ powrót i tak nastąpi na końcu funkcji!
+} // funkcja zwróci tutaj funkcję wywołującą
 
 int main()
 {
@@ -51,33 +51,33 @@ int main()
 
 int main()
 {
-    std::cout &lt;&lt; 5; // ok: 5 is a literal value that we&#39;re sending to the console to be printed
-    std::cout &lt;&lt; ;  // compile error: no value provided
+    std::cout &lt;&lt; 5; // ok: 5 to literał, który wysyłamy do konsoli w celu wydrukowania
+    std::cout &lt;&lt; ;  // błąd kompilacji: brak podanej wartości
 
     return 0;
 }</code></pre><p>W powyższym programie wartość do wydrukowania musi zostać podana po prawej stronie  <code>std::cout &lt;&lt;</code>. Jeśli nie zostanie podana żadna wartość, kompilator zgłosi błąd składniowy, ponieważ drugie wywołanie  <code>std::cout</code>  tego nie zrobi podaj wartość do wydrukowania, powoduje to błąd.<p>Rozważmy teraz następujący program:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-// void means the function does not return a value to the caller
+// void oznacza, że funkcja nie zwraca wartości wywołującemu
 void printHi()
 {
-    std::cout &lt;&lt; &#34;Hi&#34; &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "Hi" &lt;&lt; '\n';
 }
 
 int main()
 {
-    printHi(); // okay: function printHi() is called, no value is returned
+    printHi(); // OK: funkcja printHi() jest wywoływana, żadna wartość nie jest zwracana
 
     std::cout &lt;&lt; printHi(); // compile error
 
     return 0;
 }</code></pre><p>Pierwsze wywołanie <code>printHi()</code> jest wywoływane w kontekście, który nie wymaga wartości. Ponieważ funkcja nie zwraca wartości, jest to w porządku.<p>Drugie wywołanie funkcji <code>printHi()</code> nie zostanie nawet skompilowane. Funkcja <code>printHi</code> posiada parametr <code>void</code> zwraca typ, co oznacza, że nie zwraca wartości próbuje wysłać wartość zwracaną przez <code>printHi</code> Do <code>std::cout</code> do wydrukowania. <code>std::cout</code> nie wie, jak sobie z tym poradzić (jaką wartość wyśle?). W związku z tym kompilator oznaczy to jako błąd. Będziesz musiał skomentować ten wiersz kodu, aby kod się skompilował.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Wskazówka<p>Niektóre instrukcje wymagają podania wartości, a inne nie.<p>Kiedy mamy instrukcję składającą się tylko z wywołania funkcji (np. najpierw  <code>printHi()</code> w powyższym przykładzie), wywołujemy funkcję ze względu na jej zachowanie, a nie wartość zwracaną. W tym przypadku możemy wywołać funkcję nie zwracającą wartości lub możemy wywołać funkcję zwracającą wartość i po prostu zignorować wartość zwracaną.<p>Gdy wywołujemy funkcję w kontekście wymagającym wartości (np.  <code>std::cout</code>), w takim kontekście możemy jedynie podać wartość funkcje zwracające wartość.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-// Function that does not return a value
+// Funkcja, która nie zwraca wartości
 void returnNothing()
 {
 }
 
-// Function that returns a value
+// Funkcja zwracająca wartość
 int returnFive()
 {
     return 5;
@@ -85,20 +85,20 @@ int returnFive()
 
 int main()
 {
-    // When calling a function by itself, no value is required
-    returnNothing(); // ok: we can call a function that does not return a value
-    returnFive();    // ok: we can call a function that returns a value, and ignore that return value
+    // Podczas samodzielnego wywoływania funkcji nie jest wymagana żadna wartość
+    returnNothing(); // ok: możemy wywołać funkcję, która nie zwraca wartości
+    returnFive();    // ok: możemy wywołać funkcję, która zwraca wartość i zignorować tę zwracaną wartość
 
-    // When calling a function in a context that requires a value (like std::cout)
-    std::cout &lt;&lt; returnFive();    // ok: we can call a function that returns a value, and the value will be used
-    std::cout &lt;&lt; returnNothing(); // compile error: we can&#39;t call a function that returns void in this context
+    // Podczas wywoływania funkcji w kontekście wymagającym wartości (np. std::cout)
+    std::cout &lt;&lt; returnFive();    // ok: możemy wywołać funkcję, która zwraca wartość, a wartość zostanie użyta
+    std::cout &lt;&lt; returnNothing(); // błąd kompilacji: nie możemy wywołać funkcji, która zwraca void w tym kontekście
 
     return 0;
-}</code></pre></div><p class="cpp-section cpp-topline" style=clear:both>Zwracanie wartości z funkcji void jest błędem kompilacji<p>Próba zwrócenia wartości z funkcji, która nie zwraca wartości, zakończy się błędem kompilacji:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">void printHi() // This function is non-value returning
+}</code></pre></div><p class="cpp-section cpp-topline" style=clear:both>Zwracanie wartości z funkcji void jest błędem kompilacji<p>Próba zwrócenia wartości z funkcji, która nie zwraca wartości, zakończy się błędem kompilacji:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">void printHi() // Ta funkcja nie zwraca wartości
 {
-    std::cout &lt;&lt; &#34;In printHi()&#34; &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "In printHi()" &lt;&lt; '\n';
 
-    return 5; // compile error: we&#39;re trying to return a value
+    return 5; // błąd kompilacji: próbujemy zwrócić wartość
 }</code></pre><p class="cpp-section cpp-topline" style=clear:both>Czas quizu<p class=cpp-quiz-question style=clear:both>Pytanie nr 1<p>Sprawdź następujące programy i określ, co generują, lub czy nie zostaną skompilowane.<p>1a)<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 void printA()

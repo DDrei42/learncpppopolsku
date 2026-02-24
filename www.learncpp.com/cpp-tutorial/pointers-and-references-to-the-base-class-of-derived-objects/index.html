@@ -61,13 +61,13 @@ int main()
 {
     Derived derived{ 5 };
 
-    // These are both legal!
-    Base&amp; rBase{ derived }; // rBase is an lvalue reference (not an rvalue reference)
+    // Obydwa są legalne!
+    Base&amp; rBase{ derived }; // rBase to odniesienie do wartości (a nie odniesienie do wartości)
     Base* pBase{ &amp;derived };
 
-    std::cout &lt;&lt; &#34;derived is a &#34; &lt;&lt; derived.getName() &lt;&lt; &#34; and has value &#34; &lt;&lt; derived.getValue() &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; &#34;rBase is a &#34; &lt;&lt; rBase.getName() &lt;&lt; &#34; and has value &#34; &lt;&lt; rBase.getValue() &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; &#34;pBase is a &#34; &lt;&lt; pBase-&gt;getName() &lt;&lt; &#34; and has value &#34; &lt;&lt; pBase-&gt;getValue() &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "derived is a " &lt;&lt; derived.getName() &lt;&lt; " and has value " &lt;&lt; derived.getValue() &lt;&lt; '\n';
+    std::cout &lt;&lt; "rBase is a " &lt;&lt; rBase.getName() &lt;&lt; " and has value " &lt;&lt; rBase.getValue() &lt;&lt; '\n';
+    std::cout &lt;&lt; "pBase is a " &lt;&lt; pBase-&gt;getName() &lt;&lt; " and has value " &lt;&lt; pBase-&gt;getValue() &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Daje to wynik:<pre>derived is a Derived and has value 5
@@ -82,21 +82,21 @@ class Animal
 protected:
     std::string m_name;
 
-    // We&#39;re making this constructor protected because
-    // we don&#39;t want people creating Animal objects directly,
-    // but we still want derived classes to be able to use it.
+    // Chronimy ten konstruktor, ponieważ
+    // nie chcemy, aby ludzie tworzyli bezpośrednio obiekty Animal,
+    // ale nadal chcemy, aby klasy pochodne mogły z niego korzystać.
     Animal(std::string_view name)
         : m_name{ name }
     {
     }
     
-    // To prevent slicing (covered later)
+    // Aby zapobiec krojeniu (omówione później)
     Animal(const Animal&amp;) = delete;
     Animal&amp; operator=(const Animal&amp;) = delete;
 
 public:
     std::string_view getName() const { return m_name; }
-    std::string_view speak() const { return &#34;???&#34;; }
+    std::string_view speak() const { return "???"; }
 };
 
 class Cat: public Animal
@@ -107,7 +107,7 @@ public:
     {
     }
 
-    std::string_view speak() const { return &#34;Meow&#34;; }
+    std::string_view speak() const { return "Meow"; }
 };
 
 class Dog: public Animal
@@ -118,22 +118,22 @@ public:
     {
     }
 
-    std::string_view speak() const { return &#34;Woof&#34;; }
+    std::string_view speak() const { return "Woof"; }
 };
 
 int main()
 {
-    const Cat cat{ &#34;Fred&#34; };
-    std::cout &lt;&lt; &#34;cat is named &#34; &lt;&lt; cat.getName() &lt;&lt; &#34;, and it says &#34; &lt;&lt; cat.speak() &lt;&lt; &#39;\n&#39;;
+    const Cat cat{ "Fred" };
+    std::cout &lt;&lt; "cat is named " &lt;&lt; cat.getName() &lt;&lt; ", and it says " &lt;&lt; cat.speak() &lt;&lt; '\n';
 
-    const Dog dog{ &#34;Garbo&#34; };
-    std::cout &lt;&lt; &#34;dog is named &#34; &lt;&lt; dog.getName() &lt;&lt; &#34;, and it says &#34; &lt;&lt; dog.speak() &lt;&lt; &#39;\n&#39;;
+    const Dog dog{ "Garbo" };
+    std::cout &lt;&lt; "dog is named " &lt;&lt; dog.getName() &lt;&lt; ", and it says " &lt;&lt; dog.speak() &lt;&lt; '\n';
 
     const Animal* pAnimal{ &amp;cat };
-    std::cout &lt;&lt; &#34;pAnimal is named &#34; &lt;&lt; pAnimal-&gt;getName() &lt;&lt; &#34;, and it says &#34; &lt;&lt; pAnimal-&gt;speak() &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "pAnimal is named " &lt;&lt; pAnimal-&gt;getName() &lt;&lt; ", and it says " &lt;&lt; pAnimal-&gt;speak() &lt;&lt; '\n';
 
     pAnimal = &amp;dog;
-    std::cout &lt;&lt; &#34;pAnimal is named &#34; &lt;&lt; pAnimal-&gt;getName() &lt;&lt; &#34;, and it says &#34; &lt;&lt; pAnimal-&gt;speak() &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "pAnimal is named " &lt;&lt; pAnimal-&gt;getName() &lt;&lt; ", and it says " &lt;&lt; pAnimal-&gt;speak() &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Daje to wynik:<pre>cat is named Fred, and it says Meow
@@ -158,52 +158,52 @@ void report(const T&amp; rAnimal)
 }</code></pre><p>I chociaż to działa, ma swoje własne problemy: <ol start=1><li>Nie jest jasne, jaki typ <code>T</code> ma być, ponieważ zgubiliśmy dokumentację, która <code>T</code> ma być <code>Animal</code>.<li>Ta funkcja nie wymusza tego, że <code>T</code> jest <code>Animal</code>. Raczej zaakceptuje obiekt dowolnego typu, który zawiera  <code>getName()</code> i <code>speak()</code> funkcję składową, niezależnie od tego, czy ma to sens, czy nie.</ol></div><p>Po drugie, powiedzmy, że masz 3 koty i 3 psy, które chcesz umieścić w tablicy, aby zapewnić łatwy dostęp. Ponieważ tablice mogą przechowywać tylko obiekty jednego typu, bez wskaźnika lub odniesienia do klasy bazowej, dla każdego typu pochodnego należy utworzyć inną tablicę, na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;array&gt;
 #include &lt;iostream&gt;
 
-// Cat and Dog from the example above
+// Kot i pies z powyższego przykładu
 
 int main()
 {
-    const auto&amp; cats{ std::to_array&lt;Cat&gt;({{ &#34;Fred&#34; }, { &#34;Misty&#34; }, { &#34;Zeke&#34; }}) };
-    const auto&amp; dogs{ std::to_array&lt;Dog&gt;({{ &#34;Garbo&#34; }, { &#34;Pooky&#34; }, { &#34;Truffle&#34; }}) };
+    const auto&amp; cats{ std::to_array&lt;Cat&gt;({{ "Fred" }, { "Misty" }, { "Zeke" }}) };
+    const auto&amp; dogs{ std::to_array&lt;Dog&gt;({{ "Garbo" }, { "Pooky" }, { "Truffle" }}) };
     
-    // Before C++20
-    // const std::array&lt;Cat, 3&gt; cats{{ { &#34;Fred&#34; }, { &#34;Misty&#34; }, { &#34;Zeke&#34; } }};
-    // const std::array&lt;Dog, 3&gt; dogs{{ { &#34;Garbo&#34; }, { &#34;Pooky&#34; }, { &#34;Truffle&#34; } }};
+    // Przed C++20
+    // const std::array&lt;Cat, 3&gt; cats{{ { "Fred" }, { "Misty" }, { "Zeke" } }};
+    // const std::array&lt;Dog, 3&gt; dogs{{ { "Garbo" }, { "Pooky" }, { "Truffle" } }};
 
     for (const auto&amp; cat : cats)
     {
-        std::cout &lt;&lt; cat.getName() &lt;&lt; &#34; says &#34; &lt;&lt; cat.speak() &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; cat.getName() &lt;&lt; " says " &lt;&lt; cat.speak() &lt;&lt; '\n';
     }
 
     for (const auto&amp; dog : dogs)
     {
-        std::cout &lt;&lt; dog.getName() &lt;&lt; &#34; says &#34; &lt;&lt; dog.speak() &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; dog.getName() &lt;&lt; " says " &lt;&lt; dog.speak() &lt;&lt; '\n';
     }
 
     return 0;
 }</code></pre><p>Zastanów się teraz, co by się stało, gdybyś miał 30 różnych typów zwierząt. Potrzebowałbyś 30 tablic, po jednej dla każdego typu zwierzęcia!<p>Jednakże ponieważ zarówno Cat, jak i Dog pochodzą od Animal, logiczne jest, że powinniśmy móc zrobić coś takiego:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;array&gt;
 #include &lt;iostream&gt;
 
-// Cat and Dog from the example above
+// Kot i pies z powyższego przykładu
 
 int main()
 {
-    const Cat fred{ &#34;Fred&#34; };
-    const Cat misty{ &#34;Misty&#34; };
-    const Cat zeke{ &#34;Zeke&#34; };
+    const Cat fred{ "Fred" };
+    const Cat misty{ "Misty" };
+    const Cat zeke{ "Zeke" };
 
-    const Dog garbo{ &#34;Garbo&#34; };
-    const Dog pooky{ &#34;Pooky&#34; };
-    const Dog truffle{ &#34;Truffle&#34; };
+    const Dog garbo{ "Garbo" };
+    const Dog pooky{ "Pooky" };
+    const Dog truffle{ "Truffle" };
 
-    // Set up an array of pointers to animals, and set those pointers to our Cat and Dog objects
+    // Ustaw tablicę wskaźników na zwierzęta i ustaw te wskaźniki na nasze obiekty Kot i Pies
     const auto animals{ std::to_array&lt;const Animal*&gt;({&amp;fred, &amp;garbo, &amp;misty, &amp;pooky, &amp;truffle, &amp;zeke }) };
     
-    // Before C++20, with the array size being explicitly specified
-    // const std::array&lt;const Animal*, 6&gt; animals{ &amp;fred, &amp;garbo, &amp;misty, &amp;pooky, &amp;truffle, &amp;zeke };
+    // Przed C++20, z jawnie określonym rozmiarem tablicy
+    // const std::array&lt;const Animal*, 6&gt; zwierzęta{ &amp;fred, &amp;garbo, &amp;misty, &amp;pooky, &amp;truffle, &amp;zeke };
     
     for (const auto animal : animals)
     {
-        std::cout &lt;&lt; animal-&gt;getName() &lt;&lt; &#34; says &#34; &lt;&lt; animal-&gt;speak() &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; animal-&gt;getName() &lt;&lt; " says " &lt;&lt; animal-&gt;speak() &lt;&lt; '\n';
     }
 
     return 0;
@@ -218,23 +218,23 @@ Zeke says ???
 
 int main()
 {
-    const Cat fred{ &#34;Fred&#34; };
-    const Cat misty{ &#34;Misty&#34; };
-    const Cat zeke{ &#34;Zeke&#34; };
+    const Cat fred{ "Fred" };
+    const Cat misty{ "Misty" };
+    const Cat zeke{ "Zeke" };
 
-    const Dog garbo{ &#34;Garbo&#34; };
-    const Dog pooky{ &#34;Pooky&#34; };
-    const Dog truffle{ &#34;Truffle&#34; };
+    const Dog garbo{ "Garbo" };
+    const Dog pooky{ "Pooky" };
+    const Dog truffle{ "Truffle" };
 
-    // Set up an array of pointers to animals, and set those pointers to our Cat and Dog objects
+    // Ustaw tablicę wskaźników na zwierzęta i ustaw te wskaźniki na nasze obiekty Kot i Pies
     const auto animals{ std::to_array&lt;const Animal*&gt;({ &amp;fred, &amp;garbo, &amp;misty, &amp;pooky, &amp;truffle, &amp;zeke }) };
     
-    // Before C++20, with the array size being explicitly specified
-    // const std::array&lt;const Animal*, 6&gt; animals{ &amp;fred, &amp;garbo, &amp;misty, &amp;pooky, &amp;truffle, &amp;zeke };
+    // Przed C++20, z jawnie określonym rozmiarem tablicy
+    // const std::array&lt;const Animal*, 6&gt; zwierzęta{ &amp;fred, &amp;garbo, &amp;misty, &amp;pooky, &amp;truffle, &amp;zeke };
     
     for (const auto animal : animals)
     {
-        std::cout &lt;&lt; animal-&gt;getName() &lt;&lt; &#34; says &#34; &lt;&lt; animal-&gt;speak() &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; animal-&gt;getName() &lt;&lt; " says " &lt;&lt; animal-&gt;speak() &lt;&lt; '\n';
     }
 
     return 0;
@@ -249,15 +249,15 @@ protected:
     std::string m_name;
     std::string m_speak;
 
-    // We&#39;re making this constructor protected because
-    // we don&#39;t want people creating Animal objects directly,
-    // but we still want derived classes to be able to use it.
+    // Chronimy ten konstruktor, ponieważ
+    // nie chcemy, aby ludzie tworzyli bezpośrednio obiekty Animal,
+    // ale nadal chcemy, aby klasy pochodne mogły z niego korzystać.
     Animal(std::string_view name, std::string_view speak)
         : m_name{ name }, m_speak{ speak }
     {
     }
     
-    // To prevent slicing (covered later)
+    // Aby zapobiec krojeniu (omówione później)
     Animal(const Animal&amp;) = delete;
     Animal&amp; operator=(const Animal&amp;) = delete;
 
@@ -270,7 +270,7 @@ class Cat: public Animal
 {
 public:
     Cat(std::string_view name)
-        : Animal{ name, &#34;Meow&#34; }
+        : Animal{ name, "Meow" }
     {
     }
 };
@@ -279,31 +279,31 @@ class Dog: public Animal
 {
 public:
     Dog(std::string_view name)
-        : Animal{ name, &#34;Woof&#34; }
+        : Animal{ name, "Woof" }
     {
     }
 };
 
 int main()
 {
-    const Cat fred{ &#34;Fred&#34; };
-    const Cat misty{ &#34;Misty&#34; };
-    const Cat zeke{ &#34;Zeke&#34; };
+    const Cat fred{ "Fred" };
+    const Cat misty{ "Misty" };
+    const Cat zeke{ "Zeke" };
 
-    const Dog garbo{ &#34;Garbo&#34; };
-    const Dog pooky{ &#34;Pooky&#34; };
-    const Dog truffle{ &#34;Truffle&#34; };
+    const Dog garbo{ "Garbo" };
+    const Dog pooky{ "Pooky" };
+    const Dog truffle{ "Truffle" };
 
-    // Set up an array of pointers to animals, and set those pointers to our Cat and Dog objects
+    // Ustaw tablicę wskaźników na zwierzęta i ustaw te wskaźniki na nasze obiekty Kot i Pies
     const auto animals{ std::to_array&lt;const Animal*&gt;({ &amp;fred, &amp;garbo, &amp;misty, &amp;pooky, &amp;truffle, &amp;zeke }) };
     
-    // Before C++20, with the array size being explicitly specified
-    // const std::array&lt;const Animal*, 6&gt; animals{ &amp;fred, &amp;garbo, &amp;misty, &amp;pooky, &amp;truffle, &amp;zeke };
+    // Przed C++20, z jawnie określonym rozmiarem tablicy
+    // const std::array&lt;const Animal*, 6&gt; zwierzęta{ &amp;fred, &amp;garbo, &amp;misty, &amp;pooky, &amp;truffle, &amp;zeke };
     
-    // animal is not a reference, because we&#39;re looping over pointers
+    // zwierzę nie jest referencją, ponieważ zapętlamy wskaźniki
     for (const auto animal : animals)
     {
-        std::cout &lt;&lt; animal-&gt;getName() &lt;&lt; &#34; says &#34; &lt;&lt; animal-&gt;speak() &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; animal-&gt;getName() &lt;&lt; " says " &lt;&lt; animal-&gt;speak() &lt;&lt; '\n';
     }
 
     return 0;

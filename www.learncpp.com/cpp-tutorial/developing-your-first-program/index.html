@@ -33,12 +33,12 @@ int main()
 }</code></pre><p>W tym momencie Twój program powinien wygenerować następujący wynik:<pre>Enter an integer:
 </pre><p>a następnie zakończyć.<p>Następnie uzyskamy dane wprowadzone przez użytkownika. Użyjemy std::cin i  <code>operator>></code> , aby uzyskać dane wejściowe użytkownika. Ale musimy także zdefiniować zmienną do przechowywania tych danych wejściowych do późniejszego wykorzystania.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-int main() // note: this program has an error somewhere
+int main() // uwaga: ten program zawiera gdzieś błąd
 {
-	std::cout &lt;&lt; &#34;Enter an integer: &#34;;
+	std::cout &lt;&lt; "Enter an integer: ";
 
-	int num{ }; // define variable num as an integer variable
-	std::cin &lt;&lt; num; // get integer value from user&#39;s keyboard
+	int num{ }; // zdefiniuj zmienną num jako zmienną całkowitą
+	std::cin &lt;&lt; num; // pobierz wartość całkowitą z klawiatury użytkownika
 
 	return 0;
 }</code></pre><p>Czas na skompilowanie naszych zmian… i…<p>Och, och! Oto, co autor uzyskał w Visual Studio 2017:<pre>1&gt;------ Build started: Project: Double, Configuration: Release Win32 ------
@@ -52,10 +52,10 @@ int main() // note: this program has an error somewhere
 
 int main()
 {
-	std::cout &lt;&lt; &#34;Enter an integer: &#34;;
+	std::cout &lt;&lt; "Enter an integer: ";
 
 	int num{ };
-	std::cin &gt;&gt; num; // std::cin uses operator &gt;&gt;, not operator &lt;&lt;!
+	std::cin &gt;&gt; num; // std::cin używa operatora &gt;&gt;, a nie operatora &lt;&lt;!
 
 	return 0;
 }</code></pre><p>Teraz program się skompiluje i będziemy mogli go przetestować. Program będzie czekał, aż wprowadzisz liczbę, więc wpiszmy 4. Wynik powinien wyglądać następująco:<pre>Enter an integer: 4
@@ -64,28 +64,28 @@ int main()
 // worst version
 int main()
 {
-	std::cout &lt;&lt; &#34;Enter an integer: &#34;;
+	std::cout &lt;&lt; "Enter an integer: ";
 
 	int num{ };
 	std::cin &gt;&gt; num;
 
-	num = num * 2; // double num&#39;s value, then assign that value back to num
+	num = num * 2; // double wartość num, a następnie przypisz tę wartość z powrotem do num
 
-	std::cout &lt;&lt; &#34;Double that number is: &#34; &lt;&lt; num &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; "Double that number is: " &lt;&lt; num &lt;&lt; '\n';
 
 	return 0;
 }</code></pre><p>W tym rozwiązaniu używamy wyrażenia do mnożenia <em>num</em> o 2, a następnie przypisz tę wartość z powrotem do <em>num</em>. Od tego momentu <em>num</em> będzie zawierać naszą podwójną liczbę.<p>Dlaczego jest to złe rozwiązanie:<ul><li>Przed instrukcją przypisania num zawiera dane wprowadzone przez użytkownika. Po przypisaniu zawiera inną wartość. To mylące.<li>Nadpisaliśmy dane wprowadzone przez użytkownika, przypisując nową wartość do zmiennej wejściowej, więc jeśli chcielibyśmy rozszerzyć nasz program, aby później zrobić coś innego z tą wartością wejściową (np. potrojenie danych wejściowych użytkownika), zostało to już utracone.</ul><p class="cpp-section cpp-topline" style=clear:both>W większości dobre rozwiązanie<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-// less-bad version
+// mniej zła wersja
 int main()
 {
-	std::cout &lt;&lt; &#34;Enter an integer: &#34;;
+	std::cout &lt;&lt; "Enter an integer: ";
 
 	int num{ };
 	std::cin &gt;&gt; num;
 
-	int doublenum{ num * 2 }; // define a new variable and initialize it with num * 2
-	std::cout &lt;&lt; &#34;Double that number is: &#34; &lt;&lt; doublenum &lt;&lt; &#39;\n&#39;; // then print the value of that variable here
+	int doublenum{ num * 2 }; // zdefiniuj nową zmienną i zainicjuj ją num * 2
+	std::cout &lt;&lt; "Double that number is: " &lt;&lt; doublenum &lt;&lt; '\n'; // następnie wypisz tutaj wartość tej zmiennej
 
 	return 0;
 }</code></pre><p>To rozwiązanie jest dość proste do odczytania i zrozumienia oraz rozwiązuje oba problemy napotykane w najgorszych przypadkach rozwiązanie.<p>Główną wadą jest to, że definiujemy nową zmienną (co zwiększa złożoność) do przechowywania wartości, której używamy tylko raz. Możemy zrobić lepiej.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Preferowane rozwiązanie<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -93,12 +93,12 @@ int main()
 // preferred version
 int main()
 {
-	std::cout &lt;&lt; &#34;Enter an integer: &#34;;
+	std::cout &lt;&lt; "Enter an integer: ";
 
 	int num{ };
 	std::cin &gt;&gt; num;
 
-	std::cout &lt;&lt; &#34;Double that number is: &#34; &lt;&lt;  num * 2 &lt;&lt; &#39;\n&#39;; // use an expression to multiply num * 2 at the point where we are going to print it
+	std::cout &lt;&lt; "Double that number is: " &lt;&lt;  num * 2 &lt;&lt; '\n'; // użyj wyrażenia, aby pomnożyć liczbę * 2 w miejscu, w którym zamierzamy to wydrukować
 
 	return 0;
 }</code></pre><p>To jest preferowane rozwiązanie ze wszystkich. Kiedy std::cout zostanie wykonane, wyrażenie <em>num * 2</em>  zostanie ocenione, a wynikiem będzie podwójna <em>num</em>wartość. Wartość ta zostanie wydrukowana. Wartość w <em>num</em> nie ulegnie zmianie, więc jeśli chcemy, możemy jej później użyć ponownie.<p>Ta wersja jest naszym rozwiązaniem referencyjnym.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nota autora<p>Pierwszym i głównym celem programowania jest zapewnienie działania programu. Program, który nie działa, nie jest użyteczny niezależnie od tego, jak dobrze jest napisany.<p>Jednak jest takie powiedzenie, które lubię: „Musisz raz napisać program, aby wiedzieć, jak powinieneś go napisać za pierwszym razem”. Świadczy to o tym, że najlepsze rozwiązanie często nie jest oczywiste i że nasze pierwsze rozwiązania problemów zwykle nie są tak dobre, jak mogłyby być.<p>Kiedy skupiamy się na zastanawianiu się, jak sprawić, by nasze programy działały, nie ma większego sensu inwestowanie dużej ilości czasu w kod, którego nawet nie wiemy, czy będziemy przechowywać. Dlatego idziemy na skróty. Pomijamy takie rzeczy, jak obsługa błędów i komentarze. Do całego naszego rozwiązania dodajemy kod debugowania, który pomaga nam diagnozować problemy i znajdować błędy. Uczymy się w miarę upływu czasu — rzeczy, o których myśleliśmy, że mogą zadziałać, mimo wszystko nie działają, więc musimy się wycofać i wypróbować inne podejście.<p>Efekt końcowy jest taki, że nasze początkowe rozwiązania często nie są dobrze ustrukturyzowane, solidne (odporne na błędy), czytelne i zwięzłe. Zatem kiedy Twój program zacznie działać, Twoja praca tak naprawdę nie jest skończona (chyba że program jest jednorazowy/wyrzucony). Następnym krokiem jest oczyszczenie kodu. Obejmuje to takie czynności, jak: usuwanie (lub komentowanie) kodu tymczasowego/debugowania, dodawanie komentarzy, obsługa przypadków błędów, formatowanie kodu i zapewnienie przestrzegania najlepszych praktyk. Nawet wtedy Twój program może nie być tak prosty, jak mógłby być — być może istnieje nadmiarowa logika, którą można skonsolidować, wiele instrukcji, które można połączyć, lub zmienne, które nie są potrzebne, lub tysiąc innych drobnych rzeczy, które można uprościć. Zbyt często nowi programiści skupiają się na optymalizacji pod kątem wydajności, podczas gdy powinni optymalizować pod kątem łatwości konserwacji.<p>Bardzo niewiele rozwiązań przedstawionych w tych samouczkach wyszło świetnie za pierwszym razem. Są raczej wynikiem ciągłego udoskonalania, dopóki nie można znaleźć nic innego, co można by ulepszyć. W wielu przypadkach czytelnicy wciąż znajdują mnóstwo innych rzeczy do zaproponowania jako ulepszenia!<p>Wszystko to tak naprawdę oznacza: nie frustruj się, jeśli Twoje rozwiązania nie wyjdą cudownie zoptymalizowane prosto z Twojego mózgu. To normalne. Perfekcja w programowaniu to proces iteracyjny (wymagający powtarzalnych przejść).</div><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nota autora<p>Jeszcze jedna rzecz: możesz pomyśleć: "C++ ma tak wiele zasad i koncepcji. Jak mam to wszystko zapamiętać?".<p>Krótka odpowiedź: Nie. C++ to jedna część wykorzystująca to, co wiesz, i dwie części, w których sprawdzane jest, jak zrobić resztę.<p>Gdy czytasz tę witrynę po raz pierwszy, skup się mniej na zapamiętywaniu szczegółów, a bardziej na zrozumieniu, co jest możliwe. Następnie, gdy zajdzie potrzeba zaimplementowania czegoś w pisanym programie, możesz wrócić tutaj (lub do witryny referencyjnej) i odświeżyć wiedzę, jak to zrobić.</div><p class="cpp-section cpp-topline" style=clear:both>Czas quizu<div class=quiz style=clear:both><p class=quiz-header>Pytanie nr 1<p>Zmodyfikuj rozwiązanie do programu „najlepszego rozwiązania” powyżej, tak aby jego wynik był następujący (zakładając wprowadzenie danych przez użytkownika 4):<pre>Enter an integer: 4

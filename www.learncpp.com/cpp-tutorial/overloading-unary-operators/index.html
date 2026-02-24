@@ -23,22 +23,22 @@ private:
 public:
     Cents(int cents): m_cents{cents} {}
  
-    // Overload -Cents as a member function
+    // Przeciążenie — Centy jako funkcja członkowska
     Cents operator-() const;
 
     int getCents() const { return m_cents; }
 };
  
-// note: this function is a member function!
+// uwaga: ta funkcja jest funkcją składową!
 Cents Cents::operator-() const
 {
-    return -m_cents; // since return type is a Cents, this does an implicit conversion from int to Cents using the Cents(int) constructor
+    return -m_cents; // ponieważ zwracany typ to Centy, powoduje to niejawną konwersję z int na Centy przy użyciu konstruktora Cents(int)
 }
 
 int main()
 {
     const Cents nickle{ 5 };
-    std::cout &lt;&lt; &#34;A nickle of debt is worth &#34; &lt;&lt; (-nickle).getCents() &lt;&lt; &#34; cents\n&#34;;
+    std::cout &lt;&lt; "A nickle of debt is worth " &lt;&lt; (-nickle).getCents() &lt;&lt; " cents\n";
 
     return 0;
 }</code></pre><p>To powinno być proste. Nasz przeciążony operator ujemny (-) jest operatorem jednoargumentowym zaimplementowanym jako funkcja składowa, więc nie przyjmuje żadnych parametrów (działa na obiekcie *this). Zwraca obiekt Cents będący negacją oryginalnej wartości Cents. Ponieważ operator- nie modyfikuje obiektu Cents, możemy (i powinniśmy) uczynić z niego funkcję const (aby można było ją wywołać na obiektach const Cents).<p>Zauważ, że nie ma pomylenia pomiędzy operatorem ujemnym i operatorem minus, ponieważ mają one różną liczbę parametrów.<p>Oto kolejny przykład. ! operator jest operatorem logicznej negacji — jeśli wyrażenie ma wartość „prawda”, operator! zwróci false i odwrotnie. Często widzimy to w zastosowaniu do zmiennych boolowskich w celu sprawdzenia, czy są one prawdziwe, czy nie:<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">if (!isHappy)
@@ -59,10 +59,10 @@ public:
     {
     }
  
-    // Convert a Point into its negative equivalent
+    // Przekształć punkt na jego ujemną odpowiednik
     Point operator- () const;
 
-    // Return true if the point is set at the origin
+    // Zwraca wartość prawda, jeśli punkt jest ustawiony na początku
     bool operator! () const;
  
     double getX() const { return m_x; }
@@ -70,13 +70,13 @@ public:
     double getZ() const { return m_z; }
 };
 
-// Convert a Point into its negative equivalent 
+// Przekształć punkt na jego ujemną odpowiednik 
 Point Point::operator- () const
 {
     return { -m_x, -m_y, -m_z };
 }
 
-// Return true if the point is set at the origin, false otherwise
+// Zwraca wartość prawda, jeśli punkt jest ustawiony na początku, w przeciwnym razie fałsz
 bool Point::operator! () const
 {
     return (m_x == 0.0 &amp;&amp; m_y == 0.0 &amp;&amp; m_z == 0.0);
@@ -84,12 +84,12 @@ bool Point::operator! () const
 
 int main()
 {
-    Point point{}; // use default constructor to set to (0.0, 0.0, 0.0)
+    Point point{}; // użyj domyślnego konstruktora, aby ustawić na (0.0, 0.0, 0.0)
 
     if (!point)
-        std::cout &lt;&lt; &#34;point is set at the origin.\n&#34;;
+        std::cout &lt;&lt; "point is set at the origin.\n";
     else
-        std::cout &lt;&lt; &#34;point is not set at the origin.\n&#34;;
+        std::cout &lt;&lt; "point is not set at the origin.\n";
 
     return 0;
 }</code></pre><p>Przeciążony operator! dla tej klasy zwraca wartość logiczną „true”, jeśli Point ma ustawioną wartość domyślną na współrzędnej (0,0, 0,0, 0,0). Zatem powyższy kod generuje wynik:<pre>point is set at the origin.

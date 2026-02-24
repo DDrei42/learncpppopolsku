@@ -18,19 +18,19 @@
 
 int main()
 {
-    std::cout &lt;&lt; &#34;Enter a positive integer: &#34;;
+    std::cout &lt;&lt; "Enter a positive integer: ";
     std::size_t length{};
     std::cin &gt;&gt; length;
 
-    int* array{ new int[length]{} }; // use array new.  Note that length does not need to be constant!
+    int* array{ new int[length]{} }; // użyj nowej tablicy. Zauważ, że długość nie musi być stała!
 
-    std::cout &lt;&lt; &#34;I just allocated an array of integers of length &#34; &lt;&lt; length &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "I just allocated an array of integers of length " &lt;&lt; length &lt;&lt; '\n';
 
-    array[0] = 5; // set element 0 to value 5
+    array[0] = 5; // ustaw element 0 na wartość 5
 
-    delete[] array; // use array delete to deallocate array
+    delete[] array; // użyj usuwania tablicy zwolnij tablicę
 
-    // we don&#39;t need to set array to nullptr/0 here because it&#39;s going out of scope immediately after this anyway
+    // nie musimy tutaj ustawiać tablicy na nullptr/0, ponieważ i tak natychmiast po tym wyjdzie poza zakres
 
     return 0;
 }</code></pre><p>Ponieważ alokujemy tablicę, C++ wie, że powinien używać tablicy w wersji new zamiast skalarnej wersji new. Zasadniczo wywoływany jest operator new[], mimo że [] nie jest umieszczony obok słowa kluczowego new.<p>Długość dynamicznie alokowanych tablic ma typ <code>std::size_t</code>. Jeśli używasz int innego niż constexpr, będziesz musiał  <code>static_cast</code> Do <code>std::size_t</code> ponieważ jest to uważane za konwersję zawężającą, a kompilator wyświetli ostrzeżenie w przeciwnym razie.<p>Zauważ, że ponieważ ta pamięć jest alokowana z innego miejsca niż pamięć używana dla stałych tablic, rozmiar tablicy może być dość duży. Możesz uruchomić powyższy program i bez problemu przydzielić tablicę o długości 1 000 000 (lub prawdopodobnie nawet 100 000 000). Spróbuj! Z tego powodu programy, które muszą alokować dużo pamięci w C++, zwykle robią to dynamicznie.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Dynamiczne usuwanie tablic<p>Podczas usuwania dynamicznie alokowanej tablicy musimy użyć wersji tablicowej usuwania, czyli usuwania[].<p>To informuje procesor, że musi wyczyścić wiele zmiennych zamiast pojedynczej. Jednym z najczęstszych błędów popełnianych przez nowych programistów podczas dynamicznej alokacji pamięci jest użycie metody usuwania zamiast usuwania [] podczas usuwania dynamicznie alokowanej tablicy. Użycie skalarnej wersji usuwania tablicy spowoduje niezdefiniowane zachowanie, takie jak uszkodzenie danych, wycieki pamięci, awarie lub inne problemy.<p>Jednym z często zadawanych pytań dotyczących usuwania tablicy[] jest: „Skąd usuwanie tablicy wie, ile pamięci należy usunąć?” Odpowiedź jest taka, że ​​tablica new[] śledzi, ile pamięci przydzielono zmiennej, dzięki czemu tablica Delete[] może usunąć odpowiednią ilość. Niestety programista nie ma dostępu do tego rozmiaru/długości.<p class="cpp-section cpp-topline" style=clear:both>Tablice dynamiczne są prawie identyczne z tablicami stałymi<p>W lekcji <a href="../c-style-array-decay/index.html">17.8 -- Zanikanie tablicy w stylu C</a>, dowiedziałeś się, że stała tablica przechowuje adres pamięci pierwszego elementu tablicy. Nauczyłeś się również, że stała tablica może rozpaść się na wskaźnik wskazujący pierwszy element tablicy. W tej rozłożonej formie długość stałej tablicy nie jest dostępna (a zatem nie jest również dostępny rozmiar tablicy za pomocą sizeof()), ale poza tym różnica jest niewielka.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Tablica dynamiczna zaczyna swoje życie jako wskaźnik wskazujący na pierwszy element tablicy. W związku z tym ma te same ograniczenia, ponieważ nie zna swojej długości ani rozmiaru. Tablica dynamiczna działa identycznie jak uszkodzona stała tablica, z tą różnicą, że programista jest odpowiedzialny za zwolnienie tablicy dynamicznej za pomocą słowa kluczowego Delete[].<p class="cpp-section cpp-topline" style=clear:both>Inicjowanie tablic alokowanych dynamicznie<p>Jeśli chcesz zainicjować tablicę alokowaną dynamicznie na 0, składnia jest dość prosta:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int* array{ new int[length]{} };</code></pre><p>Przed C++11 nie było łatwego sposobu na zainicjowanie tablicy dynamicznej na wartość różna od zera (listy inicjatorów działały tylko w przypadku stałych tablic). Oznacza to, że trzeba było przeglądać tablicę i jawnie przypisywać wartości elementów.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int* array = new int[5];
@@ -38,11 +38,11 @@ array[0] = 9;
 array[1] = 7;
 array[2] = 5;
 array[3] = 3;
-array[4] = 1;</code></pre><p>Bardzo irytujące!<p>Jednakże, począwszy od C++11, możliwe jest teraz inicjowanie tablic dynamicznych przy użyciu list inicjatorów!<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int fixedArray[5] = { 9, 7, 5, 3, 1 }; // initialize a fixed array before C++11
-int* array{ new int[5]{ 9, 7, 5, 3, 1 } }; // initialize a dynamic array since C++11
-// To prevent writing the type twice, we can use auto. This is often done for types with long names.
-auto* array{ new int[5]{ 9, 7, 5, 3, 1 } };</code></pre><p>Zauważ, że w tej składni nie ma operatora= pomiędzy długością tablicy a listą inicjatorów.<p>Dla zachowania spójności, stałe tablice można również inicjować przy użyciu jednolitej inicjalizacji:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int fixedArray[]{ 9, 7, 5, 3, 1 }; // initialize a fixed array in C++11
-char fixedArray[]{ &#34;Hello, world!&#34; }; // initialize a fixed array in C++11</code></pre><p>Jasne określenie rozmiaru tablicy: opcjonalne.<p class="cpp-section cpp-topline" style=clear:both>Zmiana rozmiaru tablic<p>Dynamiczna alokacja tablicy pozwala na ustawienie długości tablicy w momencie alokacji. Jednak C++ nie zapewnia wbudowanego sposobu zmiany rozmiaru tablicy, która została już przydzielona. Można obejść to ograniczenie poprzez dynamiczne przydzielanie nowej tablicy, kopiowanie elementów i usuwanie starej tablicy. Jest to jednak podatne na błędy, zwłaszcza gdy typem elementu jest klasa (która rządzi się specjalnymi zasadami regulującymi sposób ich tworzenia).<p>W związku z tym zalecamy unikanie robienia tego samodzielnie. Użyj <code>std::vector</code> .<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Czas quizu<div class=quiz style=clear:both><p class=quiz-header>Pytanie nr 1<p>Napisz program, który:<ul><li>Zapyta użytkownika, ile nazw chce wprowadzić.<li>Dynamicznie przydziela  <code>std::string</code> tablicę.<li>Prosi użytkownika o wprowadzenie każdej nazwy.<li>Wywołuje <code>std::sort</code> w celu sortowania nazw (Patrz <a href="../sorting-an-array-using-selection-sort/index.html#stdsort">18.1 -- Sortowanie tablicy przy użyciu sortowania przez wybór</a> i <a href="../pointer-arithmetic-and-subscripting/index.html">17,9 -- Arytmetyka wskaźników i indeksy dolne</a>)<li>Drukuje posortowaną listę nazw.</ul><p><code>std::string</code> obsługuje porównywanie ciągów za pomocą operatorów porównania &lt; i &gt;. Nie musisz implementować ręcznego porównywania ciągów.<p>Twoje dane wyjściowe powinny pasować do tego:<pre>How many names would you like to enter? 5
+array[4] = 1;</code></pre><p>Bardzo irytujące!<p>Jednakże, począwszy od C++11, możliwe jest teraz inicjowanie tablic dynamicznych przy użyciu list inicjatorów!<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int fixedArray[5] = { 9, 7, 5, 3, 1 }; // zainicjuj stałą tablicę przed C++11
+int* array{ new int[5]{ 9, 7, 5, 3, 1 } }; // zainicjuj tablicę dynamiczną od C++ 11
+// Aby zapobiec dwukrotnemu zapisywaniu typu, możemy użyć funkcji auto. Często robi się to w przypadku typów o długich nazwach.
+auto* array{ new int[5]{ 9, 7, 5, 3, 1 } };</code></pre><p>Zauważ, że w tej składni nie ma operatora= pomiędzy długością tablicy a listą inicjatorów.<p>Dla zachowania spójności, stałe tablice można również inicjować przy użyciu jednolitej inicjalizacji:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int fixedArray[]{ 9, 7, 5, 3, 1 }; // zainicjuj stałą tablicę w C++11
+char fixedArray[]{ "Hello, world!" }; // zainicjuj stałą tablicę w C++11</code></pre><p>Jasne określenie rozmiaru tablicy: opcjonalne.<p class="cpp-section cpp-topline" style=clear:both>Zmiana rozmiaru tablic<p>Dynamiczna alokacja tablicy pozwala na ustawienie długości tablicy w momencie alokacji. Jednak C++ nie zapewnia wbudowanego sposobu zmiany rozmiaru tablicy, która została już przydzielona. Można obejść to ograniczenie poprzez dynamiczne przydzielanie nowej tablicy, kopiowanie elementów i usuwanie starej tablicy. Jest to jednak podatne na błędy, zwłaszcza gdy typem elementu jest klasa (która rządzi się specjalnymi zasadami regulującymi sposób ich tworzenia).<p>W związku z tym zalecamy unikanie robienia tego samodzielnie. Użyj <code>std::vector</code> .<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Czas quizu<div class=quiz style=clear:both><p class=quiz-header>Pytanie nr 1<p>Napisz program, który:<ul><li>Zapyta użytkownika, ile nazw chce wprowadzić.<li>Dynamicznie przydziela  <code>std::string</code> tablicę.<li>Prosi użytkownika o wprowadzenie każdej nazwy.<li>Wywołuje <code>std::sort</code> w celu sortowania nazw (Patrz <a href="../sorting-an-array-using-selection-sort/index.html#stdsort">18.1 -- Sortowanie tablicy przy użyciu sortowania przez wybór</a> i <a href="../pointer-arithmetic-and-subscripting/index.html">17,9 -- Arytmetyka wskaźników i indeksy dolne</a>)<li>Drukuje posortowaną listę nazw.</ul><p><code>std::string</code> obsługuje porównywanie ciągów za pomocą operatorów porównania &lt; i &gt;. Nie musisz implementować ręcznego porównywania ciągów.<p>Twoje dane wyjściowe powinny pasować do tego:<pre>How many names would you like to enter? 5
 Enter name #1: Jason
 Enter name #2: Mark
 Enter name #3: Alex
@@ -62,50 +62,50 @@ Name #5: Mark
 
 std::size_t getNameCount()
 {
-    std::cout &lt;&lt; &#34;How many names would you like to enter? &#34;;
+    std::cout &lt;&lt; "How many names would you like to enter? ";
     std::size_t length{};
     std::cin &gt;&gt; length;
 
     return length;
 }
 
-// Asks user to enter all the names
+// Prosi użytkownika o wprowadzenie wszystkich nazw
 void getNames(std::string* names, std::size_t length)
 {
     for (std::size_t i{ 0 }; i &lt; length; ++i)
     {
-        std::cout &lt;&lt; &#34;Enter name #&#34; &lt;&lt; i + 1 &lt;&lt; &#34;: &#34;;
+        std::cout &lt;&lt; "Enter name #" &lt;&lt; i + 1 &lt;&lt; ": ";
         std::getline(std::cin &gt;&gt; std::ws, names[i]);
     }
 }
 
-// Prints the sorted names
+// Drukuje posortowane z nazwą
 void printNames(std::string* names, std::size_t length)
 {
-    std::cout &lt;&lt; &#34;\nHere is your sorted list:\n&#34;;
+    std::cout &lt;&lt; "\nHere is your sorted list:\n";
 
     for (std::size_t i{ 0 }; i &lt; length; ++i)
-        std::cout &lt;&lt; &#34;Name #&#34; &lt;&lt; i + 1 &lt;&lt; &#34;: &#34; &lt;&lt; names[i] &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; "Name #" &lt;&lt; i + 1 &lt;&lt; ": " &lt;&lt; names[i] &lt;&lt; '\n';
 }
 
 int main()
 {
     std::size_t length{ getNameCount() };
 
-    // Allocate an array to hold the names
+    // Przydziel tablicę do przechowywania nazw
     auto* names{ new std::string[length]{} };
 
     getNames(names, length);
 
-    // Sort the array
+    // Sortuj tablicę
     std::sort(names, names + length);
 
     printNames(names, length);
 
-    // don&#39;t forget to use array delete
+    // nie zapomnij użyć usuwania tablicy
     delete[] names;
-    // we don&#39;t need to set names to nullptr/0 here because it&#39;s going to go out
-    // of scope immediately after this anyway.
+    // nie musimy tutaj ustawiać nazw na nullptr/0, ponieważ to wyjdzie
+    // zakres natychmiast po tym.
 
     return 0;
 }</code></pre></div></div><div class=prevnext><div class=prevnext-inline><a class=nav-link href="../destructors/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>19.3</span>Destruktory</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../dynamic-memory-allocation-with-new-and-delete/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>19.1</span>Dynamiczna alokacja pamięci za pomocą nowych i usuwania</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/dynamically-allocating-arrays/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../c-style-string-symbolic-constants/index.html" rel=prev><span>17.11 — Stałe symboliczne w stylu C w stylu C</span></a></div><div class=nav-next><em>Następny post</em><a href="../bit-manipulation-with-bitwise-operators-and-bit-masks/index.html" rel=next><span>O.3 -- Manipulacja bitami za pomocą operatorów bitowych i bitów masks</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>

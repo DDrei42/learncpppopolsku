@@ -24,13 +24,13 @@ public:
     Cents(int cents)
         : m_cents { cents } { }
 
-    // Overload Cents + int
+    // Przeciążenie Centy + int
     friend Cents operator+(const Cents&amp; cents, int value);
 
     int getCents() const { return m_cents; }
 };
 
-// note: this function is not a member function!
+// uwaga: ta funkcja nie jest funkcją składową funkcja!
 Cents operator+(const Cents&amp; cents, int value)
 {
     return Cents(cents.m_cents + value);
@@ -40,7 +40,7 @@ int main()
 {
 	const Cents cents1 { 6 };
 	const Cents cents2 { cents1 + 2 };
-	std::cout &lt;&lt; &#34;I have &#34; &lt;&lt; cents2.getCents() &lt;&lt; &#34; cents.\n&#34;;
+	std::cout &lt;&lt; "I have " &lt;&lt; cents2.getCents() &lt;&lt; " cents.\n";
  
 	return 0;
 }</code></pre><p>Konwersja przeciążonego operatora znajomego do elementu przeciążonego operatora jest łatwe:<ol><li>Przeciążony operator jest zdefiniowany jako członek zamiast znajomego (Cents::operator+ zamiast znajomego operator+)<li>Lewy parametr został usunięty, ponieważ ten parametr staje się teraz ukrytym *tym obiektem.<li>W treści funkcji można usunąć wszystkie odniesienia do lewego parametru (np. cents.m_cents staje się m_cents, co pośrednio odwołuje się do *this obiektu).</ol><p>Teraz ten sam operator został przeciążony przy użyciu metody funkcji składowej:<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -54,14 +54,14 @@ public:
     Cents(int cents)
         : m_cents { cents } { }
 
-    // Overload Cents + int
+    // Przeciążenie Centy + int
     Cents operator+(int value) const;
 
     int getCents() const { return m_cents; }
 };
 
-// note: this function is a member function!
-// the cents parameter in the friend version is now the implicit *this parameter
+// uwaga: ta funkcja jest funkcją składową!
+// parametr centów w wersji znajomego jest teraz ukryty *this parametr
 Cents Cents::operator+ (int value) const
 {
     return Cents { m_cents + value };
@@ -71,7 +71,7 @@ int main()
 {
 	const Cents cents1 { 6 };
 	const Cents cents2 { cents1 + 2 };
-	std::cout &lt;&lt; &#34;I have &#34; &lt;&lt; cents2.getCents() &lt;&lt; &#34; cents.\n&#34;;
+	std::cout &lt;&lt; "I have " &lt;&lt; cents2.getCents() &lt;&lt; " cents.\n";
  
 	return 0;
 }</code></pre><p>Zauważ, że użycie operatora nie zmienia się (w obu przypadkach <code>cents1 + 2</code>), po prostu zdefiniowaliśmy tę funkcję inaczej. Nasza dwuparametrowa funkcja zaprzyjaźniona staje się jednoparametrową funkcją członkowską, przy czym skrajny lewy parametr w wersji zaprzyjaźnionej (centy) staje się ukrytym *tym parametrem w wersji funkcji składowej.<p>Przyjrzyjmy się bliżej, jak obliczane jest wyrażenie <code>cents1 + 2</code> .<p>W wersji funkcji zaprzyjaźnionej wyrażenie <code>cents1 + 2</code> staje się operatorem wywołania funkcji+(centy1, 2). Należy pamiętać, że istnieją dwa parametry funkcji. To jest proste.<p>W wersji funkcji składowej wyrażenie <code>cents1 + 2</code> staje się wywołaniem funkcji <code>cents1.operator+(2)</code>. Należy zauważyć, że istnieje teraz tylko jeden jawny parametr funkcji, a cents1 stał się przedrostkiem obiektu. Jednakże w lekcji <a href="../the-hidden-this-pointer-and-member-function-chaining/index.html">15.1 — Ukryty „ten” wskaźnik i łączenie funkcji składowych</a> wspomnieliśmy, że kompilator niejawnie konwertuje przedrostek obiektu na ukryty parametr położony skrajnie po lewej stronie o nazwie *this. W rzeczywistości <code>cents1.operator+(2)</code> staje się <code>operator+(&​cents1, 2)</code> jest prawie identyczna z wersją zaprzyjaźnioną.<p>W obu przypadkach daje ten sam wynik, tylko w nieco inny sposób.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Jeśli więc możemy przeciążyć operatora jako znajomego lub członka, jakiego powinniśmy użyć? Aby odpowiedzieć na to pytanie, musisz wiedzieć jeszcze kilka rzeczy.<p><strong>Nie wszystko można przeciążać jako funkcję zaprzyjaźnioną</strong><p>Operatory przypisania (=), indeksu dolnego ([]), wywołania funkcji (()) i wyboru elementów (-&gt;) muszą być przeciążane jako funkcje składowe, ponieważ język tego wymaga.<p><strong>Nie wszystko można przeciążać jako elementy członkowskie funkcja</strong><p>W lekcji <a href="../93-overloading-the-io-operators/index.html">21.4 -- Przeciążając operatory I/O</a>, przeciążyliśmy operator&lt;&lt; dla naszej klasy Point przy użyciu metody funkcji znajomego. Oto przypomnienie, jak to zrobiliśmy:<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -94,8 +94,8 @@ public:
  
 std::ostream&amp; operator&lt;&lt; (std::ostream&amp; out, const Point&amp; point)
 {
-    // Since operator&lt;&lt; is a friend of the Point class, we can access Point&#39;s members directly.
-    out &lt;&lt; &#34;Point(&#34; &lt;&lt; point.m_x &lt;&lt; &#34;, &#34; &lt;&lt; point.m_y &lt;&lt; &#34;, &#34; &lt;&lt; point.m_z &lt;&lt; &#34;)&#34;;
+    // Ponieważ operator&lt;&lt; jest przyjacielem klasy Point, możemy uzyskać bezpośredni dostęp do elementów Point.
+    out &lt;&lt; "Point(" &lt;&lt; point.m_x &lt;&lt; ", " &lt;&lt; point.m_y &lt;&lt; ", " &lt;&lt; point.m_z &lt;&lt; ")";
  
     return out;
 }

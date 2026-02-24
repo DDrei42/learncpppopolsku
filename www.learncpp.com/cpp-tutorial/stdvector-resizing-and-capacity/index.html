@@ -13,21 +13,21 @@
 <button class=searchsubmit><span class=screen-reader-text>Szukaj</span><i class=icon-search></i></button>
 <input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=88060></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="16.10 — std::vector zmiana rozmiaru i pojemność" src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-3251 class="post-3251 post type-post status-publish format-standard hentry category-cpp-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>16.10 — std::vector zmiana rozmiaru i pojemność</h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Autor></i><a class="url fn n" rel=author href=/www.learncpp.com/author/Alex/ title="Wyświetl wszystkie posty Alexa" itemprop=url><em itemprop=name>Alex</em></a></span>
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2015-11-24T16:15:28-08:00 itemprop=datePublished>24 listopada 2015, 16:15 czasu PST</time>
-<time class=updated datetime=2024-01-10T19:22:56-08:00 itemprop=dateModified>10 stycznia 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>W poprzednich lekcjach w tym rozdziale przedstawiliśmy kontenery, tablice i <code>std::vector</code>. Omówiliśmy także takie tematy, jak uzyskiwanie dostępu do elementów tablicy, uzyskiwanie długości tablicy i poruszanie się po tablicy. Chociaż używaliśmy <code>std::vector</code> w naszych przykładach, koncepcje, które omówiliśmy, mają ogólne zastosowanie do wszystkich typów tablic.<p>W pozostałych lekcjach w tym rozdziale skupimy się na jednej rzeczy, która  <code>std::vector</code> znacznie różni się od większości pozostałych typów tablic: możliwości zmiany rozmiaru po utworzeniu instancji.<p class="cpp-section cpp-topline" style=clear:both>Tablice o stałym rozmiarze a dynamiczne arrays<p>Większość typów tablic ma istotne ograniczenie: długość tablicy musi być znana w momencie tworzenia instancji, a następnie nie można jej zmienić. Takie tablice nazywane są <strong>tablicami o stałym rozmiarze</strong> lub <strong>tablicami o stałej długości</strong>. Obydwa <code>std::array</code> i <code>C-style arrays</code> są typami tablic o stałym rozmiarze. Omówimy je szczegółowo w następnym rozdziale.<p>Z drugiej strony  <code>std::vector</code> to tablica dynamiczna. A <strong>dynamicznymi array</strong> (zwana także <strong>resizable array</strong>) to tablica, której rozmiar można zmienić po utworzeniu instancji. Ta możliwość zmiany rozmiaru sprawia, że <code>std::vector</code> jest wyjątkowa.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Zmiana rozmiaru <code>std::vector</code> w czasie wykonywania<p>A <code>std::vector</code> można zmienić rozmiar po utworzeniu instancji, wywołując  <code>resize()</code> funkcji składowej o nowej żądanej długości:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+<time class=updated datetime=2024-01-10T19:22:56-08:00 itemprop=dateModified>10 stycznia 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>W poprzednich lekcjach w tym rozdziale przedstawiliśmy kontenery, tablice i <code>std::vector</code>. Omówiliśmy także takie tematy, jak uzyskiwanie dostępu do elementów tablicy, uzyskiwanie długości tablicy i poruszanie się po tablicy. Chociaż używaliśmy <code>std::vector</code> w naszych przykładach, koncepcje, które omówiliśmy, mają ogólne zastosowanie do wszystkich typów tablic.<p>W pozostałych lekcjach w tym rozdziale skupimy się na jednej rzeczy, która  <code>std::vector</code> znacznie różni się od większości pozostałych typów tablic: możliwości zmiany rozmiaru po utworzeniu instancji.<p class="cpp-section cpp-topline" style=clear:both>Tablice o stałym rozmiarze a dynamiczne arrays<p>Większość typów tablic ma istotne ograniczenie: długość tablicy musi być znana w momencie tworzenia instancji, a następnie nie można jej zmienić. Takie tablice nazywane są <strong>tablicami o stałym rozmiarze</strong> lub <strong>tablicami o stałej długości</strong>. Obydwa <code>std::array</code> i <code>C-style arrays</code> są typami tablic o stałym rozmiarze. Omówimy je szczegółowo w następnym rozdziale.<p>Z drugiej strony  <code>std::vector</code> to tablica dynamiczna. <strong>dynamicznymi array</strong> (zwana także <strong>resizable array</strong>) to tablica, której rozmiar można zmienić po utworzeniu instancji. Ta możliwość zmiany rozmiaru sprawia, że <code>std::vector</code> jest wyjątkowa.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p class="cpp-section cpp-topline" style=clear:both>Zmiana rozmiaru <code>std::vector</code> w czasie wykonywania<p><code>std::vector</code> można zmienić rozmiar po utworzeniu instancji, wywołując  <code>resize()</code> funkcji składowej o nowej żądanej długości:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;vector&gt;
 
 int main()
 {
-    std::vector v{ 0, 1, 2 }; // create vector with 3 elements
-    std::cout &lt;&lt; &#34;The length is: &#34; &lt;&lt; v.size() &lt;&lt; &#39;\n&#39;;
+    std::vector v{ 0, 1, 2 }; // utwórz wektor z 3 elementami
+    std::cout &lt;&lt; "The length is: " &lt;&lt; v.size() &lt;&lt; '\n';
 
-    v.resize(5);              // resize to 5 elements
-    std::cout &lt;&lt; &#34;The length is: &#34; &lt;&lt; v.size() &lt;&lt; &#39;\n&#39;;
+    v.resize(5);              // zmień rozmiar na 5 elementów
+    std::cout &lt;&lt; "The length is: " &lt;&lt; v.size() &lt;&lt; '\n';
 
     for (auto i : v)
-        std::cout &lt;&lt; i &lt;&lt; &#39; &#39;;
+        std::cout &lt;&lt; i &lt;&lt; ' ';
 
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Wypisuje:<pre>The length is: 3
@@ -38,91 +38,91 @@ The length is: 5
 
 void printLength(const std::vector&lt;int&gt;&amp; v)
 {
-	std::cout &lt;&lt; &#34;The length is: &#34;	&lt;&lt; v.size() &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; "The length is: "	&lt;&lt; v.size() &lt;&lt; '\n';
 }
 
 int main()
 {
-    std::vector v{ 0, 1, 2, 3, 4 }; // length is initially 5
+    std::vector v{ 0, 1, 2, 3, 4 }; // długość wynosi początkowo 5
     printLength(v);
 
-    v.resize(3);                    // resize to 3 elements
+    v.resize(3);                    // zmień rozmiar na 3 elementy
     printLength(v);
 
     for (int i : v)
-        std::cout &lt;&lt; i &lt;&lt; &#39; &#39;;
+        std::cout &lt;&lt; i &lt;&lt; ' ';
 
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Wypisuje:<pre>The length is: 5
 The length is: 3
 0 1 2
-</pre><p class="cpp-section cpp-topline" style=clear:both>Długość a pojemność  <code>std::vector</code><div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Rozważmy rząd 12 domów. Powiedzielibyśmy, że liczba domów (lub długość rzędu domów) wynosi 12. Gdybyśmy chcieli wiedzieć, który z tych domów jest obecnie zamieszkały… musielibyśmy to ustalić w inny sposób (np. zadzwonić do drzwi i zobaczyć, czy ktoś otwiera). Kiedy mamy tylko długość, wiemy tylko, ile rzeczy istnieje.<p>Rozważmy teraz karton jaj, w którym obecnie znajduje się 5 jaj. Powiedzielibyśmy, że liczba jaj wynosi 5. Jednak w tym kontekście interesuje nas jeszcze jeden wymiar: ile jaj zmieściłoby się w kartonie, gdyby był pełny. Powiedzielibyśmy, że pojemność kartonu jaj wynosi 12. W kartonie jest miejsce na 12 jaj, a używane jest tylko 5 – dlatego moglibyśmy dodać 7 jaj więcej, nie przepełniając kartonu. Kiedy mamy zarówno długość, jak i pojemność, możemy rozróżnić, ile rzeczy aktualnie istnieje, od tego, na ile rzeczy jest miejsce.<p>Do tego momentu mówiliśmy tylko o długości <code>std::vector</code>. Ale <code>std::vector</code> ma też pojemność. W kontekście <code>std::vector</code>, <strong>pojemność</strong> to liczba elementów, dla których <code>std::vector</code> przydzielono pamięć, i <strong>długość</strong> jest ile elementów jest aktualnie używanych.<p>A <code>std::vector</code> o pojemności 5 przydzielono miejsce na 5 elementów. Jeśli wektor zawiera 2 elementy w aktywnym użyciu, długość (rozmiar) wektora wynosi 2. Pozostałym 3 elementom przydzielono pamięć, ale nie są one uważane za aktywnie używane. Można ich później użyć bez przepełnienia wektora.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Długość wektora to liczba elementów „w użyciu”.<br>Pojemność wektora to liczba elementów alokowanych w pamięci.</div><p class="cpp-section cpp-topline" style=clear:both>Uzyskiwanie pojemności  <code>std::vector</code><div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>Możemy zapytać  <code>std::vector</code> o jego pojemność poprzez <code>capacity()</code> funkcja składowa.<p>Na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+</pre><p class="cpp-section cpp-topline" style=clear:both>Długość a pojemność  <code>std::vector</code><div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Rozważmy rząd 12 domów. Powiedzielibyśmy, że liczba domów (lub długość rzędu domów) wynosi 12. Gdybyśmy chcieli wiedzieć, który z tych domów jest obecnie zamieszkały… musielibyśmy to ustalić w inny sposób (np. zadzwonić do drzwi i zobaczyć, czy ktoś otwiera). Kiedy mamy tylko długość, wiemy tylko, ile rzeczy istnieje.<p>Rozważmy teraz karton jaj, w którym obecnie znajduje się 5 jaj. Powiedzielibyśmy, że liczba jaj wynosi 5. Jednak w tym kontekście interesuje nas jeszcze jeden wymiar: ile jaj zmieściłoby się w kartonie, gdyby był pełny. Powiedzielibyśmy, że pojemność kartonu jaj wynosi 12. W kartonie jest miejsce na 12 jaj, a używane jest tylko 5 – dlatego moglibyśmy dodać 7 jaj więcej, nie przepełniając kartonu. Kiedy mamy zarówno długość, jak i pojemność, możemy rozróżnić, ile rzeczy aktualnie istnieje, od tego, na ile rzeczy jest miejsce.<p>Do tego momentu mówiliśmy tylko o długości <code>std::vector</code>. Ale <code>std::vector</code> ma też pojemność. W kontekście <code>std::vector</code>, <strong>pojemność</strong> to liczba elementów, dla których <code>std::vector</code> przydzielono pamięć, i <strong>dłuwywołujący</strong> jest ile elementów jest aktualnie używanych.<p><code>std::vector</code> o pojemności 5 przydzielono miejsce na 5 elementów. Jeśli wektor zawiera 2 elementy w aktywnym użyciu, długość (rozmiar) wektora wynosi 2. Pozostałym 3 elementom przydzielono pamięć, ale nie są one uważane za aktywnie używane. Można ich później użyć bez przepełnienia wektora.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Długość wektora to liczba elementów „w użyciu”.<br>Pojemność wektora to liczba elementów alokowanych w pamięci.</div><p class="cpp-section cpp-topline" style=clear:both>Uzyskiwanie pojemności  <code>std::vector</code><div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>Możemy zapytać  <code>std::vector</code> o jego pojemność poprzez <code>capacity()</code> funkcja składowa.<p>Na przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;vector&gt;
 
 void printCapLen(const std::vector&lt;int&gt;&amp; v)
 {
-	std::cout &lt;&lt; &#34;Capacity: &#34; &lt;&lt; v.capacity() &lt;&lt; &#34; Length:&#34;	&lt;&lt; v.size() &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; "Capacity: " &lt;&lt; v.capacity() &lt;&lt; " Length:"	&lt;&lt; v.size() &lt;&lt; '\n';
 }
 
 int main()
 {
-    std::vector v{ 0, 1, 2 }; // length is initially 3
+    std::vector v{ 0, 1, 2 }; // długość jest początkowo 3
 
     printCapLen(v);
 
     for (auto i : v)
-        std::cout &lt;&lt; i &lt;&lt; &#39; &#39;;
-    std::cout &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; i &lt;&lt; ' ';
+    std::cout &lt;&lt; '\n';
 
-    v.resize(5); // resize to 5 elements
+    v.resize(5); // zmień rozmiar na 5 elementów
 
     printCapLen(v);
 
     for (auto i : v)
-        std::cout &lt;&lt; i &lt;&lt; &#39; &#39;;
-    std::cout &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; i &lt;&lt; ' ';
+    std::cout &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Na maszynie autora wypisuje to:<pre>Capacity: 3  Length: 3
 0 1 2
 Capacity: 5  Length: 5
 0 1 2 0 0
-</pre><p>Najpierw inicjujemy wektor z 3 elementami. To powoduje, że wektor przydziela pamięć dla 3 elementów (pojemność wynosi 3) i wszystkie 3 elementy są uważane za aktywnie używane (długość = 3). <p>Następnie wywołujemy  <code>resize(5)</code>, co oznacza, że chcemy teraz wektor o długości 5. Ponieważ wektor ma pamięć tylko dla 3 elementów, ale potrzebuje 5, wektor musi zdobyć więcej pamięci, aby pomieścić dodatkowe elementy.<p>Po wywołanie  <code>resize()</code>  zostało zakończone, możemy zobaczyć, że wektor ma teraz miejsce na 5 elementów (pojemność wynosi 5) i że wszystkie 5 elementów jest teraz uznawanych za używane (długość wynosi 5).<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>W większości przypadków nie będziesz musiał używać funkcji <code>capacity()</code> , ale będziemy jej często używać w poniższych przykładach, abyśmy mogli zobaczyć, co dzieje się z pamięcią wektora.<p class="cpp-section cpp-topline" style=clear:both>Relokacja pamięci i dlaczego jest ona kosztowna<p>Kiedy <code>std::vector</code> zmienia ilość zarządzanej pamięci, proces ten nazywa się <strong>realokacją</strong>. Nieformalnie proces realokacji przebiega mniej więcej tak:<ul><li>Klasa <code>std::vector</code> pozyskuje nową pamięć o pojemności na żądaną liczbę elementów. Elementy te są inicjowane wartością.<li>Elementy ze starej pamięci są kopiowane (lub przenoszone, jeśli to możliwe) do nowej pamięci. Stara pamięć jest następnie zwracana do systemu.<li>Pojemność i długość <code>std::vector</code> zostają ustawione na nowe wartości.</ul><p>Z zewnątrz wygląda na to, że <code>std::vector</code> zmieniono rozmiar. Ale wewnętrznie pamięć (i wszystkie jej elementy) została faktycznie wymieniona!<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Powiązana treść<p>Proces pozyskiwania nowej pamięci w czasie wykonywania nazywa się dynamiczną alokacją pamięci. Omówimy to w lekcji <a href="../dynamic-memory-allocation-with-new-and-delete/index.html">19.1 — Dynamiczna alokacja pamięci za pomocą operacji new i usuwania</a>.</div><p>Ponieważ realokacja zazwyczaj wymaga skopiowania każdego elementu tablicy, ponowna alokacja jest kosztownym procesem. W rezultacie chcemy w miarę możliwości unikać realokacji.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Relokacja jest zazwyczaj kosztowna. Unikaj niepotrzebnych realokacji.</div><p class="cpp-section cpp-topline" style=clear:both>Po co różnicować długość i pojemność?<p>A <code>std::vector</code> w razie potrzeby dokona ponownej alokacji pamięci, ale podobnie jak Bartleby Melville’a wolałby tego nie robić, ponieważ ponowna alokacja pamięci jest kosztowna obliczeniowo.<p>Jeśli a <code>std::vector</code> śledziła tylko jej długość, wówczas każde <code>resize()</code> żądanie skutkowałoby kosztowną realokacją do nowej długości. Oddzielenie długości i pojemności daje <code>std::vector</code> możliwość mądrzejszego podejmowania decyzji o konieczności ponownej alokacji.<p>Poniższy przykład ilustruje to:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+</pre><p>Najpierw inicjujemy wektor z 3 elementami. To powoduje, że wektor przydziela pamięć dla 3 elementów (pojemność wynosi 3) i wszystkie 3 elementy są uważane za aktywnie używane (długość = 3). <p>Następnie wywołujemy  <code>resize(5)</code>, co oznacza, że chcemy teraz wektor o długości 5. Ponieważ wektor ma pamięć tylko dla 3 elementów, ale potrzebuje 5, wektor musi zdobyć więcej pamięci, aby pomieścić dodatkowe elementy.<p>Po wywołanie  <code>resize()</code>  zostało zakończone, możemy zobaczyć, że wektor ma teraz miejsce na 5 elementów (pojemność wynosi 5) i że wszystkie 5 elementów jest teraz uznawanych za używane (długość wynosi 5).<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>W większości przypadków nie będziesz musiał używać funkcji <code>capacity()</code> , ale będziemy jej często używać w poniższych przykładach, abyśmy mogli zobaczyć, co dzieje się z pamięcią wektora.<p class="cpp-section cpp-topline" style=clear:both>Relokacja pamięci i dlaczego jest ona kosztowna<p>Kiedy <code>std::vector</code> zmienia ilość zarządzanej pamięci, proces ten nazywa się <strong>realokacją</strong>. Nieformalnie proces realokacji przebiega mniej więcej tak:<ul><li>Klasa <code>std::vector</code> pozyskuje nową pamięć o pojemności na żądaną liczbę elementów. Elementy te są inicjowane wartością.<li>Elementy ze starej pamięci są kopiowane (lub przenoszone, jeśli to możliwe) do nowej pamięci. Stara pamięć jest następnie zwracana do systemu.<li>Pojemność i długość <code>std::vector</code> zostają ustawione na nowe wartości.</ul><p>Z zewnątrz wygląda na to, że <code>std::vector</code> zmieniono rozmiar. Ale wewnętrznie pamięć (i wszystkie jej elementy) została faktycznie wymieniona!<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Powiązana treść<p>Proces pozyskiwania nowej pamięci w czasie wykonywania nazywa się dynamiczną alokacją pamięci. Omówimy to w lekcji <a href="../dynamic-memory-allocation-with-new-and-delete/index.html">19.1 — Dynamiczna alokacja pamięci za pomocą operacji new i usuwania</a>.</div><p>Ponieważ realokacja zazwyczaj wymaga skopiowania każdego elementu tablicy, ponowna alokacja jest kosztownym procesem. W rezultacie chcemy w miarę możliwości unikać realokacji.<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Relokacja jest zazwyczaj kosztowna. Unikaj niepotrzebnych realokacji.</div><p class="cpp-section cpp-topline" style=clear:both>Po co różnicować długość i pojemność?<p><code>std::vector</code> w razie potrzeby dokona ponownej alokacji pamięci, ale podobnie jak Bartleby Melville’a wolałby tego nie robić, ponieważ ponowna alokacja pamięci jest kosztowna obliczeniowo.<p>Jeśli <code>std::vector</code> śledziła tylko jej długość, wówczas każde <code>resize()</code> żądanie skutkowałoby kosztowną realokacją do nowej długości. Oddzielenie długości i pojemności daje <code>std::vector</code> możliwość mądrzejszego podejmowania decyzji o konieczności ponownej alokacji.<p>Poniższy przykład ilustruje to:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;vector&gt;
 
 void printCapLen(const std::vector&lt;int&gt;&amp; v)
 {
-	std::cout &lt;&lt; &#34;Capacity: &#34; &lt;&lt; v.capacity() &lt;&lt; &#34; Length:&#34;	&lt;&lt; v.size() &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; "Capacity: " &lt;&lt; v.capacity() &lt;&lt; " Length:"	&lt;&lt; v.size() &lt;&lt; '\n';
 }
 
 int main()
 {
-    // Create a vector with length 5
+    // Utwórz wektor o długości 5
     std::vector v{ 0, 1, 2, 3, 4 };
-    v = { 0, 1, 2, 3, 4 }; // okay, array length = 5
+    v = { 0, 1, 2, 3, 4 }; // OK, długość tablicy = 5
     printCapLen(v);
 
     for (auto i : v)
-        std::cout &lt;&lt; i &lt;&lt; &#39; &#39;;
-    std::cout &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; i &lt;&lt; ' ';
+    std::cout &lt;&lt; '\n';
 
-    // Resize vector to 3 elements
-    v.resize(3); // we could also assign a list of 3 elements here
+    // Zmień rozmiar wektora do 3 elementy
+    v.resize(3); // możemy również przypisać lista 3 elementów tutaj
     printCapLen(v);
 
     for (auto i : v)
-        std::cout &lt;&lt; i &lt;&lt; &#39; &#39;;
-    std::cout &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; i &lt;&lt; ' ';
+    std::cout &lt;&lt; '\n';
 
-    // Resize vector back to 5 elements
+    // Zmień rozmiar wektora z powrotem do 5 elementów
     v.resize(5);
     printCapLen(v);
 
     for (auto i : v)
-        std::cout &lt;&lt; i &lt;&lt; &#39; &#39;;
-    std::cout &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; i &lt;&lt; ' ';
+    std::cout &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Owocuje to, co następuje:<pre>Capacity: 5  Length: 5
@@ -136,16 +136,16 @@ Capacity: 5  Length: 5
 
 void printCapLen(const std::vector&lt;int&gt;&amp; v)
 {
-	std::cout &lt;&lt; &#34;Capacity: &#34; &lt;&lt; v.capacity() &lt;&lt; &#34; Length:&#34;	&lt;&lt; v.size() &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; "Capacity: " &lt;&lt; v.capacity() &lt;&lt; " Length:"	&lt;&lt; v.size() &lt;&lt; '\n';
 }
 
 int main()
 {
 
-	std::vector&lt;int&gt; v(1000); // allocate room for 1000 elements
+	std::vector&lt;int&gt; v(1000); // przydziel miejsce na 1000 elementów
 	printCapLen(v);
 
-	v.resize(0); // resize to 0 elements
+	v.resize(0); // zmień rozmiar na 0 elementów
 	printCapLen(v);
 
 	v.shrink_to_fit();

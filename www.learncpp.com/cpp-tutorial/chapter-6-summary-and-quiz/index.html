@@ -15,20 +15,20 @@
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2011-09-11T17:02:17-07:00 itemprop=datePublished>11 września 2011, 17:02 czasu PDT</time>
 <time class=updated datetime=2024-12-02T11:10:30-08:00 itemprop=dateModified>2 grudnia 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p class=cpp-section>Szybki przegląd<p>Zawsze używaj nawiasów, aby ujednoznacznić pierwszeństwo operatorów, jeśli jest jakieś pytanie lub możliwość zamieszanie.<p>Wszystkie operatory arytmetyczne działają tak samo, jak w normalnej matematyce. Operator reszty (%) zwraca resztę z dzielenia liczb całkowitych.<p>Operatory zwiększania i zmniejszania można używać do łatwego zwiększania lub zmniejszania liczb. Jeśli to możliwe, unikaj wersji tych operatorów z przyrostkiem.<p>Uważaj na skutki uboczne, szczególnie jeśli chodzi o kolejność oceniania parametrów funkcji. Nie używaj zmiennej, która ma skutek uboczny zastosowany więcej niż raz w danej instrukcji.<p>Operator przecinka może skompresować wiele instrukcji w jedną. Zwykle lepiej jest pisać instrukcje osobno.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Klasa <strong>operator warunkowy</strong> (<code>?:</code>) (czasami nazywany także operatorem arytmetycznym <strong>jeśli</strong> ) jest operatorem trójskładnikowym (operatorem, który zajmuje 3 operandy). Biorąc pod uwagę operację warunkową w postaci <code>c ? x : y</code>, jeśli warunkowa <code>c</code> wyniesie  <code>true</code> , to  <code>x</code> zostanie oceniona, w przeciwnym razie zostanie oceniona <code>y</code> . Operator warunkowy zazwyczaj należy umieścić w nawiasach w następujący sposób:<ul><li>Umieścić w nawiasach cały operator warunkowy, gdy jest używany w wyrażeniu złożonym (wyrażenie z innymi operatorami).<li>W celu zapewnienia czytelności należy umieścić warunek w nawiasie, jeśli zawiera jakiekolwiek operatory (inne niż operator wywołania funkcji).</ul><p>Operatorów relacyjnych można używać do porównywania liczb zmiennoprzecinkowych. Uważaj na używanie równości i nierówności na liczbach zmiennoprzecinkowych.<p>Operatory logiczne pozwalają nam tworzyć złożone instrukcje warunkowe.<p class="cpp-section cpp-topline" style=clear:both>Czas quizu<p>Wykonaj następujący program:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-// Write the function getQuantityPhrase() here
+// Napisz tutaj funkcję getQuantityPhrase()
 
-// Write the function getApplesPluralized() here
+// Napisz tutaj funkcję getApplesPluralized()
 
 int main()
 {
     constexpr int maryApples { 3 };
-    std::cout &lt;&lt; &#34;Mary has &#34; &lt;&lt; getQuantityPhrase(maryApples) &lt;&lt; &#39; &#39; &lt;&lt; getApplesPluralized(maryApples) &lt;&lt; &#34;.\n&#34;;
+    std::cout &lt;&lt; "Mary has " &lt;&lt; getQuantityPhrase(maryApples) &lt;&lt; ' ' &lt;&lt; getApplesPluralized(maryApples) &lt;&lt; ".\n";
 
-    std::cout &lt;&lt; &#34;How many apples do you have? &#34;;
+    std::cout &lt;&lt; "How many apples do you have? ";
     int numApples{};
     std::cin &gt;&gt; numApples;
 
-    std::cout &lt;&lt; &#34;You have &#34; &lt;&lt; getQuantityPhrase(numApples) &lt;&lt; &#39; &#39; &lt;&lt; getApplesPluralized(numApples) &lt;&lt; &#34;.\n&#34;;
+    std::cout &lt;&lt; "You have " &lt;&lt; getQuantityPhrase(numApples) &lt;&lt; ' ' &lt;&lt; getApplesPluralized(numApples) &lt;&lt; ".\n";
  
     return 0;
 }</code></pre><p>Przykładowe wyjście:<pre>Mary has a few apples.

@@ -13,12 +13,12 @@
 <button class=searchsubmit><span class=screen-reader-text>Szukaj</span><i class=icon-search></i></button>
 <input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=75906></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="28.7 — Losowe we/wy plików" src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-195 class="post-195 post type-post status-publish format-standard hentry category-cpp-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>28.7 — Losowe we/wy plików</h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Autor></i><a class="url fn n" rel=author href=/www.learncpp.com/author/Alex/ title="Wyświetl wszystkie posty Alexa" itemprop=url><em itemprop=name>Alex</em></a></span>
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2008-04-04T22:04:56-07:00 itemprop=datePublished>4 kwietnia 2008, 22:04 czasu PDT</time>
-<time class=updated datetime=2024-04-16T21:21:20-07:00 itemprop=dateModified>16 kwietnia 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p><strong>Wskaźnik pliku</strong><p>Każda klasa strumienia plików zawiera wskaźnik pliku używany do śledzenia bieżącej pozycji odczytu/zapisu w pliku. Kiedy coś jest odczytywane z pliku lub zapisywane do pliku, odczyt/zapis odbywa się w bieżącej lokalizacji wskaźnika pliku. Domyślnie podczas otwierania pliku do odczytu lub zapisu wskaźnik pliku jest ustawiony na początek pliku. Jeśli jednak plik zostanie otwarty w trybie dopisywania, wskaźnik pliku zostanie przesunięty na koniec pliku, tak aby zapis nie nadpisał żadnej bieżącej zawartości pliku.<p><strong>Losowy dostęp do pliku za pomocą funkcjiseeg() iseep()</strong><p>Do tej pory cały dostęp do pliku, który wykonaliśmy, był sekwencyjny — to znaczy, że czytaliśmy lub zapisywaliśmy zawartość pliku w odpowiedniej kolejności. Jednakże możliwy jest także losowy dostęp do pliku, czyli przeskakiwanie do różnych punktów pliku w celu zapoznania się z jego zawartością. Może to być przydatne, gdy plik jest pełen rekordów, a chcesz odzyskać konkretny rekord. Zamiast czytać wszystkie rekordy, aż dojdziesz do żądanego rekordu, możesz przejść bezpośrednio do rekordu, który chcesz pobrać.<p>Losowy dostęp do pliku odbywa się poprzez manipulację wskaźnikiem pliku za pomocą funkcji search() (dla danych wejściowych) i funkcji search() (dla danych wyjściowych). Jeśli się zastanawiasz, g oznacza „get”, a p „put”. W przypadku niektórych typów strumieni funkcja search() (zmiana pozycji odczytu) i funkcja search() (zmiana pozycji zapisu) działają niezależnie - jednak w przypadku strumieni plików pozycja odczytu i zapisu jest zawsze identyczna, więc funkcji search i search można używać zamiennie.<p>Funkcje search() i search() przyjmują dwa parametry. Pierwszy parametr to przesunięcie określające, o ile bajtów należy przesunąć wskaźnik pliku. Drugi parametr to flaga ios określająca, od czego powinien być przesunięty parametr przesunięcia.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><div class=cpp-table-wrapper><p><p><table class=cpp-table><tbody><tr><th>Flaga wyszukiwania Ios<th>Znaczenie<tr><td>beg<td>Przesunięcie jest względne w stosunku do początku pliku (domyślnie)<tr><td>cur<td>Przesunięcie jest względne w stosunku do bieżącej lokalizacji pliku wskaźnik<tr><td>koniec<td>Przesunięcie jest względem końca pliku</table></div><p>Przesunięcie dodatnie oznacza przesunięcie wskaźnika pliku w stronę końca pliku, natomiast przesunięcie ujemne oznacza przesunięcie wskaźnika pliku w stronę początku pliku.<p>Oto kilka przykładów:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">inf.seekg(14, std::ios::cur); // move forward 14 bytes
-inf.seekg(-18, std::ios::cur); // move backwards 18 bytes
-inf.seekg(22, std::ios::beg); // move to 22nd byte in file
-inf.seekg(24); // move to 24th byte in file
-inf.seekg(-28, std::ios::end); // move to the 28th byte before end of the file</code></pre><p>Przejście na początek lub koniec pliku jest łatwe:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">inf.seekg(0, std::ios::beg); // move to beginning of file
-inf.seekg(0, std::ios::end); // move to end of file</code></pre><div class="cpp-note cpp-lightredbackground"><p class="cpp-note-title cpp-bottomline">Ostrzeżenie<p>W pliku tekstowym szukanie pozycji innej niż początek plik może spowodować nieoczekiwane zachowanie.<p>W programowaniu znak nowej linii („\n”) jest w rzeczywistości abstrakcją.<ul><li>W systemie Windows znak nowej linii jest reprezentowany jako sekwencyjne znaki CR (powrót karetki) i LF (przesunięcie wiersza) (zajmując w ten sposób 2 bajty pamięci).<li>W systemie Unix znak nowej linii jest reprezentowany jako znak LF (powrót do wiersza) (zajmując tym samym 1 bajt pamięci).</ul><p>Wyszukiwanie poza nową linię w dowolnym kierunku zajmuje zmienną liczbę bajtów w zależności od sposobu zakodowania pliku, co oznacza, że wyniki będą się różnić w zależności od zastosowanego kodowania.<p>Również w niektórych systemach operacyjnych pliki mogą być dopełniane końcowymi bajtami zerowymi (bajty o wartości 0). Szukanie końca pliku (lub przesunięcia od końca pliku) da w takich plikach różne wyniki.</div><p>Aby dać ci wyobrażenie o tym, jak one działają, zróbmy przykład z użyciem funkcji search() i pliku wejściowego, który utworzyliśmy w ostatniej lekcji. Ten plik wejściowy wygląda następująco:<pre>This is line 1
+<time class=updated datetime=2024-04-16T21:21:20-07:00 itemprop=dateModified>16 kwietnia 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p><strong>Wskaźnik pliku</strong><p>Każda klasa strumienia plików zawiera wskaźnik pliku używany do śledzenia bieżącej pozycji odczytu/zapisu w pliku. Kiedy coś jest odczytywane z pliku lub zapisywane do pliku, odczyt/zapis odbywa się w bieżącej lokalizacji wskaźnika pliku. Domyślnie podczas otwierania pliku do odczytu lub zapisu wskaźnik pliku jest ustawiony na początek pliku. Jeśli jednak plik zostanie otwarty w trybie dopisywania, wskaźnik pliku zostanie przesunięty na koniec pliku, tak aby zapis nie nadpisał żadnej bieżącej zawartości pliku.<p><strong>Losowy dostęp do pliku za pomocą funkcjiseeg() iseep()</strong><p>Do tej pory cały dostęp do pliku, który wykonaliśmy, był sekwencyjny — to znaczy, że czytaliśmy lub zapisywaliśmy zawartość pliku w odpowiedniej kolejności. Jednakże możliwy jest także losowy dostęp do pliku, czyli przeskakiwanie do różnych punktów pliku w celu zapoznania się z jego zawartością. Może to być przydatne, gdy plik jest pełen rekordów, a chcesz odzyskać konkretny rekord. Zamiast czytać wszystkie rekordy, aż dojdziesz do żądanego rekordu, możesz przejść bezpośrednio do rekordu, który chcesz pobrać.<p>Losowy dostęp do pliku odbywa się poprzez manipulację wskaźnikiem pliku za pomocą funkcji search() (dla danych wejściowych) i funkcji search() (dla danych wyjściowych). Jeśli się zastanawiasz, g oznacza „get”, a p „put”. W przypadku niektórych typów strumieni funkcja search() (zmiana pozycji odczytu) i funkcja search() (zmiana pozycji zapisu) działają niezależnie - jednak w przypadku strumieni plików pozycja odczytu i zapisu jest zawsze identyczna, więc funkcji search i search można używać zamiennie.<p>Funkcje search() i search() przyjmują dwa parametry. Pierwszy parametr to przesunięcie określające, o ile bajtów należy przesunąć wskaźnik pliku. Drugi parametr to flaga ios określająca, od czego powinien być przesunięty parametr przesunięcia.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><div class=cpp-table-wrapper><p><p><table class=cpp-table><tbody><tr><th>Flaga wyszukiwania Ios<th>Znaczenie<tr><td>beg<td>Przesunięcie jest względne w stosunku do początku pliku (domyślnie)<tr><td>cur<td>Przesunięcie jest względne w stosunku do bieżącej lokalizacji pliku wskaźnik<tr><td>koniec<td>Przesunięcie jest względem końca pliku</table></div><p>Przesunięcie dodatnie oznacza przesunięcie wskaźnika pliku w stronę końca pliku, natomiast przesunięcie ujemne oznacza przesunięcie wskaźnika pliku w stronę początku pliku.<p>Oto kilka przykładów:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">inf.seekg(14, std::ios::cur); // przejdź do przodu o 14 bajtów
+inf.seekg(-18, std::ios::cur); // przejdź do tyłu o 18 bajtów
+inf.seekg(22, std::ios::beg); // przejdź do 22. bajtu w pliku
+inf.seekg(24); // przejdź do 24. bajtu plik
+inf.seekg(-28, std::ios::end); // przejdź do 28. bajtu przed końcem pliku</code></pre><p>Przejście na początek lub koniec pliku jest łatwe:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">inf.seekg(0, std::ios::beg); // przejdź na początek pliku
+inf.seekg(0, std::ios::end); // przejdź na koniec pliku</code></pre><div class="cpp-note cpp-lightredbackground"><p class="cpp-note-title cpp-bottomline">Ostrzeżenie<p>W pliku tekstowym szukanie pozycji innej niż początek plik może spowodować nieoczekiwane zachowanie.<p>W programowaniu znak nowej linii („\n”) jest w rzeczywistości abstrakcją.<ul><li>W systemie Windows znak nowej linii jest reprezentowany jako sekwencyjne znaki CR (powrót karetki) i LF (przesunięcie wiersza) (zajmując w ten sposób 2 bajty pamięci).<li>W systemie Unix znak nowej linii jest reprezentowany jako znak LF (powrót do wiersza) (zajmując tym samym 1 bajt pamięci).</ul><p>Wyszukiwanie poza nową linię w dowolnym kierunku zajmuje zmienną liczbę bajtów w zależności od sposobu zakodowania pliku, co oznacza, że wyniki będą się różnić w zależności od zastosowanego kodowania.<p>Również w niektórych systemach operacyjnych pliki mogą być dopełniane końcowymi bajtami zerowymi (bajty o wartości 0). Szukanie końca pliku (lub przesunięcia od końca pliku) da w takich plikach różne wyniki.</div><p>Aby dać ci wyobrażenie o tym, jak one działają, zróbmy przykład z użyciem funkcji search() i pliku wejściowego, który utworzyliśmy w ostatniej lekcji. Ten plik wejściowy wygląda następująco:<pre>This is line 1
 This is line 2
 This is line 3
 This is line 4
@@ -28,87 +28,87 @@ This is line 4
 
 int main()
 {
-    std::ifstream inf{ &#34;Sample.txt&#34; };
+    std::ifstream inf{ "Sample.txt" };
 
-    // If we couldn&#39;t open the input file stream for reading
+    // Jeśli nie mogliśmy otworzyć strumienia pliku wejściowego do odczytu
     if (!inf)
     {
-        // Print an error and exit
-        std::cerr &lt;&lt; &#34;Uh oh, Sample.txt could not be opened for reading!\n&#34;;
+        // Wydrukuj błąd i wyjdź
+        std::cerr &lt;&lt; "Uh oh, Sample.txt could not be opened for reading!\n";
         return 1;
     }
 
     std::string strData;
 
-    inf.seekg(5); // move to 5th character
-    // Get the rest of the line and print it, moving to line 2
+    inf.seekg(5); // przejdź do 5. znaku
+    // Pobierz resztę linii i wydrukuj ją, przechodząc do linii 2
     std::getline(inf, strData);
-    std::cout &lt;&lt; strData &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; strData &lt;&lt; '\n';
 
-    inf.seekg(8, std::ios::cur); // move 8 more bytes into file
-    // Get rest of the line and print it
+    inf.seekg(8, std::ios::cur); // przenieś o 8 kolejnych bajtów do pliku
+    // Znajdź resztę linii i wydrukuj ją
     std::getline(inf, strData);
-    std::cout &lt;&lt; strData &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; strData &lt;&lt; '\n';
 
-    inf.seekg(-14, std::ios::end); // move 14 bytes before end of file
-    // Get rest of the line and print it
+    inf.seekg(-14, std::ios::end); // przesuń 14 bajtów przed końcem pliku
+    // Znajdź resztę linii i wydrukuj ją
     std::getline(inf, strData); // undefined behavior
-    std::cout &lt;&lt; strData &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; strData &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Daje to wynik:<pre>is line 1
 line 2
 This is line 4
-</pre><p>Możesz otrzymać inny wynik dla trzeciej linii, w zależności od tego, jak plik jest zakodowany.<p>seekg() iseep() lepiej używać w przypadku plików binarnych. Możesz otworzyć powyższy plik w trybie binarnym poprzez:<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    std::ifstream inf {&#34;Sample.txt&#34;, std::ifstream::binary};</code></pre><p>Dwie inne przydatne funkcje to tellg() i tellp(), które zwracają bezwzględną pozycję wskaźnika pliku. Można to wykorzystać do określenia rozmiaru pliku:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::ifstream inf {&#34;Sample.txt&#34;};
-inf.seekg(0, std::ios::end); // move to end of file
+</pre><p>Możesz otrzymać inny wynik dla trzeciej linii, w zależności od tego, jak plik jest zakodowany.<p>seekg() iseep() lepiej używać w przypadku plików binarnych. Możesz otworzyć powyższy plik w trybie binarnym poprzez:<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">    std::ifstream inf {&#34;Sample.txt&#34;, std::ifstream::binary};</code></pre><p>Dwie inne przydatne funkcje to tellg() i tellp(), które zwracają bezwzględną pozycję wskaźnika pliku. Można to wykorzystać do określenia rozmiaru pliku:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::ifstream inf {"Sample.txt"};
+inf.seekg(0, std::ios::end); // przejdź na koniec pliku
 std::cout &lt;&lt; inf.tellg();</code></pre><p>Na komputerze autora wypisuje:<pre>64
-</pre><p>czyli długości pliku sample.txt w bajtach (zakładając, że po ostatniej linii znajduje się znak nowej linii).<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nota autora<p>Wynik <code>64</code> w poprzednim przykładzie miał miejsce w systemie Windows. Jeśli uruchomisz przykład w systemie Unix, zamiast tego otrzymasz <code>60</code> , ze względu na mniejszą reprezentację nowej linii. Możesz uzyskać coś innego, jeśli plik zostanie dopełniony końcowymi bajtami zerowymi.</div><p><strong>Jednoczesne czytanie i zapisywanie pliku przy użyciu fstream</strong><p>Klasa fstream może jednocześnie czytać i zapisywać plik - prawie! Największym zastrzeżeniem jest to, że nie jest możliwe dowolne przełączanie między czytaniem i pisaniem. Po dokonaniu odczytu lub zapisu jedynym sposobem przełączania się między nimi jest wykonanie operacji modyfikującej położenie pliku (np. wyszukiwanie). Jeśli tak naprawdę nie chcesz przesuwać wskaźnika pliku (ponieważ znajduje się on już w żądanym miejscu), zawsze możesz poszukać bieżącej pozycji:<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// assume iofile is an object of type fstream
-iofile.seekg(iofile.tellg(), std::ios::beg); // seek to current file position</code></pre><p>Jeśli tego nie zrobisz, mogą wystąpić różne dziwne i dziwaczne rzeczy.<p>(Uwaga: chociaż może się wydawać, że <code>iofile.seekg(0, std::ios::cur)</code>  też by zadziałało, wygląda na to, że niektóre kompilatory mogą to zoptymalizować).<p>Jeszcze jedna kwestia złożoność: w przeciwieństwie do ifstream, gdzie moglibyśmy powiedzieć <code>while (inf)</code> aby określić, czy jest więcej do przeczytania, w przypadku fstream to nie zadziała.<p>Zróbmy przykład wejścia/wyjścia pliku przy użyciu fstream. Napiszemy program, który otworzy plik, odczyta jego zawartość i zamieni znalezione samogłoski na symbol „#”.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;fstream&gt;
+</pre><p>czyli długości pliku sample.txt w bajtach (zakładając, że po ostatniej linii znajduje się znak nowej linii).<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Nota autora<p>Wynik <code>64</code> w poprzednim przykładzie miał miejsce w systemie Windows. Jeśli uruchomisz przykład w systemie Unix, zamiast tego otrzymasz <code>60</code> , ze względu na mniejszą reprezentację nowej linii. Możesz uzyskać coś innego, jeśli plik zostanie dopełniony końcowymi bajtami zerowymi.</div><p><strong>Jednoczesne czytanie i zapisywanie pliku przy użyciu fstream</strong><p>Klasa fstream może jednocześnie czytać i zapisywać plik - prawie! Największym zastrzeżeniem jest to, że nie jest możliwe dowolne przełączanie między czytaniem i pisaniem. Po dokonaniu odczytu lub zapisu jedynym sposobem przełączania się między nimi jest wykonanie operacji modyfikującej położenie pliku (np. wyszukiwanie). Jeśli tak naprawdę nie chcesz przesuwać wskaźnika pliku (ponieważ znajduje się on już w żądanym miejscu), zawsze możesz poszukać bieżącej pozycji:<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// załóżmy, że iofile jest obiektem typu fstream
+iofile.seekg(iofile.tellg(), std::ios::beg); // szukanie do bieżącego pliku position</code></pre><p>Jeśli tego nie zrobisz, mogą wystąpić różne dziwne i dziwaczne rzeczy.<p>(Uwaga: chociaż może się wydawać, że <code>iofile.seekg(0, std::ios::cur)</code>  też by zadziałało, wygląda na to, że niektóre kompilatory mogą to zoptymalizować).<p>Jeszcze jedna kwestia złożoność: w przeciwieństwie do ifstream, gdzie moglibyśmy powiedzieć <code>while (inf)</code> aby określić, czy jest więcej do przeczytania, w przypadku fstream to nie zadziała.<p>Zróbmy przykład wejścia/wyjścia pliku przy użyciu fstream. Napiszemy program, który otworzy plik, odczyta jego zawartość i zamieni znalezione samogłoski na symbol „#”.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;fstream&gt;
 #include &lt;iostream&gt;
 #include &lt;string&gt;
 
 int main()
 {
-    // Note we have to specify both in and out because we&#39;re using fstream
-    std::fstream iofile{ &#34;Sample.txt&#34;, std::ios::in | std::ios::out };
+    // Uwaga: musimy określić zarówno wejście, jak i wyjście, ponieważ używamy fstream
+    std::fstream iofile{ "Sample.txt", std::ios::in | std::ios::out };
 
-    // If we couldn&#39;t open iofile, print an error
+    // Jeśli nie mogliśmy otworzyć pliku io, wydrukuj błąd
     if (!iofile)
     {
-        // Print an error and exit
-        std::cerr &lt;&lt; &#34;Uh oh, Sample.txt could not be opened!\n&#34;;
+        // Wydrukuj błąd i wyjdź
+        std::cerr &lt;&lt; "Uh oh, Sample.txt could not be opened!\n";
         return 1;
     }
 
-    char chChar{}; // we&#39;re going to do this character by character
+    char chChar{}; // zrobimy dziesięć znaków po znaku
 
-    // While there&#39;s still data to process
+    // Dopóki są jeszcze dane do przetworzenia
     while (iofile.get(chChar))
     {
         switch (chChar)
         {
-            // If we find a vowel
-            case &#39;a&#39;:
-            case &#39;e&#39;:
-            case &#39;i&#39;:
-            case &#39;o&#39;:
-            case &#39;u&#39;:
-            case &#39;A&#39;:
-            case &#39;E&#39;:
-            case &#39;I&#39;:
-            case &#39;O&#39;:
-            case &#39;U&#39;:
+            // Jeśli znajdziemy samogłoskę
+            case 'a':
+            case 'e':
+            case 'i':
+            case 'o':
+            case 'u':
+            case 'A':
+            case 'E':
+            case 'I':
+            case 'O':
+            case 'U':
 
-                // Back up one character
+                // Utwórz kopię zapasową jednej postaci
                 iofile.seekg(-1, std::ios::cur);
 
-                // Because we did a seek, we can now safely do a write, so
-                // let&#39;s write a # over the vowel
-                iofile &lt;&lt; &#39;#&#39;;
+                // Ponieważ przeprowadziliśmy wyszukiwanie, możemy teraz bezpiecznie wykonać zapis, więc
+                // piszmy # nad samogłoską
+                iofile &lt;&lt; '#';
 
-                // Now we want to go back to read mode so the next call
-                // to get() will perform correctly.  We&#39;ll seekg() to the current
-                // location because we don&#39;t want to move the file pointer.
+                // Teraz chcemy wrócić do trybu odczytu, więc następne wywołanie
+                // to get() będą działać poprawnie. Będziemy szukać() do bieżącego
+                // lokalizacja, ponieważ nie chcemy przesuwać wskaźnika pliku.
                 iofile.seekg(iofile.tellg(), std::ios::beg);
 
                 break;

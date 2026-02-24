@@ -25,17 +25,17 @@ public:
     : m_cents{ cents }
   {}
 
-  // add Cents + Cents using a friend function
+  // dodaj centy + centy za pomocą przyjaciela funkcja
   friend Cents operator+(const Cents&amp; c1, const Cents&amp; c2);
 
   int getCents() const { return m_cents; }
 };
  
-// note: this function is not a member function!
+// uwaga: ta funkcja nie jest funkcją składową funkcja!
 Cents operator+(const Cents&amp; c1, const Cents&amp; c2)
 {
-  // use the Cents constructor and operator+(int, int)
-  // we can access m_cents directly because this is a friend function
+  // użyj konstruktora Cents i operatora+(int, int)
+  // możemy uzyskać bezpośredni dostęp do m_cents, ponieważ jest to funkcja znajomego
   return { c1.m_cents + c2.m_cents };
 }
  
@@ -44,7 +44,7 @@ int main()
   Cents cents1{ 6 };
   Cents cents2{ 8 };
   Cents centsSum{ cents1 + cents2 };
-  std::cout &lt;&lt; &#34;I have &#34; &lt;&lt; centsSum.getCents() &lt;&lt; &#34; cents.\n&#34;;
+  std::cout &lt;&lt; "I have " &lt;&lt; centsSum.getCents() &lt;&lt; " cents.\n";
 
   return 0;
 }</code></pre><p>Korzystanie z funkcji zaprzyjaźnionej do przeciążania operatora jest wygodne, ponieważ zapewnia bezpośredni dostęp do wewnętrznych elementów klas, na których operujesz. W powyższym przykładzie z Centami nasza znajoma wersja operatora+ uzyskała bezpośredni dostęp do zmiennej składowej m_cents.<p>Jeśli jednak nie potrzebujesz takiego dostępu, możesz zapisać przeciążone operatory jako normalne funkcje. Należy zauważyć, że powyższa klasa Cents zawiera funkcję dostępu (getCents()), która pozwala nam uzyskać m_cents bez konieczności posiadania bezpośredniego dostępu do prywatnych członków. Z tego powodu możemy zapisać naszego przeciążonego operatora+ jako nie-przyjaciela:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -62,11 +62,11 @@ public:
   int getCents() const { return m_cents; }
 };
 
-// note: this function is not a member function nor a friend function!
+// uwaga: ta funkcja nie jest funkcją składową ani funkcją zaprzyjaźnioną!
 Cents operator+(const Cents&amp; c1, const Cents&amp; c2)
 {
-  // use the Cents constructor and operator+(int, int)
-  // we don&#39;t need direct access to private members here
+  // użyj konstruktora Cents i operatora+(int, int)
+  // nie potrzebujemy tutaj bezpośredniego dostępu do prywatnych członków
   return Cents{ c1.getCents() + c2.getCents() };
 }
 
@@ -75,7 +75,7 @@ int main()
   Cents cents1{ 6 };
   Cents cents2{ 8 };
   Cents centsSum{ cents1 + cents2 };
-  std::cout &lt;&lt; &#34;I have &#34; &lt;&lt; centsSum.getCents() &lt;&lt; &#34; cents.\n&#34;;
+  std::cout &lt;&lt; "I have " &lt;&lt; centsSum.getCents() &lt;&lt; " cents.\n";
 
   return 0;
 }</code></pre><p>Ponieważ funkcje normalne i zaprzyjaźnione działają prawie identycznie (mają tylko różne poziomy dostępu do elementów prywatnych), generalnie nie będziemy ich rozróżniać. Jedyna różnica polega na tym, że deklaracja funkcji przyjaciela wewnątrz klasy służy również jako prototyp. W przypadku normalnej wersji funkcji będziesz musiał dostarczyć własny prototyp funkcji.<p>Cents.h:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#ifndef CENTS_H
@@ -94,26 +94,26 @@ public:
   int getCents() const { return m_cents; }
 };
 
-// Need to explicitly provide prototype for operator+ so uses of operator+ in other files know this overload exists
+// Należy jawnie podać prototyp operatora+, aby użycie operator+ w innych plikach wiedziało, że istnieje przeciążenie
 Cents operator+(const Cents&amp; c1, const Cents&amp; c2);
 
-#endif</code></pre><p>Cents.cpp:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &#34;Cents.h&#34;
+#endif</code></pre><p>Cents.cpp:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include "Cents.h"
 
-// note: this function is not a member function nor a friend function!
+// uwaga: ta funkcja nie jest funkcją składową ani funkcją zaprzyjaźnioną!
 Cents operator+(const Cents&amp; c1, const Cents&amp; c2)
 {
-  // use the Cents constructor and operator+(int, int)
-  // we don&#39;t need direct access to private members here
+  // użyj konstruktora Cents i operatora+(int, int)
+  // nie potrzebujemy tutaj bezpośredniego dostępu do prywatnych członków
   return { c1.getCents() + c2.getCents() };
-}</code></pre><p>main.cpp:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &#34;Cents.h&#34;
+}</code></pre><p>main.cpp:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include "Cents.h"
 #include &lt;iostream&gt;
 
 int main()
 {
   Cents cents1{ 6 };
   Cents cents2{ 8 };
-  Cents centsSum{ cents1 + cents2 }; // without the prototype in Cents.h, this would fail to compile
-  std::cout &lt;&lt; &#34;I have &#34; &lt;&lt; centsSum.getCents() &lt;&lt; &#34; cents.\n&#34;;
+  Cents centsSum{ cents1 + cents2 }; // bez prototypu w Cents.h nie udałoby się tego skompilować
+  std::cout &lt;&lt; "I have " &lt;&lt; centsSum.getCents() &lt;&lt; " cents.\n";
 
   return 0;
 }</code></pre><p>Ogólnie rzecz biorąc, normalna funkcja powinna być preferowana zamiast funkcji zaprzyjaźnionej, jeśli jest to możliwe przy użyciu istniejących funkcji składowych (im mniej funkcji dotyka elementów wewnętrznych klas, tym lepiej). Nie dodawaj jednak dodatkowych funkcji dostępu tylko po to, aby przeciążyć operatora jako normalną funkcję, a nie funkcję zaprzyjaźnioną!<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Preferuj przeciążanie operatorów jako normalne funkcje zamiast znajomych, jeśli można to zrobić bez dodawania dodatkowych funkcji.</div><div class=prevnext><div class=prevnext-inline><a class=nav-link href="../93-overloading-the-io-operators/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>21.4</span>Przeciążanie operatorów I/O</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../overloading-the-arithmetic-operators-using-friend-functions/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>21.2</span>Przeciążanie operatorów arytmetycznych przy użyciu funkcji zaprzyjaźnionych</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/overloading-operators-using-normal-functions/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../stdcin-and-handling-invalid-input/index.html" rel=prev><span>9.5 — std::cin i obsługa nieprawidłowych danych wejściowych</span></a></div><div class=nav-next><em>Następny post</em><a href="../class-initialization-and-copy-elision/index.html" rel=next><span>14.15 — Inicjalizacja klasy i skopiuj eliminację</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>

@@ -36,14 +36,14 @@ public:
     {
     }
 
-    // Base::printValue was inherited as protected, so the public has no access
-    // But we&#39;re changing it to public via a using declaration
-    using Base::printValue; // note: no parenthesis here
+    // Base::printValue zostało odziedziczone jako chronione, więc opinia publiczna nie ma dostępu
+    // Ale zmieniamy ją na publiczną poprzez deklarację using
+    using Base::printValue; // uwaga: brak nawiasu
 };</code></pre><p>Oznacza to, że ten kod będzie teraz działać:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()
 {
     Derived derived { 7 };
 
-    // printValue is public in Derived, so this is okay
+    // printValue jest publiczny w Derived, więc wszystko jest w porządku
     derived.printValue(); // prints 7
     return 0;
 }</code></pre><p>Możesz zmieniać specyfikatory dostępu tylko elementów podstawowych, do których normalnie miałaby dostęp klasa pochodna. Dlatego nigdy nie można zmienić specyfikatora dostępu elementu podstawowego z prywatnego na chroniony lub publiczny, ponieważ klasy pochodne nie mają dostępu do prywatnych elementów klasy bazowej.<p><strong>Ukrywanie funkcjonalności</strong><p>W C++ nie można usunąć ani ograniczyć funkcjonalności klasy bazowej inaczej niż poprzez modyfikację kodu źródłowego. Jednakże w klasie pochodnej można ukryć funkcjonalność istniejącą w klasie bazowej, tak aby nie można było uzyskać do niej dostępu poprzez klasę pochodną. Można to zrobić po prostu zmieniając odpowiedni specyfikator dostępu.<p>Na przykład możemy ustawić element publiczny jako prywatny:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -68,10 +68,10 @@ public:
 int main()
 {
 	Derived derived{ 7 };
-	std::cout &lt;&lt; derived.m_value; // error: m_value is private in Derived
+	std::cout &lt;&lt; derived.m_value; // błąd: m_wartość jest prywatna w Derived
 
 	Base&amp; base{ derived };
-	std::cout &lt;&lt; base.m_value; // okay: m_value is public in Base
+	std::cout &lt;&lt; base.m_value; // OK: m_value jest profesorem w Base
 
 	return 0;
 }</code></pre><p>To pozwoliło nam wziąć źle zaprojektowaną klasę bazową i hermetyzować jej dane w naszej klasie pochodnej. Alternatywnie, zamiast dziedziczyć publicznie elementy Base i uczynić m_value prywatnym przez zastąpienie jego specyfikatora dostępu, moglibyśmy odziedziczyć Base prywatnie, co spowodowałoby, że w pierwszej kolejności wszystkie elementy Base byłyby dziedziczone prywatnie.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Warto jednak zauważyć, że chociaż m_value jest prywatny w klasie Derived, to nadal jest publiczny w klasie Base. Dlatego enkapsulację m_value w Derived można w dalszym ciągu obalić, rzutując na Base&amp; i uzyskując bezpośredni dostęp do elementu członkowskiego.<div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Dla zaawansowanych czytelników<p>Z tego samego powodu, jeśli klasa Base ma publiczną funkcję wirtualną, a klasa Derived zmienia specyfikator dostępu na prywatny, publiczność nadal może uzyskać dostęp do prywatnej funkcji Derived, rzutując obiekt Derived na Base&amp; i wywołując funkcję wirtualną. Kompilator na to pozwoli, ponieważ funkcja jest publiczna w Base. Ponieważ jednak obiekt jest w rzeczywistości pochodną, ​​rozpoznawanie funkcji wirtualnej spowoduje rozpoznanie (i wywołanie) (prywatnej) pochodnej wersji funkcji. Kontrola dostępu nie jest egzekwowana w czasie wykonywania.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -81,7 +81,7 @@ class A
 public:
     virtual void fun()
     {
-        std::cout &lt;&lt; &#34;public A::fun()\n&#34;;
+        std::cout &lt;&lt; "public A::fun()\n";
     }
 };
 
@@ -90,15 +90,15 @@ class B : public A
 private:
     virtual void fun()
     {
-         std::cout &lt;&lt; &#34;private B::fun()\n&#34;;
+         std::cout &lt;&lt; "private B::fun()\n";
    }
 };
 
 int main()
 {
     B b {};
-    b.fun();                  // compile error: not allowed as B::fun() is private
-    static_cast&lt;A&amp;&gt;(b).fun(); // okay: A::fun() is public, resolves to private B::fun() at runtime
+    b.fun();                  // błąd kompilacji: niedozwolone, ponieważ B::fun() jest prywatny
+    static_cast&lt;A&amp;&gt;(b).fun(); // OK: A::fun() jest publiczna, przekształca się w prywatną B::fun() w czasie wykonywania
 
     return 0;
 }</code></pre></div><p>Być może zaskakujące, biorąc pod uwagę zestaw przeciążonych funkcji w klasie bazowej, nie ma możliwości zmiany specyfikatora dostępu dla pojedynczego przeciążenia. Możesz tylko zmienić je wszystkie:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -115,7 +115,7 @@ public:
 class Derived : public Base
 {
 private:
-	using Base::getValue; // make ALL getValue functions private
+	using Base::getValue; // uczyń WSZYSTKIE funkcje getValue prywatnymi
 
 public:
 	Derived(int value) : Base { value }
@@ -126,8 +126,8 @@ public:
 int main()
 {
 	Derived derived{ 7 };
-	std::cout &lt;&lt; derived.getValue();  // error: getValue() is private in Derived
-	std::cout &lt;&lt; derived.getValue(5); // error: getValue(int) is private in Derived
+	std::cout &lt;&lt; derived.getValue();  // błąd: getValue() jest prywatny w Derived
+	std::cout &lt;&lt; derived.getValue(5); // błąd: getValue(int) jest prywatny w Derived
 
 	return 0;
 }</code></pre><p class="cpp-section cpp-topline" style=clear:both>Usuwanie funkcji w klasie pochodnej<p>Możesz także oznaczyć funkcje składowe jako usunięte w klasie pochodnej, co gwarantuje, że nie będzie można ich w ogóle wywołać poprzez obiekt pochodny:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -154,14 +154,14 @@ public:
 	}
 
 
-	int getValue() const = delete; // mark this function as inaccessible
+	int getValue() const = delete; // oznacz tę funkcję jako inaccessible
 };
 
 int main()
 {
 	Derived derived { 7 };
 
-	// The following won&#39;t work because getValue() has been deleted!
+	// Poniższe instrukcje nie zadziałają, ponieważ funkcja getValue() została usunięta!
 	std::cout &lt;&lt; derived.getValue();
 
 	return 0;
@@ -169,10 +169,10 @@ int main()
 {
 	Derived derived { 7 };
 
-	// We can call the Base::getValue() function directly
+	// Możemy wywołać funkcję Base::getValue() bezpośrednio
 	std::cout &lt;&lt; derived.Base::getValue();
 
-	// Or we can upcast Derived to a Base reference and getValue() will resolve to Base::getValue()
+	// Możemy też przenieść Derived do referencji Base, a funkcja getValue() przekształci się w Base::getValue()
 	std::cout &lt;&lt; static_cast&lt;Base&amp;&gt;(derived).getValue();
 
 	return 0;

@@ -13,7 +13,7 @@
 <button class=searchsubmit><span class=screen-reader-text>Szukaj</span><i class=icon-search></i></button>
 <input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=74543></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="8.2 — If instrukcje i bloki" src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-73 class="post-73 post type-post status-publish format-standard hentry category-cpp-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>8.2 — If instrukcje i bloki</h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Autor></i><a class="url fn n" rel=author href=/www.learncpp.com/author/Alex/ title="Wyświetl wszystkie posty Alexa" itemprop=url><em itemprop=name>Alex</em></a></span>
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2007-06-21T10:01:52-07:00 itemprop=datePublished>21 czerwca 2007, 10:01 czasu PDT</time>
-<time class=updated datetime=2025-03-05T15:29:51-08:00 itemprop=dateModified>5 marca 2025</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>Pierwszą kategorią instrukcji przepływu sterowania, o której będziemy mówić, są instrukcje warunkowe. A <strong>instrukcją warunkową</strong> jest instrukcją określającą, czy niektóre powiązane instrukcje powinny zostać wykonane, czy nie.<p>C++ obsługuje dwa podstawowe rodzaje warunków warunkowych: <code>if statements</code> (które przedstawiliśmy w lekcji <a href="../introduction-to-if-statements/index.html">4.10 - Wprowadzenie do instrukcji if</a> i omówimy dalej tutaj) oraz <code>switch statements</code> (które omówimy w kilku lekcjach).<p class="cpp-section cpp-topline" style=clear:both>Szybkie podsumowanie instrukcji if<p>Najbardziej podstawowym rodzajem instrukcji warunkowej w C++ jest <code>if statement</code>. An <code>if statement</code> przybiera postać:<pre>if (condition)
+<time class=updated datetime=2025-03-05T15:29:51-08:00 itemprop=dateModified>5 marca 2025</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>Pierwszą kategorią instrukcji przepływu sterowania, o której będziemy mówić, są instrukcje warunkowe. <strong>instrukcją warunkową</strong> jest instrukcją określającą, czy niektóre powiązane instrukcje powinny zostać wykonane, czy nie.<p>C++ obsługuje dwa podstawowe rodzaje warunków warunkowych: <code>if statements</code> (które przedstawiliśmy w lekcji <a href="../introduction-to-if-statements/index.html">4.10 - Wprowadzenie do instrukcji if</a> i omówimy dalej tutaj) oraz <code>switch statements</code> (które omówimy w kilku lekcjach).<p class="cpp-section cpp-topline" style=clear:both>Szybkie podsumowanie instrukcji if<p>Najbardziej podstawowym rodzajem instrukcji warunkowej w C++ jest <code>if statement</code>. <code>if statement</code> przybiera postać:<pre>if (condition)
     true_statement;
 </pre><p>lub z opcjonalnym <code>else statement</code>:<pre>if (condition)
     true_statement;
@@ -46,15 +46,15 @@ namespace constants
 
 int main()
 {
-    std::cout &lt;&lt; &#34;Enter your height (in cm): &#34;;
+    std::cout &lt;&lt; "Enter your height (in cm): ";
     int x{};
     std::cin &gt;&gt; x;
 
     if (x &gt;= constants::minRideHeightCM)
-        std::cout &lt;&lt; &#34;You are tall enough to ride.\n&#34;;
+        std::cout &lt;&lt; "You are tall enough to ride.\n";
     else
-        std::cout &lt;&lt; &#34;You are not tall enough to ride.\n&#34;;
-        std::cout &lt;&lt; &#34;Too bad!\n&#34;; // focus on this line
+        std::cout &lt;&lt; "You are not tall enough to ride.\n";
+        std::cout &lt;&lt; "Too bad!\n"; // skoncentruj się na tej linii
 
     return 0;
 }</code></pre><p>Rozważ jednak następujące uruchomienie programu:<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><pre>Enter your height (in cm): 180
@@ -69,16 +69,16 @@ namespace constants
 
 int main()
 {
-    std::cout &lt;&lt; &#34;Enter your height (in cm): &#34;;
+    std::cout &lt;&lt; "Enter your height (in cm): ";
     int x{};
     std::cin &gt;&gt; x;
 
     if (x &gt;= constants::minRideHeightCM)
-        std::cout &lt;&lt; &#34;You are tall enough to ride.\n&#34;;
+        std::cout &lt;&lt; "You are tall enough to ride.\n";
     else
-        std::cout &lt;&lt; &#34;You are not tall enough to ride.\n&#34;;
+        std::cout &lt;&lt; "You are not tall enough to ride.\n";
 
-    std::cout &lt;&lt; &#34;Too bad!\n&#34;; // focus on this line
+    std::cout &lt;&lt; "Too bad!\n"; // skoncentruj się na tej linii
 
     return 0;
 }</code></pre><p>To wyjaśnia, że ​​„Szkoda!” zawsze zostanie wykonane.<p>Jednak często zdarza się, że chcesz wykonać wiele instrukcji w oparciu o jakiś warunek. Aby to zrobić, możemy użyć instrukcji złożonej (bloku):<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -90,16 +90,16 @@ namespace constants
 
 int main()
 {
-    std::cout &lt;&lt; &#34;Enter your height (in cm): &#34;;
+    std::cout &lt;&lt; "Enter your height (in cm): ";
     int x{};
     std::cin &gt;&gt; x;
 
     if (x &gt;= constants::minRideHeightCM)
-        std::cout &lt;&lt; &#34;You are tall enough to ride.\n&#34;;
+        std::cout &lt;&lt; "You are tall enough to ride.\n";
     else
-    { // note addition of block here
-        std::cout &lt;&lt; &#34;You are not tall enough to ride.\n&#34;;
-        std::cout &lt;&lt; &#34;Too bad!\n&#34;;
+    { // zauważ dodanie tutaj bloku
+        std::cout &lt;&lt; "You are not tall enough to ride.\n";
+        std::cout &lt;&lt; "Too bad!\n";
     }
 
     return 0;
@@ -139,47 +139,47 @@ int main()
     if (true)
     {
         int x{ 5 };
-    } // x destroyed here
+    } // x zniszczone tutaj
     else
     {
         int x{ 6 };
-    } // x destroyed here
+    } // x zniszczone tutaj
 
-    std::cout &lt;&lt; x &lt;&lt; &#39;\n&#39;; // x isn&#39;t in scope here
+    std::cout &lt;&lt; x &lt;&lt; '\n'; // x nie wchodzi w zakres tutaj
 
     return 0;
 }</code></pre><p>W tym kontekście jaśniejsze jest, że zmienna <code>x</code> ma zasięg blokowy i jest niszczona na końcu bloku. Zanim dotrzemy do  <code>std::cout</code> wiersza,  <code>x</code> nie istnieje.<p class="cpp-section cpp-topline" style=clear:both>Blokowanie czy nie blokowanie pojedynczych instrukcji<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>W społeczności programistów toczy się debata na temat tego, czy pojedyncze instrukcje następujące po <code>if</code> lub <code>else</code> powinny być wyraźnie ujęte w bloki, czy nie.<p>Istnieje wiele powodów uzasadniających używanie bloków.<ol start=1><li>Nieużywanie bloków ułatwia aby przypadkowo dodać instrukcje, które wyglądają na warunkowe, ale nimi nie są. Rozważ:</ol><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">if (age &gt;= minDrinkingAge)
     purchaseBeer();</code></pre><p>Załóżmy, że się spieszymy i zmodyfikuj ten program, dodając kolejną umiejętność:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">if (age &gt;= minDrinkingAge)
     purchaseBeer();
-    gamble(); // will always execute</code></pre><p>Ups, właśnie pozwoliliśmy nieletnim grać. Miłej zabawy w więzieniu!<ol start=2><li>Nieużywanie bloków może utrudnić debugowanie programów. Załóżmy, że mamy następujący fragment kodu:</ol><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">if (age &gt;= minDrinkingAge)
+    gamble(); // zawsze wykona</code></pre><p>Ups, właśnie pozwoliliśmy nieletnim grać. Miłej zabawy w więzieniu!<ol start=2><li>Nieużywanie bloków może utrudnić debugowanie programów. Załóżmy, że mamy następujący fragment kodu:</ol><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">if (age &gt;= minDrinkingAge)
     addBeerToCart(); // conditionally executes
 
 checkout(); // always executes</code></pre><p>Powiedzmy, że podejrzewamy, że coś jest nie tak z funkcją <code>addBeerToCart()</code> , więc to skomentujemy:<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">if (age &gt;= minDrinkingAge)
 //    addBeerToCart();
 
-checkout(); // conditionally executes now</code></pre><p>Teraz stworzyliśmy <code>checkout()</code> warunkowy, czego z pewnością nie mieliśmy na myśli.<p>Żadne z powyższych nie wystąpi, jeśli zawsze będziesz używać bloków po an <code>if</code> lub <code>else</code>.<ol start=3><li><code>if constexpr</code> (wariant instrukcji if dodany w C++23) wymaga użycia bloków. Zatem używanie bloków zapewnia spójność pomiędzy <code>if</code> i <code>if constexpr</code>.</ol><p>Najlepszym argumentem za niestosowaniem bloków wokół pojedynczych instrukcji jest to, że dodanie bloków sprawia, że możesz zobaczyć mniejszą część kodu za jednym razem poprzez rozmieszczenie go w pionie, co sprawia, że kod jest mniej czytelny i może prowadzić do innych, poważniejszych błędów.<p>Społeczność wydaje się bardziej opowiadać się za ciągłym używaniem bloków, chociaż to zalecenie z pewnością nie jest wszechobecne.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Rozważ umieszczenie pojedynczych wypowiedzi powiązane z <code>if</code> lub <code>else</code> w blokach (szczególnie podczas nauki). Bardziej doświadczeni programiści C++ czasami ignorują tę praktykę na rzecz mniejszych odstępów w pionie.</div><p>Rozsądną alternatywą jest umieszczenie pojedynczych wierszy w tym samym wierszu, co <code>if</code> lub <code>else</code>:<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">if (age &gt;= minDrinkingAge) purchaseBeer();
+checkout(); // postępowanie warunkowo teraz</code></pre><p>Teraz stworzyliśmy <code>checkout()</code> warunkowy, czego z pewnością nie mieliśmy na myśli.<p>Żadne z powyższych nie wystąpi, jeśli zawsze będziesz używać bloków po <code>if</code> lub <code>else</code>.<ol start=3><li><code>if constexpr</code> (wariant instrukcji if dodany w C++23) wymaga użycia bloków. Zatem używanie bloków zapewnia spójność pomiędzy <code>if</code> i <code>if constexpr</code>.</ol><p>Najlepszym argumentem za niestosowaniem bloków wokół pojedynczych instrukcji jest to, że dodanie bloków sprawia, że możesz zobaczyć mniejszą część kodu za jednym razem poprzez rozmieszczenie go w pionie, co sprawia, że kod jest mniej czytelny i może prowadzić do innych, poważniejszych błędów.<p>Społeczność wydaje się bardziej opowiadać się za ciągłym używaniem bloków, chociaż to zalecenie z pewnością nie jest wszechobecne.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Rozważ umieszczenie pojedynczych wypowiedzi powiązane z <code>if</code> lub <code>else</code> w blokach (szczególnie podczas nauki). Bardziej doświadczeni programiści C++ czasami ignorują tę praktykę na rzecz mniejszych odstępów w pionie.</div><p>Rozsądną alternatywą jest umieszczenie pojedynczych wierszy w tym samym wierszu, co <code>if</code> lub <code>else</code>:<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">if (age &gt;= minDrinkingAge) purchaseBeer();
 else std::cout &lt;&lt; &#34;No drinky for you\n&#34;.</code></pre><p>Pozwala to uniknąć obu powyższych wad wymienionych powyżej przy niewielkim koszcie utraty czytelności.<p>Uzasadniona krytyka metody jednowierszowej polega na tym, że generuje ona kod trudniejszy do debugowania:<ul><li>Ponieważ instrukcja warunkowa i powiązana z nią instrukcja zostaną wykonane w ramach tego samego kroku, trudniej jest stwierdzić, czy instrukcja faktycznie wykonana lub została pominięta.<li>Ponieważ instrukcja warunkowa i skojarzona z nią instrukcja znajdują się w tej samej linii, nie można przerwać tylko powiązanej instrukcji (aby zatrzymać wykonywanie tylko wtedy, gdy instrukcja faktycznie zostanie wykonana).</ul><p>Jeśli jednak którykolwiek z powyższych punktów utrudnia debugowanie, możesz wstawić nową linię pomiędzy warunkową a instrukcją (aby znajdowały się w oddzielnych liniach), przeprowadzić debugowanie, a następnie usunąć znak nowej linii później.<p class="cpp-section cpp-topline" style=clear:both>If-else vs if-if<p>Nowi programiści czasami zastanawiają się, kiedy powinni użyć if-else (jeśli po nim następuje jedna lub więcej instrukcji else) czy if-if (jeśli następuje jedna lub więcej dodatkowych instrukcji if).<ul><li>Użyj if-else, jeśli chcesz wykonać kod tylko po pierwszym <code>true</code> warunku.<li>Użyj if-if, gdy chcesz wykonać kod po spełnieniu wszystkich <code>true</code> warunków.</ul><p>Oto program, który to demonstruje:<div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 void ifelse(bool a, bool b, bool c)
 {
     if (a)      // always evaluates
-        std::cout &lt;&lt; &#34;a&#34;;
-    else if (b) // only evaluates when prior if-statement condition is false
-        std::cout &lt;&lt; &#34;b&#34;;
-    else if (c) // only evaluates when prior if-statement condition is false
-        std::cout &lt;&lt; &#34;c&#34;;
-    std::cout &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; "a";
+    else if (b) // wykonuje tylko wtedy, gdy wcześniejszy warunek instrukcji if jest fałszywy
+        std::cout &lt;&lt; "b";
+    else if (c) // wykonuje tylko wtedy, gdy wcześniejszy warunek instrukcji if jest fałszywy
+        std::cout &lt;&lt; "c";
+    std::cout &lt;&lt; '\n';
 }
 
 void ifif(bool a, bool b, bool c)
 {
     if (a) // always evaluates
-        std::cout &lt;&lt; &#34;a&#34;;
+        std::cout &lt;&lt; "a";
     if (b) // always evaluates
-        std::cout &lt;&lt; &#34;b&#34;;
+        std::cout &lt;&lt; "b";
     if (c) // always evaluates
-        std::cout &lt;&lt; &#34;c&#34;;
-    std::cout &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; "c";
+    std::cout &lt;&lt; '\n';
 }
 
 int main()
@@ -191,21 +191,21 @@ int main()
 }</code></pre><p>W wywołaniu  <code>ifelse(false, true, true)</code>, <code>a</code> Jest <code>false</code>, więc nie wykonujemy powiązanej instrukcji, a zamiast tego wykonywana jest powiązana <code>else</code> . <code>b</code> jest prawdziwe, więc drukujemy <code>b</code>. Ponieważ ten <code>if</code> warunek był prawdziwy, powiązane <code>else</code> nie zostaną wykonane (ani żadne inne <code>else</code> instrukcje bezpośrednio następujące po nich). Zauważ, że wykonaliśmy kod dopiero po pierwszym <code>true</code> warunku (<code>b</code>).<p>W wywołaniu  <code>ifif(false, true, true)</code>, <code>a</code> jest fałszywe, więc nie wykonujemy powiązanej instrukcji i przechodzimy do następnego <code>if</code>. <code>b</code> jest prawdziwe, więc drukujemy <code>b</code> i przechodzimy do następnego <code>if</code>. <code>c</code> jest prawdziwe, więc drukujemy <code>c</code>. że wykonaliśmy kod po wszystkich <code>true</code> warunkach (<code>b</code> i <code>c</code>).<p>Spójrzmy teraz na tę nieco podobną funkcję:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">char getFirstMatchingChar(bool a, bool b, bool c)
 {
     if (a) // always evaluates
-        return &#39;a&#39;;
-    else if (b) // only evaluates when prior if-statement condition is false
-        return &#39;b&#39;;
-    else if (c) // only evaluates when prior if-statement condition is false
-        return &#39;c&#39;;
+        return 'a';
+    else if (b) // wykonuje tylko wtedy, gdy wcześniejszy warunek instrukcji if jest fałszywy
+        return 'b';
+    else if (c) // wykonuje tylko wtedy, gdy wcześniejszy warunek instrukcji if jest fałszywy
+        return 'c';
 
     return 0;
 }</code></pre><p>Ponieważ używamy if-else, jasne jest, że chcemy wykonać kod tylko po pierwszym <code>true</code> warunku. Ale kiedy każda powiązana instrukcja zwraca wartość, możemy zamiast tego napisać to:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">char getFirstMatchingChar(bool a, bool b, bool c)
 {
     if (a) // always evaluates
-        return &#39;a&#39;; // returns when if-statement is true
-    if (b) // only evaluates when prior if-statement condition is false
-        return &#39;b&#39;; // returns when if-statement is true
-    if (c) // only evaluates when prior if-statement condition is false
-        return &#39;c&#39;; // returns when if-statement is true
+        return 'a'; // zwracaj, gdy instrukcja jest prawdziwa
+    if (b) // wykonuje tylko wtedy, gdy wcześniejszy warunek instrukcji if jest fałszywy
+        return 'b'; // zwracaj, gdy instrukcja jest prawdziwa
+    if (c) // wykonuje tylko wtedy, gdy wcześniejszy warunek instrukcji if jest fałszywy
+        return 'c'; // zwracaj, gdy instrukcja jest prawdziwa
 
     return 0;
 }</code></pre><p>Chociaż może to wyglądać powierzchownie tak jak chcemy wykonać kod po każdym <code>true</code> warunku, gdy tylko znajdziemy pierwszy <code>true</code> warunek, powiązana instrukcja spowoduje zwrócenie funkcji. Pozostałe instrukcje if nigdy nie mają szansy na wykonanie. Dlatego zachowuje się to tak samo, jak w poprzedniej wersji. Gdy każda powiązana instrukcja zwraca wartość, wielu programistów woli pominąć słowa kluczowe <code>else</code> , ponieważ pozwala to uniknąć niepotrzebnego bałaganu i linii warunków. lepiej.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p>Gdy wszystkie powiązane instrukcje zwracają wartość, zawsze możesz po prostu użyć if-if, ponieważ <code>else</code> nie dostarcza żadnej wartości.</div><p>Będziemy kontynuować naszą eksplorację instrukcji if w następnej lekcji.<div class=prevnext><div class=prevnext-inline><a class=nav-link href="../common-if-statement-problems/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>8.3</span>Częste problemy z instrukcjami if</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../control-flow-introduction/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>8.1</span>Wprowadzenie do przepływu sterowania</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/if-statements-and-blocks/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../control-flow-introduction/index.html" rel=prev><span>8.1 — Wprowadzenie do przepływu sterowania</span></a></div><div class=nav-next><em>Następny post</em><a href="../switch-statement-basics/index.html" rel=next><span>8.5 — Podstawy instrukcji Switch</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>

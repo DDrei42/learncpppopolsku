@@ -13,14 +13,14 @@
 <button class=searchsubmit><span class=screen-reader-text>Szukaj</span><i class=icon-search></i></button>
 <input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=13321></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="27.10 — std::move_if_noexcept" src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-10330 class="post-10330 post type-post status-publish format-standard hentry category-cpp-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>27.10 — std::move_if_noexcept</h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Autor></i><a class="url fn n" rel=author href=/www.learncpp.com/author/Alex/ title="Wyświetl wszystkie posty Alexa" itemprop=url><em itemprop=name>Alex</em></a></span>
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2020-08-16T15:28:52-07:00 itemprop=datePublished>16 sierpnia 2020, 15:28 czasu PDT</time>
-<time class=updated datetime=2024-08-15T09:19:00-07:00 itemprop=dateModified>15 sierpnia 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>(h/t do czytelnika Koe za udostępnienie pierwszej wersji tej lekcji!)<p>W lekcji <a href="../stdmove/index.html">22.4 — std::move</a>, omówiliśmy <code>std::move</code>, który rzutuje swój argument lvalue na rvalue, abyśmy mogli wywołać semantykę przenoszenia. W lekcji <a href="../exception-specifications-and-noexcept/index.html">27,9 — specyfikacje wyjątków i noexcept</a> omówiliśmy <code>noexcept</code> specyfikator i operator wyjątku. Ta lekcja opiera się na obu koncepcjach.<p>Omówiliśmy także  <code>strong exception guarantee</code>, który gwarantuje, że jeśli funkcja zostanie przerwana przez wyjątek, nie nastąpi wyciek pamięci i stan programu nie ulegnie zmianie. W szczególności wszyscy konstruktorzy powinni przestrzegać silnej gwarancji wyjątków, aby reszta programu nie pozostała w zmienionym stanie, jeśli konstrukcja obiektu się nie powiedzie.<p class="cpp-section cpp-topline" style=clear:both>Problem wyjątku konstruktorów przenoszenia<p>Rozważmy przypadek, gdy kopiujemy jakiś obiekt, a kopia z jakiegoś powodu nie powiedzie się (np. w maszynie zabrakło pamięci). W takim przypadku kopiowany obiekt nie zostaje w żaden sposób uszkodzony, ponieważ obiekt źródłowy nie wymaga modyfikacji, aby utworzyć kopię. Możemy odrzucić nieudaną kopię i przejść dalej.  <code>strong exception guarantee</code> jest podtrzymane.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Rozważmy teraz przypadek, w którym zamiast tego przesuwamy obiekt. Operacja przenoszenia przenosi własność danego zasobu ze źródła na obiekt docelowy. Jeśli operacja przenoszenia zostanie przerwana przez wyjątek po tym jak nastąpi przeniesienie własności, to nasz obiekt źródłowy pozostanie w zmodyfikowanym stanie. Nie stanowi to problemu, jeśli obiekt źródłowy jest obiektem tymczasowym i tak czy inaczej zostanie odrzucony po przeniesieniu – ale w przypadku obiektów nietymczasowych uszkodziliśmy teraz obiekt źródłowy. Aby zachować zgodność z <code>strong exception guarantee</code>, musielibyśmy przenieść zasób z powrotem do obiektu źródłowego, ale jeśli przeniesienie nie powiedzie się za pierwszym razem, nie ma gwarancji, że przeniesienie również się powiedzie.<p>Jak możemy dać konstruktorom ruchu <code>strong exception guarantee</code>? Uniknięcie zgłaszania wyjątków w treści konstruktora przenoszenia jest wystarczająco proste, ale konstruktor przenoszenia może wywołać inne konstruktory, które są  <code>potentially throwing</code>. Weźmy na przykład konstruktor przenoszenia dla <code>std::pair</code>, który musi próbować przenieść każdy podobiekt z pary źródłowej do obiektu nowej pary.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Example move constructor definition for std::pair
-// Take in an &#39;old&#39; pair, and then move construct the new pair&#39;s &#39;first&#39; and &#39;second&#39; subobjects from the &#39;old&#39; ones
+<time class=updated datetime=2024-08-15T09:19:00-07:00 itemprop=dateModified>15 sierpnia 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>(h/t do czytelnika Koe za udostępnienie pierwszej wersji tej lekcji!)<p>W lekcji <a href="../stdmove/index.html">22.4 — std::move</a>, omówiliśmy <code>std::move</code>, który rzutuje swój argument lvalue na rvalue, abyśmy mogli wywołać semantykę przenoszenia. W lekcji <a href="../exception-specifications-and-noexcept/index.html">27,9 — specyfikacje wyjątków i noexcept</a> omówiliśmy <code>noexcept</code> specyfikator i operator wyjątku. Ta lekcja opiera się na obu koncepcjach.<p>Omówiliśmy także  <code>strong exception guarantee</code>, który gwarantuje, że jeśli funkcja zostanie przerwana przez wyjątek, nie nastąpi wyciek pamięci i stan programu nie ulegnie zmianie. W szczególności wszyscy konstruktorzy powinni przestrzegać silnej gwarancji wyjątków, aby reszta programu nie pozostała w zmienionym stanie, jeśli konstrukcja obiektu się nie powiedzie.<p class="cpp-section cpp-topline" style=clear:both>Problem wyjątku konstruktorów przenoszenia<p>Rozważmy przypadek, gdy kopiujemy jakiś obiekt, a kopia z jakiegoś powodu nie powiedzie się (np. w maszynie zabrakło pamięci). W takim przypadku kopiowany obiekt nie zostaje w żaden sposób uszkodzony, ponieważ obiekt źródłowy nie wymaga modyfikacji, aby utworzyć kopię. Możemy odrzucić nieudaną kopię i przejść dalej.  <code>strong exception guarantee</code> jest podtrzymane.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Rozważmy teraz przypadek, w którym zamiast tego przesuwamy obiekt. Operacja przenoszenia przenosi własność danego zasobu ze źródła na obiekt docelowy. Jeśli operacja przenoszenia zostanie przerwana przez wyjątek po tym jak nastąpi przeniesienie własności, to nasz obiekt źródłowy pozostanie w zmodyfikowanym stanie. Nie stanowi to problemu, jeśli obiekt źródłowy jest obiektem tymczasowym i tak czy inaczej zostanie odrzucony po przeniesieniu – ale w przypadku obiektów nietymczasowych uszkodziliśmy teraz obiekt źródłowy. Aby zachować zgodność z <code>strong exception guarantee</code>, musielibyśmy przenieść zasób z powrotem do obiektu źródłowego, ale jeśli przeniesienie nie powiedzie się za pierwszym razem, nie ma gwarancji, że przeniesienie również się powiedzie.<p>Jak możemy dać konstruktorom ruchu <code>strong exception guarantee</code>? Uniknięcie zgłaszania wyjątków w treści konstruktora przenoszenia jest wystarczająco proste, ale konstruktor przenoszenia może wywołać inne konstruktory, które są  <code>potentially throwing</code>. Weźmy na przykład konstruktor przenoszenia dla <code>std::pair</code>, który musi próbować przenieść każdy podobiekt z pary źródłowej do obiektu nowej pary.<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Przykładowa definicja konstruktora przenoszenia dla std::pair
+// Weź „starą” parę, a następnie przenieś konstrukcję podobiektów „pierwszy” i „drugi” nowej pary ze „starych”
 template &lt;typename T1, typename T2&gt;
 pair&lt;T1,T2&gt;::pair(pair&amp;&amp; old)
   : first(std::move(old.first)),
     second(std::move(old.second))
 {}</code></pre><p>Użyjmy teraz dwóch klas, <code>MoveClass</code> i <code>CopyClass</code>, które  <code>pair</code> razem zademonstrujemy <code>strong exception guarantee</code> problem z konstruktorami przenoszenia:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
-#include &lt;utility&gt; // For std::pair, std::make_pair, std::move, std::move_if_noexcept
+#include &lt;utility&gt; // Dla std::pair, std::make_pair, std::move, std::move_if_noexcept
 #include &lt;stdexcept&gt; // std::runtime_error
 
 class MoveClass
@@ -35,10 +35,10 @@ public:
     : m_resource{ new int{ resource } }
   {}
 
-  // Copy constructor
+  // Kopiuj konstruktor
   MoveClass(const MoveClass&amp; that)
   {
-    // deep copy
+    // głębokie kopiowanie
     if (that.m_resource != nullptr)
     {
       m_resource = new int{ *that.m_resource };
@@ -54,25 +54,25 @@ public:
 
   ~MoveClass()
   {
-    std::cout &lt;&lt; &#34;destroying &#34; &lt;&lt; *this &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; "destroying " &lt;&lt; *this &lt;&lt; '\n';
 
     delete m_resource;
   }
 
   friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const MoveClass&amp; moveClass)
   {
-    out &lt;&lt; &#34;MoveClass(&#34;;
+    out &lt;&lt; "MoveClass(";
 
     if (moveClass.m_resource == nullptr)
     {
-      out &lt;&lt; &#34;empty&#34;;
+      out &lt;&lt; "empty";
     }
     else
     {
       out &lt;&lt; *moveClass.m_resource;
     }
 
-    out &lt;&lt; &#39;)&#39;;
+    out &lt;&lt; ')';
     
     return out;
   }
@@ -86,42 +86,42 @@ public:
 
   CopyClass() = default;
 
-  // Copy constructor throws an exception when copying from
-  // a CopyClass object where its m_throw is &#39;true&#39;
+  // Konstruktor kopiujący zgłasza wyjątek podczas kopiowania z
+  // obiekt CopyClass, w którym znajduje się jego m_throw 'true'
   CopyClass(const CopyClass&amp; that)
     : m_throw{ that.m_throw }
   {
     if (m_throw)
     {
-      throw std::runtime_error{ &#34;abort!&#34; };
+      throw std::runtime_error{ "abort!" };
     }
   }
 };
 
 int main()
 {
-  // We can make a std::pair without any problems:
+  // Możemy utworzyć std::pair bez żadnych problemów:
   std::pair my_pair{ MoveClass{ 13 }, CopyClass{} };
 
-  std::cout &lt;&lt; &#34;my_pair.first: &#34; &lt;&lt; my_pair.first &lt;&lt; &#39;\n&#39;;
+  std::cout &lt;&lt; "my_pair.first: " &lt;&lt; my_pair.first &lt;&lt; '\n';
 
-  // But the problem arises when we try to move that pair into another pair.
+  // Ale problem pojawia się, gdy próbujemy przenieść tę parę do innej pary.
   try
   {
-    my_pair.second.m_throw = true; // To trigger copy constructor exception
+    my_pair.second.m_throw = true; // Aby wywołać wyjątek konstruktora kopiującego
 
-    // The following line will throw an exception
-    std::pair moved_pair{ std::move(my_pair) }; // We&#39;ll comment out this line later
-    // std::pair moved_pair{ std::move_if_noexcept(my_pair) }; // We&#39;ll uncomment this later
+    // Następujący wiersz zgłosi wyjątek
+    std::pair moved_pair{ std::move(my_pair) }; // Komentujemy tę linię później
+    // std::pair przeniesiona_para{ std::move_if_noexcept(moja_para) }; // Odkomentujemy to później
 
-    std::cout &lt;&lt; &#34;moved pair exists\n&#34;; // Never prints
+    std::cout &lt;&lt; "moved pair exists\n"; // Never prints
   }
   catch (const std::exception&amp; ex)
   {
-      std::cerr &lt;&lt; &#34;Error found: &#34; &lt;&lt; ex.what() &lt;&lt; &#39;\n&#39;;
+      std::cerr &lt;&lt; "Error found: " &lt;&lt; ex.what() &lt;&lt; '\n';
   }
 
-  std::cout &lt;&lt; &#34;my_pair.first: &#34; &lt;&lt; my_pair.first &lt;&lt; &#39;\n&#39;;
+  std::cout &lt;&lt; "my_pair.first: " &lt;&lt; my_pair.first &lt;&lt; '\n';
 
   return 0;
 }</code></pre><p>Powyższy program wypisuje:<pre>destroying MoveClass(empty)
@@ -130,8 +130,8 @@ destroying MoveClass(13)
 Error found: abort!
 my_pair.first: MoveClass(empty)
 destroying MoveClass(empty)
-</pre><p>Zbadajmy, co się stało. Pierwsza wydrukowana linia pokazuje, że tymczasowy  <code>MoveClass</code> obiekt użyty do inicjalizacji <code>my_pair</code> zostanie zniszczony zaraz po wykonaniu <code>my_pair</code> instrukcji instancji. Dzieje się tak <code>empty</code> ponieważ  <code>MoveClass</code> podobiekt w <code>my_pair</code> został z niego zbudowany, czego dowodem jest następna linia, która pokazuje <code>my_pair.first</code> zawiera <code>MoveClass</code> obiekt o wartości <code>13</code>.<p>Interesująco robi się w trzeciej linii. Stworzyliśmy <code>moved_pair</code> przez kopiowanie, konstruując jego podobiekt <code>CopyClass</code> (nie ma konstruktora przenoszenia), ale ta konstrukcja kopiowania zgłosiła wyjątek, ponieważ zmieniliśmy flagę Boolean. Budowa  <code>moved_pair</code>  została przerwana w drodze wyjątku, a jej już zbudowane elementy zostały zniszczone. W tym przypadku element <code>MoveClass</code>  został zniszczony, drukowanie <code>destroying MoveClass(13) variable</code>. Następnie widzimy <code>Error found: abort!</code> komunikat wydrukowany przez <code>main()</code>.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Kiedy próbujemy wydrukować <code>my_pair.first</code> ponownie, pokazuje się, że <code>MoveClass</code> element jest pusty. Ponieważ <code>moved_pair</code> został zainicjowany elementem <code>std::move</code>, instrukcja <code>MoveClass</code> (który ma konstruktor ruchu), skonstruowano ruch i <code>my_pair.first</code> został wyzerowany.<p>Na koniec przeprowadzana jest ocena <code>my_pair</code> został zniszczony na końcu funkcji main().<p>Podsumowując powyższe wyniki: konstruktor ruchu <code>std::pair</code> użył rzucającego konstruktora kopiującego z <code>CopyClass</code>. Ten konstruktor kopiujący zgłosił wyjątek, powodując przerwanie tworzenia  <code>moved_pair</code>  i trwałe uszkodzenie <code>my_pair.first</code> .  <code>strong exception guarantee</code> nie został zachowany.<p class="cpp-section cpp-topline" style=clear:both>std::move_if_noexcept na ratunek<p>Zauważ, że powyższego problemu można było uniknąć,  <code>std::pair</code> próbując wykonać kopię zamiast przenieść. W takim przypadku <code>moved_pair</code> nie udałoby się skonstruować, ale <code>my_pair</code> nie zostałby zmieniony.<p>Ale kopiowanie zamiast przenoszenia wiąże się z kosztem wydajności, którego nie chcemy płacić za wszystkie obiekty — w idealnym przypadku chcemy wykonać przeniesienie, jeśli możemy to zrobić bezpiecznie, a kopię w przeciwnym razie.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>Na szczęście w C++ istnieją dwa mechanizmy, które użyte w połączeniu pozwalają nam zrobić dokładnie to. Po pierwsze, ponieważ  <code>noexcept</code> funkcje są typu „no-throw/no-fail”, domyślnie spełniają kryteria dla <code>strong exception guarantee</code>. Zatem <code>noexcept</code> konstruktor przenoszenia ma gwarancję powodzenia.<p>Po drugie, możemy użyć standardowej funkcji bibliotecznej <code>std::move_if_noexcept()</code> w celu ustalenia, czy należy wykonać przeniesienie, czy kopię. <code>std::move_if_noexcept</code> jest odpowiednikiem <code>std::move</code> i jest używany w ten sam sposób.<p>Jeśli kompilator może stwierdzić, że obiekt przekazany jako argument to <code>std::move_if_noexcept</code> nie zgłosi wyjątku podczas konstrukcji przenoszenia (lub jeśli obiekt jest przeznaczony tylko do przenoszenia i nie ma konstruktora kopiującego), wówczas <code>std::move_if_noexcept</code> zastosuje się identycznie jak <code>std::move()</code> (i zwróci obiekt przekonwertowany na wartość r). W przeciwnym razie <code>std::move_if_noexcept</code> zwróci normalne odniesienie do wartości l do obiektu.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p><code>std::move_if_noexcept</code> zwróci ruchomą wartość r, jeśli obiekt ma konstruktor ruchu noexcept, w przeciwnym razie zwróci wartość l, którą można kopiować. Możemy użyć specyfikatora <code>noexcept</code> w połączeniu z <code>std::move_if_noexcept</code> aby użyć semantyki przenoszenia tylko wtedy, gdy istnieje silna gwarancja wyjątku (w przeciwnym razie użyć semantyki kopiowania).</div><p>Zaktualizujmy kod z poprzedniego przykładu w następujący sposób:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">//std::pair moved_pair{std::move(my_pair)}; // comment out this line now
-std::pair moved_pair{std::move_if_noexcept(my_pair)}; // and uncomment this line</code></pre><p>Ponowne uruchomienie programu powoduje wyświetlenie:<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><pre>destroying MoveClass(empty)
+</pre><p>Zbadajmy, co się stało. Pierwsza wydrukowana linia pokazuje, że tymczasowy  <code>MoveClass</code> obiekt użyty do inicjalizacji <code>my_pair</code> zostanie zniszczony zaraz po wykonaniu <code>my_pair</code> instrukcji instancji. Dzieje się tak <code>empty</code> ponieważ  <code>MoveClass</code> podobiekt w <code>my_pair</code> został z niego zbudowany, czego dowodem jest następna linia, która pokazuje <code>my_pair.first</code> zawiera <code>MoveClass</code> obiekt o wartości <code>13</code>.<p>Interesująco robi się w trzeciej linii. Stworzyliśmy <code>moved_pair</code> przez kopiowanie, konstruując jego podobiekt <code>CopyClass</code> (nie ma konstruktora przenoszenia), ale ta konstrukcja kopiowania zgłosiła wyjątek, ponieważ zmieniliśmy flagę Boolean. Budowa  <code>moved_pair</code>  została przerwana w drodze wyjątku, a jej już zbudowane elementy zostały zniszczone. W tym przypadku element <code>MoveClass</code>  został zniszczony, drukowanie <code>destroying MoveClass(13) variable</code>. Następnie widzimy <code>Error found: abort!</code> komunikat wydrukowany przez <code>main()</code>.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>Kiedy próbujemy wydrukować <code>my_pair.first</code> ponownie, pokazuje się, że <code>MoveClass</code> element jest pusty. Ponieważ <code>moved_pair</code> został zainicjowany elementem <code>std::move</code>, instrukcja <code>MoveClass</code> (który ma konstruktor ruchu), skonstruowano ruch i <code>my_pair.first</code> został wyzerowany.<p>Na koniec przeprowadzana jest ocena <code>my_pair</code> został zniszczony na końcu funkcji main().<p>Podsumowując powyższe wyniki: konstruktor ruchu <code>std::pair</code> użył rzucającego konstruktora kopiującego z <code>CopyClass</code>. Ten konstruktor kopiujący zgłosił wyjątek, powodując przerwanie tworzenia  <code>moved_pair</code>  i trwałe uszkodzenie <code>my_pair.first</code> .  <code>strong exception guarantee</code> nie został zachowany.<p class="cpp-section cpp-topline" style=clear:both>std::move_if_noexcept na ratunek<p>Zauważ, że powyższego problemu można było uniknąć,  <code>std::pair</code> próbując wykonać kopię zamiast przenieść. W takim przypadku <code>moved_pair</code> nie udałoby się skonstruować, ale <code>my_pair</code> nie zostałby zmieniony.<p>Ale kopiowanie zamiast przenoszenia wiąże się z kosztem wydajności, którego nie chcemy płacić za wszystkie obiekty — w idealnym przypadku chcemy wykonać przeniesienie, jeśli możemy to zrobić bezpiecznie, a kopię w przeciwnym razie.<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>Na szczęście w C++ istnieją dwa mechanizmy, które użyte w połączeniu pozwalają nam zrobić dokładnie to. Po pierwsze, ponieważ  <code>noexcept</code> funkcje są typu „no-throw/no-fail”, domyślnie spełniają kryteria dla <code>strong exception guarantee</code>. Zatem <code>noexcept</code> konstruktor przenoszenia ma gwarancję powodzenia.<p>Po drugie, możemy użyć standardowej funkcji bibliotecznej <code>std::move_if_noexcept()</code> w celu ustalenia, czy należy wykonać przeniesienie, czy kopię. <code>std::move_if_noexcept</code> jest odpowiednikiem <code>std::move</code> i jest używany w ten sam sposób.<p>Jeśli kompilator może stwierdzić, że obiekt przekazany jako argument to <code>std::move_if_noexcept</code> nie zgłosi wyjątku podczas konstrukcji przenoszenia (lub jeśli obiekt jest przeznaczony tylko do przenoszenia i nie ma konstruktora kopiującego), wówczas <code>std::move_if_noexcept</code> zastosuje się identycznie jak <code>std::move()</code> (i zwróci obiekt przekonwertowany na wartość r). W przeciwnym razie <code>std::move_if_noexcept</code> zwróci normalne odniesienie do wartości l do obiektu.<div class="cpp-note cpp-lightbluebackground"><p class="cpp-note-title cpp-bottomline">Kluczowa informacja<p><code>std::move_if_noexcept</code> zwróci ruchomą wartość r, jeśli obiekt ma konstruktor ruchu noexcept, w przeciwnym razie zwróci wartość l, którą można kopiować. Możemy użyć specyfikatora <code>noexcept</code> w połączeniu z <code>std::move_if_noexcept</code> aby użyć semantyki przenoszenia tylko wtedy, gdy istnieje silna gwarancja wyjątku (w przeciwnym razie użyć semantyki kopiowania).</div><p>Zaktualizujmy kod z poprzedniego przykładu w następujący sposób:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">//std::pair przeniesiony_pair{std::move(my_pair)}; // skomentuj teraz tę linię
+std::pair moved_pair{std::move_if_noexcept(my_pair)}; // i odkomentuj tę linię</code></pre><p>Ponowne uruchomienie programu powoduje wyświetlenie:<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><pre>destroying MoveClass(empty)
 my_pair.first: MoveClass(13)
 destroying MoveClass(13)
 Error found: abort!

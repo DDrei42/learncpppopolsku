@@ -27,7 +27,7 @@ int main()
     std::cout &lt;&lt; &#39;\n&#39;;
 
     return 0;
-}</code></pre><p>Chociaż pętle for zapewniają wygodny i elastyczny sposób iteracji po tablicy, łatwo je zepsuć, są podatne na błędy o jeden i mogą powodować problemy ze znakami indeksowania tablicy (omówione w lekcji <a href="../arrays-loops-and-sign-challenge-solutions/index.html">16.7 — Tablice, pętle i rozwiązania w zakresie wyzwań związanych ze znakami</a>).<p>Ponieważ przechodzenie (do przodu) przez tablicę jest tak powszechne, C++ obsługuje inny typ pętli for, zwany a <strong>pętla for oparta na zakresie</strong> (czasami nazywany także a <strong>dla każdej pętli</strong>), który umożliwia przechodzenie przez kontener bez konieczności wykonywania jawnego indeksowania. Pętle for oparte na zakresach są prostsze, bezpieczniejsze i działają ze wszystkimi popularnymi typami tablic w C++ (w tym  <code>std::vector</code>, <code>std::array</code> i tablicami w stylu C).<p class="cpp-section cpp-topline" style=clear:both>Pętle for oparte na zakresach<p>Klasa <em>pętle for</em> oparta na zakresie ma składnię wyglądającą następująco:<pre>for (element_declaration : array_object)
+}</code></pre><p>Chociaż pętle for zapewniają wygodny i elastyczny sposób iteracji po tablicy, łatwo je zepsuć, są podatne na błędy o jeden i mogą powodować problemy ze znakami indeksowania tablicy (omówione w lekcji <a href="../arrays-loops-and-sign-challenge-solutions/index.html">16.7 — Tablice, pętle i rozwiązania w zakresie wyzwań związanych ze znakami</a>).<p>Ponieważ przechodzenie (do przodu) przez tablicę jest tak powszechne, C++ obsługuje inny typ pętli for, zwany <strong>pętla for oparta na zakresie</strong> (czasami nazywany także <strong>dla każdej pętli</strong>), który umożliwia przechodzenie przez kontener bez konieczności wykonywania jawnego indeksowania. Pętle for oparte na zakresach są prostsze, bezpieczniejsze i działają ze wszystkimi popularnymi typami tablic w C++ (w tym  <code>std::vector</code>, <code>std::array</code> i tablicami w stylu C).<p class="cpp-section cpp-topline" style=clear:both>Pętle for oparte na zakresach<p>Klasa <em>pętle for</em> oparta na zakresie ma składnię wyglądającą następująco:<pre>for (element_declaration : array_object)
    statement;
 </pre><p>Gdy napotkana zostanie pętla for oparta na zakresie, pętla wykona iterację przez każdą element w <code>array_object</code>. Dla każdej iteracji wartość bieżącego elementu tablicy zostanie przypisana do zmiennej zadeklarowanej w <code>element_declaration</code>, a następnie <code>statement</code> wykona.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Aby uzyskać najlepsze wyniki, <code>element_declaration</code> powinno być tego samego typu co elementy tablicy, w przeciwnym razie nastąpi konwersja typów.<p>Oto prosty przykład wykorzystujący  <em>pętle for</em> do wydrukowania wszystkich elementów tablicy o nazwie <code>fibonacci</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;vector&gt;
@@ -36,10 +36,10 @@ int main()
 {
     std::vector fibonacci { 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89 };
 
-    for (int num : fibonacci) // iterate over array fibonacci and copy each value into `num`
-       std::cout &lt;&lt; num &lt;&lt; &#39; &#39;; // print the current value of `num`
+    for (int num : fibonacci) // iteruj po tablicy fibonacci i skopiuj każdą wartość do `num`
+       std::cout &lt;&lt; num &lt;&lt; ' '; // wydrukuj aktualną wartość `num`
 
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Wypisuje:<pre>0 1 1 2 3 5 8 13 21 34 55 89
@@ -54,17 +54,17 @@ int main()
        std::cout &lt;&lt; &#34;Hi mom!\n&#34;;
 
     return 0;
-}</code></pre><p>Powyższy przykład niczego nie wyświetla. Przepraszam mamo! <p class="cpp-section cpp-topline" style=clear:both>Pętle for oparte na zakresie i dedukcja typu przy użyciu <code>auto</code> słowo kluczowe<p>Ponieważ <code>element_declaration</code> powinny mieć ten sam typ co elementy tablicy (aby zapobiec konwersji typów). Jest to idealny przypadek, w którym można użyć słowa kluczowego <code>auto</code>  i pozwolić kompilatorowi wydedukować za nas typ elementów tablicy. W ten sposób nie musimy wielokrotnie określać typu i nie ma ryzyka przypadkowego wpisania (i „błędnego wpisania”, ha!)<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>Oto ten sam przykład co powyżej, ale użycie <code>auto</code> jako typ <code>num</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+}</code></pre><p>Powyższy przykład niczego nie wyświetla. Przepraszam mamo! <p class="cpp-section cpp-topline" style=clear:both>Pętle for oparte na zakresie i dedukcja typu przy użyciu słowo kluczowe <code>auto</code><p>Ponieważ <code>element_declaration</code> powinny mieć ten sam typ co elementy tablicy (aby zapobiec konwersji typów). Jest to idealny przypadek, w którym można użyć słowa kluczowego <code>auto</code>  i pozwolić kompilatorowi wydedukować za nas typ elementów tablicy. W ten sposób nie musimy wielokrotnie określać typu i nie ma ryzyka przypadkowego wpisania (i „błędnego wpisania”, ha!)<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><p>Oto ten sam przykład co powyżej, ale użycie <code>auto</code> jako typ <code>num</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;vector&gt;
 
 int main()
 {
     std::vector fibonacci { 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89 };
 
-    for (auto num : fibonacci) // compiler will deduce type of num to be `int`
-       std::cout &lt;&lt; num &lt;&lt; &#39; &#39;;
+    for (auto num : fibonacci) // wnioskuje o typie num jako `int`
+       std::cout &lt;&lt; num &lt;&lt; ' ';
 
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Ponieważ <code>std::vector fibonacci</code> ma elementy typu <code>int</code>, <code>num</code> zostanie wywnioskowane, że jest <code>int</code>.<div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Użyj odliczenia typu (<code>auto</code>) z pętle for oparte na zakresie, aby kompilator wydedukował typ elementu tablicy.</div><p>Kolejną korzyścią wynikającą z użycia <code>auto</code> jest to, że jeśli typ elementu tablicy zostanie kiedykolwiek zaktualizowany (np. z <code>int</code> Do <code>long</code>), <code>auto</code> automatycznie wydedukuje typ zaktualizowanego elementu, zapewniając jego synchronizację (i zapobiegając konwersji typu).<p class="cpp-section cpp-topline" style=clear:both>Unikaj kopiowania elementów za pomocą odniesień<p>Rozważ następującą pętlę for opartą na zakresie, która iteruje po tablicy <code>std::string</code>:<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -87,12 +87,12 @@ int main()
 
 int main()
 {
-    std::vector&lt;std::string&gt; words{ &#34;peter&#34;, &#34;likes&#34;, &#34;frozen&#34;, &#34;yogurt&#34; };
+    std::vector&lt;std::string&gt; words{ "peter", "likes", "frozen", "yogurt" };
 
-    for (const auto&amp; word : words) // word is now a const reference
-        std::cout &lt;&lt; word &lt;&lt; &#39; &#39;;
+    for (const auto&amp; word : words) // słowo jest teraz stałym odniesieniem
+        std::cout &lt;&lt; word &lt;&lt; ' ';
 
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>W powyższym przykładzie <code>word</code> jest teraz stałym odniesieniem. Z każdą iteracją tej pętli  <code>word</code> zostanie powiązany z następnym elementem tablicy. Dzięki temu możemy uzyskać dostęp do wartości elementu tablicy bez konieczności wykonywania kosztownej kopii.<p>Jeśli odniesienie nie jest stałe, można go również użyć do zmiany wartości w tablicy (co nie jest możliwe, jeśli nasz <code>element_declaration</code> jest kopią wartości).<p class="cpp-section cpp-topline" style=clear:both>Kiedy to zrobić użyj <code>auto</code> vs <code>auto&</code> vs <code>const auto&</code><div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><p>Zwykle używalibyśmy <code>auto</code> w przypadku taniego kopiowania typów, <code>auto&</code> kiedy chcemy modyfikować elementy i <code>const auto&</code> w przypadku typów, których kopiowanie jest kosztowne. Jednak w przypadku pętli for opartych na zakresach wielu programistów uważa, że ​​lepiej jest zawsze używać  <code>const auto&</code> , ponieważ jest to bardziej przyszłościowe.<p>Rozważmy na przykład następujący przykład:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -101,12 +101,12 @@ int main()
 
 int main()
 {
-    std::vector&lt;std::string_view&gt; words{ &#34;peter&#34;, &#34;likes&#34;, &#34;frozen&#34;, &#34;yogurt&#34; }; // elements are type std::string_view
+    std::vector&lt;std::string_view&gt; words{ "peter", "likes", "frozen", "yogurt" }; // elementy są typu std::string_view
 
-    for (auto word : words) // We normally pass string_view by value, so we&#39;ll use auto here
-        std::cout &lt;&lt; word &lt;&lt; &#39; &#39;;
+    for (auto word : words) // Zwykle przekazujemy string_view przez wartość, więc użyjemy tutaj auto
+        std::cout &lt;&lt; word &lt;&lt; ' ';
 
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>W tym przykładzie mamy <code>std::vector</code> zawierający <code>std::string_view</code> obiekty. Ponieważ <code>std::string_view</code> jest zwykle przekazywana przez wartość, użycie <code>auto</code> wydaje się właściwe.<p>Zastanów się jednak, co się stanie, jeśli  <code>words</code> zostanie później zaktualizowany do tablicy <code>std::string</code> .<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -115,27 +115,27 @@ int main()
 
 int main()
 {
-    std::vector&lt;std::string&gt; words{ &#34;peter&#34;, &#34;likes&#34;, &#34;frozen&#34;, &#34;yogurt&#34; }; // obvious we should update this
+    std::vector&lt;std::string&gt; words{ "peter", "likes", "frozen", "yogurt" }; // oczywiste, że i tak powinniśmy zaktualizować ten
 
-    for (auto word : words) // Probably not obvious we should update this too
-        std::cout &lt;&lt; word &lt;&lt; &#39; &#39;;
+    for (auto word : words) // Prawdopodobnie nie jest to oczywiste, że powinniśmy to również zaktualizować
+        std::cout &lt;&lt; word &lt;&lt; ' ';
 
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
 
     return 0;
-}</code></pre><p>Pętla for oparta na zakresie zostanie skompilowana i wykonana poprawnie, ale <code>word</code> zostanie teraz wywnioskowana, że jest to a <code>std::string</code>, a ponieważ jesteśmy używając <code>auto</code>, nasza pętla będzie po cichu tworzyć drogie kopie elementów <code>std::string</code> . Właśnie odnotowaliśmy ogromny spadek wydajności!<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>Istnieje kilka rozsądnych sposobów, aby zapewnić, że tak się nie stanie:<ul><li>Nie używaj dedukcji typu w pętli for opartej na zakresie. Jeśli jawnie określiliśmy typ elementu jako  <code>std::string_view</code>, to przy późniejszej aktualizacji tablicy do <code>std::string</code>, instrukcja <code>std::string</code> elementy zostaną domyślnie przekonwertowane na <code>std::string_view</code>, co nie stanowi problemu. Jeśli tablica zostanie zaktualizowana do innego typu, którego nie można konwertować, kompilator wyświetli błąd i będziemy mogli dowiedzieć się, co w tym momencie należy zrobić. Ale jeśli typ elementu jest konwertowalny, kompilator po cichu przeprowadzi konwersję i możemy nie zdawać sobie sprawy, że robimy coś nieoptymalnego.<li>Użyj <code>const auto&</code> zamiast <code>auto</code> jeśli używasz dedukcji typu w pętli for opartej na zakresie, gdy nie chcesz pracować z kopiami. Spadek wydajności wynikający z dostępu do elementów za pośrednictwem referencji, a nie wartości, będzie prawdopodobnie niewielki, co chroni nas przed potencjalnie znaczącymi spadkami wydajności w przyszłości, jeśli typ elementu zostanie później zmieniony na coś, co jest kosztowne w kopiowaniu.</ul><div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>W przypadku pętli for opartych na zakresach preferuj zdefiniowanie typu elementu jako:<ul><li><code>auto</code> kiedy chcesz modyfikować kopie elementów.<li><code>auto&</code> kiedy chcesz modyfikować oryginał elementy.<li><code>const auto&</code> w przeciwnym razie (kiedy wystarczy wyświetlić oryginalne elementy).</ul></div><p class="cpp-section cpp-topline" style=clear:both>Oparte na zakresie pętle i inne standardowe typy kontenerów<p>Oparte na zakresie pętle działają z szeroką gamą typów tablic, w tym (niezniszczonymi) tablicami w stylu C, <code>std::array</code>, <code>std::vector</code>, listami połączonymi, drzewami i mapami. Nie omówiliśmy jeszcze żadnego z nich, więc nie martw się, jeśli nie wiesz, co to jest. Pamiętaj tylko, że  <em>pętle for</em> oparte na zakresie zapewniają elastyczny i ogólny sposób iteracji po czymś więcej niż tylko <code>std::vector</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;array&gt;
+}</code></pre><p>Pętla for oparta na zakresie zostanie skompilowana i wykonana poprawnie, ale <code>word</code> zostanie teraz wywnioskowana, że jest to <code>std::string</code>, a ponieważ jesteśmy używając <code>auto</code>, nasza pętla będzie po cichu tworzyć drogie kopie elementów <code>std::string</code> . Właśnie odnotowaliśmy ogromny spadek wydajności!<div class="code-block code-block-7" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-121></div></div></div><p>Istnieje kilka rozsądnych sposobów, aby zapewnić, że tak się nie stanie:<ul><li>Nie używaj dedukcji typu w pętli for opartej na zakresie. Jeśli jawnie określiliśmy typ elementu jako  <code>std::string_view</code>, to przy późniejszej aktualizacji tablicy do <code>std::string</code>, instrukcja <code>std::string</code> elementy zostaną domyślnie przekonwertowane na <code>std::string_view</code>, co nie stanowi problemu. Jeśli tablica zostanie zaktualizowana do innego typu, którego nie można konwertować, kompilator wyświetli błąd i będziemy mogli dowiedzieć się, co w tym momencie należy zrobić. Ale jeśli typ elementu jest konwertowalny, kompilator po cichu przeprowadzi konwersję i możemy nie zdawać sobie sprawy, że robimy coś nieoptymalnego.<li>Użyj <code>const auto&</code> zamiast <code>auto</code> jeśli używasz dedukcji typu w pętli for opartej na zakresie, gdy nie chcesz pracować z kopiami. Spadek wydajności wynikający z dostępu do elementów za pośrednictwem referencji, a nie wartości, będzie prawdopodobnie niewielki, co chroni nas przed potencjalnie znaczącymi spadkami wydajności w przyszłości, jeśli typ elementu zostanie później zmieniony na coś, co jest kosztowne w kopiowaniu.</ul><div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>W przypadku pętli for opartych na zakresach preferuj zdefiniowanie typu elementu jako:<ul><li><code>auto</code> kiedy chcesz modyfikować kopie elementów.<li><code>auto&</code> kiedy chcesz modyfikować oryginał elementy.<li><code>const auto&</code> w przeciwnym razie (kiedy wystarczy wyświetlić oryginalne elementy).</ul></div><p class="cpp-section cpp-topline" style=clear:both>Oparte na zakresie pętle i inne standardowe typy kontenerów<p>Oparte na zakresie pętle działają z szeroką gamą typów tablic, w tym (niezniszczonymi) tablicami w stylu C, <code>std::array</code>, <code>std::vector</code>, listami połączonymi, drzewami i mapami. Nie omówiliśmy jeszcze żadnego z nich, więc nie martw się, jeśli nie wiesz, co to jest. Pamiętaj tylko, że  <em>pętle for</em> oparte na zakresie zapewniają elastyczny i ogólny sposób iteracji po czymś więcej niż tylko <code>std::vector</code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;array&gt;
 #include &lt;iostream&gt;
 
 int main()
 {
-    std::array fibonacci{ 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89 }; // note use of std::array here
+    std::array fibonacci{ 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89 }; // zwróć uwagę na użycie std::array tutaj
 
     for (auto number : fibonacci)
     {
-        std::cout &lt;&lt; number &lt;&lt; &#39; &#39;;
+        std::cout &lt;&lt; number &lt;&lt; ' ';
     }
 
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
 
     return 0;
 }</code></pre><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Dla zaawansowanych czytelników<p>Pętle for oparte na zakresie nie będą działać z uszkodzonymi tablicami w stylu C. Dzieje się tak dlatego, że pętla for oparta na zakresach musi znać długość tablicy, aby wiedzieć, kiedy przejście zostanie zakończone, a tablice w stylu C nie zawierają tej informacji.<p>Pętle for oparte na zakresach również nie będą działać z wyliczeniami. Metodę obejścia tego problemu pokazujemy na lekcji <a href="../stdarray-and-enumerations/index.html">17.6 — std::array i wyliczenia</a>.</div><p class="cpp-section cpp-topline" style=clear:both>Uzyskiwanie indeksu bieżącego elementu<p>Pętle for oparte na zakresie <em>nie</em> zapewniają bezpośredni sposób uzyskania indeksu tablicy bieżącego elementu. Dzieje się tak dlatego, że wiele struktur, po których może iterować pętla for oparta na zakresach (np.  <code>std::list</code>) nie obsługuje indeksów. <div class="code-block code-block-8" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-126></div></div></div><p> Jednakże, ponieważ pętle for oparte na zakresach zawsze iterują w przód i nie pomijają elementów, zawsze możesz zadeklarować (i zwiększyć) własny licznik. Jeśli jednak masz to zrobić, powinieneś rozważyć, czy nie lepiej będzie użyć zwykłej pętli for zamiast pętli for opartej na zakresie.<p class="cpp-section cpp-topline" style=clear:both>Pętle for oparte na zakresie w odwrotnej kolejności <span class="cpp-section-pill cpp-section-standard">C++20</span><p>Pętle for oparte na zakresach iterują tylko w kolejności do przodu. Są jednak przypadki, w których chcemy przeglądać tablicę w odwrotnej kolejności. Przed wersją C++ 20 pętle for oparte na zakresach nie mogły być łatwo użyte do tego celu i należało zastosować inne rozwiązania (zwykle zwykłe pętle for).<p>Jednak od C++20 można używać <code>std::views::reverse</code> możliwości biblioteki Ranges do tworzenia odwróconego widoku elementów, przez które można przechodzić:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -145,12 +145,12 @@ int main()
 
 int main()
 {
-    std::vector&lt;std::string_view&gt; words{ &#34;Alex&#34;, &#34;Bobby&#34;, &#34;Chad&#34;, &#34;Dave&#34; }; // sorted in alphabetical order
+    std::vector&lt;std::string_view&gt; words{ "Alex", "Bobby", "Chad", "Dave" }; // sortowanie w kolejności alfabetycznej
 
-    for (const auto&amp; word : std::views::reverse(words)) // create a reverse view
-        std::cout &lt;&lt; word &lt;&lt; &#39; &#39;;
+    for (const auto&amp; word : std::views::reverse(words)) // utwórz widok odwrotny
+        std::cout &lt;&lt; word &lt;&lt; ' ';
 
-    std::cout &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; '\n';
 
     return 0;
 }</code></pre><p>Wypisuje:<pre>Dave
@@ -168,18 +168,18 @@ Megatron was not found.
 
 int main()
 {
-    std::vector&lt;std::string_view&gt; names{ &#34;Alex&#34;, &#34;Betty&#34;, &#34;Caroline&#34;, &#34;Dave&#34;,
-        &#34;Emily&#34;, &#34;Fred&#34;, &#34;Greg&#34;, &#34;Holly&#34; };
+    std::vector&lt;std::string_view&gt; names{ "Alex", "Betty", "Caroline", "Dave",
+        "Emily", "Fred", "Greg", "Holly" };
 	
-    std::cout &lt;&lt; &#34;Enter a name: &#34;;
+    std::cout &lt;&lt; "Enter a name: ";
     std::string username{};
     std::cin &gt;&gt; username;
 
     bool found{ false };
 
-    // We will be explicit about expecting `name` to be a std::string_view here
-    // That way if `names` is ever changed to an expensive to copy type
-    // (like std::string), we won&#39;t end up making expensive copies.
+    // Będziemy wyraźnie mówić, że `name` będzie std::string_view tutaj
+    // W ten sposób, jeśli `names` zostanie kiedykolwiek zmienione na kosztowny do skopiowania typ
+    // (jak std::string), nie sprawimy, że będzie to drogie kopie.
     for (std::string_view name : names)
     {
         if (name == username)
@@ -190,12 +190,12 @@ int main()
     }
 
     if (found)
-        std::cout &lt;&lt; username &lt;&lt; &#34; was found.\n&#34;;
+        std::cout &lt;&lt; username &lt;&lt; " was found.\n";
     else
-        std::cout &lt;&lt; username &lt;&lt; &#34; was not found.\n&#34;;
+        std::cout &lt;&lt; username &lt;&lt; " was not found.\n";
 
     return 0;
-}</code></pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>Pytanie nr 2<p>Zmodyfikuj rozwiązanie quizu 1. W tej wersji utwórz szablon funkcji (nie jest to zwykła funkcja) o nazwie <code>isValueInArray()</code> , który przyjmuje dwa parametry: a <code>std::vector</code> i wartość. Funkcja powinna zwrócić <code>true</code> jeżeli wartość znajduje się w tablicy, oraz <code>false</code> w przeciwnym wypadku. Wywołaj funkcję z <code>main()</code> i przekaż jej tablicę nazw oraz nazwę wprowadzoną przez użytkownika.<p>Przypomnienie: <ul><li>Szablon funkcji korzystający z dedukcji argumentów szablonu (gdy argumenty typu szablonu nie są jawnie określone) nie wykona konwersji w celu dopasowania parametrów typu szablonu. Wywołanie albo pasuje do szablonu (i można wydedukować typ szablonu), albo nie.<li>Szablon funkcji z jawnie określonym argumentem typu szablonu przekonwertuje argumenty tak, aby pasowały do ​​typu parametru (ponieważ typ jest znany).</ul><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_1 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+}</code></pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>Pytanie nr 2<p>Zmodyfikuj rozwiązanie quizu 1. W tej wersji utwórz szablon funkcji (nie jest to zwykła funkcja) o nazwie <code>isValueInArray()</code> , który przyjmuje dwa parametry: <code>std::vector</code> i wartość. Funkcja powinna zwrócić <code>true</code> jeżeli wartość znajduje się w tablicy, oraz <code>false</code> w przeciwnym wypadku. Wywołaj funkcję z <code>main()</code> i przekaż jej tablicę nazw oraz nazwę wprowadzoną przez użytkownika.<p>Przypomnienie: <ul><li>Szablon funkcji korzystający z dedukcji argumentów szablonu (gdy argumenty typu szablonu nie są jawnie określone) nie wykona konwersji w celu dopasowania parametrów typu szablonu. Wywołanie albo pasuje do szablonu (i można wydedukować typ szablonu), albo nie.<li>Szablon funkcji z jawnie określonym argumentem typu szablonu przekonwertuje argumenty tak, aby pasowały do ​​typu parametru (ponieważ typ jest znany).</ul><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_1 style=display:none><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;string&gt;
 #include &lt;string_view&gt;
 #include &lt;vector&gt;
@@ -203,7 +203,7 @@ int main()
 template &lt;typename T&gt;
 bool isValueInArray(const std::vector&lt;T&gt;&amp; arr, const T&amp; value )
 {
-    // we&#39;ll use a reference since we don&#39;t know if T is expensive to copy
+    // użyjemy odniesienia, ponieważ nie wiemy, czy T jest drogie copy
     for (const auto&amp; a : arr)
     {
         if (a == value)
@@ -215,25 +215,25 @@ bool isValueInArray(const std::vector&lt;T&gt;&amp; arr, const T&amp; value )
 
 int main()
 {
-    std::vector&lt;std::string_view&gt; names{ &#34;Alex&#34;, &#34;Betty&#34;, &#34;Caroline&#34;, &#34;Dave&#34;,
-        &#34;Emily&#34;, &#34;Fred&#34;, &#34;Greg&#34;, &#34;Holly&#34; };
+    std::vector&lt;std::string_view&gt; names{ "Alex", "Betty", "Caroline", "Dave",
+        "Emily", "Fred", "Greg", "Holly" };
 	
-    std::cout &lt;&lt; &#34;Enter a name: &#34;;
+    std::cout &lt;&lt; "Enter a name: ";
     std::string username{};
     std::cin &gt;&gt; username;
 
-    // By explicitly specifying std::string_view as a function template argument,
-    // the compiler will implicitly convert username to `std::string_view` to match the parameter type.
+    // Poprzez jawne określenie std::string_view jako argumentu szablonu funkcji,
+    // kompilator niejawnie skonwertuje nazwę użytkownika na `std::string_view`, aby dopasować typ parametru.
     bool found{ isValueInArray&lt;std::string_view&gt;(names, username) };
 
-    // The following is also okay.  If we rely on template argument deduction instead, the compiler 
-    // won&#39;t do implicit conversions, so we need to make sure `username` has the expected type.
-    // bool found{ isValueInArray(names, static_cast&lt;std::string_view&gt;(username)) };
+    // Poniższe również są w porządku. Jeśli zamiast tego polegamy na dedukcji argumentów szablonu, kompilator 
+    // nie dokona niejawnych konwersji, więc musimy się upewnić, że `nazwa użytkownika` ma oczekiwany typ.
+    // znalazł wartości boolowej{ isValueInArray(names, static_cast&lt;std::string_view&gt;(username)) };
 
     if (found)
-        std::cout &lt;&lt; username &lt;&lt; &#34; was found.\n&#34;;
+        std::cout &lt;&lt; username &lt;&lt; " was found.\n";
     else
-        std::cout &lt;&lt; username &lt;&lt; &#34; was not found.\n&#34;;
+        std::cout &lt;&lt; username &lt;&lt; " was not found.\n";
 
     return 0;
 }</code></pre></div><div class=prevnext><div class=prevnext-inline><a class=nav-link href="../array-indexing-and-length-using-enumerators/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>16.9</span>Indeksowanie tablicy i długość przy użyciu modułów wyliczających</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../arrays-loops-and-sign-challenge-solutions/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>16.7</span>Tablice, pętle i rozwiązania problemów ze znakami</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/range-based-for-loops-for-each/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../type-deduction-for-objects-using-the-auto-keyword/index.html" rel=prev><span>10.8 — Wpisz dedukcję dla obiektów za pomocą auto słowo kluczowe</span></a></div><div class=nav-next><em>Następny post</em><a href="../why-functions-are-useful-and-how-to-use-them-effectively/index.html" rel=next><span>2.6 — Dlaczego funkcje są przydatne i jak efektywnie z nich korzystać</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>

@@ -33,16 +33,16 @@ public:
 
 int main()
 {
-    // Define a Storage8 for integers
+    // Zdefiniuj Storage8 dla bool integer
     Storage8&lt;int&gt; intStorage;
 
     for (int count{ 0 }; count &lt; 8; ++count)
         intStorage.set(count, count);
 
     for (int count{ 0 }; count &lt; 8; ++count)
-        std::cout &lt;&lt; intStorage.get(count) &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; intStorage.get(count) &lt;&lt; '\n';
 
-    // Define a Storage8 for bool
+    // Zdefiniuj Storage8 dla bool
     Storage8&lt;bool&gt; boolStorage;
     for (int count{ 0 }; count &lt; 8; ++count)
         boolStorage.set(count, count &amp; 3);
@@ -51,7 +51,7 @@ int main()
 
     for (int count{ 0 }; count &lt; 8; ++count)
     {
-        std::cout &lt;&lt; boolStorage.get(count) &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; boolStorage.get(count) &lt;&lt; '\n';
     }
 
     return 0;
@@ -71,9 +71,9 @@ false
 true
 true
 true
-</pre><p>Chociaż ta klasa jest w pełni funkcjonalna, okazuje się, że implementacja <code>Storage8&lt;bool></code> jest bardziej nieefektywna, niż powinna. Ponieważ wszystkie zmienne muszą mieć adres, a procesor nie może zaadresować niczego mniejszego niż bajt, wszystkie zmienne muszą mieć rozmiar co najmniej jednego bajtu. W rezultacie zmienna typu  <code>bool</code>  wykorzystuje cały bajt, chociaż technicznie rzecz biorąc, potrzebuje tylko jednego bitu do przechowywania swojej wartości prawdziwej lub fałszywej! Zatem a <code>bool</code> to 1 bit użytecznej informacji i 7 bitów zmarnowanego miejsca. Nasza <code>Storage8&lt;bool></code> klasa, która zawiera 8 <code>bool</code>, to 1 bajt przydatnych informacji i 7 bajtów zmarnowanego miejsca.<p>Jak się okazuje, używając podstawowej logiki bitowej, możliwe jest skompresowanie wszystkich 8 booli do jednego bajtu, całkowicie eliminując zmarnowaną przestrzeń. Jednakże, aby to zrobić, będziemy musieli zmodernizować klasę, jeśli zostanie użyta z typem <code>bool</code>, zastępując tablicę 8 <code>bool</code> zmienną o rozmiarze jednego bajtu. Chociaż moglibyśmy w tym celu stworzyć zupełnie nową klasę, ma to jedną poważną wadę: musimy nadać jej inną nazwę. Następnie programista musi pamiętać, że  <code>Storage8&lt;T></code> jest przeznaczony dla typów innych niż bool, podczas gdy <code>Storage8Bool</code> (czy jakkolwiek nazwiemy nową klasę) jest przeznaczony dla <code>bool</code>. To niepotrzebna złożoność, której wolelibyśmy uniknąć. Na szczęście C++ zapewnia nam lepszą metodę: specjalizację szablonów klas.<p class="cpp-section cpp-topline" style=clear:both>Specjalizacja szablonów klas<p>Specjalizacja szablonów klas pozwala nam specjalizować klasę szablonów dla określonego typu danych (lub typów danych, jeśli istnieje wiele parametrów szablonu). W tym przypadku użyjemy specjalizacji szablonu klasy, aby napisać dostosowaną wersję  <code>Storage8&lt;bool></code> , która będzie miała pierwszeństwo przed klasą generyczną <code>Storage8&lt;T></code> .<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Specjalizacje szablonów klas są traktowane jako całkowicie niezależne klasy, mimo że są tworzone w taki sam sposób, jak klasa szablonowa. Oznacza to, że możemy zmienić wszystko w naszej klasie specjalizacji, w tym sposób jej implementacji, a nawet funkcje, które udostępnia publicznie, tak jakby była to niezależna klasa.<p>Podobnie jak wszystkie szablony, kompilator musi widzieć pełną definicję specjalizacji, aby z niej skorzystać. Ponadto zdefiniowanie specjalizacji szablonu klasy wymaga najpierw zdefiniowania klasy niewyspecjalizowanej.<p>Oto przykład specjalizacji <code>Storage8&lt;bool></code> klasę:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cstdint&gt;
+</pre><p>Chociaż ta klasa jest w pełni funkcjonalna, okazuje się, że implementacja <code>Storage8&lt;bool></code> jest bardziej nieefektywna, niż powinna. Ponieważ wszystkie zmienne muszą mieć adres, a procesor nie może zaadresować niczego mniejszego niż bajt, wszystkie zmienne muszą mieć rozmiar co najmniej jednego bajtu. W rezultacie zmienna typu  <code>bool</code>  wykorzystuje cały bajt, chociaż technicznie rzecz biorąc, potrzebuje tylko jednego bitu do przechowywania swojej wartości prawdziwej lub fałszywej! Zatem <code>bool</code> to 1 bit użytecznej informacji i 7 bitów zmarnowanego miejsca. Nasza <code>Storage8&lt;bool></code> klasa, która zawiera 8 <code>bool</code>, to 1 bajt przydatnych informacji i 7 bajtów zmarnowanego miejsca.<p>Jak się okazuje, używając podstawowej logiki bitowej, możliwe jest skompresowanie wszystkich 8 booli do jednego bajtu, całkowicie eliminując zmarnowaną przestrzeń. Jednakże, aby to zrobić, będziemy musieli zmodernizować klasę, jeśli zostanie użyta z typem <code>bool</code>, zastępując tablicę 8 <code>bool</code> zmienną o rozmiarze jednego bajtu. Chociaż moglibyśmy w tym celu stworzyć zupełnie nową klasę, ma to jedną poważną wadę: musimy nadać jej inną nazwę. Następnie programista musi pamiętać, że  <code>Storage8&lt;T></code> jest przeznaczony dla typów innych niż bool, podczas gdy <code>Storage8Bool</code> (czy jakkolwiek nazwiemy nową klasę) jest przeznaczony dla <code>bool</code>. To niepotrzebna złożoność, której wolelibyśmy uniknąć. Na szczęście C++ zapewnia nam lepszą metodę: specjalizację szablonów klas.<p class="cpp-section cpp-topline" style=clear:both>Specjalizacja szablonów klas<p>Specjalizacja szablonów klas pozwala nam specjalizować klasę szablonów dla określonego typu danych (lub typów danych, jeśli istnieje wiele parametrów szablonu). W tym przypadku użyjemy specjalizacji szablonu klasy, aby napisać dostosowaną wersję  <code>Storage8&lt;bool></code> , która będzie miała pierwszeństwo przed klasą generyczną <code>Storage8&lt;T></code> .<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p>Specjalizacje szablonów klas są traktowane jako całkowicie niezależne klasy, mimo że są tworzone w taki sam sposób, jak klasa szablonowa. Oznacza to, że możemy zmienić wszystko w naszej klasie specjalizacji, w tym sposób jej implementacji, a nawet funkcje, które udostępnia publicznie, tak jakby była to niezależna klasa.<p>Podobnie jak wszystkie szablony, kompilator musi widzieć pełną definicję specjalizacji, aby z niej skorzystać. Ponadto zdefiniowanie specjalizacji szablonu klasy wymaga najpierw zdefiniowania klasy niewyspecjalizowanej.<p>Oto przykład specjalizacji <code>Storage8&lt;bool></code> klasę:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;cstdint&gt;
 
-// First define our non-specialized class template
+// Najpierw zdefiniuj nasz niewyspecjalizowany szablon klasy
 template &lt;typename T&gt;
 class Storage8
 {
@@ -92,43 +92,43 @@ public:
     }
 };
 
-// Now define our specialized class template
-template &lt;&gt; // the following is a template class with no templated parameters
-class Storage8&lt;bool&gt; // we&#39;re specializing Storage8 for bool
+// Teraz zdefiniuj nasz szablon klasy specjalistycznej
+template &lt;&gt; // poniżej znajduje się klasa szablonowa bez parametrów z szablonu
+class Storage8&lt;bool&gt; // specjalizujemy się w Storage8 dla bool
 {
-// What follows is just standard class implementation details
+// Poniżej znajdują się tylko szczegóły implementacji standardowej klasy
 
 private:
     std::uint8_t m_data{};
 
 public:
-    // Don&#39;t worry about the details of the implementation of these functions
+    // Nie martw się o szczegóły implementacji tych funkcji
     void set(int index, bool value)
     {
-        // Figure out which bit we&#39;re setting/unsetting
-        // This will put a 1 in the bit we&#39;re interested in turning on/off
+        // Dowiedz się, który bit ustawiamy/rozbrajamy
+        // To wstawi 1 w bit, który chcemy włączyć/wyłączyć
         auto mask{ 1 &lt;&lt; index };
 
-        if (value)  // If we&#39;re setting a bit
-            m_data |= mask;   // use bitwise-or to turn that bit on
-        else  // if we&#39;re turning a bit off
-            m_data &amp;= ~mask;  // bitwise-and the inverse mask to turn that bit off
+        if (value)  // Jeśli trochę ustawiamy
+            m_data |= mask;   // użyj bitwise-lub, aby włączyć ten bit
+        else  // jeśli trochę się wyłączymy
+            m_data &amp;= ~mask;  // bitowo-oraz maska odwrotna do wyłączenia tego bitu
 	}
 	
     bool get(int index)
     {
-        // Figure out which bit we&#39;re getting
+        // Sprawdź, który bit otrzymujemy
         auto mask{ 1 &lt;&lt; index };
-        // bitwise-and to get the value of the bit we&#39;re interested in
-        // Then implicit cast to boolean
+        // bitowo-i aby uzyskać wartość interesującego nas bitu
+        // Następnie niejawne rzutowanie na wartość logiczną
         return (m_data &amp; mask);
     }
 };
 
-// Same example as before
+// Ten sam przykład co poprzednio
 int main()
 {
-    // Define a Storage8 for integers (instantiates Storage8&lt;T&gt;, where T = int)
+    // Zdefiniuj Storage8 dla liczb całkowitych (instancja Storage8&lt;T&gt;, gdzie T = int)
     Storage8&lt;int&gt; intStorage;
 
     for (int count{ 0 }; count &lt; 8; ++count)
@@ -138,10 +138,10 @@ int main()
 
     for (int count{ 0 }; count &lt; 8; ++count)
     {
-        std::cout &lt;&lt; intStorage.get(count) &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; intStorage.get(count) &lt;&lt; '\n';
     }
 
-    // Define a Storage8 for bool  (instantiates Storage8&lt;bool&gt; specialization)
+    // Zdefiniuj Storage8 dla bool (instancja specjalizacji Storage8&lt;bool&gt;)
     Storage8&lt;bool&gt; boolStorage;
     
     for (int count{ 0 }; count &lt; 8; ++count)
@@ -153,7 +153,7 @@ int main()
 
     for (int count{ 0 }; count &lt; 8; ++count)
     {
-        std::cout &lt;&lt; boolStorage.get(count) &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; boolStorage.get(count) &lt;&lt; '\n';
     }
 
     return 0;
@@ -188,17 +188,17 @@ public:
 
     void print()
     {
-        std::cout &lt;&lt; m_value &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; m_value &lt;&lt; '\n';
     }
 };
 
 int main()
 {
-    // Define some storage units
+    // Zdefiniuj niektóre jednostki przechowywania
     Storage i { 5 };
     Storage d { 6.7 };
 
-    // Print out some values
+    // Wydrukuj niektóre wartości
     i.print();
     d.print();
 }</code></pre><p>Naszym pragnieniem jest wyspecjalizowanie <code>print()</code> funkcji tak, aby drukowała podwójność w notacji naukowej. Korzystając ze specjalizacji szablonów klas, moglibyśmy zdefiniować wyspecjalizowaną klasę dla <code>Storage&lt;double></code>:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -216,12 +216,12 @@ public:
 
     void print()
     {
-        std::cout &lt;&lt; m_value &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; m_value &lt;&lt; '\n';
     }
 };
 
-// Explicit class template specialization for Storage&lt;double&gt;
-// Note how redundant this is
+// Jawna specjalizacja szablonu klasy dla Pamięć &lt;double&gt;
+// Zauważ, jak bardzo jest to zbędne
 template &lt;&gt;
 class Storage&lt;double&gt;
 {
@@ -236,22 +236,22 @@ public:
     void print();
 };
 
-// We&#39;re going to define this outside the class for reasons that will become obvious shortly
-// This is a normal (non-specialized) member function definition (for member function print of specialized class Storage&lt;double&gt;)
+// Zdefiniujemy to poza klasą z powodów, które wkrótce staną się oczywiste
+// To jest normalna (niespecjalizowana) definicja funkcji składowej (dla wydruku funkcji składowej wyspecjalizowanej klasy Storage&lt;double&gt;)
 void Storage&lt;double&gt;::print()
 {
-    std::cout &lt;&lt; std::scientific &lt;&lt; m_value &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; std::scientific &lt;&lt; m_value &lt;&lt; '\n';
 }
 
 int main()
 {
-    // Define some storage units
+    // Zdefiniuj niektóre jednostki przechowywania
     Storage i { 5 };
     Storage d { 6.7 }; // uses explicit specialization Storage&lt;double&gt;
 
-    // Print out some values
-    i.print(); // calls Storage&lt;int&gt;::print (instantiated from Storage&lt;T&gt;)
-    d.print(); // calls Storage&lt;double&gt;::print (called from explicit specialization of Storage&lt;double&gt;)
+    // Wydrukuj niektóre wartości
+    i.print(); // wywołuje Storage&lt;int&gt;::print (utworzone z Storage&lt;T&gt;)
+    d.print(); // wywołuje Storage&lt;double&gt;::print (wywoływany z jawnej specjalizacji Storage&lt;double&gt;)
 }</code></pre><p>Jednak zauważ, jak dużo jest tutaj redundancji. Powieliliśmy całą definicję klasy tylko po to, abyśmy mogli zmienić jedną funkcję składową!<p>Na szczęście możemy zrobić lepiej. C++ nie wymaga od nas jawnej specjalizacji <code>Storage&lt;double></code> aby jawnej specjalizacji <code>Storage&lt;double>::print()</code>. Zamiast tego możemy pozwolić kompilatorowi na niejawną specjalizację <code>Storage&lt;double></code> z <code>Storage&lt;T></code> i zapewnienie jawnej specjalizacji tylko <code>Storage&lt;double>::print()</code>! Oto jak to wygląda:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 template &lt;typename T&gt;
@@ -267,27 +267,27 @@ public:
 
     void print()
     {
-        std::cout &lt;&lt; m_value &lt;&lt; &#39;\n&#39;;
+        std::cout &lt;&lt; m_value &lt;&lt; '\n';
     }
 };
 
-// This is a specialized member function definition
-// Explicit function specializations are not implicitly inline, so make this inline if put in header file
+// To jest wyspecjalizowana definicja funkcji składowej
+// Jawne specjalizacje funkcji nie są domyślnie wbudowane, więc wstaw je, jeśli zostaną umieszczone w pliku nagłówkowym
 template&lt;&gt;
 void Storage&lt;double&gt;::print()
 {
-    std::cout &lt;&lt; std::scientific &lt;&lt; m_value &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; std::scientific &lt;&lt; m_value &lt;&lt; '\n';
 }
 
 int main()
 {
-    // Define some storage units
+    // Zdefiniuj niektóre jednostki przechowywania
     Storage i { 5 };
-    Storage d { 6.7 }; // will cause Storage&lt;double&gt; to be implicitly instantiated
+    Storage d { 6.7 }; // spowoduje niejawne utworzenie instancji Storage&lt;double&gt;
 
-    // Print out some values
-    i.print(); // calls Storage&lt;int&gt;::print (instantiated from Storage&lt;T&gt;)
-    d.print(); // calls Storage&lt;double&gt;::print (called from explicit specialization of Storage&lt;double&gt;::print())
+    // Wydrukuj niektóre wartości
+    i.print(); // wywołuje Storage&lt;int&gt;::print (utworzone z Storage&lt;T&gt;)
+    d.print(); // wywołuje Storage&lt;double&gt;::print (wywoływany z jawnej specjalizacji Storage&lt;double&gt;::print())
 }</code></pre><p>To wszystko!<p>Jak zauważono w poprzedniej lekcji (<a href="../function-template-specialization/index.html">26.3 -- Specjalizacja szablonu funkcji</a>), jawne specjalizacje funkcji nie są domyślnie wbudowane, dlatego powinniśmy oznaczyć naszą specjalizację <code>Storage&lt;double>::print()</code> jako inline, jeśli jest zdefiniowana w nagłówku plik.<p class="cpp-section cpp-topline" style=clear:both>Gdzie zdefiniować specjalizacje szablonu klasy<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><p>Aby użyć specjalizacji, kompilator musi widzieć pełną definicję zarówno klasy niewyspecjalizowanej, jak i klasy wyspecjalizowanej. Jeśli kompilator widzi tylko definicję klasy niewyspecjalizowanej, użyje jej zamiast specjalizacji.<p>Z tego powodu wyspecjalizowane klasy i funkcje są często definiowane w pliku nagłówkowym tuż pod definicją klasy niewyspecjalizowanej, więc pojedynczy nagłówek obejmuje zarówno klasę niewyspecjalizowaną, jak i wszelkie specjalizacje. Dzięki temu specjalizacja będzie zawsze widoczna, gdy tylko widoczna będzie także klasa niewyspecjalizowana.<p>Jeśli specjalizacja jest wymagana tylko w jednej jednostce tłumaczeniowej, można ją zdefiniować w pliku źródłowym tej jednostki tłumaczeniowej. Ponieważ inne jednostki tłumaczeniowe nie będą mogły zobaczyć definicji specjalizacji, będą nadal używać wersji niespecjalistycznej.<p>Uważaj, aby nie umieszczać specjalizacji w osobnym pliku nagłówkowym, mając na celu włączenie nagłówka specjalizacji do dowolnej jednostki tłumaczeniowej, w której specjalizacja jest pożądana. Złym pomysłem jest projektowanie kodu, który w przejrzysty sposób zmienia zachowanie w oparciu o obecność lub brak pliku nagłówkowego. Na przykład, jeśli zamierzasz używać specjalizacji, ale zapomnisz o dołączeniu nagłówka specjalizacji, zamiast tego możesz użyć wersji niewyspecjalizowanej. Jeśli zamierzasz używać braku specjalizacji, możesz i tak skorzystać z tej specjalizacji, jeśli jakiś inny nagłówek zawiera specjalizację jako dołączenie przechodnie.<div class=prevnext><div class=prevnext-inline><a class=nav-link href="../partial-template-specialization/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>26.5</span>Częściowa specjalizacja szablonu</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../function-template-specialization/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>26.3</span>Specjalizacja szablonu funkcji</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/class-template-specialization/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../template-non-type-parameters/index.html" rel=prev><span>26.2 — Parametry nietypowe szablonu</span></a></div><div class=nav-next><em>Następny post</em><a href="../partial-template-specialization/index.html" rel=next><span>26.5 — Częściowa specjalizacja szablonów</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>
 <textarea id=wc-textarea-0_0 placeholder="Zostaw komentarz..." aria-label="Zostaw komentarz..." required name=wc_comment class="wc_comment wpd-field"></textarea></div><div class=wpd-editor-buttons-right></div></div></div></div><div class=wpd-form-foot><div class=wpdiscuz-textarea-foot><div class=wpdiscuz-button-actions></div></div><div class=wpd-form-row><div class=wpd-form-col-left><div class="wpdiscuz-item wc_name-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-user"></i></div><input id=wc_name-0_0 required aria-required=true class="wc_name wpd-field" name=wc_name placeholder=Imię* maxlength=50 pattern=.{3,50}>
 <label for=wc_name-0_0 class=wpdlb>Imię*</label></div><div class="wpdiscuz-item wc_email-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-at"></i></div><input id=wc_email-0_0 required aria-required=true class="wc_email wpd-field" type=email name=wc_email placeholder=E-mail*>

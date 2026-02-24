@@ -13,7 +13,7 @@
 <button class=searchsubmit><span class=screen-reader-text>Szukaj</span><i class=icon-search></i></button>
 <input class="apbct_special_field apbct_email_id__search_form" name=apbct__email_id__search_form aria-label=apbct__label_id__search_form size=30 maxlength=200 autocomplete=off><input id=apbct_submit_id__search_form class="apbct_special_field apbct__email_id__search_form" name=apbct__label_id__search_form aria-label=apbct_submit_name__search_form type=submit size=30 maxlength=200 value=27793></form></ul></div></nav></div></div><div id=header-image-main><div id=header-image-main-inside><div class=header-image style=background-image:url(../../blog/wp-content/uploads/stripe.jpg)></div><img class=header-image alt="11.x — podsumowanie rozdziału 11 i quiz" src="../../blog/wp-content/uploads/stripe.jpg"></div></div></header><div id=content class=cryout><div id=container class=three-columns-sided><main id=main role=main class=main><article id=post-16354 class="post-16354 post type-post status-publish format-standard hentry category-cpp-tutorial" itemscope itemtype=http://schema.org/Article itemprop=mainEntity><div class=schema-image></div><div class=article-inner><header><div class="entry-meta beforetitle-meta"></div><h1 class="entry-title singular-title" itemprop=headline>11.x — podsumowanie rozdziału 11 i quiz</h1><div class="entry-meta aftertitle-meta"><span class="author vcard" itemscope itemtype=http://schema.org/Person itemprop=author><i class="icon-author icon-metas" title=Autor></i><a class="url fn n" rel=author href=/www.learncpp.com/author/Alex/ title="Wyświetl wszystkie posty Alexa" itemprop=url><em itemprop=name>Alex</em></a></span>
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2023-12-28T17:30:43-08:00 itemprop=datePublished>28 grudnia 2023, 17:30 czasu PST</time>
-<time class=updated datetime=2024-09-28T15:03:55-07:00 itemprop=dateModified>28 września 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>Dobra robota. Szablony funkcji mogą wydawać się dość skomplikowane, ale stanowią bardzo skuteczny sposób na umożliwienie działania kodu z obiektami różnych typów. W przyszłych rozdziałach zobaczymy znacznie więcej szablonów, więc trzymaj kapelusz.<p class=cpp-section>Przegląd rozdziału<p><strong>Przeciążanie funkcji</strong> pozwala nam tworzyć wiele funkcji o tej samej nazwie, pod warunkiem, że każda funkcja o identycznej nazwie ma inny zestaw typów parametrów (lub funkcje można w inny sposób różnicować). Taka funkcja nazywana jest <strong>funkcją przeciążoną</strong> (lub <strong>przeciążeniem</strong> w skrócie). Zwracane typy nie są brane pod uwagę przy różnicowaniu.<p>Jeśli podczas rozwiązywania przeciążonych funkcji nie zostanie znalezione dokładne dopasowanie, kompilator będzie faworyzował przeciążone funkcje, które można dopasować za pomocą promocji numerycznych, zamiast tych, które wymagają konwersji numerycznych. Kiedy wykonywane jest wywołanie funkcji do funkcji, która została przeciążona, kompilator spróbuje dopasować wywołanie funkcji do odpowiedniego przeciążenia w oparciu o argumenty użyte w wywołaniu funkcji. Nazywa się to  <strong>rozwiązywaniem przeciążenia</strong>.<p>An <strong>dopasowaniem niejednoznacznym</strong> występuje, gdy kompilator znajdzie dwie lub więcej funkcji, które mogą dopasować wywołanie funkcji do przeciążonej funkcji i nie może określić, która z nich jest najlepsza.<p>A <strong>argument domyślny</strong> to wartość domyślna podana dla parametru funkcji. Parametry z argumentami domyślnymi muszą zawsze być parametrami skrajnymi na prawo i nie są używane do różnicowania funkcji podczas rozwiązywania przeciążonych funkcji.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p><strong>Szablony funkcji</strong> pozwalają nam stworzyć definicję przypominającą funkcję, która służy jako wzorzec do tworzenia powiązanych funkcji. W szablonie funkcji używamy <strong>parametrów szablonu typu</strong> jako symboli zastępczych dla dowolnych typów, które chcemy później określić. Składnia, która informuje kompilator, że definiujemy szablon i deklaruje typy szablonów, nazywa się <strong>deklaracją parametrów szablonu</strong>.<p>Proces tworzenia funkcji (z określonymi typami) z szablonów funkcji (z typami szablonów) nazywa się w skrócie <strong>instancją szablonu funkcji</strong> (lub <strong>instancją</strong>). Kiedy ten proces zachodzi w wyniku wywołania funkcji, nazywa się to  <strong>niejawną instancją</strong>. Utworzona instancja funkcji nazywana jest w skrócie <strong>instancją funkcji</strong> (lub <strong>instancją</strong>  lub czasami  <strong>funkcją szablonową</strong>).<p><strong>dedukcją argumentów szablonu</strong> pozwala kompilatorowi wydedukować rzeczywisty typ, który powinien zostać użyty do utworzenia instancji funkcji na podstawie argumentów wywołania funkcji. Dedukcja argumentów szablonu nie powoduje konwersji typów.<p>Typy szablonów są czasami nazywane <strong>typami ogólnymi</strong>, a programowanie przy użyciu szablonów jest czasami nazywane <strong>programowaniem ogólnym</strong>.<p>W C++20, gdy słowo kluczowe auto jest używane jako typ parametru w normalnej funkcji, kompilator automatycznie konwertuje funkcję na szablon funkcji, przy czym każdy parametr auto staje się niezależny parametr typu szablonu. Ta metoda tworzenia szablonu funkcji nazywana jest <strong>skróconym szablonem funkcji</strong>.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p>A <strong>nietypowym parametrem szablonu</strong> jest parametrem szablonu o stałym typie, który służy jako symbol zastępczy wartości constexpr przekazanej jako argument szablonu.<p class="cpp-section cpp-topline" style=clear:both>Czas quizu<p class=cpp-quiz-question style=clear:both>Pytanie nr 1<p>1a) Jakie jest wyjście tego programu i dlaczego?<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+<time class=updated datetime=2024-09-28T15:03:55-07:00 itemprop=dateModified>28 września 2024</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p>Dobra robota. Szablony funkcji mogą wydawać się dość skomplikowane, ale stanowią bardzo skuteczny sposób na umożliwienie działania kodu z obiektami różnych typów. W przyszłych rozdziałach zobaczymy znacznie więcej szablonów, więc trzymaj kapelusz.<p class=cpp-section>Przegląd rozdziału<p><strong>Przeciążanie funkcji</strong> pozwala nam tworzyć wiele funkcji o tej samej nazwie, pod warunkiem, że każda funkcja o identycznej nazwie ma inny zestaw typów parametrów (lub funkcje można w inny sposób różnicować). Taka funkcja nazywana jest <strong>funkcją przeciążoną</strong> (lub <strong>przeciążeniem</strong> w skrócie). Zwracane typy nie są brane pod uwagę przy różnicowaniu.<p>Jeśli podczas rozwiązywania przeciążonych funkcji nie zostanie znalezione dokładne dopasowanie, kompilator będzie faworyzował przeciążone funkcje, które można dopasować za pomocą promocji numerycznych, zamiast tych, które wymagają konwersji numerycznych. Kiedy wykonywane jest wywołanie funkcji do funkcji, która została przeciążona, kompilator spróbuje dopasować wywołanie funkcji do odpowiedniego przeciążenia w oparciu o argumenty użyte w wywołaniu funkcji. Nazywa się to  <strong>rozwiązywaniem przeciążenia</strong>.<p><strong>dopasowaniem niejednoznacznym</strong> występuje, gdy kompilator znajdzie dwie lub więcej funkcji, które mogą dopasować wywołanie funkcji do przeciążonej funkcji i nie może określić, która z nich jest najlepsza.<p><strong>argument domyślny</strong> to wartość domyślna podana dla parametru funkcji. Parametry z argumentami domyślnymi muszą zawsze być parametrami skrajnymi na prawo i nie są używane do różnicowania funkcji podczas rozwiązywania przeciążonych funkcji.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><p><strong>Szablony funkcji</strong> pozwalają nam stworzyć definicję przypominającą funkcję, która służy jako wzorzec do tworzenia powiązanych funkcji. W szablonie funkcji używamy <strong>parametrów szablonu typu</strong> jako symboli zastępczych dla dowolnych typów, które chcemy później określić. Składnia, która informuje kompilator, że definiujemy szablon i deklaruje typy szablonów, nazywa się <strong>deklaracją parametrów szablonu</strong>.<p>Proces tworzenia funkcji (z określonymi typami) z szablonów funkcji (z typami szablonów) nazywa się w skrócie <strong>instancją szablonu funkcji</strong> (lub <strong>instancją</strong>). Kiedy ten proces zachodzi w wyniku wywołania funkcji, nazywa się to  <strong>niejawną instancją</strong>. Utworzona instancja funkcji nazywana jest w skrócie <strong>instancją funkcji</strong> (lub <strong>instancją</strong>  lub czasami  <strong>funkcją szablonową</strong>).<p><strong>dedukcją argumentów szablonu</strong> pozwala kompilatorowi wydedukować rzeczywisty typ, który powinien zostać użyty do utworzenia instancji funkcji na podstawie argumentów wywołania funkcji. Dedukcja argumentów szablonu nie powoduje konwersji typów.<p>Typy szablonów są czasami nazywane <strong>typami ogólnymi</strong>, a programowanie przy użyciu szablonów jest czasami nazywane <strong>programowaniem ogólnym</strong>.<p>W C++20, gdy słowo kluczowe auto jest używane jako typ parametru w normalnej funkcji, kompilator automatycznie konwertuje funkcję na szablon funkcji, przy czym każdy parametr auto staje się niezależny parametr typu szablonu. Ta metoda tworzenia szablonu funkcji nazywana jest <strong>skróconym szablonem funkcji</strong>.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><p><strong>nietypowym parametrem szablonu</strong> jest parametrem szablonu o stałym typie, który służy jako symbol zastępczy wartości constexpr przekazanej jako argument szablonu.<p class="cpp-section cpp-topline" style=clear:both>Czas quizu<p class=cpp-quiz-question style=clear:both>Pytanie nr 1<p>1a) Jakie jest wyjście tego programu i dlaczego?<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 void print(int x)
 {
@@ -31,7 +31,7 @@ int main()
     print(s);
 
     return 0;
-}</code></pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_0 style=display:none><p>Wyjście jest <code>int 5</code>. Konwersja a <code>short</code> na <code>int</code> jest awansem liczbowym, natomiast konwersja <code>short</code> do <code>double</code> to konwersja liczbowa. Kompilator będzie faworyzował opcję polegającą na promocji numerycznej zamiast opcji będącej konwersją numeryczną.</div><p>&gt;1b) Dlaczego poniższe polecenie się nie skompiluje?<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+}</code></pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_0 style=display:none><p>Wyjście jest <code>int 5</code>. Konwersja <code>short</code> na <code>int</code> jest awansem liczbowym, natomiast konwersja <code>short</code> do <code>double</code> to konwersja liczbowa. Kompilator będzie faworyzował opcję polegającą na promocji numerycznej zamiast opcji będącej konwersją numeryczną.</div><p>&gt;1b) Dlaczego poniższe polecenie się nie skompiluje?<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 void print()
 {
@@ -71,14 +71,14 @@ int main()
     print(5);
 
     return 0;
-}</code></pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_2'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_2 style=display:none><p>Dosłowne 5 to <code>int</code>. Konwersja <code>int</code> do <code>long</code> lub a <code>double</code> jest konwersją numeryczną i kompilator nie będzie w stanie określić, która funkcja jest lepiej dopasowana.</div><p class="cpp-quiz-question cpp-topline" style=clear:both>Pytanie nr 2<p class="cpp-quiz-question cpp-topline" style=clear:both>&gt; Krok #1<p>Napisz szablon funkcji o nazwie <code>add()</code> który umożliwi użytkownikom dodanie 2 wartości tego samego typu. Powinien zostać uruchomiony następujący program:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
+}</code></pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_2'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_2 style=display:none><p>Dosłowne 5 to <code>int</code>. Konwersja <code>int</code> do <code>long</code> lub <code>double</code> jest konwersją numeryczną i kompilator nie będzie w stanie określić, która funkcja jest lepiej dopasowana.</div><p class="cpp-quiz-question cpp-topline" style=clear:both>Pytanie nr 2<p class="cpp-quiz-question cpp-topline" style=clear:both>&gt; Krok #1<p>Napisz szablon funkcji o nazwie <code>add()</code> który umożliwi użytkownikom dodanie 2 wartości tego samego typu. Powinien zostać uruchomiony następujący program:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-// write your add function template here
+// wpisz tutaj szablon funkcji dodawania
 
 int main()
 {
-	std::cout &lt;&lt; add(2, 3) &lt;&lt; &#39;\n&#39;;
-	std::cout &lt;&lt; add(1.2, 3.4) &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; add(2, 3) &lt;&lt; '\n';
+	std::cout &lt;&lt; add(1.2, 3.4) &lt;&lt; '\n';
 
 	return 0;
 }</code></pre><p>i wygenerowany zostanie następujący wynik:<pre>5
@@ -99,12 +99,12 @@ int main()
 	return 0;
 }</code></pre></div><p><p class="cpp-quiz-question cpp-topline" style=clear:both>&gt; Krok #2<div class="code-block code-block-5" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-120></div></div></div><br>Napisz szablon funkcji o nazwie <code>mult()</code> który pozwala użytkownikowi pomnożyć jedną wartość dowolnego typu (pierwszy parametr) i liczbę całkowitą (drugi parametr). Drugi parametr nie powinien być typem szablonu. Funkcja powinna zwracać ten sam typ co pierwszy parametr. Powinien zostać uruchomiony następujący program:<p><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-// write your mult function template here
+// wpisz tutaj swój wielofunkcyjny szablon
 
 int main()
 {
-	std::cout &lt;&lt; mult(2, 3) &lt;&lt; &#39;\n&#39;;
-	std::cout &lt;&lt; mult(1.2, 3) &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; mult(2, 3) &lt;&lt; '\n';
+	std::cout &lt;&lt; mult(1.2, 3) &lt;&lt; '\n';
 
 	return 0;
 }</code></pre><p>i wygenerowany zostanie następujący wynik:<pre>6
@@ -125,13 +125,13 @@ int main()
 	return 0;
 }</code></pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>&gt; Krok #3<p>Napisz szablon funkcji o nazwie <code>sub()</code> który pozwala użytkownikowi odjąć dwie wartości różnych typów. Powinien zostać uruchomiony następujący program:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
-// write your sub function template here
+// wpisz tutaj szablon swojej funkcji podrzędnej
 
 int main()
 {
-	std::cout &lt;&lt; sub(3, 2) &lt;&lt; &#39;\n&#39;;
-	std::cout &lt;&lt; sub(3.5, 2) &lt;&lt; &#39;\n&#39;;
-	std::cout &lt;&lt; sub(4, 1.5) &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; sub(3, 2) &lt;&lt; '\n';
+	std::cout &lt;&lt; sub(3.5, 2) &lt;&lt; '\n';
+	std::cout &lt;&lt; sub(4, 1.5) &lt;&lt; '\n';
 
 	return 0;
 }</code></pre><p>i wygenerowany zostanie następujący wynik:<div class="code-block code-block-6" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-125></div></div></div><pre>1
@@ -146,7 +146,7 @@ auto sub(T x, U y)
 }
 
 /* 
-//If C++20 capable, you can use an abbreviated function template instead
+//Jeśli obsługuje C++20, możesz zamiast tego użyć skróconego szablonu funkcji
 auto sub(auto x, auto y)
 {
 	return x - y;
@@ -155,15 +155,15 @@ auto sub(auto x, auto y)
 
 int main()
 {
-	std::cout &lt;&lt; sub(3, 2) &lt;&lt; &#39;\n&#39;;
-	std::cout &lt;&lt; sub(3.5, 2) &lt;&lt; &#39;\n&#39;;
-	std::cout &lt;&lt; sub(4, 1.5) &lt;&lt; &#39;\n&#39;;
+	std::cout &lt;&lt; sub(3, 2) &lt;&lt; '\n';
+	std::cout &lt;&lt; sub(3.5, 2) &lt;&lt; '\n';
+	std::cout &lt;&lt; sub(4, 1.5) &lt;&lt; '\n';
 
 	return 0;
 }</code></pre></div><p class="cpp-quiz-question cpp-topline" style=clear:both>Pytanie nr 3<p>Jaki jest wynik tego programu i dlaczego? <pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 
 template &lt;typename T&gt;
-int count(T) // This is the same as int count(T x), except we&#39;re not giving the parameter a name since we don&#39;t use the parameter
+int count(T) // To jest to samo, co int count(T x), z tą różnicą, że nie nadajemy parametrowi nazwy, ponieważ nie używamy parametr
 {
     static int c { 0 };
     return ++c;
@@ -171,10 +171,10 @@ int count(T) // This is the same as int count(T x), except we&#39;re not giving 
 
 int main()
 {
-    std::cout &lt;&lt; count(1) &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; count(1) &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; count(2.3) &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; count&lt;double&gt;(1) &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; count(1) &lt;&lt; '\n';
+    std::cout &lt;&lt; count(1) &lt;&lt; '\n';
+    std::cout &lt;&lt; count(2.3) &lt;&lt; '\n';
+    std::cout &lt;&lt; count&lt;double&gt;(1) &lt;&lt; '\n';
     
     return 0;
 }</code></pre><p><a class=solution_link_show href=javascript:void(0) onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_6'),this,'Show Solution','Hide Solution')">Pokaż rozwiązanie</a><div class=wpsolution id=cpp_solution_id_6 style=display:none><pre>1

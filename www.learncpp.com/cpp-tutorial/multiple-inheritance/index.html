@@ -48,7 +48,7 @@ public:
     double getWage() const { return m_wage; }
 };
 
-// Teacher publicly inherits Person and Employee
+// Nauczyciel publicznie dziedziczy osobę i pracownika
 class Teacher : public Person, public Employee
 {
 private:
@@ -63,10 +63,10 @@ public:
 
 int main()
 {
-    Teacher t{ &#34;Mary&#34;, 45, &#34;Boo&#34;, 14.3, 8 };
+    Teacher t{ "Mary", 45, "Boo", 14.3, 8 };
 
     return 0;
-}</code></pre><p class="cpp-section cpp-topline" style=clear:both>Mixins<p>A <strong>mixin</strong> (pisane również jako „mix-in”) to mała klasa, z której można dziedziczyć w celu dodania właściwości do klasy. Nazwa mixin wskazuje, że klasa jest przeznaczona do mieszania z innymi klasami, a nie do samodzielnego tworzenia instancji.<p>W poniższym przykładzie klasy <code>Box</code>, <code>Label</code>, I <code>Tooltip</code> to miksy, z których dziedziczymy w celu utworzenia nowego <code>Button</code> .<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// h/t to reader Waldo for this example
+}</code></pre><p class="cpp-section cpp-topline" style=clear:both>Mixins<p><strong>mixin</strong> (pisane również jako „mix-in”) to mała klasa, z której można dziedziczyć w celu dodania właściwości do klasy. Nazwa mixin wskazuje, że klasa jest przeznaczona do mieszania z innymi klasami, a nie do samodzielnego tworzenia instancji.<p>W poniższym przykładzie klasy <code>Box</code>, <code>Label</code>, i <code>Tooltip</code> to miksy, z których dziedziczymy w celu utworzenia nowego <code>Button</code> .<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// h/t czytelnikowi Waldo za ten przykład
 #include &lt;string&gt;
 
 struct Point2D
@@ -75,7 +75,7 @@ struct Point2D
 	int y{};
 };
 
-class Box // mixin Box class
+class Box // klasa mixin Box
 {
 public:
 	void setTopLeft(Point2D point) { m_topLeft = point; }
@@ -85,7 +85,7 @@ private:
 	Point2D m_bottomRight{};
 };
 
-class Label // mixin Label class
+class Label // klasa mixin Label
 {
 public:
 	void setText(const std::string_view str) { m_text = str; }
@@ -95,7 +95,7 @@ private:
 	int m_fontSize{};
 };
 
-class Tooltip // mixin Tooltip class
+class Tooltip // mixin klasa Podpowiedź
 {
 public:
 	void setText(const std::string_view str) { m_text = str; }
@@ -103,23 +103,23 @@ private:
 	std::string m_text{};
 };
 
-class Button : public Box, public Label, public Tooltip {}; // Button using three mixins
+class Button : public Box, public Label, public Tooltip {}; // Przycisk używający trzech miksów
 
 int main()
 {
 	Button button{};
 	button.Box::setTopLeft({ 1, 1 });
 	button.Box::setBottomRight({ 10, 10 });
-	button.Label::setText(&#34;Submit&#34;);
+	button.Label::setText("Submit");
 	button.Label::setFontSize(6);
-	button.Tooltip::setText(&#34;Submit the form to the server&#34;);
-}</code></pre><p>Możesz się zastanawiać, dlaczego używamy jawnych <code>Box::</code>, <code>Label::</code>, I <code>Tooltip::</code> przedrostków rozdzielczości zakresu, gdy w większości nie jest to konieczne przypadki.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><ol start=1><li><code>Label::setText()</code> i <code>Tooltip::setText()</code> mają ten sam prototyp. Gdybyśmy wywołali  <code>button.setText()</code>, kompilator wygenerowałby niejednoznaczny błąd kompilacji wywołania funkcji. W takich przypadkach musimy użyć przedrostka, aby ujednoznacznić, której wersji chcemy.<li>W niejednoznacznych przypadkach użycie nazwy miksu zapewnia dokumentację dotyczącą tego, do którego miksu odnosi się wywołanie funkcji, co pomaga uczynić nasz kod łatwiejszym do zrozumienia.<li>Niejednoznaczne przypadki mogą w przyszłości stać się niejednoznaczne, jeśli dodamy dodatkowe miksy. Używanie jawnych przedrostków pomaga temu zapobiec.</ol><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Dla zaawansowanych czytelników<p>Ponieważ miksy zaprojektowano tak, aby dodawać funkcjonalność do klasy pochodnej, a nie zapewniać interfejs, miksiny zazwyczaj nie używają funkcji wirtualnych (omówione w następnym rozdziale). Zamiast tego, jeśli klasa miksowania musi zostać dostosowana do określonego działania, zwykle używane są szablony. Z tego powodu klasy mixin są często oparte na szablonach.<p>Być może, co zaskakujące, klasa pochodna może dziedziczyć z klasy bazowej mixin, używając klasy pochodnej jako parametru typu szablonu. Takie dziedziczenie nazywa się <strong>Ciekawie powtarzającym się wzorcem szablonu</strong> (w skrócie CRTP), który wygląda tak:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// The Curiously Recurring Template Pattern (CRTP)
+	button.Tooltip::setText("Submit the form to the server");
+}</code></pre><p>Możesz się zastanawiać, dlaczego używamy jawnych <code>Box::</code>, <code>Label::</code>, i <code>Tooltip::</code> przedrostków rozdzielczości zakresu, gdy w większości nie jest to konieczne przypadki.<div class="code-block code-block-2" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-130></div></div></div><ol start=1><li><code>Label::setText()</code> i <code>Tooltip::setText()</code> mają ten sam prototyp. Gdybyśmy wywołali  <code>button.setText()</code>, kompilator wygenerowałby niejednoznaczny błąd kompilacji wywołania funkcji. W takich przypadkach musimy użyć przedrostka, aby ujednoznacznić, której wersji chcemy.<li>W niejednoznacznych przypadkach użycie nazwy miksu zapewnia dokumentację dotyczącą tego, do którego miksu odnosi się wywołanie funkcji, co pomaga uczynić nasz kod łatwiejszym do zrozumienia.<li>Niejednoznaczne przypadki mogą w przyszłości stać się niejednoznaczne, jeśli dodamy dodatkowe miksy. Używanie jawnych przedrostków pomaga temu zapobiec.</ol><div class="cpp-note cpp-lightgraybackground"><p class="cpp-note-title cpp-bottomline">Dla zaawansowanych czytelników<p>Ponieważ miksy zaprojektowano tak, aby dodawać funkcjonalność do klasy pochodnej, a nie zapewniać interfejs, miksiny zazwyczaj nie używają funkcji wirtualnych (omówione w następnym rozdziale). Zamiast tego, jeśli klasa miksowania musi zostać dostosowana do określonego działania, zwykle używane są szablony. Z tego powodu klasy mixin są często oparte na szablonach.<p>Być może, co zaskakujące, klasa pochodna może dziedziczyć z klasy bazowej mixin, używając klasy pochodnej jako parametru typu szablonu. Takie dziedziczenie nazywa się <strong>Ciekawie powtarzającym się wzorcem szablonu</strong> (w skrócie CRTP), który wygląda tak:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">// Ciekawie powtarzający się wzorzec szablonu (CRTP)
 
 template &lt;class T&gt;
 class Mixin
 {
-    // Mixin&lt;T&gt; can use template type parameter T to access members of Derived
-    // via (static_cast&lt;T*&gt;(this))
+    // Mixin&lt;T&gt; może użyć parametru typu szablonu T, aby uzyskać dostęp do elementów członkowskich of Derived
+    // poprzez (static_cast&lt;T*&gt;(this))
 };
 
 class Derived : public Mixin&lt;Derived&gt;
@@ -166,7 +166,7 @@ public:
 int main()
 {
     WirelessAdapter c54G { 5442, 181742 };
-    std::cout &lt;&lt; c54G.getID(); // Which getID() do we call?
+    std::cout &lt;&lt; c54G.getID(); // Którą metodę getID() wywołujemy?
 
     return 0;
 }</code></pre><p>Po wywołaniu <code>c54G.getID()</code> jest skompilowany, kompilator sprawdza, czy WirelessAdapter zawiera funkcję o nazwie getID(). Tak nie jest. Następnie kompilator sprawdza, czy którakolwiek z klas nadrzędnych ma funkcję o nazwie getID(). Widzisz problem tutaj? Problem polega na tym, że c54G faktycznie zawiera DWIE funkcje getID(): jedną odziedziczoną z USBDevice i jedną odziedziczoną z NetworkDevice. W związku z tym wywołanie tej funkcji jest niejednoznaczne i przy próbie jej skompilowania pojawi się błąd kompilatora.<p>Istnieje jednak sposób na obejście tego problemu: możesz jawnie określić, którą wersję chcesz wywołać:<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">int main()

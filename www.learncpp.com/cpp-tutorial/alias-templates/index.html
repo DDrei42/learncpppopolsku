@@ -25,13 +25,13 @@ struct Pair
 template &lt;typename T&gt;
 void print(const Pair&lt;T&gt;&amp; p)
 {
-    std::cout &lt;&lt; p.first &lt;&lt; &#39; &#39; &lt;&lt; p.second &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; p.first &lt;&lt; ' ' &lt;&lt; p.second &lt;&lt; '\n';
 }
 
 int main()
 {
-    using Point = Pair&lt;int&gt;; // create normal type alias
-    Point p { 1, 2 };        // compiler replaces this with Pair&lt;int&gt;
+    using Point = Pair&lt;int&gt;; // utwórz alias typu normalnego
+    Point p { 1, 2 };        // kompilator zastępuje to kompilatorem Pair&lt;int&gt;
 
     print(p);
 
@@ -45,34 +45,34 @@ struct Pair
     T second{};
 };
 
-// Here&#39;s our alias template
-// Alias templates must be defined in global scope
+// Oto nasz szablon aliasu
+// Szablony aliasów muszą być zdefiniowane w zasięgu globalnym
 template &lt;typename T&gt;
-using Coord = Pair&lt;T&gt;; // Coord is an alias for Pair&lt;T&gt;
+using Coord = Pair&lt;T&gt;; // Współrzędny jest aliasem pary&lt;T&gt;
 
-// Our print function template needs to know that Coord&#39;s template parameter T is a type template parameter
+// Nasz szablon funkcji drukowania musi wiedzieć, że parametr szablonu Coorda T jest parametrem szablonu typu
 template &lt;typename T&gt;
 void print(const Coord&lt;T&gt;&amp; c)
 {
-    std::cout &lt;&lt; c.first &lt;&lt; &#39; &#39; &lt;&lt; c.second &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; c.first &lt;&lt; ' ' &lt;&lt; c.second &lt;&lt; '\n';
 }
 
 int main()
 {
-    Coord&lt;int&gt; p1 { 1, 2 }; // Pre C++-20: We must explicitly specify all type template argument
-    Coord p2 { 1, 2 };      // In C++20, we can use alias template deduction to deduce the template arguments in cases where CTAD works
+    Coord&lt;int&gt; p1 { 1, 2 }; // Przed C++-20: Musimy jawnie określić wszystkie argumenty szablonu typów
+    Coord p2 { 1, 2 };      // W C++20 możemy użyć dedukcji szablonu aliasów, aby wydedukować argumenty szablonu w przypadkach, gdy CTAD działa
 
-    std::cout &lt;&lt; p1.first &lt;&lt; &#39; &#39; &lt;&lt; p1.second &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; p1.first &lt;&lt; ' ' &lt;&lt; p1.second &lt;&lt; '\n';
     print(p2);
 
     return 0;
-}</code></pre><p>W tym przykładzie definiujemy szablon aliasu o nazwie <code>Coord</code> jako alias dla <code>Pair&lt;T></code>, gdzie parametr szablonu typu <code>T</code> zostanie zdefiniowany przez użytkownika Coord alias. <code>Coord</code> jest szablonem aliasu i <code>Coord&lt;T></code> jest aliasem typu instancji dla <code>Pair&lt;T></code>. Po zdefiniowaniu możemy użyć <code>Coord</code> gdzie użyjemy <code>Pair</code>, I <code>Coord&lt;T></code> gdzie użyjemy <code>Pair&lt;T></code>.<p>W tym przykładzie warto zwrócić uwagę na kilka rzeczy.<p>Po pierwsze, w przeciwieństwie do aliasów typu normalnego (które można zdefiniować wewnątrz bloku), szablony aliasów muszą być zdefiniowane w zakresie globalnym (tak jak wszystkie szablony muszą).<p>Po drugie, przed C++20, musimy jawnie określić argumenty szablonu, gdy tworzymy instancję obiektu przy użyciu szablonu aliasu. Począwszy od C++20, możemy używać  <strong>dedukcji szablonu aliasów</strong>, która wydedukuje typ argumentów szablonu z inicjatora w przypadkach, gdy typ aliasu działałby z CTAD.<p>Po trzecie, ponieważ CTAD nie działa na parametrach funkcji, kiedy używamy szablonu aliasu jako parametru funkcji, musimy jawnie zdefiniować argumenty szablonu używane przez szablon aliasu. Innymi słowy, robimy to:<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">template &lt;typename T&gt;
+}</code></pre><p>W tym przykładzie definiujemy szablon aliasu o nazwie <code>Coord</code> jako alias dla <code>Pair&lt;T></code>, gdzie parametr szablonu typu <code>T</code> zostanie zdefiniowany przez użytkownika Coord alias. <code>Coord</code> jest szablonem aliasu i <code>Coord&lt;T></code> jest aliasem typu instancji dla <code>Pair&lt;T></code>. Po zdefiniowaniu możemy użyć <code>Coord</code> gdzie użyjemy <code>Pair</code>, i <code>Coord&lt;T></code> gdzie użyjemy <code>Pair&lt;T></code>.<p>W tym przykładzie warto zwrócić uwagę na kilka rzeczy.<p>Po pierwsze, w przeciwieństwie do aliasów typu normalnego (które można zdefiniować wewnątrz bloku), szablony aliasów muszą być zdefiniowane w zakresie globalnym (tak jak wszystkie szablony muszą).<p>Po drugie, przed C++20, musimy jawnie określić argumenty szablonu, gdy tworzymy instancję obiektu przy użyciu szablonu aliasu. Począwszy od C++20, możemy używać  <strong>dedukcji szablonu aliasów</strong>, która wydedukuje typ argumentów szablonu z inicjatora w przypadkach, gdy typ aliasu działałby z CTAD.<p>Po trzecie, ponieważ CTAD nie działa na parametrach funkcji, kiedy używamy szablonu aliasu jako parametru funkcji, musimy jawnie zdefiniować argumenty szablonu używane przez szablon aliasu. Innymi słowy, robimy to:<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">template &lt;typename T&gt;
 void print(const Coord&lt;T&gt;&amp; c)
 {
     std::cout &lt;&lt; c.first &lt;&lt; &#39; &#39; &lt;&lt; c.second &lt;&lt; &#39;\n&#39;;
-}</code></pre><p>Nie to:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">void print(const Coord&amp; c) // won&#39;t work, missing template arguments
+}</code></pre><p>Nie to:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">void print(const Coord&amp; c) // nie zadziała, brakuje argumentów szablonu
 {
-    std::cout &lt;&lt; c.first &lt;&lt; &#39; &#39; &lt;&lt; c.second &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; c.first &lt;&lt; ' ' &lt;&lt; c.second &lt;&lt; '\n';
 }</code></pre><p>To nie różni się od tego, gdybyśmy użyli <code>Pair</code> lub <code>Pair&lt;T></code> zamiast <code>Coord</code> lub <code>Coord&lt;T></code>.<div class=prevnext><div class=prevnext-inline><a class=nav-link href="../chapter-13-summary-and-quiz/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>13.x</span>Rozdział 13 podsumowania i quizu</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../class-template-argument-deduction-ctad-and-deduction-guides/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>13.14</span>Dedukcja i dedukcja argumentów szablonu klasy (CTAD) prowadnice</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/alias-templates/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../multidimensional-stdarray/index.html" rel=prev><span>17.13 — Wielowymiarowe std::array</span></a></div><div class=nav-next><em>Następny post</em><a href="../member-functions-returning-references-to-data-members/index.html" rel=next><span>14.7 — Funkcje członkowskie zwracające odniesienia do elementów danych</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>
 <textarea id=wc-textarea-0_0 placeholder="Zostaw komentarz..." aria-label="Zostaw komentarz..." required name=wc_comment class="wc_comment wpd-field"></textarea></div><div class=wpd-editor-buttons-right></div></div></div></div><div class=wpd-form-foot><div class=wpdiscuz-textarea-foot><div class=wpdiscuz-button-actions></div></div><div class=wpd-form-row><div class=wpd-form-col-left><div class="wpdiscuz-item wc_name-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-user"></i></div><input id=wc_name-0_0 required aria-required=true class="wc_name wpd-field" name=wc_name placeholder=Imię* maxlength=50 pattern=.{3,50}>
 <label for=wc_name-0_0 class=wpdlb>Imię*</label></div><div class="wpdiscuz-item wc_email-wrapper wpd-has-icon"><div class=wpd-field-icon><i class="fas fa-at"></i></div><input id=wc_email-0_0 required aria-required=true class="wc_email wpd-field" type=email name=wc_email placeholder=E-mail*>

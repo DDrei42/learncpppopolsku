@@ -26,9 +26,9 @@ int main()
 {
     Employee joe { 1, 34, 65000.0 };
 
-    // Use member selection operator (.) to select a member from struct object
-    ++joe.age; // Joe had a birthday
-    joe.wage = 68000.0; // Joe got a promotion
+    // Użyj operatora wyboru elementu członkowskiego (.), aby wybrać element z obiektu struktury
+    ++joe.age; // Joe miał urodziny
+    joe.wage = 68000.0; // Joe dostał awans
     
     return 0;
 }</code></pre><p>Ponieważ odniesienia do obiektu działają tak samo jak sam obiekt, możemy również użyć operatora wyboru elementu (.) aby wybrać element z odniesienia do struktury:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -42,10 +42,10 @@ struct Employee
 
 void printEmployee(const Employee&amp; e)
 {
-    // Use member selection operator (.) to select member from reference to struct
-    std::cout &lt;&lt; &#34;Id: &#34; &lt;&lt; e.id &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; &#34;Age: &#34; &lt;&lt; e.age &lt;&lt; &#39;\n&#39;;
-    std::cout &lt;&lt; &#34;Wage: &#34; &lt;&lt; e.wage &lt;&lt; &#39;\n&#39;;
+    // Użyj operatora wyboru elementu członkowskiego (.), aby wybrać element z odniesienia do struktury
+    std::cout &lt;&lt; "Id: " &lt;&lt; e.id &lt;&lt; '\n';
+    std::cout &lt;&lt; "Age: " &lt;&lt; e.age &lt;&lt; '\n';
+    std::cout &lt;&lt; "Wage: " &lt;&lt; e.wage &lt;&lt; '\n';
 }
 
 int main()
@@ -75,7 +75,7 @@ int main()
     joe.wage = 68000.0;
 
     Employee* ptr{ &amp;joe };
-    std::cout &lt;&lt; ptr.id &lt;&lt; &#39;\n&#39;; // Compile error: can&#39;t use operator. with pointers
+    std::cout &lt;&lt; ptr.id &lt;&lt; '\n'; // Błąd kompilacji: nie można użyć operatora. ze wskaźnikami
 
     return 0;
 }</code></pre><p>Za pomocą normalnych zmiennych lub referencji możemy uzyskać bezpośredni dostęp do obiektów. Ponieważ jednak wskaźniki przechowują adresy, musimy najpierw wyłuskać wskaźnik, aby uzyskać obiekt, zanim będziemy mogli cokolwiek z nim zrobić. Zatem jeden ze sposobów uzyskania dostępu do elementu członkowskiego ze wskaźnika do struktury jest następujący:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -95,7 +95,7 @@ int main()
     joe.wage = 68000.0;
 
     Employee* ptr{ &amp;joe };
-    std::cout &lt;&lt; (*ptr).id &lt;&lt; &#39;\n&#39;; // Not great but works: First dereference ptr, then use member selection
+    std::cout &lt;&lt; (*ptr).id &lt;&lt; '\n'; // Nie świetne, ale działa: Najpierw wyłuskaj ptr, a następnie użyj wyboru elementu
 
     return 0;
 }</code></pre><p>Jest to jednak trochę brzydkie, szczególnie dlatego, że musimy umieścić operację wyłuskiwania w nawiasach, aby miała ona pierwszeństwo przed operacją wyboru elementu.<p>Aby zapewnić czystszą składnię, C++ oferuje <strong>wybór elementów za pomocą operatora wskaźnika (-&gt;)</strong> (czasami nazywany także  <strong>operator strzałki</strong>), którego można użyć do wybierania elementów ze wskaźnika do obiektu:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -115,7 +115,7 @@ int main()
     joe.wage = 68000.0;
 
     Employee* ptr{ &amp;joe };
-    std::cout &lt;&lt; ptr-&gt;id &lt;&lt; &#39;\n&#39;; // Better: use -&gt; to select member from pointer to object
+    std::cout &lt;&lt; ptr-&gt;id &lt;&lt; '\n'; // Lepiej: użyj -&gt;, aby wybrać element ze wskaźnika do obiektu
 
     return 0;
 }</code></pre><p>Ten wybór elementu za pomocą operatora wskaźnika (-&gt;) działa identycznie jak operator wyboru elementu (.), ale dokonuje niejawnego wyłuskiwania obiektu wskaźnika przed wybraniem elementu. Zatem <code>ptr->id</code> jest odpowiednikiem <code>(*ptr).id</code>.<p>Ten operator strzałki jest nie tylko łatwiejszy do wpisania, ale jest także znacznie mniej podatny na błędy, ponieważ pośredniość jest wykonywana niejawnie za Ciebie, więc nie musisz się martwić o kwestie pierwszeństwa. W związku z tym, uzyskując dostęp do elementu członkowskiego za pomocą wskaźnika, zawsze używaj operatora -&gt; zamiast . operator.<div class="code-block code-block-3" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-108></div></div></div><div class="cpp-note cpp-lightgreenbackground"><p class="cpp-note-title cpp-bottomline">Najlepsza praktyka<p>Jeśli używasz wskaźnika do uzyskania dostępu do elementu, użyj wyboru elementu za pomocą operatora wskaźnika (-&gt;) zamiast operatora wyboru elementu (.).</div><p class="cpp-section cpp-topline" style=clear:both>Łączenie <code>operator-></code><p>Jeśli element, do którego uzyskujesz dostęp za pośrednictwem <code>operator-></code> jest wskaźnikiem do typu klasy, <code>operator-></code> można zastosować ponownie w tym samym wyrażeniu, aby uzyskać dostęp do elementu tej klasy type.<p>Ilustruje to poniższy przykład (dzięki uprzejmości czytelnika Luny):<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
@@ -142,14 +142,14 @@ int main()
     Triangle tr { &amp;a, &amp;b, &amp;c };
     Triangle* ptr {&amp;tr};
 
-    // ptr is a pointer to a Triangle, which contains members that are pointers to a Point
-    // To access member y of Point c of the Triangle pointed to by ptr, the following are equivalent:
+    // ptr jest wskaźnikiem do trójkąta, który zawiera elementy będące wskaźnikami do punktu
+    // Aby uzyskać dostęp do elementu y punktu c Trójkąta wskazanego przez ptr, poniższe są równoważne:
 
-    // access via operator.
-    std::cout &lt;&lt; (*(*ptr).c).y &lt;&lt; &#39;\n&#39;; // ugly!
+    // dostęp przez operatora.
+    std::cout &lt;&lt; (*(*ptr).c).y &lt;&lt; '\n'; // ugly!
 
     // access via operator-&gt;
-    std::cout &lt;&lt; ptr -&gt; c -&gt; y &lt;&lt; &#39;\n&#39;; // much nicer
+    std::cout &lt;&lt; ptr -&gt; c -&gt; y &lt;&lt; '\n'; // much nicer
 }</code></pre><p>W przypadku użycia więcej niż jednego <code>operator-></code> w sekwencji (np. <code>ptr->c->y</code>) wyrażenie może być trudne do odczytania. Dodanie białych znaków między elementami  <code>operator-></code>  (np.  <code>ptr -> c -> y</code>) może nieco ułatwić odróżnienie elementów, do których uzyskiwany jest dostęp, od operatora.<p class="cpp-section cpp-topline" style=clear:both>Mieszanie wskaźników i elementów niebędących wskaźnikami do elementów<p>Operator wyboru elementu jest zawsze stosowany do aktualnie wybranej zmiennej. Jeśli masz mieszankę wskaźników i zwykłych zmiennych składowych, możesz zobaczyć wybory elementów, w których . i -&gt; są używane kolejno:<div class="code-block code-block-4" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-124></div></div></div><pre class="language-cpp line-numbers"><code class="language-cpp match-braces">#include &lt;iostream&gt;
 #include &lt;string&gt;
 
@@ -166,14 +166,14 @@ struct Animal
  
 int main()
 {
-    Animal puma{ &#34;Puma&#34;, { 5 } };
+    Animal puma{ "Puma", { 5 } };
  
     Animal* ptr{ &amp;puma };
  
-    // ptr is a pointer, use -&gt;
-    // paw is not a pointer, use .
+    // ptr jest wskaźnikiem, użyj -&gt;
+    // paw nie jest wskaźnikiem, użyj .
 
-    std::cout &lt;&lt; (ptr-&gt;paw).claws &lt;&lt; &#39;\n&#39;;
+    std::cout &lt;&lt; (ptr-&gt;paw).claws &lt;&lt; '\n';
  
     return 0;
 }</code></pre><p>Zauważ, że w przypadku <code>(ptr->paw).claws</code> nawiasy nie są konieczne, ponieważ oba <code>operator-></code> i <code>operator.</code> oceniają w kolejności od lewej do prawej, ale poprawia to nieco czytelność.<div class=prevnext><div class=prevnext-inline><a class=nav-link href="../class-templates/index.html"><div class="nav-button nav-button-next"><div class=nav-button-icon><i class="fa fa-chevron-circle-right" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Następna lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>13.13</span>Szablony klas</div></div></div></a><a class=nav-link href="/www.learncpp.com/"><div class="nav-button nav-button-index"><div class=nav-button-icon><i class="fa fa-home" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Powrót do spisu treści</div></div></div></a><a class=nav-link href="../struct-miscellany/index.html"><div class="nav-button nav-button-prev"><div class=nav-button-icon><i class="fa fa-chevron-circle-left" aria-hidden=true></i></div><div class=nav-button-text><div class=nav-button-title>Poprzednia lekcja</div><div class=nav-button-lesson><span class=nav-button-lesson-number>13.11</span>Różne struktury</div></div></div></a></div></div><div class="code-block code-block-10" style="margin:8px 0;clear:both"><div class=cf_monitor><div id=ezoic-pub-ad-placeholder-106></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=8689484849></ins></div></div></div><footer class="entry-meta entry-utility"></footer></div><span class=schema-publisher itemprop=publisher itemscope itemtype=https://schema.org/Organization><span itemprop=logo itemscope itemtype=https://schema.org/ImageObject><meta itemprop=url content="/www.learncpp.com/blog/wp-content/uploads/learncpp.png"></span><meta itemprop=name content="Learn C++"></span><link itemprop=mainEntityOfPage href=/www.learncpp.com/member-selection-with-pointers-and-references/></article><nav id=nav-below class=navigation role=navigation><div class=nav-previous><em>Poprzedni post</em><a href="../lvalue-references/index.html" rel=prev><span>12.3 — Referencje Lvalue</span></a></div><div class=nav-next><em>Następny post</em><a href="../function-parameters-and-arguments/index.html" rel=next><span>x.x — Parametry i argumenty funkcji</span></a></div></nav><div class=wpdiscuz_top_clearing></div><div id=comments class=comments-area><div id=respond style=width:0;height:0;clear:both;margin:0;padding:0></div><div id=wpdcom class="wpdiscuz_unauth wpd-default wpd-layout-2 wpd-comments-open"><div class=wc_social_plugin_wrapper></div><div class=wpd-form-wrap><div class=wpd-form-head><div class=wpd-auth><div class=wpd-login></div></div></div><div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id=wpd-main-form-wrapper-0_0><form class="wpd_comm_form wpd_main_comm_form" method=post enctype=multipart/form-data data-uploading=false><div class=wpd-field-comment><div class="wpdiscuz-item wc-field-textarea"><div class="wpdiscuz-textarea-wrap wpd-txt"><div class=wpd-avatar><img alt=guest src="https://secure.gravatar.com/avatar/?s=56&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo avatar-default" height=56 width=56 loading=lazy></div><div class=wpd-textarea-wrap><div id=wpd-editor-char-counter-0_0 class=wpd-editor-char-counter></div><label style=display:none for=wc-textarea-0_0>Etykieta</label>

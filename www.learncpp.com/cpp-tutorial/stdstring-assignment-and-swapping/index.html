@@ -15,39 +15,39 @@
 <span class="onDate date"><i class="icon-date icon-metas" title=Date></i><time class=published datetime=2010-07-18T14:21:25-07:00 itemprop=datePublished>18 lipca 2010, 14:21 PDT</time>
 <time class=updated datetime=2022-09-16T23:50:20-07:00 itemprop=dateModified>16 września 2022</time></span></div></header><div class=entry-content itemprop=articleBody><div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"><div class=cf_monitor style=margin-right:16px><div id=ezoic-pub-ad-placeholder-101></div><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-0588844875925051 data-ad-slot=7945645163></ins></div></div><p><strong>Przypisanie ciągu</strong><p>Najłatwiejszym sposobem przypisania wartości do łańcucha jest użycie przeciążonej funkcji operator=. Istnieje również funkcja członkowska przypisania(), która powiela część tej funkcjonalności.<div class=cpp-table-wrapper><p><p><table class=cpp-table><tbody><tr><td><b>string&amp; string::operator= (const string&amp; str)</b><br><b>string&amp; string:: przypisania (const string&amp; str)</b><br><b>string&amp; string::operator= (const char* str)</b><br><b>string&amp; string::przypisz (const char* str)</b><br><b>string&amp; string::operator= (char c)</b><br><p><ul><li>Te funkcje przypisują do łańcucha wartości różnych typów.<li>Te funkcje zwracają *to, dzięki czemu można je „połączyć”.<li>Pamiętaj, że nie ma funkcji przypisania(), która pobiera pojedynczy znak.</ul><p>Przykładowy kod:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::string sString;
 
-// Assign a string value
-sString = std::string(&#34;One&#34;);
-std::cout &lt;&lt; sString &lt;&lt; &#39;\n&#39;;
+// Przypisz ciąg wartość
+sString = std::string("One");
+std::cout &lt;&lt; sString &lt;&lt; '\n';
 
-const std::string sTwo(&#34;Two&#34;);
+const std::string sTwo("Two");
 sString.assign(sTwo);
-std::cout &lt;&lt; sString &lt;&lt; &#39;\n&#39;;
+std::cout &lt;&lt; sString &lt;&lt; '\n';
 
-// Assign a C-style string
-sString = &#34;Three&#34;;
-std::cout &lt;&lt; sString &lt;&lt; &#39;\n&#39;;
+// Przypisz ciąg w stylu C
+sString = "Three";
+std::cout &lt;&lt; sString &lt;&lt; '\n';
 
-sString.assign(&#34;Four&#34;);
-std::cout &lt;&lt; sString &lt;&lt; &#39;\n&#39;;
+sString.assign("Four");
+std::cout &lt;&lt; sString &lt;&lt; '\n';
 
 // Assign a char
-sString = &#39;5&#39;;
-std::cout &lt;&lt; sString &lt;&lt; &#39;\n&#39;;
+sString = '5';
+std::cout &lt;&lt; sString &lt;&lt; '\n';
 
 // Chain assignment
 std::string sOther;
-sString = sOther = &#34;Six&#34;;
-std::cout &lt;&lt; sString &lt;&lt; &#39; &#39; &lt;&lt; sOther &lt;&lt; &#39;\n&#39;;</code></pre><p>Wyjście:<pre>One
+sString = sOther = "Six";
+std::cout &lt;&lt; sString &lt;&lt; ' ' &lt;&lt; sOther &lt;&lt; '\n';</code></pre><p>Wyjście:<pre>One
 Two
 Three
 Four
 5
 Six Six
-</pre></table></div><p>Funkcja członkowska przypisania() również występuje w kilku wersjach inne wersje:<div class=cpp-table-wrapper><p><p><table class=cpp-table><tbody><tr><td><b>string&amp; string::przypis (const string&amp; str, size_type indeks, size_type len)</b><p><ul><li>Przypisuje podciąg str, zaczynając od indeksu i o długości len<li>Zgłasza wyjątek out_of_range, jeśli indeks jest poza zakresem<li>Zwraca *to, aby można było je „połączyć”.</ul><p>Przykładowy kod:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">const std::string sSource(&#34;abcdefg&#34;);
+</pre></table></div><p>Funkcja członkowska przypisania() również występuje w kilku wersjach inne wersje:<div class=cpp-table-wrapper><p><p><table class=cpp-table><tbody><tr><td><b>string&amp; string::przypis (const string&amp; str, size_type indeks, size_type len)</b><p><ul><li>Przypisuje podciąg str, zaczynając od indeksu i o długości len<li>Zgłasza wyjątek out_of_range, jeśli indeks jest poza zakresem<li>Zwraca *to, aby można było je „połączyć”.</ul><p>Przykładowy kod:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">const std::string sSource("abcdefg");
 std::string sDest;
 
-sDest.assign(sSource, 2, 4); // assign a substring of source from index 2 of length 4
-std::cout &lt;&lt; sDest &lt;&lt; &#39;\n&#39;;</code></pre><p>Wyjście:<pre>cdef
+sDest.assign(sSource, 2, 4); // przypisz podciąg źródła z indeksu 2 o długości 4
+std::cout &lt;&lt; sDest &lt;&lt; '\n';</code></pre><p>Wyjście:<pre>cdef
 </pre></table></div><div class=cpp-table-wrapper><p><p><table class=cpp-table><tbody><tr><td><b>string&amp; string::przypisz (const char* chars, size_type len)</b><p><ul><li>Przypisuje len znaków z tablicy znaków w stylu C<li>Zgłasza wyjąteklength_error, jeśli wynik przekracza maksymalną liczbę znaków<li>Zwraca *to, aby można było je „połączyć”.</ul><p>Przykładowy kod:<pre class="language-cpp line-numbers"><code class="language-cpp match-braces">std::string sDest;
 
 sDest.assign(&#34;abcdefg&#34;, 4);
