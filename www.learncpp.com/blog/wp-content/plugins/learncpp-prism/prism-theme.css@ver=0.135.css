@@ -74,59 +74,37 @@ div.code-toolbar > .toolbar > .toolbar-item > span:focus
 	color: #fff;
 }
 
-/* VS styling for Prism */
+/* Visual Studio (Light) inspired styling for Prism */
 code[class*="language-"], pre[class*="language-"] {
-  background: #FFFFFF;
-  color: #000;
+  background: #ffffff;
+  color: #1e1e1e;
 }
 
-.token.punctuation {
-  color: #000; }
+.line-numbers .line-numbers-rows {
+  border-right-color: #d6d6d6;
+}
 
+.line-numbers-rows > span:before {
+  color: #6e7781;
+}
 
-.token.boolean {
-  color: #004ed0; }
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: #008000;
+  font-style: italic;
+}
 
-.token.comment {
-  color: #008016; }
+.token.punctuation,
+.token.operator {
+  color: #1e1e1e;
+}
 
-.token.string {
-  color: #E21F1F; }
-
-.token.function {
-  color: #74531F; }
-
-.token.class-name {
-  color: #0491C1; }
-
-.token.doctype, .token.prolog {
-  color: #0491C1; }
-
-.token.keyword {
-  color: #004ed0; }
-
-.token.preprocessor.property {
-  color: #80807F; }
-.token.preprocessor.property .keyword {
-  color: #80807F; }
-.token.macro.property {
-  color: #80807F; }
-.token.directive.keyword {
-  color: #80807F; }
-.token.selector {
-  color: #B80000; }
-
+.token.keyword,
 .token.atrule {
-  color: #004ed0; }
-
-.token.tag {
-  color: #B80000; }
-
-.token.attr-name {
-  color: #FF0000; }
-
-.token.attr-value {
-  color: #004ed0; }
+  color: #0000ff;
+}
 
 .token.keyword.keyword-break,
 .token.keyword.keyword-case,
@@ -141,9 +119,49 @@ code[class*="language-"], pre[class*="language-"] {
 .token.keyword.keyword-switch,
 .token.keyword.keyword-throw,
 .token.keyword.keyword-try,
-.token.keyword.keyword-while
-{
-	color: #8F08C4;
+.token.keyword.keyword-while {
+  color: #0000ff;
+}
+
+.token.class-name,
+.token.builtin,
+.token.namespace {
+  color: #267f99;
+}
+
+.token.function {
+  color: #795e26;
+  font-weight: 600;
+}
+
+.token.string,
+.token.char,
+.token.attr-value {
+  color: #a31515;
+}
+
+.token.number,
+.token.boolean,
+.token.constant {
+  color: #098658;
+}
+
+.token.variable,
+.token.property {
+  color: #001080;
+}
+
+.token.preprocessor.property,
+.token.preprocessor.property .keyword,
+.token.macro.property,
+.token.directive.keyword {
+  color: #af00db;
+}
+
+.token.selector,
+.token.tag,
+.token.attr-name {
+  color: #800000;
 }
 
 /* Word wrap */
